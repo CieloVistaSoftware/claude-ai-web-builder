@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Styling Test</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../ziasymbol.svg">
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .test-instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0d6efd;
+        }
+        
+        h2 {
+            margin-top: 30px;
+        }
+        
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Tab Styling Functionality Test</h1>
+        
+        <div class="test-instructions">
+            <h3>Test Instructions:</h3>
+            <ol>
+                <li>Try selecting different tab styles from the "Tab Style" dropdown</li>
+                <li>Adjust the Border Radius, Transparency, and Blur Effect sliders</li>
+                <li>Verify that both the preview tabs and main component tabs update with your changes</li>
+                <li>Switch between Light and Dark mode to ensure tab styling persists</li>
+                <li>Check the Generated CSS tab to verify that tab styling properties are included</li>
+            </ol>
+        </div>
+        
+        <h2>Theme Generator Component:</h2>
+        <theme-generator></theme-generator>
+        
+        <h2>Test Results:</h2>
+        <pre id="testResults">Run tests to see results here...</pre>
+    </div>
+    
+    <script src="../components/theme/theme-generator-component.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeGenerator = document.querySelector('theme-generator');
+            const testResults = document.getElementById('testResults');
+            
+            // Run tests after a short delay to ensure component is fully initialized
+            setTimeout(() => {
+                const results = [];
+                
+                // Test 1: Check if tab style controls exist
+                const tabStyleSelect = themeGenerator.shadowRoot.getElementById('tabStyle');
+                const tabBorderRadius = themeGenerator.shadowRoot.getElementById('tabBorderRadius');
+                const tabTransparency = themeGenerator.shadowRoot.getElementById('tabTransparency');
+                const tabBlur = themeGenerator.shadowRoot.getElementById('tabBlur');
+                
+                results.push(Tab Style Select: );
+                results.push(Border Radius Slider: );
+                results.push(Transparency Slider: );
+                results.push(Blur Effect Slider: );
+                
+                // Test 2: Check preview tabs
+                const previewTabs = themeGenerator.shadowRoot.querySelector('.preview-tabs');
+                results.push(Preview Tabs: );
+                
+                // Test 3: Try changing tab style
+                if (tabStyleSelect && previewTabs) {
+                    // Save original style
+                    const originalStyle = tabStyleSelect.value;
+                    
+                    // Test glassmorphism style
+                    tabStyleSelect.value = 'glassmorphism';
+                    tabStyleSelect.dispatchEvent(new Event('change'));
+                    const glassmorphismApplied = previewTabs.classList.contains('glassmorphism');
+                    results.push(Glassmorphism style applied: );
+                    
+                    // Restore original style
+                    tabStyleSelect.value = originalStyle;
+                    tabStyleSelect.dispatchEvent(new Event('change'));
+                }
+                
+                // Test 4: Check for CSS custom properties
+                const computedStyle = getComputedStyle(document.documentElement);
+                const tabBorderRadiusProp = computedStyle.getPropertyValue('--tab-border-radius');
+                const tabTransparencyProp = computedStyle.getPropertyValue('--tab-transparency');
+                const tabBlurProp = computedStyle.getPropertyValue('--tab-blur');
+                
+                results.push(--tab-border-radius CSS property: );
+                results.push(--tab-transparency CSS property: );
+                results.push(--tab-blur CSS property: );
+                
+                // Display results
+                testResults.textContent = results.join('\n');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

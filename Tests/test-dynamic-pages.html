@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Pages Test</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../ziasymbol.svg">
+    
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../wb/wb.css">
+</head>
+<body data-layout="top-nav" data-footer="same-page">
+    <!-- Control Panel -->
+    <div id="control-panel" class="control-panel">
+        <div class="control-panel-header">
+            <h3>Website Builder</h3>
+            <div class="control-panel-actions">
+                <button id="minimize-btn" class="control-btn" title="Minimize">−</button>
+            </div>
+        </div>
+        
+        <div class="control-panel-body">
+            <div class="control-group">
+                <button id="edit-mode-toggle" class="edit-mode-toggle">Edit Mode</button>
+            </div>
+
+            <div class="control-group">
+                <label for="layout-select">Layout Style</label>
+                <select id="layout-select">
+                    <option value="top-nav">Top Navigation</option>
+                    <option value="left-nav">Left Navigation</option>
+                    <option value="right-nav">Right Navigation</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="theme-select">Theme</label>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="cyberpunk">Cyberpunk</option>
+                    <option value="ocean">Ocean</option>
+                    <option value="sunset">Sunset</option>
+                    <option value="forest">Forest</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="footer-position-select">Footer Position</label>
+                <select id="footer-position-select">
+                    <option value="same-page">Same Page As Header</option>
+                    <option value="expanded">Expanded (Full Width)</option>
+                </select>
+            </div>
+            
+            <button id="export-btn" class="btn">Export HTML</button>
+            <button id="save-template-btn" class="btn">Save Template</button>
+            <button id="reset-btn" class="btn">Reset Content</button>
+        </div>
+    </div>
+
+    <!-- Main Website -->
+    <div id="site-container" class="site-container">
+        <!-- Navigation with test links -->
+        <nav id="site-nav" class="site-nav">
+            <ul id="nav-list" class="nav-list">
+                <li id="nav-item-1"><a id="nav-link-1" href="#home" class="nav-link">Home</a></li>
+                <li id="nav-item-2"><a id="nav-link-2" href="#testpage" class="nav-link">Test Page</a></li>
+                <li id="nav-item-3"><a id="nav-link-3" href="#products" class="nav-link">Products</a></li>
+                <li id="nav-item-4"><a id="nav-link-4" href="#services" class="nav-link">Services</a></li>
+                <li id="nav-item-5"><a id="nav-link-5" href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <!-- Home Page Content -->
+            <header id="site-header" class="site-header">
+                <h1 id="site-title" class="site-title editable" contenteditable="false">Dynamic Pages Test</h1>
+                <p id="site-subtitle" class="site-subtitle editable" contenteditable="false">Click on navigation links to test dynamic page creation</p>
+            </header>
+
+            <!-- Hero Section -->
+            <section id="hero-section" class="hero-section">
+                <div id="hero-content" class="hero-content">
+                    <h2 id="hero-title" class="hero-title editable" contenteditable="false">Dynamic Pages Test</h2>
+                    <p id="hero-description" class="hero-description editable" contenteditable="false">
+                        This is a test page for the dynamic page creation feature. Click on the navigation links above to test.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer id="site-footer" class="site-footer">
+            <div id="footer-content" class="footer-content">
+                <p id="footer-copyright" class="editable" contenteditable="false">&copy; 2025 Test Footer</p>
+                <ul id="footer-links" class="footer-links">
+                    <li id="footer-item-1"><a id="footer-link-1" href="#privacy" class="footer-link">Privacy</a></li>
+                    <li id="footer-item-2"><a id="footer-link-2" href="#terms" class="footer-link">Terms</a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>    <!-- JavaScript -->
+    <script src="dynamic-pages.js"></script>
+    <script>
+        // Add some console logging to help with debugging
+        console.log('Dynamic pages test loaded');
+        document.querySelectorAll('a').forEach(link => {
+            console.log('Found link:', link.getAttribute('href'));
+        });
+    </script>
+</body>
+</html>

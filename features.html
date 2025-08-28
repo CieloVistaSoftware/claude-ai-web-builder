@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Builder Features - Built for You</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="ziasymbol.svg">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore the powerful features of our website builder: beautiful templates, easy customization, mobile responsiveness, and more.">
+    <meta name="keywords" content="website builder features, templates, customization, responsive design">
+    
+    <!-- Color System CSS -->
+    <style>
+        :root {
+          /* Golden Ratio Foundation */
+          --golden-ratio: 1.618;
+          --inverse-golden-ratio: 0.618;
+          
+          /* Layout Dimensions */
+          --header-height: 20vh;
+          --nav-width: calc(100vw / (var(--golden-ratio) * 2.75));
+          --content-padding: calc(1rem * var(--golden-ratio));
+          --grid-gap: 1rem;
+          
+          /* Typography Scale */
+          --text-tiny: 0.75rem;
+          --text-small: 0.813rem;
+          --text-standard: 0.875rem;
+          --text-medium: 0.938rem;
+          --text-large: 1rem;
+          --text-xl: 1.125rem;
+          
+          /* Spacing Scale */
+          --space-xs: 0.25rem;
+          --space-sm: 0.5rem;
+          --space-md: 1rem;
+          --space-lg: calc(1rem * var(--golden-ratio));
+          --space-xl: calc(1rem * var(--golden-ratio) * var(--golden-ratio));
+          
+          /* Primary Colors */
+          --primary: #007bff;
+          --primary-light: #66b3ff;
+          --primary-dark: #0056b3;
+          --primary-contrast: #ffffff;
+          
+          /* Secondary Colors */
+          --secondary: #6c757d;
+          --secondary-light: #9ca3a9;
+          --secondary-dark: #495057;
+          --secondary-contrast: #ffffff;
+          
+          /* Accent Colors */
+          --accent: #28a745;
+          --accent-light: #71dd8a;
+          --accent-dark: #1e7e34;
+          --accent-contrast: #ffffff;
+          
+          /* Neutral Scale */
+          --neutral-50: #f8f9fa;
+          --neutral-100: #e9ecef;
+          --neutral-200: #dee2e6;
+          --neutral-300: #ced4da;
+          --neutral-400: #adb5bd;
+          --neutral-500: #6c757d;
+          --neutral-600: #495057;
+          --neutral-700: #343a40;
+          --neutral-800: #212529;
+          --neutral-900: #1a1d21;
+          
+          /* Semantic Colors */
+          --background: var(--neutral-50);
+          --surface: #ffffff;
+          --text-primary: var(--neutral-800);
+          --text-secondary: var(--neutral-600);
+          --border: var(--neutral-300);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--background);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--primary-contrast);
+            padding: var(--space-xl) var(--space-lg);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 var(--space-md) 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin: 0 0 var(--space-lg) 0;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            font-size: var(--text-large);
+            margin: 0 auto var(--space-xl) auto;
+            max-width: 800px;
+            opacity: 0.8;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border-radius: calc(var(--space-xs) * 3);
+            padding: var(--space-lg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .feature-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            margin: 0 0 var(--space-sm) 0;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: var(--text-medium);
+        }
+
+        .feature-details {
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--neutral-200);
+            text-align: left;
+        }
+
+        .feature-details ul {
+            margin: var(--space-sm) 0 0 0;
+            padding-left: var(--space-lg);
+        }
+
+        .feature-details li {
+            margin-bottom: var(--space-sm);
+            color: var(--text-secondary);
+        }
+
+        .cta-section {
+            text-align: center;
+            background: var(--surface);
+            border-radius: calc(var(--space-xs) * 3);
+            padding: var(--space-xl);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: var(--space-xl);
+        }
+
+        .cta-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 0 0 var(--space-md) 0;
+            color: var(--text-primary);
+        }
+
+        .cta-description {
+            color: var(--text-secondary);
+            margin: 0 0 var(--space-lg) 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: var(--text-large);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--primary);
+            color: var(--primary-contrast);
+            text-decoration: none;
+            border-radius: calc(var(--space-xs) * 2);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: var(--text-standard);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-lg {
+            padding: var(--space-lg) calc(var(--space-lg) * 1.5);
+            font-size: var(--text-large);
+        }
+
+        .navbar {
+            background: var(--surface);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: var(--space-sm) var(--space-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: var(--text-large);
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: var(--space-lg);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        footer {
+            background: var(--neutral-800);
+            color: var(--neutral-200);
+            padding: var(--space-xl) var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-column h4 {
+            color: var(--neutral-100);
+            margin: 0 0 var(--space-md) 0;
+        }
+
+        .footer-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer-links a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--neutral-700);
+            padding-top: var(--space-lg);
+            margin-top: var(--space-xl);
+            text-align: center;
+            color: var(--neutral-500);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .testimonial-section {
+            margin: var(--space-xl) 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .testimonial-card {
+            background: var(--surface);
+            padding: var(--space-lg);
+            border-radius: calc(var(--space-xs) * 3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-md);
+            position: relative;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 3rem;
+            position: absolute;
+            left: -20px;
+            top: -20px;
+            color: var(--neutral-200);
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: var(--space-md);
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: auto;
+        }
+
+        .author-info h4 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .author-info p {
+            margin: 0;
+            font-size: var(--text-small);
+            color: var(--text-secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin: 0 0 var(--space-sm) 0;
+            color: var(--text-primary);
+        }
+
+        .section-title p {
+            color: var(--text-secondary);
+            margin: 0 auto;
+            max-width: 700px;
+            font-size: var(--text-large);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .navbar {
+                flex-direction: column;
+                padding: var(--space-md);
+            }
+
+            .navbar-brand {
+                margin-bottom: var(--space-sm);
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: var(--space-lg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="website-builder.html" class="navbar-brand">Website Builder</a>
+        <ul class="navbar-nav">
+            <li><a href="website-builder.html" class="nav-link">Home</a></li>
+            <li><a href="features.html" class="nav-link active">Features</a></li>
+            <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+            <li><a href="website-builder.html#wizard-container" class="nav-link btn">Start Building</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Powerful Features, Easy to Use</h1>
+            <p class="hero-subtitle">Discover what makes our Website Builder stand out</p>
+            <p class="hero-description">
+                Our website builder combines professional design principles with intuitive usability to help you create stunning websites without any technical knowledge.
+            </p>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="section-title">
+            <h2>Everything You Need to Build the Perfect Website</h2>
+            <p>Our feature-rich platform provides all the tools and capabilities you need to create a professional online presence.</p>
+        </section>
+
+        <section class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title">Beautiful Templates</h3>
+                <p class="feature-description">Choose from professionally designed templates that follow golden ratio design principles.</p>
+                <div class="feature-details">
+                    <ul>
+                        <li>Mathematically optimized proportions</li>
+                        <li>Color harmony built into every design</li>
+                        <li>Professionally crafted for different purposes</li>
+                        <li>Customizable to match your brand</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Easy Customization</h3>
+                <p class="feature-description">Customize colors, fonts, content, and images with our intuitive step-by-step wizard.</p>
+                <div class="feature-details">
+                    <ul>
+                        <li>Simple point-and-click interface</li>
+                        <li>Real-time preview of your changes</li>
+                        <li>No coding required</li>
+                        <li>Advanced options for those who want more control</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">Mobile Responsive</h3>
+                <p class="feature-description">All websites are automatically optimized for mobile devices and tablets.</p>
+                <div class="feature-details">
+                    <ul>
+                        <li>Responsive grid system</li>
+                        <li>Adapts to any screen size</li>
+                        <li>Touch-friendly navigation</li>
+                        <li>Optimized performance on mobile devices</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⬇️</div>
+                <h3 class="feature-title">Download & Deploy</h3>
+                <p class="feature-description">Download your complete website as a package or deploy directly to hosting services.</p>
+                <div class="feature-details">
+                    <ul>
+                        <li>Complete HTML, CSS, and JavaScript files</li>
+                        <li>Optimized assets and resources</li>
+                        <li>Ready for any web hosting platform</li>
+                        <li>One-click GitHub Pages deployment</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">Dynamic Pages</h3>
+                <p class="feature-description">Create interactive websites with dynamic content loading and navigation.</p>
+                <div class="feature-details">
+                    <ul>
+                        <li>SPA-like navigation between pages</li>
+                        <li>Automatic page generation</li>
+                        <li>Content transitions and animations</li>
+                        <li>Interactive components and forms</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">SEO Optimized</h3>
+                <p class="feature-description">Built with search engine optimization in mind to help your website rank higher.</p>
+                <div class="feature-details">
+                    <ul>
+                        <li>Clean semantic HTML structure</li>
+                        <li>Optimized meta tags and descriptions</li>
+                        <li>Fast loading times</li>
+                        <li>Mobile-friendly (Google ranking factor)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonial-section" id="testimonials">
+            <div class="section-title">
+                <h2>What Our Users Say</h2>
+                <p>Hear from people who have built their websites using our platform</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        I was able to create a professional portfolio website in less than an hour. The templates are beautiful and the customization options are just right - not too overwhelming but flexible enough to make it my own.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://via.placeholder.com/50" alt="Sarah J.">
+                        </div>
+                        <div class="author-info">
+                            <h4>Sarah J.</h4>
+                            <p>Freelance Photographer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        As a small business owner, I needed a website that looked professional but didn't cost thousands of dollars. This builder was perfect - modern design, easy to use, and my customers love the result!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://via.placeholder.com/50" alt="Michael T.">
+                        </div>
+                        <div class="author-info">
+                            <h4>Michael T.</h4>
+                            <p>Local Bakery Owner</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        The mathematical design principles built into the templates make everything look so much more professional than other website builders I've tried. Plus, I love that I can download the files and host it myself.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://via.placeholder.com/50" alt="Elena R.">
+                        </div>
+                        <div class="author-info">
+                            <h4>Elena R.</h4>
+                            <p>UX Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Build Your Website?</h2>
+            <p class="cta-description">Start creating your professional website today with our easy-to-use builder. No technical skills required!</p>
+            <a href="website-builder.html#wizard-container" class="btn btn-lg">Start Building Now</a>
+        </section>
+    </main>    
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Website Builder</h4>
+                <ul class="footer-links">
+                    <li><a href="website-builder.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="website-builder.html#wizard-container">Start Building</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Email Support</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 Website Builder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.querySelector('#start-wizard-btn');
+            if (startButton) {
+                startButton.addEventListener('click', () => {
+                    window.location.href = 'website-builder.html#wizard-container';
+                });
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId !== '#') {
+                        document.querySelector(targetId).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

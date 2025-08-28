@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table Component Demo - Claude AI Website Builder</title>
+    <!-- Favicon -->
+    <link rel="icon" href="..\../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="..\../ziasymbol.svg">
+    
+  <style>    /* Dark mode as default */
+    :root {
+      --text-color: #f0f0f0;
+      --bg-color: #121212;
+      --surface-color: #1e1e1e;
+      --surface-alt-color: #262626;
+      --primary-color: #2563eb;
+      --primary-color-light: #4685fd;
+      --border-color: #333333;
+      --highlight-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      color: var(--text-color);
+      margin: 0;
+      padding: 2rem;
+      background-color: var(--bg-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: var(--surface-color);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      border-radius: 6px;
+      padding: 2rem;
+    }
+
+    header {
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      color: var(--primary-color-light);
+      margin-top: 0;
+    }
+
+    h2 {
+      color: var(--text-color);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .demo-section {
+      margin-bottom: 3rem;
+    }    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      background-color: var(--surface-alt-color);
+      padding: 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    button, select {
+      background-color: var(--surface-color);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }    button.primary {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    button.primary:hover {
+      background-color: var(--primary-color-light);
+    }
+
+    .code-block {
+      background-color: #121212;
+      color: #e0e0e0;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      overflow: auto;
+      font-family: monospace;
+      font-size: 0.875rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .table-wrapper {
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Table Component Demo</h1>
+      <p>This demo shows the features and capabilities of the Table Component in the Claude AI Website Builder.</p>
+    </header>
+
+    <section class="demo-section">
+      <h2>Basic Table</h2>
+      <p>A simple table with default settings:</p>
+      <div class="table-wrapper">
+        <table-component id="basic-table"></table-component>
+      </div>
+
+      <div class="code-block">
+        <pre><code>&lt;table-component&gt;&lt;/table-component&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Advanced Table with Features</h2>
+      <p>A table with sorting, pagination, and selection enabled:</p>
+      
+      <div class="controls">
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" id="enable-sorting" checked> Sortable
+          </label>
+          <label>
+            <input type="checkbox" id="enable-pagination" checked> Paginated
+          </label>
+          <label>
+            <input type="checkbox" id="enable-selection" checked> Selectable
+          </label>
+          <label>
+            <input type="checkbox" id="enable-striped" checked> Striped
+          </label>
+          <label>
+            <input type="checkbox" id="enable-bordered" checked> Bordered
+          </label>
+          <label>
+            <input type="checkbox" id="enable-compact"> Compact
+          </label>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <label for="dataset-select">Dataset: </label>
+        <select id="dataset-select">
+          <option value="employees">Employees</option>
+          <option value="products">Products</option>
+          <option value="transactions">Transactions</option>
+        </select>
+        
+        <label for="page-size">Rows per page: </label>
+        <select id="page-size">
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+        
+        <button id="refresh-table" class="primary">Refresh Table</button>
+      </div>
+      
+      <div class="table-wrapper">
+        <table-component
+          id="advanced-table"
+          sortable
+          paginated
+          selectable
+          striped
+          bordered
+          page-size="10">
+        </table-component>
+      </div>
+      
+      <div class="code-block">
+        <pre><code>&lt;table-component
+  sortable
+  paginated
+  selectable
+  striped
+  bordered
+  page-size="10"&gt;
+&lt;/table-component&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>JSON Data Binding</h2>
+      <p>A table bound to external JSON data:</p>
+      <div class="controls">
+        <button id="load-json" class="primary">Load Data from JSON</button>
+      </div>
+      <div class="table-wrapper">
+        <table-component
+          id="json-bound-table"
+          data-source="./table.json"
+          data-key="employees"
+          sortable
+          paginated>
+        </table-component>
+      </div>
+      
+      <div class="code-block">
+        <pre><code>&lt;table-component
+  data-source="./table.json"
+  data-key="employees"
+  sortable
+  paginated&gt;
+&lt;/table-component&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Dynamic Column Configuration</h2>
+      <p>A table with programmatically defined columns:</p>
+      <div class="table-wrapper">
+        <table-component id="dynamic-columns-table"></table-component>
+      </div>
+      <div class="code-block">
+        <pre><code>// JavaScript
+const table = document.getElementById('dynamic-columns-table');
+table.columns = [
+  { id: 'firstName', label: 'First Name', sortable: true },
+  { id: 'lastName', label: 'Last Name', sortable: true },
+  { id: 'email', label: 'Email' },
+  { id: 'role', label: 'Job Title', sortable: true },
+  { id: 'status', label: 'Status', 
+    renderer: (val) => `<span class="status ${val.toLowerCase()}">${val}</span>` }
+];</code></pre>
+      </div>
+    </section>
+  </div>
+
+  <script type="module">
+    // Import table component
+    import TableComponent from './table-component.js';
+
+    // Register custom element if not already registered
+    if (!customElements.get('table-component')) {
+      customElements.define('table-component', TableComponent);
+    }
+
+    // Fetch sample data
+    async function loadTableData() {
+      try {
+        const response = await fetch('./table.json');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error loading table data:', error);
+        return { employees: [], products: [], transactions: [] };
+      }
+    }
+
+    // Wait for DOM content to load
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load sample data
+      const sampleData = await loadTableData();
+        // Basic table example
+      const basicTable = document.getElementById('basic-table');
+      if (basicTable) {
+        const basicColumns = [
+          { id: 'firstName', label: 'First Name' },
+          { id: 'lastName', label: 'Last Name' },
+          { id: 'email', label: 'Email' },
+          { id: 'role', label: 'Role' }
+        ];
+        basicTable.setColumns(basicColumns);
+        basicTable.setData(sampleData.employees.slice(0, 5));
+      }
+
+      // Advanced table example
+      const advancedTable = document.getElementById('advanced-table');
+      if (advancedTable) {
+        setupAdvancedTable(advancedTable, sampleData);
+      }      // JSON Binding example - use setColumns and setData instead of loadData
+      const jsonBoundTable = document.getElementById('json-bound-table');
+      if (jsonBoundTable) {
+        // Set up columns for employees data
+        const employeeColumns = [
+          { id: 'firstName', label: 'First Name', sortable: true },
+          { id: 'lastName', label: 'Last Name', sortable: true },
+          { id: 'email', label: 'Email' },
+          { id: 'role', label: 'Job Title', sortable: true },
+          { id: 'department', label: 'Department', sortable: true },
+          { id: 'status', label: 'Status', sortable: true, 
+            renderer: (val) => `<span class="status ${val.toLowerCase().replace(/\s+/g, '-')}">${val}</span>` }
+        ];
+        
+        // Set columns and data immediately
+        jsonBoundTable.setColumns(employeeColumns);
+        jsonBoundTable.setData(sampleData.employees);
+        
+        // Keep button for demonstration purposes
+        document.getElementById('load-json').addEventListener('click', () => {
+          jsonBoundTable.setColumns(employeeColumns);
+          jsonBoundTable.setData(sampleData.employees);
+        });
+      }
+
+      // Dynamic columns example
+      const dynamicColumnsTable = document.getElementById('dynamic-columns-table');
+      if (dynamicColumnsTable) {
+        setupDynamicColumnsTable(dynamicColumnsTable, sampleData);
+      }
+
+      // Set up control event listeners
+      setupControlListeners(advancedTable, sampleData);
+    });    // Set up advanced table
+    function setupAdvancedTable(table, data) {
+      const employeeColumns = [
+        { id: 'firstName', label: 'First Name', sortable: true },
+        { id: 'lastName', label: 'Last Name', sortable: true },
+        { id: 'email', label: 'Email' },
+        { id: 'role', label: 'Job Title', sortable: true },
+        { id: 'department', label: 'Department', sortable: true },
+        { id: 'status', label: 'Status', sortable: true, 
+          renderer: (val) => `<span class="status ${val.toLowerCase().replace(/\s+/g, '-')}">${val}</span>` }
+      ];
+      
+      table.setColumns(employeeColumns);
+      table.setData(data.employees);
+    }
+
+    // Set up dynamic columns table
+    function setupDynamicColumnsTable(table, data) {
+      // Define columns with custom renderers
+      const columns = [
+        { id: 'firstName', label: 'First Name', sortable: true },
+        { id: 'lastName', label: 'Last Name', sortable: true },
+        { id: 'email', label: 'Email' },
+        { id: 'role', label: 'Job Title' },
+        { 
+          id: 'skills', 
+          label: 'Skills',
+          renderer: (skills) => {
+            if (Array.isArray(skills)) {
+              return skills.map(skill => `<span class="skill-tag">${skill}</span>`).join(' ');
+            }
+            return skills || '';
+          }
+        },
+        { 
+          id: 'status', 
+          label: 'Status',
+          renderer: (val) => {
+            const statusClass = val.toLowerCase().replace(/\s+/g, '-');
+            return `<span class="status ${statusClass}">${val}</span>`;
+          }        }
+      ];
+      
+      table.setColumns(columns);
+      table.setData(data.employees.slice(0, 8));
+    }
+
+    // Set up control event listeners
+    function setupControlListeners(table, data) {
+      const sortingCheckbox = document.getElementById('enable-sorting');
+      const paginationCheckbox = document.getElementById('enable-pagination');
+      const selectionCheckbox = document.getElementById('enable-selection');
+      const stripedCheckbox = document.getElementById('enable-striped');
+      const borderedCheckbox = document.getElementById('enable-bordered');
+      const compactCheckbox = document.getElementById('enable-compact');
+      const datasetSelect = document.getElementById('dataset-select');
+      const pageSizeSelect = document.getElementById('page-size');
+      const refreshButton = document.getElementById('refresh-table');
+      
+      if (sortingCheckbox) {
+        sortingCheckbox.addEventListener('change', (e) => {
+          table.setAttribute('sortable', e.target.checked ? '' : null);
+        });
+      }
+      
+      if (paginationCheckbox) {
+        paginationCheckbox.addEventListener('change', (e) => {
+          table.setAttribute('paginated', e.target.checked ? '' : null);
+        });
+      }
+      
+      if (selectionCheckbox) {
+        selectionCheckbox.addEventListener('change', (e) => {
+          table.setAttribute('selectable', e.target.checked ? '' : null);
+        });
+      }
+      
+      if (stripedCheckbox) {
+        stripedCheckbox.addEventListener('change', (e) => {
+          table.setAttribute('striped', e.target.checked ? '' : null);
+        });
+      }
+      
+      if (borderedCheckbox) {
+        borderedCheckbox.addEventListener('change', (e) => {
+          table.setAttribute('bordered', e.target.checked ? '' : null);
+        });
+      }
+      
+      if (compactCheckbox) {
+        compactCheckbox.addEventListener('change', (e) => {
+          table.setAttribute('compact', e.target.checked ? '' : null);
+        });
+      }
+      
+      if (pageSizeSelect) {
+        pageSizeSelect.addEventListener('change', (e) => {
+          table.setAttribute('page-size', e.target.value);
+        });
+      }
+      
+      if (datasetSelect && refreshButton) {        refreshButton.addEventListener('click', () => {
+          const datasetName = datasetSelect.value;
+          
+          // Update columns based on selected dataset
+          switch (datasetName) {
+            case 'employees':
+              table.setColumns([
+                { id: 'firstName', label: 'First Name', sortable: true },
+                { id: 'lastName', label: 'Last Name', sortable: true },
+                { id: 'email', label: 'Email' },
+                { id: 'role', label: 'Job Title', sortable: true },
+                { id: 'department', label: 'Department', sortable: true },
+                { id: 'status', label: 'Status', sortable: true,
+                  renderer: (val) => `<span class="status ${val.toLowerCase().replace(/\s+/g, '-')}">${val}</span>` }
+              ]);
+              break;
+              
+            case 'products':
+              table.setColumns([
+                { id: 'id', label: 'Product ID', sortable: true },
+                { id: 'name', label: 'Product Name', sortable: true },
+                { id: 'category', label: 'Category', sortable: true },
+                { id: 'price', label: 'Price', sortable: true,
+                  renderer: (val) => `$${val.toFixed(2)}` },
+                { id: 'stock', label: 'Stock', sortable: true },
+                { id: 'rating', label: 'Rating', sortable: true,
+                  renderer: (val) => '★'.repeat(Math.floor(val)) + '☆'.repeat(5 - Math.floor(val)) + ` (${val})` },
+                { id: 'featured', label: 'Featured', sortable: true,
+                  renderer: (val) => val ? '✓' : '✗' }
+              ]);
+              break;
+              
+            case 'transactions':
+              table.setColumns([
+                { id: 'id', label: 'Transaction ID', sortable: true },
+                { id: 'date', label: 'Date', sortable: true },
+                { id: 'customer', label: 'Customer', sortable: true },
+                { id: 'amount', label: 'Amount', sortable: true,
+                  renderer: (val) => `$${val.toFixed(2)}` },
+                { id: 'status', label: 'Status', sortable: true,
+                  renderer: (val) => {
+                    const statusClass = val.toLowerCase();
+                    return `<span class="status ${statusClass}">${val}</span>`;
+                  } },
+                { id: 'paymentMethod', label: 'Payment Method', sortable: true }
+              ]);
+              break;
+          }
+          
+          // Update data based on selected dataset
+          table.setData(data[datasetName] || []);
+        });
+      }
+    }
+  </script>
+
+  <style>
+    /* Additional styles for the demo */
+    .status {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }    /* Dark mode status colors */
+    .status.active {
+      background-color: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .status.on-leave {
+      background-color: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .status.contract {
+      background-color: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .status.new-hire {
+      background-color: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .status.completed {
+      background-color: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .status.pending {
+      background-color: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .status.failed {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }    .skill-tag {
+      display: inline-block;
+      background-color: var(--surface-alt-color);
+      color: var(--text-color);
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      margin-right: 0.25rem;
+      margin-bottom: 0.25rem;
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</body>
+</html>

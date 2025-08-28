@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hue Color Bar Slider</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../ziasymbol.svg">
+    
+    <style>
+        :root {
+            /* HSL Color Variables */
+            --color-primary: hsl(210, 100%, 50%);
+            --color-primary-light: hsl(210, 100%, 70%);
+            --color-primary-dark: hsl(210, 100%, 30%);
+            
+            --color-accent: hsl(25, 100%, 50%);
+            --color-accent-light: hsl(25, 100%, 70%);
+            --color-accent-dark: hsl(25, 100%, 30%);
+            
+            --color-background: hsl(0, 0%, 98%);
+            --color-background-alt: hsl(0, 0%, 90%);
+            
+            --color-text: hsl(0, 0%, 10%);
+            --color-text-light: hsl(0, 0%, 30%);
+            
+            --color-border: hsl(0, 0%, 70%);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            flex-direction: column;
+        }
+
+        .color-picker-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        /* Hue Slider */
+        .hue-slider {
+            width: 100%;
+            height: 30px;
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            cursor: pointer;
+            border-radius: 15px;
+            background: linear-gradient(to right, 
+                hsl(0, 100%, 50%) 0%, 
+                hsl(15, 100%, 50%) 4.17%, 
+                hsl(30, 100%, 50%) 8.33%, 
+                hsl(45, 100%, 50%) 12.5%, 
+                hsl(60, 100%, 50%) 16.67%, 
+                hsl(75, 100%, 50%) 20.83%, 
+                hsl(90, 100%, 50%) 25%, 
+                hsl(105, 100%, 50%) 29.17%, 
+                hsl(120, 100%, 50%) 33.33%, 
+                hsl(135, 100%, 50%) 37.5%, 
+                hsl(150, 100%, 50%) 41.67%, 
+                hsl(165, 100%, 50%) 45.83%, 
+                hsl(180, 100%, 50%) 50%, 
+                hsl(195, 100%, 50%) 54.17%, 
+                hsl(210, 100%, 50%) 58.33%, 
+                hsl(225, 100%, 50%) 62.5%, 
+                hsl(240, 100%, 50%) 66.67%, 
+                hsl(255, 100%, 50%) 70.83%, 
+                hsl(270, 100%, 50%) 75%, 
+                hsl(285, 100%, 50%) 79.17%, 
+                hsl(300, 100%, 50%) 83.33%, 
+                hsl(315, 100%, 50%) 87.5%, 
+                hsl(330, 100%, 50%) 91.67%, 
+                hsl(345, 100%, 50%) 95.83%, 
+                hsl(360, 100%, 50%) 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Slider thumb */
+        .hue-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: white;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .hue-slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: white;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Color Display */
+        .color-display {
+            width: 100%;
+            height: 100px;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: 2px solid var(--color-border);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Info Display */
+        .color-info {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .color-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        /* Color Variables Display */
+        .color-variables {
+            margin-top: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .color-variables code {
+            display: block;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #ddd;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        /* Sample Theme Preview */
+        .theme-preview {
+            margin-top: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: var(--color-background);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .theme-button-primary {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .theme-button-accent {
+            background-color: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .theme-card {
+            background-color: white;
+            border: 1px solid var(--color-border);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .theme-card h4 {
+            color: var(--color-primary);
+        }
+
+        .theme-card p {
+            color: var(--color-text-light);
+        }
+        
+        h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--color-text);
+        }
+        
+        /* Color Wheel Styles */
+        .color-wheel-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: var(--space-lg, 26px);
+            padding-top: var(--space-sm, 8px);
+        }
+        
+        .color-wheel {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: relative;
+            background: conic-gradient(
+                hsl(0, 100%, 50%) 0deg,
+                hsl(15, 100%, 50%) 15deg,
+                hsl(30, 100%, 50%) 30deg,
+                hsl(45, 100%, 50%) 45deg,
+                hsl(60, 100%, 50%) 60deg,
+                hsl(75, 100%, 50%) 75deg,
+                hsl(90, 100%, 50%) 90deg,
+                hsl(105, 100%, 50%) 105deg,
+                hsl(120, 100%, 50%) 120deg,
+                hsl(135, 100%, 50%) 135deg,
+                hsl(150, 100%, 50%) 150deg,
+                hsl(165, 100%, 50%) 165deg,
+                hsl(180, 100%, 50%) 180deg,
+                hsl(195, 100%, 50%) 195deg,
+                hsl(210, 100%, 50%) 210deg,
+                hsl(225, 100%, 50%) 225deg,
+                hsl(240, 100%, 50%) 240deg,
+                hsl(255, 100%, 50%) 255deg,
+                hsl(270, 100%, 50%) 270deg,
+                hsl(285, 100%, 50%) 285deg,
+                hsl(300, 100%, 50%) 300deg,
+                hsl(315, 100%, 50%) 315deg,
+                hsl(330, 100%, 50%) 330deg,
+                hsl(345, 100%, 50%) 345deg,
+                hsl(360, 100%, 50%) 360deg
+            );
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            /* Center dot */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Add center white circle */
+        .color-wheel::after {
+            content: "";
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) inset;
+            position: absolute;
+        }
+        
+        .color-wheel:hover {
+            transform: scale(1.02);
+        }
+        
+        .color-wheel-marker {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: transform 0.2s ease;
+            z-index: 1;
+        }
+        
+        .primary-marker {
+            background-color: var(--color-primary);
+            top: 20px;
+            left: 100px;
+        }
+        
+        .accent-marker {
+            background-color: var(--color-accent);
+            bottom: 20px;
+            left: 100px;
+        }
+        
+        .color-wheel-info {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            display: flex;
+            justify-content: space-around;
+            font-size: 14px;
+            color: var(--color-text);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="color-picker-container">
+        <h2>Hue Color Bar Slider</h2>
+        
+        <!-- Color Wheel -->
+        <div class="color-wheel-container">
+            <div class="color-wheel" id="hueWheel">
+                <div class="color-wheel-marker primary-marker" id="primaryMarker"></div>
+                <div class="color-wheel-marker accent-marker" id="accentMarker"></div>
+                <div class="color-wheel-info">
+                    <div>Primary: <span id="primaryHueValue">180</span>°</div>
+                    <div>Accent: <span id="accentHueValue">0</span>°</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Horizontal Slider -->
+        <h3>Horizontal Hue Slider</h3>
+        <input type="range" class="hue-slider" id="hueSlider" min="0" max="360" value="180">
+        
+        <!-- Color Display -->
+        <div class="color-display" id="colorDisplay"></div>
+        
+        <!-- Color Info -->
+        <div class="color-info">
+            <div class="color-value">Hue: <span id="hueValue">180</span>°</div>
+            <div class="color-value">HSL: <span id="hslValue">hsl(180, 100%, 50%)</span></div>
+            <div class="color-value">HEX: <span id="hexValue">#00ffff</span></div>
+            <div class="color-value">RGB: <span id="rgbValue">rgb(0, 255, 255)</span></div>
+        </div>
+    </div>
+    
+    <!-- HSL Color Variables Examples -->
+    <div class="color-variables">
+        <h2>HSL Color Variables Examples</h2>
+        <code>/* Primary Colors */
+--color-primary: hsl(210, 100%, 50%);
+--color-primary-light: hsl(210, 100%, 70%);
+--color-primary-dark: hsl(210, 100%, 30%);
+
+/* Accent Colors */
+--color-accent: hsl(25, 100%, 50%);
+--color-accent-light: hsl(25, 100%, 70%);
+--color-accent-dark: hsl(25, 100%, 30%);
+
+/* Background Colors */
+--color-background: hsl(0, 0%, 98%);
+--color-background-alt: hsl(0, 0%, 90%);
+
+/* Text Colors */
+--color-text: hsl(0, 0%, 10%);
+--color-text-light: hsl(0, 0%, 30%);
+
+/* Border Colors */
+--color-border: hsl(0, 0%, 70%);</code>
+    </div>
+    
+    <!-- Theme Preview -->
+    <div class="theme-preview">
+        <h2>Theme Preview</h2>
+        <button class="theme-button-primary">Primary Button</button>
+        <button class="theme-button-accent">Accent Button</button>
+        
+        <div class="theme-card">
+            <h4>Card Title</h4>
+            <p>This sample shows how HSL variables can be used to create a cohesive theme across your application.</p>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const hueSlider = document.getElementById('hueSlider');
+        const colorDisplay = document.getElementById('colorDisplay');
+        const hueValue = document.getElementById('hueValue');
+        const hslValue = document.getElementById('hslValue');
+        const hexValue = document.getElementById('hexValue');
+        const rgbValue = document.getElementById('rgbValue');
+
+        let currentHue = 180;
+
+        // Update color display
+        function updateColor(hue) {
+            currentHue = hue;
+            const hsl = `hsl(${hue}, 100%, 50%)`;
+            
+            // Update display
+            colorDisplay.style.backgroundColor = hsl;
+            hueValue.textContent = Math.round(hue);
+            hslValue.textContent = hsl;
+            
+            // Convert to HEX and RGB
+            const rgb = hslToRgb(hue, 100, 50);
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+            
+            hexValue.textContent = hex;
+            rgbValue.textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            
+            // Update slider position
+            hueSlider.value = hue;
+        }
+
+        // HSL to RGB conversion
+        function hslToRgb(h, s, l) {
+            h = h / 360;
+            s = s / 100;
+            l = l / 100;
+            
+            let r, g, b;
+            
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        // RGB to HEX conversion
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        // Horizontal slider event
+        hueSlider.addEventListener('input', (e) => {
+            updateColor(e.target.value);
+        });
+
+        // Update color wheel markers
+        function updateColorWheelMarkers(hue) {
+            const primaryHue = Number(hue);
+            const accentHue = (primaryHue + 180) % 360;
+            
+            // Update marker positions
+            const radius = 80; // Slightly smaller than wheel radius for markers
+            const centerX = 100;
+            const centerY = 100;
+            
+            // Calculate primary marker position
+            const primaryRad = ((primaryHue - 90) * Math.PI) / 180; // -90 to adjust for starting point
+            const primaryX = centerX + radius * Math.cos(primaryRad);
+            const primaryY = centerY + radius * Math.sin(primaryRad);
+            
+            // Calculate accent marker position
+            const accentRad = ((accentHue - 90) * Math.PI) / 180;
+            const accentX = centerX + radius * Math.cos(accentRad);
+            const accentY = centerY + radius * Math.sin(accentRad);
+            
+            // Update marker positions
+            document.getElementById('primaryMarker').style.left = primaryX + 'px';
+            document.getElementById('primaryMarker').style.top = primaryY + 'px';
+            document.getElementById('accentMarker').style.left = accentX + 'px';
+            document.getElementById('accentMarker').style.top = accentY + 'px';
+            
+            // Update text values
+            document.getElementById('primaryHueValue').textContent = Math.round(primaryHue);
+            document.getElementById('accentHueValue').textContent = Math.round(accentHue);
+        }
+        
+        // Handle click on color wheel
+        const hueWheel = document.getElementById('hueWheel');
+        hueWheel.addEventListener('click', (e) => {
+            // Get click position relative to wheel center
+            const rect = hueWheel.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const x = e.clientX - rect.left - centerX;
+            const y = e.clientY - rect.top - centerY;
+            
+            // Calculate angle (hue) from the click position
+            let angle = Math.atan2(y, x) * (180 / Math.PI);
+            angle = (angle + 90) % 360; // Adjust to start from top (0 degrees)
+            if (angle < 0) angle += 360;
+            
+            // Check if click is within the color wheel ring
+            const distance = Math.sqrt(x * x + y * y);
+            const outerRadius = Math.min(centerX, centerY);
+            const innerRadius = outerRadius * 0.4;
+            
+            if (distance <= outerRadius && distance >= innerRadius) {
+                updateColor(angle);
+                updateColorWheelMarkers(angle);
+            }
+        });
+
+        // Initialize
+        updateColor(180);
+        updateColorWheelMarkers(180);
+        
+        // Add interactive functionality to update CSS variables when color is changed
+        hueSlider.addEventListener('input', (e) => {
+            const hue = e.target.value;
+            updateColorWheelMarkers(hue);
+        });
+        
+        hueSlider.addEventListener('change', (e) => {
+            const hue = e.target.value;
+            document.documentElement.style.setProperty('--color-primary', `hsl(${hue}, 100%, 50%)`);
+            document.documentElement.style.setProperty('--color-primary-light', `hsl(${hue}, 100%, 70%)`);
+            document.documentElement.style.setProperty('--color-primary-dark', `hsl(${hue}, 100%, 30%)`);
+            
+            // Set complementary color as accent (180 degrees away on color wheel)
+            const accentHue = (Number(hue) + 180) % 360;
+            document.documentElement.style.setProperty('--color-accent', `hsl(${accentHue}, 100%, 50%)`);
+            document.documentElement.style.setProperty('--color-accent-light', `hsl(${accentHue}, 100%, 70%)`);
+            document.documentElement.style.setProperty('--color-accent-dark', `hsl(${accentHue}, 100%, 30%)`);
+        });
+    </script>
+</body>
+</html>

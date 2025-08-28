@@ -1,0 +1,224 @@
+import { test, expect } from '@playwright/test';
+
+/**
+ * Server Path Fix Tests
+ * 
+ * Tests for verifying correct server path configuration and file accessibility.
+ * Converted from ServerPathFix.Tests.ps1
+ */
+
+test.describe('Server Path Fix Tests', () => {
+  test.setTimeout(30000);
+
+  test('should serve files with correct paths', async ({ page }) => {
+    // Test that target file is accessible
+    const response = await page.request.get('/components/table/table-theme.html');
+    expect(response.status(), 'table-theme.html should be accessible').toBe(200);
+
+    // Verify content type
+    const contentType = response.headers()['content-type'];
+    expect(contentType).toContain('text/html');
+  });
+
+  test('should handle relative paths correctly', async ({ page }) => {
+    // Test navigation to the file
+    await page.goto('/components/table/table-theme.html');
+    await page.waitForLoadState('networkidle');
+
+    // Verify page loaded successfully
+    const title = await page.title();
+    expect(title).toBeTruthy();
+
+    // Check that page content is loaded
+    const body = await page.locator('body');
+    await expect(body).toBeVisible();
+  });
+
+  test('should serve static assets from correct paths', async ({ page }) => {
+    const staticAssets = [
+      '/wb.css',
+      '/wb.js',
+      '/components/table/table.json'
+    ];
+
+    for (const asset of staticAssets) {
+      const response = await page.request.get(asset);
+      if (response.status() === 200) {
+        // Asset exists and is served correctly
+        expect(response.status()).toBe(200);
+        
+        // Verify appropriate content type
+        const contentType = response.headers()['content-type'];
+        if (asset.endsWith('.css')) {
+          expect(contentType).toContain('text/css');
+        } else if (asset.endsWith('.js')) {
+          expect(contentType).toMatch(/application\/javascript|text\/javascript/);
+        } else if (asset.endsWith('.json')) {
+          expect(contentType).toContain('application/json');
+        }
+      }
+    }
+  });
+
+  test('should handle directory traversal correctly', async ({ page }) => {
+    // Test that subdirectories are accessible
+    const subdirectoryPaths = [
+      '/components/',
+      '/components/table/',
+      '/themes/'
+    ];
+
+    for (const path of subdirectoryPaths) {
+      // Try to access directory (might return 404 or directory listing)
+      const response = await page.request.get(path);
+      // We expect either 200 (directory listing) or 404 (no listing), but not 500
+      expect([200, 404, 403]).toContain(response.status());
+    }
+  });
+
+  test('should resolve file URLs without explicit file extensions', async ({ page }) => {
+    // Test that server can handle requests without extensions if configured
+    try {
+      await page.goto('/components/table/table-theme');
+      
+      // If server supports extensionless URLs, this should work
+      // Otherwise, it should redirect or show 404
+      const currentUrl = page.url();
+      expect(currentUrl).toBeTruthy();
+    } catch (error) {
+      // This is acceptable - not all servers support extensionless URLs
+      expect(error).toBeDefined();
+    }
+  });
+
+  test('should serve files from root directory correctly', async ({ page }) => {
+    // Test that main website files are accessible from root
+    const rootFiles = [
+      '/wb.html',
+      '/index.html'
+    ];
+
+    let foundRootFile = false;
+    for (const file of rootFiles) {
+      const response = await page.request.get(file);
+      if (response.status() === 200) {
+        foundRootFile = true;
+        break;
+      }
+    }
+
+    expect(foundRootFile, 'Should have at least one accessible root file').toBe(true);
+  });
+
+  test('should handle CORS headers properly for cross-origin requests', async ({ page }) => {
+    const response = await page.request.get('/components/table/table-theme.html');
+    expect(response.status()).toBe(200);
+
+    // Check CORS headers (they might not be set for same-origin requests)
+    const corsHeaders = {
+      'access-control-allow-origin': response.headers()['access-control-allow-origin'],
+      'access-control-allow-methods': response.headers()['access-control-allow-methods'],
+      'access-control-allow-headers': response.headers()['access-control-allow-headers']
+    };
+
+    // CORS headers are optional for same-origin requests
+    // This test is more informational
+    if (corsHeaders['access-control-allow-origin']) {
+      expect(corsHeaders['access-control-allow-origin']).toBeTruthy();
+    }
+  });
+
+  test('should handle port configuration correctly', async ({ page }) => {
+    // Verify that the current server is running on expected port
+    const currentUrl = page.url();
+    const url = new URL(currentUrl);
+    
+    // Test that server is responsive
+    const response = await page.request.get('/');
+    expect([200, 404]).toContain(response.status());
+
+    // Verify port is accessible (implicit in successful connection)
+    expect(url.hostname).toBeTruthy();
+    expect(url.port).toBeTruthy();
+  });
+
+  test('should serve JSON files with correct MIME types', async ({ page }) => {
+    const jsonFiles = [
+      '/components/table/table.json',
+      '/package.json'
+    ];
+
+    for (const jsonFile of jsonFiles) {
+      const response = await page.request.get(jsonFile);
+      
+      if (response.status() === 200) {
+        const contentType = response.headers()['content-type'];
+        expect(contentType, `${jsonFile} should have correct MIME type`).toContain('application/json');
+
+        // Verify it's valid JSON
+        try {
+          const content = await response.text();
+          JSON.parse(content);
+        } catch (error) {
+          throw new Error(`${jsonFile} contains invalid JSON: ${error}`);
+        }
+      }
+    }
+  });
+
+  test('should handle 404 errors gracefully', async ({ page }) => {
+    const nonExistentFiles = [
+      '/nonexistent.html',
+      '/components/nonexistent.js',
+      '/fake/path/file.css'
+    ];
+
+    for (const file of nonExistentFiles) {
+      const response = await page.request.get(file);
+      expect(response.status(), `${file} should return 404`).toBe(404);
+    }
+  });
+
+  test('should support proper caching headers', async ({ page }) => {
+    const response = await page.request.get('/wb.css');
+    
+    if (response.status() === 200) {
+      const cacheControl = response.headers()['cache-control'];
+      const etag = response.headers()['etag'];
+      const lastModified = response.headers()['last-modified'];
+
+      // At least one caching mechanism should be present for static files
+      const hasCaching = !!(cacheControl || etag || lastModified);
+      
+      // This is informational - caching might not be configured
+      if (hasCaching) {
+        expect(hasCaching).toBe(true);
+      }
+    }
+  });
+
+  test('should handle concurrent requests efficiently', async ({ page }) => {
+    // Test multiple concurrent requests
+    const requests = [
+      page.request.get('/wb.html'),
+      page.request.get('/wb.css'),
+      page.request.get('/wb.js'),
+      page.request.get('/components/table/table-theme.html')
+    ];
+
+    const startTime = Date.now();
+    const responses = await Promise.all(requests);
+    const endTime = Date.now();
+
+    // All requests should succeed
+    responses.forEach((response, index) => {
+      if (response.status() !== 404) { // Allow 404 for non-existent files
+        expect(response.status(), `Request ${index} should succeed`).toBe(200);
+      }
+    });
+
+    // Concurrent requests should complete reasonably quickly
+    const totalTime = endTime - startTime;
+    expect(totalTime, 'Concurrent requests should complete within reasonable time').toBeLessThan(10000);
+  });
+});

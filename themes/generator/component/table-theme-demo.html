@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Theme Component Demo - Claude AI Website Builder</title>
+    <!-- Favicon -->
+    <link rel="icon" href="..\..\../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="..\..\../ziasymbol.svg">
+    
+    <style>
+        :root {
+            /* Default theme variables that will be overridden by the components */
+            --primary-color: hsl(220, 70%, 55%);
+            --primary-color-light: hsl(220, 70%, 75%);
+            --primary-color-dark: hsl(220, 70%, 35%);
+            --secondary-color: hsl(40, 70%, 55%);
+            --text-color: #333;
+            --background-color: #fff;
+            --card-background: #f8f8f8;
+            
+            /* Table-specific variables (will be updated by table-theme-component) */
+            --table-cell-padding: 12px;
+            --table-border-width: 1px;
+            --table-border-radius: 4px;
+            --table-font-size: 14px;
+            --table-header-font-weight: 600;
+            --table-stripe-opacity: 0.05;
+            --table-hover-opacity: 0.08;
+            --table-sort-icon-size: 16px;
+            --table-pagination-size: 32px;
+            --table-compact-padding: 8px;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background-color: var(--card-background);
+        }
+        
+        header {
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--primary-color-light);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            margin-bottom: 30px;
+        }
+        
+        #theme-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+            transition: opacity 0.5s;
+            z-index: 1000;
+        }
+        
+        .demo-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--card-background);
+            border-radius: 4px;
+        }
+        
+        h2 {
+            color: var(--primary-color-dark);
+            border-bottom: 2px solid var(--primary-color-light);
+            padding-bottom: 8px;
+        }
+        
+        /* Sample table styles that use the CSS variables */
+        .sample-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: var(--table-font-size);
+            border-radius: var(--table-border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .sample-table th {
+            padding: var(--table-cell-padding);
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: var(--table-header-font-weight);
+            border: var(--table-border-width) solid var(--primary-color);
+            text-align: left;
+        }
+        
+        .sample-table td {
+            padding: var(--table-cell-padding);
+            border: var(--table-border-width) solid var(--primary-color-light);
+            color: var(--text-color);
+        }
+        
+        .sample-table tbody tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, var(--table-stripe-opacity));
+        }
+        
+        .sample-table tbody tr:hover {
+            background-color: rgba(0, 0, 0, var(--table-hover-opacity));
+            transition: background-color 0.2s ease;
+        }
+        
+        .sample-table.compact th,
+        .sample-table.compact td {
+            padding: var(--table-compact-padding);
+        }
+        
+        .sort-icon {
+            width: var(--table-sort-icon-size);
+            height: var(--table-sort-icon-size);
+            display: inline-block;
+            margin-left: 5px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        
+        .pagination button {
+            width: var(--table-pagination-size);
+            height: var(--table-pagination-size);
+            border: var(--table-border-width) solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            cursor: pointer;
+            border-radius: var(--table-border-radius);
+            font-size: calc(var(--table-font-size) - 2px);
+        }
+        
+        .pagination button:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .pagination button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .controls button {
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--table-border-radius);
+            cursor: pointer;
+        }
+        
+        .controls button:hover {
+            background: var(--primary-color-dark);
+        }
+        
+        .status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status.active {
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #059669;
+        }
+        
+        .status.inactive {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #dc2626;
+        }
+        
+        .status.pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #d97706;
+        }
+    </style>
+</head>
+<body>
+    <div id="theme-notification">Theme changes are applied to the entire page</div>
+    
+    <div class="container">
+        <header>
+            <h1>Table Theme Component Demo</h1>
+            <p class="intro">
+                This demo shows how the Table Theme Component works alongside the main Theme Generator
+                to provide specialized table styling options.
+            </p>
+        </header>
+
+        <div class="demo-section">
+            <h2>Main Theme Generator</h2>
+            <p>First, configure your base theme using the main theme generator:</p>
+            <!-- Main Theme Generator Component -->
+            <theme-generator id="main-theme-generator"></theme-generator>
+        </div>
+
+        <div class="demo-section">
+            <h2>Table Theme Customization</h2>
+            <p>Now customize table-specific styling that complements your main theme:</p>
+            <!-- Table Theme Component -->
+            <table-theme-component id="table-theme-customizer"></table-theme-component>
+        </div>
+
+        <div class="demo-section">
+            <h2>Live Table Preview</h2>
+            <p>See how your theme changes affect actual table components:</p>
+            
+            <div class="controls">
+                <button onclick="toggleCompact()">Toggle Compact Mode</button>
+                <button onclick="addRow()">Add Row</button>
+                <button onclick="removeRow()">Remove Row</button>
+            </div>
+
+            <table class="sample-table" id="sampleTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Name 
+                            <span class="sort-icon">▲</span>
+                        </th>
+                        <th>
+                            Role
+                            <span class="sort-icon">▼</span>
+                        </th>
+                        <th>Department</th>
+                        <th>Status</th>
+                        <th>Join Date</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td>John Doe</td>
+                        <td>Frontend Developer</td>
+                        <td>Engineering</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>2020-05-12</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>UX Designer</td>
+                        <td>Design</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>2019-11-03</td>
+                    </tr>
+                    <tr>
+                        <td>Robert Johnson</td>
+                        <td>Backend Developer</td>
+                        <td>Engineering</td>
+                        <td><span class="status pending">On Leave</span></td>
+                        <td>2021-02-28</td>
+                    </tr>
+                    <tr>
+                        <td>Emily Williams</td>
+                        <td>Project Manager</td>
+                        <td>Product</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>2018-07-14</td>
+                    </tr>
+                    <tr>
+                        <td>Michael Brown</td>
+                        <td>DevOps Engineer</td>
+                        <td>Engineering</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>2020-11-11</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button>‹</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>›</button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Integration with Table Component</h2>
+            <p>The table theme component works seamlessly with your existing table components:</p>
+            
+            <!-- Include actual table component if available -->
+            <div id="table-component-demo">
+                <p><em>Table components will automatically inherit the theme settings configured above.</em></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the components -->
+    <script src="theme-generator-component.js"></script>
+    <script src="table-theme-component.js"></script>
+    
+    <script>
+        // Demo functionality
+        let isCompact = false;
+        
+        function toggleCompact() {
+            const table = document.getElementById('sampleTable');
+            isCompact = !isCompact;
+            table.classList.toggle('compact', isCompact);
+        }
+        
+        function addRow() {
+            const tbody = document.getElementById('tableBody');
+            const newRow = document.createElement('tr');
+            const names = ['Alex Johnson', 'Sarah Davis', 'David Miller', 'Lisa Taylor'];
+            const roles = ['QA Engineer', 'Content Strategist', 'Security Analyst', 'HR Manager'];
+            const departments = ['Engineering', 'Marketing', 'IT', 'Human Resources'];
+            const statuses = ['active', 'pending', 'inactive'];
+            
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomRole = roles[Math.floor(Math.random() * roles.length)];
+            const randomDept = departments[Math.floor(Math.random() * departments.length)];
+            const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+            
+            newRow.innerHTML = `
+                <td>${randomName}</td>
+                <td>${randomRole}</td>
+                <td>${randomDept}</td>
+                <td><span class="status ${randomStatus}">${randomStatus.charAt(0).toUpperCase() + randomStatus.slice(1)}</span></td>
+                <td>2023-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}</td>
+            `;
+            
+            tbody.appendChild(newRow);
+        }
+        
+        function removeRow() {
+            const tbody = document.getElementById('tableBody');
+            if (tbody.children.length > 1) {
+                tbody.removeChild(tbody.lastElementChild);
+            }
+        }
+        
+        // Initialize components and theme synchronization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to both components
+            const themeGenerator = document.querySelector('theme-generator');
+            const tableThemeComponent = document.querySelector('table-theme-component');
+            
+            // Apply initial theme after components are loaded
+            setTimeout(() => {
+                if (themeGenerator && typeof themeGenerator.getTheme === 'function') {
+                    const initialTheme = themeGenerator.getTheme();
+                    applyThemeToPage(initialTheme);
+                }
+            }, 100);
+            
+            // Function to apply base theme to the page
+            function applyThemeToPage(theme) {
+                const cssVariables = {};
+                
+                // Primary & Secondary colors
+                cssVariables['--primary-color'] = `hsl(${theme.primaryHue}, ${theme.saturation}%, ${theme.luminosity}%)`;
+                cssVariables['--primary-color-light'] = `hsl(${theme.primaryHue}, ${theme.saturation}%, ${Math.min(parseInt(theme.luminosity) + 20, 95)}%)`;
+                cssVariables['--primary-color-dark'] = `hsl(${theme.primaryHue}, ${theme.saturation}%, ${Math.max(parseInt(theme.luminosity) - 20, 5)}%)`;
+                
+                // Calculate secondary hue based on color scheme
+                let secondaryHue;
+                switch(theme.colorScheme) {
+                    case 'complementary':
+                        secondaryHue = (theme.primaryHue + 180) % 360;
+                        break;
+                    case 'triadic':
+                        secondaryHue = (theme.primaryHue + 120) % 360;
+                        break;
+                    case 'analogous':
+                        secondaryHue = (theme.primaryHue + 30) % 360;
+                        break;
+                    case 'splitComplementary':
+                        secondaryHue = (theme.primaryHue + 150) % 360;
+                        break;
+                    case 'tetradic':
+                        secondaryHue = (theme.primaryHue + 90) % 360;
+                        break;
+                    default: // monochromatic
+                        secondaryHue = theme.primaryHue;
+                }
+                
+                cssVariables['--secondary-color'] = `hsl(${secondaryHue}, ${theme.saturation}%, ${theme.luminosity}%)`;
+                
+                // Light/Dark mode variables
+                if (theme.isDark === 'true' || theme.isDark === true) {
+                    cssVariables['--text-color'] = '#f0f0f0';
+                    cssVariables['--background-color'] = '#222';
+                    cssVariables['--card-background'] = '#333';
+                } else {
+                    cssVariables['--text-color'] = '#333';
+                    cssVariables['--background-color'] = '#fff';
+                    cssVariables['--card-background'] = '#f8f8f8';
+                }
+                
+                // Apply variables to root
+                for (const [key, value] of Object.entries(cssVariables)) {
+                    document.documentElement.style.setProperty(key, value);
+                }
+                
+                console.log('Base theme applied to page:', theme);
+            }
+            
+            // Listen for theme changes from main theme generator
+            if (themeGenerator) {
+                themeGenerator.addEventListener('theme-changed', (event) => {
+                    const theme = event.detail;
+                    console.log('Main theme changed');
+                    applyThemeToPage(theme);
+                    
+                    // Show notification
+                    const notification = document.getElementById('theme-notification');
+                    if (notification) {
+                        notification.style.display = 'block';
+                        setTimeout(() => { 
+                            notification.style.opacity = '0';
+                            setTimeout(() => { 
+                                notification.style.display = 'none'; 
+                                notification.style.opacity = '1'; 
+                            }, 500);
+                        }, 3000);
+                    }
+                });
+            }
+            
+            // Listen for table theme changes
+            if (tableThemeComponent) {
+                tableThemeComponent.addEventListener('table-theme-changed', (event) => {
+                    console.log('Table theme changed:', event.detail);
+                    
+                    // Show notification for table theme changes
+                    const notification = document.getElementById('theme-notification');
+                    if (notification) {
+                        notification.textContent = 'Table theme updated';
+                        notification.style.display = 'block';
+                        setTimeout(() => { 
+                            notification.style.opacity = '0';
+                            setTimeout(() => { 
+                                notification.style.display = 'none'; 
+                                notification.style.opacity = '1';
+                                notification.textContent = 'Theme changes are applied to the entire page';
+                            }, 500);
+                        }, 2000);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

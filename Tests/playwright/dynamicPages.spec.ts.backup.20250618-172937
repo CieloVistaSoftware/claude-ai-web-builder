@@ -1,0 +1,220 @@
+import { test, expect } from "@playwright/test";
+
+/**
+ * Consolidated Dynamic Pages Tests
+ *
+ * This test suite checks all dynamic page functionality for the Website Builder.
+ * Converted from ConsolidatedDynamicPagesTests.ps1
+ */
+
+test.describe("Dynamic Pages Functionality Tests", () => {
+  // Increase timeout for all tests in this group
+  test.setTimeout(30000);
+
+  test.beforeEach(async ({ page }) => {
+    // Navigate to the main website builder page
+    await page.goto("./wb.html");
+    // Ensure the page has loaded completely
+    await page.waitForLoadState("networkidle");
+  });
+  test("should have dynamic page creation functions in JavaScript", async ({
+    page,
+  }) => {
+    // Check if essential JavaScript functions for dynamic pages exist
+    const dynamicPageFunctionsExist = await page.evaluate(() => {
+      try {
+        const scriptElements = Array.from(document.querySelectorAll("script"));
+        const scripts = scriptElements
+          .map((script) => script.textContent || "")
+          .filter((text) => text !== null)
+          .join("");
+
+        // Check for key dynamic page functions
+        const hasSetupFunction =
+          scripts.includes("function setupDynamicPagesNavigation()") ||
+          scripts.includes("setupDynamicPagesNavigation =");
+
+        const hasCreatePageFunction =
+          scripts.includes("function createNewPage(pageName)") ||
+          scripts.includes("createNewPage =");
+
+        const hasShowPageFunction =
+          scripts.includes("function showPage(pageName)") ||
+          scripts.includes("showPage =");
+
+        const hasNavEventListener =
+          scripts.includes("document.addEventListener('click'") ||
+          scripts.includes('document.addEventListener("click"');
+
+        return {
+          hasSetupFunction,
+          hasCreatePageFunction,
+          hasShowPageFunction,
+          hasNavEventListener,
+          allFunctionsExist:
+            hasSetupFunction &&
+            hasCreatePageFunction &&
+            hasShowPageFunction &&
+            hasNavEventListener,
+        };
+      } catch (error) {
+        console.error("Error evaluating scripts:", error);
+        return {
+          hasSetupFunction: false,
+          hasCreatePageFunction: false,
+          hasShowPageFunction: false,
+          hasNavEventListener: false,
+          allFunctionsExist: false,
+          error: String(error),
+        };
+      }
+    });
+
+    // Output detailed test results
+    console.log(
+      "Dynamic page function check results:",
+      dynamicPageFunctionsExist
+    );
+
+    // Assert that all required functions exist
+    if ("error" in dynamicPageFunctionsExist) {
+      throw new Error(
+        `Error checking dynamic page functions: ${dynamicPageFunctionsExist.error}`
+      );
+    }
+    expect(dynamicPageFunctionsExist.allFunctionsExist).toBeTruthy();
+  });
+
+  test("should have main content container for pages", async ({ page }) => {
+    // Check for main content container
+    const mainContent = await page.locator("#main-content");
+    await expect(mainContent).toBeVisible();
+    // Check for site navigation
+    const navigation = await page.locator("nav");
+    await expect(navigation).toBeVisible();
+  });
+
+  test("should navigate to a new page when a link with hash is clicked", async ({
+    page,
+  }) => {
+    // Go to the base page
+    await page.goto("./wb.html");
+    await page.waitForLoadState("networkidle");
+
+    // Create a test page by modifying the URL hash
+    await page.evaluate(() => {
+      window.location.hash = "testpage";
+    });
+
+    // Wait for the hash change to take effect and the page to be created
+    // Increase timeout to give more time for page creation
+    await page.waitForTimeout(1000);
+
+    try {
+      // Check if the page was created
+      const pageElement = await page.locator("#page-testpage");
+      await expect(pageElement).toBeVisible({ timeout: 5000 });
+
+      // Check if the page has the correct title
+      const pageTitle = await page.locator("#page-testpage .site-title");
+      await expect(pageTitle).toBeVisible({ timeout: 3000 });
+
+      const titleText = await pageTitle.textContent();
+      expect(titleText).not.toBeNull();
+      expect(titleText).toContain("Testpage");
+    } catch (error) {
+      // Take screenshot if the test fails
+      await page.screenshot({ path: "dynamic-page-navigation-failure.png" });
+      throw error;
+    }
+  });
+
+  test("should navigate between pages when nav links are clicked", async ({
+    page,
+  }) => {
+    // Go to the base page
+    await page.goto("./wb.html");
+    await page.waitForLoadState("networkidle");
+
+    try {
+      // Create two test pages first
+      await page.evaluate(() => {
+        try {
+          // Helper function to create a link and append it to navigation
+          function addNavLink(pageName: string) {
+            const navList = document.querySelector("nav ul");
+            if (!navList) {
+              // If nav list doesn't exist, create one
+              const nav =
+                document.querySelector("nav") || document.createElement("nav");
+              const newList = document.createElement("ul");
+              nav.appendChild(newList);
+              document.body.appendChild(nav);
+
+              const listItem = document.createElement("li");
+              const anchor = document.createElement("a");
+              anchor.href = "#" + pageName.toLowerCase();
+              anchor.textContent = pageName;
+              anchor.classList.add("nav-link");
+              listItem.appendChild(anchor);
+              newList.appendChild(listItem);
+            } else {
+              const listItem = document.createElement("li");
+              const anchor = document.createElement("a");
+              anchor.href = "#" + pageName.toLowerCase();
+              anchor.textContent = pageName;
+              anchor.classList.add("nav-link");
+              listItem.appendChild(anchor);
+              navList.appendChild(listItem);
+            }
+          }
+
+          // Add two test pages
+          addNavLink("TestPage1");
+          addNavLink("TestPage2");
+
+          return { success: true };
+        } catch (error) {
+          console.error("Error creating nav links:", error);
+          return { success: false, error: String(error) };
+        }
+      });
+
+      // Get navigation links
+      const navLinks = await page.locator('nav a.nav-link, nav a[href^="#"]');
+      const linkCount = await navLinks.count();
+      // Skip test if there aren't enough links
+      if (linkCount < 2) {
+        console.log("Not enough navigation links to test");
+        return;
+      }
+
+      // Click on the first test page link
+      await page.click('a[href="#testpage1"]');
+      await page.waitForTimeout(1000); // Increased timeout
+
+      // Check if the first page is visible
+      const page1 = await page.locator("#page-testpage1");
+      await expect(page1).toBeVisible({ timeout: 5000 });
+
+      // Click on the second test page link
+      await page.click('a[href="#testpage2"]');
+      await page.waitForTimeout(1000); // Increased timeout
+
+      // Check if the second page is visible
+      const page2 = await page.locator("#page-testpage2");
+      await expect(page2).toBeVisible({ timeout: 5000 });
+      // First page should now be hidden
+      const page1Hidden = await page.evaluate(() => {
+        const page1 = document.querySelector("#page-testpage1") as HTMLElement;
+        return !page1 || page1.style.display === "none";
+      });
+
+      expect(page1Hidden).toBeTruthy();
+    } catch (error) {
+      // Take screenshot if the test fails
+      await page.screenshot({ path: "navigation-test-failure.png" });
+      throw error;
+    }
+  });
+});

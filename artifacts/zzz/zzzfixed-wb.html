@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Website Template Generator (Fixed)</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../ziasymbol.svg">
+    
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Create professional websites with advanced layouts, themes, and animations">
+    <meta name="keywords" content="website, template, professional, glassmorphism, animation">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="wb.css">
+</head>
+<body data-layout="top-nav" data-footer="same-page">
+    <!-- Control Panel -->
+    <div id="control-panel" class="control-panel">
+        <div class="control-panel-header">
+            <h3>Website Builder</h3>
+            <div class="control-panel-actions">
+                <button id="minimize-btn" class="control-btn" title="Minimize">−</button>
+            </div>
+        </div>
+        
+        <div class="control-panel-body">
+            <div class="control-group">
+                <button id="edit-mode-toggle" class="edit-mode-toggle">Edit Mode</button>
+            </div>
+
+            <div class="control-group">
+                <label for="layout-select">Layout Style</label>
+                <select id="layout-select">
+                    <option value="top-nav">Top Navigation</option>
+                    <option value="left-nav">Left Navigation</option>
+                    <option value="right-nav">Right Navigation</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="theme-select">Theme</label>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="cyberpunk">Cyberpunk</option>
+                    <option value="ocean">Ocean</option>
+                    <option value="sunset">Sunset</option>
+                    <option value="forest">Forest</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="footer-position-select">Footer Position</label>
+                <select id="footer-position-select">
+                    <option value="same-page">Same Page As Header</option>
+                    <option value="expanded">Expanded (Full Width)</option>
+                </select>
+            </div>
+            
+            <button id="export-btn" class="btn">Export HTML</button>
+            <button id="save-template-btn" class="btn">Save Template</button>
+            <button id="reset-btn" class="btn">Reset Content</button>
+        </div>
+    </div>
+
+    <!-- Main Website -->
+    <div id="site-container" class="site-container">
+        <!-- Navigation -->
+        <nav id="site-nav" class="site-nav">
+            <ul id="nav-list" class="nav-list">
+                <li id="nav-item-1"><a id="nav-link-1" href="#home" class="nav-link">Home</a></li>
+                <li id="nav-item-2"><a id="nav-link-2" href="#about" class="nav-link">About</a></li>
+                <li id="nav-item-3"><a id="nav-link-3" href="#services" class="nav-link">Services</a></li>
+                <li id="nav-item-4"><a id="nav-link-4" href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li id="nav-item-5"><a id="nav-link-5" href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <!-- Header -->
+            <header id="site-header" class="site-header">
+                <h1 id="site-title" class="site-title editable" contenteditable="false">Your Amazing Website</h1>
+                <p id="site-subtitle" class="site-subtitle editable" contenteditable="false">Build something beautiful today</p>
+            </header>
+
+            <!-- Hero Section -->
+            <section id="hero-section" class="hero-section">
+                <div id="hero-content" class="hero-content">
+                    <h2 id="hero-title" class="hero-title editable" contenteditable="false">Welcome to the Future</h2>
+                    <p id="hero-description" class="hero-description editable" contenteditable="false">Create stunning websites with our powerful template generator. No coding required.</p>
+                    <button id="cta-button" class="cta-button editable" contenteditable="false">Get Started</button>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features-section" class="content-section">
+                <h2 id="features-title" class="section-title editable" contenteditable="false">Features</h2>
+                <div id="features-grid" class="content-grid">
+                    <div id="feature-card-1" class="content-card">
+                        <span id="feature-icon-1" class="card-icon">🚀</span>
+                        <h3 id="feature-title-1" class="card-title editable" contenteditable="false">Lightning Fast</h3>
+                        <p id="feature-desc-1" class="card-description editable" contenteditable="false">Built for speed and performance. Your website will load instantly.</p>
+                    </div>
+                    <div id="feature-card-2" class="content-card">
+                        <span id="feature-icon-2" class="card-icon">🎨</span>
+                        <h3 id="feature-title-2" class="card-title editable" contenteditable="false">Beautiful Design</h3>
+                        <p id="feature-desc-2" class="card-description editable" contenteditable="false">Choose from multiple themes and customize every aspect of your site.</p>
+                    </div>
+                    <div id="feature-card-3" class="content-card">
+                        <span id="feature-icon-3" class="card-icon">📱</span>
+                        <h3 id="feature-title-3" class="card-title editable" contenteditable="false">Fully Responsive</h3>
+                        <p id="feature-desc-3" class="card-description editable" contenteditable="false">Looks perfect on all devices, from mobile phones to desktop computers.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gallery Section -->
+            <section id="gallery-section" class="content-section">
+                <h2 id="gallery-title" class="section-title editable" contenteditable="false">Gallery</h2>
+                <div id="gallery-grid" class="content-grid">
+                    <div id="gallery-item-1" class="media-placeholder">
+                        <span id="gallery-text-1">Click to add image</span>
+                    </div>
+                    <div id="gallery-item-2" class="media-placeholder">
+                        <span id="gallery-text-2">Click to add image</span>
+                    </div>
+                    <div id="gallery-item-3" class="media-placeholder">
+                        <span id="gallery-text-3">Click to add image</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about-section" class="content-section">
+                <h2 id="about-title" class="section-title editable" contenteditable="false">About Us</h2>
+                <div id="about-card" class="content-card">
+                    <p id="about-description" class="card-description editable" contenteditable="false">We are passionate about creating beautiful, functional websites that help businesses grow. Our template generator makes it easy for anyone to build a professional website without any coding knowledge.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer id="site-footer" class="site-footer">
+            <div id="footer-content" class="footer-content">
+                <p id="footer-copyright" class="editable" contenteditable="false">&copy; 2024 Your Company. All rights reserved.</p>
+                <ul id="footer-links" class="footer-links">
+                    <li id="footer-item-1"><a id="footer-link-1" href="#privacy" class="footer-link">Privacy Policy</a></li>
+                    <li id="footer-item-2"><a id="footer-link-2" href="#terms" class="footer-link">Terms of Service</a></li>
+                    <li id="footer-item-3"><a id="footer-link-3" href="#contact" class="footer-link">Contact</a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>    <!-- JavaScript -->
+    <script src="wb.js"></script>
+</body>
+</html>

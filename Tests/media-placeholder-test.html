@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .edit-mode .media-placeholder,
+        .media-placeholder.has-media {
+            display: flex;
+        }
+        
+        :not(.edit-mode) .media-placeholder:not(.has-media) {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="placeholder1" class="media-placeholder"></div>
+    <div id="placeholder2" class="media-placeholder has-media"></div>
+    
+    <script>
+        const body = document.body;
+        const p1 = document.getElementById('placeholder1');
+        const p2 = document.getElementById('placeholder2');
+        
+        // Test case 1: Not in edit mode
+        console.log("Case 1 - Not in edit mode:");
+        console.log("- Empty placeholder visible:", window.getComputedStyle(p1).display !== "none");
+        console.log("- Placeholder with image visible:", window.getComputedStyle(p2).display !== "none");
+        
+        // Test case 2: In edit mode
+        body.classList.add('edit-mode');
+        console.log("\nCase 2 - In edit mode:");
+        console.log("- Empty placeholder visible:", window.getComputedStyle(p1).display !== "none");
+        console.log("- Placeholder with image visible:", window.getComputedStyle(p2).display !== "none");
+    </script>
+</body>
+</html>

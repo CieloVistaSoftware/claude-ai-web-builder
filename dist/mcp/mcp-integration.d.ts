@@ -1,0 +1,33 @@
+import { Application } from 'express';
+declare class MCPClaudeWebsiteBuilder {
+    private app;
+    private requestCount;
+    private successfulRequests;
+    private failedRequests;
+    private averageResponseTime;
+    private filesGenerated;
+    private responseTimes;
+    constructor(app: Application);
+    private setupMCPEndpoints;
+    private setupGenerateEndpoint;
+    private setupCapabilitiesEndpoint;
+    private setupHealthEndpoint;
+    private setupValidateEndpoint;
+    private setupMetricsEndpoint;
+    private validateMCPInput;
+    private generateWebsiteFromComponents;
+    private generateHTMLWithComponents;
+    private generateContentByType;
+    private generateTableSection;
+    private generateThemeSection;
+    private generateCSSWithThemes;
+    private generateJavaScript;
+    private loadWBCSS;
+    private getFallbackCSS;
+    private getAvailableComponents;
+    private getAvailableThemes;
+    private getComponentHTML;
+    private getThemeHTML;
+    private generateChecksum;
+}
+export default MCPClaudeWebsiteBuilder;

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Website Generator Demo</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            border-bottom: 2px solid #6366f1;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            background: #f5f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #4f46e5;
+        }
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .feature-checkbox {
+            display: flex;
+            align-items: center;
+            width: auto;
+        }
+        .feature-checkbox input {
+            width: auto;
+            margin-right: 5px;
+            margin-bottom: 0;
+        }
+        .results {
+            margin-top: 30px;
+        }
+        .status {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .status.generating {
+            background: #fff8e6;
+            border-left: 4px solid #f59e0b;
+        }
+        .status.success {
+            background: #ecfdf5;
+            border-left: 4px solid #10b981;
+        }
+        .status.error {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+        }
+        .preview-links {
+            margin-top: 20px;
+        }
+        .preview-links a {
+            display: inline-block;
+            margin-right: 15px;
+            color: #6366f1;
+            text-decoration: none;
+        }
+        .preview-links a:hover {
+            text-decoration: underline;
+        }
+        .file-list {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .file-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .file-view-btn {
+            background: #e2e8f0;
+            color: #334155;
+            font-size: 14px;
+            padding: 4px 8px;
+        }
+        .file-view-btn:hover {
+            background: #cbd5e1;
+        }
+        #contentPreview {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            overflow: auto;
+            max-height: 500px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 4px 4px 0 0;
+        }
+        .tab.active {
+            border-color: #ddd;
+            background: #fff;
+            border-bottom: 1px solid #fff;
+            margin-bottom: -1px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Website Generator with MCP Integration</h1>
+
+    <div class="form-section">
+        <h2>Create Your Website</h2>
+        <form id="websiteForm">
+            <div class="form-group">
+                <label for="websiteType">Website Type:</label>
+                <select id="websiteType" name="websiteType">
+                    <option value="portfolio">Portfolio</option>
+                    <option value="business">Business</option>
+                    <option value="personal">Personal</option>
+                    <option value="blog">Blog</option>
+                    <option value="ecommerce">E-Commerce</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="websiteTitle">Website Title:</label>
+                <input type="text" id="websiteTitle" name="websiteTitle" placeholder="My Amazing Website">
+            </div>
+
+            <div class="form-group">
+                <label for="industry">Industry/Niche:</label>
+                <input type="text" id="industry" name="industry" placeholder="Photography, Design, Technology, etc.">
+            </div>
+
+            <div class="form-group">
+                <label for="colorScheme">Color Scheme:</label>
+                <select id="colorScheme" name="colorScheme">
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                    <option value="colorful">Colorful</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="corporate">Corporate</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Features:</label>
+                <div class="features-container">
+                    <label class="feature-checkbox">
+                        <input type="checkbox" name="features" value="gallery"> Gallery
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" name="features" value="contactForm"> Contact Form
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" name="features" value="about"> About Page
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" name="features" value="blog"> Blog Section
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" name="features" value="testimonials"> Testimonials
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="brandName">Brand/Business Name:</label>
+                <input type="text" id="brandName" name="brandName" placeholder="e.g., Creative Studios">
+            </div>
+
+            <div class="form-group">
+                <label for="slogan">Slogan/Tagline:</label>
+                <input type="text" id="slogan" name="slogan" placeholder="e.g., Creating beautiful experiences">
+            </div>
+
+            <div class="form-group">
+                <label for="additionalInfo">Additional Information or Requirements:</label>
+                <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="Any specific requirements or details you want to include..."></textarea>
+            </div>
+
+            <button type="submit" id="generateBtn">Generate Website</button>
+        </form>
+    </div>
+
+    <div class="results" id="resultsContainer" style="display: none;">
+        <div class="status" id="statusMessage"></div>
+        
+        <div id="generatedContent">
+            <h2>Generated Website Files</h2>
+            <div class="file-list" id="fileList"></div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="html">HTML</div>
+                <div class="tab" data-tab="css">CSS</div>
+                <div class="tab" data-tab="js">JavaScript</div>
+            </div>
+
+            <div id="contentPreview"></div>
+
+            <div class="preview-links">
+                <a href="#" id="downloadAllBtn">Download All Files</a>
+                <a href="#" id="previewWebsiteBtn">Preview Website</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('websiteForm');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const statusMessage = document.getElementById('statusMessage');
+            const fileList = document.getElementById('fileList');
+            const contentPreview = document.getElementById('contentPreview');
+            const tabs = document.querySelectorAll('.tab');
+
+            let generatedFiles = [];
+            let currentTab = 'html';
+
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTab = this.getAttribute('data-tab');
+                    updatePreview();
+                });
+            });
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Collect form data
+                const websiteType = document.getElementById('websiteType').value;
+                const websiteTitle = document.getElementById('websiteTitle').value || 'My Website';
+                const industry = document.getElementById('industry').value;
+                const colorScheme = document.getElementById('colorScheme').value;
+                const brandName = document.getElementById('brandName').value;
+                const slogan = document.getElementById('slogan').value;
+                const additionalInfo = document.getElementById('additionalInfo').value;
+                
+                // Get selected features
+                const features = Array.from(document.querySelectorAll('input[name="features"]:checked'))
+                    .map(checkbox => checkbox.value);
+                
+                // Create the payload with correct structure for MCP API
+                const payload = {
+                    toolName: "claude-ai-website-builder",
+                    website: {
+                        type: websiteType,
+                        features: features
+                    },
+                    content: {
+                        title: websiteTitle,
+                        description: additionalInfo,
+                        metadata: {
+                            industry: industry,
+                            colorScheme: colorScheme
+                        }
+                    },
+                    output: {
+                        format: "files"
+                    },
+                    customization: {
+                        primaryColor: "#3b82f6", // Default blue
+                        secondaryColor: "#f8fafc", // Default light
+                        accentColor: "#10b981" // Default green
+                    },
+                    branding: {
+                        name: brandName,
+                        slogan: slogan
+                    }
+                };
+                
+                // Show status
+                resultsContainer.style.display = 'block';
+                statusMessage.className = 'status generating';
+                statusMessage.textContent = 'Generating website... This may take a minute.';
+                
+                try {
+                    // Log the payload for debugging
+                    console.log('Sending payload to MCP endpoint:', JSON.stringify(payload, null, 2));
+                    
+                    // Make the API request to the MCP endpoint
+                    const response = await fetch('/mcp/generate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        let errorMessage = `HTTP error! Status: ${response.status}`;
+                        try {
+                            // Try to parse as JSON for more details
+                            const errorJson = JSON.parse(errorText);
+                            errorMessage += ` - ${errorJson.error || errorText}`;
+                        } catch (e) {
+                            // If not JSON, use the raw text
+                            errorMessage += ` - ${errorText}`;
+                        }
+                        console.error("API Error:", errorMessage);
+                        throw new Error(errorMessage);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Check if we got a successful response with files
+                    if (data.files && data.files.length > 0) {
+                        generatedFiles = data.files;
+                        
+                        // Update status
+                        statusMessage.className = 'status success';
+                        statusMessage.textContent = 'Website generated successfully!';
+                        
+                        // Display file list
+                        displayFileList(generatedFiles);
+                        
+                        // Display the first HTML file content
+                        updatePreview();
+                    } else {
+                        throw new Error('No files were generated');
+                    }
+                } catch (error) {
+                    statusMessage.className = 'status error';
+                    statusMessage.textContent = `Error: ${error.message}`;
+                    console.error('Error generating website:', error);
+                }
+            });
+            
+            function displayFileList(files) {
+                fileList.innerHTML = '';
+                
+                files.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    
+                    const fileName = document.createElement('span');
+                    fileName.textContent = file.path;
+                    
+                    const viewButton = document.createElement('button');
+                    viewButton.className = 'file-view-btn';
+                    viewButton.textContent = 'View';
+                    viewButton.addEventListener('click', () => {
+                        const fileType = file.path.split('.').pop();
+                        
+                        // Activate the appropriate tab
+                        if (fileType === 'html') {
+                            currentTab = 'html';
+                        } else if (fileType === 'css') {
+                            currentTab = 'css';
+                        } else if (fileType === 'js') {
+                            currentTab = 'js';
+                        }
+                        
+                        // Update tabs UI
+                        tabs.forEach(tab => {
+                            tab.classList.remove('active');
+                            if (tab.getAttribute('data-tab') === currentTab) {
+                                tab.classList.add('active');
+                            }
+                        });
+                        
+                        contentPreview.textContent = file.content;
+                    });
+                    
+                    fileItem.appendChild(fileName);
+                    fileItem.appendChild(viewButton);
+                    fileList.appendChild(fileItem);
+                });
+            }
+            
+            function updatePreview() {
+                const filesByType = {
+                    html: generatedFiles.filter(file => file.path.endsWith('.html')),
+                    css: generatedFiles.filter(file => file.path.endsWith('.css')),
+                    js: generatedFiles.filter(file => file.path.endsWith('.js'))
+                };
+                
+                // Get files of the current tab type
+                const files = filesByType[currentTab];
+                
+                if (files && files.length > 0) {
+                    contentPreview.textContent = files[0].content;
+                } else {
+                    contentPreview.textContent = `No ${currentTab.toUpperCase()} files available`;
+                }
+            }
+            
+            // Download all files as a zip
+            document.getElementById('downloadAllBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Feature coming soon: Download all generated files as a ZIP archive');
+            });
+            
+            // Preview website in new tab
+            document.getElementById('previewWebsiteBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Find an HTML file to preview
+                const htmlFile = generatedFiles.find(file => file.path === 'index.html' || file.path.endsWith('.html'));
+                
+                if (htmlFile) {
+                    const blob = new Blob([htmlFile.content], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                } else {
+                    alert('No HTML file available to preview');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

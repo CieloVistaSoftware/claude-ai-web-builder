@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Builder - Create Your Website</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="ziasymbol.svg">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Create professional websites with our easy-to-use website builder. Choose templates, customize content, and download your site.">
+    <meta name="keywords" content="website builder, create website, templates, web design">
+    
+    <!-- Color System CSS -->
+    <style>
+        :root {
+          /* Golden Ratio Foundation */
+          --golden-ratio: 1.618;
+          --inverse-golden-ratio: 0.618;
+          
+          /* Layout Dimensions */
+          --header-height: 20vh;
+          --nav-width: calc(100vw / (var(--golden-ratio) * 2.75));
+          --content-padding: calc(1rem * var(--golden-ratio));
+          --grid-gap: 1rem;
+          
+          /* Typography Scale */
+          --text-tiny: 0.75rem;
+          --text-small: 0.813rem;
+          --text-standard: 0.875rem;
+          --text-medium: 0.938rem;
+          --text-large: 1rem;
+          --text-xl: 1.125rem;
+          
+          /* Spacing Scale */
+          --space-xs: 0.25rem;
+          --space-sm: 0.5rem;
+          --space-md: 1rem;
+          --space-lg: calc(1rem * var(--golden-ratio));
+          --space-xl: calc(1rem * var(--golden-ratio) * var(--golden-ratio));
+          
+          /* Primary Colors */
+          --primary: #007bff;
+          --primary-light: #66b3ff;
+          --primary-dark: #0056b3;
+          --primary-contrast: #ffffff;
+          
+          /* Secondary Colors */
+          --secondary: #6c757d;
+          --secondary-light: #9ca3a9;
+          --secondary-dark: #495057;
+          --secondary-contrast: #ffffff;
+          
+          /* Accent Colors */
+          --accent: #28a745;
+          --accent-light: #71dd8a;
+          --accent-dark: #1e7e34;
+          --accent-contrast: #ffffff;
+          
+          /* Neutral Scale */
+          --neutral-50: #f8f9fa;
+          --neutral-100: #e9ecef;
+          --neutral-200: #dee2e6;
+          --neutral-300: #ced4da;
+          --neutral-400: #adb5bd;
+          --neutral-500: #6c757d;
+          --neutral-600: #495057;
+          --neutral-700: #343a40;
+          --neutral-800: #212529;
+          --neutral-900: #1a1d21;
+          
+          /* Semantic Colors */
+          --background: var(--neutral-50);
+          --surface: #ffffff;
+          --text-primary: var(--neutral-800);
+          --text-secondary: var(--neutral-600);
+          --border: var(--neutral-300);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--background);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding-bottom: 30px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--primary-contrast);
+            padding: var(--space-xl) var(--space-lg);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 var(--space-md) 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin: 0 0 var(--space-lg) 0;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            font-size: var(--text-large);
+            margin: 0 auto var(--space-xl) auto;
+            max-width: 600px;
+            opacity: 0.8;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border-radius: calc(var(--space-xs) * 3);
+            padding: var(--space-lg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .feature-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            margin: 0 0 var(--space-sm) 0;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: var(--surface);
+            border-radius: calc(var(--space-xs) * 3);
+            padding: var(--space-xl);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 var(--space-md) 0;
+            color: var(--text-primary);
+        }
+
+        .cta-description {
+            color: var(--text-secondary);
+            margin: 0 0 var(--space-lg) 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--primary);
+            color: var(--primary-contrast);
+            text-decoration: none;
+            border-radius: calc(var(--space-xs) * 2);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: var(--text-standard);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-lg {
+            padding: var(--space-lg) calc(var(--space-lg) * 1.5);
+            font-size: var(--text-large);
+        }
+
+        .wizard-section {
+            margin-top: var(--space-xl);
+        }
+
+        /* Template Grid Styles */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg, 1.618rem);
+            margin-top: var(--space-lg, 1.618rem);
+        }
+
+        .template-card {
+            background: var(--surface, #ffffff);
+            border: 2px solid var(--border, #e0e0e0);
+            border-radius: calc(var(--space-xs, 0.25rem) * 3);
+            padding: var(--space-lg, 1.618rem);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .template-card:hover {
+            border-color: var(--primary, #007bff);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+        }
+
+        .template-card.selected {
+            border-color: var(--primary, #007bff);
+            background: var(--primary-light, rgba(0, 123, 255, 0.05));
+        }
+
+        .template-preview {
+            margin-bottom: var(--space-md, 1rem);
+        }
+
+        .template-thumbnail {
+            width: 100%;
+            height: 120px;
+            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-md, 1rem);
+        }
+
+        .template-icon {
+            font-size: 2rem;
+        }
+
+        .template-info h4 {
+            margin: 0 0 var(--space-sm, 0.5rem) 0;
+            color: var(--text-primary, #212529);
+        }
+
+        .template-info p {
+            margin: 0 0 var(--space-sm, 0.5rem) 0;
+            color: var(--text-secondary, #6c757d);
+            font-size: var(--text-standard, 0.875rem);
+        }
+
+        .template-features {
+            font-size: var(--text-small, 0.813rem);
+            color: var(--text-secondary, #6c757d);
+            font-style: italic;
+        }
+
+        /* Content Form Styles */
+        .content-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg, 1.618rem);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--space-sm, 0.5rem);
+            font-weight: 600;
+            color: var(--text-primary, #212529);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--space-md, 1rem);
+            border: 2px solid var(--border, #e0e0e0);
+            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+            font-size: var(--text-standard, 0.875rem);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary, #007bff);
+        }
+
+        .form-note {
+            background: var(--neutral-100, #f8f9fa);
+            padding: var(--space-md, 1rem);
+            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+            margin-top: var(--space-lg, 1.618rem);
+        }
+
+        .form-note p {
+            margin: 0;
+            font-size: var(--text-small, 0.813rem);
+            color: var(--text-secondary, #6c757d);
+        }
+
+        /* Style Options */
+        .style-options {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .style-group {
+            margin-bottom: var(--space-xl, 2.618rem);
+        }
+
+        .style-group h4 {
+            margin: 0 0 var(--space-md, 1rem) 0;
+            color: var(--text-primary, #212529);
+        }
+
+        .theme-colors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--space-md, 1rem);
+        }
+
+        .color-option {
+            padding: var(--space-lg, 1.618rem);
+            border-radius: calc(var(--space-xs, 0.25rem) * 3);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .color-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-option.selected {
+            border-color: var(--primary, #007bff);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+        }
+
+        .layout-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-md, 1rem);
+        }
+
+        .layout-option {
+            text-align: center;
+            cursor: pointer;
+            padding: var(--space-md, 1rem);
+            border: 2px solid var(--border, #e0e0e0);
+            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+            transition: all 0.3s ease;
+        }
+
+        .layout-option:hover {
+            border-color: var(--primary, #007bff);
+        }
+
+        .layout-option.selected {
+            border-color: var(--primary, #007bff);
+            background: var(--primary-light, rgba(0, 123, 255, 0.05));
+        }
+
+        .layout-preview {
+            width: 60px;
+            height: 40px;
+            margin: 0 auto var(--space-sm, 0.5rem) auto;
+            border: 1px solid var(--border, #e0e0e0);
+            border-radius: 4px;
+            position: relative;
+            background: var(--surface, #ffffff);
+        }
+
+        .layout-header {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 8px;
+            background: var(--primary, #007bff);
+            border-radius: 2px;
+        }
+
+        .layout-content {
+            position: absolute;
+            top: 12px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: var(--neutral-200, #e9ecef);
+            border-radius: 2px;
+        }
+
+        .layout-sidebar {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 12px;
+            bottom: 2px;
+            background: var(--primary, #007bff);
+            border-radius: 2px;
+        }
+
+        .layout-main {
+            position: absolute;
+            top: 2px;
+            left: 16px;
+            right: 2px;
+            bottom: 2px;
+            background: var(--neutral-200, #e9ecef);
+            border-radius: 2px;
+        }
+
+        /* Preview Summary */
+        .preview-summary {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .summary-card {
+            background: var(--surface, #ffffff);
+            border: 2px solid var(--border, #e0e0e0);
+            border-radius: calc(var(--space-xs, 0.25rem) * 3);
+            padding: var(--space-lg, 1.618rem);
+            margin-bottom: var(--space-lg, 1.618rem);
+        }
+
+        .summary-card h3 {
+            margin: 0 0 var(--space-md, 1rem) 0;
+            color: var(--text-primary, #212529);
+        }
+
+        .summary-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm, 0.5rem);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-sm, 0.5rem) 0;
+            border-bottom: 1px solid var(--neutral-200, #e9ecef);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item .label {
+            font-weight: 600;
+            color: var(--text-secondary, #6c757d);
+        }
+
+        .summary-item .value {
+            color: var(--text-primary, #212529);
+            text-transform: capitalize;
+        }
+
+        .next-steps {
+            background: var(--neutral-100, #f8f9fa);
+            padding: var(--space-lg, 1.618rem);
+            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+        }
+
+        .next-steps h4 {
+            margin: 0 0 var(--space-md, 1rem) 0;
+            color: var(--text-primary, #212529);
+        }
+
+        .next-steps ul {
+            margin: 0;
+            padding-left: var(--space-md, 1rem);
+        }
+
+        .next-steps li {
+            margin-bottom: var(--space-sm, 0.5rem);
+            color: var(--text-secondary, #6c757d);
+        }        .navbar {
+            background: var(--surface);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: var(--space-sm) var(--space-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: var(--text-large);
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: var(--space-lg);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+        
+        .btn-secondary {
+            background: var(--neutral-200);
+            color: var(--text-primary);
+            margin-left: var(--space-md);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--neutral-300);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        /* Status Bar Styles */
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-sm);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--text-small, 0.813rem);
+            color: var(--text-secondary);
+            z-index: 1000;
+            height: 30px;
+        }
+
+        .status-message {
+            padding-left: var(--space-md);
+            display: flex;
+            align-items: center;
+        }
+
+        .status-message.success {
+            color: var(--accent, #28a745);
+        }
+
+        .status-message.error {
+            color: #dc3545;
+        }
+
+        .status-message.warning {
+            color: #ffc107;
+        }
+
+        .status-message.info {
+            color: var(--primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                padding: var(--space-lg) var(--space-md);
+            }
+            
+            .navbar {
+                flex-direction: column;
+                padding: var(--space-md);
+            }
+
+            .navbar-brand {
+                margin-bottom: var(--space-sm);
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>    <nav class="navbar">
+        <a href="website-builder.html" class="navbar-brand">Website Builder</a>
+        <ul class="navbar-nav">
+            <li><a href="website-builder.html" class="nav-link active">Home</a></li>
+            <li><a href="features.html" class="nav-link">Features</a></li>
+            <li><a href="features.html#testimonials" class="nav-link">Testimonials</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Create Your Website in Minutes</h1>
+            <p class="hero-subtitle">Professional websites made simple</p>
+            <p class="hero-description">
+                Choose from beautiful templates, customize your content, and download a complete website ready to go live. No coding required.
+            </p>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Get Started?</h2>
+            <p class="cta-description">Create your professional website in just a few steps. No technical skills required.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-lg" id="start-wizard-btn">Start Building Your Website</button>
+                <a href="features.html" class="btn btn-lg btn-secondary">Explore Features</a>
+            </div>
+        </section>
+
+        <section class="wizard-section" id="wizard-container" style="display: none;">
+            <website-builder-wizard></website-builder-wizard>
+        </section>
+    </main>    <!-- Load the wizard component -->
+    <script>
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle the "Start Building Your Website" button click
+            const startWizardBtn = document.getElementById('start-wizard-btn');
+            const wizardContainer = document.getElementById('wizard-container');
+            
+            if (startWizardBtn && wizardContainer) {
+                startWizardBtn.addEventListener('click', () => {
+                    wizardContainer.style.display = 'block';
+                    wizardContainer.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            // Check if wizard should be shown based on URL hash
+            if (window.location.hash === '#wizard-container') {
+                wizardContainer.style.display = 'block';
+                setTimeout(() => {
+                    wizardContainer.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        });
+
+        // Embedded WebsiteBuilderWizard component
+        class WebsiteBuilderWizard extends HTMLElement {
+            constructor() {
+                super();
+                this.currentStep = 1;
+                this.totalSteps = 5;
+                this.websiteData = {};
+                this.attachShadow({ mode: 'open' });
+            }
+
+            connectedCallback() {
+                this.render();
+                this.setupEventListeners();
+            }
+
+            render() {
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        :host {
+                            display: block;
+                            max-width: 1200px;
+                            margin: 0 auto;
+                            padding: var(--space-lg);
+                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                        }
+
+                        .wizard-container {
+                            background: var(--surface, #ffffff);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 3);
+                            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                            overflow: hidden;
+                        }
+
+                        .wizard-header {
+                            background: linear-gradient(135deg, var(--primary, #007bff) 0%, var(--primary-dark, #0056b3) 100%);
+                            color: var(--primary-contrast, #ffffff);
+                            padding: var(--space-lg, 1.618rem);
+                            text-align: center;
+                        }
+
+                        .wizard-title {
+                            margin: 0;
+                            font-size: var(--text-xl, 1.125rem);
+                            font-weight: 600;
+                        }
+
+                        .wizard-subtitle {
+                            margin: var(--space-sm, 0.5rem) 0 0 0;
+                            opacity: 0.9;
+                            font-size: var(--text-standard, 0.875rem);
+                        }
+
+                        .progress-bar {
+                            height: 4px;
+                            background: rgba(255, 255, 255, 0.2);
+                            margin-top: var(--space-lg, 1.618rem);
+                            border-radius: 2px;
+                        }
+
+                        .progress-fill {
+                            height: 100%;
+                            background: var(--accent, #28a745);
+                            border-radius: 2px;
+                            transition: width 0.3s ease;
+                            width: ${(this.currentStep / this.totalSteps) * 100}%;
+                        }
+
+                        .step-navigation {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: var(--space-md, 1rem) var(--space-lg, 1.618rem);
+                            border-bottom: 1px solid var(--border, #e5e7eb);
+                        }
+
+                        .step-indicator {
+                            display: flex;
+                            gap: var(--space-sm, 0.5rem);
+                            align-items: center;
+                        }
+
+                        .step-dot {
+                            width: 8px;
+                            height: 8px;
+                            border-radius: 50%;
+                            background: var(--neutral-300, #ced4da);
+                            transition: all 0.2s ease;
+                        }
+
+                        .step-dot.active {
+                            background: var(--primary, #007bff);
+                            transform: scale(1.2);
+                        }
+
+                        .step-dot.completed {
+                            background: var(--accent, #28a745);
+                        }
+
+                        .step-info {
+                            font-size: var(--text-medium, 0.938rem);
+                            color: var(--text-secondary, #6c757d);
+                        }
+
+                        .wizard-content {
+                            padding: var(--space-xl, 2.618rem);
+                            min-height: 500px;
+                        }
+
+                        .wizard-actions {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: var(--space-lg, 1.618rem);
+                            border-top: 1px solid var(--border, #e5e7eb);
+                            background: var(--neutral-50, #f8f9fa);
+                        }
+
+                        .btn {
+                            padding: var(--space-md, 1rem) var(--space-lg, 1.618rem);
+                            border: none;
+                            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+                            font-size: var(--text-standard, 0.875rem);
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            text-decoration: none;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: var(--space-sm, 0.5rem);
+                        }
+
+                        .btn-primary {
+                            background: var(--primary, #007bff);
+                            color: var(--primary-contrast, #ffffff);
+                        }
+
+                        .btn-primary:hover {
+                            background: var(--primary-dark, #0056b3);
+                            transform: translateY(-1px);
+                        }
+
+                        .btn-secondary {
+                            background: var(--neutral-200, #dee2e6);
+                            color: var(--text-primary, #212529);
+                        }
+
+                        .btn-secondary:hover {
+                            background: var(--neutral-300, #ced4da);
+                        }
+
+                        .btn:disabled {
+                            opacity: 0.6;
+                            cursor: not-allowed;
+                            transform: none !important;
+                        }
+
+                        .step-content {
+                            animation: fadeIn 0.3s ease;
+                        }
+
+                        @keyframes fadeIn {
+                            from { opacity: 0; transform: translateY(10px); }
+                            to { opacity: 1; transform: translateY(0); }
+                        }
+
+                        /* Step-specific styles */
+                        .step-title {
+                            text-align: center;
+                            margin-bottom: var(--space-xl, 2.618rem);
+                        }
+                        
+                        .step-title h2 {
+                            color: var(--text-primary, #212529);
+                            margin: 0 0 var(--space-sm, 0.5rem) 0;
+                        }
+                        
+                        .step-title p {
+                            color: var(--text-secondary, #6c757d);
+                            margin: 0;
+                        }
+
+                        .website-types {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                            gap: var(--space-lg, 1.618rem);
+                        }
+
+                        .type-card {
+                            border: 2px solid var(--border, #e5e7eb);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 3);
+                            padding: var(--space-lg, 1.618rem);
+                            text-align: center;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+
+                        .type-card:hover {
+                            border-color: var(--primary, #007bff);
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+                        }
+
+                        .type-card.selected {
+                            border-color: var(--primary, #007bff);
+                            background: rgba(0, 123, 255, 0.05);
+                        }
+
+                        .type-icon {
+                            font-size: 2.5rem;
+                            margin-bottom: var(--space-md, 1rem);
+                        }
+
+                        .type-card h3 {
+                            margin: 0 0 var(--space-sm, 0.5rem) 0;
+                            color: var(--text-primary, #212529);
+                        }
+
+                        .type-card p {
+                            margin: 0 0 var(--space-md, 1rem) 0;
+                            color: var(--text-secondary, #6c757d);
+                        }
+
+                        .type-examples {
+                            font-size: var(--text-small, 0.813rem);
+                            color: var(--text-secondary, #6c757d);
+                            font-style: italic;
+                        }
+
+                        /* Template Grid Styles */
+                        .template-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                            gap: var(--space-lg, 1.618rem);
+                            margin-top: var(--space-lg, 1.618rem);
+                        }
+
+                        .template-card {
+                            background: var(--surface, #ffffff);
+                            border: 2px solid var(--border, #e0e0e0);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 3);
+                            padding: var(--space-lg, 1.618rem);
+                            text-align: center;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                        }
+
+                        .template-card:hover {
+                            border-color: var(--primary, #007bff);
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+                        }
+
+                        .template-card.selected {
+                            border-color: var(--primary, #007bff);
+                            background: var(--primary-light, rgba(0, 123, 255, 0.05));
+                        }
+
+                        .template-preview {
+                            margin-bottom: var(--space-md, 1rem);
+                        }
+
+                        .template-thumbnail {
+                            width: 100%;
+                            height: 120px;
+                            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin-bottom: var(--space-md, 1rem);
+                        }
+
+                        .template-icon {
+                            font-size: 2rem;
+                        }
+
+                        .template-info h4 {
+                            margin: 0 0 var(--space-sm, 0.5rem) 0;
+                            color: var(--text-primary, #212529);
+                        }
+
+                        .template-info p {
+                            margin: 0 0 var(--space-sm, 0.5rem) 0;
+                            color: var(--text-secondary, #6c757d);
+                            font-size: var(--text-standard, 0.875rem);
+                        }
+
+                        .template-features {
+                            font-size: var(--text-small, 0.813rem);
+                            color: var(--text-secondary, #6c757d);
+                            font-style: italic;
+                        }
+
+                        /* Content Form Styles */
+                        .content-form {
+                            max-width: 500px;
+                            margin: 0 auto;
+                        }
+
+                        .form-group {
+                            margin-bottom: var(--space-lg, 1.618rem);
+                        }
+
+                        .form-group label {
+                            display: block;
+                            margin-bottom: var(--space-sm, 0.5rem);
+                            font-weight: 600;
+                            color: var(--text-primary, #212529);
+                        }
+
+                        .form-group input,
+                        .form-group textarea {
+                            width: 100%;
+                            padding: var(--space-md, 1rem);
+                            border: 2px solid var(--border, #e0e0e0);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+                            font-size: var(--text-standard, 0.875rem);
+                            transition: border-color 0.3s ease;
+                        }
+
+                        .form-group input:focus,
+                        .form-group textarea:focus {
+                            outline: none;
+                            border-color: var(--primary, #007bff);
+                        }
+
+                        .form-note {
+                            background: var(--neutral-100, #f8f9fa);
+                            padding: var(--space-md, 1rem);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+                            margin-top: var(--space-lg, 1.618rem);
+                        }
+
+                        .form-note p {
+                            margin: 0;
+                            font-size: var(--text-small, 0.813rem);
+                            color: var(--text-secondary, #6c757d);
+                        }
+
+                        /* Style Options */
+                        .style-options {
+                            max-width: 600px;
+                            margin: 0 auto;
+                        }
+
+                        .style-group {
+                            margin-bottom: var(--space-xl, 2.618rem);
+                        }
+
+                        .style-group h4 {
+                            margin: 0 0 var(--space-md, 1rem) 0;
+                            color: var(--text-primary, #212529);
+                        }
+
+                        .theme-colors {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                            gap: var(--space-md, 1rem);
+                        }
+
+                        .color-option {
+                            padding: var(--space-lg, 1.618rem);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 3);
+                            text-align: center;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            border: 2px solid transparent;
+                        }
+
+                        .color-option:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                        }
+
+                        .color-option.selected {
+                            border-color: var(--primary, #007bff);
+                            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+                        }
+
+                        .layout-options {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                            gap: var(--space-md, 1rem);
+                        }
+
+                        .layout-option {
+                            text-align: center;
+                            cursor: pointer;
+                            padding: var(--space-md, 1rem);
+                            border: 2px solid var(--border, #e0e0e0);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+                            transition: all 0.3s ease;
+                        }
+
+                        .layout-option:hover {
+                            border-color: var(--primary, #007bff);
+                        }
+
+                        .layout-option.selected {
+                            border-color: var(--primary, #007bff);
+                            background: var(--primary-light, rgba(0, 123, 255, 0.05));
+                        }
+
+                        .layout-preview {
+                            width: 60px;
+                            height: 40px;
+                            margin: 0 auto var(--space-sm, 0.5rem) auto;
+                            border: 1px solid var(--border, #e0e0e0);
+                            border-radius: 4px;
+                            position: relative;
+                            background: var(--surface, #ffffff);
+                        }
+
+                        .layout-header {
+                            position: absolute;
+                            top: 2px;
+                            left: 2px;
+                            right: 2px;
+                            height: 8px;
+                            background: var(--primary, #007bff);
+                            border-radius: 2px;
+                        }
+
+                        .layout-content {
+                            position: absolute;
+                            top: 12px;
+                            left: 2px;
+                            right: 2px;
+                            bottom: 2px;
+                            background: var(--neutral-200, #e9ecef);
+                            border-radius: 2px;
+                        }
+
+                        .layout-sidebar {
+                            position: absolute;
+                            top: 2px;
+                            left: 2px;
+                            width: 12px;
+                            bottom: 2px;
+                            background: var(--primary, #007bff);
+                            border-radius: 2px;
+                        }
+
+                        .layout-main {
+                            position: absolute;
+                            top: 2px;
+                            left: 16px;
+                            right: 2px;
+                            bottom: 2px;
+                            background: var(--neutral-200, #e9ecef);
+                            border-radius: 2px;
+                        }
+
+                        /* Preview Summary */
+                        .preview-summary {
+                            max-width: 500px;
+                            margin: 0 auto;
+                        }
+
+                        .summary-card {
+                            background: var(--surface, #ffffff);
+                            border: 2px solid var(--border, #e0e0e0);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 3);
+                            padding: var(--space-lg, 1.618rem);
+                            margin-bottom: var(--space-lg, 1.618rem);
+                        }
+
+                        .summary-card h3 {
+                            margin: 0 0 var(--space-md, 1rem) 0;
+                            color: var(--text-primary, #212529);
+                        }
+
+                        .summary-details {
+                            display: flex;
+                            flex-direction: column;
+                            gap: var(--space-sm, 0.5rem);
+                        }
+
+                        .summary-item {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: var(--space-sm, 0.5rem) 0;
+                            border-bottom: 1px solid var(--neutral-200, #e9ecef);
+                        }
+
+                        .summary-item:last-child {
+                            border-bottom: none;
+                        }
+
+                        .summary-item .label {
+                            font-weight: 600;
+                            color: var(--text-secondary, #6c757d);
+                        }
+
+                        .summary-item .value {
+                            color: var(--text-primary, #212529);
+                            text-transform: capitalize;
+                        }
+
+                        .next-steps {
+                            background: var(--neutral-100, #f8f9fa);
+                            padding: var(--space-lg, 1.618rem);
+                            border-radius: calc(var(--space-xs, 0.25rem) * 2);
+                        }
+
+                        .next-steps h4 {
+                            margin: 0 0 var(--space-md, 1rem) 0;
+                            color: var(--text-primary, #212529);
+                        }
+
+                        .next-steps ul {
+                            margin: 0;
+                            padding-left: var(--space-md, 1rem);
+                        }
+
+                        .next-steps li {
+                            margin-bottom: var(--space-sm, 0.5rem);
+                            color: var(--text-secondary, #6c757d);
+                        }
+
+                        /* ...existing code... */
+                    </style>
+
+                    <div class="wizard-container">
+                        <div class="wizard-header">
+                            <h1 class="wizard-title">Website Builder</h1>
+                            <p class="wizard-subtitle">Create your professional website in minutes</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="step-navigation">
+                            <div class="step-indicator">
+                                ${Array.from({ length: this.totalSteps }, (_, i) => `
+                                    <div class="step-dot ${i + 1 === this.currentStep ? 'active' : ''} ${i + 1 < this.currentStep ? 'completed' : ''}"></div>
+                                `).join('')}
+                            </div>
+                            <div class="step-info">
+                                Step ${this.currentStep} of ${this.totalSteps}: ${this.getStepTitle()}
+                            </div>
+                        </div>
+
+                        <div class="wizard-content">
+                            <div class="step-content">
+                                ${this.renderCurrentStep()}
+                            </div>
+                        </div>
+
+                        <div class="wizard-actions">
+                            <button class="btn btn-secondary" id="prev-btn" ${this.currentStep === 1 ? 'disabled' : ''}>
+                                ← Previous
+                            </button>
+                            <button class="btn btn-primary" id="next-btn">
+                                ${this.currentStep === this.totalSteps ? 'Create Website' : 'Next →'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getStepTitle() {
+                const titles = [
+                    'Choose Website Type',
+                    'Select Template',
+                    'Customize Content',
+                    'Style & Theme',
+                    'Preview & Download'
+                ];
+                return titles[this.currentStep - 1] || '';
+            }            renderCurrentStep() {
+                switch (this.currentStep) {
+                    case 1:
+                        return this.renderWebsiteTypeStep();
+                    case 2:
+                        return this.renderTemplateStep();
+                    case 3:
+                        return this.renderContentStep();
+                    case 4:
+                        return this.renderStyleStep();
+                    case 5:
+                        return this.renderPreviewStep();
+                    default:
+                        return '<p>Unknown step</p>';
+                }
+            }
+
+            renderWebsiteTypeStep() {
+                return `
+                    <div class="step-title">
+                        <h2>What type of website would you like to create?</h2>
+                        <p>Choose the option that best describes your website's purpose.</p>
+                    </div>
+                    
+                    <div class="website-types">
+                        <div class="type-card" data-type="portfolio">
+                            <div class="type-icon">🎨</div>
+                            <h3>Portfolio</h3>
+                            <p>Showcase your work, projects, and skills</p>
+                            <span class="type-examples">Perfect for: Designers, Photographers, Artists</span>
+                        </div>
+                        
+                        <div class="type-card" data-type="business">
+                            <div class="type-icon">🏢</div>
+                            <h3>Business</h3>
+                            <p>Professional website for your company or services</p>
+                            <span class="type-examples">Perfect for: Restaurants, Consultants, Local Businesses</span>
+                        </div>
+                        
+                        <div class="type-card" data-type="blog">
+                            <div class="type-icon">📝</div>
+                            <h3>Blog</h3>
+                            <p>Share your thoughts, stories, and expertise</p>
+                            <span class="type-examples">Perfect for: Writers, Bloggers, Content Creators</span>
+                        </div>
+                        
+                        <div class="type-card" data-type="landing">
+                            <div class="type-icon">🚀</div>
+                            <h3>Landing Page</h3>
+                            <p>Single-page website focused on one goal</p>
+                            <span class="type-examples">Perfect for: Product Launch, Event, Sign-up</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderTemplateStep() {
+                const templates = this.getTemplatesForType(this.websiteData.type);
+                return `
+                    <div class="step-title">
+                        <h2>Select Template</h2>
+                        <p>Choose a design that matches your ${this.websiteData.type} website style.</p>
+                    </div>
+                    
+                    <div class="template-grid">
+                        ${templates.map(template => `
+                            <div class="template-card" data-template="${template.id}">
+                                <div class="template-preview">
+                                    <div class="template-thumbnail" style="background: ${template.color}">
+                                        <div class="template-icon">${template.icon}</div>
+                                    </div>
+                                </div>
+                                <div class="template-info">
+                                    <h4>${template.name}</h4>
+                                    <p>${template.description}</p>
+                                    <span class="template-features">${template.features.join(' • ')}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            renderContentStep() {
+                return `
+                    <div class="step-title">
+                        <h2>Customize Content</h2>
+                        <p>Add your basic information to get started.</p>
+                    </div>
+                    
+                    <div class="content-form">
+                        <div class="form-group">
+                            <label for="site-title">Website Title</label>
+                            <input type="text" id="site-title" placeholder="Enter your website title" 
+                                   value="${this.websiteData.title || ''}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="site-subtitle">Website Subtitle</label>
+                            <input type="text" id="site-subtitle" placeholder="Enter a subtitle or tagline" 
+                                   value="${this.websiteData.subtitle || ''}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="site-description">Description</label>
+                            <textarea id="site-description" rows="3" 
+                                      placeholder="Brief description of your website">${this.websiteData.description || ''}</textarea>
+                        </div>
+                        
+                        <div class="form-note">
+                            <p>💡 <strong>Tip:</strong> You can edit all content directly in the website builder after creation.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderStyleStep() {
+                return `
+                    <div class="step-title">
+                        <h2>Style & Theme</h2>
+                        <p>Choose colors and layout preferences.</p>
+                    </div>
+                    
+                    <div class="style-options">
+                        <div class="style-group">
+                            <h4>Color Theme</h4>
+                            <div class="theme-colors">
+                                <div class="color-option" data-theme="light" style="background: #ffffff; border: 2px solid #e0e0e0;">
+                                    <span>Light</span>
+                                </div>
+                                <div class="color-option" data-theme="dark" style="background: #2d3748; color: white;">
+                                    <span>Dark</span>
+                                </div>
+                                <div class="color-option" data-theme="blue" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                    <span>Blue</span>
+                                </div>
+                                <div class="color-option" data-theme="green" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                                    <span>Green</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="style-group">
+                            <h4>Layout Style</h4>
+                            <div class="layout-options">
+                                <div class="layout-option" data-layout="top-nav">
+                                    <div class="layout-preview">
+                                        <div class="layout-header"></div>
+                                        <div class="layout-content"></div>
+                                    </div>
+                                    <span>Top Navigation</span>
+                                </div>
+                                <div class="layout-option" data-layout="left-nav">
+                                    <div class="layout-preview">
+                                        <div class="layout-sidebar"></div>
+                                        <div class="layout-main"></div>
+                                    </div>
+                                    <span>Side Navigation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderPreviewStep() {
+                return `
+                    <div class="step-title">
+                        <h2>Ready to Build!</h2>
+                        <p>Your website configuration is complete.</p>
+                    </div>
+                    
+                    <div class="preview-summary">
+                        <div class="summary-card">
+                            <h3>Website Summary</h3>
+                            <div class="summary-details">
+                                <div class="summary-item">
+                                    <span class="label">Type:</span>
+                                    <span class="value">${this.websiteData.type || 'Not selected'}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Template:</span>
+                                    <span class="value">${this.websiteData.template || 'Default'}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Title:</span>
+                                    <span class="value">${this.websiteData.title || 'My Website'}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Theme:</span>
+                                    <span class="value">${this.websiteData.theme || 'Light'}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Layout:</span>
+                                    <span class="value">${this.websiteData.layout || 'Top Navigation'}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="next-steps">
+                            <h4>What happens next?</h4>
+                            <ul>
+                                <li>✅ Your website builder will open in a new window</li>
+                                <li>✅ All your settings will be applied automatically</li>
+                                <li>✅ You can edit content, add images, and customize further</li>
+                                <li>✅ Export your finished website as HTML files</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getTemplatesForType(type) {
+                const templates = {
+                    portfolio: [
+                        {
+                            id: 'portfolio-modern',
+                            name: 'Modern Portfolio',
+                            description: 'Clean, minimalist design with focus on your work',
+                            features: ['Image Gallery', 'Project Showcase', 'About Section'],
+                            icon: '🎨',
+                            color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                        },
+                        {
+                            id: 'portfolio-creative',
+                            name: 'Creative Portfolio',
+                            description: 'Bold, artistic layout for creative professionals',
+                            features: ['Dynamic Layout', 'Color Themes', 'Interactive Elements'],
+                            icon: '✨',
+                            color: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
+                        }
+                    ],
+                    business: [
+                        {
+                            id: 'business-professional',
+                            name: 'Professional Business',
+                            description: 'Corporate-style layout for businesses',
+                            features: ['Services Section', 'Contact Forms', 'Team Pages'],
+                            icon: '🏢',
+                            color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+                        },
+                        {
+                            id: 'business-local',
+                            name: 'Local Business',
+                            description: 'Perfect for restaurants, shops, and local services',
+                            features: ['Location Map', 'Hours', 'Menu/Services'],
+                            icon: '🏪',
+                            color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+                        }
+                    ],
+                    blog: [
+                        {
+                            id: 'blog-minimal',
+                            name: 'Minimal Blog',
+                            description: 'Clean, readable design focused on content',
+                            features: ['Article Pages', 'Categories', 'Archive'],
+                            icon: '📝',
+                            color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+                        },
+                        {
+                            id: 'blog-magazine',
+                            name: 'Magazine Style',
+                            description: 'Rich layout with featured articles and sidebars',
+                            features: ['Featured Posts', 'Sidebar', 'Tags'],
+                            icon: '📰',
+                            color: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
+                        }
+                    ],
+                    landing: [
+                        {
+                            id: 'landing-product',
+                            name: 'Product Landing',
+                            description: 'Focused on showcasing and selling a product',
+                            features: ['Hero Section', 'Features', 'Call-to-Action'],
+                            icon: '🚀',
+                            color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                        },
+                        {
+                            id: 'landing-service',
+                            name: 'Service Landing',
+                            description: 'Highlight your services and get leads',
+                            features: ['Service Benefits', 'Testimonials', 'Contact'],
+                            icon: '💼',
+                            color: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)'
+                        }
+                    ]
+                };
+                
+                return templates[type] || templates.portfolio;
+            }            setupEventListeners() {
+                // Navigation buttons
+                this.shadowRoot.getElementById('next-btn')?.addEventListener('click', () => {
+                    this.nextStep();
+                });
+
+                this.shadowRoot.getElementById('prev-btn')?.addEventListener('click', () => {
+                    this.previousStep();
+                });
+
+                // Website type selection
+                this.shadowRoot.querySelectorAll('.type-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        // Remove previous selection
+                        this.shadowRoot.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+                        // Add selection to clicked card
+                        e.currentTarget.classList.add('selected');
+                        // Store selection
+                        this.websiteData.type = e.currentTarget.dataset.type;
+                        console.log('Selected website type:', this.websiteData.type);
+                    });
+                });
+
+                // Template selection
+                this.shadowRoot.querySelectorAll('.template-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        this.shadowRoot.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+                        e.currentTarget.classList.add('selected');
+                        this.websiteData.template = e.currentTarget.dataset.template;
+                        console.log('Selected template:', this.websiteData.template);
+                    });
+                });
+
+                // Content form inputs
+                const titleInput = this.shadowRoot.getElementById('site-title');
+                const subtitleInput = this.shadowRoot.getElementById('site-subtitle');
+                const descriptionInput = this.shadowRoot.getElementById('site-description');
+
+                if (titleInput) {
+                    titleInput.addEventListener('input', (e) => {
+                        this.websiteData.title = e.target.value;
+                    });
+                }
+
+                if (subtitleInput) {
+                    subtitleInput.addEventListener('input', (e) => {
+                        this.websiteData.subtitle = e.target.value;
+                    });
+                }
+
+                if (descriptionInput) {
+                    descriptionInput.addEventListener('input', (e) => {
+                        this.websiteData.description = e.target.value;
+                    });
+                }
+
+                // Theme selection
+                this.shadowRoot.querySelectorAll('.color-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        this.shadowRoot.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected'));
+                        e.currentTarget.classList.add('selected');
+                        this.websiteData.theme = e.currentTarget.dataset.theme;
+                        console.log('Selected theme:', this.websiteData.theme);
+                    });
+                });
+
+                // Layout selection
+                this.shadowRoot.querySelectorAll('.layout-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        this.shadowRoot.querySelectorAll('.layout-option').forEach(c => c.classList.remove('selected'));
+                        e.currentTarget.classList.add('selected');
+                        this.websiteData.layout = e.currentTarget.dataset.layout;
+                        console.log('Selected layout:', this.websiteData.layout);
+                    });
+                });
+            }            nextStep() {
+                if (this.currentStep < this.totalSteps) {
+                    this.currentStep++;
+                    this.render();
+                    this.setupEventListeners();
+                    
+                    // Update status bar
+                    const stepTitle = this.getStepTitle();
+                    if (window.updateStatus) {
+                        window.updateStatus(`Step ${this.currentStep}: ${stepTitle}`, 'info');
+                    }
+                } else {
+                    // Final step - create website
+                    this.createWebsite();
+                }
+            }
+
+            previousStep() {
+                if (this.currentStep > 1) {
+                    this.currentStep--;
+                    this.render();
+                    this.setupEventListeners();
+                    
+                    // Update status bar
+                    const stepTitle = this.getStepTitle();
+                    if (window.updateStatus) {
+                        window.updateStatus(`Step ${this.currentStep}: ${stepTitle}`, 'info');
+                    }
+                }
+            }
+
+            createWebsite() {
+                console.log('Creating website with data:', this.websiteData);
+                
+                // Dispatch event for parent to handle
+                this.dispatchEvent(new CustomEvent('website-created', {
+                    detail: this.websiteData,
+                    bubbles: true
+                }));
+            }
+        }
+
+        // Define the custom element
+        customElements.define('website-builder-wizard', WebsiteBuilderWizard);
+    </script>    <script>        // Ensure DOM is loaded before attaching event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOM Content Loaded - Setting up event listeners');
+            
+            // Initialize status bar
+            updateStatus('Website Builder ready - Click "Start Building" to begin', 'info');
+            
+            // Show wizard when button is clicked
+            const startBtn = document.getElementById('start-wizard-btn');
+            if (startBtn) {
+                startBtn.addEventListener('click', function() {
+                    console.log('✅ Start wizard button clicked');
+                    updateStatus('Website Builder Wizard started', 'info');
+                    
+                    const wizardContainer = document.getElementById('wizard-container');
+                    if (wizardContainer) {
+                        wizardContainer.style.display = 'block';
+                        wizardContainer.scrollIntoView({ 
+                            behavior: 'smooth' 
+                        });
+                    } else {
+                        console.error('❌ Wizard container not found');
+                        updateStatus('Error: Wizard container not found', 'error');
+                    }
+                });
+                console.log('✅ Start button event listener attached');
+            } else {
+                console.error('❌ Start wizard button not found');
+                updateStatus('Error: Start button not found', 'error');
+            }
+        });// Listen for website creation completion (can be outside DOMContentLoaded since it's a document event)
+        document.addEventListener('website-created', function(event) {
+            console.log('🎨 Website created with data:', event.detail);
+            
+            // Show user feedback
+            const startBtn = document.getElementById('start-wizard-btn');
+            if (startBtn) {
+                startBtn.textContent = 'Creating Website...';
+                startBtn.disabled = true;
+            }
+            
+            // Update status bar
+            updateStatus('Creating website...', 'info');
+              
+            // Instead of calling MCP endpoint, open the actual website builder
+            console.log('🚀 Opening website builder with data:', event.detail);
+            
+            // Show user feedback
+            if (startBtn) {
+                startBtn.textContent = 'Opening Website Builder...';
+                startBtn.disabled = true;
+            }
+            
+            // Update status bar
+            updateStatus('Opening Website Builder...', 'info');
+            
+            // Create URL with parameters for the website builder
+            const params = new URLSearchParams({
+                type: event.detail.type || 'portfolio',
+                title: event.detail.title || `My ${(event.detail.type || 'portfolio').charAt(0).toUpperCase() + (event.detail.type || 'portfolio').slice(1)} Website`,
+                subtitle: event.detail.subtitle || 'Build something beautiful today',
+                theme: event.detail.theme || 'light',
+                layout: event.detail.layout || 'top-nav'
+            });
+            
+            // Open the website builder in a new window
+            const builderUrl = `/wb/wb.html?${params.toString()}`;
+            const builderWindow = window.open(builderUrl, '_blank', 'width=1400,height=900,scrollbars=yes,resizable=yes');
+            
+            if (builderWindow) {
+                // Reset button after a short delay
+                setTimeout(() => {
+                    if (startBtn) {
+                        startBtn.textContent = 'Start Building Your Website';
+                        startBtn.disabled = false;
+                    }
+                    
+                    // Update status bar
+                    updateStatus(`${event.detail.type} website opened in editor`, 'success');
+                }, 1000);
+                
+                alert(`✅ Website Builder opened in a new window!\n\nYou can now:\n• Customize your ${event.detail.type} website\n• Edit content directly\n• Choose themes and colors\n• Export your finished site\n\nThe builder window should have opened automatically.`);
+            } else {
+                // Reset button if popup was blocked
+                if (startBtn) {
+                    startBtn.textContent = 'Start Building Your Website';
+                    startBtn.disabled = false;
+                }
+                
+                // Update status bar
+                updateStatus('Failed to open Website Builder - popup blocked', 'error');
+                
+                // Fallback: redirect to the builder
+                if (confirm('Popup blocked! Would you like to go to the website builder in this window instead?')) {
+                    updateStatus('Redirecting to Website Builder...', 'info');
+                    window.location.href = builderUrl;
+                } else {
+                    updateStatus('Website Builder not opened - check popup blocker settings', 'error');
+                    alert('❌ Could not open website builder. Please check your popup blocker settings.');
+                }
+            }
+        });
+
+        // Additional DOM setup when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Website Builder page loaded successfully');
+            
+            // Test MCP connection
+            fetch('/mcp/health')
+            .then(response => response.json())            .then(data => {
+                console.log('✅ MCP server health check passed:', data);
+                
+                // Update the status bar
+                updateStatus('🟢 Server Connected - Ready to build', 'success');
+                
+                // Update status info
+                document.getElementById('status-info').textContent = `API v${data.version || '1.0'}`;
+                
+                // Also show temporary status indicator (for backward compatibility)
+                const statusIndicator = document.createElement('div');
+                statusIndicator.style.cssText = `
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    background: #28a745;
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    z-index: 1000;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                `;
+                statusIndicator.textContent = '🟢 Server Connected';
+                document.body.appendChild(statusIndicator);
+                
+                // Remove temporary indicator after 3 seconds
+                setTimeout(() => {
+                    statusIndicator.remove();
+                }, 3000);
+            })            .catch(error => {
+                console.warn('⚠️ MCP server health check failed:', error);
+                
+                // Update the status bar
+                updateStatus('🔴 Server Disconnected - Some features may be unavailable', 'error');
+                
+                // Show error status to user (for backward compatibility)
+                const statusIndicator = document.createElement('div');
+                statusIndicator.style.cssText = `
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    background: #dc3545;
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    z-index: 1000;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                `;
+                statusIndicator.textContent = '🔴 Server Disconnected';
+                document.body.appendChild(statusIndicator);
+                
+                // Remove temporary indicator after 5 seconds
+                setTimeout(() => {
+                    statusIndicator.remove();
+                }, 5000);
+            });
+        });
+    </script>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div id="status-message" class="status-message">Ready to build your website</div>
+        <div id="status-info"></div>
+    </div>
+      <script>
+        // Status bar utility functions
+        window.updateStatus = function(message, type = 'info') {
+            const statusMessage = document.getElementById('status-message');
+            
+            // Remove all status classes
+            statusMessage.classList.remove('success', 'error', 'warning', 'info');
+            
+            // Add the appropriate class
+            statusMessage.classList.add(type);
+            
+            // Set the message
+            statusMessage.textContent = message;
+            
+            console.log(`Status: [${type}] ${message}`);
+        };
+        
+        // Also keep the local function for backward compatibility
+        function updateStatus(message, type = 'info') {
+            window.updateStatus(message, type);
+        }
+    </script>
+</body>
+</html>

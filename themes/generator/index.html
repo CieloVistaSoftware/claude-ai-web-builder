@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Generator</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../../ziasymbol.svg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>    <div class="container">
+        <h1>Theme Generator</h1>
+        
+        <!-- Semantic HTML Demo -->
+        <div class="control-panel">
+            <h2>Semantic HTML Demo</h2>
+            <p style="margin-bottom: 20px;">See how your theme variables work with real semantic HTML elements:</p>
+            
+            <div class="semantic-demo" id="semanticDemo">
+                <!-- Header -->
+                <header class="demo-header">
+                    <nav class="demo-nav">
+                        <a href="#" class="demo-logo">Brand Logo</a>
+                        <ul class="demo-nav-list">
+                            <li><a href="#" class="demo-nav-link">Home</a></li>
+                            <li><a href="#" class="demo-nav-link">About</a></li>
+                            <li><a href="#" class="demo-nav-link">Services</a></li>
+                            <li><a href="#" class="demo-nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+                </header>
+
+                <!-- Main Content -->
+                <main class="demo-main">
+                    <article class="demo-article">
+                        <header>
+                            <h1 class="demo-h1">Main Article Heading</h1>
+                            <p class="demo-meta">Published on <time>2024-01-15</time> by <span class="demo-author">Jane Doe</span></p>
+                        </header>
+                        
+                        <section class="demo-section">
+                            <h2 class="demo-h2">Section Heading</h2>
+                            <p class="demo-paragraph">This is a paragraph demonstrating the primary text color. It shows how your theme variables create a cohesive design system across all semantic HTML elements.</p>
+                            
+                            <blockquote class="demo-blockquote">
+                                "This is a blockquote element styled with accent colors and borders to stand out from regular content."
+                            </blockquote>
+                            
+                            <h3 class="demo-h3">Subsection with Lists</h3>
+                            <ul class="demo-list">
+                                <li>Unordered list item using primary color</li>
+                                <li>Another list item with secondary text</li>
+                                <li>Third item showing consistent styling</li>
+                            </ul>
+                        </section>
+
+                        <section class="demo-section">
+                            <h2 class="demo-h2">Interactive Elements</h2>
+                            <form class="demo-form">
+                                <fieldset class="demo-fieldset">
+                                    <legend class="demo-legend">Form Elements</legend>
+                                    
+                                    <label class="demo-label">
+                                        Text Input
+                                        <input type="text" class="demo-input" placeholder="Enter text here">
+                                    </label>
+                                    
+                                    <label class="demo-label">
+                                        Select Menu
+                                        <select class="demo-select">
+                                            <option>Option 1</option>
+                                            <option>Option 2</option>
+                                            <option>Option 3</option>
+                                        </select>
+                                    </label>
+                                    
+                                    <label class="demo-label">
+                                        <input type="checkbox" class="demo-checkbox">
+                                        Checkbox with label
+                                    </label>
+                                    
+                                    <div class="demo-button-group">
+                                        <button type="button" class="demo-button primary">Primary Action</button>
+                                        <button type="button" class="demo-button accent">Accent Action</button>
+                                        <button type="button" class="demo-button secondary">Secondary</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </section>
+
+                        <aside class="demo-aside">
+                            <h3 class="demo-h3">Aside Content</h3>
+                            <p class="demo-paragraph secondary">This aside element uses surface color background and border styling to distinguish it from the main content.</p>
+                            <figure class="demo-figure">
+                                <div class="demo-image-placeholder">Image</div>
+                                <figcaption class="demo-figcaption">Figure caption with secondary text color</figcaption>
+                            </figure>
+                        </aside>
+                    </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="demo-footer">
+                    <p class="demo-footer-text">© 2024 Your Company. All rights reserved.</p>
+                    <nav class="demo-footer-nav">
+                        <a href="#" class="demo-footer-link">Privacy</a>
+                        <a href="#" class="demo-footer-link">Terms</a>
+                        <a href="#" class="demo-footer-link">Contact</a>
+                    </nav>
+                </footer>
+            </div>
+        </div>
+        <!-- Floating Theme Configuration -->
+        <div class="floating-preview floating-config" id="floatingPreviewContainer">
+            <div class="floating-preview-header">
+                <h3 class="floating-preview-title">
+                    Theme Configuration
+                    <button class="minimize-btn" onclick="toggleMinimize()">−</button>
+                </h3>
+                <div class="preview-mode-toggle">
+                    <button class="mode-btn active" onclick="switchPreviewMode('light')">Light</button>
+                    <button class="mode-btn" onclick="switchPreviewMode('dark')">Dark</button>
+                </div>
+            </div>
+            <div class="floating-preview-content" id="floatingPreview">
+                <div class="mini-config-form">
+                    <div class="mini-config-group">
+                        <label for="themeName">Theme Name</label>
+                        <input type="text" id="themeName" value="My Custom Theme" class="mini-input">
+                    </div>
+                    <div class="mini-config-group">
+                        <label for="colorScheme">Color Scheme</label>
+                        <select id="colorScheme" class="mini-select">
+                            <option value="complementary">Complementary (180°)</option>
+                            <option value="triadic">Triadic (120°)</option>
+                            <option value="analogous">Analogous (30°)</option>
+                            <option value="splitComplementary">Split-Complementary (150°)</option>
+                            <option value="tetradic">Tetradic (90°)</option>
+                            <option value="monochromatic">Monochromatic (0°)</option>
+                        </select>
+                    </div>
+                    <div class="mini-config-group">
+                        <label for="isDark">Mode</label>
+                        <select id="isDark" class="mini-select">
+                            <option value="false">Light Mode</option>
+                            <option value="true">Dark Mode</option>
+                        </select>
+                    </div>
+                    <div class="mini-config-group">
+                        <label for="primaryHue">Primary Hue</label>
+                        <input type="range" id="primaryHue" min="0" max="360" value="220" class="mini-slider hue-slider">
+                        <small>Value: <span id="hueValue">220</span>°</small>
+                    </div>
+                    <div class="mini-config-group">
+                        <label for="saturation">Saturation</label>
+                        <input type="range" id="saturation" min="0" max="100" value="85" class="mini-slider">
+                        <small>Value: <span id="saturationValue">85</span>%</small>
+                    </div>
+                    <div class="mini-config-group">
+                        <label for="luminosity">Luminosity</label>
+                        <input type="range" id="luminosity" min="0" max="100" value="50" class="mini-slider">
+                        <small>Value: <span id="luminosityValue">50</span>%</small>
+                    </div>
+                    <div class="color-swatch-preview">
+                        <div id="primarySwatch" class="mini-swatch">Primary</div>
+                        <div id="accentSwatch" class="mini-swatch">Accent</div>
+                    </div>
+                    <button class="save-theme-button" onclick="saveTheme()">Save Theme</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Swatches -->
+        <div class="control-panel">
+            <h2>Generated Color Palette</h2>
+            <div class="color-swatches" id="colorSwatches">
+                <!-- Swatches will be generated here -->
+            </div>
+        </div>
+
+        <!-- CSS Output -->
+        <div class="css-output">
+            <h3 class="css-output-title">Generated CSS</h3>
+            <pre id="cssOutput"></pre>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

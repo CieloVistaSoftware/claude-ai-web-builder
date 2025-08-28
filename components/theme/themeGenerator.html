@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Generator Web Component Demo</title>
+    <!-- Favicon -->
+    <link rel="icon" href="..\../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="..\../ziasymbol.svg">
+    
+    <style>
+        :root {
+            /* Default theme variables that will be overridden by the component */
+            --primary-color: hsl(220, 70%, 55%);
+            --primary-color-light: hsl(220, 70%, 75%);
+            --primary-color-dark: hsl(220, 70%, 35%);
+            --secondary-color: hsl(40, 70%, 55%);
+            --text-color: #333;
+            --background-color: #fff;
+            --card-background: #f8f8f8;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+          .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background-color: var(--card-background);
+        }        
+        header {
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--primary-color-light);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+          .intro {
+            margin-bottom: 30px;
+        }
+        
+        #theme-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+            transition: opacity 0.5s;
+            z-index: 1000;
+        }
+        
+        .demo-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--card-background);
+            border-radius: 4px;
+        }
+        
+        h2 {
+            color: var(--primary-color-dark);
+            border-bottom: 2px solid var(--primary-color-light);
+            padding-bottom: 8px;
+        }
+        
+        code {
+            background: var(--primary-color-light);
+            color: var(--primary-color-dark);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        pre {
+            background: var(--card-background);
+            border: 1px solid var(--primary-color-light);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .usage-example {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="theme-notification">Theme changes are applied to the entire page</div>    <div class="container">
+                
+        <!-- Theme Generator Component Integration -->
+        <theme-generator id="main-theme-generator"></theme-generator>
+    </div><!-- Include the Theme Generator Web Component -->
+    <script src="theme-generator-component.js"></script>
+    
+    <script>
+        // Demo initialization script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get reference to the component
+            const themeGenerator = document.querySelector('theme-generator');
+            
+            // Apply initial theme after a short delay to ensure component is fully initialized
+            setTimeout(() => {
+                const initialTheme = themeGenerator.getTheme();
+                applyThemeToPage(initialTheme);
+            }, 100);
+            
+            // Function to apply theme to the entire page
+            function applyThemeToPage(theme) {
+                // Get CSS variables from the theme
+                const cssVariables = {};
+                
+                // Primary & Secondary colors
+                cssVariables['--primary-color'] = `hsl(${theme.primaryHue}, ${theme.saturation}%, ${theme.luminosity}%)`;
+                cssVariables['--primary-color-light'] = `hsl(${theme.primaryHue}, ${theme.saturation}%, ${parseInt(theme.luminosity) + 20}%)`;
+                cssVariables['--primary-color-dark'] = `hsl(${theme.primaryHue}, ${theme.saturation}%, ${parseInt(theme.luminosity) - 20}%)`;
+                
+                // Calculate secondary hue based on color scheme
+                let secondaryHue;
+                switch(theme.colorScheme) {
+                    case 'complementary':
+                        secondaryHue = (theme.primaryHue + 180) % 360;
+                        break;
+                    case 'triadic':
+                        secondaryHue = (theme.primaryHue + 120) % 360;
+                        break;
+                    case 'analogous':
+                        secondaryHue = (theme.primaryHue + 30) % 360;
+                        break;
+                    case 'splitComplementary':
+                        secondaryHue = (theme.primaryHue + 150) % 360;
+                        break;
+                    case 'tetradic':
+                        secondaryHue = (theme.primaryHue + 90) % 360;
+                        break;
+                    default: // monochromatic
+                        secondaryHue = theme.primaryHue;
+                }
+                
+                cssVariables['--secondary-color'] = `hsl(${secondaryHue}, ${theme.saturation}%, ${theme.luminosity}%)`;
+                
+                // Light/Dark mode variables
+                if (theme.isDark === 'true' || theme.isDark === true) {
+                    cssVariables['--text-color'] = '#f0f0f0';
+                    cssVariables['--background-color'] = '#222';
+                    cssVariables['--card-background'] = '#333';
+                } else {
+                    cssVariables['--text-color'] = '#333';
+                    cssVariables['--background-color'] = '#fff';
+                    cssVariables['--card-background'] = '#f8f8f8';
+                }
+                
+                // Apply variables to root
+                for (const [key, value] of Object.entries(cssVariables)) {
+                    document.documentElement.style.setProperty(key, value);
+                }
+                
+                console.log('Theme applied to page:', theme);
+            }                // Listen for theme changes
+                themeGenerator.addEventListener('theme-changed', (event) => {
+                    const theme = event.detail;
+                    console.log('Theme changed event triggered');
+                    applyThemeToPage(theme);
+                    
+                    // Show notification that theme is applied to the whole page
+                    const notification = document.getElementById('theme-notification');
+                    if (notification) {
+                        notification.style.display = 'block';
+                        setTimeout(() => { 
+                            notification.style.opacity = '0';
+                            setTimeout(() => { notification.style.display = 'none'; notification.style.opacity = '1'; }, 500);
+                        }, 3000);
+                    }
+                });
+            
+            // Listen for theme save events
+            themeGenerator.addEventListener('theme-saved', (event) => {
+                console.log('Theme saved:', event.detail);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+import express, { Request, Response, NextFunction } from "express";
+import cors from "cors";
+import serveStatic from "serve-static";
+import helmet from "helmet";
+import path from "path";
+import { promises as fs } from "fs";
+import MCPClaudeWebsiteBuilder from "./mcp/mcp-integration";
+
+const app = express();
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;
+
+// Initialize MCP integration with existing app
+const mcpIntegration = new MCPClaudeWebsiteBuilder(app);
+
+// Security middleware
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // Allow inline styles for theme components
+  })
+);
+
+// Enable CORS for development
+app.use(cors());
+
+// Serve static files from the project root
+app.use(
+  serveStatic(path.join(__dirname), {
+    index: false,
+    dotfiles: "ignore",
+  })
+);
+
+// Route for components
+app.use("/components", express.static(path.join(__dirname, "components")));
+
+// Route for themes
+app.use("/themes", express.static(path.join(__dirname, "themes")));
+
+// Route for CSS
+app.use("/css", express.static(path.join(__dirname, "css")));
+
+// Route for docs with directory index
+app.use(
+  "/docs",
+  express.static(path.join(__dirname, "docs"), {
+    index: "index.html",
+    extensions: ["html", "htm"],
+  })
+);
+
+// Route for pages
+app.use("/pages", express.static(path.join(__dirname, "pages")));
+
+// Route for html
+app.use("/html", express.static(path.join(__dirname, "html")));
+
+// Route for wb directory
+app.use("/wb", express.static(path.join(__dirname, "wb")));
+
+// Legacy routes for backward compatibility
+app.get("/wb.html", (req: Request, res: Response) => {
+  res.redirect("/wb/wb.html");
+});
+
+app.get("/website-builder.html", (req: Request, res: Response) => {
+  res.redirect("/wb/wb.html");
+});
+
+app.get("/website_template_generator.html", (req: Request, res: Response) => {
+  res.redirect("/html/pages/website_template_generator.html");
+});
+
+app.get("/test-dynamic-pages.html", (req: Request, res: Response) => {
+  res.redirect("/html/pages/test-dynamic-pages.html");
+});
+
+// Theme component redirects
+app.get("/themes/generator/component/:file", (req: Request, res: Response) => {
+  res.redirect(`/themes/components/${req.params.file}`);
+});
+
+// Default route to serve wb.html directly
+app.get("/", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "wb", "wb.html"));
+});
+
+// API endpoint to list available components
+app.get("/api/components", async (req: Request, res: Response) => {
+  try {
+    const componentsDir = path.join(__dirname, "components");
+    const components = await fs.readdir(componentsDir, { withFileTypes: true });
+    const componentNames = components
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
+
+    res.json({
+      components: componentNames,
+      success: true,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      error: "Could not read components directory",
+      success: false,
+      details: error.message,
+    });
+  }
+});
+
+// API endpoint to list available themes
+app.get("/api/themes", async (req: Request, res: Response) => {
+  try {
+    const themesDir = path.join(__dirname, "themes");
+    const files = await fs.readdir(themesDir);
+    const themes = files
+      .filter((file) => file.endsWith(".html"))
+      .map((file) => file.replace(".html", ""));
+
+    res.json({
+      themes: themes,
+      success: true,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      error: "Could not read themes directory",
+      success: false,
+      details: error.message,
+    });
+  }
+});
+
+// Error handling middleware
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error("Server error:", err);
+  res.status(500).json({
+    error: "Internal server error",
+    success: false,
+    details: err.message,
+  });
+});
+
+// 404 handler
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    error: `File not found: ${req.url}`,
+    success: false,
+    availableRoutes: [
+      "/",
+      "/components/table/table-theme.html",
+      "/themes/theme-generator.html",
+      "/api/components",
+      "/api/themes",
+      "/mcp/generate",
+      "/mcp/capabilities",
+      "/mcp/health",
+      "/mcp/validate",
+      "/mcp/metrics",
+    ],
+  });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(
+    `🚀 Claude AI Web Builder Server running on http://localhost:${PORT}`
+  );
+  console.log(`📁 Serving files from: ${__dirname}`);
+  console.log(
+    `🎨 Table Theme Demo: http://localhost:${PORT}/components/table/table-theme.html`
+  );
+  console.log(
+    `🔧 Theme Generator: http://localhost:${PORT}/themes/theme-generator.html`
+  );
+  console.log(`\n📊 API Endpoints:`);
+  console.log(`   - http://localhost:${PORT}/api/components`);
+  console.log(`   - http://localhost:${PORT}/api/themes`);
+  console.log(`\n🔌 MCP Server Endpoints:`);
+  console.log(`   - POST http://localhost:${PORT}/mcp/generate`);
+  console.log(`   - GET  http://localhost:${PORT}/mcp/capabilities`);
+  console.log(`   - GET  http://localhost:${PORT}/mcp/health`);
+  console.log(`   - POST http://localhost:${PORT}/mcp/validate`);
+  console.log(`   - GET  http://localhost:${PORT}/mcp/metrics`);
+  console.log(
+    `\n🌐 MCP Integration: Ready for external MCP server connections`
+  );
+});
+
+export default app;

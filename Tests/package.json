@@ -1,0 +1,26 @@
+{
+  "name": "claude-ai-website-builder-tests",
+  "version": "1.0.0",
+  "description": "Playwright test suite for the Claude AI Website Builder",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report",
+    "install-browsers": "playwright install"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "testing",
+    "playwright",
+    "typescript",
+    "web-builder"
+  ],
+  "author": "Claude AI Website Builder Team",
+  "license": "MIT"
+}

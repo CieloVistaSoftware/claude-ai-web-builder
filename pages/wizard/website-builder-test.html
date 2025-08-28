@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Builder - Test Version</title>
+    <!-- Favicon -->
+    <link rel="icon" href="./ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./ziasymbol.svg">
+    
+    
+    <!-- Color System CSS -->
+    <style>
+        :root {
+          /* Golden Ratio Foundation */
+          --golden-ratio: 1.618;
+          --space-xs: 0.25rem;
+          --space-sm: 0.5rem;
+          --space-md: 1rem;
+          --space-lg: calc(1rem * var(--golden-ratio));
+          --space-xl: calc(1rem * var(--golden-ratio) * var(--golden-ratio));
+          
+          /* Colors */
+          --primary: #007bff;
+          --primary-dark: #0056b3;
+          --primary-contrast: #ffffff;
+          --accent: #28a745;
+          --neutral-50: #f8f9fa;
+          --surface: #ffffff;
+          --text-primary: #212529;
+          --text-secondary: #6c757d;
+          --border: #dee2e6;
+          --text-standard: 0.875rem;
+          --text-large: 1rem;
+          --text-xl: 1.125rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: var(--space-lg);
+            background: var(--neutral-50);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: var(--space-xl);
+            border-radius: calc(var(--space-xs) * 3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--primary);
+            color: var(--primary-contrast);
+            text-decoration: none;
+            border-radius: calc(var(--space-xs) * 2);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: var(--text-standard);
+            margin: var(--space-sm);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text-primary);
+        }
+
+        .status {
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: calc(var(--space-xs) * 2);
+            background: var(--neutral-50);
+            border-left: 4px solid var(--accent);
+        }
+
+        .website-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+
+        .type-card {
+            border: 2px solid var(--border);
+            border-radius: calc(var(--space-xs) * 2);
+            padding: var(--space-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .type-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .type-card.selected {
+            border-color: var(--primary);
+            background: rgba(0, 123, 255, 0.05);
+        }
+
+        .type-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .simple-wizard {
+            background: var(--surface);
+            border-radius: calc(var(--space-xs) * 2);
+            overflow: hidden;
+            margin-top: var(--space-lg);
+        }
+
+        .wizard-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--primary-contrast);
+            padding: var(--space-lg);
+            text-align: center;
+        }
+
+        .wizard-content {
+            padding: var(--space-xl);
+        }
+
+        .wizard-actions {
+            padding: var(--space-lg);
+            border-top: 1px solid var(--border);
+            background: var(--neutral-50);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Website Builder Test</h1>
+        <p>Testing basic functionality and button interactions.</p>
+
+        <div class="status" id="status">
+            Ready to start building your website!
+        </div>
+
+        <div>
+            <button class="btn" onclick="testBasicButton()">Test Basic Button</button>
+            <button class="btn btn-secondary" onclick="startWizard()">Start Wizard</button>
+            <button class="btn" onclick="testMCP()">Test MCP Connection</button>
+        </div>
+
+        <div id="simple-wizard" class="simple-wizard hidden">
+            <div class="wizard-header">
+                <h2>Simple Website Builder</h2>
+                <p>Choose your website type and we'll create it for you</p>
+            </div>
+            
+            <div class="wizard-content">
+                <h3>What type of website would you like to create?</h3>
+                <div class="website-types">
+                    <div class="type-card" onclick="selectType('portfolio')" data-type="portfolio">
+                        <div class="type-icon">🎨</div>
+                        <h4>Portfolio</h4>
+                        <p>Showcase your work</p>
+                    </div>
+                    
+                    <div class="type-card" onclick="selectType('business')" data-type="business">
+                        <div class="type-icon">🏢</div>
+                        <h4>Business</h4>
+                        <p>Professional website</p>
+                    </div>
+                    
+                    <div class="type-card" onclick="selectType('blog')" data-type="blog">
+                        <div class="type-icon">📝</div>
+                        <h4>Blog</h4>
+                        <p>Share your thoughts</p>
+                    </div>
+                    
+                    <div class="type-card" onclick="selectType('landing')" data-type="landing">
+                        <div class="type-icon">🚀</div>
+                        <h4>Landing Page</h4>
+                        <p>Single-page focus</p>
+                    </div>
+                </div>
+                
+                <div id="selected-info" class="hidden">
+                    <h4>You selected: <span id="selected-type"></span></h4>
+                    <p>Now we'll create your website!</p>
+                </div>
+            </div>
+            
+            <div class="wizard-actions">
+                <button class="btn btn-secondary" onclick="hideWizard()">Cancel</button>
+                <button class="btn" onclick="createWebsite()" id="create-btn" disabled>Create Website</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedWebsiteType = null;
+
+        function updateStatus(message, isError = false) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.style.borderLeftColor = isError ? '#dc3545' : '#28a745';
+        }
+
+        function testBasicButton() {
+            updateStatus('✅ Basic button clicked - JavaScript is working!');
+            console.log('Basic button test successful');
+        }
+
+        function startWizard() {
+            updateStatus('🚀 Starting website builder wizard...');
+            const wizard = document.getElementById('simple-wizard');
+            wizard.classList.remove('hidden');
+            wizard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideWizard() {
+            const wizard = document.getElementById('simple-wizard');
+            wizard.classList.add('hidden');
+            updateStatus('Wizard closed.');
+            selectedWebsiteType = null;
+        }
+
+        function selectType(type) {
+            // Remove previous selection
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            const selectedCard = document.querySelector(`[data-type="${type}"]`);
+            selectedCard.classList.add('selected');
+            
+            // Update state
+            selectedWebsiteType = type;
+            
+            // Show selection info
+            document.getElementById('selected-type').textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            document.getElementById('selected-info').classList.remove('hidden');
+            document.getElementById('create-btn').disabled = false;
+            
+            updateStatus(`Selected: ${type} website`);
+        }
+
+        function createWebsite() {
+            if (!selectedWebsiteType) {
+                updateStatus('❌ Please select a website type first!', true);
+                return;
+            }
+
+            updateStatus('🔨 Creating your website...');
+            
+            // Test MCP endpoint
+            fetch('/mcp/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    website: {
+                        type: selectedWebsiteType
+                    },
+                    content: {
+                        title: `My ${selectedWebsiteType.charAt(0).toUpperCase() + selectedWebsiteType.slice(1)} Website`
+                    },
+                    output: {
+                        format: 'files'
+                    }
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Website generated:', data);
+                if (data.success) {
+                    updateStatus(`✅ ${selectedWebsiteType} website created successfully! Check console for details.`);
+                    
+                    // Show download options (mock for now)
+                    setTimeout(() => {
+                        if (confirm('Website created! Would you like to download it as a ZIP file?')) {
+                            // In a real implementation, this would trigger the actual download
+                            updateStatus('📥 Download would start here...');
+                        }
+                    }, 1000);
+                } else {
+                    updateStatus(`❌ Error: ${data.error || 'Unknown error'}`, true);
+                }
+            })
+            .catch(error => {
+                console.error('Error creating website:', error);
+                updateStatus(`❌ Connection error: ${error.message}`, true);
+            });
+        }
+
+        function testMCP() {
+            updateStatus('🔍 Testing MCP connection...');
+            
+            fetch('/mcp/health')
+            .then(response => response.json())
+            .then(data => {
+                console.log('MCP Health:', data);
+                updateStatus('✅ MCP server is healthy and responding!');
+            })
+            .catch(error => {
+                console.error('MCP connection error:', error);
+                updateStatus('❌ Cannot connect to MCP server', true);
+            });
+        }
+
+        // Auto-test on load
+        window.addEventListener('load', function() {
+            updateStatus('Page loaded successfully - all systems ready!');
+            console.log('Website Builder Test Page loaded');
+        });
+    </script>
+</body>
+</html>

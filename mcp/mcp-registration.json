@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "name": "claude-ai-website-builder",
+    "version": "1.0.0",
+    "description": "Advanced website builder with mathematical theming, golden ratio layouts, and component-based architecture powered by Claude AI",
+    "author": "Claude AI Team",
+    "license": "MIT",
+    "homepage": "https://github.com/claude-ai/website-builder",
+    "repository": "https://github.com/claude-ai/website-builder.git"
+  },
+  "capabilities": {
+    "websiteTypes": [
+      "portfolio",
+      "business", 
+      "blog",
+      "landing",
+      "custom"
+    ],
+    "frameworks": [
+      "vanilla",
+      "html-css-js"
+    ],
+    "features": [
+      "responsive-design",
+      "dark-mode",
+      "theme-customization",
+      "mathematical-spacing",
+      "golden-ratio-layouts",
+      "component-based",
+      "real-time-preview",
+      "table-theming",
+      "hsl-color-system",
+      "glass-morphism"
+    ],
+    "outputFormats": [
+      "files",
+      "zip"
+    ],
+    "styling": [
+      "custom-css",
+      "mathematical-design",
+      "golden-ratio",
+      "hsl-color-system"
+    ]
+  },
+  "integration": {
+    "method": "http",
+    "endpoint": "http://localhost:8000/mcp/generate",
+    "command": null,
+    "module": null,
+    "healthCheck": "http://localhost:8000/mcp/health"
+  },
+  "requirements": {
+    "memory": "256MB",
+    "cpu": "1 core",
+    "disk": "100MB",
+    "dependencies": [
+      "node.js >= 18.0.0",
+      "express >= 4.0.0"
+    ]
+  },
+  "endpoints": {
+    "generate": "/mcp/generate",
+    "capabilities": "/mcp/capabilities", 
+    "health": "/mcp/health",
+    "validate": "/mcp/validate",
+    "metrics": "/mcp/metrics"
+  },
+  "examples": {
+    "portfolio": {
+      "toolName": "claude-ai-website-builder",
+      "website": {
+        "type": "portfolio",
+        "framework": "vanilla",
+        "features": ["responsive-design", "dark-mode", "table-theme"]
+      },
+      "content": {
+        "title": "John Doe Portfolio",
+        "description": "Professional portfolio showcasing my work and skills"
+      },
+      "output": {
+        "format": "files"
+      },
+      "customization": {
+        "primaryColor": "#007acc",
+        "secondaryColor": "#f8f9fa",
+        "accentColor": "#17a2b8"
+      }
+    },
+    "business": {
+      "toolName": "claude-ai-website-builder",
+      "website": {
+        "type": "business",
+        "framework": "vanilla",
+        "features": ["responsive-design", "theme-customization"]
+      },
+      "content": {
+        "title": "Acme Corporation",
+        "description": "Leading solutions for modern businesses"
+      },
+      "output": {
+        "format": "files"
+      }
+    }
+  }
+}

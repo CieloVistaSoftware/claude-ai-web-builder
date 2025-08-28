@@ -1,0 +1,1114 @@
+// MCP Server Integration for Claude AI Website Builder
+// This module makes the existing website builder MCP-compliant
+
+import express, { Request, Response, Application } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import path from 'path';
+import { promises as fs } from 'fs';
+import crypto from 'crypto';
+
+interface WebsiteGeneratorInput {
+  toolName: string;
+  projectId?: string;
+  website: {
+    type: 'portfolio' | 'business' | 'blog' | 'landing' | 'custom';
+    framework?: string;
+    styling?: string;
+    features?: string[];
+  };
+  content: {
+    title: string;
+    description?: string;
+    metadata?: Record<string, any>;
+  };
+  output: {
+    format: 'files' | 'zip';
+    destination?: string;
+    compression?: boolean;
+  };
+  customization?: {
+    primaryColor?: string;
+    secondaryColor?: string;
+    accentColor?: string;
+  };
+  integrations?: string[];
+}
+
+interface GeneratedFile {
+  path: string;
+  content: string;
+  type: 'text' | 'binary';
+  encoding: 'utf8' | 'base64';
+  metadata?: {
+    size: number;
+    checksum?: string;
+    permissions?: string;
+  };
+}
+
+interface ProjectStructure {
+  type: 'website' | 'webapp' | 'static';
+  entryPoint: string;
+  buildScript?: string;
+  dependencies?: Array<{ name: string; version: string }>;
+  devDependencies?: Array<{ name: string; version: string }>;
+}
+
+interface Recommendation {
+  type: 'performance' | 'seo' | 'accessibility' | 'security';
+  message: string;
+  priority: 'low' | 'medium' | 'high';
+  actionable: boolean;
+}
+
+interface WebsiteGeneratorOutput {
+  success: boolean;
+  executionTime: number;
+  files: GeneratedFile[];
+  structure: ProjectStructure;
+  metadata: {
+    framework: string;
+    totalFiles: number;
+    totalSize: number;
+    buildInstructions?: string[];
+    deploymentReady: boolean;
+  };
+  recommendations?: Recommendation[];
+  warnings?: string[];
+  errors?: Array<{
+    code: string;
+    message: string;
+    recoverable: boolean;
+    suggestions?: string[];
+  }>;
+}
+
+interface ValidationResult {
+  valid: boolean;
+  errors: string[];
+}
+
+class MCPClaudeWebsiteBuilder {
+  private requestCount = 0;
+  private successfulRequests = 0;
+  private failedRequests = 0;
+  private averageResponseTime = 0;
+  private filesGenerated = 0;
+  private responseTimes: number[] = [];
+
+  constructor(private app: Application) {
+    this.setupMCPEndpoints();
+  }
+  private setupMCPEndpoints(): void {
+    // Enable JSON parsing for MCP endpoints
+    this.app.use(express.json({ limit: '10mb' }));    // Add middleware to track all MCP requests
+    this.app.use('/mcp', (req: Request, res: Response, next: any) => {
+      console.log(`MCP Middleware triggered for: ${req.method} ${req.path}`);
+      const startTime = Date.now();
+      this.requestCount++;
+      console.log(`Request count incremented to: ${this.requestCount}`);
+      
+      // Track response completion
+      res.on('finish', () => {
+        const responseTime = Date.now() - startTime;
+        this.responseTimes.push(responseTime);
+        
+        // Calculate average response time
+        this.averageResponseTime = this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length;
+        
+        // Keep only last 100 response times to prevent memory bloat
+        if (this.responseTimes.length > 100) {
+          this.responseTimes = this.responseTimes.slice(-100);
+        }
+        
+        // Track success/failure based on status code
+        if (res.statusCode >= 200 && res.statusCode < 400) {
+          this.successfulRequests++;
+        } else {
+          this.failedRequests++;
+        }
+      });
+      
+      next();
+    });
+
+    // MCP-compliant endpoints
+    this.setupGenerateEndpoint();
+    this.setupCapabilitiesEndpoint();
+    this.setupHealthEndpoint();
+    this.setupValidateEndpoint();
+    this.setupMetricsEndpoint();
+  }  private setupGenerateEndpoint(): void {
+    // Main MCP generation endpoint
+    this.app.post('/mcp/generate', async (req: Request, res: Response) => {
+      const startTime = Date.now();
+      this.requestCount++;
+      
+      try {
+        console.log('MCP Generate request received:', JSON.stringify(req.body, null, 2));
+        
+        // Validate MCP input
+        const validation = this.validateMCPInput(req.body);
+        if (!validation.valid) {
+          this.failedRequests++;
+          return res.status(400).json({
+            success: false,
+            error: `Invalid input: ${validation.errors.join(', ')}`,
+            files: [],
+            structure: { type: 'website', entryPoint: 'index.html' },
+            metadata: { framework: 'unknown', totalFiles: 0, totalSize: 0, deploymentReady: false }
+          });
+        }
+
+        // Generate website using existing components
+        const result = await this.generateWebsiteFromComponents(req.body);
+        
+        const responseTime = Date.now() - startTime;
+        this.responseTimes.push(responseTime);
+        this.averageResponseTime = this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length;
+        if (this.responseTimes.length > 100) {
+          this.responseTimes = this.responseTimes.slice(-100);
+        }
+        this.successfulRequests++;
+        
+        res.json(result);
+
+      } catch (error: any) {
+        console.error('MCP Generation error:', error);
+        this.failedRequests++;
+        res.status(500).json({
+          success: false,
+          error: error.message,
+          files: [],
+          structure: { type: 'website', entryPoint: 'index.html' },
+          metadata: { framework: 'unknown', totalFiles: 0, totalSize: 0, deploymentReady: false }
+        });
+      }
+    });
+
+    // GET endpoint for MCP generate - provides usage information
+    this.app.get('/mcp/generate', (req: Request, res: Response) => {
+      res.type('html').send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MCP Generate Endpoint</title>
+            <style>
+                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+                .code { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+                .endpoint { color: #007bff; font-weight: bold; }
+                .method { color: #28a745; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <h1>MCP Generate Endpoint</h1>
+            <p>This endpoint generates websites using the Model Context Protocol (MCP).</p>
+            
+            <h2>Usage</h2>
+            <p>Send a <span class="method">POST</span> request to <span class="endpoint">/mcp/generate</span> with the following structure:</p>
+            
+            <div class="code">
+<pre>{
+  "toolName": "website_generator",
+  "website": {
+    "type": "portfolio",
+    "framework": "vanilla",
+    "styling": "modern"
+  },
+  "content": {
+    "title": "My Website",
+    "description": "A beautiful website"
+  },
+  "output": {
+    "format": "files"
+  }
+}</pre>
+            </div>
+
+            <h2>Test Pages</h2>
+            <ul>
+                <li><a href="/mcp-demo.html">MCP Demo Page</a> - Interactive demo</li>
+                <li><a href="/mcp-test.html">MCP Test Page</a> - Test interface</li>
+                <li><a href="/mcp-generated-sample.html">Generated Sample</a> - Example output</li>
+            </ul>
+
+            <h2>Other MCP Endpoints</h2>
+            <ul>
+                <li><a href="/mcp/capabilities">GET /mcp/capabilities</a> - Server capabilities</li>
+                <li><a href="/mcp/health">GET /mcp/health</a> - Health check</li>
+                <li><a href="/mcp/metrics">GET /mcp/metrics</a> - Server metrics</li>
+            </ul>
+        </body>
+        </html>
+      `);
+    });
+  }
+  private setupCapabilitiesEndpoint(): void {
+    this.app.get('/mcp/capabilities', async (req: Request, res: Response) => {
+      const startTime = Date.now();
+      this.requestCount++;
+      
+      try {
+        const components = await this.getAvailableComponents();
+        const themes = await this.getAvailableThemes();
+
+        const result = {
+          name: 'claude-ai-website-builder',
+          version: '1.0.0',
+          description: 'Claude AI Website Builder with advanced theming and component system',
+          author: 'Claude AI Team',
+          apiVersion: '1.0',
+          capabilities: {
+            websiteTypes: ['portfolio', 'business', 'blog', 'landing', 'custom'],
+            frameworks: ['vanilla', 'html-css-js'],
+            features: [
+              'responsive-design',
+              'dark-mode',
+              'theme-customization',
+              'mathematical-spacing',
+              'golden-ratio-layouts',
+              'component-based',
+              'real-time-preview'
+            ],
+            outputFormats: ['files', 'zip'],
+            components: components,
+            themes: themes,
+            styling: ['custom-css', 'mathematical-design', 'golden-ratio', 'hsl-color-system']
+          },
+          integration: {
+            method: 'http',
+            endpoint: '/mcp/generate',
+            healthCheck: '/mcp/health'
+          },
+          requirements: {
+            memory: '256MB',
+            cpu: '1 core',
+            disk: '100MB'
+          }
+        };
+        
+        const responseTime = Date.now() - startTime;
+        this.responseTimes.push(responseTime);
+        this.averageResponseTime = this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length;
+        if (this.responseTimes.length > 100) {
+          this.responseTimes = this.responseTimes.slice(-100);
+        }
+        this.successfulRequests++;
+        
+        res.json(result);
+      } catch (error: any) {
+        this.failedRequests++;
+        res.status(500).json({ error: 'Failed to get capabilities', details: error.message });
+      }
+    });
+  }
+  private setupHealthEndpoint(): void {
+    this.app.get('/mcp/health', (req: Request, res: Response) => {
+      const startTime = Date.now();
+      this.requestCount++;
+      
+      const result = {
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        version: '1.0.0',
+        services: {
+          server: 'running',
+          components: 'available',
+          themes: 'available'
+        }
+      };
+      
+      const responseTime = Date.now() - startTime;
+      this.responseTimes.push(responseTime);
+      this.averageResponseTime = this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length;
+      if (this.responseTimes.length > 100) {
+        this.responseTimes = this.responseTimes.slice(-100);
+      }
+      this.successfulRequests++;
+      
+      res.json(result);
+    });
+  }
+  private setupValidateEndpoint(): void {
+    this.app.post('/mcp/validate', (req: Request, res: Response) => {
+      const startTime = Date.now();
+      this.requestCount++;
+      
+      const validation = this.validateMCPInput(req.body);
+      
+      const responseTime = Date.now() - startTime;
+      this.responseTimes.push(responseTime);
+      this.averageResponseTime = this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length;
+      if (this.responseTimes.length > 100) {
+        this.responseTimes = this.responseTimes.slice(-100);
+      }
+      this.successfulRequests++;
+      
+      res.json(validation);
+    });
+
+    // GET endpoint for MCP validate - provides validation information
+    this.app.get('/mcp/validate', (req: Request, res: Response) => {
+      res.type('html').send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MCP Validate Endpoint</title>
+            <style>
+                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+                .code { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+                .endpoint { color: #007bff; font-weight: bold; }
+                .method { color: #28a745; font-weight: bold; }
+                .required { color: #dc3545; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <h1>MCP Validate Endpoint</h1>
+            <p>This endpoint validates MCP input before website generation.</p>
+            
+            <h2>Usage</h2>
+            <p>Send a <span class="method">POST</span> request to <span class="endpoint">/mcp/validate</span> with your website configuration to check if it's valid.</p>
+            
+            <h2>Required Fields</h2>
+            <ul>
+                <li><span class="required">website.type</span> - Website type (portfolio, business, blog, landing, custom)</li>
+                <li><span class="required">content.title</span> - Website title</li>
+            </ul>
+
+            <h2>Example Request</h2>
+            <div class="code">
+<pre>{
+  "website": {
+    "type": "portfolio",
+    "framework": "vanilla",
+    "styling": "modern"
+  },
+  "content": {
+    "title": "My Portfolio",
+    "description": "Professional portfolio website"
+  },
+  "output": {
+    "format": "files"
+  }
+}</pre>
+            </div>
+
+            <h2>Example Response</h2>
+            <div class="code">
+<pre>{
+  "valid": true,
+  "errors": [],
+  "warnings": []
+}</pre>
+            </div>
+
+            <p><a href="/mcp/generate">← Back to MCP Generate</a></p>
+        </body>
+        </html>
+      `);
+    });
+  }
+  private setupMetricsEndpoint(): void {
+    this.app.get('/mcp/metrics', (req: Request, res: Response) => {
+      // Don't count the metrics endpoint itself
+      res.json({
+        requests: {
+          total: this.requestCount,
+          successful: this.successfulRequests,
+          failed: this.failedRequests,
+          averageResponseTime: this.averageResponseTime
+        },
+        resources: {
+          memoryUsage: process.memoryUsage(),
+          cpuUsage: process.cpuUsage(),
+          uptime: process.uptime()
+        },
+        generation: {
+          filesGenerated: this.filesGenerated,
+          popularComponents: ['table-theme', 'theme-generator'],
+          popularThemes: ['dark-mode', 'custom-colors']
+        }
+      });
+    });
+  }
+
+  private validateMCPInput(input: any): ValidationResult {
+    const errors: string[] = [];
+
+    // Required fields validation
+    if (!input.website?.type) {
+      errors.push('website.type is required');
+    }
+
+    if (!input.content?.title) {
+      errors.push('content.title is required');
+    }
+
+    if (!input.output?.format) {
+      errors.push('output.format is required');
+    }
+
+    // Validate website type
+    const validTypes = ['portfolio', 'business', 'blog', 'landing', 'custom'];
+    if (input.website?.type && !validTypes.includes(input.website.type)) {
+      errors.push(`website.type must be one of: ${validTypes.join(', ')}`);
+    }
+
+    // Validate output format
+    const validFormats = ['files', 'zip'];
+    if (input.output?.format && !validFormats.includes(input.output.format)) {
+      errors.push(`output.format must be one of: ${validFormats.join(', ')}`);
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors: errors
+    };
+  }
+
+  private async generateWebsiteFromComponents(mcpInput: WebsiteGeneratorInput): Promise<WebsiteGeneratorOutput> {
+    const files: GeneratedFile[] = [];
+
+    // Generate main HTML file using existing components
+    const htmlContent = await this.generateHTMLWithComponents(mcpInput);
+    files.push({
+      path: 'index.html',
+      content: htmlContent,
+      type: 'text',
+      encoding: 'utf8',
+      metadata: {
+        size: htmlContent.length,
+        checksum: this.generateChecksum(htmlContent)
+      }
+    });
+
+    // Include the core CSS system
+    const cssContent = await this.generateCSSWithThemes(mcpInput);
+    files.push({
+      path: 'css/styles.css',
+      content: cssContent,
+      type: 'text',
+      encoding: 'utf8',
+      metadata: {
+        size: cssContent.length,
+        checksum: this.generateChecksum(cssContent)
+      }
+    });
+
+    // Include component-specific files
+    if (mcpInput.website.features?.includes('table-theme')) {
+      const tableHTML = await this.getComponentHTML('table/table-theme.html');
+      files.push({
+        path: 'components/table-theme.html',
+        content: tableHTML,
+        type: 'text',
+        encoding: 'utf8'
+      });
+    }
+
+    // Include theme generator if requested
+    if (mcpInput.website.features?.includes('theme-generator')) {
+      const themeHTML = await this.getThemeHTML('theme-generator.html');
+      files.push({
+        path: 'components/theme-generator.html',
+        content: themeHTML,
+        type: 'text',
+        encoding: 'utf8'
+      });
+    }
+
+    // Generate JavaScript for interactivity
+    const jsContent = this.generateJavaScript(mcpInput);
+    files.push({
+      path: 'js/main.js',
+      content: jsContent,
+      type: 'text',
+      encoding: 'utf8'
+    });
+
+    this.filesGenerated += files.length;
+
+    return {
+      success: true,
+      executionTime: 0, // Will be set by caller
+      files: files,
+      structure: {
+        type: 'website',
+        entryPoint: 'index.html',
+        dependencies: [],
+        devDependencies: []
+      },
+      metadata: {
+        framework: 'claude-ai-website-builder',
+        totalFiles: files.length,
+        totalSize: files.reduce((sum, file) => sum + file.content.length, 0),
+        buildInstructions: [
+          'Open index.html in a web browser',
+          'Or serve with any static file server',
+          'Components are self-contained and interactive'
+        ],
+        deploymentReady: true
+      },
+      recommendations: [
+        {
+          type: 'performance',
+          message: 'Consider enabling compression for production deployment',
+          priority: 'medium',
+          actionable: true
+        },
+        {
+          type: 'seo',
+          message: 'Add meta description and Open Graph tags for better SEO',
+          priority: 'high',
+          actionable: true
+        }
+      ]
+    };
+  }
+
+  private async generateHTMLWithComponents(mcpInput: WebsiteGeneratorInput): Promise<string> {
+    const title = mcpInput.content.title;
+    const description = mcpInput.content.description || `Welcome to ${title}`;
+    
+    // Load base CSS
+    const baseCSS = await this.loadWBCSS();
+    
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <meta name="description" content="${description}">
+    <meta name="generator" content="Claude AI Website Builder v1.0.0">
+    
+    <!-- Claude AI Website Builder Core Styles -->
+    <style>
+        ${baseCSS}
+        
+        /* Component-specific enhancements */
+        .claude-website {
+            --primary-color: ${mcpInput.customization?.primaryColor || '#007acc'};
+            --secondary-color: ${mcpInput.customization?.secondaryColor || '#f8f9fa'};
+            --accent-color: ${mcpInput.customization?.accentColor || '#17a2b8'};
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: calc(var(--space-xl) * var(--golden-ratio));
+            text-align: center;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .component-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin: var(--space-xl) 0;
+        }
+        
+        .component-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        
+        .component-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+<body class="claude-website">
+    <header class="hero-section">
+        <h1>${title}</h1>
+        <p class="lead">${description}</p>
+        <div class="theme-controls">
+            <button onclick="toggleTheme()" class="btn btn-secondary">Toggle Theme</button>
+            <button onclick="openColorPicker()" class="btn btn-accent">Customize Colors</button>
+        </div>
+    </header>
+
+    <main class="container">
+        ${this.generateContentByType(mcpInput.website.type, mcpInput)}
+        
+        ${mcpInput.website.features?.includes('table-theme') ? this.generateTableSection() : ''}
+        ${mcpInput.website.features?.includes('theme-generator') ? this.generateThemeSection() : ''}
+    </main>
+
+    <footer class="text-center" style="margin-top: var(--space-xl); padding: var(--space-lg); border-top: 1px solid var(--border-color);">
+        <p>&copy; 2025 ${title}. Built with Claude AI Website Builder.</p>
+        <p class="text-sm text-secondary">Powered by mathematical design principles and golden ratio layouts.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>`;
+  }
+
+  private generateContentByType(type: string, mcpInput: WebsiteGeneratorInput): string {
+    const title = mcpInput.content.title;
+    
+    switch (type) {
+      case 'portfolio':
+        return `
+        <section class="component-showcase">
+            <div class="component-card">
+                <h3>Project Showcase</h3>
+                <p>Display your work with advanced table theming and mathematical layouts.</p>
+                <div class="table-container">
+                    <table class="claude-table">
+                        <thead>
+                            <tr><th>Project</th><th>Technology</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Portfolio Site</td><td>Claude AI Builder</td><td>Complete</td></tr>
+                            <tr><td>Theme System</td><td>Mathematical CSS</td><td>Active</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="component-card">
+                <h3>Skills & Expertise</h3>
+                <p>Interactive components with real-time theme updates.</p>
+            </div>
+        </section>`;
+        
+      case 'business':
+        return `
+        <section class="component-showcase">
+            <div class="component-card">
+                <h3>Our Services</h3>
+                <p>Professional solutions with Claude AI integration.</p>
+            </div>
+            <div class="component-card">
+                <h3>Why Choose Us</h3>
+                <ul>
+                    <li>AI-powered website generation</li>
+                    <li>Mathematical design principles</li>
+                    <li>Real-time theme customization</li>
+                    <li>Component-based architecture</li>
+                </ul>
+            </div>
+            <div class="component-card">
+                <h3>Contact Information</h3>
+                <p>Get in touch to discuss your project needs.</p>
+            </div>
+        </section>`;
+        
+      case 'blog':
+        return `
+        <section class="component-showcase">
+            <article class="component-card">
+                <h3>Welcome to ${title}</h3>
+                <p class="text-sm text-secondary">Published today</p>
+                <p>This blog was generated using Claude AI Website Builder with advanced theming capabilities.</p>
+            </article>
+            <article class="component-card">
+                <h3>About Mathematical Design</h3>
+                <p class="text-sm text-secondary">Design principles</p>
+                <p>Learn how golden ratio proportions create visually appealing layouts.</p>
+            </article>
+        </section>`;
+        
+      case 'landing':
+        return `
+        <section class="component-showcase">
+            <div class="component-card text-center">
+                <h3>Key Features</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>🎨 Advanced Theming</h4>
+                        <p>Mathematical color relationships</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📐 Golden Ratio Layouts</h4>
+                        <p>Proportional design system</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔄 Real-time Updates</h4>
+                        <p>Instant visual feedback</p>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+        
+      default:
+        return `
+        <section class="component-showcase">
+            <div class="component-card">
+                <h3>Welcome to ${title}</h3>
+                <p>This website was generated using Claude AI Website Builder.</p>
+                <p>Features include advanced theming, mathematical layouts, and component-based architecture.</p>
+            </div>
+        </section>`;
+    }
+  }
+
+  private generateTableSection(): string {
+    return `
+    <section class="component-showcase">
+        <div class="component-card">
+            <h3>Advanced Table Theming</h3>
+            <p>Interactive tables with mathematical color inheritance.</p>
+            <div class="table-theme-demo">
+                <table class="claude-table enhanced-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Status</th>
+                            <th>Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Color Inheritance</td>
+                            <td class="status-active">Active</td>
+                            <td>98%</td>
+                        </tr>
+                        <tr>
+                            <td>Golden Ratio Spacing</td>
+                            <td class="status-active">Active</td>
+                            <td>100%</td>
+                        </tr>
+                        <tr>
+                            <td>Theme Responsiveness</td>
+                            <td class="status-active">Active</td>
+                            <td>95%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>`;
+  }
+
+  private generateThemeSection(): string {
+    return `
+    <section class="component-showcase">
+        <div class="component-card">
+            <h3>Theme Generator</h3>
+            <p>Real-time color customization with mathematical relationships.</p>
+            <div class="theme-controls-demo">
+                <div class="color-picker-demo">
+                    <label>Primary Color: <input type="color" id="primaryColor" value="#007acc"></label>
+                    <label>Secondary Color: <input type="color" id="secondaryColor" value="#f8f9fa"></label>
+                    <label>Accent Color: <input type="color" id="accentColor" value="#17a2b8"></label>
+                </div>
+            </div>
+        </div>
+    </section>`;
+  }
+
+  private async generateCSSWithThemes(mcpInput: WebsiteGeneratorInput): Promise<string> {
+    const baseCSS = await this.loadWBCSS();
+    
+    return `${baseCSS}
+
+/* MCP Generated Theme Enhancements */
+:root {
+    --mcp-primary: ${mcpInput.customization?.primaryColor || '#007acc'};
+    --mcp-secondary: ${mcpInput.customization?.secondaryColor || '#f8f9fa'};
+    --mcp-accent: ${mcpInput.customization?.accentColor || '#17a2b8'};
+}
+
+/* Enhanced component styling */
+.claude-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-md) 0;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.claude-table th,
+.claude-table td {
+    padding: calc(var(--space-sm) * var(--golden-ratio));
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.claude-table th {
+    background-color: var(--mcp-primary);
+    color: white;
+    font-weight: 600;
+}
+
+.claude-table tbody tr:hover {
+    background-color: var(--mcp-secondary);
+}
+
+.status-active {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.btn {
+    padding: calc(var(--space-sm) * var(--golden-ratio)) var(--space-md);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary {
+    background-color: var(--mcp-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-accent {
+    background-color: var(--mcp-accent);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+    .component-showcase {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-section {
+        padding: var(--space-lg);
+    }
+}`;
+  }
+
+  private generateJavaScript(mcpInput: WebsiteGeneratorInput): string {
+    return `// Claude AI Website Builder - Generated JavaScript
+// Mathematical theme system with real-time updates
+
+class ClaudeThemeSystem {
+    private currentTheme: string;
+    private colors: Record<string, string>;
+
+    constructor() {
+        this.currentTheme = 'light';
+        this.colors = {
+            primary: '${mcpInput.customization?.primaryColor || '#007acc'}',
+            secondary: '${mcpInput.customization?.secondaryColor || '#f8f9fa'}',
+            accent: '${mcpInput.customization?.accentColor || '#17a2b8'}'
+        };
+        this.init();
+    }
+
+    init(): void {
+        this.bindEvents();
+        this.applyGoldenRatioSpacing();
+    }
+
+    bindEvents(): void {
+        // Color picker events
+        const colorInputs = document.querySelectorAll('input[type="color"]') as NodeListOf<HTMLInputElement>;
+        colorInputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                const target = e.target as HTMLInputElement;
+                this.updateColor(target.id, target.value);
+            });
+        });
+    }
+
+    updateColor(colorType: string, value: string): void {
+        const colorVar = '--mcp-' + colorType.replace('Color', '');
+        document.documentElement.style.setProperty(colorVar, value);
+        this.colors[colorType.replace('Color', '')] = value;
+    }
+
+    applyGoldenRatioSpacing(): void {
+        const goldenRatio = 1.618;
+        const elements = document.querySelectorAll('.component-card') as NodeListOf<HTMLElement>;
+        
+        elements.forEach((el, index) => {
+            const delay = (index * 100) / goldenRatio;
+            el.style.animationDelay = delay + 'ms';
+            el.classList.add('fade-in');
+        });
+    }
+
+    toggleTheme(): void {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        document.body.classList.toggle('dark-theme');
+        
+        if (this.currentTheme === 'dark') {
+            document.documentElement.style.setProperty('--background-color', '#1a1a1a');
+            document.documentElement.style.setProperty('--text-primary', '#ffffff');
+            document.documentElement.style.setProperty('--surface-color', '#2a2a2a');
+        } else {
+            document.documentElement.style.setProperty('--background-color', '#ffffff');
+            document.documentElement.style.setProperty('--text-primary', '#333333');
+            document.documentElement.style.setProperty('--surface-color', '#f8f9fa');
+        }
+    }
+}
+
+// Global functions
+const themeSystem = new ClaudeThemeSystem();
+
+function toggleTheme(): void {
+    themeSystem.toggleTheme();
+}
+
+function openColorPicker(): void {
+    const colorPicker = document.querySelector('.color-picker-demo') as HTMLElement;
+    if (colorPicker) {
+        colorPicker.style.display = colorPicker.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+// Add fade-in animation
+const style = document.createElement('style');
+style.textContent = \`
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+    
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+\`;
+document.head.appendChild(style);
+
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Claude AI Website Builder initialized');
+    console.log('Theme system active with mathematical spacing');
+});`;
+  }
+  private async loadWBCSS(): Promise<string> {
+    try {
+      const cssPath = path.join(process.cwd(), 'wb', 'wb.css');
+      return await fs.readFile(cssPath, 'utf8');
+    } catch (error) {
+      console.log('wb/wb.css not found, using fallback CSS');
+      return this.getFallbackCSS();
+    }
+  }
+
+  private getFallbackCSS(): string {
+    return `/* Claude AI Website Builder - Core CSS System */
+:root {
+    --golden-ratio: 1.618;
+    --inverse-golden-ratio: 0.618;
+    
+    /* Spacing system based on golden ratio */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: calc(1rem * var(--golden-ratio));
+    --space-xl: calc(1rem * var(--golden-ratio) * var(--golden-ratio));
+    
+    /* Colors */
+    --primary-color: #007acc;
+    --secondary-color: #f8f9fa;
+    --accent-color: #17a2b8;
+    --background-color: #ffffff;
+    --surface-color: #f8f9fa;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #e5e7eb;
+    --success-color: #28a745;
+    
+    /* Border radius */
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 1rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: var(--golden-ratio);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+.text-center { text-align: center; }
+.text-sm { font-size: 0.875rem; }
+.text-secondary { color: var(--text-secondary); }
+.lead { font-size: 1.25rem; font-weight: 300; }`;
+  }
+
+  private async getAvailableComponents(): Promise<string[]> {
+    try {
+      const componentsDir = path.join(process.cwd(), 'components');
+      const components = await fs.readdir(componentsDir, { withFileTypes: true });
+      return components
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+    } catch (error) {
+      return ['table', 'theme', 'registry'];
+    }
+  }
+
+  private async getAvailableThemes(): Promise<string[]> {
+    try {
+      const themesDir = path.join(process.cwd(), 'themes');
+      const themes = await fs.readdir(themesDir);
+      return themes
+        .filter(file => file.endsWith('.html'))
+        .map(file => file.replace('.html', ''));
+    } catch (error) {
+      return ['theme-generator', 'hsl-color-picker', 'hue-color-slider'];
+    }
+  }
+
+  private async getComponentHTML(componentPath: string): Promise<string> {
+    try {
+      const fullPath = path.join(process.cwd(), 'components', componentPath);
+      return await fs.readFile(fullPath, 'utf8');
+    } catch (error) {
+      return `<!-- Component ${componentPath} not found -->`;
+    }
+  }
+
+  private async getThemeHTML(themePath: string): Promise<string> {
+    try {
+      const fullPath = path.join(process.cwd(), 'themes', themePath);
+      return await fs.readFile(fullPath, 'utf8');
+    } catch (error) {
+      return `<!-- Theme ${themePath} not found -->`;
+    }
+  }
+  private generateChecksum(content: string): string {
+    return crypto.createHash('md5').update(content).digest('hex');
+  }
+}
+
+export default MCPClaudeWebsiteBuilder;

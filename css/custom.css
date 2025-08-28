@@ -1,0 +1,99 @@
+/* custom.css - project-specific styles and CSS variables */
+:root {
+  /* Golden Ratio Foundation */
+  --golden-ratio: 1.618;
+  --inverse-golden-ratio: 0.618;
+  /* Layout Dimensions */
+  --header-height: 20vh;
+  --nav-width: calc(100vw / (var(--golden-ratio) * 2.75));
+  --content-padding: calc(1rem * var(--golden-ratio));
+  --grid-gap: 1rem;
+  /* Typography Scale */
+  --text-tiny: 0.75rem;
+  --text-small: 0.813rem;
+  --text-standard: 0.875rem;
+  --text-medium: 0.938rem;
+  --text-large: 1rem;
+  --text-xl: 1.125rem;
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: calc(1rem * var(--golden-ratio));
+  --space-xl: calc(1rem * var(--golden-ratio) * var(--golden-ratio));
+}
+
+/* Add custom component styles below */
+
+/* Glass morphism effects */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-hover, var(--glass-bg));
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Generated website layouts */
+.layout-left-nav {
+  display: grid;
+  grid-template-columns: var(--nav-width) 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "nav header"
+    "nav main"
+    "nav footer";
+  gap: var(--grid-gap);
+  min-height: 100vh;
+}
+
+.layout-right-nav {
+  display: grid;
+  grid-template-columns: 1fr var(--nav-width);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header nav"
+    "main nav"
+    "footer nav";
+  gap: var(--grid-gap);
+  min-height: 100vh;
+}
+
+.layout-top-nav {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas:
+    "nav"
+    "header"
+    "main"
+    "footer";
+  gap: var(--grid-gap);
+  min-height: 100vh;
+}
+
+/* Area assignments */
+.header-area { grid-area: header; }
+.nav-area { grid-area: nav; }
+.main-area { grid-area: main; }
+.footer-area { grid-area: footer; }
+
+/* Dark mode support */
+[data-theme="dark"] {
+  color-scheme: dark;
+  
+  --background: var(--dark-background);
+  --surface: var(--dark-surface);
+  --text: var(--dark-text);
+  --text-secondary: var(--dark-text-secondary);
+  --border: var(--dark-border);
+  
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-hover: rgba(255, 255, 255, 0.1);
+}

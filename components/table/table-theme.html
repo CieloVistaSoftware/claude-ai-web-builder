@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Theme Demo</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      
+      th, td {
+        border: 1px solid var(--border-color, #ddd);
+        padding: 8px;
+        text-align: left;
+      }
+      
+      th {
+        background-color: var(--header-bg, #f2f2f2);
+        color: var(--header-text, #333);
+      }
+      
+      tr:nth-child(even) {
+        background-color: var(--row-bg, #f9f9f9);
+      }
+      
+      .theme-controls, .floating-color-control {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+      
+      .control-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      
+      .control-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      .floating-control-content {
+        display: block;
+      }
+      
+      .control-group, .floating-control-group {
+        margin-bottom: 15px;
+      }
+      
+      .control-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      
+      .control-group input[type="range"] {
+        width: 100%;
+        margin-bottom: 5px;
+      }
+      
+      .control-group select {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      
+      .color-display, .color-preview {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        display: inline-block;
+        margin-left: 10px;
+      }
+    </style>
+</head>
+<body>
+    <h1>Table Theme Demo</h1>
+    
+    <div class="theme-controls floating-color-control" id="floating-control">
+      <div class="control-header" id="control-header">
+        <h3>Table Theme Controls</h3>
+        <button class="control-btn" id="minimize-btn">−</button>
+      </div>
+      <div class="floating-control-content">
+        <div class="control-group floating-control-group">
+          <label for="hue-slider">Hue:</label>
+          <input type="range" id="hue-slider" class="floating-color-bar" min="0" max="360" value="200">
+          <span id="hue-value">200</span>
+        </div>
+        
+        <div class="control-group floating-control-group">
+          <label for="saturation-slider">Saturation:</label>
+          <input type="range" id="saturation-slider" class="floating-saturation-slider" min="0" max="100" value="50">
+          <span id="saturation-value">50</span>
+        </div>
+        
+        <div class="control-group floating-control-group">
+          <label for="lightness-slider">Lightness:</label>
+          <input type="range" id="lightness-slider" class="floating-lightness-slider" min="0" max="100" value="75">
+          <span id="lightness-value">75</span>
+        </div>
+        
+        <div class="control-group floating-control-group">
+          <label for="theme-select">Theme:</label>
+          <select id="theme-select" class="floating-theme-select">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="blue">Blue</option>
+          </select>
+        </div>
+        
+        <div class="color-display color-preview" id="color-preview"></div>
+      </div>
+    </div>
+
+    <table id="demo-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Doe</td>
+          <td>25</td>
+          <td>New York</td>
+        </tr>
+        <tr>
+          <td>Jane Smith</td>
+          <td>30</td>
+          <td>Los Angeles</td>
+        </tr>
+        <tr>
+          <td>Bob Johnson</td>
+          <td>35</td>
+          <td>Chicago</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      // Theme functionality
+      const hueSlider = document.getElementById('hue-slider');
+      const saturationSlider = document.getElementById('saturation-slider');
+      const lightnessSlider = document.getElementById('lightness-slider');
+      const themeSelect = document.getElementById('theme-select');
+      const colorPreview = document.getElementById('color-preview');
+      const hueValue = document.getElementById('hue-value');
+      const saturationValue = document.getElementById('saturation-value');
+      const lightnessValue = document.getElementById('lightness-value');
+
+      function updateTheme() {
+        const hue = hueSlider.value;
+        const saturation = saturationSlider.value;
+        const lightness = lightnessSlider.value;
+        
+        const hsl = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        const borderHsl = `hsl(${hue}, ${saturation}%, ${Math.max(0, lightness - 20)}%)`;
+        
+        document.documentElement.style.setProperty('--header-bg', hsl);
+        document.documentElement.style.setProperty('--border-color', borderHsl);
+        
+        if (colorPreview) {
+          colorPreview.style.backgroundColor = hsl;
+        }
+        
+        hueValue.textContent = hue;
+        saturationValue.textContent = saturation;
+        lightnessValue.textContent = lightness;
+      }
+
+      // Event listeners
+      hueSlider.addEventListener('input', updateTheme);
+      saturationSlider.addEventListener('input', updateTheme);
+      lightnessSlider.addEventListener('input', updateTheme);
+
+      themeSelect.addEventListener('change', function() {
+        const theme = this.value;
+        switch(theme) {
+          case 'dark':
+            hueSlider.value = 0;
+            saturationSlider.value = 0;
+            lightnessSlider.value = 20;
+            break;
+          case 'blue':
+            hueSlider.value = 220;
+            saturationSlider.value = 70;
+            lightnessSlider.value = 60;
+            break;
+          default: // light
+            hueSlider.value = 200;
+            saturationSlider.value = 50;
+            lightnessSlider.value = 75;
+        }
+        updateTheme();
+      });
+
+      // Minimize functionality
+      const minimizeBtn = document.getElementById('minimize-btn');
+      const controlContent = document.querySelector('.floating-control-content');
+      
+      if (minimizeBtn && controlContent) {
+        minimizeBtn.addEventListener('click', function() {
+          if (controlContent.style.display === 'none') {
+            controlContent.style.display = 'block';
+            this.textContent = '−';
+          } else {
+            controlContent.style.display = 'none';
+            this.textContent = '+';
+          }
+        });
+      }
+
+      // Initialize
+      updateTheme();
+
+      // Make globals available for tests
+      window.TableThemeDemo = {
+        updateTheme,
+        hueSlider,
+        saturationSlider,
+        lightnessSlider,
+        themeSelect,
+        colorPreview
+      };
+
+      window.colorBarState = {
+        hue: () => parseInt(hueSlider.value),
+        saturation: () => parseInt(saturationSlider.value),
+        lightness: () => parseInt(lightnessSlider.value)
+      };
+
+      window.themeEvents = {
+        updateTheme
+      };
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Table Theme Component Demo - Mathematical Color Inheritance</title>
+    <meta
+      name="description"
+      content="Demonstration of automatic table theming using mathematical formulas and color inheritance from the Claude AI Website Builder design system"
+    />
+    <meta
+      name="keywords"
+      content="table theme, color inheritance, golden ratio, mathematical design, web components"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" href="../../ziasymbol.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="../../ziasymbol.svg" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Table Theme Component Demo" />
+    <meta
+      property="og:description"
+      content="Zero-configuration table theming with mathematical color inheritance"
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- Design System Foundation -->
+    <link rel="stylesheet" href="../../wb/wb.css" />
+
+    <style>
+      /* Additional semantic styling for demo layout */
+      :root {
+        /* Enhanced table-specific variables building on wb.css */
+        --demo-section-spacing: calc(var(--space-lg) * var(--golden-ratio));
+        --demo-card-radius: calc(var(--space-xs) * var(--golden-ratio));
+        --demo-shadow: 0 calc(var(--space-xs) / 2) var(--space-lg)
+          rgba(0, 0, 0, 0.1);
+
+        /* Table theme variables (will be updated by table-theme-component) */
+        --table-bg-color: #ffffff;
+        --table-text-color: #333333;
+        --table-border-color: #e5e7eb;
+        --table-header-bg: #f8f9fa;
+        --table-header-color: #1f2937;
+        --table-hover-color: rgba(59, 130, 246, 0.08);
+        --table-stripe-bg: rgba(0, 0, 0, 0.02);
+        --table-cell-bg: #ffffff;
+        --table-text-secondary: #6b7280;
+        --table-font-size: 14px;
+        --table-sort-icon-color: #9ca3af;
+      }
+
+      body {
+        font-family: var(
+          --font-family-sans,
+          system-ui,
+          -apple-system,
+          sans-serif
+        );
+        line-height: var(--line-height-relaxed, 1.6);
+        color: var(--text-primary, #333);
+        background-color: var(--background, #fff);
+        margin: 0;
+        padding: 0;
+      }
+
+      .demo-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--space-lg);
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: var(--demo-section-spacing);
+        padding: var(--space-xl) var(--space-lg);
+        background: linear-gradient(
+          135deg,
+          var(--primary-light, #e8f0fe),
+          var(--background, #fff)
+        );
+        border-radius: var(--demo-card-radius);
+        box-shadow: var(--demo-shadow);
+      }
+
+      header h1 {
+        margin: 0 0 var(--space-md) 0;
+        color: var(--primary, #007bff);
+        font-size: calc(var(--text-xl) * var(--golden-ratio));
+        font-weight: 700;
+      }
+
+      header p {
+        margin: 0;
+        color: var(--text-secondary, #666);
+        font-size: var(--text-large);
+      }
+
+      .theme-controls {
+        background: var(--surface, #fff);
+        border: 1px solid var(--border-color, #e0e0e0);
+        border-radius: var(--demo-card-radius);
+        padding: var(--space-lg);
+        margin-bottom: var(--demo-section-spacing);
+        box-shadow: var(--demo-shadow);
+      }
+
+      .theme-controls h2 {
+        margin: 0 0 var(--space-md) 0;
+        color: var(--primary, #007bff);
+        font-size: var(--text-xl);
+      }
+
+      .control-group {
+        margin-bottom: var(--space-md);
+      }
+
+      .control-group label {
+        display: block;
+        margin-bottom: var(--space-xs);
+        font-weight: 600;
+        color: var(--text-primary, #333);
+      }
+
+      .slider-wrapper {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+      }
+
+      .slider {
+        flex: 1;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        border-radius: 4px;
+        background: var(--neutral-200, #e5e7eb);
+        outline: none;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--primary, #007bff);
+        cursor: pointer;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--primary, #007bff);
+        cursor: pointer;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .value-display {
+        min-width: 60px;
+        text-align: center;
+        font-family: var(--font-family-mono, monospace);
+        font-size: var(--text-sm);
+        background: var(--neutral-100, #f3f4f6);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: 4px;
+        border: 1px solid var(--border-color, #e0e0e0);
+      }
+
+      .color-preview {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        margin-left: var(--space-sm);
+      }
+
+      .theme-info {
+        background: var(--neutral-50, #f9fafb);
+        border: 1px solid var(--border-color, #e0e0e0);
+        border-radius: var(--demo-card-radius);
+        padding: var(--space-md);
+        margin-bottom: var(--demo-section-spacing);
+      }
+
+      .theme-info h3 {
+        margin: 0 0 var(--space-sm) 0;
+        color: var(--primary, #007bff);
+      }
+
+      .color-values {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--space-sm);
+        font-family: var(--font-family-mono, monospace);
+        font-size: var(--text-sm);
+      }
+
+      .color-value {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+      }
+
+      .color-swatch {
+        width: 16px;
+        height: 16px;
+        border-radius: 2px;
+        border: 1px solid var(--border-color, #e0e0e0);
+      }
+
+      .table-section {
+        margin-bottom: var(--demo-section-spacing);
+      }
+
+      .table-section h2 {
+        color: var(--primary, #007bff);
+        margin-bottom: var(--space-md);
+        font-size: var(--text-xl);
+      }
+
+      .table-section p {
+        color: var(--text-secondary, #666);
+        margin-bottom: var(--space-lg);
+      }
+
+      /* Status badges */
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .status-active {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .status-on-leave {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .status-contract {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+
+      .status-new-hire {
+        background: #f3e8ff;
+        color: #7c2d12;
+      }
+
+      /* Stock indicators */
+      .stock-high {
+        color: #059669;
+        font-weight: 600;
+      }
+
+      .stock-medium {
+        color: #d97706;
+        font-weight: 600;
+      }
+
+      .stock-low {
+        color: #dc2626;
+        font-weight: 600;
+      }
+
+      /* Transaction status */
+      .transaction-completed {
+        color: #059669;
+        font-weight: 600;
+      }
+
+      .transaction-pending {
+        color: #d97706;
+        font-weight: 600;
+      }
+
+      .transaction-failed {
+        color: #dc2626;
+        font-weight: 600;
+      }
+
+      /* Error state */
+      .error-message {
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+        padding: var(--space-md);
+        border-radius: var(--demo-card-radius);
+        margin: var(--space-md) 0;
+      }
+
+      .loading-state {
+        text-align: center;
+        padding: var(--space-xl);
+        color: var(--text-secondary, #666);
+      }
+
+      /* Floating Controls Styles */
+      .floating-color-control {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--surface-color, #ffffff);
+        border: 1px solid var(--border-color, #ddd);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        min-width: 250px;
+      }
+
+      .control-header {
+        background: var(--primary-color, #2563eb);
+        color: white;
+        padding: 12px 16px;
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: move;
+      }
+
+      .control-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 3px;
+        transition: background-color 0.2s;
+      }
+
+      .control-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .floating-control-content {
+        padding: 16px;
+      }
+
+      .floating-control-group {
+        margin-bottom: 16px;
+      }
+
+      .floating-control-group label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: var(--text-color, #333);
+      }
+
+      .floating-control-group input[type="range"] {
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--border-color, #ddd);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .floating-control-group input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--primary-color, #2563eb);
+        cursor: pointer;
+      }
+
+      .floating-control-group input[type="range"]::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--primary-color, #2563eb);
+        cursor: pointer;
+        border: none;
+      }
+
+      .floating-control-group select {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--border-color, #ddd);
+        border-radius: 4px;
+        background: var(--surface-color, #ffffff);
+        color: var(--text-color, #333);
+      }
+
+      .color-preview {
+        width: 100%;
+        height: 40px;
+        border: 1px solid var(--border-color, #ddd);
+        border-radius: 4px;
+        background: var(--primary-color, #2563eb);
+      }
+
+      /* Special slider styles */
+      .color-bar {
+        background: linear-gradient(to right, 
+          hsl(0, 70%, 55%), 
+          hsl(60, 70%, 55%), 
+          hsl(120, 70%, 55%), 
+          hsl(180, 70%, 55%), 
+          hsl(240, 70%, 55%), 
+          hsl(300, 70%, 55%), 
+          hsl(360, 70%, 55%)
+        );
+      }
+              /* Floating controls styles */
+          .floating-color-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 250px;
+          }
+
+          .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+          }
+
+          .control-btn {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+          }
+
+          .floating-control-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          .floating-control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+          }
+
+          .color-preview {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          }
+        </style>
+</head>
+<body>
+    <div class="demo-container">
+        <header>
+            <h1>Table Theme Component Demo</h1>
+            <p>
+                Mathematical color inheritance and automatic theming for data tables.
+                Theme changes affect all tables instantly using HSL color relationships.
+            </p>
+        </header>
+
+        <!-- Theme Controls -->
+        <div class="theme-controls floating-color-control" id="floating-control">
+            <h2>🎨 Color Control</h2>
+            <div class="control-group">
+                <label for="color-bar">Primary Hue</label>
+                <div class="slider-wrapper">
+                    <input
+                        type="range"
+                        id="color-bar"
+                        class="slider"
+                        min="0"
+                        max="360"
+                        value="220"
+                    />
+                    <div id="hue-display" class="value-display">220°</div>
+                    <div id="color-preview" class="color-preview"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="saturation-slider">Saturation</label>
+                <div class="slider-wrapper">
+                    <input
+                        type="range"
+                        id="saturation-slider"
+                        class="slider"
+                        min="0"
+                        max="100"
+                        value="70"
+                    />
+                    <div id="saturation-display" class="value-display">70%</div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="lightness-slider">Lightness</label>
+                <div class="slider-wrapper">
+                    <input
+                        type="range"
+                        id="lightness-slider"
+                        class="slider"
+                        min="10"
+                        max="90"
+                        value="50"
+                    />
+                    <div id="lightness-display" class="value-display">50%</div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="theme-select">Theme Preset</label>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="auto">Auto (System)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Theme Information Display -->
+        <div class="theme-info">
+                      <div class="control-header" id="control-header">
+            <h3>Table Theme Controls</h3>
+            <button class="control-btn" id="minimize-btn">−</button>
+          </div>
+            <div class="color-values" id="theme-values">
+                <!-- Color values will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Floating Controls -->
+        <div id="floating-control" class="floating-color-control">
+            <div id="control-header" class="control-header">
+                <span>Theme Controls</span>
+                <button id="minimize-btn" class="control-btn">-</button>
+            </div>
+            <div class="floating-control-content">
+                <div class="floating-control-group">
+                    <label for="floating-color-bar">Hue</label>
+                    <input type="range" id="floating-color-bar" min="0" max="360" value="220" class="color-bar">
+                </div>
+                <div class="floating-control-group">
+                    <label for="floating-saturation-slider">Saturation</label>
+                    <input type="range" id="floating-saturation-slider" min="0" max="100" value="70" class="saturation-slider">
+                </div>
+                <div class="floating-control-group">
+                    <label for="floating-lightness-slider">Lightness</label>
+                    <input type="range" id="floating-lightness-slider" min="0" max="100" value="55" class="lightness-slider">
+                </div>
+                <div class="floating-control-group">
+                    <label for="floating-theme-select">Theme</label>
+                    <select id="floating-theme-select" class="theme-select">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+                <div class="floating-control-group">
+                    <div id="color-preview" class="color-preview"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Directory Table -->
+        <div class="table-section">
+            <h2>👥 Employee Directory</h2>
+            <p>
+                Interactive employee table with sorting, pagination, and selection. Data loaded from table.json.
+            </p>
+            <table-component 
+                id="employees-table" 
+                sortable 
+                paginated 
+                selectable 
+                striped 
+                bordered>
+                <!-- Automatically inherits theme from color system -->
+            </table-component>
+        </div>
+
+        <!-- Product Catalog Table -->
+        <div class="table-section">
+            <h2>📦 Product Catalog</h2>
+            <p>
+                Compact table layout with custom renderers and mathematical color relationships.
+                Product Catalog Table
+            </p>
+            <table-component 
+                id="products-table" 
+                sortable 
+                paginated 
+                selectable 
+                striped 
+                bordered>
+                <!-- Automatically inherits theme from color system -->
+            </table-component>
+        </div>
+
+        <!-- Transaction History Table -->
+        <div class="table-section">
+            <h2>💳 Transaction History</h2>
+            <p>
+                Financial data table with status indicators and amount formatting.
+            </p>
+            <table-component 
+                id="transactions-table" 
+                sortable 
+                paginated 
+                selectable 
+                striped 
+                bordered>
+                <!-- Automatically inherits theme from color system -->
+            </table-component>
+        </div>
+    </div>
+
+    <!-- Table Component Scripts -->
+    <script type="module" src="../theme/table-component.js"></script>
+    <script type="module" src="../theme/table-theme-component.js"></script>
+
+    <!-- Demo Implementation Script -->
+    <script>
+      // Global color state for theme coordination
+      window.colorBarState = {
+        hue: 220,
+        saturation: 70,
+        lightness: 50,
+      };
+
+      // Demo controller class
+      class TableThemeDemo {
+        constructor() {
+          this.sampleData = {};
+          this.initializeDemo();
+        }
+
+        async initializeDemo() {
+          try {
+            console.log("🚀 Initializing Table Theme Demo...");
+            
+            // Load sample data from table.json
+            await this.loadTableData();
+            
+            // Wait for components to be registered
+            await this.waitForComponents();
+            
+            // Setup all tables with data
+            this.setupTables();
+            
+            // Initialize theme controls
+            this.setupThemeControls();
+            
+            // Setup real-time theme info updates
+            this.setupThemeInfoUpdates();
+            
+            console.log("✅ Table Theme Demo initialized successfully");
+          } catch (error) {
+            console.error("❌ Demo initialization failed:", error);
+            this.showError(error);
+          }
+        }
+
+        async loadTableData() {
+          try {
+            const response = await fetch("./table.json");
+            if (!response.ok) {
+              throw new Error(`Failed to load table.json: ${response.status}`);
+            }
+            this.sampleData = await response.json();
+            console.log("📊 Sample data loaded:", Object.keys(this.sampleData));
+          } catch (error) {
+            console.error("Failed to load table data:", error);
+            // Fallback to empty data sets
+            this.sampleData = { employees: [], products: [], transactions: [] };
+          }
+        }
+
+        async waitForComponents() {
+          // Wait for all required components to be registered
+          const components = ["table-component", "table-theme-component"];
+          for (const component of components) {
+            while (!customElements.get(component)) {
+              await new Promise((resolve) => setTimeout(resolve, 100));
+            }
+          }
+          
+          // Initialize the table theme component with current color state
+          const tableThemeComponent = document.querySelector("table-theme-component");
+          if (tableThemeComponent && typeof colorBarState !== "undefined") {
+            // Trigger initial theme setup
+            this.triggerThemeUpdate();
+          }
+        }
+
+        setupTables() {
+          this.setupEmployeesTable();
+          this.setupProductsTable();
+          this.setupTransactionsTable();
+        }
+
+        setupEmployeesTable() {
+          const table = document.getElementById("employees-table");
+          if (!table || !this.sampleData.employees) return;
+
+          const columns = [
+            { id: "firstName", label: "First Name", sortable: true },
+            { id: "lastName", label: "Last Name", sortable: true },
+            { id: "email", label: "Email", sortable: true },
+            { id: "role", label: "Role", sortable: true },
+            { id: "department", label: "Department", sortable: true },
+            {
+              id: "status",
+              label: "Status",
+              sortable: true,
+              renderer: (val) => {
+                const statusClass = val.toLowerCase().replace(/\s+/g, "-");
+                return `<span class="status-badge status-${statusClass}">${val}</span>`;
+              },
+            },
+            { id: "location", label: "Location", sortable: true },
+          ];
+
+          table.setColumns(columns);
+          table.setData(this.sampleData.employees);
+        }
+
+        setupProductsTable() {
+          const table = document.getElementById("products-table");
+          if (!table || !this.sampleData.products) return;
+
+          const columns = [
+            { id: "id", label: "ID", sortable: true },
+            { id: "name", label: "Product", sortable: true },
+            { id: "category", label: "Category", sortable: true },
+            {
+              id: "price",
+              label: "Price",
+              sortable: true,
+              renderer: (val) => `$${val.toFixed(2)}`,
+            },
+            {
+              id: "stock",
+              label: "Stock",
+              sortable: true,
+              renderer: (val) => {
+                const status = val > 50 ? "high" : val > 10 ? "medium" : "low";
+                return `<span class="stock-${status}">${val}</span>`;
+              },
+            },
+            {
+              id: "rating",
+              label: "Rating",
+              sortable: true,
+              renderer: (val) =>
+                "★".repeat(Math.floor(val)) +
+                "☆".repeat(5 - Math.floor(val)) +
+                ` (${val})`,
+            },
+            {
+              id: "featured",
+              label: "Featured",
+              sortable: true,
+              renderer: (val) => (val ? "✅ Yes" : "❌ No"),
+            },
+          ];
+
+          table.setColumns(columns);
+          table.setData(this.sampleData.products);
+        }
+
+        setupTransactionsTable() {
+          const table = document.getElementById("transactions-table");
+          if (!table || !this.sampleData.transactions) return;
+
+          const columns = [
+            { id: "id", label: "Transaction ID", sortable: true },
+            {
+              id: "date",
+              label: "Date",
+              sortable: true,
+              renderer: (val) => new Date(val).toLocaleDateString(),
+            },
+            { id: "customer", label: "Customer", sortable: true },
+            {
+              id: "amount",
+              label: "Amount",
+              sortable: true,
+              renderer: (val) => `$${val.toLocaleString()}`,
+            },
+            {
+              id: "status",
+              label: "Status",
+              sortable: true,
+              renderer: (val) => {
+                const statusClass = val.toLowerCase();
+                const icon = {
+                  completed: "✅",
+                  pending: "⏳",
+                  failed: "❌",
+                }[statusClass] || "❓";
+                return `${icon} <span class="transaction-${statusClass}">${val}</span>`;
+              },
+            },
+            { id: "paymentMethod", label: "Payment", sortable: true },
+          ];
+
+          table.setColumns(columns);
+          table.setData(this.sampleData.transactions);
+        }
+
+        setupThemeControls() {
+          // Initialize colorBarState if it doesn't exist
+          if (typeof colorBarState === "undefined") {
+            window.colorBarState = {
+              hue: 220,
+              saturation: 70,
+              lightness: 50,
+            };
+          }
+
+          // Setup control event listeners
+          const colorBar = document.getElementById("color-bar");
+          const saturationSlider = document.getElementById("saturation-slider");
+          const lightnessSlider = document.getElementById("lightness-slider");
+          const themeSelect = document.getElementById("theme-select");
+
+          // Initialize slider values from colorBarState
+          if (colorBar) colorBar.value = colorBarState.hue;
+          if (saturationSlider) saturationSlider.value = colorBarState.saturation;
+          if (lightnessSlider) lightnessSlider.value = colorBarState.lightness;
+          if (themeSelect) themeSelect.value = "auto";
+
+          // Initialize displays
+          this.updateValueDisplays();
+          this.setupThemeInfoUpdates();
+
+          // Color bar changes
+          colorBar?.addEventListener("input", (e) => {
+            colorBarState.hue = parseInt(e.target.value);
+            this.updateValueDisplays();
+            this.updateTheme();
+          });
+
+          // Saturation changes
+          saturationSlider?.addEventListener("input", (e) => {
+            colorBarState.saturation = parseInt(e.target.value);
+            this.updateValueDisplays();
+            this.updateTheme();
+          });
+
+          // Lightness changes
+          lightnessSlider?.addEventListener("input", (e) => {
+            colorBarState.lightness = parseInt(e.target.value);
+            this.updateValueDisplays();
+            this.updateTheme();
+          });
+
+          // Theme preset changes
+          themeSelect?.addEventListener("change", (e) => {
+            this.applyThemePreset(e.target.value);
+            this.updateTheme();
+          });
+        }
+
+        updateValueDisplays() {
+          // Update slider displays
+          const hueDisplay = document.getElementById("hue-display");
+          const saturationDisplay = document.getElementById("saturation-display");
+          const lightnessDisplay = document.getElementById("lightness-display");
+          const colorPreview = document.getElementById("color-preview");
+
+          if (hueDisplay) hueDisplay.textContent = `${colorBarState.hue}°`;
+          if (saturationDisplay) saturationDisplay.textContent = `${colorBarState.saturation}%`;
+          if (lightnessDisplay) lightnessDisplay.textContent = `${colorBarState.lightness}%`;
+
+          // Update color preview
+          if (colorPreview) {
+            const previewColor = `hsl(${colorBarState.hue}, ${colorBarState.saturation}%, ${colorBarState.lightness}%)`;
+            colorPreview.style.backgroundColor = previewColor;
+          }
+          
+          // Update slider values to match state
+          const colorBar = document.getElementById("color-bar");
+          const saturationSlider = document.getElementById("saturation-slider");
+          const lightnessSlider = document.getElementById("lightness-slider");
+          
+          if (colorBar && colorBar.value != colorBarState.hue) {
+            colorBar.value = colorBarState.hue;
+          }
+          if (saturationSlider && saturationSlider.value != colorBarState.saturation) {
+            saturationSlider.value = colorBarState.saturation;
+          }
+          if (lightnessSlider && lightnessSlider.value != colorBarState.lightness) {
+            lightnessSlider.value = colorBarState.lightness;
+          }
+        }
+
+        setupThemeInfoUpdates() {
+          // Initial theme info display
+          this.updateThemeInfo();
+        }
+
+        updateThemeInfo() {
+          const themeValuesContainer = document.getElementById("theme-values");
+          if (!themeValuesContainer) return;
+
+          // Calculate theme colors based on current state
+          const { hue, saturation, lightness } = colorBarState;
+          
+          const colors = {
+            primary: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
+            primaryLight: `hsl(${hue}, ${saturation}%, ${Math.min(lightness + 20, 90)}%)`,
+            primaryDark: `hsl(${hue}, ${saturation}%, ${Math.max(lightness - 20, 10)}%)`,
+            accent: `hsl(${(hue + 180) % 360}, ${saturation}%, ${lightness}%)`,
+            background: `hsl(${hue}, ${Math.min(saturation * 0.2, 20)}%, 95%)`,
+            surface: `hsl(${hue}, ${Math.min(saturation * 0.1, 10)}%, 98%)`,
+            border: `hsl(${hue}, ${Math.min(saturation * 0.3, 30)}%, 85%)`,
+          };
+
+          // Generate color value displays
+          themeValuesContainer.innerHTML = Object.entries(colors)
+            .map(([name, value]) => `
+              <div class="color-value">
+                <div class="color-swatch" style="background-color: ${value}"></div>
+                <span>${name}: ${value}</span>
+              </div>
+            `).join('');
+        }
+
+        updateTheme() {
+          // Call the existing triggerThemeUpdate method
+          this.triggerThemeUpdate();
+        }
+
+        triggerThemeUpdate() {
+          // Update theme info display
+          this.updateThemeInfo();
+
+          // Trigger table theme component update
+          const tableThemeComponent = document.querySelector("table-theme-component");
+          if (tableThemeComponent) {
+            tableThemeComponent.updateTheme(colorBarState);
+          }
+
+          // Apply CSS custom properties to document root for immediate visual updates
+          const { hue, saturation, lightness } = colorBarState;
+          document.documentElement.style.setProperty("--primary-hue", hue);
+          document.documentElement.style.setProperty("--primary-saturation", `${saturation}%`);
+          document.documentElement.style.setProperty("--primary-lightness", `${lightness}%`);
+          document.documentElement.style.setProperty("--primary-color", `hsl(${hue}, ${saturation}%, ${lightness}%)`);
+          document.documentElement.style.setProperty("--primary-color-light", `hsl(${hue}, ${saturation}%, ${Math.min(lightness + 20, 90)}%)`);
+          document.documentElement.style.setProperty("--primary-color-dark", `hsl(${hue}, ${saturation}%, ${Math.max(lightness - 20, 10)}%)`);
+
+          // Dispatch custom event for other components
+          document.dispatchEvent(new CustomEvent("themeUpdate", {
+            detail: colorBarState
+          }));
+        }
+
+        applyThemePreset(preset) {
+          switch (preset) {
+            case "light":
+              colorBarState.lightness = 50;
+              break;
+            case "dark":
+              colorBarState.lightness = 20;
+              break;
+            case "auto":
+              // Use system preference
+              const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+              colorBarState.lightness = prefersDark ? 20 : 50;
+              break;
+          }
+          
+          // Update slider values
+          const lightnessSlider = document.getElementById("lightness-slider");
+          if (lightnessSlider) {
+            lightnessSlider.value = colorBarState.lightness;
+          }
+          
+          this.updateValueDisplays();
+        }
+
+        showError(error) {
+          const container = document.querySelector(".demo-container");
+          const errorDiv = document.createElement("div");
+          errorDiv.className = "error-message";
+          errorDiv.innerHTML = `
+            <h3>⚠️ Demo Error</h3>
+            <p><strong>Error:</strong> ${error.message}</p>
+            <p>Please check the console for more details.</p>
+          `;
+          container.insertBefore(errorDiv, container.firstChild);
+        }
+      }
+
+      // Initialize the demo when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        new TableThemeDemo();
+      });
+    </script>
+</body>
+</html>

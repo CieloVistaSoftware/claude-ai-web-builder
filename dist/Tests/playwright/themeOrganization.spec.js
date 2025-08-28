@@ -1,0 +1,131 @@
+"use strict";
+/**
+ * Theme Organization Tests
+ *
+ * Converted from ConsolidatedThemeTests.ps1
+ * This file tests theme-related organization and functionality:
+ *   - Theme directory structure
+ *   - Key theme files existence and location
+ *   - Proper organization of theme components
+ *   - "zzz" prefixed files organization
+ */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("@playwright/test");
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
+// Helper function to get project root path
+function getProjectRoot() {
+    // Get the absolute path to the test file directory (Tests/playwright)
+    const testDir = path.resolve(__dirname);
+    // Go up one directory to get the Tests directory
+    const testsDir = path.dirname(testDir);
+    // Go up one more directory to get the project root
+    return path.dirname(testsDir);
+}
+test_1.test.describe('Theme File Organization Tests', () => {
+    const projectRoot = getProjectRoot();
+    (0, test_1.test)('should have themes directory with key files', async () => {
+        // Check if themes directory exists
+        const themesDir = path.join(projectRoot, 'themes');
+        (0, test_1.expect)(fs.existsSync(themesDir)).toBeTruthy();
+        // Check if key theme files exist
+        const hslColorPickerPath = path.join(themesDir, 'hsl-color-picker.html');
+        const hueColorSliderPath = path.join(themesDir, 'hue-color-slider.html');
+        const themeGeneratorPath = path.join(themesDir, 'theme-generator.html');
+        (0, test_1.expect)(fs.existsSync(hslColorPickerPath)).toBeTruthy();
+        (0, test_1.expect)(fs.existsSync(hueColorSliderPath)).toBeTruthy();
+        (0, test_1.expect)(fs.existsSync(themeGeneratorPath)).toBeTruthy();
+    });
+    (0, test_1.test)('should have no zzz prefixed files in themes directory', async () => {
+        const themesDir = path.join(projectRoot, 'themes');
+        const files = fs.readdirSync(themesDir);
+        // Filter files with 'zzz' prefix
+        const zzzFiles = files.filter(file => file.startsWith('zzz'));
+        // Expect no zzz files in themes directory
+        (0, test_1.expect)(zzzFiles.length).toBe(0);
+    });
+    (0, test_1.test)('should have zzz directory with theme demo component', async () => {
+        // Check if zzz directory exists
+        const zzzDir = path.join(projectRoot, 'zzz');
+        (0, test_1.expect)(fs.existsSync(zzzDir)).toBeTruthy();
+        // Check if theme demo component exists in the zzz directory
+        const zzzThemeDemoPath = path.join(zzzDir, 'zzztheme-demo-component.tsx');
+        (0, test_1.expect)(fs.existsSync(zzzThemeDemoPath)).toBeTruthy();
+    });
+});
+test_1.test.describe('Theme Files Content Tests', () => {
+    (0, test_1.test)('should have proper theme generator implementation', async ({ page }) => {
+        await page.goto('/themes/theme-generator.html');
+        // Check if the page loaded
+        await (0, test_1.expect)(page).toHaveTitle(/Theme Generator|Theme|Generator/i);
+        // Check for theme generation UI elements
+        const colorPicker = await page.locator('.color-picker');
+        await (0, test_1.expect)(colorPicker).toBeVisible();
+        // Check for theme preview elements
+        const themePreview = await page.locator('.theme-preview');
+        await (0, test_1.expect)(themePreview).toBeVisible();
+        // Check for CSS variables generation functionality
+        const hasCssVarsFunction = await page.evaluate(() => {
+            const scriptElements = Array.from(document.querySelectorAll('script'));
+            const scripts = scriptElements.map(script => script.textContent).join('');
+            return scripts.includes('generateCssVars') ||
+                scripts.includes('generateTheme') ||
+                scripts.includes('updateTheme');
+        });
+        (0, test_1.expect)(hasCssVarsFunction).toBeTruthy();
+    });
+    (0, test_1.test)('should have proper HSL color picker implementation', async ({ page }) => {
+        await page.goto('/themes/hsl-color-picker.html');
+        // Check if the page loaded
+        await (0, test_1.expect)(page).toHaveTitle(/HSL Color|Color Picker|HSL/i);
+        // Check for HSL input sliders
+        const hueSlider = await page.locator('input[type="range"]').nth(0);
+        await (0, test_1.expect)(hueSlider).toBeVisible();
+        // Test color picker functionality by moving a slider
+        await hueSlider.fill('180'); // Set hue to 180
+        // Check if the color preview updates
+        const colorPreview = await page.locator('.color-preview');
+        // Wait for any potential color update
+        await page.waitForTimeout(100);
+        // Get the background color after the update
+        const backgroundColor = await colorPreview.evaluate(el => {
+            return window.getComputedStyle(el).backgroundColor;
+        });
+        // Expect the color to be different from default (exact value might vary)
+        (0, test_1.expect)(backgroundColor).not.toBe('rgb(255, 0, 0)'); // Not red
+    });
+});
+//# sourceMappingURL=themeOrganization.spec.js.map

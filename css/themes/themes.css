@@ -1,0 +1,43 @@
+/* themes.css - placeholder for additional theme-specific styles */
+
+/* Theme system variables */
+:root {
+  /* Golden Ratio Foundation */
+  --golden-ratio: 1.618;
+  --inverse-golden-ratio: 0.618;
+  
+  /* Layout Dimensions */
+  --header-height: 20vh;
+  --nav-width: calc(100vw / (var(--golden-ratio) * 2.75));
+  --content-padding: calc(1rem * var(--golden-ratio));
+  --grid-gap: 1rem;
+
+  /* Glass morphism */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 10px;
+  
+  /* Dark mode colors */
+  --dark-background: #121212;
+  --dark-surface: #1e1e1e;
+  --dark-text: #e0e0e0;
+  --dark-text-secondary: #a0a0a0;
+  --dark-border: rgba(255, 255, 255, 0.1);
+
+  /* Light mode colors */
+  --light-background: #ffffff;
+  --light-surface: #f8f8f8;
+  --light-text: #1a1a1a;
+  --light-text-secondary: #666666;
+  --light-border: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode class */
+.dark-mode {
+  --background: var(--dark-background);
+  --surface: var(--dark-surface);
+  --text: var(--dark-text);
+  --text-secondary: var(--dark-text-secondary);
+  --border: var(--dark-border);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+}

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude AI Web Builder</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../../ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../../ziasymbol.svg">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Create professional websites with advanced layouts, themes, and animations">
+    <meta name="keywords" content="website, template, professional, glassmorphism, animation">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="wb.css">
+    
+    <!-- Status Bar Styles -->
+    <style>
+        /* Status Bar Styles */
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 5px 10px;
+            background: var(--surface, #ffffff);
+            border-top: 1px solid var(--border-color, #e0e0e0);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary, #6c757d);
+            z-index: 1000;
+            height: 24px;
+        }
+
+        .status-message {
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-message.success {
+            color: var(--accent-color, #28a745);
+        }
+
+        .status-message.error {
+            color: #dc3545;
+        }
+
+        .status-message.warning {
+            color: #ffc107;
+        }
+
+        .status-message.info {
+            color: var(--primary-color, #007bff);
+        }
+        
+        /* Add padding to body to avoid status bar overlap */
+        body {
+            padding-bottom: 24px;
+        }
+    </style>
+</head>
+<body data-layout="top-nav" data-footer="same-page">
+    <!-- Control Panel -->
+    <div id="control-panel" class="control-panel">
+        <div class="control-panel-header">
+            <h3>Website Builder</h3>
+            <div class="control-panel-actions">
+                <button id="minimize-btn" class="control-btn" title="Minimize">−</button>
+            </div>
+        </div>
+        
+        <div class="control-panel-body">
+            <div class="control-group">
+                <button id="edit-mode-toggle" class="edit-mode-toggle">Edit Mode</button>
+            </div>
+
+            <div class="control-group">
+                <label for="layout-select">Layout Style</label>
+                <select id="layout-select">
+                    <option value="top-nav">Top Navigation</option>
+                    <option value="left-nav">Left Navigation</option>
+                    <option value="right-nav">Right Navigation</option>
+                </select>
+            </div>              <div class="control-group">
+                <label for="color-bar">Color Explorer</label>
+                <div class="color-bar-container">
+                    <div class="color-bar-wrapper">
+                        <input type="range" id="color-bar" min="0" max="360" value="0" class="color-bar-slider" style="background-color: transparent;">
+                        <div id="color-indicator" class="color-bar-current-indicator"></div>
+                    </div>
+                    <div id="color-bar-preview" class="color-bar-preview color-preview-box">#FF0000</div>
+                    <div class="color-adjustment-controls">
+                        <div class="slider-container">
+                            <label for="lightness-slider">Lightness</label>
+                            <input type="range" id="lightness-slider" min="20" max="80" value="50" class="adjustment-slider">
+                        </div>
+                        <div class="slider-container">
+                            <label for="saturation-slider">Saturation</label>
+                            <input type="range" id="saturation-slider" min="30" max="100" value="70" class="adjustment-slider">
+                        </div>
+                    </div>
+                </div>
+              </div>
+              
+              <div class="control-group">
+                <label for="theme-select">Theme</label>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="cyberpunk">Cyberpunk</option>
+                    <option value="ocean">Ocean</option>
+                    <option value="sunset">Sunset</option>
+                    <option value="forest">Forest</option>
+                </select>            </div>
+            
+            <div class="control-group color-controls">
+                <label>Custom Colors</label>
+                <div class="color-sliders">
+                    <div class="color-slider-group">
+                        <label for="primary-color">Primary</label>
+                        <input type="color" id="primary-color" value="#6366f1">
+                        <span class="color-value">#6366f1</span>
+                    </div>
+                    <div class="color-slider-group">
+                        <label for="secondary-color">Secondary</label>
+                        <input type="color" id="secondary-color" value="#64748b">
+                        <span class="color-value">#64748b</span>
+                    </div>
+                    <div class="color-slider-group">
+                        <label for="accent-color">Accent</label>
+                        <input type="color" id="accent-color" value="#10b981">
+                        <span class="color-value">#10b981</span>
+                    </div>
+                </div>
+            </div>            
+            <button id="save-btn" class="btn">Save</button>
+            <button id="reset-btn" class="btn">Reset Content</button>
+        </div>
+    </div>
+
+    <!-- Main Website -->
+    <div id="site-container" class="site-container">
+        <!-- Navigation -->
+        <nav id="site-nav" class="site-nav">
+            <ul id="nav-list" class="nav-list">
+                <li id="nav-item-1"><a id="nav-link-1" href="#home" class="nav-link">Home</a></li>
+                <li id="nav-item-2"><a id="nav-link-2" href="#about" class="nav-link">About</a></li>
+                <li id="nav-item-3"><a id="nav-link-3" href="#services" class="nav-link">Services</a></li>
+                <li id="nav-item-4"><a id="nav-link-4" href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li id="nav-item-5"><a id="nav-link-5" href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <!-- Header -->
+            <header id="site-header" class="site-header">
+                <h1 id="site-title" class="site-title editable" contenteditable="false">Your Amazing Website</h1>
+                <p id="site-subtitle" class="site-subtitle editable" contenteditable="false">Build something beautiful today</p>
+            </header>
+
+            <!-- Hero Section -->
+            <section id="hero-section" class="hero-section">
+                <div id="hero-content" class="hero-content">
+                    <h2 id="hero-title" class="hero-title editable" contenteditable="false">Welcome to the Future</h2>
+                    <p id="hero-description" class="hero-description editable" contenteditable="false">Create stunning websites with our powerful template generator. No coding required.</p>
+                    <button id="cta-button" class="cta-button editable" contenteditable="false">Get Started</button>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features-section" class="content-section">
+                <h2 id="features-title" class="section-title editable" contenteditable="false">Features</h2>
+                <div id="features-grid" class="content-grid">
+                    <div id="feature-card-1" class="content-card">
+                        <span id="feature-icon-1" class="card-icon">🚀</span>
+                        <h3 id="feature-title-1" class="card-title editable" contenteditable="false">Lightning Fast</h3>
+                        <p id="feature-desc-1" class="card-description editable" contenteditable="false">Built for speed and performance. Your website will load instantly.</p>
+                    </div>
+                    <div id="feature-card-2" class="content-card">
+                        <span id="feature-icon-2" class="card-icon">🎨</span>
+                        <h3 id="feature-title-2" class="card-title editable" contenteditable="false">Beautiful Design</h3>
+                        <p id="feature-desc-2" class="card-description editable" contenteditable="false">Choose from multiple themes and customize every aspect of your site.</p>
+                    </div>
+                    <div id="feature-card-3" class="content-card">
+                        <span id="feature-icon-3" class="card-icon">📱</span>
+                        <h3 id="feature-title-3" class="card-title editable" contenteditable="false">Fully Responsive</h3>
+                        <p id="feature-desc-3" class="card-description editable" contenteditable="false">Looks perfect on all devices, from mobile phones to desktop computers.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gallery Section -->
+            <section id="gallery-section" class="content-section">
+                <h2 id="gallery-title" class="section-title editable" contenteditable="false">Gallery</h2>
+                <div id="gallery-grid" class="content-grid">
+                    <div id="gallery-item-1" class="media-placeholder">
+                        <span id="gallery-text-1">Click to add media</span>
+                    </div>
+                    <div id="gallery-item-2" class="media-placeholder">
+                        <span id="gallery-text-2">Click to add media</span>
+                    </div>
+                    <div id="gallery-item-3" class="media-placeholder">
+                        <span id="gallery-text-3">Click to add media</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about-section" class="content-section">
+                <h2 id="about-title" class="section-title editable" contenteditable="false">About Us</h2>
+                <div id="about-card" class="content-card">
+                    <p id="about-description" class="card-description editable" contenteditable="false">We are passionate about creating beautiful, functional websites that help businesses grow. Our template generator makes it easy for anyone to build a professional website without any coding knowledge.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer id="site-footer" class="site-footer">
+            <div id="footer-content" class="footer-content">
+                <p id="footer-copyright" class="editable" contenteditable="false">&copy; 2024 Your Company. All rights reserved.</p>
+                <ul id="footer-links" class="footer-links">
+                    <li id="footer-item-1"><a id="footer-link-1" href="#privacy" class="footer-link">Privacy Policy</a></li>
+                    <li id="footer-item-2"><a id="footer-link-2" href="#terms" class="footer-link">Terms of Service</a></li>
+                    <li id="footer-item-3"><a id="footer-link-3" href="#contact" class="footer-link">Contact</a></li>
+                </ul>
+            </div>        </footer>
+    </div>
+    
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div id="status-message" class="status-message">Ready to edit</div>
+        <div id="status-info"></div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="../../wb/wb.js"></script>
+    
+    <!-- Status Bar Script -->
+    <script>
+        // Status bar utility functions
+        window.updateStatus = function(message, type = 'info') {
+            const statusMessage = document.getElementById('status-message');
+            
+            // Remove all status classes
+            statusMessage.classList.remove('success', 'error', 'warning', 'info');
+            
+            // Add the appropriate class
+            statusMessage.classList.add(type);
+            
+            // Set the message
+            statusMessage.textContent = message;
+            
+            console.log(`Status: [${type}] ${message}`);
+        };
+        
+        // Initialize status bar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Website Builder loaded - Ready to edit', 'success');
+            document.getElementById('status-info').textContent = 'Edit mode: OFF';
+            
+            // Set up right-click context menu for editable elements
+            setupEditableElementsMediaControls();
+        });
+
+        // Global state variables (needed for functionality)
+        let isEditMode = false;
+
+        /**
+         * Sets up media placeholders and add media functionality for all editable elements
+         * - Allows clicking on media placeholders to add media
+         * - Adds ability to insert media above or below any editable element
+         */
+        function setupEditableElementsMediaControls() {
+            // Add context menu for all editable elements
+            document.addEventListener('contextmenu', (e) => {
+                // Only show media context menu in edit mode
+                if (!isEditMode) return;
+
+                // Check if the target is an editable element or within one
+                const editableElement = e.target.closest('.editable');
+                if (editableElement) {
+                    e.preventDefault(); // Prevent the default context menu
+                    showMediaContextMenu(e, editableElement);
+                }
+            });
+
+            // Add info to status bar about right-click functionality
+            const editModeToggle = document.getElementById('edit-mode-toggle');
+            editModeToggle.addEventListener('click', () => {
+                isEditMode = !isEditMode;
+                const body = document.body;
+                body.classList.toggle('edit-mode', isEditMode);
+                editModeToggle.classList.toggle('active', isEditMode);
+                editModeToggle.textContent = isEditMode ? 'Exit Edit' : 'Edit Mode';
+                
+                // Toggle contenteditable on all editable elements
+                const editables = document.querySelectorAll('.editable');
+                editables.forEach(el => {
+                    el.contentEditable = isEditMode;
+                });
+                
+                if (isEditMode) {
+                    const statusInfo = document.getElementById('status-info');
+                    if (statusInfo) {
+                        const originalText = statusInfo.textContent || 'Edit mode: ON';
+                        statusInfo.textContent = originalText + ' | Right-click editable text to add media';
+                        // Reset after 5 seconds
+                        setTimeout(() => {
+                            if (isEditMode) {
+                                statusInfo.textContent = originalText;
+                            }
+                        }, 5000);
+                    }
+                }
+            });
+
+            // Initialize context menu styling
+            const style = document.createElement('style');
+            style.textContent = `
+                .media-context-menu {
+                    position: absolute;
+                    background: var(--surface, #ffffff);
+                    border: 1px solid var(--border-color, #e0e0e0);
+                    border-radius: 4px;
+                    padding: 8px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    z-index: 1000;
+                }
+                .media-context-menu-item {
+                    padding: 8px 16px;
+                    cursor: pointer;
+                    color: var(--text-primary, #212529);
+                }
+                .media-context-menu-item:hover {
+                    background: var(--neutral-100, #f8f9fa);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        /**
+         * Creates and displays a context menu for adding media around editable elements
+         * @param {MouseEvent} e - The mouse event that triggered the context menu
+         * @param {HTMLElement} element - The editable element to add media around
+         */
+        function showMediaContextMenu(e, element) {
+            // Remove any existing context menu
+            const existingMenu = document.querySelector('.media-context-menu');
+            if (existingMenu) {
+                existingMenu.remove();
+            }
+            
+            // Create context menu
+            const menu = document.createElement('div');
+            menu.className = 'media-context-menu';
+            menu.style.position = 'absolute';
+            menu.style.left = `${e.pageX}px`;
+            menu.style.top = `${e.pageY}px`;
+            menu.style.background = 'var(--surface, #ffffff)';
+            menu.style.border = '1px solid var(--border-color, #e0e0e0)';
+            menu.style.borderRadius = '4px';
+            menu.style.padding = '8px 0';
+            menu.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            menu.style.zIndex = '1000';
+            
+            // Add options
+            const addMediaAbove = document.createElement('div');
+            addMediaAbove.className = 'media-context-menu-item';
+            addMediaAbove.textContent = 'Add media above';
+            addMediaAbove.style.padding = '8px 16px';
+            addMediaAbove.style.cursor = 'pointer';
+            
+            const addMediaBelow = document.createElement('div');
+            addMediaBelow.className = 'media-context-menu-item';
+            addMediaBelow.textContent = 'Add media below';
+            addMediaBelow.style.padding = '8px 16px';
+            addMediaBelow.style.cursor = 'pointer';
+            
+            // Add event listeners
+            addMediaAbove.addEventListener('click', () => {
+                addMediaNearElement(element, 'above');
+                menu.remove();
+            });
+            
+            addMediaBelow.addEventListener('click', () => {
+                addMediaNearElement(element, 'below');
+                menu.remove();
+            });
+            
+            // Add items to menu
+            menu.appendChild(addMediaAbove);
+            menu.appendChild(addMediaBelow);
+            
+            // Add menu to document
+            document.body.appendChild(menu);
+            
+            // Close menu when clicking outside
+            setTimeout(() => {
+                document.addEventListener('click', function closeMenu(event) {
+                    if (!menu.contains(event.target)) {
+                        menu.remove();
+                        document.removeEventListener('click', closeMenu);
+                    }
+                });
+            }, 0);
+            
+            // Close menu when pressing Escape
+            document.addEventListener('keydown', function escKeyHandler(event) {
+                if (event.key === 'Escape') {
+                    menu.remove();
+                    document.removeEventListener('keydown', escKeyHandler);
+                }
+            });
+        }
+
+        /**
+         * Adds media above or below an editable element
+         * @param {HTMLElement} element - The element to add media near
+         * @param {string} position - Whether to add media 'above' or 'below' the element
+         */
+        function addMediaNearElement(element, position) {
+            // Create a new media placeholder
+            const placeholder = document.createElement('div');
+            placeholder.className = 'media-placeholder';
+            
+            // Set placeholder styles
+            placeholder.style.width = '100%';
+            placeholder.style.height = '200px';
+            placeholder.style.background = '#f0f0f0';
+            placeholder.style.display = 'flex';
+            placeholder.style.alignItems = 'center';
+            placeholder.style.justifyContent = 'center';
+            placeholder.style.borderRadius = '8px';
+            placeholder.style.margin = '1rem 0';
+            placeholder.style.cursor = 'pointer';
+            
+            // Add span with text
+            const span = document.createElement('span');
+            span.textContent = 'Click to add media';
+            placeholder.appendChild(span);
+            
+            // Insert before or after the element
+            if (position === 'above') {
+                element.parentNode.insertBefore(placeholder, element);
+            } else {
+                if (element.nextSibling) {
+                    element.parentNode.insertBefore(placeholder, element.nextSibling);
+                } else {
+                    element.parentNode.appendChild(placeholder);
+                }
+            }
+            
+            // Show notification
+            updateStatus(`Media placeholder added ${position} the element`, 'info');
+            
+            // Immediately open file picker if in edit mode
+            if (isEditMode) {
+                // Use a small timeout to allow the DOM to update
+                setTimeout(() => {
+                    addMediaToPlaceholder(placeholder);
+                }, 10);
+            }
+        }
+
+        /**
+         * Adds media to an existing placeholder - supports images, videos, and audio
+         * @param {HTMLElement} placeholder - The placeholder element to add media to
+         */
+        function addMediaToPlaceholder(placeholder) {
+            // Create file input
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*,video/*,audio/*';
+            input.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        if (file.type.startsWith('image/')) {
+                            // Handle image
+                            placeholder.style.backgroundImage = `url(${e.target.result})`;
+                            placeholder.style.backgroundSize = 'cover';
+                            placeholder.style.backgroundPosition = 'center';
+                        }
+                        else if (file.type.startsWith('video/')) {
+                            // Handle video
+                            const video = document.createElement('video');
+                            video.src = e.target.result;
+                            video.controls = true;
+                            video.style.width = '100%';
+                            video.style.height = '100%';
+                            placeholder.innerHTML = '';
+                            placeholder.appendChild(video);
+                        }
+                        else if (file.type.startsWith('audio/')) {
+                            // Handle audio
+                            const audio = document.createElement('audio');
+                            audio.src = e.target.result;
+                            audio.controls = true;
+                            audio.style.width = '100%';
+                            placeholder.innerHTML = '';
+                            placeholder.appendChild(audio);
+                        }
+                        const span = placeholder.querySelector('span');
+                        if (span) span.style.display = 'none';
+                        placeholder.classList.add('has-media');
+                        placeholder.setAttribute('data-media-type', file.type.split('/')[0]);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            // Trigger file picker
+            input.click();
+        }
+
+        // Update the Media Placeholders setup function
+        document.addEventListener('DOMContentLoaded', function() {
+            // Use event delegation to handle both existing and dynamically created placeholders
+            document.addEventListener('click', (e) => {
+                const placeholder = e.target.closest('.media-placeholder');
+                if (!placeholder) return;
+
+                // Don't trigger file upload if clicking on caption
+                if (e.target.classList.contains('media-caption')) return;
+
+                // Only allow file selection in edit mode
+                if (!isEditMode) return;
+
+                // Use the enhanced media handling function
+                addMediaToPlaceholder(placeholder);
+            });
+        });
+
+        // Define the missing saveWebsiteFiles function
+        async function saveWebsiteFiles(fileName) {
+            try {
+                // Get the current content of the website
+                const siteContainer = document.getElementById('site-container');
+                if (!siteContainer) {
+                    throw new Error('Site container not found');
+                }
+
+                // Create a clone to work with
+                const siteClone = siteContainer.cloneNode(true);
+
+                // Remove edit-specific elements and classes
+                const editableElements = siteClone.querySelectorAll('.editable');
+                editableElements.forEach(el => {
+                    el.removeAttribute('contenteditable');
+                    el.classList.remove('editable');
+                });
+
+                // Handle media placeholders
+                const mediaPlaceholders = siteClone.querySelectorAll('.media-placeholder:not(.has-media)');
+                mediaPlaceholders.forEach(placeholder => {
+                    placeholder.style.display = 'none';
+                });
+
+                // Generate HTML
+                const doctype = '<!DOCTYPE html>';
+                const htmlStart = '<html lang="en">';
+                const headContent = `
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>${document.getElementById('site-title')?.textContent || 'Generated Website'}</title>
+                        <meta name="description" content="${document.getElementById('site-subtitle')?.textContent || 'A website created with the Claude AI Website Builder'}">
+                        <link rel="stylesheet" href="${fileName.replace('.html', '.css')}">
+                        <script defer src="${fileName.replace('.html', '.js')}"></script>
+                    </head>
+                `;
+                
+                // Clean up the body classes
+                const bodyStart = `<body data-layout="${document.body.getAttribute('data-layout') || 'top-nav'}" data-theme="${document.body.getAttribute('data-theme') || 'dark'}">`;
+                const bodyEnd = '</body>';
+                const htmlEnd = '</html>';
+                
+                // Create the full HTML content
+                const htmlContent = doctype + 
+                    htmlStart + 
+                    headContent + 
+                    bodyStart + 
+                    siteClone.outerHTML + 
+                    bodyEnd + 
+                    htmlEnd;
+
+                // Add .html extension if not already there
+                if (!fileName.toLowerCase().endsWith('.html')) {
+                    fileName += '.html';
+                }
+                
+                // Save the file
+                if ('showDirectoryPicker' in window) {
+                    try {
+                        const dirHandle = await window.showDirectoryPicker();
+                        const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
+                        const writable = await fileHandle.createWritable();
+                        await writable.write(htmlContent);
+                        await writable.close();
+
+                        window.updateStatus(`Website saved as ${fileName} in folder: ${dirHandle.name}.`, 'success');
+                        const statusInfo = document.getElementById('status-info');
+                        statusInfo.innerHTML = `
+                            Saved in: ${dirHandle.name}\\${fileName}
+                            <button id="open-folder-btn" class="btn-small">Show Folder</button>
+                        `;
+
+                        document.getElementById('open-folder-btn').onclick = async () => {
+                            try {
+                                await window.showDirectoryPicker();
+                            } catch (e) {
+                                console.error('Could not open folder', e);
+                            }
+                        };
+                    } catch (e) {
+                        window.updateStatus('Save cancelled or failed. No files were written.', 'error');
+                        document.getElementById('status-info').textContent = '';
+                    }
+                } else {
+                    // Fallback: download as file
+                    const blob = new Blob([htmlContent], { type: 'text/html' });
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = fileName;
+                    a.click();
+                    window.updateStatus(`Website downloaded as ${fileName}. Check your Downloads folder.`, 'info');
+                    document.getElementById('status-info').innerHTML = `Saved as ${fileName} (Downloads folder)`;
+                }
+            } catch (error) {
+                console.error('Error saving website:', error);
+                window.updateStatus('Error saving website: ' + error.message, 'error');
+            }
+        }
+
+        // Save button functionality 
+        document.getElementById('save-btn').addEventListener('click', function() {
+            const siteName = prompt('Enter the name for your website files (e.g., "MySite" or "folder/MySite"):');
+            if (!siteName) return;
+            
+            saveWebsiteFiles(siteName);
+            console.log('Save button clicked - saving website files');
+        });
+    </script>
+</body>
+</html>

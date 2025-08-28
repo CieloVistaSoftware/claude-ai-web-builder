@@ -1,0 +1,69 @@
+<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .zia-bg { fill: #FFD700; }
+      .zia-symbol { fill: #C41E3A; stroke: #C41E3A; }
+      .title-text { font-family: Arial, sans-serif; font-size: 14px; fill: #C41E3A; text-anchor: middle; font-style: italic; }
+    </style>
+  </defs>
+  
+  <!-- New Mexico Flag Background (Yellow) -->
+  <rect width="300" height="200" class="zia-bg"/>
+  
+  <!-- Zia Sun Symbol (Red) -->
+  <g transform="translate(150, 100)" class="zia-symbol">
+    <!-- Center Circle -->
+    <circle cx="0" cy="0" r="20" fill="#C41E3A"/>
+    
+    <!-- North Rays -->
+    <g>
+      <!-- Long ray -->
+      <rect x="-2" y="-60" width="4" height="18" rx="2"/>
+      <!-- Medium rays -->
+      <rect x="-8" y="-58" width="3" height="14" rx="1.5"/>
+      <rect x="5" y="-58" width="3" height="14" rx="1.5"/>
+      <!-- Short rays -->
+      <rect x="-14" y="-56" width="2.5" height="12" rx="1.25"/>
+      <rect x="11.5" y="-56" width="2.5" height="12" rx="1.25"/>
+    </g>
+    
+    <!-- South Rays -->
+    <g transform="rotate(180)">
+      <!-- Long ray -->
+      <rect x="-2" y="-60" width="4" height="18" rx="2"/>
+      <!-- Medium rays -->
+      <rect x="-8" y="-58" width="3" height="14" rx="1.5"/>
+      <rect x="5" y="-58" width="3" height="14" rx="1.5"/>
+      <!-- Short rays -->
+      <rect x="-14" y="-56" width="2.5" height="12" rx="1.25"/>
+      <rect x="11.5" y="-56" width="2.5" height="12" rx="1.25"/>
+    </g>
+    
+    <!-- East Rays -->
+    <g transform="rotate(90)">
+      <!-- Long ray -->
+      <rect x="-2" y="-60" width="4" height="18" rx="2"/>
+      <!-- Medium rays -->
+      <rect x="-8" y="-58" width="3" height="14" rx="1.5"/>
+      <rect x="5" y="-58" width="3" height="14" rx="1.5"/>
+      <!-- Short rays -->
+      <rect x="-14" y="-56" width="2.5" height="12" rx="1.25"/>
+      <rect x="11.5" y="-56" width="2.5" height="12" rx="1.25"/>
+    </g>
+    
+    <!-- West Rays -->
+    <g transform="rotate(270)">
+      <!-- Long ray -->
+      <rect x="-2" y="-60" width="4" height="18" rx="2"/>
+      <!-- Medium rays -->
+      <rect x="-8" y="-58" width="3" height="14" rx="1.5"/>
+      <rect x="5" y="-58" width="3" height="14" rx="1.5"/>
+      <!-- Short rays -->
+      <rect x="-14" y="-56" width="2.5" height="12" rx="1.25"/>
+      <rect x="11.5" y="-56" width="2.5" height="12" rx="1.25"/>
+    </g>
+  </g>
+  
+  <!-- Title -->
+  <text x="150" y="25" class="title-text" font-weight="bold">Cielo Vista Software</text>
+</svg>
