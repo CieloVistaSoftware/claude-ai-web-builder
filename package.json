@@ -30,6 +30,9 @@
     "start-js": "npm run kill-port && npm run update-docs-index && npm run server-js",
     "start-table-theme": "npm run kill-port && npm run update-docs-index && npm run server",
     "dev": "npm run kill-port && npm run update-docs-index && npm run server",
+    "obfuscate": "node scripts/obfuscate.js",
+    "build-protected": "npm run obfuscate && npm run build",
+    "protect-js": "javascript-obfuscator wb/wb.js --output wb/wb.min.js --compact true --self-defending true",
     "show-mcp": "node scripts/show-mcp-server.js",
     "test-mcp-server": "pwsh -Command \"./scripts/Test-MCPServer.ps1\"",
     "test-mcp-output": "pwsh -Command \"./scripts/Test-MCPOutputSite.ps1\"",
@@ -80,12 +83,15 @@
     "@types/serve-static": "^1.15.7",
     "autoprefixer": "^10.0.0",
     "axios": "^1.6.0",
+    "javascript-obfuscator": "^4.1.0",
     "kill-port": "^2.0.1",
-    "live-server": "^1.2.2",
+    "live-server": "^1.2.0",
     "postcss": "^8.0.0",
+    "terser": "^5.19.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5",
-    "vite-plugin-md": "^0.22.5"
+    "vite": "^7.0.5",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0"
   }
 }

@@ -17,6 +17,12 @@ A powerful, interactive website builder with dynamic themes, edit mode, and resp
 
 ## 🎨 Live Demo
 
+### 🌟 **GitHub Pages (Recommended)**
+- **Live Site**: [https://cielovistasoftware.github.io/claude-ai-web-builder/](https://cielovistasoftware.github.io/claude-ai-web-builder/)
+- **Website Builder**: [https://cielovistasoftware.github.io/claude-ai-web-builder/wb/wb.html](https://cielovistasoftware.github.io/claude-ai-web-builder/wb/wb.html)
+- **Documentation**: [https://cielovistasoftware.github.io/claude-ai-web-builder/docs/index.html](https://cielovistasoftware.github.io/claude-ai-web-builder/docs/index.html)
+
+### 📖 **Preview Links (Alternative)**
 - **Main Website Builder**: [wb.html](https://htmlpreview.github.io/?https://github.com/CieloVistaSoftware/claude-ai-web-builder/blob/main/wb/wb.html)
 - **Documentation Hub**: [docs/index.html](https://htmlpreview.github.io/?https://github.com/CieloVistaSoftware/claude-ai-web-builder/blob/main/docs/index.html)
 - **Landing Page Demo**: [index.html](https://htmlpreview.github.io/?https://github.com/CieloVistaSoftware/claude-ai-web-builder/blob/main/index.html)
@@ -107,10 +113,10 @@ claude-ai-web-builder/
 
 ## 📚 Documentation
 
-- **[Complete Documentation](docs/index.html)**: Browse all documentation files
-- **[Architecture Guide](docs/Architecture-organization.md)**: Technical architecture overview
-- **[Implementation Roadmap](docs/Implementation-roadmap.md)**: Development planning
-- **[Theme Documentation](docs/theme-demo-component.md)**: Theme system details
+- **[Complete Documentation](https://htmlpreview.github.io/?https://github.com/CieloVistaSoftware/claude-ai-web-builder/blob/main/docs/index.html)**: Browse all documentation files
+- **[Architecture Guide](https://github.com/CieloVistaSoftware/claude-ai-web-builder/blob/main/docs/Architecture-organization.md)**: Technical architecture overview
+- **[Implementation Roadmap](https://github.com/CieloVistaSoftware/claude-ai-web-builder/blob/main/docs/Implementation-roadmap.md)**: Development planning
+- **[Theme Documentation](https://github.com/CieloVistaSoftware/claude-ai-web-builder/blob/main/docs/theme-demo-component.md)**: Theme system details
 
 ## 🧪 Testing
 
