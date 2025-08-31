@@ -1,6 +1,14 @@
 node_modules/
 
-# Build outputs - Keep obfuscated code out of source control
+# Source code protection - keep readable source code private
+wb/wb.js
+wb/wb.ts
+
+# Only allow obfuscated versions in dist
+dist/wb/wb.js
+!dist/wb/wb.min.js
+
+# Dependencies and build files
 dist/
 *.min.js
 *.min.css

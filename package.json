@@ -30,7 +30,7 @@
     "start-js": "npm run kill-port && npm run update-docs-index && npm run server-js",
     "start-table-theme": "npm run kill-port && npm run update-docs-index && npm run server",
     "dev": "npm run kill-port && npm run update-docs-index && npm run server",
-    "obfuscate": "node scripts/obfuscate.js",
+    "obfuscate": "node scripts/obfuscate-with-cleaning.js",
     "build-protected": "npm run obfuscate && npm run build",
     "protect-js": "javascript-obfuscator wb/wb.js --output wb/wb.min.js --compact true --self-defending true",
     "show-mcp": "node scripts/show-mcp-server.js",
