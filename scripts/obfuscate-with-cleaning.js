@@ -94,21 +94,48 @@ try {
         if (fs.existsSync(htmlPath)) {
             let htmlContent = fs.readFileSync(htmlPath, 'utf8');
             
+            console.log(`\n🔄 Updating ${file} references...`);
+            
             // Replace .js references with .min.js
             jsFiles.forEach(jsFile => {
                 const originalRef = jsFile;
                 const minifiedRef = jsFile.replace('.js', '.min.js');
-                htmlContent = htmlContent.replace(new RegExp(originalRef, 'g'), minifiedRef);
+                
+                // Replace various script reference patterns with simple filename
+                const patterns = [
+                    new RegExp(`src="${originalRef}"`, 'g'),
+                    new RegExp(`src='${originalRef}'`, 'g'),
+                    new RegExp(`src="[^"]*/${originalRef}"`, 'g'), // Remove any path prefix
+                    new RegExp(`src='[^']*/${originalRef}'`, 'g')  // Remove any path prefix
+                ];
+                
+                patterns.forEach(pattern => {
+                    if (pattern.test(htmlContent)) {
+                        htmlContent = htmlContent.replace(pattern, `src="${minifiedRef}"`);
+                        console.log(`   ✅ Updated: ${originalRef} → ${minifiedRef}`);
+                    }
+                });
             });
             
             fs.writeFileSync(htmlPath, htmlContent);
-            console.log(`🔄 Updated ${file} to use obfuscated scripts`);
+            console.log(`✅ Updated ${file} to use obfuscated scripts`);
         }
     });
     
     console.log('\n🎉 Obfuscation complete!');
-    console.log(`📁 Deploy the dist/wb/ folder to your web server`);
+    
+    // 🔍 Verification step
+    console.log('\n🔍 Verifying created files:');
+    const distFiles = fs.readdirSync(distDir);
+    distFiles.forEach(file => {
+        const filePath = path.join(distDir, file);
+        const stats = fs.statSync(filePath);
+        console.log(`   ✅ ${file} (${Math.round(stats.size / 1024)}KB)`);
+    });
+    
+    console.log(`\n📁 Deploy the dist/wb/ folder to your web server`);
     console.log(`🔒 Your source code in wb/ remains protected`);
+    console.log(`🌐 Test locally by serving the dist/wb/ directory`);
     
 } catch (error) {
     console.error('❌ Obfuscation failed:', error.message);
