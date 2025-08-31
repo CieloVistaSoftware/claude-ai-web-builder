@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Claude AI Web Builder</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/images/ziasymbol.svg" />
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Create professional websites with advanced layouts, themes, and animations"
+    />
+    <meta
+      name="keywords"
+      content="website, template, professional, glassmorphism, animation"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="wb.css" />
+
+    <!-- Status Bar Styles -->
+    <style>
+      /* Status Bar Styles */
+      .status-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 5px 10px;
+        background: var(--surface, #ffffff);
+        border-top: 1px solid var(--border-color, #e0e0e0);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: var(--text-secondary, #6c757d);
+        z-index: 1000;
+        height: 24px;
+      }
+
+      .status-message {
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .status-message.success {
+        color: var(--accent-color, #28a745);
+      }
+
+      .status-message.error {
+        color: #dc3545;
+      }
+
+      .status-message.warning {
+        color: #ffc107;
+      }
+
+      .status-message.info {
+        color: var(--primary-color, #007bff);
+      }
+
+      /* Media Element Styles */
+      .media-placeholder {
+        width: 100%;
+        height: 200px;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        margin: 1rem 0;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .media-placeholder:hover {
+        background: #e0e0e0;
+      }
+
+      /* Media context menu styles */
+      .media-context-menu {
+        min-width: 180px;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .media-context-menu-item:hover {
+        background-color: var(--neutral-100, #f0f0f0);
+      }
+
+      /* Highlight elements that can accept media in edit mode */
+      body.edit-mode [data-media-tip] {
+        position: relative;
+      }
+
+      body.edit-mode [data-media-tip]:hover {
+        outline: 2px dashed var(--accent-color, #28a745);
+      }
+
+      body.edit-mode [data-media-tip]:hover::after {
+        content: attr(data-media-tip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 1000;
+        opacity: 0.9;
+      }
+
+      /* Add padding to body to avoid status bar overlap */
+      body {
+        padding-bottom: 24px;
+      }
+
+      /* Element with media background */
+      .has-media-background {
+        position: relative;
+      }
+
+      .has-media-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: inherit;
+        opacity: 0.15;
+        z-index: -1;
+      }
+      
+      /* Element transformed to media */
+      .element-transformed-to-media {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Color bar slider transparent background */
+      .color-bar-slider {
+        background-color: transparent;
+      }
+
+      /* Color explorer fine adjustment controls */
+      .color-fine-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      .color-fine-btn {
+        background: var(--neutral-200, #e0e0e0);
+        border: none;
+        border-radius: 4px;
+        width: 32px;
+        height: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: var(--text-primary, #333);
+        transition: all 0.2s ease;
+      }
+
+      .color-fine-btn:hover {
+        background: var(--neutral-300, #d0d0d0);
+      }
+
+      .color-fine-btn:active {
+        background: var(--neutral-400, #c0c0c0);
+        transform: scale(0.95);
+      }
+
+      .color-fine-label {
+        font-size: 11px;
+        color: var(--text-secondary, #666);
+        margin: 0 5px;
+      }
+
+      /* Hero section padding */
+      .hero-section {
+        padding: 0.5rem;
+      }
+
+      /* Scroll-resizable images */
+      .scroll-resizable {
+        transition: all 0.3s ease;
+        cursor: zoom-in;
+      }
+
+      .scroll-resizable:hover {
+        outline: 2px solid var(--primary-color, #007bff);
+        outline-offset: 2px;
+      }
+
+      .image-resize-indicator {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 10px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      .scroll-resizable:hover .image-resize-indicator {
+        opacity: 1;
+      }
+
+      /* Save button visibility */
+      .save-btn-hidden {
+        display: none;
+      }
+
+      .save-btn-visible {
+        display: block;
+      }
+
+      /* Media Browser Modal */
+      .media-browser-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+      }
+
+      .media-browser-modal.show {
+        display: flex;
+      }
+
+      .media-browser-content {
+        background: var(--surface, #ffffff);
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 85vw;
+        max-height: 85vh;
+        overflow-y: auto;
+        position: relative;
+        min-width: 600px;
+      }
+
+      .media-browser-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border-color, #e0e0e0);
+        padding-bottom: 10px;
+      }
+
+      .media-browser-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-primary, #333);
+      }
+
+      .media-browser-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-secondary, #666);
+        padding: 5px;
+      }
+
+      .media-browser-close:hover {
+        color: var(--text-primary, #333);
+      }
+
+      .file-browser-nav {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        padding: 10px;
+        background: var(--neutral-50, #f9f9f9);
+        border-radius: 6px;
+        font-size: 0.9rem;
+      }
+
+      .nav-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--text-secondary, #666);
+      }
+
+      .nav-breadcrumb-item {
+        cursor: pointer;
+        color: var(--primary-color, #007bff);
+        text-decoration: none;
+      }
+
+      .nav-breadcrumb-item:hover {
+        text-decoration: underline;
+      }
+
+      .nav-breadcrumb-separator {
+        color: var(--text-secondary, #666);
+      }
+
+      .file-browser {
+        border: 1px solid var(--border-color, #e0e0e0);
+        border-radius: 8px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .file-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--border-color, #e0e0e0);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .file-item:last-child {
+        border-bottom: none;
+      }
+
+      .file-item:hover {
+        background: var(--neutral-100, #f0f0f0);
+      }
+
+      .file-item.selected {
+        background: var(--accent-light, #d4edda);
+        border-left: 4px solid var(--accent-color, #28a745);
+      }
+
+      .file-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+
+      .file-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .file-name {
+        font-weight: 500;
+        color: var(--text-primary, #333);
+        margin-bottom: 2px;
+      }
+
+      .file-details {
+        font-size: 0.8rem;
+        color: var(--text-secondary, #666);
+      }
+
+      .file-preview {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-left: 10px;
+      }
+
+      .media-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .media-item {
+        border: 2px solid transparent;
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: var(--neutral-50, #f9f9f9);
+      }
+
+      .media-item:hover {
+        border-color: var(--primary-color, #007bff);
+        background: var(--neutral-100, #f0f0f0);
+      }
+
+      .media-item.selected {
+        border-color: var(--accent-color, #28a745);
+        background: var(--accent-light, #d4edda);
+      }
+
+      .media-preview {
+        width: 100px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 8px;
+      }
+
+      .media-filename {
+        font-size: 0.8rem;
+        color: var(--text-secondary, #666);
+        word-break: break-word;
+      }
+
+      .media-browser-actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        border-top: 1px solid var(--border-color, #e0e0e0);
+        padding-top: 15px;
+      }
+
+      .media-browser-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+      }
+
+      .media-browser-btn.primary {
+        background: var(--primary-color, #007bff);
+        color: white;
+      }
+
+      .media-browser-btn.primary:hover {
+        background: var(--primary-dark, #0056b3);
+      }
+
+      .media-browser-btn.secondary {
+        background: var(--neutral-200, #e0e0e0);
+        color: var(--text-primary, #333);
+      }
+
+      .media-browser-btn.secondary:hover {
+        background: var(--neutral-300, #d0d0d0);
+      }
+    </style>
+  </head>
+  <body data-layout="top-nav" data-theme="dark" data-footer="same-page">
+    <!-- Control Panel -->
+    <div id="control-panel" class="control-panel">
+      <div class="control-panel-header">
+        <h3>Website Builder</h3>
+        <div class="control-panel-actions">
+          <button id="minimize-btn" class="control-btn" title="Minimize">
+            ▾
+          </button>
+        </div>
+      </div>
+
+      <div class="control-panel-body">
+        <div class="control-group">
+          <button id="edit-mode-toggle" class="edit-mode-toggle">
+            Edit Mode
+          </button>
+        </div>
+
+        <div class="control-group">
+          <button id="save-btn" class="btn save-btn-hidden">Save</button>
+        </div>
+
+        <div class="control-group">
+          <label for="layout-select">Layout Style</label>
+          <select id="layout-select">
+            <option value="top-nav">Top Navigation</option>
+            <option value="left-nav">Left Navigation</option>
+            <option value="right-nav">Right Navigation</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="color-bar">Color Explorer</label>
+          <div class="color-bar-container">
+            <div class="color-bar-wrapper">
+              <input
+                type="range"
+                id="color-bar"
+                min="0"
+                max="360"
+                value="0"
+                class="color-bar-slider"
+              />
+              <div
+                id="color-indicator"
+                class="color-bar-current-indicator"
+              ></div>
+            </div>
+            <div
+              id="color-bar-preview"
+              class="color-bar-preview color-preview-box"
+            >
+              #FF0000
+            </div>
+            <div class="color-fine-controls">
+              <button class="color-fine-btn" id="color-left-btn" title="Move left (-1)">◀</button>
+              <span class="color-fine-label">Fine Adjust</span>
+              <button class="color-fine-btn" id="color-right-btn" title="Move right (+1)">▶</button>
+            </div>
+            <div class="color-adjustment-controls">
+              <div class="slider-container">
+                <label for="lightness-slider">Lightness</label>
+                <input
+                  type="range"
+                  id="lightness-slider"
+                  min="20"
+                  max="80"
+                  value="50"
+                  class="adjustment-slider"
+                />
+              </div>
+              <div class="slider-container">
+                <label for="saturation-slider">Saturation</label>
+                <input
+                  type="range"
+                  id="saturation-slider"
+                  min="30"
+                  max="100"
+                  value="70"
+                  class="adjustment-slider"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="theme-select">Theme</label>
+          <select id="theme-select">
+            <option value="dark" selected>Dark</option>
+            <option value="light">Light</option>
+            <option value="auto">Auto (System)</option>
+            <option value="cyberpunk">Cyberpunk</option>
+            <option value="ocean">Ocean</option>
+            <option value="sunset">Sunset</option>
+            <option value="forest">Forest</option>
+          </select>
+        </div>
+
+        <div class="control-group color-controls">
+          <label>Custom Colors</label>
+          <div class="color-sliders">
+            <div class="color-slider-group">
+              <label for="primary-color">Primary</label>
+              <input type="color" id="primary-color" value="#6366f1" />
+              <span class="color-value">#6366f1</span>
+            </div>
+            <div class="color-slider-group">
+              <label for="secondary-color">Secondary</label>
+              <input type="color" id="secondary-color" value="#64748b" />
+              <span class="color-value">#64748b</span>
+            </div>
+            <div class="color-slider-group">
+              <label for="accent-color">Accent</label>
+              <input type="color" id="accent-color" value="#10b981" />
+              <span class="color-value">#10b981</span>
+            </div>
+          </div>
+        </div>
+        <button id="reset-btn" class="btn">Reset Content</button>
+      </div>
+    </div>
+
+    <!-- Main Website -->
+    <div id="site-container" class="site-container">
+      <!-- Navigation -->
+      <nav id="site-nav" class="site-nav">
+        <ul id="nav-list" class="nav-list">
+          <li id="nav-item-1">
+            <a id="nav-link-1" href="#home" class="nav-link">Home</a>
+          </li>
+          <li id="nav-item-2">
+            <a id="nav-link-2" href="#about" class="nav-link">About</a>
+          </li>
+          <li id="nav-item-3">
+            <a id="nav-link-3" href="#services" class="nav-link">Services</a>
+          </li>
+          <li id="nav-item-4">
+            <a id="nav-link-4" href="#portfolio" class="nav-link">Portfolio</a>
+          </li>
+          <li id="nav-item-5">
+            <a id="nav-link-5" href="#contact" class="nav-link">Contact</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main id="main-content" class="main-content">
+        <!-- Header -->
+        <header id="site-header" class="site-header" data-media-tip="Click to add header background">
+          <h1
+            id="site-title"
+            class="site-title editable"
+            contenteditable="false"
+            data-media-tip="Click to add logo or title image"
+          >
+            Your Amazing Website
+          </h1>
+          <p
+            id="site-subtitle"
+            class="site-subtitle editable"
+            contenteditable="false"
+          >
+            Build something beautiful today
+          </p>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="hero-section" class="hero-section" data-media-tip="Click to add background image">
+          <div id="hero-content" class="hero-content">
+            <h2
+              id="hero-title"
+              class="hero-title editable"
+              contenteditable="false"
+              data-media-tip="Click to add title background"
+            >
+              Welcome to the Future
+            </h2>
+            <p
+              id="hero-description"
+              class="hero-description editable"
+              contenteditable="false"
+            >
+              Create stunning websites with our powerful template generator. No
+              coding required.
+            </p>
+            <button
+              id="cta-button"
+              class="cta-button editable"
+              contenteditable="false"
+            >
+              Get Started
+            </button>
+          </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features-section" class="content-section">
+          <h2
+            id="features-title"
+            class="section-title editable"
+            contenteditable="false"
+          >
+            Features
+          </h2>
+          <div id="features-grid" class="content-grid">
+            <div id="feature-card-1" class="content-card" data-media-tip="Click to add card background">
+              <span id="feature-icon-1" class="card-icon" data-media-tip="Click to replace with image icon">🚀</span>
+              <h3
+                id="feature-title-1"
+                class="card-title editable"
+                contenteditable="false"
+              >
+                Lightning Fast
+              </h3>
+              <p
+                id="feature-desc-1"
+                class="card-description editable"
+                contenteditable="false"
+              >
+                Built for speed and performance. Your website will load
+                instantly.
+              </p>
+            </div>
+            <div id="feature-card-2" class="content-card" data-media-tip="Click to add card background">
+              <span id="feature-icon-2" class="card-icon" data-media-tip="Click to replace with image icon">🎨</span>
+              <h3
+                id="feature-title-2"
+                class="card-title editable"
+                contenteditable="false"
+              >
+                Beautiful Design
+              </h3>
+              <p
+                id="feature-desc-2"
+                class="card-description editable"
+                contenteditable="false"
+              >
+                Choose from multiple themes and customize every aspect of your
+                site.
+              </p>
+            </div>
+            <div id="feature-card-3" class="content-card" data-media-tip="Click to add card background">
+              <span id="feature-icon-3" class="card-icon" data-media-tip="Click to replace with image icon">📱</span>
+              <h3
+                id="feature-title-3"
+                class="card-title editable"
+                contenteditable="false"
+              >
+                Fully Responsive
+              </h3>
+              <p
+                id="feature-desc-3"
+                class="card-description editable"
+                contenteditable="false"
+              >
+                Looks perfect on all devices, from mobile phones to desktop
+                computers.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery-section" class="content-section">
+          <h2
+            id="gallery-title"
+            class="section-title editable"
+            contenteditable="false"
+          >
+            Gallery
+          </h2>            <div id="gallery-grid" class="content-grid">
+              <div id="gallery-item-1" class="media-placeholder">
+                <span id="gallery-text-1">Click to add media</span>
+              </div>
+              <div id="gallery-item-2" class="media-placeholder">
+                <span id="gallery-text-2">Click to add media</span>
+              </div>
+              <div id="gallery-item-3" class="media-placeholder">
+                <span id="gallery-text-3">Click to add media</span>
+              </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-section" class="content-section" data-media-tip="Click to add section background">
+          <h2
+            id="about-title"
+            class="section-title editable"
+            contenteditable="false"
+          >
+            About Us
+          </h2>
+          <div id="about-card" class="content-card" data-media-tip="Click to add card background">
+            <p
+              id="about-description"
+              class="card-description editable"
+              contenteditable="false"
+            >
+              We are passionate about creating beautiful, functional websites
+              that help businesses grow. Our template generator makes it easy
+              for anyone to build a professional website without any coding
+              knowledge.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Footer - Last element of the website -->
+    <footer id="site-footer" class="site-footer">
+        <div id="footer-content" class="footer-content">
+          <p id="footer-copyright" class="editable" contenteditable="false">
+            &copy; 2024 Your Company. All rights reserved.
+          </p>
+          <ul id="footer-links" class="footer-links">
+            <li id="footer-item-1">
+              <a id="footer-link-1" href="#privacy" class="footer-link"
+                >Privacy Policy</a
+              >
+            </li>
+            <li id="footer-item-2">
+              <a id="footer-link-2" href="#terms" class="footer-link"
+                >Terms of Service</a
+              >
+            </li>
+            <li id="footer-item-3">
+              <a id="footer-link-3" href="#contact" class="footer-link"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div id="status-message" class="status-message">Ready to edit</div>
+      <div id="status-info"></div>
+    </div>
+
+    <!-- Media Browser Modal -->
+    <div id="media-browser-modal" class="media-browser-modal">
+      <div class="media-browser-content">
+        <div class="media-browser-header">
+          <h3 class="media-browser-title">Select Image File</h3>
+          <button class="media-browser-close" onclick="closeMediaBrowser()">&times;</button>
+        </div>
+        
+        <div class="file-browser-nav">
+          <div class="nav-breadcrumb" id="nav-breadcrumb">
+            <span class="nav-breadcrumb-item" onclick="navigateToFolder('')">images</span>
+          </div>
+        </div>
+        
+        <div class="file-browser" id="file-browser">
+          <!-- File items will be loaded here -->
+        </div>
+        
+        <div class="media-browser-actions">
+          <button class="media-browser-btn secondary" onclick="closeMediaBrowser()">Cancel</button>
+          <button class="media-browser-btn primary" onclick="selectMedia()" id="select-media-btn" disabled>Select File</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="wb.min.js"></script>
+
+    <!-- Status Bar Script -->
+    <script>
+      // Status bar utility functions
+      window.updateStatus = function (message, type = "info") {
+        const statusMessage = document.getElementById("status-message");
+
+        // Remove all status classes
+        statusMessage.classList.remove("success", "error", "warning", "info");
+
+        // Add the appropriate class
+        statusMessage.classList.add(type);
+
+        // Set the message
+        statusMessage.textContent = message;
+
+        console.log(`Status: [${type}] ${message}`);
+      };
+
+      // Initialize status bar
+      document.addEventListener("DOMContentLoaded", function () {
+        updateStatus("Website Builder loaded - Ready to edit", "success");
+        document.getElementById("status-info").textContent = "Edit mode: OFF";
+        
+        // Initialize change tracking
+        initializeChangeTracking();
+        
+        // Initialize media browser
+        initializeMediaBrowser();
+        
+        // Initialize color explorer fine controls
+        initializeColorFineControls();
+        
+        // Initialize scroll wheel image resizing
+        initializeImageScrollResize();
+      });
+
+      // Image Scroll Resize Functionality
+      function initializeImageScrollResize() {
+        // Add scroll wheel listeners to all images
+        document.addEventListener('wheel', handleImageScrollResize, { passive: false });
+        
+        // Make existing images scroll-resizable and add indicators
+        makeImagesScrollResizable();
+        
+        // Watch for new images added via media browser
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.nodeType === 1) { // Element node
+                if (node.tagName === 'IMG') {
+                  makeImageScrollResizable(node);
+                } else {
+                  // Check for images within added elements
+                  const images = node.querySelectorAll ? node.querySelectorAll('img') : [];
+                  images.forEach(makeImageScrollResizable);
+                }
+              }
+            });
+          });
+        });
+        
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+      }
+      
+      function makeImagesScrollResizable() {
+        const images = document.querySelectorAll('img');
+        images.forEach(makeImageScrollResizable);
+      }
+      
+      function makeImageScrollResizable(img) {
+        if (img.classList.contains('scroll-resizable')) return;
+        
+        img.classList.add('scroll-resizable');
+        
+        // Add resize indicator
+        const indicator = document.createElement('div');
+        indicator.className = 'image-resize-indicator';
+        indicator.textContent = '🔍 Scroll to resize';
+        
+        // Make parent position relative if needed
+        const parent = img.parentElement;
+        const parentStyle = getComputedStyle(parent);
+        if (parentStyle.position === 'static') {
+          parent.style.position = 'relative';
+        }
+        
+        parent.appendChild(indicator);
+        
+        // Store original dimensions
+        if (!img.dataset.originalWidth) {
+          img.addEventListener('load', function() {
+            img.dataset.originalWidth = img.naturalWidth || img.offsetWidth;
+            img.dataset.originalHeight = img.naturalHeight || img.offsetHeight;
+          });
+          
+          // If already loaded
+          if (img.complete) {
+            img.dataset.originalWidth = img.naturalWidth || img.offsetWidth;
+            img.dataset.originalHeight = img.naturalHeight || img.offsetHeight;
+          }
+        }
+      }
+      
+      function handleImageScrollResize(e) {
+        const target = e.target;
+        
+        // Only handle scroll on images with scroll-resizable class
+        if (!target.classList.contains('scroll-resizable')) return;
+        
+        e.preventDefault();
+        
+        const delta = e.deltaY;
+        const scaleFactor = 0.1;
+        
+        // Get current dimensions
+        const currentWidth = target.offsetWidth;
+        const originalWidth = parseInt(target.dataset.originalWidth) || currentWidth;
+        
+        // Calculate new scale
+        let currentScale = currentWidth / originalWidth;
+        
+        if (delta < 0) {
+          // Scroll up - increase size
+          currentScale = Math.min(currentScale + scaleFactor, 3.0); // Max 300%
+        } else {
+          // Scroll down - decrease size
+          currentScale = Math.max(currentScale - scaleFactor, 0.3); // Min 30%
+        }
+        
+        // Apply new size
+        const newWidth = originalWidth * currentScale;
+        const newHeight = (parseInt(target.dataset.originalHeight) || target.offsetHeight) * currentScale;
+        
+        target.style.width = newWidth + 'px';
+        target.style.height = newHeight + 'px';
+        target.style.maxWidth = 'none'; // Override max-width constraints
+        
+        // Update status with current scale
+        const percentage = Math.round(currentScale * 100);
+        updateStatus(`Image resized to ${percentage}% (${Math.round(newWidth)}x${Math.round(newHeight)}px)`, 'info');
+        
+        // Mark as changed
+        markAsChanged();
+      }
+
+      // Color Explorer Fine Controls
+      function initializeColorFineControls() {
+        const colorBar = document.getElementById('color-bar');
+        const leftBtn = document.getElementById('color-left-btn');
+        const rightBtn = document.getElementById('color-right-btn');
+        
+        if (leftBtn && rightBtn && colorBar) {
+          leftBtn.addEventListener('click', function() {
+            let currentValue = parseInt(colorBar.value);
+            currentValue = Math.max(0, currentValue - 1);
+            colorBar.value = currentValue;
+            
+            // Trigger change event to update color preview
+            const changeEvent = new Event('input', { bubbles: true });
+            colorBar.dispatchEvent(changeEvent);
+            
+            markAsChanged();
+            updateStatus(`Color adjusted to ${currentValue}°`, 'info');
+          });
+          
+          rightBtn.addEventListener('click', function() {
+            let currentValue = parseInt(colorBar.value);
+            currentValue = Math.min(360, currentValue + 1);
+            colorBar.value = currentValue;
+            
+            // Trigger change event to update color preview
+            const changeEvent = new Event('input', { bubbles: true });
+            colorBar.dispatchEvent(changeEvent);
+            
+            markAsChanged();
+            updateStatus(`Color adjusted to ${currentValue}°`, 'info');
+          });
+        }
+      }
+
+      // Media Browser Functionality
+      let currentMediaTarget = null;
+      let selectedFile = null;
+      let currentPath = '';
+      
+      // File system structure for the images folder
+      const fileSystem = {
+        '': {
+          folders: ['css', 'ads'],
+          files: [
+            { name: 'ziasymbol.svg', type: 'image', size: '2.3 KB' },
+            { name: 'redsample.png', type: 'image', size: '15.2 KB' },
+            { name: 'bluesample.png', type: 'image', size: '14.8 KB' },
+            { name: 'pinksample.png', type: 'image', size: '16.1 KB' },
+            { name: 'purplesample.png', type: 'image', size: '15.9 KB' },
+            { name: 'greenleftsample.png', type: 'image', size: '18.3 KB' },
+            { name: 'SkyBlueTopSample.png', type: 'image', size: '17.4 KB' },
+            { name: 'YellowLeftSample.png', type: 'image', size: '16.8 KB' },
+            { name: 'YellowTopSample.png', type: 'image', size: '17.2 KB' },
+            { name: 'dynamic-page-navigation-failure.png', type: 'image', size: '45.2 KB' },
+            { name: 'footer-position-change-failure.png', type: 'image', size: '38.7 KB' },
+            { name: 'footer-visibility-toggle-failure.png', type: 'image', size: '42.1 KB' },
+            { name: 'navigation-test-failure.png', type: 'image', size: '41.3 KB' }
+          ]
+        },
+        'css': {
+          folders: ['themes'],
+          files: []
+        },
+        'css/themes': {
+          folders: [],
+          files: [
+            { name: 'dark-theme-bg.jpg', type: 'image', size: '125.4 KB' },
+            { name: 'light-theme-bg.jpg', type: 'image', size: '98.7 KB' },
+            { name: 'ocean-theme-bg.jpg', type: 'image', size: '156.2 KB' },
+            { name: 'sunset-theme-bg.jpg', type: 'image', size: '132.8 KB' }
+          ]
+        },
+        'ads': {
+          folders: [],
+          files: [
+            { name: 'banner-ad.jpg', type: 'image', size: '28.5 KB' },
+            { name: 'sidebar-ad.png', type: 'image', size: '12.3 KB' }
+          ]
+        }
+      };
+      
+      function initializeMediaBrowser() {
+        // Create hidden file input for native file picker with folder access
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.png,.jpg,.jpeg,.gif,.svg,.webp,.bmp';
+        fileInput.style.display = 'none';
+        fileInput.id = 'hidden-file-input';
+        fileInput.webkitdirectory = false; // Allow file selection, not directory
+        fileInput.multiple = false; // Single file selection
+        document.body.appendChild(fileInput);
+        
+        // Add click handlers to all elements with data-media-tip in edit mode
+        document.addEventListener('click', function(e) {
+          const target = e.target.closest('[data-media-tip]');
+          if (target && document.body.classList.contains('edit-mode')) {
+            e.preventDefault();
+            e.stopPropagation();
+            openNativeFilePicker(target);
+          }
+        });
+        
+        // Handle file selection
+        fileInput.addEventListener('change', function(e) {
+          if (e.target.files.length > 0) {
+            handleFileSelection(e.target.files[0]);
+          }
+        });
+      }
+      
+      function openNativeFilePicker(target) {
+        currentMediaTarget = target;
+        
+        // Set up file input to prioritize PNG files
+        const fileInput = document.getElementById('hidden-file-input');
+        
+        // Reset any previous value
+        fileInput.value = '';
+        
+        // Trigger the file picker dialog
+        fileInput.click();
+        
+        updateStatus('Browse folders and select a PNG image (or other image types)', 'info');
+      }
+      
+      function handleFileSelection(file) {
+        if (!currentMediaTarget) return;
+        
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          updateStatus('Please select a valid image file', 'error');
+          return;
+        }
+        
+        // Create object URL for the selected file
+        const imageUrl = URL.createObjectURL(file);
+        const tip = currentMediaTarget.getAttribute('data-media-tip');
+        
+        // Apply the image based on the tip type
+        if (tip.includes('background')) {
+          // Set as background image
+          currentMediaTarget.style.backgroundImage = `url('${imageUrl}')`;
+          currentMediaTarget.style.backgroundSize = 'cover';
+          currentMediaTarget.style.backgroundPosition = 'center';
+          currentMediaTarget.classList.add('has-media-background');
+        } else if (tip.includes('logo') || tip.includes('icon')) {
+          // Replace content with image
+          const img = document.createElement('img');
+          img.src = imageUrl;
+          img.alt = file.name;
+          img.style.maxWidth = '100%';
+          img.style.height = 'auto';
+          currentMediaTarget.innerHTML = '';
+          currentMediaTarget.appendChild(img);
+          currentMediaTarget.classList.add('element-transformed-to-media');
+          
+          // Make the new image scroll-resizable
+          setTimeout(() => makeImageScrollResizable(img), 100);
+        }
+        
+        // Mark as changed
+        markAsChanged();
+        updateStatus(`Image "${file.name}" applied successfully`, 'success');
+        
+        // Reset current target
+        currentMediaTarget = null;
+      }
+      
+      function closeMediaBrowser() {
+        document.getElementById('media-browser-modal').classList.remove('show');
+        currentMediaTarget = null;
+        selectedFile = null;
+        currentPath = '';
+      }
+      
+      function loadDirectory(path) {
+        const browser = document.getElementById('file-browser');
+        browser.innerHTML = '';
+        
+        const directory = fileSystem[path];
+        if (!directory) {
+          browser.innerHTML = '<div class="file-item">Directory not found</div>';
+          return;
+        }
+        
+        // Add parent directory link if not in root
+        if (path !== '') {
+          const parentPath = path.includes('/') ? path.substring(0, path.lastIndexOf('/')) : '';
+          const parentItem = createFileItem('..', 'folder', '', true, parentPath);
+          browser.appendChild(parentItem);
+        }
+        
+        // Add folders
+        directory.folders.forEach(folderName => {
+          const folderPath = path === '' ? folderName : `${path}/${folderName}`;
+          const folderItem = createFileItem(folderName, 'folder', '', false, folderPath);
+          browser.appendChild(folderItem);
+        });
+        
+        // Add files
+        directory.files.forEach(file => {
+          const filePath = path === '' ? file.name : `${path}/${file.name}`;
+          const fileItem = createFileItem(file.name, file.type, file.size, false, filePath);
+          browser.appendChild(fileItem);
+        });
+      }
+      
+      function createFileItem(name, type, size, isParent, fullPath) {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        
+        const icon = document.createElement('div');
+        icon.className = 'file-icon';
+        
+        if (isParent) {
+          icon.textContent = '↰';
+          item.onclick = () => navigateToFolder(fullPath);
+        } else if (type === 'folder') {
+          icon.textContent = '📁';
+          item.onclick = () => navigateToFolder(fullPath);
+        } else {
+          icon.textContent = '🖼️';
+          item.onclick = () => selectFileItem(item, fullPath);
+        }
+        
+        const info = document.createElement('div');
+        info.className = 'file-info';
+        
+        const fileName = document.createElement('div');
+        fileName.className = 'file-name';
+        fileName.textContent = name;
+        
+        const fileDetails = document.createElement('div');
+        fileDetails.className = 'file-details';
+        
+        if (isParent) {
+          fileDetails.textContent = 'Parent directory';
+        } else if (type === 'folder') {
+          fileDetails.textContent = 'Folder';
+        } else {
+          fileDetails.textContent = `Image • ${size}`;
+        }
+        
+        info.appendChild(fileName);
+        info.appendChild(fileDetails);
+        item.appendChild(icon);
+        item.appendChild(info);
+        
+        // Add preview for image files
+        if (type === 'image') {
+          const preview = document.createElement('img');
+          preview.className = 'file-preview';
+          preview.src = `/images/${fullPath}`;
+          preview.alt = name;
+          preview.onerror = () => {
+            preview.style.display = 'none';
+          };
+          item.appendChild(preview);
+        }
+        
+        return item;
+      }
+      
+      function navigateToFolder(path) {
+        currentPath = path;
+        selectedFile = null;
+        document.getElementById('select-media-btn').disabled = true;
+        loadDirectory(path);
+        updateBreadcrumb(path);
+      }
+      
+      function updateBreadcrumb(path) {
+        const breadcrumb = document.getElementById('nav-breadcrumb');
+        breadcrumb.innerHTML = '';
+        
+        const parts = path === '' ? ['images'] : ['images', ...path.split('/')];
+        
+        parts.forEach((part, index) => {
+          if (index > 0) {
+            const separator = document.createElement('span');
+            separator.className = 'nav-breadcrumb-separator';
+            separator.textContent = ' / ';
+            breadcrumb.appendChild(separator);
+          }
+          
+          const item = document.createElement('span');
+          item.className = 'nav-breadcrumb-item';
+          item.textContent = part;
+          
+          if (index === 0) {
+            item.onclick = () => navigateToFolder('');
+          } else {
+            const clickPath = parts.slice(1, index + 1).join('/');
+            item.onclick = () => navigateToFolder(clickPath);
+          }
+          
+          breadcrumb.appendChild(item);
+        });
+      }
+      
+      function selectFileItem(item, filePath) {
+        // Remove previous selection
+        document.querySelectorAll('.file-item').forEach(i => i.classList.remove('selected'));
+        
+        // Select current item
+        item.classList.add('selected');
+        selectedFile = filePath;
+        
+        // Enable select button
+        document.getElementById('select-media-btn').disabled = false;
+        updateStatus(`Selected: ${filePath}`, 'info');
+      }
+      
+      function selectMedia() {
+        if (!selectedFile || !currentMediaTarget) return;
+        
+        const imagePath = `/images/${selectedFile}`;
+        const tip = currentMediaTarget.getAttribute('data-media-tip');
+        
+        // Apply the image based on the tip type
+        if (tip.includes('background')) {
+          // Set as background image
+          currentMediaTarget.style.backgroundImage = `url('${imagePath}')`;
+          currentMediaTarget.style.backgroundSize = 'cover';
+          currentMediaTarget.style.backgroundPosition = 'center';
+          currentMediaTarget.classList.add('has-media-background');
+        } else if (tip.includes('logo') || tip.includes('icon')) {
+          // Replace content with image
+          const img = document.createElement('img');
+          img.src = imagePath;
+          img.alt = selectedFile;
+          img.style.maxWidth = '100%';
+          img.style.height = 'auto';
+          currentMediaTarget.innerHTML = '';
+          currentMediaTarget.appendChild(img);
+          currentMediaTarget.classList.add('element-transformed-to-media');
+          
+          // Make the new image scroll-resizable
+          setTimeout(() => makeImageScrollResizable(img), 100);
+        }
+        
+        // Mark as changed and close browser
+        markAsChanged();
+        closeMediaBrowser();
+        updateStatus(`Image ${selectedFile} applied successfully`, 'success');
+      }
+
+      // Change tracking functionality
+      let hasUnsavedChanges = false;
+      
+      function initializeChangeTracking() {
+        const saveBtn = document.getElementById('save-btn');
+        
+        // Monitor all editable elements for changes
+        const editableElements = document.querySelectorAll('.editable');
+        editableElements.forEach(element => {
+          element.addEventListener('input', markAsChanged);
+          element.addEventListener('blur', markAsChanged);
+        });
+        
+        // Monitor control panel changes
+        const controls = document.querySelectorAll('select, input[type="color"], input[type="range"], .color-fine-btn');
+        controls.forEach(control => {
+          control.addEventListener('change', markAsChanged);
+          control.addEventListener('input', markAsChanged);
+          if (control.classList.contains('color-fine-btn')) {
+            control.addEventListener('click', markAsChanged);
+          }
+        });
+        
+        // Monitor edit mode toggle
+        const editModeToggle = document.getElementById('edit-mode-toggle');
+        if (editModeToggle) {
+          editModeToggle.addEventListener('click', function() {
+            markAsChanged();
+            // Update status info when edit mode changes
+            setTimeout(() => {
+              const isEditMode = document.body.classList.contains('edit-mode');
+              document.getElementById('status-info').textContent = `Edit mode: ${isEditMode ? 'ON' : 'OFF'}`;
+              if (isEditMode) {
+                updateStatus('Edit mode active - Click on highlighted elements to add images', 'info');
+              } else {
+                updateStatus('Edit mode disabled', 'success');
+              }
+            }, 100);
+          });
+        }
+      }
+      
+      function markAsChanged() {
+        if (!hasUnsavedChanges) {
+          hasUnsavedChanges = true;
+          showSaveButton();
+          updateStatus("Changes detected - Click Save to preserve changes", "warning");
+        }
+      }
+      
+      function markAsSaved() {
+        hasUnsavedChanges = false;
+        hideSaveButton();
+        updateStatus("Changes saved successfully", "success");
+      }
+      
+      function showSaveButton() {
+        const saveBtn = document.getElementById('save-btn');
+        saveBtn.classList.remove('save-btn-hidden');
+        saveBtn.classList.add('save-btn-visible');
+      }
+      
+      function hideSaveButton() {
+        const saveBtn = document.getElementById('save-btn');
+        saveBtn.classList.remove('save-btn-visible');
+        saveBtn.classList.add('save-btn-hidden');
+      }
+
+      // Save button functionality is now handled by wb.js
+      document.getElementById('save-btn').addEventListener('click', function() {
+        // This is just a stub - actual save functionality is in wb.js
+        console.log('Save button clicked - functionality handled by wb.js');
+        
+        // Mark as saved after successful save
+        markAsSaved();
+      });
+    </script>
+  </body>
+</html>
