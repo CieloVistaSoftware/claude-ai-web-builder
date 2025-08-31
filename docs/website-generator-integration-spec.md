@@ -1,9 +1,11 @@
 # MCP Website Generator Integration Specification
 
-**Document Version**: 1.0  
-**Date**: June 14, 2025  
+**Document Version**: 1.1  
+**Date**: December 28, 2024  
 **Status**: Technical Specification  
-**Audience**: External Tool Developers  
+**Audience**: External Tool Developers
+
+> **📢 Implementation Update**: The core Claude AI Website Builder now uses pure TypeScript instead of React. External generators can still support React, but our main implementation is TypeScript-based.  
 
 ## 🎯 Overview
 

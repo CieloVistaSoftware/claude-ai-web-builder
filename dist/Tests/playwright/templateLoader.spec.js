@@ -63,7 +63,6 @@ test_1.test.describe('Template Loader Tests', () => {
             // Required elements
             const requiredElements = [
                 '<div id="root">',
-                '<script type="module" src="/src/main.tsx"></script>',
                 'themeSelect',
                 'layoutSelect',
                 'navSelect',
@@ -79,31 +78,7 @@ test_1.test.describe('Template Loader Tests', () => {
             console.log('⚠️ HTML file not found, skipping element checks');
         }
     });
-    (0, test_1.test)('should have main.tsx file with correct imports', async () => {
-        const mainTsxFile = path.join(projectRoot, 'src', 'main.tsx');
-        if (fs.existsSync(mainTsxFile)) {
-            const mainTsxContent = fs.readFileSync(mainTsxFile, 'utf8');
-            // Check for required imports/references
-            const requiredImports = [
-                'HybridWebsiteBuilder',
-                'React',
-                'ReactDOM'
-            ];
-            requiredImports.forEach(importName => {
-                if (mainTsxContent.includes(importName)) {
-                    console.log(`✅ Found import/reference: ${importName}`);
-                }
-                else {
-                    console.log(`⚠️ Missing import/reference: ${importName}`);
-                }
-            });
-            // At least React should be imported
-            (0, test_1.expect)(mainTsxContent).toMatch(/import.*React/i);
-        }
-        else {
-            console.log('⚠️ main.tsx file not found');
-        }
-    });
+    // Note: main.tsx has been removed as the project uses wb/wb.html approach instead
     (0, test_1.test)('should load website template generator in browser', async ({ page }) => {
         // Try to navigate to the template generator
         try {

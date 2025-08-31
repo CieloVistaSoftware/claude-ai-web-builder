@@ -1,7 +1,7 @@
 # Connecting Claude AI Website Builder to MCP Server
 
 <div align="center">
-  <img src="../ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="../images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
 </div>
 
 ## Overview

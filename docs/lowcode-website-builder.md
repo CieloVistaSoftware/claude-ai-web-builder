@@ -1,8 +1,12 @@
-# Hybrid Website Builder Component
+# ~~Hybrid Website Builder Component~~ → wb.ts Implementation
 
-## Overview
+## ⚠️ ARCHITECTURAL CHANGE
 
-The `HybridWebsiteBuilder` is the core component of the Claude AI Web Site Builder application. It provides a low-code interface for building and customizing websites with various layouts, themes, and content blocks.
+**The React-based `HybridWebsiteBuilder` component has been REMOVED** and replaced with a pure TypeScript implementation in `wb/wb.ts`.
+
+## New Implementation Overview
+
+The website builder is now implemented as a pure TypeScript application that provides a low-code interface for building and customizing websites with various layouts, themes, and content blocks.
 
 ## Features
 
@@ -44,19 +48,25 @@ interface ThemeConfig {
 }
 ```
 
-## Usage
+## New Usage
 
-This component is the main application component and is imported and rendered in the main.tsx file:
+The website builder is now accessed through the `wb/wb.html` file which loads the compiled TypeScript:
 
-```tsx
-import HybridWebsiteBuilder from './lowcode_website_builder';
-
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <HybridWebsiteBuilder />
-  </React.StrictMode>
-);
+```html
+<!-- wb/wb.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="wb.css">
+</head>
+<body>
+    <!-- Website builder interface -->
+    <script src="wb.js"></script> <!-- Compiled from wb.ts -->
+</body>
+</html>
 ```
+
+**Entry Point**: `index.html` redirects to `wb/wb.html`
 
 ## Component State Management
 

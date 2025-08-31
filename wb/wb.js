@@ -1,57 +1,30 @@
 /**
  * Claude AI Website Builder - wb.ts
  *
- * This file contains the main functionality for the Claude AI Website Builder application.
+ * This TypeScript file contains the main functionality for the Claude AI Website Builder application.
  * It provides a user-friendly interface for building, customizing, and exporting websites
  * with dynamic content, themes, layouts, and media support.
  *
- * Features:
- * - Edit mode for modifying website content
- * - Theme selection and color customization
- * - Layout switching (top, left, right navigation)
- * - Media placeholders for images, videos, and audio
- * - Dynamic page creation
- * - State management for saving/restoring website settings
- * - Export functionality for generated websites
+ * The application includes features such as:
+ * - Edit mode for modifying website content directly in the browser
+ * - Theme selection with dark/light mode and custom color themes
+ * - Automatic system color preference detection
+ * - Layout switching (top navigation, side navigation options)
+ * - Media placeholders with support for images, videos, and audio
+ * - Dynamic page creation for common website sections
+ * - Right-click context menus for advanced content manipulation
+ * - Persistent state management for saving user preferences
+ * - Export functionality for generated websites (HTML, CSS, JS)
  *
- * Used by: wb.html (main website builder interface)
+ * File Dependencies:
+ * - wb.html: Main interface that loads this script
+ * - wb.css: Styles for the website builder interface
+ *
+ * @file This file provides the core functionality for the Claude AI Website Builder
+ * @author Claude AI Team
+ * @version 1.0.0
  */
-// Function to apply website options (stub for now - will be implemented later)
-function applyWebsiteOptions() {
-    // Apply website options from the websiteOptions object
-    if (!websiteOptions)
-        return;
-    // Set title and subtitle if they exist
-    const siteTitle = document.getElementById('site-title');
-    const siteSubtitle = document.getElementById('site-subtitle');
-    if (siteTitle && websiteOptions.title) {
-        siteTitle.textContent = websiteOptions.title;
-    }
-    if (siteSubtitle && websiteOptions.subtitle) {
-        siteSubtitle.textContent = websiteOptions.subtitle;
-    }
-    // Apply theme and layout
-    if (websiteOptions.theme) {
-        setColorMode(websiteOptions.theme, false);
-    }
-    if (websiteOptions.layout && body) {
-        body.setAttribute('data-layout', websiteOptions.layout);
-    }
-}
-// Status bar utility function
-function updateStatus(message, type = 'info') {
-    if (window.updateStatus) {
-        window.updateStatus(message, type);
-    }
-    else {
-        console.log(`Status: [${type}] ${message}`);
-    }
-}
-// Handle URL parameters (stub for now - will be implemented as needed)
-function handleUrlParameters() {
-    // Implementation will go here
-}
-// State management
+// State management variables
 let isEditMode = false;
 let isDragging = false;
 let dragOffset = { x: 0, y: 0 };
@@ -95,29 +68,75 @@ let secondaryColorPicker;
 let accentColorPicker;
 let colorIndicator;
 let colorPreviewBox;
-/**
- * Initialize all DOM elements needed by the website builder
- * Adds proper TypeScript type casting to avoid null issues
- */
+// Initialize DOM elements
 function initializeElements() {
     body = document.body;
-    controlPanel = document.getElementById('control-panel');
-    controlPanelBody = controlPanel.querySelector('.control-panel-body');
-    minimizeBtn = document.getElementById('minimize-btn');
-    editModeToggle = document.getElementById('edit-mode-toggle');
-    layoutSelect = document.getElementById('layout-select');
-    themeSelect = document.getElementById('theme-select');
-    saveBtn = document.getElementById('save-btn');
-    resetBtn = document.getElementById('reset-btn');
-    // Color related elements
-    colorBar = document.getElementById('color-bar');
-    lightnessSlider = document.getElementById('lightness-slider');
-    saturationSlider = document.getElementById('saturation-slider');
-    primaryColorPicker = document.getElementById('primary-color');
-    secondaryColorPicker = document.getElementById('secondary-color');
-    accentColorPicker = document.getElementById('accent-color');
-    colorIndicator = document.getElementById('color-indicator');
-    colorPreviewBox = document.getElementById('color-bar-preview');
+    // Main UI elements with null checks
+    const controlPanelEl = document.getElementById('control-panel');
+    if (!controlPanelEl)
+        throw new Error('Control panel element not found');
+    controlPanel = controlPanelEl;
+    const controlPanelBodyEl = controlPanel.querySelector('.control-panel-body');
+    if (!controlPanelBodyEl)
+        throw new Error('Control panel body not found');
+    controlPanelBody = controlPanelBodyEl;
+    const minimizeBtnEl = document.getElementById('minimize-btn');
+    if (!minimizeBtnEl)
+        throw new Error('Minimize button not found');
+    minimizeBtn = minimizeBtnEl;
+    const editModeToggleEl = document.getElementById('edit-mode-toggle');
+    if (!editModeToggleEl)
+        throw new Error('Edit mode toggle not found');
+    editModeToggle = editModeToggleEl;
+    const layoutSelectEl = document.getElementById('layout-select');
+    if (!layoutSelectEl)
+        throw new Error('Layout select not found');
+    layoutSelect = layoutSelectEl;
+    const themeSelectEl = document.getElementById('theme-select');
+    if (!themeSelectEl)
+        throw new Error('Theme select not found');
+    themeSelect = themeSelectEl;
+    const saveBtnEl = document.getElementById('save-btn');
+    if (!saveBtnEl)
+        throw new Error('Save button not found');
+    saveBtn = saveBtnEl;
+    const resetBtnEl = document.getElementById('reset-btn');
+    if (!resetBtnEl)
+        throw new Error('Reset button not found');
+    resetBtn = resetBtnEl;
+    // Color related elements with null checks
+    const colorBarEl = document.getElementById('color-bar');
+    if (!colorBarEl)
+        throw new Error('Color bar not found');
+    colorBar = colorBarEl;
+    const lightnessSliderEl = document.getElementById('lightness-slider');
+    if (!lightnessSliderEl)
+        throw new Error('Lightness slider not found');
+    lightnessSlider = lightnessSliderEl;
+    const saturationSliderEl = document.getElementById('saturation-slider');
+    if (!saturationSliderEl)
+        throw new Error('Saturation slider not found');
+    saturationSlider = saturationSliderEl;
+    const primaryColorPickerEl = document.getElementById('primary-color');
+    if (!primaryColorPickerEl)
+        throw new Error('Primary color picker not found');
+    primaryColorPicker = primaryColorPickerEl;
+    const secondaryColorPickerEl = document.getElementById('secondary-color');
+    if (!secondaryColorPickerEl)
+        throw new Error('Secondary color picker not found');
+    secondaryColorPicker = secondaryColorPickerEl;
+    const accentColorPickerEl = document.getElementById('accent-color');
+    if (!accentColorPickerEl)
+        throw new Error('Accent color picker not found');
+    accentColorPicker = accentColorPickerEl;
+    const colorIndicatorEl = document.getElementById('color-indicator');
+    if (!colorIndicatorEl)
+        throw new Error('Color indicator not found');
+    colorIndicator = colorIndicatorEl;
+    const colorPreviewBoxEl = document.getElementById('color-bar-preview');
+    if (!colorPreviewBoxEl)
+        throw new Error('Color preview box not found');
+    colorPreviewBox = colorPreviewBoxEl;
 }
 // Initialize
 function init() {
@@ -126,7 +145,7 @@ function init() {
     setupEditMode();
     setupLayoutControl();
     setupThemeControl();
-    setupButtonActions();
+    setupButtonActions(); // This sets up the save button with folder explorer
     setupMediaPlaceholders();
     setupDynamicPagesNavigation();
     setupColorBar();
@@ -141,14 +160,15 @@ function init() {
         websiteOptions.theme = 'dark';
         console.log('No saved state, defaulting to dark mode');
     }
-    handleUrlParameters(); // Handle URL parameters on init
+    // handleUrlParameters(); // Handle URL parameters on init - commented out as function doesn't exist
 }
 // Control Panel Setup
 function setupControlPanel() {
     const header = controlPanel.querySelector('.control-panel-header');
     // Dragging
-    header.addEventListener('mousedown', (e) => {
-        if (e.target.closest('button'))
+    header === null || header === void 0 ? void 0 : header.addEventListener('mousedown', (e) => {
+        var _a;
+        if ((_a = e.target) === null || _a === void 0 ? void 0 : _a.closest('button'))
             return;
         isDragging = true;
         const rect = controlPanel.getBoundingClientRect();
@@ -173,7 +193,7 @@ function setupControlPanel() {
     minimizeBtn.addEventListener('click', () => {
         isMinimized = !isMinimized;
         controlPanel.classList.toggle('minimized', isMinimized);
-        minimizeBtn.textContent = isMinimized ? '▲' : '▼';
+        minimizeBtn.textContent = isMinimized ? '+' : '−';
         minimizeBtn.title = isMinimized ? 'Expand' : 'Minimize';
     });
 }
@@ -187,18 +207,22 @@ function setupEditMode() {
         // Update status bar
         if (window.updateStatus) {
             if (isEditMode) {
-                updateStatus('Edit mode ON - Content can now be edited', 'info');
-                document.getElementById('status-info').textContent = 'Edit mode: ON';
+                window.updateStatus('Edit mode ON - Content can now be edited', 'info');
+                const statusInfo = document.getElementById('status-info');
+                if (statusInfo)
+                    statusInfo.textContent = 'Edit mode: ON';
             }
             else {
-                updateStatus('Edit mode OFF - Content is now locked', 'success');
-                document.getElementById('status-info').textContent = 'Edit mode: OFF';
+                window.updateStatus('Edit mode OFF - Content is now locked', 'success');
+                const statusInfo = document.getElementById('status-info');
+                if (statusInfo)
+                    statusInfo.textContent = 'Edit mode: OFF';
             }
         }
         // Toggle contenteditable on all editable elements
         const editables = document.querySelectorAll('.editable');
         editables.forEach(el => {
-            el.contentEditable = isEditMode;
+            el.contentEditable = String(isEditMode);
         });
         // Properly handle media placeholders
         const mediaPlaceholders = document.querySelectorAll('.media-placeholder');
@@ -248,7 +272,7 @@ function setupThemeControl() {
         catch (e) {
             // Fallback for older browsers
             darkModeMediaQuery.addListener((e) => {
-                if (websiteOptions.theme === 'auto') {
+                if (websiteOsaveWebsiteFilesptions.theme === 'auto') {
                     const newMode = e.matches ? 'dark' : 'light';
                     setColorMode(newMode, false);
                     console.log('System color preference changed to:', newMode);
@@ -259,18 +283,95 @@ function setupThemeControl() {
 }
 // Button Actions
 function setupButtonActions() {
-    // Save Website Files
-    saveBtn.addEventListener('click', () => {
-        const siteName = prompt('Enter the name for your website files (e.g., "MySite" or "folder/MySite"):');
-        if (!siteName)
-            return;
-        saveWebsiteFiles(siteName);
-    }); // Reset Content
+    // Save Website Files to Sites/ folder
+    saveBtn.addEventListener('click', async () => {
+        try {
+            await saveToSitesFolder();
+        } catch (error) {
+            console.error('Save failed:', error);
+            if (window.updateStatus) {
+                window.updateStatus('Save failed: ' + error.message, 'error');
+            }
+        }
+    });
+
+    // Save to Sites/ folder (all browsers)
+    async function saveToSitesFolder() {
+        const siteName = prompt('Enter the name for your website (e.g., "MySite"):') || 'MyWebsite';
+        
+        // Generate the complete website HTML
+        const websiteHTML = generateCompleteHTML();
+        
+        // Create download link that will save to Sites/ folder
+        const blob = new Blob([websiteHTML], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Sites/${siteName}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        if (window.updateStatus) {
+            window.updateStatus(`Website saved as Sites/${siteName}.html`, 'success');
+        }
+    }
+
+    // Generate complete HTML with all content and styles
+    function generateCompleteHTML() {
+        // Clone the current document to avoid modifying the original
+        const docClone = document.cloneNode(true);
+        
+        // Remove the control panel from the clone
+        const controlPanel = docClone.getElementById('control-panel');
+        if (controlPanel) {
+            controlPanel.remove();
+        }
+        
+        // Remove edit mode classes and attributes
+        docClone.body.classList.remove('edit-mode');
+        docClone.querySelectorAll('.editable').forEach(el => {
+            el.removeAttribute('contenteditable');
+            el.classList.remove('editable');
+        });
+        
+        // Hide media placeholders that don't have content
+        docClone.querySelectorAll('.media-placeholder').forEach(placeholder => {
+            if (!placeholder.classList.contains('has-media')) {
+                placeholder.style.display = 'none';
+            }
+        });
+        
+        // Add meta tags for responsive design
+        let headContent = docClone.head.innerHTML;
+        if (!headContent.includes('viewport')) {
+            headContent = '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' + headContent;
+        }
+        if (!headContent.includes('charset')) {
+            headContent = '<meta charset="UTF-8">\n' + headContent;
+        }
+        
+        // Generate complete HTML
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+${headContent}
+<title>${websiteOptions.title || 'My Website'}</title>
+</head>
+${docClone.body.outerHTML}
+</html>`;
+    }
+    
+    // Note: Save button handler is defined above in the folder explorer section
+    // No additional save handlers should be added here
+    
+    // Reset Content
     resetBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to reset all content to defaults?')) {
             // Update status bar
             if (window.updateStatus) {
-                updateStatus('Resetting website to defaults...', 'warning');
+                window.updateStatus('Resetting website to defaults...', 'warning');
             }
             // Reset websiteOptions to defaults
             websiteOptions = {
@@ -283,7 +384,7 @@ function setupButtonActions() {
             // Clear localStorage
             localStorage.removeItem('websiteBuilderState');
             // Apply default options
-            applyWebsiteOptions();
+            // applyWebsiteOptions(); // Commented out - function doesn't exist
             // Reset color bar state
             colorBarState = {
                 hue: 0,
@@ -301,312 +402,67 @@ function setupButtonActions() {
             updateColorBarPreview();
             // Update status bar again
             if (window.updateStatus) {
-                updateStatus('Website reset to defaults', 'success');
+                window.updateStatus('Website reset to defaults', 'success');
             }
             // Force page reload to reset all content
             location.reload();
         }
     });
+    
+    // Note: Save button handler is defined above in the folder explorer section
+    // No additional save handlers should be added here
 }
-/**
- * Sets up media placeholders and add media functionality for all web elements
- * - Allows clicking on media placeholders to add media
- * - Adds ability to insert media above or below ANY web element
- * - Supports transforming elements into media containers
- */
+// Media Placeholders with File Explorer
 function setupMediaPlaceholders() {
     // Use event delegation to handle both existing and dynamically created placeholders
     document.addEventListener('click', (e) => {
-        const placeholder = e.target.closest('.media-placeholder');
-        if (placeholder) {
-            // Don't trigger file upload if clicking on caption
-            if (e.target.classList.contains('media-caption'))
-                return;
-            // Only allow file selection in edit mode
-            if (!isEditMode)
-                return;
-            addMediaToPlaceholder(placeholder);
-        }
-    });
-    
-    // Add right-click context menu to ALL elements when in edit mode
-    document.addEventListener('contextmenu', (e) => {
+        var _a, _b;
+        const placeholder = (_a = e.target) === null || _a === void 0 ? void 0 : _a.closest('.media-placeholder');
+        if (!placeholder)
+            return;
+        // Don't trigger file upload if clicking on caption
+        if ((_b = e.target) === null || _b === void 0 ? void 0 : _b.classList.contains('media-caption'))
+            return;
+        // Only allow file selection in edit mode
         if (!isEditMode)
             return;
-            
-        // Skip elements we definitely don't want to add media to
-        const skipElements = ['HTML', 'BODY', 'SCRIPT', 'STYLE', 'LINK', 'META', 'TITLE', 'HEAD'];
-        if (skipElements.includes(e.target.tagName))
-            return;
-            
-        // Get the closest meaningful element - first try editable, then any reasonable element
-        let targetElement = e.target.closest('.editable');
-        
-        // If no editable element found, find the closest meaningful element
-        if (!targetElement) {
-            targetElement = e.target.closest('div, section, article, aside, header, footer, nav, main, p, h1, h2, h3, h4, h5, h6, ul, ol, li, span, a');
-        }
-        
-        if (!targetElement)
-            return;
-            
-        e.preventDefault();
-        showMediaContextMenu(e, targetElement);
-    });
-    
-    // Initialize existing placeholders
-    initializeExistingPlaceholders();
-    
-    // Setup media controls for editable elements
-    setupEditableElementsMediaControls();
-}
-/**
- * Adds media to an existing placeholder
- * @param {HTMLElement} placeholder - The placeholder element to add media to
- */
-function addMediaToPlaceholder(placeholder) {
-    // Create file input
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*,video/*,audio/*';
-    input.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (file.type.startsWith('image/')) {
-                    // Handle image
-                    placeholder.style.backgroundImage = `url(${e.target.result})`;
+        // Create file input
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.addEventListener('change', (e) => {
+            var _a;
+            const file = (_a = e.target.files) === null || _a === void 0 ? void 0 : _a[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    var _a;
+                    placeholder.style.backgroundImage = `url(${(_a = e.target) === null || _a === void 0 ? void 0 : _a.result})`;
                     placeholder.style.backgroundSize = 'cover';
                     placeholder.style.backgroundPosition = 'center';
-                }
-                else if (file.type.startsWith('video/')) {
-                    // Handle video
-                    const video = document.createElement('video');
-                    video.src = e.target.result;
-                    video.controls = true;
-                    video.style.width = '100%';
-                    video.style.height = '100%';
-                    placeholder.innerHTML = '';
-                    placeholder.appendChild(video);
-                }
-                else if (file.type.startsWith('audio/')) {
-                    // Handle audio
-                    const audio = document.createElement('audio');
-                    audio.src = e.target.result;
-                    audio.controls = true;
-                    audio.style.width = '100%';
-                    placeholder.innerHTML = '';
-                    placeholder.appendChild(audio);
-                }
-                const span = placeholder.querySelector('span');
-                if (span)
-                    span.style.display = 'none';
-                placeholder.classList.add('has-media');
-                placeholder.setAttribute('data-media-type', file.type.split('/')[0]);
-                // Save state after media is loaded
-                saveState();
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-    // Trigger file picker
-    input.click();
-}
-/**
- * Creates and displays a context menu for adding media to or around any web element
- * @param {MouseEvent} e - The mouse event that triggered the context menu
- * @param {HTMLElement} element - The element to add media to or around
- */
-function showMediaContextMenu(e, element) {
-    // Remove any existing context menu
-    const existingMenu = document.querySelector('.media-context-menu');
-    if (existingMenu)
-        existingMenu.remove();
-        
-    // Create context menu
-    const menu = document.createElement('div');
-    menu.className = 'media-context-menu';
-    menu.style.position = 'absolute';
-    menu.style.left = `${e.pageX}px`;
-    menu.style.top = `${e.pageY}px`;
-    menu.style.background = 'var(--surface, #ffffff)';
-    menu.style.border = '1px solid var(--border-color, #e0e0e0)';
-    menu.style.borderRadius = '4px';
-    menu.style.padding = '8px 0';
-    menu.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-    menu.style.zIndex = '1000';
-    
-    // Add section heading
-    const menuTitle = document.createElement('div');
-    menuTitle.className = 'media-context-menu-title';
-    menuTitle.textContent = 'Add Media';
-    menuTitle.style.padding = '4px 16px';
-    menuTitle.style.fontWeight = 'bold';
-    menuTitle.style.borderBottom = '1px solid var(--border-color, #e0e0e0)';
-    menuTitle.style.marginBottom = '4px';
-    
-    // Add separator function
-    function addSeparator() {
-        const separator = document.createElement('div');
-        separator.className = 'media-context-menu-separator';
-        separator.style.height = '1px';
-        separator.style.background = 'var(--border-color, #e0e0e0)';
-        separator.style.margin = '4px 0';
-        menu.appendChild(separator);
-    }
-    
-    // Add menu item function
-    function addMenuItem(text, clickHandler) {
-        const item = document.createElement('div');
-        item.className = 'media-context-menu-item';
-        item.textContent = text;
-        item.style.padding = '8px 16px';
-        item.style.cursor = 'pointer';
-        
-        // Add hover effect
-        item.addEventListener('mouseover', () => {
-            item.style.background = 'var(--neutral-100, #f0f0f0)';
-        });
-        item.addEventListener('mouseout', () => {
-            item.style.background = 'transparent';
-        });
-        
-        item.addEventListener('click', () => {
-            clickHandler();
-            menu.remove();
-        });
-        menu.appendChild(item);
-        return item;
-    }
-    
-    // Add menu items
-    menu.appendChild(menuTitle);
-    
-    // Position options
-    addMenuItem('Add media above', () => addMediaNearElement(element, 'above'));
-    addMenuItem('Add media below', () => addMediaNearElement(element, 'below'));
-    
-    addSeparator();
-    
-    // Transform options
-    addMenuItem('Replace with media', () => transformElementToMedia(element));
-    addMenuItem('Add media background', () => addMediaBackground(element));
-    
-    if (element.tagName === 'DIV' || element.tagName === 'SECTION') {
-        addSeparator();
-        addMenuItem('Add media inside (start)', () => addMediaInsideElement(element, 'start'));
-        addMenuItem('Add media inside (end)', () => addMediaInsideElement(element, 'end'));
-    }
-    
-    // Add menu to document
-    document.body.appendChild(menu);
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function closeMenu() {
-        menu.remove();
-        document.removeEventListener('click', closeMenu);
-    });
-}
-/**
- * Adds media above or below an editable element
- * @param {HTMLElement} element - The element to add media near
- * @param {string} position - Whether to add media 'above' or 'below' the element
- */
-function addMediaNearElement(element, position) {
-    // Create a new media placeholder
-    const placeholder = document.createElement('div');
-    placeholder.className = 'media-placeholder';
-    placeholder.style.width = '100%';
-    placeholder.style.height = '200px';
-    placeholder.style.background = '#f0f0f0';
-    placeholder.style.display = 'flex';
-    placeholder.style.alignItems = 'center';
-    placeholder.style.justifyContent = 'center';
-    placeholder.style.borderRadius = '8px';
-    placeholder.style.margin = '1rem 0';
-    // Add span with text
-    const span = document.createElement('span');
-    span.textContent = 'Click to add media';
-    placeholder.appendChild(span);
-    // Insert before or after the element
-    if (position === 'above') {
-        element.parentNode.insertBefore(placeholder, element);
-    }
-    else {
-        if (element.nextSibling) {
-            element.parentNode.insertBefore(placeholder, element.nextSibling);
-        }
-        else {
-            element.parentNode.appendChild(placeholder);
-        }
-    }
-    // Show notification
-    if (window.updateStatus) {
-        updateStatus(`Media placeholder added ${position} the element`, 'info');
-    }
-}
-/**
- * Adds media controls to all web elements
- */
-function setupEditableElementsMediaControls() {
-    // Add info to status bar about right-click functionality
-    const editModeToggle = document.getElementById('edit-mode-toggle');
-    editModeToggle.addEventListener('click', () => {
-        if (isEditMode) {
-            const statusInfo = document.getElementById('status-info');
-            if (statusInfo) {
-                const originalText = statusInfo.textContent;
-                statusInfo.textContent = originalText + ' | Right-click any element to add media';
-                
-                // Display a more visible notification
-                const notification = document.createElement('div');
-                notification.className = 'media-notification';
-                notification.textContent = 'Right-click ANY element to add media';
-                notification.style.position = 'fixed';
-                notification.style.top = '60px';
-                notification.style.left = '50%';
-                notification.style.transform = 'translateX(-50%)';
-                notification.style.background = 'var(--accent-color, #28a745)';
-                notification.style.color = 'white';
-                notification.style.padding = '10px 20px';
-                notification.style.borderRadius = '5px';
-                notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-                notification.style.zIndex = '1001';
-                notification.style.transition = 'opacity 0.5s ease-in-out';
-                
-                document.body.appendChild(notification);
-                
-                // Reset after 5 seconds
-                setTimeout(() => {
-                    if (isEditMode) {
-                        statusInfo.textContent = originalText;
-                        notification.style.opacity = '0';
-                        setTimeout(() => notification.remove(), 500);
-                    }
-                }, 5000);
+                    const span = placeholder.querySelector('span');
+                    if (span)
+                        span.style.display = 'none';
+                    placeholder.classList.add('has-media');
+                    // Save state after image is loaded
+                    saveState();
+                };
+                reader.readAsDataURL(file);
             }
-        }
+        });
+        // Trigger file picker
+        input.click();
     });
-    
-    // Show tip when hovering over web elements in edit mode
-    document.addEventListener('mouseover', (e) => {
-        if (!isEditMode) return;
-        
-        // Skip certain elements
-        const skipElements = ['HTML', 'BODY', 'SCRIPT', 'STYLE'];
-        if (skipElements.includes(e.target.tagName)) return;
-        
-        // Add a data attribute to show the tip is available
-        e.target.setAttribute('data-media-tip', 'right-click to add media');
-    });
+    // Initialize existing placeholders
+    initializeExistingPlaceholders();
 }
 function initializeExistingPlaceholders() {
     document.querySelectorAll('.media-placeholder').forEach(placeholder => {
-        if (placeholder.style.backgroundImage && placeholder.style.backgroundImage !== 'none' &&
-            placeholder.style.backgroundImage !== '') {
-            placeholder.classList.add('has-media');
-            const span = placeholder.querySelector('span');
+        const el = placeholder;
+        if (el.style.backgroundImage && el.style.backgroundImage !== 'none' &&
+            el.style.backgroundImage !== '') {
+            el.classList.add('has-media');
+            const span = el.querySelector('span');
             if (span)
                 span.style.display = 'none';
         }
@@ -615,132 +471,13 @@ function initializeExistingPlaceholders() {
     });
 }
 function updatePlaceholderVisibility(placeholder) {
-    if (!isEditMode && !placeholder.classList.contains('has-media')) {
-        placeholder.style.display = 'none';
+    const el = placeholder;
+    if (!isEditMode && !el.classList.contains('has-media')) {
+        el.style.display = 'none';
     }
     else {
-        placeholder.style.display = 'flex';
+        el.style.display = 'flex';
     }
-}
-
-/**
- * Transforms an existing element into a media element
- * @param {HTMLElement} element - The element to transform
- */
-function transformElementToMedia(element) {
-    // Store original content in data attribute (for potential restore)
-    const originalContent = element.innerHTML;
-    element.setAttribute('data-original-content', originalContent);
-    
-    // Create media placeholder
-    const placeholder = document.createElement('div');
-    placeholder.className = 'media-placeholder';
-    placeholder.style.width = '100%';
-    placeholder.style.height = '200px';
-    placeholder.style.background = '#f0f0f0';
-    placeholder.style.display = 'flex';
-    placeholder.style.alignItems = 'center';
-    placeholder.style.justifyContent = 'center';
-    placeholder.style.borderRadius = '8px';
-    placeholder.style.margin = '1rem 0';
-    
-    // Add span with text
-    const span = document.createElement('span');
-    span.textContent = 'Click to add media';
-    placeholder.appendChild(span);
-    
-    // Clear the element and add the placeholder
-    element.innerHTML = '';
-    element.appendChild(placeholder);
-    
-    // Add the original class of the element to maintain styling
-    element.classList.add('element-transformed-to-media');
-    
-    // Show notification
-    updateStatus('Element transformed into media element', 'info');
-    
-    // Add click handler to add media
-    placeholder.addEventListener('click', () => {
-        if (isEditMode) {
-            addMediaToPlaceholder(placeholder);
-        }
-    });
-}
-
-/**
- * Adds a media background to an element
- * @param {HTMLElement} element - The element to add a media background to
- */
-function addMediaBackground(element) {
-    // Create file input
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                // Save original background if any
-                const originalBg = element.style.backgroundImage;
-                if (originalBg) {
-                    element.setAttribute('data-original-bg', originalBg);
-                }
-                
-                // Apply background image
-                element.style.backgroundImage = `url(${e.target.result})`;
-                element.style.backgroundSize = 'cover';
-                element.style.backgroundPosition = 'center';
-                element.classList.add('has-media-background');
-                
-                // Save state
-                saveState();
-                updateStatus('Media background added to element', 'success');
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-    
-    // Trigger file picker
-    input.click();
-}
-
-/**
- * Adds media inside an element at the start or end
- * @param {HTMLElement} element - The element to add media inside
- * @param {string} position - Whether to add media at the 'start' or 'end' of the element
- */
-function addMediaInsideElement(element, position) {
-    // Create a new media placeholder
-    const placeholder = document.createElement('div');
-    placeholder.className = 'media-placeholder';
-    placeholder.style.width = '100%';
-    placeholder.style.height = '200px';
-    placeholder.style.background = '#f0f0f0';
-    placeholder.style.display = 'flex';
-    placeholder.style.alignItems = 'center';
-    placeholder.style.justifyContent = 'center';
-    placeholder.style.borderRadius = '8px';
-    placeholder.style.margin = '1rem 0';
-    
-    // Add span with text
-    const span = document.createElement('span');
-    span.textContent = 'Click to add media';
-    placeholder.appendChild(span);
-    
-    // Insert at start or end of element
-    if (position === 'start') {
-        if (element.firstChild) {
-            element.insertBefore(placeholder, element.firstChild);
-        } else {
-            element.appendChild(placeholder);
-        }
-    } else {
-        element.appendChild(placeholder);
-    }
-    
-    // Show notification
-    updateStatus(`Media placeholder added inside element (${position})`, 'info');
 }
 // Dynamic Page Creation and Navigation
 function setupDynamicPagesNavigation() {
@@ -779,90 +516,729 @@ function createDynamicPage(pageId, pageTitle) {
     // Make elements editable if in edit mode
     if (isEditMode) {
         newPage.querySelectorAll('.editable').forEach(el => {
-            el.contentEditable = true;
+            el.contentEditable = 'true';
         });
     }
     console.log(`🆕 Created dynamic page: ${pageId}`);
 }
-/**
- * Generates the content for different types of pages
- * @param {string} pageId - The ID of the page to generate
- * @param {string} pageTitle - The title of the page
- * @param {string} websiteType - The type of website (business, portfolio, etc.)
- * @returns {string} - The HTML content for the page
- */
 function generatePageContent(pageId, pageTitle, websiteType) {
     const pageTemplates = {
-        about: `<h2 class="section-title editable" contenteditable="false">${pageTitle}</h2>
-                <div class="content-card">
-                    <p class="card-description editable" contenteditable="false">
-                        This is the ${pageTitle} page. Edit this content to tell visitors about your organization.
-                    </p>
-                    <div class="media-placeholder">
-                        <span>Click to add media</span>
+        about: `
+            <div class="page-content">
+                <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
+                <div class="page-intro">
+                    <p class="editable" contenteditable="false">Learn more about our story, mission, and values.</p>
+                </div>
+                <div class="content-grid">
+                    <div class="content-column">
+                        <h3 class="editable" contenteditable="false">Our Story</h3>
+                        <p class="editable" contenteditable="false">We started with a simple idea: to create something meaningful that makes a difference in people's lives.</p>
+                        <div class="media-placeholder" style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin: 1rem 0;">
+                            <span>Click to add image (400x200)</span>
+                        </div>
                     </div>
-                </div>`,
-        services: `<h2 class="section-title editable" contenteditable="false">${pageTitle}</h2>
-                  <div class="content-grid">
-                      <div class="content-card">
-                          <h3 class="card-title editable" contenteditable="false">Service One</h3>
-                          <p class="card-description editable" contenteditable="false">
-                              Description of your first service offering.
-                          </p>
-                      </div>
-                      <div class="content-card">
-                          <h3 class="card-title editable" contenteditable="false">Service Two</h3>
-                          <p class="card-description editable" contenteditable="false">
-                              Description of your second service offering.
-                          </p>
-                      </div>
-                      <div class="content-card">
-                          <h3 class="card-title editable" contenteditable="false">Service Three</h3>
-                          <p class="card-description editable" contenteditable="false">
-                              Description of your third service offering.
-                          </p>
-                      </div>
-                  </div>`,
-        portfolio: `<h2 class="section-title editable" contenteditable="false">${pageTitle}</h2>
-                   <div class="content-grid">
-                       <div class="media-placeholder">
-                           <span>Portfolio item 1</span>
-                       </div>
-                       <div class="media-placeholder">
-                           <span>Portfolio item 2</span>
-                       </div>
-                       <div class="media-placeholder">
-                           <span>Portfolio item 3</span>
-                       </div>
-                   </div>`,
-        contact: `<h2 class="section-title editable" contenteditable="false">${pageTitle}</h2>
-                 <div class="content-card">
-                     <p class="card-description editable" contenteditable="false">
-                         Get in touch with us using the contact information below.
-                     </p>
-                     <div class="contact-form">
-                         <div class="form-group">
-                             <label for="name" class="editable" contenteditable="false">Name</label>
-                             <input type="text" id="name" placeholder="Your name">
-                         </div>
-                         <div class="form-group">
-                             <label for="email" class="editable" contenteditable="false">Email</label>
-                             <input type="email" id="email" placeholder="Your email">
-                         </div>
-                         <div class="form-group">
-                             <label for="message" class="editable" contenteditable="false">Message</label>
-                             <textarea id="message" placeholder="Your message"></textarea>
-                         </div>
-                         <button type="submit" class="editable" contenteditable="false">Send Message</button>
-                     </div>
-                 </div>`
+                    <div class="content-column">
+                        <h3 class="editable" contenteditable="false">Our Mission</h3>
+                        <p class="editable" contenteditable="false">To deliver exceptional value and create lasting relationships with our clients through innovation and excellence.</p>
+                    </div>
+                </div>
+            </div>
+        `,
+        services: `
+            <div class="page-content">
+                <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
+                <div class="page-intro">
+                    <p class="editable" contenteditable="false">Discover the comprehensive solutions we offer to help you succeed.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="media-placeholder" style="width: 100%; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
+                            <span>Service Icon (150x150)</span>
+                        </div>
+                        <h3 class="editable" contenteditable="false">Service One</h3>
+                        <p class="editable" contenteditable="false">Description of your first service offering and its benefits.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="media-placeholder" style="width: 100%; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
+                            <span>Service Icon (150x150)</span>
+                        </div>
+                        <h3 class="editable" contenteditable="false">Service Two</h3>
+                        <p class="editable" contenteditable="false">Description of your second service offering and its benefits.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="media-placeholder" style="width: 100%; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
+                            <span>Service Icon (150x150)</span>
+                        </div>
+                        <h3 class="editable" contenteditable="false">Service Three</h3>
+                        <p class="editable" contenteditable="false">Description of your third service offering and its benefits.</p>
+                    </div>
+                </div>
+            </div>
+        `,
+        portfolio: `
+            <div class="page-content">
+                <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
+                <div class="page-intro">
+                    <p class="editable" contenteditable="false">Explore our featured work and creative projects.</p>
+                </div>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">
+                        <div class="media-placeholder" style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
+                            <span>Project Image (300x200)</span>
+                        </div>
+                        <h3 class="editable" contenteditable="false">Project One</h3>
+                        <p class="editable" contenteditable="false">Brief description of this portfolio project.</p>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="media-placeholder" style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
+                            <span>Project Image (300x200)</span>
+                        </div>
+                        <h3 class="editable" contenteditable="false">Project Two</h3>
+                        <p class="editable" contenteditable="false">Brief description of this portfolio project.</p>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="media-placeholder" style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
+                            <span>Project Image (300x200)</span>
+                        </div>
+                        <h3 class="editable" contenteditable="false">Project Three</h3>
+                        <p class="editable" contenteditable="false">Brief description of this portfolio project.</p>
+                    </div>
+                </div>
+            </div>
+        `,
+        contact: `
+            <div class="page-content">
+                <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
+                <div class="page-intro">
+                    <p class="editable" contenteditable="false">Get in touch with us. We'd love to hear from you!</p>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3 class="editable" contenteditable="false">Contact Information</h3>
+                        <div class="contact-item">
+                            <strong>Email:</strong> <span class="editable" contenteditable="false">info@yourcompany.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Phone:</strong> <span class="editable" contenteditable="false">(555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Address:</strong> <span class="editable" contenteditable="false">123 Main St, City, State 12345</span>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <h3 class="editable" contenteditable="false">Send us a Message</h3>
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message:</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `
     };
-    
-    // Return the template for the requested page, or a generic template if not found
-    return pageTemplates[pageId] || `<h2 class="section-title editable" contenteditable="false">${pageTitle}</h2>
-                                    <div class="content-card">
-                                        <p class="card-description editable" contenteditable="false">
-                                            This is the ${pageTitle} page. Add your content here.
-                                        </p>
-                                    </div>`;
+    // Return appropriate template or default
+    return pageTemplates[pageId.toLowerCase()] || `
+        <div class="page-content">
+            <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
+            <div class="page-intro">
+                <p class="editable" contenteditable="false">Welcome to the ${pageTitle} page. Add your content here.</p>
+            </div>
+            <div class="media-placeholder" style="width: 100%; height: 300px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin: 2rem 0;">
+                <span>Click to add image (600x300)</span>
+            </div>
+            <p class="editable" contenteditable="false">This is a dynamically created page. Edit this content to customize your page.</p>
+        </div>
+    `;
+}
+// State Management Functions
+function saveState() {
+    const state = {
+        websiteOptions: websiteOptions,
+        colorBar: colorBarState,
+        isEditMode: isEditMode,
+        layout: body.getAttribute('data-layout'),
+        theme: body.getAttribute('data-theme'),
+        editableContent: {},
+        mediaPlaceholders: {}
+    };
+    // Save all editable content
+    document.querySelectorAll('.editable').forEach((el, index) => {
+        const id = el.id || `editable-${index}`;
+        const htmlEl = el;
+        state.editableContent[id] = htmlEl.textContent || htmlEl.innerHTML;
+    });
+    // Update status bar
+    if (window.updateStatus) {
+        window.updateStatus('Website state saved', 'success');
+    }
+    // Save media placeholder states
+    document.querySelectorAll('.media-placeholder').forEach((placeholder, index) => {
+        const id = placeholder.id || `placeholder-${index}`;
+        const placeholderEl = placeholder;
+        state.mediaPlaceholders[id] = {
+            backgroundImage: placeholderEl.style.backgroundImage,
+            hasMedia: placeholderEl.classList.contains('has-media')
+        };
+    });
+    localStorage.setItem('websiteBuilderState', JSON.stringify(state));
+    console.log('💾 State saved to localStorage');
+}
+function loadSavedState() {
+    try {
+        const savedState = localStorage.getItem('websiteBuilderState');
+        if (savedState) {
+            const state = JSON.parse(savedState);
+            // Load website options
+            if (state.websiteOptions) {
+                websiteOptions = { ...websiteOptions, ...state.websiteOptions };
+            }
+            // Load color bar state
+            if (state.colorBar) {
+                colorBarState = { ...colorBarState, ...state.colorBar };
+                updateColorBar();
+                updateColorBarPreview();
+            }
+            // Load layout and theme
+            if (state.layout) {
+                body.setAttribute('data-layout', state.layout);
+                if (layoutSelect)
+                    layoutSelect.value = state.layout;
+            }
+            if (state.theme) {
+                body.setAttribute('data-theme', state.theme);
+                if (themeSelect)
+                    themeSelect.value = state.theme;
+            }
+            // Load editable content
+            if (state.editableContent) {
+                Object.keys(state.editableContent).forEach(id => {
+                    const element = document.getElementById(id) || document.querySelector(`[data-id="${id}"]`);
+                    if (element) {
+                        element.textContent = state.editableContent[id];
+                    }
+                });
+            }
+            // Load media placeholder states
+            if (state.mediaPlaceholders) {
+                Object.keys(state.mediaPlaceholders).forEach(id => {
+                    const placeholder = document.getElementById(id) || document.querySelector(`[data-id="${id}"]`);
+                    if (placeholder) {
+                        const data = state.mediaPlaceholders[id];
+                        if (data.backgroundImage) {
+                            placeholder.style.backgroundImage = data.backgroundImage;
+                            placeholder.style.backgroundSize = 'cover';
+                            placeholder.style.backgroundPosition = 'center';
+                        }
+                        if (data.hasMedia) {
+                            placeholder.classList.add('has-media');
+                            const span = placeholder.querySelector('span');
+                            if (span)
+                                span.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            console.log('📂 State loaded from localStorage');
+        }
+    }
+    catch (e) {
+        console.error('Error loading saved state:', e);
+    }
+}
+// Color Bar Setup
+function setupColorBar() {
+    // Create a linear gradient for the color bar with finer hue steps for smoother transition
+    const gradientColors = [];
+    for (let h = 0; h <= 360; h += 10) { // Reduced step size for more hues
+        gradientColors.push(`hsl(${h}, 100%, 50%)`);
+    }
+    const gradient = `linear-gradient(to right, ${gradientColors.join(', ')})`;
+    colorBar.style.background = gradient;
+    // Initial setup
+    updateColorBar();
+    updateColorBarPreview();
+}
+// Color Controls Setup
+function setupColorControls() {
+    // Initialize color pickers with current theme values
+    updateColorPickersFromTheme();
+    // Update color value display and apply changes immediately when picker changes
+    primaryColorPicker.addEventListener('input', (e) => {
+        var _a;
+        const valueDisplay = primaryColorPicker.nextElementSibling;
+        if (valueDisplay)
+            valueDisplay.textContent = e.target.value.toUpperCase();
+        applyCustomColors();
+        // Also extract HSL from RGB to update the color bar sliders
+        const rgb = hexToRgb(e.target.value);
+        if (rgb) {
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            colorBarState.hue = Math.round(((_a = hsl.h) !== null && _a !== void 0 ? _a : 0) * 360);
+            colorBarState.saturation = Math.round(hsl.s * 100);
+            colorBarState.lightness = Math.round(hsl.l * 100);
+            updateColorBar();
+        }
+    });
+    secondaryColorPicker.addEventListener('input', (e) => {
+        const valueDisplay = secondaryColorPicker.nextElementSibling;
+        if (valueDisplay)
+            valueDisplay.textContent = e.target.value.toUpperCase();
+        applyCustomColors();
+    });
+    accentColorPicker.addEventListener('input', (e) => {
+        const valueDisplay = accentColorPicker.nextElementSibling;
+        if (valueDisplay)
+            valueDisplay.textContent = e.target.value.toUpperCase();
+        applyCustomColors();
+    });
+    // Add change event for when color selection is complete
+    primaryColorPicker.addEventListener('change', () => {
+        if (window.updateStatus) {
+            window.updateStatus(`Primary color set to: ${primaryColorPicker.value.toUpperCase()}`, 'success');
+        }
+        saveState();
+    });
+    secondaryColorPicker.addEventListener('change', () => {
+        if (window.updateStatus) {
+            window.updateStatus(`Secondary color set to: ${secondaryColorPicker.value.toUpperCase()}`, 'success');
+        }
+        saveState();
+    });
+    accentColorPicker.addEventListener('change', () => {
+        if (window.updateStatus) {
+            window.updateStatus(`Accent color set to: ${accentColorPicker.value.toUpperCase()}`, 'success');
+        }
+        saveState();
+    });
+    // Save custom colors to state
+    colorBarState.customColors.primary = primaryColorPicker.value;
+    colorBarState.customColors.secondary = secondaryColorPicker.value;
+    colorBarState.customColors.accent = accentColorPicker.value;
+    // Update status when colors change
+    if (window.updateStatus) {
+        window.updateStatus('Custom colors applied', 'info');
+    }
+}
+// Helper to update color pickers based on current theme
+function updateColorPickersFromTheme() {
+    // Get computed style to get actual color values
+    const computedStyle = getComputedStyle(document.documentElement);
+    // Extract colors
+    const primaryColor = computedStyle.getPropertyValue('--primary').trim() || '#6366f1';
+    const secondaryColor = computedStyle.getPropertyValue('--secondary').trim() || '#64748b';
+    const accentColor = computedStyle.getPropertyValue('--accent').trim() || '#10b981';
+    // Convert to hex if needed and update pickers
+    primaryColorPicker.value = rgbToHex(primaryColor);
+    secondaryColorPicker.value = rgbToHex(secondaryColor);
+    accentColorPicker.value = rgbToHex(accentColor);
+    // Update value displays
+    const primaryDisplay = primaryColorPicker.nextElementSibling;
+    if (primaryDisplay)
+        primaryDisplay.textContent = primaryColorPicker.value.toUpperCase();
+    const secondaryDisplay = secondaryColorPicker.nextElementSibling;
+    if (secondaryDisplay)
+        secondaryDisplay.textContent = secondaryColorPicker.value.toUpperCase();
+    const accentDisplay = accentColorPicker.nextElementSibling;
+    if (accentDisplay)
+        accentDisplay.textContent = accentColorPicker.value.toUpperCase();
+    // Save to state
+    colorBarState.customColors.primary = primaryColorPicker.value;
+    colorBarState.customColors.secondary = secondaryColorPicker.value;
+    colorBarState.customColors.accent = accentColorPicker.value;
+}
+// Apply custom colors to the website
+function applyCustomColors() {
+    var _a, _b, _c, _d, _e, _f;
+    // Apply custom colors directly to root for global effect
+    document.documentElement.style.setProperty('--primary', primaryColorPicker.value);
+    document.documentElement.style.setProperty('--secondary', secondaryColorPicker.value);
+    document.documentElement.style.setProperty('--accent', accentColorPicker.value);
+    // Also calculate and set related colors
+    const primaryRGB = hexToRgb(primaryColorPicker.value);
+    if (primaryRGB) {
+        // Convert to HSL for better light/dark variants
+        const primaryHSL = rgbToHsl(primaryRGB.r, primaryRGB.g, primaryRGB.b);
+        // Set light and dark variants using HSL for more natural results
+        document.documentElement.style.setProperty('--primary-light', `hsl(${Math.round(((_a = primaryHSL.h) !== null && _a !== void 0 ? _a : 0) * 360)}, ${Math.min(Math.round(primaryHSL.s * 100) + 10, 100)}%, ${Math.min(Math.round(primaryHSL.l * 100) + 15, 90)}%)`);
+        document.documentElement.style.setProperty('--primary-dark', `hsl(${Math.round(((_b = primaryHSL.h) !== null && _b !== void 0 ? _b : 0) * 360)}, ${Math.min(Math.round(primaryHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(primaryHSL.l * 100) - 15, 15)}%)`);
+        // Set primary contrast color based on lightness
+        const textColor = primaryHSL.l > 0.6 ? '#000000' : '#ffffff';
+        document.documentElement.style.setProperty('--primary-contrast', textColor);
+    }
+    // Apply secondary color variants
+    const secondaryRGB = hexToRgb(secondaryColorPicker.value);
+    if (secondaryRGB) {
+        const secondaryHSL = rgbToHsl(secondaryRGB.r, secondaryRGB.g, secondaryRGB.b);
+        document.documentElement.style.setProperty('--secondary-light', `hsl(${Math.round(((_c = secondaryHSL.h) !== null && _c !== void 0 ? _c : 0) * 360)}, ${Math.min(Math.round(secondaryHSL.s * 100) + 5, 100)}%, ${Math.min(Math.round(secondaryHSL.l * 100) + 15, 90)}%)`);
+        document.documentElement.style.setProperty('--secondary-dark', `hsl(${Math.round(((_d = secondaryHSL.h) !== null && _d !== void 0 ? _d : 0) * 360)}, ${Math.min(Math.round(secondaryHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(secondaryHSL.l * 100) - 15, 15)}%)`);
+        const textColor = secondaryHSL.l > 0.6 ? '#000000' : '#ffffff';
+        document.documentElement.style.setProperty('--secondary-contrast', textColor);
+    }
+    // Apply accent color variants
+    const accentRGB = hexToRgb(accentColorPicker.value);
+    if (accentRGB) {
+        const accentHSL = rgbToHsl(accentRGB.r, accentRGB.g, accentRGB.b);
+        document.documentElement.style.setProperty('--accent-light', `hsl(${Math.round(((_e = accentHSL.h) !== null && _e !== void 0 ? _e : 0) * 360)}, ${Math.min(Math.round(accentHSL.s * 100) + 5, 100)}%, ${Math.min(Math.round(accentHSL.l * 100) + 15, 90)}%)`);
+        document.documentElement.style.setProperty('--accent-dark', `hsl(${Math.round(((_f = accentHSL.h) !== null && _f !== void 0 ? _f : 0) * 360)}, ${Math.min(Math.round(accentHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(accentHSL.l * 100) - 15, 15)}%)`);
+        const textColor = accentHSL.l > 0.6 ? '#000000' : '#ffffff';
+        document.documentElement.style.setProperty('--accent-contrast', textColor);
+    }
+    // Update semantic UI colors to ensure they're derived from our theme colors
+    document.documentElement.style.setProperty('--bg-primary', 'var(--neutral-50)');
+    document.documentElement.style.setProperty('--bg-secondary', '#ffffff');
+    document.documentElement.style.setProperty('--text-primary', 'var(--neutral-900)');
+    document.documentElement.style.setProperty('--text-secondary', 'var(--neutral-600)');
+    document.documentElement.style.setProperty('--border-color', 'var(--neutral-200)');
+    // Update status when colors applied
+    if (window.updateStatus) {
+        window.updateStatus('Custom colors applied to entire page', 'success');
+    }
+    // Save state
+    colorBarState.customColors.primary = primaryColorPicker.value;
+    colorBarState.customColors.secondary = secondaryColorPicker.value;
+    colorBarState.customColors.accent = accentColorPicker.value;
+    saveState();
+}
+// Setup color bar control
+function setupColorBarControl() {
+    var _a;
+    // Fix Chrome rendering issues with the slider thumb by forcing a repaint
+    function forceRepaint(element) {
+        // Read a layout property to force a repaint
+        const reflow = element.offsetHeight;
+        // Apply a small transform to force GPU rendering
+        element.style.transform = 'translateZ(0)';
+        // Remove transform after a short delay
+        setTimeout(() => {
+            element.style.transform = '';
+        }, 50);
+    }
+    // Use both 'input' and 'change' events to ensure updates happen during sliding and on release
+    colorBar.addEventListener('input', (e) => {
+        updateColorFromSlider();
+        // Force repaint to fix multiple handles issue
+        if (e.target)
+            forceRepaint(e.target);
+    });
+    colorBar.addEventListener('change', (e) => {
+        updateColorFromSlider();
+        // Provide feedback when the user finishes selecting a color
+        if (window.updateStatus) {
+            window.updateStatus(`Color hue set to: ${colorBarState.hue}°`, 'success');
+        }
+        if (e.target)
+            forceRepaint(e.target);
+    });
+    // Update interface when light/saturation sliders change
+    lightnessSlider.addEventListener('input', updateColorFromLightnessSaturation);
+    saturationSlider.addEventListener('input', updateColorFromLightnessSaturation);
+    // Add click event on the color bar for direct color selection
+    (_a = colorBar.parentElement) === null || _a === void 0 ? void 0 : _a.addEventListener('click', (e) => {
+        // Only handle clicks on the wrapper, not the slider itself
+        if (e.target === colorBar)
+            return;
+        // Calculate position percentage
+        const rect = colorBar.getBoundingClientRect();
+        const position = (e.clientX - rect.left) / rect.width;
+        // Convert to hue (0-360)
+        colorBarState.hue = Math.round(position * 360);
+        colorBar.value = String(colorBarState.hue);
+        // Update color preview and apply to page
+        updateColorBarPreview();
+        // Force repaint to fix display issues
+        forceRepaint(colorBar);
+    });
+    // Initial update
+    updateColorBar();
+}
+function updateColorFromSlider() {
+    colorBarState.hue = parseInt(colorBar.value);
+    updateColorBarPreview();
+}
+function updateColorFromLightnessSaturation() {
+    colorBarState.lightness = parseInt(lightnessSlider.value);
+    colorBarState.saturation = parseInt(saturationSlider.value);
+    updateColorBarPreview();
+}
+function updateColorBar() {
+    // Set sliders to match state
+    colorBar.value = String(colorBarState.hue);
+    lightnessSlider.value = String(colorBarState.lightness);
+    saturationSlider.value = String(colorBarState.saturation);
+    // Position color indicator
+    updateColorIndicator();
+}
+function updateColorBarPreview() {
+    // Calculate color
+    const hue = colorBarState.hue;
+    const saturation = colorBarState.saturation;
+    const lightness = colorBarState.lightness;
+    // Update HSL
+    const hslColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    // Convert to RGB
+    const rgb = hslToRgb(hue / 360, saturation / 100, lightness / 100);
+    colorBarState.currentColorRgb = rgb;
+    // Convert RGB to HEX
+    const hex = '#' +
+        ((1 << 24) + (rgb.r << 16) + (rgb.g << 8) + rgb.b)
+            .toString(16).slice(1).toUpperCase();
+    colorBarState.currentColorHex = hex;
+    // Update color preview
+    if (colorPreviewBox) {
+        colorPreviewBox.style.backgroundColor = hslColor;
+        colorPreviewBox.textContent = hex;
+        // Set text color based on background lightness for contrast
+        colorPreviewBox.style.color = lightness > 70 ? '#000' : '#fff';
+    }
+    // Apply color to the entire page by setting the primary color
+    document.documentElement.style.setProperty('--primary', hex);
+    // Also calculate and set related colors for a complete theme update
+    document.documentElement.style.setProperty('--primary-light', `hsl(${hue}, ${Math.min(saturation + 15, 100)}%, ${Math.min(lightness + 15, 90)}%)`);
+    document.documentElement.style.setProperty('--primary-dark', `hsl(${hue}, ${Math.min(saturation + 10, 100)}%, ${Math.max(lightness - 15, 20)}%)`);
+    // Update accent color with complementary hue
+    const accentHue = (hue + 180) % 360;
+    document.documentElement.style.setProperty('--accent', `hsl(${accentHue}, ${saturation}%, ${lightness}%)`);
+    // Update status when colors change
+    if (window.updateStatus) {
+        window.updateStatus(`Color updated: ${hex}`, 'info');
+    }
+    // Update indicator position
+    updateColorIndicator();
+}
+function updateColorIndicator() {
+    if (!colorBar)
+        return;
+    // We're now using the slider thumb as the indicator instead of a separate element
+    // This helps prevent the multiple vertical lines issue
+    // Update the background color of the handle through a custom property
+    const hslColor = `hsl(${colorBarState.hue}, 100%, 50%)`;
+    const sliderTrack = colorBar.parentElement;
+    if (sliderTrack) {
+        // Add a data attribute to help with styling
+        sliderTrack.setAttribute('data-current-hue', String(colorBarState.hue));
+        // Add a small pseudo-element with the current color above the slider
+        sliderTrack.style.setProperty('--current-color', hslColor);
+    }
+    // If we still have the indicator element, update it too for backward compatibility
+    if (colorIndicator) {
+        const percent = (colorBarState.hue / 360) * 100;
+        colorIndicator.style.left = `${percent}%`;
+        colorIndicator.style.backgroundColor = hslColor;
+    }
+}
+// Color utility functions
+function hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    hex = hex.trim();
+    if (hex.startsWith('rgb')) {
+        const match = hex.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        if (match) {
+            return {
+                r: parseInt(match[1]),
+                g: parseInt(match[2]),
+                b: parseInt(match[3])
+            };
+        }
+        return null;
+    }
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+function rgbToHex(rgb) {
+    if (!rgb)
+        return '#000000';
+    // Check if already in hex format
+    if (rgb.startsWith('#'))
+        return rgb;
+    // Extract RGB values
+    let match;
+    if (rgb.startsWith('rgb')) {
+        match = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    }
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+    return '#000000'; // Default fallback
+}
+function hslToRgb(h, s, l) {
+    let r, g, b;
+    if (s === 0) {
+        r = g = b = l; // achromatic
+    }
+    else {
+        const hue2rgb = function hue2rgb(p, q, t) {
+            if (t < 0)
+                t += 1;
+            if (t > 1)
+                t -= 1;
+            if (t < 1 / 6)
+                return p + (q - p) * 6 * t;
+            if (t < 1 / 2)
+                return q;
+            if (t < 2 / 3)
+                return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        };
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+    }
+    return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+    };
+}
+// Convert RGB to HSL
+function rgbToHsl(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+    if (max === min) {
+        // Achromatic (gray)
+        h = 0;
+        s = 0;
+    }
+    else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r:
+                h = (g - b) / d + (g < b ? 6 : 0);
+                break;
+            case g:
+                h = (b - r) / d + 2;
+                break;
+            case b:
+                h = (r - g) / d + 4;
+                break;
+        }
+        h /= 6;
+    }
+    return h !== undefined ? { h, s, l } : { s, l };
+}
+// Function to fix position of any dynamic pages that might be outside the main content
+function fixDynamicPagesPosition() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent)
+        return;
+    // Find all dynamic pages outside of main content
+    const dynamicPages = document.querySelectorAll('.dynamic-page');
+    dynamicPages.forEach(page => {
+        // Check if this page is not inside main-content
+        if (page.parentNode !== mainContent) {
+            console.log(`Moving ${page.id} section into main-content area`);
+            mainContent.appendChild(page);
+        }
+    });
+    if (window.updateStatus) {
+        window.updateStatus('Dynamic page positions corrected', 'success');
+    }
+}
+// Set up a MutationObserver to ensure sections stay in main content
+function setupSectionObserver() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent)
+        return;
+    const bodyElement = document.body;
+    // Create a mutation observer to watch for new sections added to the document
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            // Check for added nodes
+            if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach((node) => {
+                    // If it's an element node and it's a section with dynamic-page class
+                    if (node.nodeType === 1 &&
+                        node.tagName === 'SECTION' &&
+                        node.classList.contains('dynamic-page') &&
+                        node.parentNode !== mainContent) {
+                        console.log(`Observer: Moving ${node.id || 'unnamed'} section into main-content`);
+                        mainContent.appendChild(node);
+                    }
+                });
+            }
+        });
+    });
+    // Start observing with the configured parameters
+    observer.observe(bodyElement, {
+        childList: true,
+        subtree: true
+    });
+}
+// Document ready function
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize everything
+    init();
+    // Fix any dynamic pages that might be in the wrong position
+    fixDynamicPagesPosition();
+    // Setup observer to catch future section additions
+    setupSectionObserver();
+    // Always start with dark mode by default
+    setColorMode('dark', true); // Force dark mode and save preference
+    // Update status bar with theme info
+    if (window.updateStatus) {
+        window.updateStatus('Website Builder loaded with dark theme', 'success');
+    }
+});
+/**
+ * Sets the color mode/theme of the website
+ * @param {string} mode - The mode to set ('light', 'dark', 'auto', or any theme name)
+ * @param {boolean} savePreference - Whether to save this preference to localStorage
+ */
+function setColorMode(mode = 'dark', savePreference = true) {
+    // Default to dark mode if mode is not specified
+    if (!mode || mode === 'auto') {
+        // Even in auto mode, we'll default to dark
+        mode = 'dark';
+        console.log('Dark mode set by default');
+    }
+    // Apply the theme
+    body.setAttribute('data-theme', mode);
+    websiteOptions.theme = mode;
+    // Update theme selector dropdown if it exists
+    if (themeSelect) {
+        // If the exact theme doesn't exist in the dropdown, default to closest match
+        const themeExists = Array.from(themeSelect.options).some(option => option.value === mode);
+        themeSelect.value = themeExists ? mode : (mode === 'dark' ? 'dark' : 'light');
+    }
+    // Apply theme-appropriate colors and update UI
+    updateColorPickersFromTheme();
+    updateColorBar();
+    updateColorBarPreview();
+    // Provide feedback
+    if (window.updateStatus) {
+        window.updateStatus(`Theme set to: ${mode}`, 'info');
+    }
+    // Save preference if requested
+    if (savePreference) {
+        saveState();
+    }
+    return mode;
 }

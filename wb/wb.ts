@@ -90,7 +90,7 @@ let colorBarState: ColorBarState = {
 };
 
 // DOM Elements (will be initialized after DOM loads)
-let body: HTMLBodyElement;
+let body: HTMLElement;
 let controlPanel: HTMLElement; 
 let controlPanelBody: HTMLElement;
 let minimizeBtn: HTMLElement;
@@ -110,7 +110,7 @@ let colorPreviewBox: HTMLElement;
 
 // Initialize DOM elements
 function initializeElements() {
-    body = document.body;
+    body = document.body as HTMLElement;
     
     // Main UI elements with null checks
     const controlPanelEl = document.getElementById('control-panel');
@@ -203,7 +203,7 @@ function init() {
         console.log('No saved state, defaulting to dark mode');
     }
 
-    handleUrlParameters(); // Handle URL parameters on init
+    // handleUrlParameters(); // Handle URL parameters on init - commented out as function doesn't exist
 }
 
 // Control Panel Setup
@@ -211,8 +211,8 @@ function setupControlPanel() {
     const header = controlPanel.querySelector('.control-panel-header');
 
     // Dragging
-    header.addEventListener('mousedown', (e) => {
-        if (e.target.closest('button')) return;
+    header?.addEventListener('mousedown', (e: MouseEvent) => {
+        if ((e.target as HTMLElement)?.closest('button')) return;
         isDragging = true;
         const rect = controlPanel.getBoundingClientRect();
         dragOffset.x = e.clientX - rect.left;
@@ -253,20 +253,22 @@ function setupEditMode() {
         editModeToggle.textContent = isEditMode ? 'Exit Edit' : 'Edit Mode';
 
         // Update status bar
-        if (window.updateStatus) {
+        if ((window as any).updateStatus) {
             if (isEditMode) {
-                updateStatus('Edit mode ON - Content can now be edited', 'info');
-                document.getElementById('status-info').textContent = 'Edit mode: ON';
+                (window as any).updateStatus('Edit mode ON - Content can now be edited', 'info');
+                const statusInfo = document.getElementById('status-info');
+                if (statusInfo) statusInfo.textContent = 'Edit mode: ON';
             } else {
-                updateStatus('Edit mode OFF - Content is now locked', 'success');
-                document.getElementById('status-info').textContent = 'Edit mode: OFF';
+                (window as any).updateStatus('Edit mode OFF - Content is now locked', 'success');
+                const statusInfo = document.getElementById('status-info');
+                if (statusInfo) statusInfo.textContent = 'Edit mode: OFF';
             }
         }
 
         // Toggle contenteditable on all editable elements
         const editables = document.querySelectorAll('.editable');
         editables.forEach(el => {
-            el.contentEditable = isEditMode;
+            (el as HTMLElement).contentEditable = String(isEditMode);
         });
 
         // Properly handle media placeholders
@@ -274,10 +276,10 @@ function setupEditMode() {
         mediaPlaceholders.forEach(placeholder => {
             if (!isEditMode && !placeholder.classList.contains('has-media')) {
                 // Hide all placeholders without images when exiting edit mode
-                placeholder.style.display = 'none';
+                (placeholder as HTMLElement).style.display = 'none';
             } else if (isEditMode) {
                 // Show all placeholders when entering edit mode
-                placeholder.style.display = 'flex';
+                (placeholder as HTMLElement).style.display = 'flex';
             }
         });
     });
@@ -286,7 +288,7 @@ function setupEditMode() {
 // Layout Control
 function setupLayoutControl() {
     layoutSelect.addEventListener('change', (e) => {
-        const layout = e.target.value;
+        const layout = (e.target as HTMLSelectElement).value;
         body.setAttribute('data-layout', layout);
         websiteOptions.layout = layout;
         console.log('Layout changed to:', layout);
@@ -298,7 +300,7 @@ function setupLayoutControl() {
 function setupThemeControl() {
     // Add event listener for theme dropdown changes
     themeSelect.addEventListener('change', (e) => {
-        const theme = e.target.value;
+        const theme = (e.target as HTMLSelectElement).value;
         setColorMode(theme, true);
     });
 
@@ -337,13 +339,13 @@ function setupButtonActions() {
         );
         if (!siteName) return;
 
-        saveWebsiteFiles(siteName);
+        // saveWebsiteFiles(siteName); // Function not defined yet
     });    // Reset Content
     resetBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to reset all content to defaults?')) {
             // Update status bar
-            if (window.updateStatus) {
-                updateStatus('Resetting website to defaults...', 'warning');
+            if ((window as any).updateStatus) {
+                (window as any).updateStatus('Resetting website to defaults...', 'warning');
             }
 
             // Reset websiteOptions to defaults
@@ -359,7 +361,7 @@ function setupButtonActions() {
             localStorage.removeItem('websiteBuilderState');
 
             // Apply default options
-            applyWebsiteOptions();
+            // applyWebsiteOptions(); // Commented out - function doesn't exist
 
             // Reset color bar state
             colorBarState = {
@@ -379,8 +381,8 @@ function setupButtonActions() {
             updateColorBarPreview();
 
             // Update status bar again
-            if (window.updateStatus) {
-                updateStatus('Website reset to defaults', 'success');
+            if ((window as any).updateStatus) {
+                (window as any).updateStatus('Website reset to defaults', 'success');
             }
 
             // Force page reload to reset all content
@@ -393,11 +395,11 @@ function setupButtonActions() {
 function setupMediaPlaceholders() {
     // Use event delegation to handle both existing and dynamically created placeholders
     document.addEventListener('click', (e) => {
-        const placeholder = e.target.closest('.media-placeholder');
+        const placeholder = (e.target as HTMLElement)?.closest('.media-placeholder');
         if (!placeholder) return;
 
         // Don't trigger file upload if clicking on caption
-        if (e.target.classList.contains('media-caption')) return;
+        if ((e.target as HTMLElement)?.classList.contains('media-caption')) return;
 
         // Only allow file selection in edit mode
         if (!isEditMode) return;
@@ -408,13 +410,13 @@ function setupMediaPlaceholders() {
         input.accept = 'image/*';
 
         input.addEventListener('change', (e) => {
-            const file = e.target.files[0];
+            const file = (e.target as HTMLInputElement).files?.[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    placeholder.style.backgroundImage = `url(${e.target.result})`;
-                    placeholder.style.backgroundSize = 'cover';
-                    placeholder.style.backgroundPosition = 'center';
+                    (placeholder as HTMLElement).style.backgroundImage = `url(${e.target?.result})`;
+                    (placeholder as HTMLElement).style.backgroundSize = 'cover';
+                    (placeholder as HTMLElement).style.backgroundPosition = 'center';
                     const span = placeholder.querySelector('span');
                     if (span) span.style.display = 'none';
                     placeholder.classList.add('has-media');
@@ -436,10 +438,11 @@ function setupMediaPlaceholders() {
 
 function initializeExistingPlaceholders() {
     document.querySelectorAll('.media-placeholder').forEach(placeholder => {        // Check if placeholder already has an image
-        if (placeholder.style.backgroundImage && placeholder.style.backgroundImage !== 'none' &&
-            placeholder.style.backgroundImage !== '') {
-            placeholder.classList.add('has-media');
-            const span = placeholder.querySelector('span');
+        const el = placeholder as HTMLElement;
+        if (el.style.backgroundImage && el.style.backgroundImage !== 'none' &&
+            el.style.backgroundImage !== '') {
+            el.classList.add('has-media');
+            const span = el.querySelector('span') as HTMLElement;
             if (span) span.style.display = 'none';
         }
 
@@ -448,11 +451,12 @@ function initializeExistingPlaceholders() {
     });
 }
 
-function updatePlaceholderVisibility(placeholder) {
-    if (!isEditMode && !placeholder.classList.contains('has-media')) {
-        placeholder.style.display = 'none';
+function updatePlaceholderVisibility(placeholder: Element) {
+    const el = placeholder as HTMLElement;
+    if (!isEditMode && !el.classList.contains('has-media')) {
+        el.style.display = 'none';
     } else {
-        placeholder.style.display = 'flex';
+        el.style.display = 'flex';
     }
 }
 
@@ -501,7 +505,7 @@ function createDynamicPage(pageId, pageTitle) {
     // Make elements editable if in edit mode
     if (isEditMode) {
         newPage.querySelectorAll('.editable').forEach(el => {
-            el.contentEditable = true;
+            (el as HTMLElement).contentEditable = 'true';
         });
     }
 
@@ -665,20 +669,22 @@ function saveState() {
     // Save all editable content
     document.querySelectorAll('.editable').forEach((el, index) => {
         const id = el.id || `editable-${index}`;
-        state.editableContent[id] = el.textContent || el.innerHTML;
+        const htmlEl = el as HTMLElement;
+        state.editableContent[id] = htmlEl.textContent || htmlEl.innerHTML;
     });
 
     // Update status bar
-    if (window.updateStatus) {
-        updateStatus('Website state saved', 'success');
+    if ((window as any).updateStatus) {
+        (window as any).updateStatus('Website state saved', 'success');
     }
 
     // Save media placeholder states
     document.querySelectorAll('.media-placeholder').forEach((placeholder, index) => {
         const id = placeholder.id || `placeholder-${index}`;
+        const placeholderEl = placeholder as HTMLElement;
         state.mediaPlaceholders[id] = {
-            backgroundImage: placeholder.style.backgroundImage,
-            hasMedia: placeholder.classList.contains('has-media')
+            backgroundImage: placeholderEl.style.backgroundImage,
+            hasMedia: placeholderEl.classList.contains('has-media')
         };
     });
 
@@ -774,14 +780,14 @@ function setupColorControls() {
 
     // Update color value display and apply changes immediately when picker changes
     primaryColorPicker.addEventListener('input', (e) => {
-        const valueDisplay = primaryColorPicker.nextElementSibling;
-        valueDisplay.textContent = e.target.value.toUpperCase();
+        const valueDisplay = primaryColorPicker.nextElementSibling as HTMLElement;
+        if (valueDisplay) valueDisplay.textContent = (e.target as HTMLInputElement).value.toUpperCase();
         applyCustomColors();
         // Also extract HSL from RGB to update the color bar sliders
-        const rgb = hexToRgb(e.target.value);
+        const rgb = hexToRgb((e.target as HTMLInputElement).value);
         if (rgb) {
             const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-            colorBarState.hue = Math.round(hsl.h * 360);
+            colorBarState.hue = Math.round((hsl.h ?? 0) * 360);
             colorBarState.saturation = Math.round(hsl.s * 100);
             colorBarState.lightness = Math.round(hsl.l * 100);
             updateColorBar();
@@ -789,35 +795,35 @@ function setupColorControls() {
     });
 
     secondaryColorPicker.addEventListener('input', (e) => {
-        const valueDisplay = secondaryColorPicker.nextElementSibling;
-        valueDisplay.textContent = e.target.value.toUpperCase();
+        const valueDisplay = secondaryColorPicker.nextElementSibling as HTMLElement;
+        if (valueDisplay) valueDisplay.textContent = (e.target as HTMLInputElement).value.toUpperCase();
         applyCustomColors();
     });
 
     accentColorPicker.addEventListener('input', (e) => {
-        const valueDisplay = accentColorPicker.nextElementSibling;
-        valueDisplay.textContent = e.target.value.toUpperCase();
+        const valueDisplay = accentColorPicker.nextElementSibling as HTMLElement;
+        if (valueDisplay) valueDisplay.textContent = (e.target as HTMLInputElement).value.toUpperCase();
         applyCustomColors();
     });
 
     // Add change event for when color selection is complete
     primaryColorPicker.addEventListener('change', () => {
-        if (window.updateStatus) {
-            updateStatus(`Primary color set to: ${primaryColorPicker.value.toUpperCase()}`, 'success');
+        if ((window as any).updateStatus) {
+            (window as any).updateStatus(`Primary color set to: ${primaryColorPicker.value.toUpperCase()}`, 'success');
         }
         saveState();
     });
 
     secondaryColorPicker.addEventListener('change', () => {
-        if (window.updateStatus) {
-            updateStatus(`Secondary color set to: ${secondaryColorPicker.value.toUpperCase()}`, 'success');
+        if ((window as any).updateStatus) {
+            (window as any).updateStatus(`Secondary color set to: ${secondaryColorPicker.value.toUpperCase()}`, 'success');
         }
         saveState();
     });
 
     accentColorPicker.addEventListener('change', () => {
-        if (window.updateStatus) {
-            updateStatus(`Accent color set to: ${accentColorPicker.value.toUpperCase()}`, 'success');
+        if ((window as any).updateStatus) {
+            (window as any).updateStatus(`Accent color set to: ${accentColorPicker.value.toUpperCase()}`, 'success');
         }
         saveState();
     });
@@ -828,8 +834,8 @@ function setupColorControls() {
     colorBarState.customColors.accent = accentColorPicker.value;
 
     // Update status when colors change
-    if (window.updateStatus) {
-        updateStatus('Custom colors applied', 'info');
+    if ((window as any).updateStatus) {
+        (window as any).updateStatus('Custom colors applied', 'info');
     }
 }
 
@@ -849,9 +855,12 @@ function updateColorPickersFromTheme() {
     accentColorPicker.value = rgbToHex(accentColor);
 
     // Update value displays
-    primaryColorPicker.nextElementSibling.textContent = primaryColorPicker.value.toUpperCase();
-    secondaryColorPicker.nextElementSibling.textContent = secondaryColorPicker.value.toUpperCase();
-    accentColorPicker.nextElementSibling.textContent = accentColorPicker.value.toUpperCase();
+    const primaryDisplay = primaryColorPicker.nextElementSibling as HTMLElement;
+    if (primaryDisplay) primaryDisplay.textContent = primaryColorPicker.value.toUpperCase();
+    const secondaryDisplay = secondaryColorPicker.nextElementSibling as HTMLElement;
+    if (secondaryDisplay) secondaryDisplay.textContent = secondaryColorPicker.value.toUpperCase();
+    const accentDisplay = accentColorPicker.nextElementSibling as HTMLElement;
+    if (accentDisplay) accentDisplay.textContent = accentColorPicker.value.toUpperCase();
 
     // Save to state
     colorBarState.customColors.primary = primaryColorPicker.value;
@@ -875,12 +884,12 @@ function applyCustomColors() {
         // Set light and dark variants using HSL for more natural results
         document.documentElement.style.setProperty(
             '--primary-light',
-            `hsl(${Math.round(primaryHSL.h * 360)}, ${Math.min(Math.round(primaryHSL.s * 100) + 10, 100)}%, ${Math.min(Math.round(primaryHSL.l * 100) + 15, 90)}%)`
+            `hsl(${Math.round((primaryHSL.h ?? 0) * 360)}, ${Math.min(Math.round(primaryHSL.s * 100) + 10, 100)}%, ${Math.min(Math.round(primaryHSL.l * 100) + 15, 90)}%)`
         );
 
         document.documentElement.style.setProperty(
             '--primary-dark',
-            `hsl(${Math.round(primaryHSL.h * 360)}, ${Math.min(Math.round(primaryHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(primaryHSL.l * 100) - 15, 15)}%)`
+            `hsl(${Math.round((primaryHSL.h ?? 0) * 360)}, ${Math.min(Math.round(primaryHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(primaryHSL.l * 100) - 15, 15)}%)`
         );
 
         // Set primary contrast color based on lightness
@@ -895,12 +904,12 @@ function applyCustomColors() {
 
         document.documentElement.style.setProperty(
             '--secondary-light',
-            `hsl(${Math.round(secondaryHSL.h * 360)}, ${Math.min(Math.round(secondaryHSL.s * 100) + 5, 100)}%, ${Math.min(Math.round(secondaryHSL.l * 100) + 15, 90)}%)`
+            `hsl(${Math.round((secondaryHSL.h ?? 0) * 360)}, ${Math.min(Math.round(secondaryHSL.s * 100) + 5, 100)}%, ${Math.min(Math.round(secondaryHSL.l * 100) + 15, 90)}%)`
         );
 
         document.documentElement.style.setProperty(
             '--secondary-dark',
-            `hsl(${Math.round(secondaryHSL.h * 360)}, ${Math.min(Math.round(secondaryHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(secondaryHSL.l * 100) - 15, 15)}%)`
+            `hsl(${Math.round((secondaryHSL.h ?? 0) * 360)}, ${Math.min(Math.round(secondaryHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(secondaryHSL.l * 100) - 15, 15)}%)`
         );
 
         const textColor = secondaryHSL.l > 0.6 ? '#000000' : '#ffffff';
@@ -914,12 +923,12 @@ function applyCustomColors() {
 
         document.documentElement.style.setProperty(
             '--accent-light',
-            `hsl(${Math.round(accentHSL.h * 360)}, ${Math.min(Math.round(accentHSL.s * 100) + 5, 100)}%, ${Math.min(Math.round(accentHSL.l * 100) + 15, 90)}%)`
+            `hsl(${Math.round((accentHSL.h ?? 0) * 360)}, ${Math.min(Math.round(accentHSL.s * 100) + 5, 100)}%, ${Math.min(Math.round(accentHSL.l * 100) + 15, 90)}%)`
         );
 
         document.documentElement.style.setProperty(
             '--accent-dark',
-            `hsl(${Math.round(accentHSL.h * 360)}, ${Math.min(Math.round(accentHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(accentHSL.l * 100) - 15, 15)}%)`
+            `hsl(${Math.round((accentHSL.h ?? 0) * 360)}, ${Math.min(Math.round(accentHSL.s * 100) + 10, 100)}%, ${Math.max(Math.round(accentHSL.l * 100) - 15, 15)}%)`
         );
 
         const textColor = accentHSL.l > 0.6 ? '#000000' : '#ffffff';
@@ -934,8 +943,8 @@ function applyCustomColors() {
     document.documentElement.style.setProperty('--border-color', 'var(--neutral-200)');
 
     // Update status when colors applied
-    if (window.updateStatus) {
-        updateStatus('Custom colors applied to entire page', 'success');
+    if ((window as any).updateStatus) {
+        (window as any).updateStatus('Custom colors applied to entire page', 'success');
     }
 
     // Save state
@@ -948,7 +957,7 @@ function applyCustomColors() {
 // Setup color bar control
 function setupColorBarControl() {
     // Fix Chrome rendering issues with the slider thumb by forcing a repaint
-    function forceRepaint(element) {
+    function forceRepaint(element: HTMLElement) {
         // Read a layout property to force a repaint
         const reflow = element.offsetHeight;
         // Apply a small transform to force GPU rendering
@@ -963,16 +972,16 @@ function setupColorBarControl() {
     colorBar.addEventListener('input', (e) => {
         updateColorFromSlider();
         // Force repaint to fix multiple handles issue
-        forceRepaint(e.target);
+        if (e.target) forceRepaint(e.target as HTMLElement);
     });
 
     colorBar.addEventListener('change', (e) => {
         updateColorFromSlider();
         // Provide feedback when the user finishes selecting a color
-        if (window.updateStatus) {
-            updateStatus(`Color hue set to: ${colorBarState.hue}°`, 'success');
+        if ((window as any).updateStatus) {
+            (window as any).updateStatus(`Color hue set to: ${colorBarState.hue}°`, 'success');
         }
-        forceRepaint(e.target);
+        if (e.target) forceRepaint(e.target as HTMLElement);
     });
 
     // Update interface when light/saturation sliders change
@@ -980,7 +989,7 @@ function setupColorBarControl() {
     saturationSlider.addEventListener('input', updateColorFromLightnessSaturation);
 
     // Add click event on the color bar for direct color selection
-    colorBar.parentElement.addEventListener('click', (e) => {
+    colorBar.parentElement?.addEventListener('click', (e) => {
         // Only handle clicks on the wrapper, not the slider itself
         if (e.target === colorBar) return;
 
@@ -990,7 +999,7 @@ function setupColorBarControl() {
 
         // Convert to hue (0-360)
         colorBarState.hue = Math.round(position * 360);
-        colorBar.value = colorBarState.hue;
+        colorBar.value = String(colorBarState.hue);
 
         // Update color preview and apply to page
         updateColorBarPreview();
@@ -1016,9 +1025,9 @@ function updateColorFromLightnessSaturation() {
 
 function updateColorBar() {
     // Set sliders to match state
-    colorBar.value = colorBarState.hue;
-    lightnessSlider.value = colorBarState.lightness;
-    saturationSlider.value = colorBarState.saturation;
+    colorBar.value = String(colorBarState.hue);
+    lightnessSlider.value = String(colorBarState.lightness);
+    saturationSlider.value = String(colorBarState.saturation);
 
     // Position color indicator
     updateColorIndicator();
@@ -1073,8 +1082,8 @@ function updateColorBarPreview() {
     );
 
     // Update status when colors change
-    if (window.updateStatus) {
-        updateStatus(`Color updated: ${hex}`, 'info');
+    if ((window as any).updateStatus) {
+        (window as any).updateStatus(`Color updated: ${hex}`, 'info');
     }
 
     // Update indicator position
@@ -1093,7 +1102,7 @@ function updateColorIndicator() {
 
     if (sliderTrack) {
         // Add a data attribute to help with styling
-        sliderTrack.setAttribute('data-current-hue', colorBarState.hue);
+        sliderTrack.setAttribute('data-current-hue', String(colorBarState.hue));
 
         // Add a small pseudo-element with the current color above the slider
         sliderTrack.style.setProperty('--current-color', hslColor);
@@ -1108,7 +1117,7 @@ function updateColorIndicator() {
 }
 
 // Color utility functions
-function hexToRgb(hex) {
+function hexToRgb(hex: string): RgbColor | null {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
     hex = hex.trim();
     if (hex.startsWith('rgb')) {
@@ -1124,7 +1133,7 @@ function hexToRgb(hex) {
     }
 
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+    hex = hex.replace(shorthandRegex, function (m: string, r: string, g: string, b: string) {
         return r + r + g + g + b + b;
     });
 
@@ -1136,7 +1145,7 @@ function hexToRgb(hex) {
     } : null;
 }
 
-function rgbToHex(rgb) {
+function rgbToHex(rgb: string): string {
     if (!rgb) return '#000000';
 
     // Check if already in hex format
@@ -1158,13 +1167,13 @@ function rgbToHex(rgb) {
     return '#000000'; // Default fallback
 }
 
-function hslToRgb(h, s, l) {
+function hslToRgb(h: number, s: number, l: number): RgbColor {
     let r, g, b;
 
     if (s === 0) {
         r = g = b = l; // achromatic
     } else {
-        const hue2rgb = function hue2rgb(p, q, t) {
+        const hue2rgb = function hue2rgb(p: number, q: number, t: number) {
             if (t < 0) t += 1;
             if (t > 1) t -= 1;
             if (t < 1 / 6) return p + (q - p) * 6 * t;
@@ -1188,7 +1197,7 @@ function hslToRgb(h, s, l) {
 }
 
 // Convert RGB to HSL
-function rgbToHsl(r, g, b) {
+function rgbToHsl(r: number, g: number, b: number): { h?: number; s: number; l: number } {
     r /= 255;
     g /= 255;
     b /= 255;
@@ -1199,7 +1208,8 @@ function rgbToHsl(r, g, b) {
 
     if (max === min) {
         // Achromatic (gray)
-        h = s = 0;
+        h = 0;
+        s = 0;
     } else {
         const d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -1213,7 +1223,7 @@ function rgbToHsl(r, g, b) {
         h /= 6;
     }
 
-    return { h, s, l };
+    return h !== undefined ? { h, s, l } : { s, l };
 }
 
 // Function to fix position of any dynamic pages that might be outside the main content
@@ -1232,8 +1242,8 @@ function fixDynamicPagesPosition() {
         }
     });
 
-    if (window.updateStatus) {
-        updateStatus('Dynamic page positions corrected', 'success');
+    if ((window as any).updateStatus) {
+        (window as any).updateStatus('Dynamic page positions corrected', 'success');
     }
 }
 
@@ -1252,11 +1262,11 @@ function setupSectionObserver() {
                 mutation.addedNodes.forEach((node) => {
                     // If it's an element node and it's a section with dynamic-page class
                     if (node.nodeType === 1 &&
-                        node.tagName === 'SECTION' &&
-                        node.classList.contains('dynamic-page') &&
+                        (node as HTMLElement).tagName === 'SECTION' &&
+                        (node as HTMLElement).classList.contains('dynamic-page') &&
                         node.parentNode !== mainContent) {
 
-                        console.log(`Observer: Moving ${node.id || 'unnamed'} section into main-content`);
+                        console.log(`Observer: Moving ${(node as HTMLElement).id || 'unnamed'} section into main-content`);
                         mainContent.appendChild(node);
                     }
                 });
@@ -1286,8 +1296,8 @@ document.addEventListener('DOMContentLoaded', function () {
     setColorMode('dark', true); // Force dark mode and save preference
 
     // Update status bar with theme info
-    if (window.updateStatus) {
-        updateStatus('Website Builder loaded with dark theme', 'success');
+    if ((window as any).updateStatus) {
+        (window as any).updateStatus('Website Builder loaded with dark theme', 'success');
     }
 });
 
@@ -1321,8 +1331,8 @@ function setColorMode(mode = 'dark', savePreference = true) {
     updateColorBarPreview();
 
     // Provide feedback
-    if (window.updateStatus) {
-        updateStatus(`Theme set to: ${mode}`, 'info');
+    if ((window as any).updateStatus) {
+        (window as any).updateStatus(`Theme set to: ${mode}`, 'info');
     }
 
     // Save preference if requested

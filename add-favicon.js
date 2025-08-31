@@ -10,7 +10,7 @@ const path = require('path');
 
 // Configuration
 const rootDir = __dirname;
-const svgFilename = 'ziasymbol.svg';
+const svgFilename = '/images/ziasymbol.svg';
 
 // Find all HTML files recursively
 function findHtmlFiles(dir, fileList = []) {
@@ -57,13 +57,11 @@ function addFavicon(filePath, content) {
     return content; // No title tag found, skip
   }
   
-  const relativePath = getRelativePath(filePath);
-  
   // Favicon links to insert
   const faviconLinks = `
     <!-- Favicon -->
-    <link rel="icon" href="${relativePath}${svgFilename}" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="${relativePath}${svgFilename}">
+    <link rel="icon" href="${svgFilename}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="${svgFilename}">
     `;
   
   // Insert after title

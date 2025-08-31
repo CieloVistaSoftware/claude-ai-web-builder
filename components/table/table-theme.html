@@ -1,273 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Table Theme Demo</title>
-    <style>
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-      }
-      
-      th, td {
-        border: 1px solid var(--border-color, #ddd);
-        padding: 8px;
-        text-align: left;
-      }
-      
-      th {
-        background-color: var(--header-bg, #f2f2f2);
-        color: var(--header-text, #333);
-      }
-      
-      tr:nth-child(even) {
-        background-color: var(--row-bg, #f9f9f9);
-      }
-      
-      .theme-controls, .floating-color-control {
-        margin: 20px 0;
-        padding: 15px;
-        background: #f8f9fa;
-        border-radius: 8px;
-      }
-      
-      .control-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        font-weight: bold;
-      }
-      
-      .control-btn {
-        background: #007bff;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      
-      .floating-control-content {
-        display: block;
-      }
-      
-      .control-group, .floating-control-group {
-        margin-bottom: 15px;
-      }
-      
-      .control-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
-      
-      .control-group input[type="range"] {
-        width: 100%;
-        margin-bottom: 5px;
-      }
-      
-      .control-group select {
-        width: 100%;
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-      
-      .color-display, .color-preview {
-        width: 30px;
-        height: 30px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        display: inline-block;
-        margin-left: 10px;
-      }
-    </style>
-</head>
-<body>
-    <h1>Table Theme Demo</h1>
-    
-    <div class="theme-controls floating-color-control" id="floating-control">
-      <div class="control-header" id="control-header">
-        <h3>Table Theme Controls</h3>
-        <button class="control-btn" id="minimize-btn">−</button>
-      </div>
-      <div class="floating-control-content">
-        <div class="control-group floating-control-group">
-          <label for="hue-slider">Hue:</label>
-          <input type="range" id="hue-slider" class="floating-color-bar" min="0" max="360" value="200">
-          <span id="hue-value">200</span>
-        </div>
-        
-        <div class="control-group floating-control-group">
-          <label for="saturation-slider">Saturation:</label>
-          <input type="range" id="saturation-slider" class="floating-saturation-slider" min="0" max="100" value="50">
-          <span id="saturation-value">50</span>
-        </div>
-        
-        <div class="control-group floating-control-group">
-          <label for="lightness-slider">Lightness:</label>
-          <input type="range" id="lightness-slider" class="floating-lightness-slider" min="0" max="100" value="75">
-          <span id="lightness-value">75</span>
-        </div>
-        
-        <div class="control-group floating-control-group">
-          <label for="theme-select">Theme:</label>
-          <select id="theme-select" class="floating-theme-select">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="blue">Blue</option>
-          </select>
-        </div>
-        
-        <div class="color-display color-preview" id="color-preview"></div>
-      </div>
-    </div>
-
-    <table id="demo-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>City</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>John Doe</td>
-          <td>25</td>
-          <td>New York</td>
-        </tr>
-        <tr>
-          <td>Jane Smith</td>
-          <td>30</td>
-          <td>Los Angeles</td>
-        </tr>
-        <tr>
-          <td>Bob Johnson</td>
-          <td>35</td>
-          <td>Chicago</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <script>
-      // Theme functionality
-      const hueSlider = document.getElementById('hue-slider');
-      const saturationSlider = document.getElementById('saturation-slider');
-      const lightnessSlider = document.getElementById('lightness-slider');
-      const themeSelect = document.getElementById('theme-select');
-      const colorPreview = document.getElementById('color-preview');
-      const hueValue = document.getElementById('hue-value');
-      const saturationValue = document.getElementById('saturation-value');
-      const lightnessValue = document.getElementById('lightness-value');
-
-      function updateTheme() {
-        const hue = hueSlider.value;
-        const saturation = saturationSlider.value;
-        const lightness = lightnessSlider.value;
-        
-        const hsl = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        const borderHsl = `hsl(${hue}, ${saturation}%, ${Math.max(0, lightness - 20)}%)`;
-        
-        document.documentElement.style.setProperty('--header-bg', hsl);
-        document.documentElement.style.setProperty('--border-color', borderHsl);
-        
-        if (colorPreview) {
-          colorPreview.style.backgroundColor = hsl;
-        }
-        
-        hueValue.textContent = hue;
-        saturationValue.textContent = saturation;
-        lightnessValue.textContent = lightness;
-      }
-
-      // Event listeners
-      hueSlider.addEventListener('input', updateTheme);
-      saturationSlider.addEventListener('input', updateTheme);
-      lightnessSlider.addEventListener('input', updateTheme);
-
-      themeSelect.addEventListener('change', function() {
-        const theme = this.value;
-        switch(theme) {
-          case 'dark':
-            hueSlider.value = 0;
-            saturationSlider.value = 0;
-            lightnessSlider.value = 20;
-            break;
-          case 'blue':
-            hueSlider.value = 220;
-            saturationSlider.value = 70;
-            lightnessSlider.value = 60;
-            break;
-          default: // light
-            hueSlider.value = 200;
-            saturationSlider.value = 50;
-            lightnessSlider.value = 75;
-        }
-        updateTheme();
-      });
-
-      // Minimize functionality
-      const minimizeBtn = document.getElementById('minimize-btn');
-      const controlContent = document.querySelector('.floating-control-content');
-      
-      if (minimizeBtn && controlContent) {
-        minimizeBtn.addEventListener('click', function() {
-          if (controlContent.style.display === 'none') {
-            controlContent.style.display = 'block';
-            this.textContent = '−';
-          } else {
-            controlContent.style.display = 'none';
-            this.textContent = '+';
-          }
-        });
-      }
-
-      // Initialize
-      updateTheme();
-
-      // Make globals available for tests
-      window.TableThemeDemo = {
-        updateTheme,
-        hueSlider,
-        saturationSlider,
-        lightnessSlider,
-        themeSelect,
-        colorPreview
-      };
-
-      window.colorBarState = {
-        hue: () => parseInt(hueSlider.value),
-        saturation: () => parseInt(saturationSlider.value),
-        lightness: () => parseInt(lightnessSlider.value)
-      };
-
-      window.themeEvents = {
-        updateTheme
-      };
-    </script>
-</body>
-</html>
-<html lang="en">
-<head>
+    <!-- Keep only one charset declaration at the top -->
     <meta charset="UTF-8" />
+    
+    <!-- Keep only one viewport declaration -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <title>Table Theme Component Demo - Mathematical Color Inheritance</title>
     <meta
       name="description"
       content="Demonstration of automatic table theming using mathematical formulas and color inheritance from the Claude AI Website Builder design system"
     />
-    <meta
-      name="keywords"
-      content="table theme, color inheritance, golden ratio, mathematical design, web components"
-    />
+    <meta name="keywords" content="table theme, color inheritance, golden ratio, mathematical design, web components" />
 
     <!-- Favicon -->
-    <link rel="icon" href="../../ziasymbol.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="../../ziasymbol.svg" />
+    <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/images/ziasymbol.svg" />
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Table Theme Component Demo" />
@@ -733,7 +482,7 @@
         </header>
 
         <!-- Theme Controls -->
-        <div class="theme-controls floating-color-control" id="floating-control">
+        <div class="theme-controls floating-color-control" id="floating-control-1">
             <h2>🎨 Color Control</h2>
             <div class="control-group">
                 <label for="color-bar">Primary Hue</label>
@@ -803,10 +552,10 @@
         </div>
 
         <!-- Floating Controls -->
-        <div id="floating-control" class="floating-color-control">
-            <div id="control-header" class="control-header">
-                <span>Theme Controls</span>
-                <button id="minimize-btn" class="control-btn">-</button>
+        <div id="floating-control-2" class="floating-color-control">
+            <div id="control-header-2" class="control-header">
+                <div id="color-preview-2" class="color-preview"></div>
+                <button type="button" id="minimize-btn-2" class="minimize-btn">×</button>
             </div>
             <div class="floating-control-content">
                 <div class="floating-control-group">
@@ -1272,6 +1021,14 @@
       document.addEventListener("DOMContentLoaded", () => {
         new TableThemeDemo();
       });
+
+      // Instead of getElementById, use querySelectorAll for multiple elements
+const minimizeButtons = document.querySelectorAll('.minimize-btn');
+minimizeButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        // Handle minimize functionality
+    });
+});
     </script>
 </body>
 </html>

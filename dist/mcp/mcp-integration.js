@@ -1,9 +1,14 @@
+"use strict";
 // MCP Server Integration for Claude AI Website Builder
 // This module makes the existing website builder MCP-compliant
-import express from 'express';
-import path from 'path';
-import { promises as fs } from 'fs';
-import crypto from 'crypto';
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
+const fs_1 = require("fs");
+const crypto_1 = __importDefault(require("crypto"));
 class MCPClaudeWebsiteBuilder {
     constructor(app) {
         Object.defineProperty(this, "app", {
@@ -52,7 +57,7 @@ class MCPClaudeWebsiteBuilder {
     }
     setupMCPEndpoints() {
         // Enable JSON parsing for MCP endpoints
-        this.app.use(express.json({ limit: '10mb' })); // Add middleware to track all MCP requests
+        this.app.use(express_1.default.json({ limit: '10mb' })); // Add middleware to track all MCP requests
         this.app.use('/mcp', (req, res, next) => {
             console.log(`MCP Middleware triggered for: ${req.method} ${req.path}`);
             const startTime = Date.now();
@@ -126,6 +131,64 @@ class MCPClaudeWebsiteBuilder {
                     metadata: { framework: 'unknown', totalFiles: 0, totalSize: 0, deploymentReady: false }
                 });
             }
+        });
+        // GET endpoint for MCP generate - provides usage information
+        this.app.get('/mcp/generate', (req, res) => {
+            res.type('html').send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MCP Generate Endpoint</title>
+            <style>
+                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+                .code { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+                .endpoint { color: #007bff; font-weight: bold; }
+                .method { color: #28a745; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <h1>MCP Generate Endpoint</h1>
+            <p>This endpoint generates websites using the Model Context Protocol (MCP).</p>
+            
+            <h2>Usage</h2>
+            <p>Send a <span class="method">POST</span> request to <span class="endpoint">/mcp/generate</span> with the following structure:</p>
+            
+            <div class="code">
+<pre>{
+  "toolName": "website_generator",
+  "website": {
+    "type": "portfolio",
+    "framework": "vanilla",
+    "styling": "modern"
+  },
+  "content": {
+    "title": "My Website",
+    "description": "A beautiful website"
+  },
+  "output": {
+    "format": "files"
+  }
+}</pre>
+            </div>
+
+            <h2>Test Pages</h2>
+            <ul>
+                <li><a href="/mcp-demo.html">MCP Demo Page</a> - Interactive demo</li>
+                <li><a href="/mcp-test.html">MCP Test Page</a> - Test interface</li>
+                <li><a href="/mcp-generated-sample.html">Generated Sample</a> - Example output</li>
+            </ul>
+
+            <h2>Other MCP Endpoints</h2>
+            <ul>
+                <li><a href="/mcp/capabilities">GET /mcp/capabilities</a> - Server capabilities</li>
+                <li><a href="/mcp/health">GET /mcp/health</a> - Health check</li>
+                <li><a href="/mcp/metrics">GET /mcp/metrics</a> - Server metrics</li>
+            </ul>
+        </body>
+        </html>
+      `);
         });
     }
     setupCapabilitiesEndpoint() {
@@ -222,6 +285,68 @@ class MCPClaudeWebsiteBuilder {
             }
             this.successfulRequests++;
             res.json(validation);
+        });
+        // GET endpoint for MCP validate - provides validation information
+        this.app.get('/mcp/validate', (req, res) => {
+            res.type('html').send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MCP Validate Endpoint</title>
+            <style>
+                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+                .code { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+                .endpoint { color: #007bff; font-weight: bold; }
+                .method { color: #28a745; font-weight: bold; }
+                .required { color: #dc3545; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <h1>MCP Validate Endpoint</h1>
+            <p>This endpoint validates MCP input before website generation.</p>
+            
+            <h2>Usage</h2>
+            <p>Send a <span class="method">POST</span> request to <span class="endpoint">/mcp/validate</span> with your website configuration to check if it's valid.</p>
+            
+            <h2>Required Fields</h2>
+            <ul>
+                <li><span class="required">website.type</span> - Website type (portfolio, business, blog, landing, custom)</li>
+                <li><span class="required">content.title</span> - Website title</li>
+            </ul>
+
+            <h2>Example Request</h2>
+            <div class="code">
+<pre>{
+  "website": {
+    "type": "portfolio",
+    "framework": "vanilla",
+    "styling": "modern"
+  },
+  "content": {
+    "title": "My Portfolio",
+    "description": "Professional portfolio website"
+  },
+  "output": {
+    "format": "files"
+  }
+}</pre>
+            </div>
+
+            <h2>Example Response</h2>
+            <div class="code">
+<pre>{
+  "valid": true,
+  "errors": [],
+  "warnings": []
+}</pre>
+            </div>
+
+            <p><a href="/mcp/generate">← Back to MCP Generate</a></p>
+        </body>
+        </html>
+      `);
         });
     }
     setupMetricsEndpoint() {
@@ -782,8 +907,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     async loadWBCSS() {
         try {
-            const cssPath = path.join(process.cwd(), 'wb', 'wb.css');
-            return await fs.readFile(cssPath, 'utf8');
+            const cssPath = path_1.default.join(process.cwd(), 'wb', 'wb.css');
+            return await fs_1.promises.readFile(cssPath, 'utf8');
         }
         catch (error) {
             console.log('wb/wb.css not found, using fallback CSS');
@@ -847,8 +972,8 @@ body {
     }
     async getAvailableComponents() {
         try {
-            const componentsDir = path.join(process.cwd(), 'components');
-            const components = await fs.readdir(componentsDir, { withFileTypes: true });
+            const componentsDir = path_1.default.join(process.cwd(), 'components');
+            const components = await fs_1.promises.readdir(componentsDir, { withFileTypes: true });
             return components
                 .filter(dirent => dirent.isDirectory())
                 .map(dirent => dirent.name);
@@ -859,8 +984,8 @@ body {
     }
     async getAvailableThemes() {
         try {
-            const themesDir = path.join(process.cwd(), 'themes');
-            const themes = await fs.readdir(themesDir);
+            const themesDir = path_1.default.join(process.cwd(), 'themes');
+            const themes = await fs_1.promises.readdir(themesDir);
             return themes
                 .filter(file => file.endsWith('.html'))
                 .map(file => file.replace('.html', ''));
@@ -871,8 +996,8 @@ body {
     }
     async getComponentHTML(componentPath) {
         try {
-            const fullPath = path.join(process.cwd(), 'components', componentPath);
-            return await fs.readFile(fullPath, 'utf8');
+            const fullPath = path_1.default.join(process.cwd(), 'components', componentPath);
+            return await fs_1.promises.readFile(fullPath, 'utf8');
         }
         catch (error) {
             return `<!-- Component ${componentPath} not found -->`;
@@ -880,16 +1005,16 @@ body {
     }
     async getThemeHTML(themePath) {
         try {
-            const fullPath = path.join(process.cwd(), 'themes', themePath);
-            return await fs.readFile(fullPath, 'utf8');
+            const fullPath = path_1.default.join(process.cwd(), 'themes', themePath);
+            return await fs_1.promises.readFile(fullPath, 'utf8');
         }
         catch (error) {
             return `<!-- Theme ${themePath} not found -->`;
         }
     }
     generateChecksum(content) {
-        return crypto.createHash('md5').update(content).digest('hex');
+        return crypto_1.default.createHash('md5').update(content).digest('hex');
     }
 }
-export default MCPClaudeWebsiteBuilder;
+exports.default = MCPClaudeWebsiteBuilder;
 //# sourceMappingURL=mcp-integration.js.map

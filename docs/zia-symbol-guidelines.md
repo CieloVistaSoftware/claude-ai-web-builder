@@ -1,7 +1,7 @@
 # Zia Symbol Usage Guidelines
 
 <div align="center">
-  <img src="./ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="../images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
 </div>
 
 ## Overview
@@ -14,12 +14,12 @@ The Zia Symbol is our company trademark and should be used consistently across a
 
 ```html
 <!-- Favicon (in <head> section) -->
-<link rel="icon" href="path/to/ziasymbol.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="path/to/ziasymbol.svg">
+<link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/images/ziasymbol.svg">
 
 <!-- As content (in <body> section) -->
 <div class="logo-container">
-  <img src="path/to/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="/images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
 </div>
 ```
 
@@ -27,7 +27,7 @@ The Zia Symbol is our company trademark and should be used consistently across a
 
 ```markdown
 <div align="center">
-  <img src="path/to/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="/images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
 </div>
 ```
 
@@ -49,9 +49,9 @@ node add-favicon.js
 
 When adding the symbol manually, make sure to use the correct relative path based on where the file is located:
 
-- Root level files: `./ziasymbol.svg`
-- Files in first-level folders: `../ziasymbol.svg`
-- Files in second-level folders: `../../ziasymbol.svg`
+- All files should use: `/images/ziasymbol.svg` (absolute path from root)
+- This ensures consistent references across all project files
+- The SVG is centrally located in the `/images/` directory
 
 ## Symbol Specifications
 

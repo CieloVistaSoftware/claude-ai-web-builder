@@ -1,0 +1,88 @@
+{
+  "sampleImages": [
+    {
+      "filename": "redsample.png",
+      "title": "Red Power Template",
+      "description": "Bold and energetic design perfect for creative portfolios and artistic websites",
+      "gradient": "linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)",
+      "category": "Creative"
+    },
+    {
+      "filename": "bluesample.png",
+      "title": "Blue Professional",
+      "description": "Clean and trustworthy design for business websites and corporate portfolios",
+      "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      "category": "Business"
+    },
+    {
+      "filename": "pinksample.png",
+      "title": "Pink Creative",
+      "description": "Elegant and modern design ideal for lifestyle brands and fashion websites",
+      "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      "category": "Lifestyle"
+    },
+    {
+      "filename": "purplesample.png",
+      "title": "Purple Innovation",
+      "description": "Creative and innovative design for tech startups and digital agencies",
+      "gradient": "linear-gradient(135deg, #a55eea 0%, #8854d0 100%)",
+      "category": "Technology"
+    },
+    {
+      "filename": "greenleftsample.png",
+      "title": "Green Nature",
+      "description": "Fresh and eco-friendly design for sustainable businesses and environmental organizations",
+      "gradient": "linear-gradient(135deg, #26de81 0%, #20bf6b 100%)",
+      "category": "Environment"
+    },
+    {
+      "filename": "greentopwithimagesample.png",
+      "title": "Green Gallery",
+      "description": "Nature-inspired design with top navigation and integrated image gallery showcase",
+      "gradient": "linear-gradient(135deg, #00b894 0%, #00a085 100%)",
+      "category": "Portfolio"
+    },
+    {
+      "filename": "SkyBlueTopSample.png",
+      "title": "Sky Blue Horizon",
+      "description": "Clean and calming design perfect for wellness, health, and meditation websites",
+      "gradient": "linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)",
+      "category": "Wellness"
+    },
+    {
+      "filename": "YellowLeftSample.png",
+      "title": "Yellow Energy",
+      "description": "Vibrant and cheerful design ideal for educational websites and children's content",
+      "gradient": "linear-gradient(135deg, #fdcb6e 0%, #e17055 100%)",
+      "category": "Education"
+    },
+    {
+      "filename": "YellowTopSample.png",
+      "title": "Yellow Sunshine",
+      "description": "Bright and optimistic design perfect for food blogs and lifestyle websites",
+      "gradient": "linear-gradient(135deg, #f1c40f 0%, #f39c12 100%)",
+      "category": "Food & Lifestyle"
+    },
+    {
+      "filename": "BlueRightSample.png",
+      "title": "Blue Corporate",
+      "description": "Professional design with right-aligned navigation for executive and corporate websites",
+      "gradient": "linear-gradient(135deg, #3742fa 0%, #2f3542 100%)",
+      "category": "Corporate"
+    },
+    {
+      "filename": "BlueTopSample.png",
+      "title": "Blue Executive",
+      "description": "Executive-level design with top navigation bar for premium business websites",
+      "gradient": "linear-gradient(135deg, #2c2c54 0%, #40407a 100%)",
+      "category": "Executive"
+    },
+    {
+      "filename": "TopBlueImagesSample.png",
+      "title": "Blue Gallery Pro",
+      "description": "Professional blue theme with integrated image gallery for photography and design portfolios",
+      "gradient": "linear-gradient(135deg, #4834d4 0%, #686de0 100%)",
+      "category": "Photography"
+    }
+  ]
+}

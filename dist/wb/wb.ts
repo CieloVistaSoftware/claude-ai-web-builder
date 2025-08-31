@@ -28,23 +28,38 @@ let colorBarState = {
 };
 
 // DOM Elements (will be initialized after DOM loads)
-let body, controlPanel, controlPanelBody, minimizeBtn, editModeToggle, layoutSelect, themeSelect, saveBtn, resetBtn;
-let colorBar, lightnessSlider, saturationSlider, primaryColorPicker, secondaryColorPicker, accentColorPicker, colorIndicator, colorPreviewBox;
+let body: HTMLElement | null,
+    controlPanel: HTMLElement | null,
+    controlPanelBody: HTMLElement | null,
+    minimizeBtn: HTMLElement | null,
+    editModeToggle: HTMLElement | null,
+    layoutSelect: HTMLSelectElement | null,
+    themeSelect: HTMLSelectElement | null,
+    saveBtn: HTMLElement | null,
+    resetBtn: HTMLElement | null;
+let colorBar: HTMLInputElement | null,
+    lightnessSlider: HTMLInputElement | null,
+    saturationSlider: HTMLInputElement | null,
+    primaryColorPicker: HTMLInputElement | null,
+    secondaryColorPicker: HTMLInputElement | null,
+    accentColorPicker: HTMLInputElement | null,
+    colorIndicator: HTMLElement | null,
+    colorPreviewBox: HTMLElement | null;
 
 // Initialize DOM elements
 function initializeElements() {
     body = document.body;
     controlPanel = document.getElementById('control-panel');
-    controlPanelBody = controlPanel.querySelector('.control-panel-body');
+    controlPanelBody = controlPanel ? controlPanel.querySelector('.control-panel-body') : null;
     minimizeBtn = document.getElementById('minimize-btn');
     editModeToggle = document.getElementById('edit-mode-toggle');
-    layoutSelect = document.getElementById('layout-select');
-    themeSelect = document.getElementById('theme-select');
+    layoutSelect = document.getElementById('layout-select') as HTMLSelectElement | null;
+    themeSelect = document.getElementById('theme-select') as HTMLSelectElement | null;
     saveBtn = document.getElementById('save-btn');
     resetBtn = document.getElementById('reset-btn');
     // Color related elements
     colorBar = document.getElementById('color-bar');
-    lightnessSlider = document.getElementById('lightness-slider');
+    lightnessSlider = document.getElementById('lightness-slider') as HTMLInputElement | null;
     saturationSlider = document.getElementById('saturation-slider');
     primaryColorPicker = document.getElementById('primary-color');
     secondaryColorPicker = document.getElementById('secondary-color');

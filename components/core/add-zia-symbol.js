@@ -10,9 +10,9 @@ const path = require('path');
 
 // Configuration
 const rootDir = __dirname;
-const svgFilename = 'ziasymbol.svg';
+const svgFilename = '/images/ziasymbol.svg';
 const svgHtml = `<div align="center">
-  <img src="{{relativePath}}${svgFilename}" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="${svgFilename}" alt="Zia Symbol Logo" width="150" height="100">
 </div>
 
 `;
@@ -59,8 +59,7 @@ function addZiaSymbol(filePath, content) {
   
   if (!match) return content; // No heading found
   
-  const relativePath = getRelativePath(filePath);
-  const svgToInsert = svgHtml.replace('{{relativePath}}', relativePath);
+  const svgToInsert = svgHtml;
   
   // Insert after the first heading
   const position = match.index + match[0].length;

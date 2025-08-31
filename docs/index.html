@@ -1,145 +1,855 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation - Claude AI Website Builder</title>
     <style>
+        /* Dark theme by default */
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #3d3d3d;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #808080;
+            --accent-primary: #6366f1;
+            --accent-hover: #7c3aed;
+            --border-color: #404040;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --hover-bg: #404040;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
+            transition: all 0.3s ease;
         }
+
         h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-primary);
             padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .file-list {
-            list-style: none;
-            padding: 0;
+
+        .architecture-notice {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--warning-color);
+            font-weight: 500;
         }
-        .file-item {
-            margin-bottom: 12px;
-            padding: 10px 15px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            border-left: 4px solid #3498db;
+
+        /* Table Layout */
+        .docs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .docs-table thead {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+            color: white;
+        }
+
+        .docs-table th {
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: background-color 0.2s ease;
+        }
+
+        .docs-table th:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .docs-table th.sortable:after {
+            content: ' ↕️';
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+
+        .docs-table th.sort-asc:after {
+            content: ' ↑';
+            opacity: 1;
+        }
+
+        .docs-table th.sort-desc:after {
+            content: ' ↓';
+            opacity: 1;
+        }
+
+        .docs-table tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .docs-table tbody tr:hover {
+            background-color: var(--hover-bg);
+            transform: translateX(2px);
+        }
+
+        .docs-table tbody tr.priority-1,
+        .docs-table tbody tr.priority-2,
+        .docs-table tbody tr.priority-3 {
+            border-left: 4px solid var(--accent-primary);
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+
+        .docs-table td {
+            padding: 12px 20px;
+            vertical-align: top;
+        }
+
+        .docs-table td.doc-column {
+            width: 70%;
+        }
+
+        .docs-table td.date-column {
+            width: 30%;
+            text-align: right;
+            color: var(--text-muted);
+            font-size: 0.9em;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .file-link {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .file-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .file-description {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            margin-top: 4px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .file-category {
+            color: var(--text-muted);
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            opacity: 0.7;
+            display: block;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background-color: var(--bg-tertiary);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        .stats-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        .file-item:hover {
-            background-color: #e9ecef;
-        }
-        .file-link {
-            text-decoration: none;
-            color: #2980b9;
-            font-weight: 500;
-            flex-grow: 1;
-        }
-        .file-link:hover {
-            text-decoration: underline;
-        }
-        .file-date {
-            color: #7f8c8d;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background-color: var(--bg-secondary);
+            border-radius: 6px;
             font-size: 0.9em;
-            white-space: nowrap;
+            color: var(--text-secondary);
         }
+
+        @media (max-width: 768px) {
+            .docs-table th,
+            .docs-table td {
+                padding: 10px 12px;
+            }
+
+            .docs-table td.doc-column {
+                width: 65%;
+            }
+
+            .docs-table td.date-column {
+                width: 35%;
+                font-size: 0.8em;
+            }
+
+            .file-description {
+                font-size: 0.8em;
+            }
+        }
+
         .refresh-note {
             font-style: italic;
-            color: #7f8c8d;
+            color: var(--text-muted);
             text-align: center;
             margin-top: 30px;
             font-size: 0.9em;
+            padding: 20px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
         }
+
         .tag {
             display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.75em;
             margin-right: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+
         .tag-new {
-            background-color: #2ecc71;
+            background-color: var(--success-color);
             color: white;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
         }
+
         .tag-updated {
-            background-color: #f39c12;
+            background-color: var(--warning-color);
             color: white;
+            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+        }
+
+        .tag-architecture {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        /* Light theme styles */
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-muted: #adb5bd;
+            --hover-bg: #e9ecef;
+        }
+
+        /* Markdown content styles */
+        .markdown-content {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+        }
+
+        .markdown-content.active {
+            display: block;
+        }
+
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3,
+        .markdown-content h4,
+        .markdown-content h5,
+        .markdown-content h6 {
+            color: var(--text-primary);
+            margin-top: 2em;
+            margin-bottom: 0.5em;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3em;
+        }
+
+        .markdown-content h1 {
+            font-size: 2em;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .markdown-content h2 {
+            font-size: 1.5em;
+        }
+
+        .markdown-content h3 {
+            font-size: 1.2em;
+        }
+
+        .markdown-content code {
+            background-color: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+            color: var(--accent-primary);
+        }
+
+        .markdown-content pre {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+
+        .markdown-content pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .markdown-content blockquote {
+            border-left: 4px solid var(--accent-primary);
+            margin: 1em 0;
+            padding-left: 20px;
+            color: var(--text-secondary);
+            font-style: italic;
+            background-color: var(--bg-secondary);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .markdown-content th,
+        .markdown-content td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .markdown-content th {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+            color: white;
+            font-weight: 600;
+        }
+
+        .markdown-content tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .markdown-content ul,
+        .markdown-content ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+
+        .markdown-content li {
+            margin: 0.5em 0;
+        }
+
+        .markdown-content a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-primary);
+        }
+
+        .markdown-content a:hover {
+            color: var(--accent-hover);
+            border-bottom: 1px solid var(--accent-hover);
+        }
+
+        .markdown-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1em 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .markdown-content hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 2em 0;
+        }
+
+        .back-button {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .index-view {
+            display: block;
+        }
+
+        .index-view.hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Claude AI Website Builder Documentation</h1>
+    <button class="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
     
-    <p>Browse documentation files ordered by most recent update:</p>
+    <!-- Index View -->
+    <div class="index-view" id="index-view">
+        <h1>🚀 Claude AI Website Builder Documentation</h1>
     
-    <ul class="file-list" id="file-list">
-        <!-- JavaScript will populate this list -->
-    </ul>
-    
-    <p class="refresh-note">This index automatically shows the most recently updated documentation files first. All links are relative to the docs directory.</p>
+    <div class="architecture-notice">
+        <strong>🚨 Major Update (Dec 28, 2024):</strong> The project has migrated from React to pure TypeScript! 
+        All React dependencies have been removed. Current implementation uses wb/wb.ts for core functionality.
+    </div>
 
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search documentation...">
+        <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="stats-bar">
+        <span id="doc-count">Loading documentation...</span>
+        <span id="last-updated">Last updated: Loading...</span>
+    </div>
+    
+    <table class="docs-table" id="docs-table">
+        <thead>
+            <tr>
+                <th class="sortable" data-sort="name">📚 Documentation</th>
+                <th class="sortable" data-sort="date">📅 Last Modified</th>
+            </tr>
+        </thead>
+        <tbody id="docs-tbody">
+            <!-- JavaScript will populate this table -->
+        </tbody>
+    </table>
+    
+    <div class="refresh-note">
+        <strong>📚 Documentation Index</strong><br>
+        This index automatically shows the most important and recently updated documentation files first. 
+        Files marked with 🚨 contain critical architecture information. Click any .md file to view it with full markdown rendering.
+        <br><br>
+        <strong>Priority System:</strong> Architecture & Fixes → Core Documentation → Specifications → Planning & Guides<br>
+        <strong>🎯 New Feature:</strong> Markdown files (.md) now render with full formatting, syntax highlighting, and styled elements!
+    </div>
+    </div>
+    
+    <!-- Markdown View -->
+    <div class="markdown-content" id="markdown-content">
+        <button class="back-button" onclick="showIndex()">
+            ← Back to Documentation Index
+        </button>
+        <div id="markdown-body"></div>
+    </div>
+
+    <!-- Marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <script>
-        // Function to fetch and display files ordered by modification date
-        async function loadDocumentationIndex() {
-            try {
-                // Fetch the list of files
-                const response = await fetch('./docs-index.json');
-                const files = await response.json();
+        // Global variables
+        let docsData = [];
+        let currentSort = { column: 'priority', direction: 'asc' };
+        let filteredData = [];
+        let isMarkdownView = false;
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const button = document.querySelector('.theme-toggle');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                button.innerHTML = '🌙 Dark Mode';
+                localStorage.setItem('docs-theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light Mode';
+                localStorage.setItem('docs-theme', 'dark');
+            }
+        }
+
+        // Load saved theme preference
+        function loadThemePreference() {
+            const savedTheme = localStorage.getItem('docs-theme');
+            const html = document.documentElement;
+            const button = document.querySelector('.theme-toggle');
+            
+            // Default to dark theme
+            if (savedTheme === 'light') {
+                html.setAttribute('data-theme', 'light');
+                button.innerHTML = '🌙 Dark Mode';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light Mode';
+            }
+        }
+
+        // Sorting function
+        function sortData(column, direction) {
+            return [...filteredData].sort((a, b) => {
+                let aVal, bVal;
                 
-                const fileList = document.getElementById('file-list');
-                fileList.innerHTML = ''; // Clear existing content
+                if (column === 'name') {
+                    aVal = a.displayName.toLowerCase();
+                    bVal = b.displayName.toLowerCase();
+                } else if (column === 'date') {
+                    aVal = new Date(a.lastModified);
+                    bVal = new Date(b.lastModified);
+                } else if (column === 'priority') {
+                    aVal = a.priority;
+                    bVal = b.priority;
+                }
                 
-                const now = new Date();
-                const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                if (direction === 'asc') {
+                    return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+                } else {
+                    return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
+                }
+            });
+        }
+
+        // Update sort indicators in header
+        function updateSortHeaders() {
+            document.querySelectorAll('.docs-table th').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                const sortType = th.getAttribute('data-sort');
+                if (sortType === currentSort.column) {
+                    th.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+        }
+
+        // Render table rows
+        function renderTable() {
+            const tbody = document.getElementById('docs-tbody');
+            const sortedData = sortData(currentSort.column, currentSort.direction);
+            
+            tbody.innerHTML = '';
+            
+            const now = new Date();
+            const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            
+            sortedData.forEach(file => {
+                const tr = document.createElement('tr');
+                tr.className = `priority-${file.priority}`;
                 
-                files.forEach(file => {
-                    const li = document.createElement('li');
-                    li.className = 'file-item';
-                    
-                    // Create tags for recent files
-                    let tagHtml = '';
-                    const fileDate = new Date(file.lastModified);
-                    
-                    if (fileDate > oneWeekAgo) {
-                        if (fileDate > new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000)) {
-                            tagHtml = '<span class="tag tag-new">NEW</span>';
-                        } else {
-                            tagHtml = '<span class="tag tag-updated">UPDATED</span>';
-                        }
-                    }
-                    
-                    // Format the date
-                    const formattedDate = new Date(file.lastModified).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    
-                    li.innerHTML = `
-                        <a href="./${file.name}" class="file-link">${tagHtml}${file.displayName}</a>
-                        <span class="file-date">${formattedDate}</span>
-                    `;
-                    
-                    fileList.appendChild(li);
+                // Create tags
+                let tagHtml = '';
+                const fileDate = new Date(file.lastModified);
+                
+                if (file.priority <= 3) {
+                    tagHtml += '<span class="tag tag-architecture">CRITICAL</span>';
+                }
+                
+                if (fileDate > oneWeekAgo) {
+                    tagHtml += '<span class="tag tag-new">RECENT</span>';
+                } else if (fileDate > oneMonthAgo) {
+                    tagHtml += '<span class="tag tag-updated">UPDATED</span>';
+                }
+                
+                // Format date
+                const formattedDate = fileDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
                 
+                const relativeDate = getRelativeDate(fileDate);
+                
+                const isMarkdown = file.name.endsWith('.md');
+                const linkTarget = isMarkdown ? '#' : `./${file.name}`;
+                const linkHandler = isMarkdown ? `onclick="showMarkdownFile('${file.name}'); return false;"` : '';
+
+                tr.innerHTML = `
+                    <td class="doc-column">
+                        <span class="file-category">${file.category}</span>
+                        <div>
+                            <a href="${linkTarget}" class="file-link" ${linkHandler}>
+                                ${tagHtml}${file.displayName}
+                            </a>
+                        </div>
+                        <div class="file-description">${file.description}</div>
+                    </td>
+                    <td class="date-column" title="${formattedDate}">
+                        <div>${relativeDate}</div>
+                        <div style="font-size: 0.8em; opacity: 0.7;">${formattedDate}</div>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+            
+            updateSortHeaders();
+            updateStats();
+        }
+
+        // Get relative date string
+        function getRelativeDate(date) {
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
+            if (diffDays < 365) return `${Math.ceil(diffDays / 30)} months ago`;
+            return `${Math.ceil(diffDays / 365)} years ago`;
+        }
+
+        // Update statistics bar
+        function updateStats() {
+            const docCount = document.getElementById('doc-count');
+            const lastUpdated = document.getElementById('last-updated');
+            
+            const totalDocs = docsData.length;
+            const filteredCount = filteredData.length;
+            
+            if (filteredCount === totalDocs) {
+                docCount.textContent = `${totalDocs} documentation files`;
+            } else {
+                docCount.textContent = `${filteredCount} of ${totalDocs} files (filtered)`;
+            }
+            
+            // Find most recent update
+            const mostRecent = docsData.reduce((latest, file) => {
+                const fileDate = new Date(file.lastModified);
+                const latestDate = new Date(latest.lastModified);
+                return fileDate > latestDate ? file : latest;
+            });
+            
+            const recentDate = new Date(mostRecent.lastModified);
+            lastUpdated.textContent = `Last updated: ${getRelativeDate(recentDate)}`;
+        }
+
+        // Search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                
+                if (!query) {
+                    filteredData = [...docsData];
+                } else {
+                    filteredData = docsData.filter(file => 
+                        file.displayName.toLowerCase().includes(query) ||
+                        file.description.toLowerCase().includes(query) ||
+                        file.category.toLowerCase().includes(query)
+                    );
+                }
+                
+                renderTable();
+            });
+        }
+
+        // Setup table sorting
+        function setupSorting() {
+            document.querySelectorAll('.docs-table th.sortable').forEach(th => {
+                th.addEventListener('click', function() {
+                    const column = this.getAttribute('data-sort');
+                    
+                    if (currentSort.column === column) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.column = column;
+                        currentSort.direction = column === 'date' ? 'desc' : 'asc'; // Default newest first for dates
+                    }
+                    
+                    renderTable();
+                });
+            });
+        }
+
+        // Markdown rendering functions
+        function showIndex() {
+            document.getElementById('index-view').classList.remove('hidden');
+            document.getElementById('markdown-content').classList.remove('active');
+            isMarkdownView = false;
+            
+            // Update URL without page reload
+            if (window.history.replaceState) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        async function showMarkdownFile(filename) {
+            try {
+                const response = await fetch('./' + filename);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch ${filename}: ${response.statusText}`);
+                }
+                
+                const markdownText = await response.text();
+                
+                // Configure marked options
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: true,
+                    highlight: function(code, lang) {
+                        // Basic syntax highlighting for common languages
+                        if (lang === 'javascript' || lang === 'js') {
+                            return code.replace(/\b(function|const|let|var|if|else|for|while|return)\b/g, '<span style="color: var(--accent-primary); font-weight: bold;">$1</span>');
+                        }
+                        return code;
+                    }
+                });
+                
+                // Render markdown to HTML
+                const htmlContent = marked.parse(markdownText);
+                
+                // Show markdown view
+                document.getElementById('markdown-body').innerHTML = htmlContent;
+                document.getElementById('index-view').classList.add('hidden');
+                document.getElementById('markdown-content').classList.add('active');
+                isMarkdownView = true;
+                
+                // Update URL with hash
+                if (window.history.pushState) {
+                    window.history.pushState({}, document.title, `#view-md=${filename}`);
+                }
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
             } catch (error) {
-                console.error('Failed to load documentation index:', error);
-                document.getElementById('file-list').innerHTML = 
-                    '<li class="file-item">Error loading file index. Please refresh the page or check the server.</li>';
+                console.error('Error loading markdown file:', error);
+                alert(`Error loading ${filename}: ${error.message}`);
+            }
+        }
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function(event) {
+            const hash = window.location.hash;
+            if (hash.startsWith('#view-md=')) {
+                const filename = hash.substring(9);
+                showMarkdownFile(filename);
+            } else {
+                showIndex();
+            }
+        });
+
+        // Check if we should load a markdown file on page load
+        function checkForMarkdownView() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#view-md=')) {
+                const filename = hash.substring(9);
+                showMarkdownFile(filename);
             }
         }
         
-        // Load the index when the page loads
-        window.addEventListener('DOMContentLoaded', loadDocumentationIndex);
+        // Function to fetch and display files
+        async function loadDocumentationIndex() {
+            try {
+                const response = await fetch('./docs-index.json');
+                docsData = await response.json();
+                filteredData = [...docsData];
+                
+                // Set initial sort to priority (critical items first)
+                currentSort = { column: 'priority', direction: 'asc' };
+                
+                renderTable();
+                
+            } catch (error) {
+                console.error('Failed to load documentation index:', error);
+                document.getElementById('docs-tbody').innerHTML = 
+                    '<tr><td colspan="2" class="file-link" style="text-align: center; color: var(--warning-color);">⚠️ Error loading documentation index. Please refresh the page or check the server.</td></tr>';
+            }
+        }
+        
+        // Load everything when the page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            loadThemePreference();
+            setupSearch();
+            setupSorting();
+            loadDocumentationIndex();
+            checkForMarkdownView();
+        });
     </script>
 </body>
 </html>

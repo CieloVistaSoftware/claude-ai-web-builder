@@ -1,7 +1,7 @@
 # Claude AI Website Builder - Complete Specifications
 
 <div align="center">
-  <img src="../ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="/images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
 </div>
 
 ## Table of Contents
@@ -45,12 +45,12 @@ A revolutionary no-code website builder that integrates Claude AI to help users 
 ## Architecture & Tech Stack
 
 ### Frontend Stack
-- **Framework**: React 18+ with TypeScript
-- **Styling**: Tailwind CSS + CSS Variables for theming
-- **State Management**: Zustand
-- **Build Tool**: Vite
-- **Component Library**: Custom components + Headless UI
-- **Icons**: Lucide React
+- **Framework**: TypeScript + HTML5 (Pure Web Standards)
+- **Styling**: CSS Variables + Tailwind CSS for theming
+- **Build Tool**: TypeScript Compiler
+- **Component System**: Vanilla TypeScript with DOM manipulation
+- **Icons**: SVG icons and standard web fonts
+- **Architecture**: Traditional MPA (Multi-Page Application) approach
 
 ### Backend & Services
 - **Server**: Express.js with CORS support
@@ -237,7 +237,7 @@ interface ClaudeIntegration {
 ```
 
 ### AI Capabilities
-- **Component Generation**: Natural language to React components
+- **Component Generation**: Natural language to HTML/CSS/TypeScript components
 - **Content Creation**: AI-generated text, headlines, descriptions
 - **Layout Suggestions**: Optimal layout recommendations
 - **SEO Optimization**: Meta tags and content suggestions
@@ -474,8 +474,11 @@ npm run test:report
 ├── css/
 │   ├── custom.css
 │   └── themes/
-├── src/
-│   └── main.tsx
+├── wb/
+│   ├── wb.html
+│   ├── wb.ts
+│   ├── wb.css
+│   └── wb.js
 ├── Tests/
 │   └── playwright/
 └── docs/
@@ -552,7 +555,7 @@ npm run kill-port
 1. **AI Features**: Complete Claude API integration for natural language website generation
 2. **Component Library**: Expand component library with more pre-built elements
 3. **Templates**: Add industry-specific website templates
-4. **Export Options**: Multiple export formats (React, Vue, vanilla HTML)
+4. **Export Options**: Multiple export formats (HTML/CSS/JS, static sites)
 5. **Collaboration**: Multi-user editing and sharing capabilities
 
 ---

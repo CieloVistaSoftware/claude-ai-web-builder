@@ -9,7 +9,7 @@ const serve_static_1 = __importDefault(require("serve-static"));
 const helmet_1 = __importDefault(require("helmet"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = require("fs");
-const mcp_integration_1 = __importDefault(require("./mcp-integration"));
+const mcp_integration_1 = __importDefault(require("./mcp/mcp-integration"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 // Initialize MCP integration with existing app

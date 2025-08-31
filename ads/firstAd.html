@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSite Creator (Free)</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/images/ziasymbol.svg" />
+    <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-secondary: white;
+            --bg-card: white;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #555;
+            --border-color: #e9ecef;
+            --feature-bg: #f8f9fa;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --bg-secondary: #1e1e1e;
+            --bg-card: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-light: #aaaaaa;
+            --border-color: #404040;
+            --feature-bg: #383838;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1f2937 50%, #111827 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="3" fill="white" opacity="0.1"/><circle cx="90" cy="20" r="1.5" fill="white" opacity="0.1"/><circle cx="15" cy="80" r="2.5" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #fff, #f0f8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
+        }
+
+        .features {
+            padding: 5rem 2rem;
+            background: #2d3748;
+            text-align: center;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: #4a5568;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: 1px solid #718096;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f7fafc;
+        }
+
+        .feature-description {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+        /* Updated Pricing Section */
+        .pricing {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr) 3rem;
+            gap: 2rem;
+            margin-top: 3rem;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem 3rem 2rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: grid;
+            grid-template-rows: auto auto 1fr auto;
+            gap: 1.5rem;
+            transition: transform 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .pricing-card.last-card {
+            padding: 2rem 5rem 2rem 2rem !important;
+        }
+
+        .pricing-card.featured {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-header {
+            text-align: center;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #f7fafc;
+        }
+
+        .pricing-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .feature-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-column .price-features {
+            margin: 0;
+        }
+
+        .pricing-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+                .pricing-card {
+            max-width: 800px;
+            margin: 3rem auto 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .pricing-left {
+            text-align: center;
+        }
+
+        .pricing-right {
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-card {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #48bb78;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #48bb78;
+            color: white;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f7fafc;
+        }
+
+        .plan-description {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            color: #cbd5e0;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .price.free { color: #48bb78; }
+        .price.premium { color: #667eea; }
+        .price.professional { color: #f093fb; }
+
+        .price-period {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #cbd5e0;
+        }
+
+        .price-note {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            margin-bottom: 2rem;
+        }
+
+        .price-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .price-features li {
+            padding: 0.75rem 0;
+            opacity: 0.9;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .price-features li::before {
+            content: '✨';
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .price-features li.premium-feature::before { content: '⭐'; }
+        .price-features li.pro-feature::before { content: '💎'; }
+
+        .pricing-cta {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .pricing-cta.free {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            box-shadow: 0 10px 30px rgba(72, 187, 120, 0.4);
+        }
+
+        .pricing-cta.premium {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .pricing-cta.professional {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+        }
+
+        .pricing-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
+        }
+
+        .money-back {
+            font-size: 0.8rem;
+            color: #a0aec0;
+            margin-top: 1rem;
+        }
+
+        .footer {
+            padding: 2rem;
+            background: #1a202c;
+            color: white;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                padding: 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        /* Image Slider styles from original */
+        .image-slider {
+            position: relative;
+            max-width: 100%;
+            margin: 2rem auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 50rem;
+            overflow: hidden;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        }
+
+        .slide-img {
+            height: 5rem;
+            flex: 1;
+            object-fit: contain;
+            margin: 5rem;
+        }
+
+        .slide-content {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .slide-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-description {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            line-height: 1.5;
+            color: #f0f0f0;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .slider-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-nav.prev { left: 20px; }
+        .slider-nav.next { right: 20px; }
+
+        .slider-pause {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .image-slider-section {
+            padding: 3rem 2rem;
+            background: #1a202c;
+            text-align: center;
+        }
+
+        .image-slider-section h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: white;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">🏆 #1 Website Builder on LinkedIn</div>
+            <h1>Create Your Website in One Click</h1>
+            <p class="subtitle">No coding, no complexity, no limits. Just pure creativity unleashed for everyone, from kids to grandparents!</p>
+            <button class="cta-button" onclick="goToBuilder()">✨ Start Building Now</button>
+        </div>
+    </section>
+
+    <!-- Image Slider Section -->
+    <section class="image-slider-section">
+        <h1>Check out these examples...</h1>
+        <div class="image-slider">
+            <div class="slider-container">
+                <div class="slider-track" id="sliderTrack">
+                    <!-- Slides will be dynamically generated from images.json -->
+                </div>
+                <button type="button" class="slider-nav prev" onclick="changeSlide(-1)">◀</button>
+                <button type="button" class="slider-nav next" onclick="changeSlide(1)">▶</button>
+                <button type="button" class="slider-pause" id="pauseBtn" onclick="togglePause()" title="Pause/Resume Slideshow">⏸️</button>
+            </div>
+            <div class="slider-dots" id="sliderIndicators">
+                <!-- Indicators will be dynamically generated -->
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: #f7fafc;">Why Everyone Loves WebSite Creator</h2>
+        <p style="font-size: 1.2rem; color: #cbd5e0; max-width: 600px; margin: 0 auto;">From 8-year-olds building their first site to 80-year-olds sharing family recipes – our platform works for absolutely everyone!</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Lightning Fast</h3>
+                <p class="feature-description">Literally one click and your website is live. No tutorials, no setup, no headaches. Just magic!</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title">You Design, We Build</h3>
+                <p class="feature-description">Choose colors, fonts, and layouts that match your personality. Make it uniquely yours with our intuitive design tools.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                <h3 class="feature-title">All Ages Welcome</h3>
+                <p class="feature-description">Whether you're 8 or 88, our platform is designed to be simple, fun, and accessible for everyone in the family.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Updated Pricing Section -->
+        <section class="pricing">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Choose Your Perfect Plan</h2>
+        <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">Start free, upgrade when you need more power. All plans include our core website building features.</p>
+        
+        <div class="pricing-container">
+            <!-- Free Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <div class="plan-name">FREE</div>
+                    <div class="price">$0</div>
+                    <p style="font-size: 1rem; opacity: 0.8;">Perfect for getting started</p>
+                </div>
+                
+                <div class="pricing-features">
+                    <div class="feature-column">
+                        <ul class="price-features">
+                            <li>3 Beautiful Pages</li>
+                            <li>5 Templates</li>
+                            <li>Mobile Responsive</li>
+                            <li>Basic Support</li>
+                        </ul>
+                    </div>
+                    <div class="feature-column">
+                        <ul class="price-features">
+                            <li>SSL Certificate</li>
+                            <li>Basic Analytics</li>
+                            <li>Contact Forms</li>
+                            <li>Social Media Links</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <button class="cta-button" onclick="goToBuilder()">Get Started Free</button>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <div class="plan-name">PRO</div>
+                    <div class="price">$19</div>
+                    <p style="font-size: 1rem; opacity: 0.8;">Most popular choice</p>
+                </div>
+                
+                <div class="pricing-features">
+                    <div class="feature-column">
+                        <ul class="price-features">
+                            <li>Unlimited Pages</li>
+                            <li>50+ Templates</li>
+                            <li>Advanced Customization</li>
+                            <li>Custom Domain</li>
+                            <li>E-commerce Ready</li>
+                            <li>Priority Support</li>
+                        </ul>
+                    </div>
+                    <div class="feature-column">
+                        <ul class="price-features">
+                            <li>Advanced Analytics</li>
+                            <li>SEO Tools</li>
+                            <li>Email Integration</li>
+                            <li>Custom Code</li>
+                            <li>Team Collaboration</li>
+                            <li>Backup & Restore</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <button class="cta-button" onclick="goToBuilder()">Start Pro Trial</button>
+            </div>
+
+            <!-- Business Plan -->
+            <div class="pricing-card last-card">
+                <div class="pricing-header">
+                    <div class="plan-name">BUSINESS</div>
+                    <div class="price">$49</div>
+                    <p style="font-size: 1rem; opacity: 0.8;">For growing businesses</p>
+                </div>
+                
+                <div class="pricing-features">
+                    <div class="feature-column">
+                        <ul class="price-features">
+                            <li>Everything in Pro</li>
+                            <li>White Label</li>
+                            <li>API Access</li>
+                            <li>Advanced E-commerce</li>
+                            <li>Multi-user Management</li>
+                        </ul>
+                    </div>
+                    <div class="feature-column">
+                        <ul class="price-features">
+                            <li>24/7 Phone Support</li>
+                            <li>Custom Integrations</li>
+                            <li>Advanced Security</li>
+                            <li>Performance Analytics</li>
+                            <li>Dedicated Account Manager</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <button class="cta-button" onclick="goToBuilder()">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 WebMagic. Making website creation magical for everyone. 🌟</p>
+    </footer>
+
+    <!-- Keep all existing JavaScript from original file -->
+    <script>
+        // Image Slider JavaScript with JSON data loading
+        let slideIndex = 0;
+        let slides = [];
+        let dots = [];
+        let sliderTrack = null;
+        let imageData = null;
+        let autoSlideInterval = null;
+        let isPaused = false;
+        const pauseBtn = document.getElementById('pauseBtn');
+
+        // Toggle pause/resume functionality
+        function togglePause() {
+            const pauseBtn = document.getElementById('pauseBtn');
+            if (isPaused) {
+                // Resume
+                startAutoSlide();
+                pauseBtn.innerHTML = '⏸️';
+                pauseBtn.classList.remove('paused');
+                pauseBtn.title = 'Pause Slideshow';
+                isPaused = false;
+            } else {
+                // Pause
+                stopAutoSlide();
+                pauseBtn.innerHTML = '▶️';
+                pauseBtn.classList.add('paused');
+                pauseBtn.title = 'Resume Slideshow';
+                isPaused = true;
+            }
+        }
+
+        function startAutoSlide() {
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+            }
+            autoSlideInterval = setInterval(() => {
+                changeSlide(1);
+            }, 5000);
+        }
+
+        function stopAutoSlide() {
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = null;
+            }
+        }
+
+        // Load images data from JSON
+        async function loadImageData() {
+            try {
+                const response = await fetch('images.json');
+                const data = await response.json();
+                return data.images;
+            } catch (error) {
+                console.error('Error loading image data:', error);
+                return [];
+            }
+        }
+
+        // Generate slides from JSON data
+        function generateSlides() {
+            if (!imageData || imageData.length === 0) return;
+
+            sliderTrack = document.getElementById('sliderTrack');
+            const indicatorsContainer = document.getElementById('sliderIndicators');
+            
+            // Clear existing content
+            sliderTrack.innerHTML = '';
+            indicatorsContainer.innerHTML = '';
+
+            // Generate slides
+            imageData.forEach((image, index) => {
+                // Create slide
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.style.background = image.gradient;
+                
+                // Create image element - simple and direct
+                const img = document.createElement('img');
+                img.src = image.filename;
+                img.alt = `${image.title} Website Template`;
+                img.className = 'slide-img';
+                img.style.cssText = `
+                    width: calc(100% - 4rem);
+                    height: 60%;
+                    object-fit: cover;
+                    margin: 2rem;
+                    border-radius: 15px;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                `;
+                
+                // Load images asynchronously
+                img.loading = 'lazy';
+                
+                const slideContent = document.createElement('div');
+                slideContent.className = 'slide-content';
+                
+                const slideTitle = document.createElement('div');
+                slideTitle.className = 'slide-title';
+                slideTitle.textContent = image.title;
+                
+                const slideDescription = document.createElement('div');
+                slideDescription.className = 'slide-description';
+                slideDescription.textContent = image.description;
+                
+                slideContent.appendChild(slideTitle);
+                slideContent.appendChild(slideDescription);
+                
+                // Add "Use This Template" button
+                const useTemplateBtn = document.createElement('button');
+                useTemplateBtn.textContent = 'Use This Template';
+                useTemplateBtn.style.cssText = `
+                    background: linear-gradient(45deg, #ff6b6b, #ffa500);
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    margin-top: 15px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                `;
+                useTemplateBtn.onclick = () => goToBuilderWithTemplate(image);
+                slideContent.appendChild(useTemplateBtn);
+                
+                slide.appendChild(img);
+                slide.appendChild(slideContent);
+                sliderTrack.appendChild(slide);
+
+                // Create indicator
+                const indicator = document.createElement('span');
+                indicator.className = index === 0 ? 'dot active' : 'dot';
+                indicator.onclick = () => currentSlide(index + 1);
+                indicatorsContainer.appendChild(indicator);
+            });
+
+            // Update slides and dots references
+            slides = document.querySelectorAll('.slide');
+            dots = document.querySelectorAll('.dot');
+            
+            // Initialize slider after generating slides
+            initializeSlider();
+        }
+
+        function initializeSlider() {
+            sliderTrack = document.getElementById('sliderTrack');
+            if (slides.length === 0) {
+                slides = document.querySelectorAll('.slide');
+            }
+            if (dots.length === 0) {
+                dots = document.querySelectorAll('.indicator');
+            }
+            
+            // Start auto-slide
+            startAutoSlide();
+
+            // Initialize first slide
+            showSlide(0);
+        }
+
+        function showSlide(index) {
+            if (slides.length === 0) return;
+            
+            slideIndex = index;
+            if (slideIndex >= slides.length) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+            
+            if (sliderTrack) {
+                sliderTrack.style.transform = `translateX(-${slideIndex * 100}%)`;
+            }
+            
+            if (dots.length > 0) {
+                dots.forEach(dot => dot.classList.remove('active'));
+                if (dots[slideIndex]) {
+                    dots[slideIndex].classList.add('active');
+                }
+            }
+        }
+
+        function changeSlide(direction) {
+            showSlide(slideIndex + direction);
+        }
+
+        function currentSlide(index) {
+            showSlide(index - 1);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            imageData = await loadImageData();
+            if (imageData && imageData.length > 0) {
+                generateSlides();
+            } else {
+                console.error('No image data loaded');
+            }
+        });
+
+        // Navigate to website builder
+        function goToBuilder() {
+            window.location.href = '../wb.html';
+        }
+
+        // Navigate to builder with specific template
+        function goToBuilderWithTemplate(template) {
+            const params = new URLSearchParams({
+                template: template.category,
+                title: template.title,
+                gradient: template.gradient,
+                image: template.filename
+            });
+            
+            window.location.href = `../wb.html?${params.toString()}`;
+        }
+
+        // Handle plan selection
+        function selectPlan(planType) {
+            console.log(`Selected plan: ${planType}`);
+            
+            switch(planType) {
+                case 'premium':
+                    alert('Redirecting to premium checkout...');
+                    // In real implementation: window.location.href = '/checkout?plan=premium';
+                    break;
+                case 'professional':
+                    alert('Redirecting to professional checkout...');
+                    // In real implementation: window.location.href = '/checkout?plan=professional';
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

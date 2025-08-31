@@ -7,4 +7,15 @@
  *   - The table.json data integration
  *   - The table-theme-component.js implementation
  */
+declare global {
+    interface Window {
+        TableThemeDemo: any;
+        colorBarState: {
+            hue: number;
+            saturation: number;
+            lightness: number;
+        };
+        themeEvents: any[];
+    }
+}
 export {};

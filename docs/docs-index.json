@@ -1,142 +1,182 @@
 [
   {
-    "name": "fixes-top-entry.md",
-    "displayName": "Fixes Top Entry",
-    "lastModified": "2025-08-20T11:30:20.5136134-05:00",
-    "size": 2336,
-    "extension": ".md"
+    "name": "architecture-migration-summary.md",
+    "displayName": "🚨 Architecture Migration Summary (React → TypeScript)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 8540,
+    "extension": ".md",
+    "category": "Architecture",
+    "priority": 1,
+    "description": "Complete documentation of the React to pure TypeScript migration"
   },
   {
-    "name": "issues.md",
-    "displayName": "Issues",
-    "lastModified": "2025-07-15T16:15:30.1121933-05:00",
-    "size": 1172,
-    "extension": ".md"
-  },
-  {
-    "name": "fixes.md",
-    "displayName": "Fixes",
-    "lastModified": "2025-07-15T16:15:30.1051939-05:00",
-    "size": 45146,
-    "extension": ".md"
-  },
-  {
-    "name": "Architecture-organization.md",
-    "displayName": "Architecture Organization",
-    "lastModified": "2025-06-18T15:26:35.5948616-05:00",
-    "size": 2928,
-    "extension": ".md"
-  },
-  {
-    "name": "powerpoint_video_guide.md",
-    "displayName": "Powerpoint Video Guide",
-    "lastModified": "2025-06-16T17:35:32.2230285-05:00",
-    "size": 8341,
-    "extension": ".md"
-  },
-  {
-    "name": "reorganization-test-results.md",
-    "displayName": "Reorganization Test Results",
-    "lastModified": "2025-06-16T17:12:46.1595049-05:00",
-    "size": 3300,
-    "extension": ".md"
-  },
-  {
-    "name": "reorganization-next-steps.md",
-    "displayName": "Reorganization Next Steps",
-    "lastModified": "2025-06-16T17:12:46.1595049-05:00",
-    "size": 2825,
-    "extension": ".md"
-  },
-  {
-    "name": "reorgainization-guide.md",
-    "displayName": "Reorgainization Guide",
-    "lastModified": "2025-06-16T16:59:43.7125224-05:00",
-    "size": 3067,
-    "extension": ".md"
-  },
-  {
-    "name": "zia-symbol-guidelines.md",
-    "displayName": "Zia Symbol Guidelines",
-    "lastModified": "2025-06-16T16:59:43.6905215-05:00",
-    "size": 1945,
-    "extension": ".md"
-  },
-  {
-    "name": "Implementation-roadmap.md",
-    "displayName": "Implementation Roadmap",
-    "lastModified": "2025-06-16T16:59:43.6875227-05:00",
-    "size": 5734,
-    "extension": ".md"
-  },
-  {
-    "name": "complete-specs.md",
-    "displayName": "Complete Specs",
-    "lastModified": "2025-06-16T16:59:43.6855211-05:00",
-    "size": 20547,
-    "extension": ".md"
-  },
-  {
-    "name": "website-generator-integration-spec.md",
-    "displayName": "Website Generator Integration Spec",
-    "lastModified": "2025-06-14T17:57:46.9799959-05:00",
-    "size": 20930,
-    "extension": ".md"
-  },
-  {
-    "name": "proposal.md",
-    "displayName": "Proposal",
-    "lastModified": "2025-06-08T21:53:37.3948652-05:00",
-    "size": 15414,
-    "extension": ".md"
-  },
-  {
-    "name": "enhanced-demo-with-pages.md",
-    "displayName": "Enhanced Demo With Pages",
-    "lastModified": "2025-06-08T20:22:45.1995096-05:00",
-    "size": 2029,
-    "extension": ".md"
-  },
-  {
-    "name": "theme-demo-component.md",
-    "displayName": "Theme Demo Component",
-    "lastModified": "2025-06-08T20:22:45.1995096-05:00",
-    "size": 1430,
-    "extension": ".md"
-  },
-  {
-    "name": "lowcode-website-builder.md",
-    "displayName": "Lowcode Website Builder",
-    "lastModified": "2025-06-08T20:22:45.1995096-05:00",
-    "size": 2164,
-    "extension": ".md"
+    "name": "fixes-merged.md",
+    "displayName": "🔧 Comprehensive Fixes Log (Merged)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 47892,
+    "extension": ".md",
+    "category": "Fixes",
+    "priority": 2,
+    "description": "Complete historical log of all fixes and improvements"
   },
   {
     "name": "main.md",
-    "displayName": "Main",
-    "lastModified": "2025-06-08T20:22:45.1995096-05:00",
-    "size": 1130,
-    "extension": ".md"
+    "displayName": "📍 Main Entry Point Documentation (Updated)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 2854,
+    "extension": ".md",
+    "category": "Core",
+    "priority": 3,
+    "description": "Updated documentation showing migration from main.tsx to wb.ts"
   },
   {
-    "name": "testresult.md",
-    "displayName": "Testresult",
-    "lastModified": "2025-06-07T12:38:42.9635397-05:00",
-    "size": 816,
-    "extension": ".md"
+    "name": "proposal.md",
+    "displayName": "📋 Project Proposal (Updated)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 16120,
+    "extension": ".md",
+    "category": "Planning",
+    "priority": 4,
+    "description": "Updated project proposal reflecting current TypeScript implementation"
   },
   {
-    "name": "nosqlreadme-file.md",
-    "displayName": "Nosqlreadme File",
-    "lastModified": "2025-06-06T18:17:08.0520737-05:00",
-    "size": 12644,
-    "extension": ".md"
+    "name": "complete-specs.md",
+    "displayName": "📖 Complete Technical Specifications (Updated)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 21203,
+    "extension": ".md",
+    "category": "Specifications",
+    "priority": 5,
+    "description": "Complete technical specs updated for TypeScript architecture"
+  },
+  {
+    "name": "lowcode-website-builder.md",
+    "displayName": "🏗️ Website Builder Implementation (Updated)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 2420,
+    "extension": ".md",
+    "category": "Core",
+    "priority": 6,
+    "description": "Updated documentation for the pure TypeScript website builder"
   },
   {
     "name": "claude-nocode-builder.md",
-    "displayName": "Claude Nocode Builder",
-    "lastModified": "2025-06-06T11:02:19.1515621-05:00",
-    "size": 11753,
-    "extension": ".md"
+    "displayName": "🤖 Claude No-Code Builder Specs (Updated)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 12103,
+    "extension": ".md",
+    "category": "Specifications",
+    "priority": 7,
+    "description": "Updated no-code builder specifications for current implementation"
+  },
+  {
+    "name": "website-generator-integration-spec.md",
+    "displayName": "🔌 Website Generator Integration Spec (Updated)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 21186,
+    "extension": ".md",
+    "category": "Integration",
+    "priority": 8,
+    "description": "MCP integration spec updated with TypeScript implementation notes"
+  },
+  {
+    "name": "issues.md",
+    "displayName": "🐛 Current Issues & Known Problems",
+    "lastModified": "2025-07-15T16:15:30.112Z",
+    "size": 1172,
+    "extension": ".md",
+    "category": "Issues",
+    "priority": 9,
+    "description": "Current outstanding issues and known problems"
+  },
+  {
+    "name": "Architecture-organization.md",
+    "displayName": "🏛️ Project Architecture & Organization",
+    "lastModified": "2025-06-18T15:26:35.595Z",
+    "size": 2928,
+    "extension": ".md",
+    "category": "Architecture",
+    "priority": 10,
+    "description": "Project organization principles and structure"
+  },
+  {
+    "name": "Implementation-roadmap.md",
+    "displayName": "🗺️ Implementation Roadmap",
+    "lastModified": "2025-06-16T16:59:43.688Z",
+    "size": 5734,
+    "extension": ".md",
+    "category": "Planning",
+    "priority": 11,
+    "description": "Development roadmap and implementation timeline"
+  },
+  {
+    "name": "reorganization-merged.md",
+    "displayName": "📋 Project Reorganization (Merged)",
+    "lastModified": "2024-12-28T00:00:00.000Z",
+    "size": 12450,
+    "extension": ".md",
+    "category": "Planning",
+    "priority": 12,
+    "description": "Complete reorganization documentation including guide, test results, and next steps"
+  },
+  {
+    "name": "powerpoint_video_guide.md",
+    "displayName": "🎥 PowerPoint Video Guide",
+    "lastModified": "2025-06-16T17:35:32.223Z",
+    "size": 8341,
+    "extension": ".md",
+    "category": "Documentation",
+    "priority": 13,
+    "description": "Video guide for PowerPoint presentations"
+  },
+  {
+    "name": "zia-symbol-guidelines.md",
+    "displayName": "🎨 Zia Symbol Guidelines",
+    "lastModified": "2025-06-16T16:59:43.691Z",
+    "size": 1945,
+    "extension": ".md",
+    "category": "Design",
+    "priority": 14,
+    "description": "Guidelines for using the Zia symbol logo"
+  },
+  {
+    "name": "enhanced-demo-with-pages.md",
+    "displayName": "📄 Enhanced Demo with Pages",
+    "lastModified": "2025-06-08T20:22:45.200Z",
+    "size": 2029,
+    "extension": ".md",
+    "category": "Demo",
+    "priority": 15,
+    "description": "Enhanced demo functionality with multi-page support"
+  },
+  {
+    "name": "theme-demo-component.md",
+    "displayName": "🎨 Theme Demo Component",
+    "lastModified": "2025-06-08T20:22:45.200Z",
+    "size": 1430,
+    "extension": ".md",
+    "category": "Components",
+    "priority": 16,
+    "description": "Theme demonstration component documentation"
+  },
+  {
+    "name": "testresult.md",
+    "displayName": "🧪 Test Results",
+    "lastModified": "2025-06-07T12:38:42.964Z",
+    "size": 816,
+    "extension": ".md",
+    "category": "Testing",
+    "priority": 17,
+    "description": "General test results and outcomes"
+  },
+  {
+    "name": "nosqlreadme-file.md",
+    "displayName": "🗃️ NoSQL Database Documentation",
+    "lastModified": "2025-06-06T18:17:08.052Z",
+    "size": 12644,
+    "extension": ".md",
+    "category": "Database",
+    "priority": 18,
+    "description": "NoSQL database implementation and usage"
   }
 ]

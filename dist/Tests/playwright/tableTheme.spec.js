@@ -124,4 +124,228 @@ test_1.test.describe('Table Theme Implementation Tests', () => {
         }
     });
 });
+// New comprehensive slider functionality tests
+test_1.test.describe('Table Theme Sliders Functionality Tests', () => {
+    test_1.test.setTimeout(60000);
+    test_1.test.beforeEach(async ({ page }) => {
+        // Navigate to the table theme component
+        await page.goto('/components/table/table-theme.html');
+        await page.waitForLoadState('networkidle');
+        // Wait for the page to be fully loaded and interactive
+        await page.waitForFunction(() => {
+            return document.readyState === 'complete' &&
+                window.TableThemeDemo &&
+                document.querySelector('#color-bar');
+        });
+    });
+    (0, test_1.test)('should have all required slider elements visible', async ({ page }) => {
+        // Check that all three sliders are present and visible
+        const hueSlider = page.locator('#color-bar');
+        const saturationSlider = page.locator('#saturation-slider');
+        const lightnessSlider = page.locator('#lightness-slider');
+        await (0, test_1.expect)(hueSlider).toBeVisible();
+        await (0, test_1.expect)(saturationSlider).toBeVisible();
+        await (0, test_1.expect)(lightnessSlider).toBeVisible();
+        // Verify slider attributes
+        await (0, test_1.expect)(hueSlider).toHaveAttribute('type', 'range');
+        await (0, test_1.expect)(hueSlider).toHaveAttribute('min', '0');
+        await (0, test_1.expect)(hueSlider).toHaveAttribute('max', '360');
+        await (0, test_1.expect)(saturationSlider).toHaveAttribute('type', 'range');
+        await (0, test_1.expect)(saturationSlider).toHaveAttribute('min', '0');
+        await (0, test_1.expect)(saturationSlider).toHaveAttribute('max', '100');
+        await (0, test_1.expect)(lightnessSlider).toHaveAttribute('type', 'range');
+        await (0, test_1.expect)(lightnessSlider).toHaveAttribute('min', '10');
+        await (0, test_1.expect)(lightnessSlider).toHaveAttribute('max', '90');
+    });
+    (0, test_1.test)('should have working value display elements', async ({ page }) => {
+        // Check that value display elements exist
+        const hueValue = page.locator('#color-bar-value');
+        const saturationValue = page.locator('#saturation-value');
+        const lightnessValue = page.locator('#lightness-value');
+        await (0, test_1.expect)(hueValue).toBeVisible();
+        await (0, test_1.expect)(saturationValue).toBeVisible();
+        await (0, test_1.expect)(lightnessValue).toBeVisible();
+        // Verify initial values are displayed
+        await (0, test_1.expect)(hueValue).toContainText(/\d+/);
+        await (0, test_1.expect)(saturationValue).toContainText(/\d+/);
+        await (0, test_1.expect)(lightnessValue).toContainText(/\d+/);
+    });
+    (0, test_1.test)('should update hue slider value and display', async ({ page }) => {
+        const hueSlider = page.locator('#color-bar');
+        const hueValue = page.locator('#color-bar-value');
+        // Test different hue values
+        const testValues = [0, 90, 180, 270, 360];
+        for (const value of testValues) {
+            await hueSlider.fill(value.toString());
+            await page.waitForTimeout(100); // Allow for DOM updates
+            // Verify the display updates
+            await (0, test_1.expect)(hueValue).toContainText(value.toString());
+            // Verify global state is updated
+            const stateValue = await page.evaluate(() => window.colorBarState?.hue);
+            (0, test_1.expect)(stateValue).toBe(value);
+        }
+    });
+    (0, test_1.test)('should update saturation slider value and display', async ({ page }) => {
+        const saturationSlider = page.locator('#saturation-slider');
+        const saturationValue = page.locator('#saturation-value');
+        // Test different saturation values
+        const testValues = [0, 25, 50, 75, 100];
+        for (const value of testValues) {
+            await saturationSlider.fill(value.toString());
+            await page.waitForTimeout(100); // Allow for DOM updates
+            // Verify the display updates
+            await (0, test_1.expect)(saturationValue).toContainText(value.toString());
+            // Verify global state is updated
+            const stateValue = await page.evaluate(() => window.colorBarState?.saturation);
+            (0, test_1.expect)(stateValue).toBe(value);
+        }
+    });
+    (0, test_1.test)('should update lightness slider value and display', async ({ page }) => {
+        const lightnessSlider = page.locator('#lightness-slider');
+        const lightnessValue = page.locator('#lightness-value');
+        // Test different lightness values
+        const testValues = [10, 30, 50, 70, 90];
+        for (const value of testValues) {
+            await lightnessSlider.fill(value.toString());
+            await page.waitForTimeout(100); // Allow for DOM updates
+            // Verify the display updates
+            await (0, test_1.expect)(lightnessValue).toContainText(value.toString());
+            // Verify global state is updated
+            const stateValue = await page.evaluate(() => window.colorBarState?.lightness);
+            (0, test_1.expect)(stateValue).toBe(value);
+        }
+    });
+    (0, test_1.test)('should update CSS custom properties when sliders change', async ({ page }) => {
+        const hueSlider = page.locator('#color-bar');
+        const saturationSlider = page.locator('#saturation-slider');
+        const lightnessSlider = page.locator('#lightness-slider');
+        // Set specific values
+        await hueSlider.fill('120');
+        await saturationSlider.fill('60');
+        await lightnessSlider.fill('40');
+        await page.waitForTimeout(200); // Allow for updates
+        // Check that CSS custom properties are updated
+        const cssValues = await page.evaluate(() => {
+            const rootStyle = getComputedStyle(document.documentElement);
+            return {
+                hue: rootStyle.getPropertyValue('--theme-hue').trim(),
+                saturation: rootStyle.getPropertyValue('--theme-saturation').trim(),
+                lightness: rootStyle.getPropertyValue('--theme-lightness').trim()
+            };
+        });
+        (0, test_1.expect)(cssValues.hue).toBe('120');
+        (0, test_1.expect)(cssValues.saturation).toBe('60%');
+        (0, test_1.expect)(cssValues.lightness).toBe('40%');
+    });
+    (0, test_1.test)('should handle rapid slider movements without errors', async ({ page }) => {
+        const hueSlider = page.locator('#color-bar');
+        const saturationSlider = page.locator('#saturation-slider');
+        const lightnessSlider = page.locator('#lightness-slider');
+        // Rapid movements on each slider
+        const rapidValues = [0, 50, 100, 25, 75];
+        for (const value of rapidValues) {
+            await hueSlider.fill((value * 3.6).toString()); // Scale to 0-360
+            await saturationSlider.fill(value.toString());
+            await lightnessSlider.fill((10 + value * 0.8).toString()); // Scale to 10-90
+            // No wait - test rapid changes
+        }
+        await page.waitForTimeout(500); // Final wait for all updates
+        // Verify no JavaScript errors occurred
+        const consoleErrors = [];
+        page.on('console', (msg) => {
+            if (msg.type() === 'error') {
+                consoleErrors.push(msg.text());
+            }
+        });
+        // Final slider movement to trigger any pending errors
+        await hueSlider.fill('180');
+        await page.waitForTimeout(100);
+        (0, test_1.expect)(consoleErrors.length).toBe(0);
+    });
+    (0, test_1.test)('should handle boundary values correctly', async ({ page }) => {
+        const hueSlider = page.locator('#color-bar');
+        const saturationSlider = page.locator('#saturation-slider');
+        const lightnessSlider = page.locator('#lightness-slider');
+        // Test boundary values
+        await hueSlider.fill('0');
+        await saturationSlider.fill('0');
+        await lightnessSlider.fill('10');
+        await page.waitForTimeout(100);
+        // Verify minimum values
+        let stateValues = await page.evaluate(() => window.colorBarState);
+        (0, test_1.expect)(stateValues.hue).toBe(0);
+        (0, test_1.expect)(stateValues.saturation).toBe(0);
+        (0, test_1.expect)(stateValues.lightness).toBe(10);
+        // Test maximum values
+        await hueSlider.fill('360');
+        await saturationSlider.fill('100');
+        await lightnessSlider.fill('90');
+        await page.waitForTimeout(100);
+        // Verify maximum values
+        stateValues = await page.evaluate(() => window.colorBarState);
+        (0, test_1.expect)(stateValues.hue).toBe(360);
+        (0, test_1.expect)(stateValues.saturation).toBe(100);
+        (0, test_1.expect)(stateValues.lightness).toBe(90);
+    });
+    (0, test_1.test)('should maintain theme consistency across all sliders', async ({ page }) => {
+        // Set a complete theme
+        await page.locator('#color-bar').fill('210'); // Blue hue
+        await page.locator('#saturation-slider').fill('80');
+        await page.locator('#lightness-slider').fill('45');
+        await page.waitForTimeout(200);
+        // Verify all components of the theme are consistent
+        const themeState = await page.evaluate(() => {
+            return {
+                globalState: window.colorBarState,
+                cssVars: {
+                    hue: getComputedStyle(document.documentElement).getPropertyValue('--theme-hue').trim(),
+                    saturation: getComputedStyle(document.documentElement).getPropertyValue('--theme-saturation').trim(),
+                    lightness: getComputedStyle(document.documentElement).getPropertyValue('--theme-lightness').trim()
+                },
+                sliderValues: {
+                    hue: document.getElementById('color-bar').value,
+                    saturation: document.getElementById('saturation-slider').value,
+                    lightness: document.getElementById('lightness-slider').value
+                },
+                displayValues: {
+                    hue: document.getElementById('color-bar-value').textContent,
+                    saturation: document.getElementById('saturation-value').textContent,
+                    lightness: document.getElementById('lightness-value').textContent
+                }
+            };
+        });
+        // All representations should be consistent
+        (0, test_1.expect)(themeState.globalState.hue).toBe(210);
+        (0, test_1.expect)(themeState.globalState.saturation).toBe(80);
+        (0, test_1.expect)(themeState.globalState.lightness).toBe(45);
+        (0, test_1.expect)(themeState.cssVars.hue).toBe('210');
+        (0, test_1.expect)(themeState.cssVars.saturation).toBe('80%');
+        (0, test_1.expect)(themeState.cssVars.lightness).toBe('45%');
+        (0, test_1.expect)(themeState.sliderValues.hue).toBe('210');
+        (0, test_1.expect)(themeState.sliderValues.saturation).toBe('80');
+        (0, test_1.expect)(themeState.sliderValues.lightness).toBe('45');
+        (0, test_1.expect)(themeState.displayValues.hue).toContain('210');
+        (0, test_1.expect)(themeState.displayValues.saturation).toContain('80');
+        (0, test_1.expect)(themeState.displayValues.lightness).toContain('45');
+    });
+    (0, test_1.test)('should trigger theme updates and events', async ({ page }) => {
+        // Set up event listener to capture theme events
+        await page.evaluate(() => {
+            window.themeEvents = [];
+            document.addEventListener('theme-updated', (e) => {
+                window.themeEvents.push(e.detail);
+            });
+        });
+        // Change each slider to trigger events
+        await page.locator('#color-bar').fill('150');
+        await page.waitForTimeout(100);
+        await page.locator('#saturation-slider').fill('70');
+        await page.waitForTimeout(100);
+        await page.locator('#lightness-slider').fill('60');
+        await page.waitForTimeout(100);
+        // Verify theme events were triggered
+        const eventCount = await page.evaluate(() => window.themeEvents?.length || 0);
+        (0, test_1.expect)(eventCount).toBeGreaterThan(0);
+    });
+});
 //# sourceMappingURL=tableTheme.spec.js.map

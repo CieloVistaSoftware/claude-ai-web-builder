@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const test_1 = require("@playwright/test");
 (0, test_1.test)('wb.html color bar is displayed and controls work properly', async ({ page }) => {
     // Navigate to the wb.html page
-    await page.goto('/wb/wb.html');
+    await page.goto('http://localhost:3000/wb/wb.html');
     // Wait for the page to load completely
     await page.waitForLoadState('networkidle');
     // Check if the color bar exists

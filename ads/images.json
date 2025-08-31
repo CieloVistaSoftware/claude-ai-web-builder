@@ -1,0 +1,88 @@
+{
+  "images": [
+    {
+      "filename": "../images/samples/BlueRightSample.png",
+      "title": "Modern Business",
+      "description": "Clean and professional design perfect for corporate websites",
+      "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      "category": "business"
+    },
+    {
+      "filename": "../images/samples/bluesample.png",
+      "title": "Creative Portfolio",
+      "description": "Artistic layout ideal for designers and photographers",
+      "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      "category": "portfolio"
+    },
+    {
+      "filename": "../images/samples/BlueTopSample.png",
+      "title": "E-commerce Store",
+      "description": "Product-focused design for online retail businesses",
+      "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      "category": "ecommerce"
+    },
+    {
+      "filename": "../images/samples/greenleftsample.png",
+      "title": "Restaurant Menu",
+      "description": "Appetizing layout for food and dining establishments",
+      "gradient": "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+      "category": "restaurant"
+    },
+    {
+      "filename": "../images/samples/greentopwithimagesample.png",
+      "title": "Tech Startup",
+      "description": "Innovative design for technology companies",
+      "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+      "category": "tech"
+    },
+    {
+      "filename": "../images/samples/pinksample.png",
+      "title": "Blog Platform",
+      "description": "Content-focused layout for bloggers and writers",
+      "gradient": "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+      "category": "blog"
+    },
+    {
+      "filename": "../images/samples/purplesample.png",
+      "title": "Real Estate",
+      "description": "Property showcase design for real estate agencies",
+      "gradient": "linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)",
+      "category": "realestate"
+    },
+    {
+      "filename": "../images/samples/redsample.png",
+      "title": "Fitness Center",
+      "description": "Energetic layout for gyms and fitness professionals",
+      "gradient": "linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)",
+      "category": "fitness"
+    },
+    {
+      "filename": "../images/samples/SkyBlueTopSample.png",
+      "title": "Educational",
+      "description": "Academic-focused design for schools and learning platforms",
+      "gradient": "linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%)",
+      "category": "education"
+    },
+    {
+      "filename": "../images/samples/TopBlueImagesSample.png",
+      "title": "Medical Practice",
+      "description": "Professional healthcare website design",
+      "gradient": "linear-gradient(135deg, #e0c3fc 0%, #9bb5ff 100%)",
+      "category": "medical"
+    },
+    {
+      "filename": "../images/samples/YellowLeftSample.png",
+      "title": "Event Planning",
+      "description": "Celebratory design for event organizers",
+      "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      "category": "events"
+    },
+    {
+      "filename": "../images/samples/YellowTopSample.png",
+      "title": "Non-Profit",
+      "description": "Community-focused design for charitable organizations",
+      "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      "category": "nonprofit"
+    }
+  ]
+}

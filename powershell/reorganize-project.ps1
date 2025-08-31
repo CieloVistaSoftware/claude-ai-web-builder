@@ -227,7 +227,7 @@ $indexHtml = @"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claude AI Website Builder</title>
     <meta http-equiv="refresh" content="0;url=pages/wizard/website-builder.html">
-    <link rel="icon" href="./ziasymbol.svg" type="image/svg+xml">
+    <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -260,7 +260,7 @@ $indexHtml = @"
     </style>
 </head>
 <body>
-    <img src="ziasymbol.svg" alt="Zia Symbol Logo">
+    <img src="/images/ziasymbol.svg" alt="Zia Symbol Logo">
     <h1>Claude AI Website Builder</h1>
     <p>Welcome to the Claude AI Website Builder platform.</p>
     <p class="redirect">If you are not automatically redirected, <a href="pages/wizard/website-builder.html">click here</a> to go to the Website Builder.</p>

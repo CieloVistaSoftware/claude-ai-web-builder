@@ -9,7 +9,7 @@ exports.default = (0, test_1.defineConfig)({
     workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
     use: {
-        baseURL: 'http://localhost:3000',
+        baseURL: 'http://localhost:8000',
         trace: 'on-first-retry',
         screenshot: 'only-on-failure'
     },
@@ -24,9 +24,9 @@ exports.default = (0, test_1.defineConfig)({
         },
     ],
     webServer: {
-        command: 'npx http-server -p 3000',
-        port: 3000,
-        reuseExistingServer: true,
+        command: 'npm run start',
+        port: 8000,
+        reuseExistingServer: !process.env.CI,
     },
 });
 //# sourceMappingURL=playwright.config.js.map
