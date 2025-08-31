@@ -46,7 +46,7 @@ const obfuscationResult = JavaScriptObfuscator.obfuscate(sourceCode, {
     deadCodeInjection: true,
     deadCodeInjectionThreshold: 0.4,
     debugProtection: true,
-    debugProtectionInterval: true,
+    debugProtectionInterval: 2000,
     disableConsoleOutput: true,
     identifierNamesGenerator: 'hexadecimal',
     log: false,
