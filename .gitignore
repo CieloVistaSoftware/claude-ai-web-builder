@@ -4,9 +4,10 @@ node_modules/
 wb/wb.js
 wb/wb.ts
 
-# Only allow obfuscated versions in dist
-dist/wb/wb.js
+# Allow obfuscated files in dist
 !dist/wb/wb.min.js
+!dist/wb/wb.html
+!dist/wb/wb.css
 
 # Dependencies and build files
 dist/
