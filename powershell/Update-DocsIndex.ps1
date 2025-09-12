@@ -1,81 +1,100 @@
 # Update Documentation Index Script
+param(
+    [string]$DocsPath = "../docs",
+    [string]$OutputFile = "../docs/docs-index.json"
+)
 
-<#
-.SYNOPSIS
-    This script generates an index of documentation files ordered by their last modification date.
+Write-Host "🔍 Updating documentation index..." -ForegroundColor Yellow
 
-.DESCRIPTION
-    The script scans the docs directory, extracts metadata about each documentation file,
-    and creates a JSON index sorted by the last modification time. This allows the documentation
-    to be displayed with the most recently modified files first.
-
-.EXAMPLE
-    .\Update-DocsIndex.ps1
-#>
-
-# Ensure we're in the project root directory
-$projectRoot = (Get-Item $PSScriptRoot).Parent.FullName
-$docsDir = Join-Path $projectRoot "docs"
-
-# Define log file
-$logFile = Join-Path $projectRoot "docs-index-log.txt"
-"Updating documentation index at $(Get-Date)" | Out-File -FilePath $logFile
-
-function Write-LogAndConsole {
-    param (
-        [string]$message
-    )
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    "$timestamp - $message" | Out-File -FilePath $logFile -Append
-    Write-Host $message
+# Check if docs directory exists
+if (-not (Test-Path $DocsPath)) {
+    Write-Host "❌ Docs directory not found: $DocsPath" -ForegroundColor Red
+    Write-Host "Creating docs directory..." -ForegroundColor Yellow
+    New-Item -ItemType Directory -Path $DocsPath -Force
 }
 
-# Get all documentation files
-$docFiles = Get-ChildItem -Path $docsDir -File -Recurse | Where-Object { 
-    $_.Name -ne "index.html" -and 
-    $_.Name -ne "docs-index.json" -and
-    $_.Extension -in ".md", ".html", ".txt", ".pdf", ".docx"
+# Get all markdown files in docs directory
+$markdownFiles = Get-ChildItem -Path $DocsPath -Filter "*.md" -Recurse
+
+Write-Host "📝 Found $($markdownFiles.Count) markdown files" -ForegroundColor Green
+
+# Create index object
+$docsIndex = @{
+    "generated" = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+    "totalFiles" = $markdownFiles.Count
+    "files" = @()
 }
 
-Write-LogAndConsole "Found $($docFiles.Count) documentation files"
-
-# Create file info objects with metadata
-$fileInfoList = $docFiles | ForEach-Object {
-    $relativePath = $_.FullName.Replace($docsDir, "").TrimStart("\")
+# Process each markdown file
+foreach ($file in $markdownFiles) {
+    Write-Host "📄 Processing: $($file.Name)" -ForegroundColor Cyan
     
-    # Create friendly display name
-    $displayName = $_.BaseName -replace "-", " " -replace "_", " "
-    $displayName = (Get-Culture).TextInfo.ToTitleCase($displayName.ToLower())
-    
-    # Create object with file metadata
-    [PSCustomObject]@{
-        name = $relativePath
-        displayName = $displayName
-        lastModified = $_.LastWriteTime
-        size = $_.Length
-        extension = $_.Extension
+    try {
+        # Read file content
+        $content = Get-Content -Path $file.FullName -Raw -ErrorAction Stop
+        
+        # Extract title (first # heading)
+        $titleMatch = [regex]::Match($content, '^#\s+(.+)', [System.Text.RegularExpressions.RegexOptions]::Multiline)
+        $title = if ($titleMatch.Success) { $titleMatch.Groups[1].Value.Trim() } else { $file.BaseName }
+        
+        # Extract description (first paragraph after title)
+        $lines = $content -split "`n" | Where-Object { $_.Trim() -ne "" }
+        $description = ""
+        $foundTitle = $false
+        
+        foreach ($line in $lines) {
+            if ($line.StartsWith("#") -and -not $foundTitle) {
+                $foundTitle = $true
+                continue
+            }
+            if ($foundTitle -and -not $line.StartsWith("#") -and $line.Trim() -ne "") {
+                $description = $line.Trim()
+                break
+            }
+        }
+        
+        # Get relative path
+        $relativePath = $file.FullName.Replace((Resolve-Path $DocsPath).Path, "").TrimStart("\", "/").Replace("\", "/")
+        
+        # Add to index
+        $fileInfo = @{
+            "name" = $file.Name
+            "path" = $relativePath
+            "title" = $title
+            "description" = $description
+            "size" = $file.Length
+            "modified" = $file.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss")
+        }
+        
+        $docsIndex.files += $fileInfo
+        
+    } catch {
+        Write-Host "⚠️ Error processing $($file.Name): $($_.Exception.Message)" -ForegroundColor Yellow
     }
 }
 
-# Sort by last modified time (newest first)
-$sortedFiles = $fileInfoList | Sort-Object -Property lastModified -Descending
+# Sort files by name
+$docsIndex.files = $docsIndex.files | Sort-Object name
 
-# Convert to JSON
-$jsonContent = $sortedFiles | ConvertTo-Json
-
-# Save to JSON file
-$jsonPath = Join-Path $docsDir "docs-index.json"
-$jsonContent | Out-File -FilePath $jsonPath -Encoding UTF8
-
-Write-LogAndConsole "Generated docs-index.json with $($sortedFiles.Count) entries"
-Write-LogAndConsole "Documentation index updated successfully!"
-
-# Open the HTML page in the default browser
-$htmlPath = Join-Path $docsDir "index.html"
-if (Test-Path $htmlPath) {
-    Write-LogAndConsole "Documentation index updated at: $htmlPath"
-    # Note: Auto-opening disabled to prevent interfering with main website
-    # To view docs manually, visit: http://localhost:8000/docs/
-} else {
-    Write-LogAndConsole "Warning: Documentation index HTML page not found at: $htmlPath"
+# Convert to JSON and save
+try {
+    $jsonOutput = $docsIndex | ConvertTo-Json -Depth 10 -Compress:$false
+    
+    # Ensure output directory exists
+    $outputDir = Split-Path -Parent $OutputFile
+    if (-not (Test-Path $outputDir)) {
+        New-Item -ItemType Directory -Path $outputDir -Force
+    }
+    
+    $jsonOutput | Out-File -FilePath $OutputFile -Encoding UTF8
+    
+    Write-Host "✅ Documentation index updated successfully!" -ForegroundColor Green
+    Write-Host "📄 Output file: $OutputFile" -ForegroundColor Cyan
+    Write-Host "📊 Total files indexed: $($docsIndex.files.Count)" -ForegroundColor Cyan
+    
+} catch {
+    Write-Host "❌ Error saving index file: $($_.Exception.Message)" -ForegroundColor Red
+    exit 1
 }
+
+Write-Host "🎯 Documentation index update complete!" -ForegroundColor Green

@@ -1,0 +1,39 @@
+/* Table theme styles */
+.table-theme {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table-theme th {
+    background-color: var(--primary);
+    color: var(--light);
+    padding: 12px;
+    text-align: left;
+}
+
+.table-theme tr:nth-child(even) {
+    background-color: var(--light);
+}
+
+.table-theme tr:nth-child(odd) {
+    background-color: var(--bg-alt);
+}
+
+.table-theme td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.table-theme tr:hover {
+    background-color: var(--hover);
+}
+
+/* Default variables in case they aren't defined */
+:root {
+    --primary: #0072c6;
+    --light: #ffffff;
+    --bg-alt: #f8f9fa;
+    --border: #dee2e6;
+    --hover: #e9ecef;
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Generator Web Component Demo</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/images/ziasymbol.svg">
+    
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body data-theme="dark">
+    <div id="theme-notification">Theme changes are applied to the entire page</div>
+    
+    <!-- Simple Mode Toggle -->
+    <button id="mode-toggle" class="mode-toggle-btn">Dark</button>
+    
+    <div class="container">
+        <!-- Theme Generator Component Integration -->
+        <theme-generator id="main-theme-generator"></theme-generator>
+    </div>
+    
+    <!-- Include the Theme Generator Web Component -->
+    <script src="../theme/theme-generator-component.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>

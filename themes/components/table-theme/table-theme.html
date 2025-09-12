@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Theme Component</title>
+    <link rel="stylesheet" href="table-theme.css">
+    <script src="table-theme.js"></script>
+    <style>
+        /* Demo styles - can be removed in production */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .example-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+        
+        /* Default theme variables */
+        :root {
+            --primary: #0072c6;
+            --secondary: #6c757d;
+            --accent: #28a745;
+            --light: #ffffff;
+            --dark: #333333;
+            --bg-alt: #f8f9fa;
+            --border: #dee2e6;
+            --hover: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Table Theme Component</h1>
+        <p>A reusable table component with theming capabilities.</p>
+        
+        <div class="example-section">
+            <h2>Basic Table</h2>
+            <table class="table-theme">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Age</th>
+                        <th>Start Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>Developer</td>
+                        <td>New York</td>
+                        <td>32</td>
+                        <td>2021/05/15</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>Designer</td>
+                        <td>London</td>
+                        <td>28</td>
+                        <td>2019/11/23</td>
+                    </tr>
+                    <tr>
+                        <td>Bob Johnson</td>
+                        <td>Manager</td>
+                        <td>Paris</td>
+                        <td>41</td>
+                        <td>2015/03/10</td>
+                    </tr>
+                    <tr>
+                        <td>Alice Brown</td>
+                        <td>Analyst</td>
+                        <td>Tokyo</td>
+                        <td>35</td>
+                        <td>2020/07/05</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="example-section">
+            <h2>Enhanced Table with Features</h2>
+            <p>This table has sorting, filtering, and pagination enabled.</p>
+            <table class="table-theme" data-auto-init data-sortable data-filterable data-page-size="2">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Laptop</td>
+                        <td>Electronics</td>
+                        <td>$1299.99</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Desk Chair</td>
+                        <td>Furniture</td>
+                        <td>$249.99</td>
+                        <td>18</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Coffee Maker</td>
+                        <td>Kitchen</td>
+                        <td>$89.99</td>
+                        <td>42</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Headphones</td>
+                        <td>Electronics</td>
+                        <td>$149.99</td>
+                        <td>31</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Desk Lamp</td>
+                        <td>Furniture</td>
+                        <td>$49.99</td>
+                        <td>56</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="example-section">
+            <h2>Usage Instructions</h2>
+            <h3>Basic Usage</h3>
+            <pre><code>&lt;link rel="stylesheet" href="path/to/table-theme.css"&gt;
+
+&lt;table class="table-theme"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Column 1&lt;/th&gt;
+      &lt;th&gt;Column 2&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Data 1&lt;/td&gt;
+      &lt;td&gt;Data 2&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+            
+            <h3>Enhanced Features</h3>
+            <p>Include the JavaScript file and add data attributes:</p>
+            <pre><code>&lt;script src="path/to/table-theme.js"&gt;&lt;/script&gt;
+
+&lt;table class="table-theme" 
+       data-auto-init 
+       data-sortable 
+       data-filterable 
+       data-page-size="10"&gt;
+  ...
+&lt;/table&gt;</code></pre>
+            
+            <h3>JavaScript Initialization</h3>
+            <p>You can also initialize tables manually:</p>
+            <pre><code>const table = document.querySelector('.table-theme');
+const tableTheme = new TableTheme(table, {
+  sortable: true,
+  filterable: true,
+  pageSize: 10
+});</code></pre>
+        </div>
+    </div>
+</body>
+</html>

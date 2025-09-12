@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude AI Website Builder</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <style>
+        .builder-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 100vh;
+        }
+        
+        .builder-form {
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .preview-container {
+            border-left: 1px solid #ddd;
+        }
+        
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .color-input {
+            width: 60px;
+            height: 40px;
+            padding: 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        @media (max-width: 768px) {
+            .builder-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+            
+            .builder-form {
+                max-height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="builder-container">
+        <div class="builder-form">
+            <h1>Website Builder</h1>
+            <form id="builderForm">
+                <div class="form-group">
+                    <label for="pageTitle" class="form-label">Page Title:</label>
+                    <input type="text" id="pageTitle" name="pageTitle" class="form-control" value="My Awesome Website" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pageType" class="form-label">Page Type:</label>
+                    <select id="pageType" name="pageType" class="form-control">
+                        <option value="default">Default</option>
+                        <option value="about">About</option>
+                        <option value="services">Services</option>
+                        <option value="portfolio">Portfolio</option>
+                        <option value="contact">Contact</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="companyName" class="form-label">Company Name:</label>
+                    <input type="text" id="companyName" name="companyName" class="form-control" value="My Company">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea id="description" name="description" class="form-control" rows="3">Welcome to our amazing website where we provide excellent services.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="primaryColor" class="form-label">Primary Color:</label>
+                    <input type="color" id="primaryColor" name="primaryColor" class="color-input" value="#007bff">
+                </div>
+                
+                <div class="form-group">
+                    <label for="secondaryColor" class="form-label">Secondary Color:</label>
+                    <input type="color" id="secondaryColor" name="secondaryColor" class="color-input" value="#6c757d">
+                </div>
+                
+                <div class="form-group">
+                    <label for="backgroundColor" class="form-label">Background Color:</label>
+                    <input type="color" id="backgroundColor" name="backgroundColor" class="color-input" value="#ffffff">
+                </div>
+                
+                <div class="form-group">
+                    <label for="textColor" class="form-label">Text Color:</label>
+                    <input type="color" id="textColor" name="textColor" class="color-input" value="#333333">
+                </div>
+                
+                <button type="submit" class="btn-primary">Generate Website</button>
+                <button type="button" id="downloadBtn" class="btn-primary">Download HTML</button>
+            </form>
+        </div>
+        
+        <div class="preview-container">
+            <iframe id="previewFrame" class="preview-iframe" src="about:blank" title="Website Preview"></iframe>
+        </div>
+    </div>
+
+    <!-- Utility Scripts for enhanced functionality -->
+    <script src="wb/color-utils.js"></script>
+    <script src="wb/html-utils.js"></script>
+    
+    <!-- Enhanced Website Builder Script -->
+    <script src="wb/wb-enhanced.js"></script>
+</body>
+</html>

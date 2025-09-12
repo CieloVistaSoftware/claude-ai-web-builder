@@ -1,0 +1,30 @@
+{
+  "name": "claude-ai-web-builder",
+  "version": "1.0.0",
+  "description": "Claude AI Website Builder - A powerful, interactive website builder",
+  "main": "wb/wb.html",
+  "scripts": {
+    "dev": "cd wb && npx http-server -p 3000 -o wb.html -c-1",
+    "start": "cd wb && npx http-server -p 3000 -o wb.html -c-1",
+    "serve": "cd wb && npx http-server -p 8080 -c-1",
+    "build": "echo 'Static HTML project - no build needed'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "website-builder",
+    "ai",
+    "claude",
+    "html",
+    "css",
+    "javascript",
+    "interactive"
+  ],
+  "author": "Claude AI Assistant",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

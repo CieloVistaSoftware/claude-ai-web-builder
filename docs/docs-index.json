@@ -1,182 +1,222 @@
-[
-  {
-    "name": "architecture-migration-summary.md",
-    "displayName": "🚨 Architecture Migration Summary (React → TypeScript)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 8540,
-    "extension": ".md",
-    "category": "Architecture",
-    "priority": 1,
-    "description": "Complete documentation of the React to pure TypeScript migration"
-  },
-  {
-    "name": "fixes-merged.md",
-    "displayName": "🔧 Comprehensive Fixes Log (Merged)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 47892,
-    "extension": ".md",
-    "category": "Fixes",
-    "priority": 2,
-    "description": "Complete historical log of all fixes and improvements"
-  },
-  {
-    "name": "main.md",
-    "displayName": "📍 Main Entry Point Documentation (Updated)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 2854,
-    "extension": ".md",
-    "category": "Core",
-    "priority": 3,
-    "description": "Updated documentation showing migration from main.tsx to wb.ts"
-  },
-  {
-    "name": "proposal.md",
-    "displayName": "📋 Project Proposal (Updated)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 16120,
-    "extension": ".md",
-    "category": "Planning",
-    "priority": 4,
-    "description": "Updated project proposal reflecting current TypeScript implementation"
-  },
-  {
-    "name": "complete-specs.md",
-    "displayName": "📖 Complete Technical Specifications (Updated)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 21203,
-    "extension": ".md",
-    "category": "Specifications",
-    "priority": 5,
-    "description": "Complete technical specs updated for TypeScript architecture"
-  },
-  {
-    "name": "lowcode-website-builder.md",
-    "displayName": "🏗️ Website Builder Implementation (Updated)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 2420,
-    "extension": ".md",
-    "category": "Core",
-    "priority": 6,
-    "description": "Updated documentation for the pure TypeScript website builder"
-  },
-  {
-    "name": "claude-nocode-builder.md",
-    "displayName": "🤖 Claude No-Code Builder Specs (Updated)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 12103,
-    "extension": ".md",
-    "category": "Specifications",
-    "priority": 7,
-    "description": "Updated no-code builder specifications for current implementation"
-  },
-  {
-    "name": "website-generator-integration-spec.md",
-    "displayName": "🔌 Website Generator Integration Spec (Updated)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 21186,
-    "extension": ".md",
-    "category": "Integration",
-    "priority": 8,
-    "description": "MCP integration spec updated with TypeScript implementation notes"
-  },
-  {
-    "name": "issues.md",
-    "displayName": "🐛 Current Issues & Known Problems",
-    "lastModified": "2025-07-15T16:15:30.112Z",
-    "size": 1172,
-    "extension": ".md",
-    "category": "Issues",
-    "priority": 9,
-    "description": "Current outstanding issues and known problems"
-  },
-  {
-    "name": "Architecture-organization.md",
-    "displayName": "🏛️ Project Architecture & Organization",
-    "lastModified": "2025-06-18T15:26:35.595Z",
-    "size": 2928,
-    "extension": ".md",
-    "category": "Architecture",
-    "priority": 10,
-    "description": "Project organization principles and structure"
-  },
-  {
-    "name": "Implementation-roadmap.md",
-    "displayName": "🗺️ Implementation Roadmap",
-    "lastModified": "2025-06-16T16:59:43.688Z",
-    "size": 5734,
-    "extension": ".md",
-    "category": "Planning",
-    "priority": 11,
-    "description": "Development roadmap and implementation timeline"
-  },
-  {
-    "name": "reorganization-merged.md",
-    "displayName": "📋 Project Reorganization (Merged)",
-    "lastModified": "2024-12-28T00:00:00.000Z",
-    "size": 12450,
-    "extension": ".md",
-    "category": "Planning",
-    "priority": 12,
-    "description": "Complete reorganization documentation including guide, test results, and next steps"
-  },
-  {
-    "name": "powerpoint_video_guide.md",
-    "displayName": "🎥 PowerPoint Video Guide",
-    "lastModified": "2025-06-16T17:35:32.223Z",
-    "size": 8341,
-    "extension": ".md",
-    "category": "Documentation",
-    "priority": 13,
-    "description": "Video guide for PowerPoint presentations"
-  },
-  {
-    "name": "zia-symbol-guidelines.md",
-    "displayName": "🎨 Zia Symbol Guidelines",
-    "lastModified": "2025-06-16T16:59:43.691Z",
-    "size": 1945,
-    "extension": ".md",
-    "category": "Design",
-    "priority": 14,
-    "description": "Guidelines for using the Zia symbol logo"
-  },
-  {
-    "name": "enhanced-demo-with-pages.md",
-    "displayName": "📄 Enhanced Demo with Pages",
-    "lastModified": "2025-06-08T20:22:45.200Z",
-    "size": 2029,
-    "extension": ".md",
-    "category": "Demo",
-    "priority": 15,
-    "description": "Enhanced demo functionality with multi-page support"
-  },
-  {
-    "name": "theme-demo-component.md",
-    "displayName": "🎨 Theme Demo Component",
-    "lastModified": "2025-06-08T20:22:45.200Z",
-    "size": 1430,
-    "extension": ".md",
-    "category": "Components",
-    "priority": 16,
-    "description": "Theme demonstration component documentation"
-  },
-  {
-    "name": "testresult.md",
-    "displayName": "🧪 Test Results",
-    "lastModified": "2025-06-07T12:38:42.964Z",
-    "size": 816,
-    "extension": ".md",
-    "category": "Testing",
-    "priority": 17,
-    "description": "General test results and outcomes"
-  },
-  {
-    "name": "nosqlreadme-file.md",
-    "displayName": "🗃️ NoSQL Database Documentation",
-    "lastModified": "2025-06-06T18:17:08.052Z",
-    "size": 12644,
-    "extension": ".md",
-    "category": "Database",
-    "priority": 18,
-    "description": "NoSQL database implementation and usage"
-  }
-]
+{
+  "generated": "2025-09-12T02:10:01.206Z",
+  "totalFiles": 27,
+  "files": [
+    {
+      "name": "architecture-migration-summary.md",
+      "path": "architecture-migration-summary.md",
+      "title": "Architecture Migration Summary",
+      "description": "**Date**: December 28, 2024",
+      "size": 4127,
+      "modified": "2025-08-28T02:57:14.400Z"
+    },
+    {
+      "name": "Architecture-organization.md",
+      "path": "Architecture-organization.md",
+      "title": "Architecture Organization Guide",
+      "description": "This document explains the organization approach for the Claude AI Website Builder project, which contains a mix of different architectural patterns:",
+      "size": 2928,
+      "modified": "2025-06-18T20:26:35.595Z"
+    },
+    {
+      "name": "BUILD_INSTRUCTIONS.md",
+      "path": "BUILD_INSTRUCTIONS.md",
+      "title": "Build Commands for Website Builder",
+      "description": "```powershell",
+      "size": 1058,
+      "modified": "2025-09-02T18:19:48.804Z"
+    },
+    {
+      "name": "buildsteps.md",
+      "path": "buildsteps.md",
+      "title": "Build Steps for Website Builder",
+      "description": "This document outlines the build process for creating distribution versions of the Website Builder application with optional code obfuscation.",
+      "size": 4661,
+      "modified": "2025-09-02T18:19:48.806Z"
+    },
+    {
+      "name": "claude-nocode-builder.md",
+      "path": "claude-nocode-builder.md",
+      "title": "Claude-Powered No-Code Website Builder",
+      "description": "A revolutionary no-code website builder that integrates Claude AI to help users create, customize, and optimize websites through natural language interactions. Users can describe what they want, and Claude generates the appropriate components, layouts, and styling in real-time.",
+      "size": 11972,
+      "modified": "2025-08-28T02:56:46.579Z"
+    },
+    {
+      "name": "cleanup-tech-debt.md",
+      "path": "cleanup-tech-debt.md",
+      "title": "Tech Debt Cleanup - Import System",
+      "description": "These files should be deleted to remove tech debt:",
+      "size": 850,
+      "modified": "2025-09-11T22:37:22.962Z"
+    },
+    {
+      "name": "complete-specs.md",
+      "path": "complete-specs.md",
+      "title": "Claude AI Website Builder - Complete Specifications",
+      "description": "<div align=\"center\">",
+      "size": 20730,
+      "modified": "2025-08-28T04:07:59.802Z"
+    },
+    {
+      "name": "config.md",
+      "path": "config.md",
+      "title": "Website Builder Configuration Guide",
+      "description": "The Website Builder uses a JSON configuration file (`wb-config.json`) to control various aspects of the build process, export options, and advanced features. This document explains all available configuration settings and their usage.",
+      "size": 7783,
+      "modified": "2025-09-02T03:12:36.817Z"
+    },
+    {
+      "name": "enhanced-demo-with-pages.md",
+      "path": "enhanced-demo-with-pages.md",
+      "title": "Enhanced Demo with Pages",
+      "description": "The Enhanced Demo with Pages component is an expanded version of the theme demo that incorporates multi-page functionality, more advanced layout options, and additional website building features.",
+      "size": 2029,
+      "modified": "2025-06-09T01:22:45.200Z"
+    },
+    {
+      "name": "fixes-merged.md",
+      "path": "fixes-merged.md",
+      "title": "Claude AI Website Builder - Comprehensive Fixes Log",
+      "description": "<div align=\"center\">",
+      "size": 26482,
+      "modified": "2025-08-28T04:07:43.295Z"
+    },
+    {
+      "name": "fixes.md",
+      "path": "fixes.md",
+      "title": "Fixes Log",
+      "description": "Original goal was to create a way for anyone to create a website from options, style it, and download it. While we built excellent technical infrastructure (MCP integration, TypeScript, reusable components), we hadn't completed the user-facing website builder experience.",
+      "size": 34919,
+      "modified": "2025-06-18T01:35:45.961Z"
+    },
+    {
+      "name": "Implementation-roadmap.md",
+      "path": "Implementation-roadmap.md",
+      "title": "Next Steps: Complete Website Builder Implementation",
+      "description": "<div align=\"center\">",
+      "size": 5739,
+      "modified": "2025-08-28T04:08:08.699Z"
+    },
+    {
+      "name": "issues_temp.md",
+      "path": "issues_temp.md",
+      "title": "Issues",
+      "description": "**Priority:** High",
+      "size": 827,
+      "modified": "2025-09-11T19:46:20.657Z"
+    },
+    {
+      "name": "issues.md",
+      "path": "issues.md",
+      "title": "issues",
+      "description": "Documentation file",
+      "size": 1949,
+      "modified": "2025-09-11T19:53:06.619Z"
+    },
+    {
+      "name": "lowcode-website-builder.md",
+      "path": "lowcode-website-builder.md",
+      "title": "~~Hybrid Website Builder Component~~ → wb.ts Implementation",
+      "description": "**The React-based `HybridWebsiteBuilder` component has been REMOVED** and replaced with a pure TypeScript implementation in `wb/wb.ts`.",
+      "size": 2445,
+      "modified": "2025-08-28T02:55:51.275Z"
+    },
+    {
+      "name": "main.md",
+      "path": "main.md",
+      "title": "~~main.tsx~~ → wb.ts Documentation",
+      "description": "**The `main.tsx` file has been REMOVED** as part of a major architectural shift from React to pure TypeScript.",
+      "size": 2157,
+      "modified": "2025-08-28T02:55:32.543Z"
+    },
+    {
+      "name": "newImportDesign.md",
+      "path": "newImportDesign.md",
+      "title": "newImportDesign",
+      "description": "Documentation file",
+      "size": 389,
+      "modified": "2025-09-11T22:31:51.237Z"
+    },
+    {
+      "name": "nosqlreadme-file.md",
+      "path": "nosqlreadme-file.md",
+      "title": "🤖 Claude Website Builder",
+      "description": "**AI-Powered No-Code Website Builder with Real-Time Design Assistance**",
+      "size": 12644,
+      "modified": "2025-06-06T23:17:08.052Z"
+    },
+    {
+      "name": "obfuscation-guide.md",
+      "path": "obfuscation-guide.md",
+      "title": "JavaScript Code Protection & Obfuscation Guide",
+      "description": "This document outlines methods to protect your JavaScript code from being easily copied or reverse-engineered. While client-side code can never be 100% secure, these techniques make it significantly harder to steal your logic.",
+      "size": 11852,
+      "modified": "2025-08-31T20:57:44.241Z"
+    },
+    {
+      "name": "powerpoint_video_guide.md",
+      "path": "powerpoint_video_guide.md",
+      "title": "PowerPoint YouTube Training Video Production Guide",
+      "description": "**PowerPoint Settings:**",
+      "size": 8341,
+      "modified": "2025-06-16T22:35:32.223Z"
+    },
+    {
+      "name": "PROJECT_STRUCTURE.md",
+      "path": "PROJECT_STRUCTURE.md",
+      "title": "Claude AI Website Builder Project Structure",
+      "description": "This document outlines the architecture and folder structure of the Claude AI Website Builder project. The project uses multiple architectural approaches, which have been organized into a clear structure to improve maintainability.",
+      "size": 3025,
+      "modified": "2025-06-18T20:26:35.595Z"
+    },
+    {
+      "name": "proposal.md",
+      "path": "proposal.md",
+      "title": "Claude AI Website Builder - Comprehensive Proposal",
+      "description": "A revolutionary no-code website builder that integrates Claude AI to help users create, customize, and optimize websites through natural language interactions. Users are guided step-by-step through the website creation process.",
+      "size": 16082,
+      "modified": "2025-08-28T02:54:58.737Z"
+    },
+    {
+      "name": "reorganization-merged.md",
+      "path": "reorganization-merged.md",
+      "title": "Claude AI Website Builder - Project Reorganization Documentation",
+      "description": "<div align=\"center\">",
+      "size": 11475,
+      "modified": "2025-08-28T04:07:48.166Z"
+    },
+    {
+      "name": "testresult.md",
+      "path": "testresult.md",
+      "title": "testresult",
+      "description": "Documentation file",
+      "size": 816,
+      "modified": "2025-06-07T17:38:42.964Z"
+    },
+    {
+      "name": "theme-demo-component.md",
+      "path": "theme-demo-component.md",
+      "title": "Theme Demo Component",
+      "description": "The Theme Demo Component is a React component that showcases different visual themes for the Claude AI Web Site Builder application. It provides an interactive interface for previewing and selecting different color schemes and design styles.",
+      "size": 1430,
+      "modified": "2025-06-09T01:22:45.200Z"
+    },
+    {
+      "name": "website-generator-integration-spec.md",
+      "path": "website-generator-integration-spec.md",
+      "title": "MCP Website Generator Integration Specification",
+      "description": "**Document Version**: 1.1",
+      "size": 21143,
+      "modified": "2025-08-28T02:56:16.354Z"
+    },
+    {
+      "name": "zia-symbol-guidelines.md",
+      "path": "zia-symbol-guidelines.md",
+      "title": "Zia Symbol Usage Guidelines",
+      "description": "<div align=\"center\">",
+      "size": 2004,
+      "modified": "2025-08-28T04:18:48.913Z"
+    }
+  ]
+}

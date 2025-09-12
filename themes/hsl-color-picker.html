@@ -1,726 +1,101 @@
-<!DOCTYPE html>
+<!DOCTYPE html    <script src="hsl-color-picker-fixed.js"></script>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HSL Color Picker</title>
-    <!-- Favicon -->
-    <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/images/ziasymbol.svg">
-    
-    <style>
-      /* Theme Variables based on Formula System */
-      :root {
-        /* Golden Ratio Foundation */
-        --golden-ratio: 1.618;
-        --inverse-golden-ratio: 0.618;
 
-        /* Layout Dimensions */
-        --header-height: 20vh;
-        --nav-width: calc(100vw / (var(--golden-ratio) * 2.75)); /* ~22.4% */
-        --content-padding: calc(1rem * var(--golden-ratio)); /* ~26px */
-        --grid-gap: 1rem; /* 16px */
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HSL Color Picker</title>
+  <!-- Favicon -->
+  <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml">
 
-        /* Typography Scale */
-        --text-tiny: 0.75rem; /* 12px */
-        --text-small: 0.813rem; /* 13px */
-        --text-standard: 0.875rem; /* 14px */
-        --text-medium: 0.938rem; /* 15px */
-        --text-large: 1rem; /* 16px */
-        --text-xl: 1.125rem; /* 18px */
 
-        /* Spacing Scale */
-        --space-xs: 0.25rem; /* 4px */
-        --space-sm: 0.5rem; /* 8px */
-        --space-md: 1rem; /* 16px */
-        --space-lg: calc(1rem * var(--golden-ratio)); /* ~26px */
-        --space-xl: calc(
-          1rem * var(--golden-ratio) * var(--golden-ratio)
-        ); /* ~42px */
 
-        /* Primary Colors - Default Theme */
-        --primary: #007bff;
-        --primary-light: #66b3ff;
-        --primary-dark: #0056b3;
-        --primary-contrast: #ffffff;
 
-        /* Secondary Colors */
-        --secondary: #6c757d;
-        --secondary-light: #9ca3a9;
-        --secondary-dark: #495057;
-        --secondary-contrast: #ffffff;
+  <link rel="stylesheet" href="hsl-color-picker.css">
+  <script src="hsl-color-picker.js"></script>
+</head>
 
-        /* Accent Colors */
-        --accent: #28a745;
-        --accent-light: #71dd8a;
-        --accent-dark: #1e7e34;
-        --accent-contrast: #ffffff;
-
-        /* Neutral Scale (9 Shades) */
-        --neutral-50: #f8f9fa; /* Lightest */
-        --neutral-100: #e9ecef;
-        --neutral-200: #dee2e6;
-        --neutral-300: #ced4da;
-        --neutral-400: #adb5bd;
-        --neutral-500: #6c757d; /* Middle */
-        --neutral-600: #495057;
-        --neutral-700: #343a40;
-        --neutral-800: #212529;
-        --neutral-900: #1a1d21; /* Darkest */
-
-        /* Semantic Colors */
-        --background: var(--neutral-50);
-        --surface: #ffffff;
-        --text-primary: var(--neutral-800);
-        --text-secondary: var(--neutral-600);
-        --border: var(--neutral-300);
-      }
-
-      /* Theme: Ocean */
-      [data-theme="ocean"] {
-        --primary: #0088cc;
-        --primary-light: #47b0eb;
-        --primary-dark: #006699;
-        --accent: #00ccaa;
-        --accent-light: #47ebdc;
-        --accent-dark: #009980;
-        --background: #f0f7fc;
-        --surface: #ffffff;
-      }
-
-      /* Theme: Sunset */
-      [data-theme="sunset"] {
-        --primary: #ff7e00;
-        --primary-light: #ffac5e;
-        --primary-dark: #cc6500;
-        --accent: #e63946;
-        --accent-light: #ff8a94;
-        --accent-dark: #b52b35;
-        --background: #fff5eb;
-        --surface: #ffffff;
-      }
-
-      /* Theme: Forest */
-      [data-theme="forest"] {
-        --primary: #2d6a4f;
-        --primary-light: #74c69d;
-        --primary-dark: #1b4332;
-        --accent: #e9c46a;
-        --accent-light: #f4e3ac;
-        --accent-dark: #d4a017;
-        --background: #f2f9f6;
-        --surface: #ffffff;
-      }
-
-      /* Theme: Cyberpunk */
-      [data-theme="cyberpunk"] {
-        --primary: #ff00ff;
-        --primary-light: #ff99ff;
-        --primary-dark: #cc00cc;
-        --accent: #00ffff;
-        --accent-light: #99ffff;
-        --accent-dark: #00cccc;
-        --background: #151520;
-        --surface: #252535;
-        --text-primary: #ffffff;
-        --text-secondary: #cccccc;
-        --border: #554488;
-      }
-
-      /* Dark Theme */
-      [data-theme="dark"] {
-        --background: #121212;
-        --surface: #1e1e1e;
-        --text-primary: #f0f0f0;
-        --text-secondary: #a0a0a0;
-        --border: #404040;
-        --neutral-50: #1e1e1e;
-        --neutral-100: #2d2d2d;
-        --neutral-200: #3a3a3a;
-        --neutral-300: #4d4d4d;
-        --neutral-400: #777777;
-        --neutral-800: #e0e0e0;
-        --neutral-900: #f5f5f5;
-      }
-
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        background-color: var(--background);
-        color: var(--text-primary);
-        transition: background-color 0.3s ease, color 0.3s ease;
-      }
-
-      .color-picker-container {
-        background: var(--surface);
-        padding: var(--space-lg);
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        width: 500px;
-        max-width: 90vw;
-      }
-
-      h2 {
-        margin: 0 0 var(--space-xl) 0;
-        color: var(--text-primary);
-        text-align: center;
-        font-size: var(--text-xl);
-      }
-
-      /* Color Display */
-      .color-display {
-        width: 100%;
-        height: 200px;
-        border-radius: 15px;
-        margin-bottom: var(--space-xl);
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.2s ease;
-      }
-
-      /* Slider Container */
-      .slider-group {
-        margin-bottom: var(--space-md);
-      }
-
-      .slider-label {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: var(--text-secondary);
-      }
-
-      .slider-value {
-        font-weight: normal;
-        color: var(--text-secondary);
-        font-size: var(--text-standard);
-      }
-
-      /* Base Slider Styles */
-      .color-slider {
-        width: 100%;
-        height: 30px;
-        -webkit-appearance: none;
-        appearance: none;
-        outline: none;
-        cursor: pointer;
-        border-radius: 15px;
-        position: relative;
-      }
-
-      /* Slider Thumbs */
-      .color-slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 26px;
-        height: 26px;
-        background: var(--surface);
-        cursor: pointer;
-        border-radius: 50%;
-        border: 3px solid var(--text-primary);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.1s ease;
-      }
-
-      .color-slider::-moz-range-thumb {
-        width: 26px;
-        height: 26px;
-        background: var(--surface);
-        cursor: pointer;
-        border-radius: 50%;
-        border: 3px solid var(--text-primary);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.1s ease;
-      }
-
-      .color-slider:hover::-webkit-slider-thumb {
-        transform: scale(1.1);
-      }
-
-      .color-slider:hover::-moz-range-thumb {
-        transform: scale(1.1);
-      }
-
-      /* Hue Slider */
-      #hueSlider {
-        background: linear-gradient(
-          to right,
-          hsl(0, 100%, 50%) 0%,
-          hsl(30, 100%, 50%) 8.33%,
-          hsl(60, 100%, 50%) 16.66%,
-          hsl(90, 100%, 50%) 25%,
-          hsl(120, 100%, 50%) 33.33%,
-          hsl(150, 100%, 50%) 41.66%,
-          hsl(180, 100%, 50%) 50%,
-          hsl(210, 100%, 50%) 58.33%,
-          hsl(240, 100%, 50%) 66.66%,
-          hsl(270, 100%, 50%) 75%,
-          hsl(300, 100%, 50%) 83.33%,
-          hsl(330, 100%, 50%) 91.66%,
-          hsl(360, 100%, 50%) 100%
-        );
-      }
-
-      /* Saturation Slider - Dynamic background */
-      #saturationSlider {
-        background: linear-gradient(
-          to right,
-          hsl(180, 0%, 50%),
-          hsl(180, 100%, 50%)
-        );
-      }
-
-      /* Lightness Slider - Dynamic background */
-      #lightnessSlider {
-        background: linear-gradient(
-          to right,
-          hsl(180, 100%, 0%) 0%,
-          hsl(180, 100%, 50%) 50%,
-          hsl(180, 100%, 100%) 100%
-        );
-      }
-
-      /* Color Values Display */
-      .color-values {
-        background: var(--neutral-100);
-        border-radius: 10px;
-        padding: var(--space-md);
-        margin-top: var(--space-lg);
-      }
-
-      .color-value-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--neutral-300);
-      }
-
-      .color-value-row:last-child {
-        border-bottom: none;
-      }
-
-      .color-value-label {
-        font-weight: 600;
-        color: var(--text-secondary);
-        font-size: var(--text-standard);
-      }
-
-      .color-value-text {
-        font-family: "Courier New", monospace;
-        font-size: var(--text-standard);
-        color: var(--text-primary);
-        background: var(--surface);
-        padding: 4px 8px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-      }
-
-      .color-value-text:hover {
-        background: var(--neutral-200);
-      }
-
-      /* Copy notification */
-      .copy-notification {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: var(--text-primary);
-        color: var(--primary-contrast);
-        padding: 12px 20px;
-        border-radius: 8px;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all 0.3s ease;
-        pointer-events: none;
-      }
-
-      .copy-notification.show {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Visual Guide */
-      .visual-guide {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-        margin-top: var(--space-lg);
-        padding-top: var(--space-lg);
-        border-top: 1px solid var(--neutral-300);
-      }
-
-      .guide-item {
-        text-align: center;
-      }
-
-      .guide-box {
-        width: 100%;
-        height: 60px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: var(--text-small);
-        font-weight: 600;
-        color: var(--primary-contrast);
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-      }
-
-      .guide-label {
-        font-size: var(--text-standard);
-        color: var(--text-secondary);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="color-picker-container">
-      <h2>HSL Color Picker</h2>
-
-      <!-- Theme Selector -->
-      <div class="theme-selector">
-        <label for="theme-select">Theme:</label>
-        <select id="theme-select">
-          <option value="default">Default</option>
-          <option value="ocean">Ocean</option>
-          <option value="sunset">Sunset</option>
-          <option value="forest">Forest</option>
-          <option value="cyberpunk">Cyberpunk</option>
-          <option value="dark">Dark Mode</option>
-        </select>
+  <body data-theme="dark">
+    <div class="color-picker-container" id="colorPickerContainer">
+      <div class="container-header" id="containerHeader">
+        <h2>HSL Color Picker</h2>
+        <button class="minimize-btn" id="minimizeBtn" title="Minimize/Maximize">
+          <span class="minimize-icon">−</span>
+        </button>
       </div>
+      <div class="container-content" id="containerContent">    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <label for="theme-toggle">Theme:</label>
+      <button id="theme-toggle" class="toggle-button dark" title="Toggle between light and dark theme">
+        <span class="toggle-text">Dark</span>
+      </button>
+    </div>
 
-      <!-- Color Display -->
-      <div class="color-display" id="colorDisplay"></div>
+    <!-- Color Display -->
+    <div class="color-display" id="colorDisplay"></div>
 
-      <!-- Hue Slider -->
-      <div class="slider-group">
-        <div class="slider-label">
-          <span>Hue</span>
-          <span class="slider-value"><span id="hueValue">180</span>°</span>
-        </div>
-        <input
-          type="range"
-          class="color-slider"
-          id="hueSlider"
-          min="0"
-          max="360"
-          value="180"
-        />
+    <!-- Hue Slider -->
+    <div class="slider-container">
+      <label for="hue">Hue</label>
+      <input type="range" id="hue" class="color-slider hue-slider" min="0" max="360" value="180"
+        title="Adjust hue value (0-360 degrees)">
+      <span class="slider-value"><span id="hueValue">180</span>°</span>
+    </div>
+
+    <!-- Saturation Slider -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Saturation</span>
+        <span class="slider-value"><span id="saturationValue">100</span>%</span>
       </div>
+      <input title="Saturation Level" type="range" class="color-slider" id="saturationSlider" min="0" max="100"
+        value="100" />
+    </div>
 
-      <!-- Saturation Slider -->
-      <div class="slider-group">
-        <div class="slider-label">
-          <span>Saturation</span>
-          <span class="slider-value"
-            ><span id="saturationValue">100</span>%</span
-          >
-        </div>
-        <input
-          type="range"
-          class="color-slider"
-          id="saturationSlider"
-          min="0"
-          max="100"
-          value="100"
-        />
+    <!-- Lightness Slider -->
+    <div class="slider-container">
+      <label for="lightnessSlider">Lightness:</label>
+      <input type="range" id="lightnessSlider" class="color-slider lightness-slider" min="0" max="100" value="50"
+        title="Adjust lightness value (0-100%)">
+      <span class="slider-value"><span id="lightnessValue">50</span>%</span>
+    </div>
+
+    <!-- Color Values -->
+    <div class="color-values">
+      <div class="color-value-row">
+        <span class="color-value-label">HSL:</span>
+        <span class="color-value-text" id="hslValue">hsl(180, 100%, 50%)</span>
       </div>
-
-      <!-- Lightness Slider -->
-      <div class="slider-group">
-        <div class="slider-label">
-          <span>Lightness</span>
-          <span class="slider-value"><span id="lightnessValue">50</span>%</span>
-        </div>
-        <input
-          type="range"
-          class="color-slider"
-          id="lightnessSlider"
-          min="0"
-          max="100"
-          value="50"
-        />
+      <div class="color-value-row">
+        <span class="color-value-label">RGB:</span>
+        <span class="color-value-text" id="rgbValue">rgb(0, 255, 255)</span>
       </div>
-
-      <!-- Color Values -->
-      <div class="color-values">
-        <div class="color-value-row">
-          <span class="color-value-label">HSL:</span>
-          <span class="color-value-text" id="hslValue"
-            >hsl(180, 100%, 50%)</span
-          >
-        </div>
-        <div class="color-value-row">
-          <span class="color-value-label">RGB:</span>
-          <span class="color-value-text" id="rgbValue">rgb(0, 255, 255)</span>
-        </div>
-        <div class="color-value-row">
-          <span class="color-value-label">HEX:</span>
-          <span class="color-value-text" id="hexValue">#00ffff</span>
-        </div>
-      </div>
-
-      <!-- Visual Guide -->
-      <div class="visual-guide">
-        <div class="guide-item">
-          <div
-            class="guide-box"
-            style="background: linear-gradient(to right, gray, red)"
-          >
-            HUE
-          </div>
-          <div class="guide-label">Changes the color</div>
-        </div>
-        <div class="guide-item">
-          <div
-            class="guide-box"
-            style="background: linear-gradient(to right, #888, #ff0000)"
-          >
-            SATURATION
-          </div>
-          <div class="guide-label">Gray to vivid</div>
-        </div>
-        <div class="guide-item">
-          <div
-            class="guide-box"
-            style="background: linear-gradient(to right, black, red, white)"
-          >
-            LIGHTNESS
-          </div>
-          <div class="guide-label">Dark to light</div>
-        </div>
+      <div class="color-value-row">
+        <span class="color-value-label">HEX:</span>
+        <span class="color-value-text" id="hexValue">#00ffff</span>
       </div>
     </div>
 
-    <!-- Copy notification -->
-    <div class="copy-notification" id="copyNotification">
-      Copied to clipboard!
-    </div>
+    <!-- Visual Guide -->
+    <div class="visual-guide">
+      <div class="guide-item">
+        <div class="guide-box guide-hue"></div>
+        <div class="guide-label">Changes the color</div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-box guide-saturation"></div>
+        <div class="guide-label">Gray to vivid</div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-box guide-lightness"></div>
+        <div class="guide-label">Dark to light</div>
+        </div>
+      </div>
+      <div class="resize-handle" id="resizeHandle" title="Drag to resize"></div>
+    </div>  <!-- Copy notification -->
+  <div class="copy-notification" id="copyNotification">
+    Copied to clipboard!
+  </div>
+</body>
 
-    <script>
-      // Get elements
-      const colorDisplay = document.getElementById("colorDisplay");
-      const hueSlider = document.getElementById("hueSlider");
-      const saturationSlider = document.getElementById("saturationSlider");
-      const lightnessSlider = document.getElementById("lightnessSlider");
-      const hueValue = document.getElementById("hueValue");
-      const saturationValue = document.getElementById("saturationValue");
-      const lightnessValue = document.getElementById("lightnessValue");
-      const hslValue = document.getElementById("hslValue");
-      const rgbValue = document.getElementById("rgbValue");
-      const hexValue = document.getElementById("hexValue");
-      const copyNotification = document.getElementById("copyNotification");
-      const themeSelect = document.getElementById("theme-select");
-
-      let currentHue = 180;
-      let currentSaturation = 100;
-      let currentLightness = 50;
-      let currentTheme = "default";
-
-      // Update color display
-      function updateColor() {
-        const hsl = `hsl(${currentHue}, ${currentSaturation}%, ${currentLightness}%)`;
-
-        // Update main display
-        colorDisplay.style.backgroundColor = hsl;
-
-        // Update value displays
-        hueValue.textContent = Math.round(currentHue);
-        saturationValue.textContent = Math.round(currentSaturation);
-        lightnessValue.textContent = Math.round(currentLightness);
-        hslValue.textContent = hsl;
-
-        // Update saturation slider background
-        saturationSlider.style.background = `linear-gradient(to right, 
-                hsl(${currentHue}, 0%, ${currentLightness}%), 
-                hsl(${currentHue}, 100%, ${currentLightness}%))`;
-
-        // Update lightness slider background
-        lightnessSlider.style.background = `linear-gradient(to right, 
-                hsl(${currentHue}, ${currentSaturation}%, 0%) 0%, 
-                hsl(${currentHue}, ${currentSaturation}%, 50%) 50%, 
-                hsl(${currentHue}, ${currentSaturation}%, 100%) 100%)`;
-
-        // Convert to RGB and HEX
-        const rgb = hslToRgb(currentHue, currentSaturation, currentLightness);
-        const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-
-        rgbValue.textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-        hexValue.textContent = hex;
-      }
-
-      // HSL to RGB conversion
-      function hslToRgb(h, s, l) {
-        h = h / 360;
-        s = s / 100;
-        l = l / 100;
-
-        let r, g, b;
-
-        if (s === 0) {
-          r = g = b = l;
-        } else {
-          const hue2rgb = (p, q, t) => {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1 / 6) return p + (q - p) * 6 * t;
-            if (t < 1 / 2) return q;
-            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-            return p;
-          };
-
-          const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-          const p = 2 * l - q;
-          r = hue2rgb(p, q, h + 1 / 3);
-          g = hue2rgb(p, q, h);
-          b = hue2rgb(p, q, h - 1 / 3);
-        }
-
-        return {
-          r: Math.round(r * 255),
-          g: Math.round(g * 255),
-          b: Math.round(b * 255),
-        };
-      }
-
-      // RGB to HEX conversion
-      function rgbToHex(r, g, b) {
-        return (
-          "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
-        );
-      }
-
-      // Copy to clipboard function
-      function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-          copyNotification.classList.add("show");
-          setTimeout(() => {
-            copyNotification.classList.remove("show");
-          }, 2000);
-        });
-      }
-
-      // Event listeners for sliders
-      hueSlider.addEventListener("input", (e) => {
-        currentHue = parseFloat(e.target.value);
-        updateColor();
-      });
-
-      saturationSlider.addEventListener("input", (e) => {
-        currentSaturation = parseFloat(e.target.value);
-        updateColor();
-      });
-
-      lightnessSlider.addEventListener("input", (e) => {
-        currentLightness = parseFloat(e.target.value);
-        updateColor();
-      });
-
-      // Click to copy color values
-      hslValue.addEventListener("click", () =>
-        copyToClipboard(hslValue.textContent)
-      );
-      rgbValue.addEventListener("click", () =>
-        copyToClipboard(rgbValue.textContent)
-      );
-      hexValue.addEventListener("click", () =>
-        copyToClipboard(hexValue.textContent)
-      );
-
-      // Apply theme
-      function applyTheme(theme) {
-        document.body.setAttribute("data-theme", theme);
-        currentTheme = theme;
-
-        // Adjust guide boxes based on theme
-        updateGuideBoxes();
-
-        // Save theme preference
-        localStorage.setItem("colorPickerTheme", theme);
-      }
-
-      // Update guide boxes based on current theme
-      function updateGuideBoxes() {
-        const guides = document.querySelectorAll(".guide-box");
-        const colors = {
-          hue: {
-            default: "red",
-            ocean: "#0088cc",
-            sunset: "#ff7e00",
-            forest: "#2d6a4f",
-            cyberpunk: "#ff00ff",
-            dark: "#ff00ff",
-          },
-          sat: {
-            default: "#ff0000",
-            ocean: "#0088cc",
-            sunset: "#ff7e00",
-            forest: "#2d6a4f",
-            cyberpunk: "#ff00ff",
-            dark: "#ff00ff",
-          },
-        };
-
-        // Update the hue guide
-        guides[0].style.background = `linear-gradient(to right, gray, ${
-          colors.hue[currentTheme] || "red"
-        })`;
-
-        // Update the saturation guide
-        guides[1].style.background = `linear-gradient(to right, #888, ${
-          colors.sat[currentTheme] || "#ff0000"
-        })`;
-
-        // Update the lightness guide with current theme's primary color
-        const computed = getComputedStyle(document.documentElement);
-        const primaryColor =
-          computed.getPropertyValue("--primary").trim() || "#007bff";
-        guides[2].style.background = `linear-gradient(to right, black, ${primaryColor}, white)`;
-      }
-
-      // Theme selector event listener
-      themeSelect.addEventListener("change", (e) => {
-        applyTheme(e.target.value);
-      });
-
-      // Load saved theme
-      const savedTheme = localStorage.getItem("colorPickerTheme");
-      if (savedTheme) {
-        themeSelect.value = savedTheme;
-        applyTheme(savedTheme);
-      }
-
-      // Layout adjustment based on Golden Ratio
-      function adjustLayoutUsingGoldenRatio() {
-        const container = document.querySelector(".color-picker-container");
-        const goldenRatio = 1.618;
-
-        // Calculate width based on viewport
-        const viewportWidth = Math.min(window.innerWidth * 0.9, 800);
-        container.style.width = `${viewportWidth}px`;
-
-        // Set height based on golden ratio
-        const height = viewportWidth / goldenRatio;
-        container.style.minHeight = `${height}px`;
-      }
-
-      // Apply golden ratio on resize
-      window.addEventListener("resize", adjustLayoutUsingGoldenRatio);
-      adjustLayoutUsingGoldenRatio();
-
-      // Initialize
-      updateColor();
-    </script>
-  </body>
 </html>

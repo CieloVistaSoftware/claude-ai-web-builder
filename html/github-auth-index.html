@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude AI Website Builder - Login Required</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .login-container {
+            max-width: 400px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        .github-login {
+            background: #333;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+        .github-login:hover {
+            background: #555;
+        }
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+      
+      .signup-text {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      .signup-link {
+        color: #ffeb3b;
+      }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="lock-icon">🔒</div>
+        <h1>Access Restricted</h1>
+        <p>This website requires GitHub authentication.</p>
+        <p>Please sign in with your GitHub account to continue.</p>
+        
+        <!-- Replace YOUR_CLIENT_ID with actual GitHub OAuth App Client ID -->
+        <a href="https://github.com/login/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=https://cielovistasoftware.github.io/claude-ai-web-builder/dist/wb/wb.html&scope=user" 
+           class="github-login">
+            📱 Sign in with GitHub
+        </a>
+        
+        <p class="signup-text">
+            Don't have a GitHub account? <a href="https://github.com/join" class="signup-link">Create one here</a>
+        </p>
+    </div>
+
+    <script>
+        // Check if user is already authenticated
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        
+        if (code) {
+            // User has been redirected back from GitHub
+            // In a real implementation, you'd validate this code server-side
+            // For now, we'll redirect to the app
+            window.location.href = 'dist/wb/wb.html';
+        }
+    </script>
+</body>
+</html>

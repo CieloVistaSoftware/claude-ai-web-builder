@@ -7,7 +7,65 @@
     <!-- Favicon -->
     <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/images/ziasymbol.svg">
-    <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../css/custom.css">
+    <style>
+        /* Floating panel styles */
+        .floating-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 350px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            resize: both;
+            overflow: auto;
+            max-height: 80vh;
+        }
+        
+        .panel-controls {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .panel-header {
+            cursor: move;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .minimized .card-body {
+            display: none !important;
+        }
+        
+        /* Set default dark theme */
+        body {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+        
+        .card {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border-color: #495057;
+        }
+        
+        .card-header {
+            background-color: #212529;
+            border-color: #495057;
+        }
+        
+        .form-control {
+            background-color: #495057;
+            color: #f8f9fa;
+            border-color: #6c757d;
+        }
+        
+        .form-control:focus {
+            background-color: #495057;
+            color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>    <div class="container">
         <h1>Theme Generator</h1>

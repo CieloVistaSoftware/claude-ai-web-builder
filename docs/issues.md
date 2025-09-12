@@ -1,4 +1,15 @@
+1. ✅ COMPLETED - add function to import existing website files made by this tool. It must have .js .css and .html files in the folder. present the folder explorer. When folder is selected bring up the site as is but add the control-panel. This allows the user to change things in their website that was created with this tool.
 
+When the file is read in, the color selector changes to what was in the webiste e.g. primary colors, secondary colors etc.
+
+**Implementation Details:**
+- ✅ Folder explorer functionality added
+- ✅ File validation for .js, .css, .html files
+- ✅ Website loading with control panel activation
+- ✅ Color extraction from CSS files
+- ✅ Automatic color selector updates
+- ✅ Visual color palette display
+- ✅ Editing mode enablement
 
 <!-- All issues have been fixed! -->
 <!-- Issue #1 Fixed: Added ability to insert media elements above or below editable elements via right-click menu -->

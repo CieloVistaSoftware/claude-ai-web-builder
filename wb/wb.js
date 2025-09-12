@@ -1,35 +1,21 @@
-/**
- * Claude AI Website Builder - wb.ts
- *
- * This TypeScript file contains the main functionality for the Claude AI Website Builder application.
- * It provides a user-friendly interface for building, customizing, and exporting websites
- * with dynamic content, themes, layouts, and media support.
- *
- * The application includes features such as:
- * - Edit mode for modifying website content directly in the browser
- * - Theme selection with dark/light mode and custom color themes
- * - Automatic system color preference detection
- * - Layout switching (top navigation, side navigation options)
- * - Media placeholders with support for images, videos, and audio
- * - Dynamic page creation for common website sections
- * - Right-click context menus for advanced content manipulation
- * - Persistent state management for saving user preferences
- * - Export functionality for generated websites (HTML, CSS, JS)
- *
- * File Dependencies:
- * - wb.html: Main interface that loads this script
- * - wb.css: Styles for the website builder interface
- *
- * @file This file provides the core functionality for the Claude AI Website Builder
- * @author Claude AI Team
- * @version 1.0.0
- */
+// Website Builder - Main JavaScript Module
+// Claude AI Website Builder
+// 
+// This file contains the core functionality for the website builder including:
+// - Edit mode management
+// - Dynamic page creation
+// - Color theme controls
+// - Media placeholder handling
+// - State management
+// - Control panel functionality
+
+"use strict";
 // State management variables
 let isEditMode = false;
 let isDragging = false;
 let dragOffset = { x: 0, y: 0 };
 let isMinimized = false;
-// Website options (replaces URL parameters)
+//Website options (replaces URL parameters)
 let websiteOptions = {
     type: 'business',
     title: 'Your Amazing Website',
@@ -37,7 +23,7 @@ let websiteOptions = {
     theme: 'dark',
     layout: 'top-nav'
 };
-// Color Bar State
+//Color Bar State
 let colorBarState = {
     hue: 0,
     saturation: 70,
@@ -50,7 +36,7 @@ let colorBarState = {
         accent: '#10b981'
     }
 };
-// DOM Elements (will be initialized after DOM loads)
+//DOM Elements (will be initialized after DOM loads)
 let body;
 let controlPanel;
 let controlPanelBody;
@@ -68,77 +54,90 @@ let secondaryColorPicker;
 let accentColorPicker;
 let colorIndicator;
 let colorPreviewBox;
-// Initialize DOM elements
-function initializeElements() {
-    body = document.body;
-    // Main UI elements with null checks
-    const controlPanelEl = document.getElementById('control-panel');
-    if (!controlPanelEl)
-        throw new Error('Control panel element not found');
-    controlPanel = controlPanelEl;
-    const controlPanelBodyEl = controlPanel.querySelector('.control-panel-body');
-    if (!controlPanelBodyEl)
-        throw new Error('Control panel body not found');
-    controlPanelBody = controlPanelBodyEl;
-    const minimizeBtnEl = document.getElementById('minimize-btn');
-    if (!minimizeBtnEl)
-        throw new Error('Minimize button not found');
-    minimizeBtn = minimizeBtnEl;
-    const editModeToggleEl = document.getElementById('edit-mode-toggle');
-    if (!editModeToggleEl)
-        throw new Error('Edit mode toggle not found');
-    editModeToggle = editModeToggleEl;
-    const layoutSelectEl = document.getElementById('layout-select');
-    if (!layoutSelectEl)
-        throw new Error('Layout select not found');
-    layoutSelect = layoutSelectEl;
-    const themeSelectEl = document.getElementById('theme-select');
-    if (!themeSelectEl)
-        throw new Error('Theme select not found');
-    themeSelect = themeSelectEl;
-    const saveBtnEl = document.getElementById('save-btn');
-    if (!saveBtnEl)
-        throw new Error('Save button not found');
-    saveBtn = saveBtnEl;
-    const resetBtnEl = document.getElementById('reset-btn');
-    if (!resetBtnEl)
-        throw new Error('Reset button not found');
-    resetBtn = resetBtnEl;
-    // Color related elements with null checks
-    const colorBarEl = document.getElementById('color-bar');
-    if (!colorBarEl)
-        throw new Error('Color bar not found');
-    colorBar = colorBarEl;
-    const lightnessSliderEl = document.getElementById('lightness-slider');
-    if (!lightnessSliderEl)
-        throw new Error('Lightness slider not found');
-    lightnessSlider = lightnessSliderEl;
-    const saturationSliderEl = document.getElementById('saturation-slider');
-    if (!saturationSliderEl)
-        throw new Error('Saturation slider not found');
-    saturationSlider = saturationSliderEl;
-    const primaryColorPickerEl = document.getElementById('primary-color');
-    if (!primaryColorPickerEl)
-        throw new Error('Primary color picker not found');
-    primaryColorPicker = primaryColorPickerEl;
-    const secondaryColorPickerEl = document.getElementById('secondary-color');
-    if (!secondaryColorPickerEl)
-        throw new Error('Secondary color picker not found');
-    secondaryColorPicker = secondaryColorPickerEl;
-    const accentColorPickerEl = document.getElementById('accent-color');
-    if (!accentColorPickerEl)
-        throw new Error('Accent color picker not found');
-    accentColorPicker = accentColorPickerEl;
-    const colorIndicatorEl = document.getElementById('color-indicator');
-    if (!colorIndicatorEl)
-        throw new Error('Color indicator not found');
-    colorIndicator = colorIndicatorEl;
-    const colorPreviewBoxEl = document.getElementById('color-bar-preview');
-    if (!colorPreviewBoxEl)
-        throw new Error('Color preview box not found');
-    colorPreviewBox = colorPreviewBoxEl;
+
+// Utility functions for DOM element access with error handling
+function getQuerySelectorWithError(selector, errorMessage) {
+    let el = document.querySelector(selector);
+    if (!el) throw new Error(errorMessage);
+    return el;
 }
-// Initialize
+
+function getElementByIdWithError(id, errorMessage) {
+    let el = document.getElementById(id);
+    if (!el) throw new Error(errorMessage);
+    return el;
+}
+
+// Function to get querySelector with error handling from a specific parent
+function getQuerySelectorFromParentWithError(parent, selector, errorMessage) {
+    let el = parent.querySelector(selector);
+    if (!el) throw new Error(errorMessage);
+    return el;
+}
+//Initialize DOM elements
+function initializeElements() {
+    try {
+        body = document.body;
+
+
+ 
+        // Main UI elements with null checks
+        const controlPanelEl = getElementByIdWithError('control-panel', 'Control panel element not found');
+        controlPanel = controlPanelEl;
+
+        const controlPanelBodyEl = getQuerySelectorFromParentWithError(controlPanel, '.control-panel-body', 'Control panel body not found');
+        controlPanelBody = controlPanelBodyEl;
+
+        const minimizeBtnEl = getElementByIdWithError('minimize-btn', 'Minimize button not found');
+        minimizeBtn = minimizeBtnEl;
+
+        const editModeToggleEl = getElementByIdWithError('edit-mode-toggle', 'Edit mode toggle not found');
+        editModeToggle = editModeToggleEl;
+
+        const layoutSelectEl = getElementByIdWithError('layout-select', 'Layout select not found');
+        layoutSelect = layoutSelectEl;
+
+        const themeSelectEl = getElementByIdWithError('theme-select', 'Theme select not found');
+        themeSelect = themeSelectEl;
+
+        const saveBtnEl = getElementByIdWithError('save-btn', 'Save button not found');
+        saveBtn = saveBtnEl;
+
+        const resetBtnEl = getElementByIdWithError('reset-btn', 'Reset button not found');
+        resetBtn = resetBtnEl;
+
+        // Color related elements with null checks
+        const colorBarEl = getElementByIdWithError('color-bar', 'Color bar not found');
+        colorBar = colorBarEl;
+
+        const lightnessSliderEl = getElementByIdWithError('lightness-slider', 'Lightness slider not found');
+        lightnessSlider = lightnessSliderEl;
+
+        const saturationSliderEl = getElementByIdWithError('saturation-slider', 'Saturation slider not found');
+        saturationSlider = saturationSliderEl;
+
+        const primaryColorPickerEl = getElementByIdWithError('primary-color', 'Primary color picker not found');
+        primaryColorPicker = primaryColorPickerEl;
+
+        const secondaryColorPickerEl = getElementByIdWithError('secondary-color', 'Secondary color picker not found');
+        secondaryColorPicker = secondaryColorPickerEl;
+
+        const accentColorPickerEl = getElementByIdWithError('accent-color', 'Accent color picker not found');
+        accentColorPicker = accentColorPickerEl;
+
+        const colorIndicatorEl = getElementByIdWithError('color-indicator', 'Color indicator not found');
+        colorIndicator = colorIndicatorEl;
+
+        const colorPreviewBoxEl = getElementByIdWithError('color-bar-preview', 'Color preview box not found');
+        colorPreviewBox = colorPreviewBoxEl;
+
+        return true;
+    } catch (error) {
+        console.error('Failed to initialize elements:', error);
+        return false;
+    }
+}
+//Initialize
 function init() {
     initializeElements();
     setupControlPanel();
@@ -164,7 +163,7 @@ function init() {
 }
 // Control Panel Setup
 function setupControlPanel() {
-    const header = controlPanel.querySelector('.control-panel-header');
+    const header = getQuerySelectorFromParentWithError(controlPanel, '.control-panel-header', 'Control panel header not found');
     // Dragging
     header === null || header === void 0 ? void 0 : header.addEventListener('mousedown', (e) => {
         var _a;
@@ -208,34 +207,46 @@ function setupEditMode() {
         if (window.updateStatus) {
             if (isEditMode) {
                 window.updateStatus('Edit mode ON - Content can now be edited', 'info');
-                const statusInfo = document.getElementById('status-info');
-                if (statusInfo)
-                    statusInfo.textContent = 'Edit mode: ON';
+                try {
+                    const statusInfo = getElementByIdWithError('status-info', 'Status info element not found');
+                    if (statusInfo)
+                        statusInfo.textContent = 'Edit mode: ON';
+                } catch (error) {
+                    console.warn('Status info element not available:', error.message);
+                }
             }
             else {
                 window.updateStatus('Edit mode OFF - Content is now locked', 'success');
-                const statusInfo = document.getElementById('status-info');
-                if (statusInfo)
-                    statusInfo.textContent = 'Edit mode: OFF';
+                try {
+                    const statusInfo = getElementByIdWithError('status-info', 'Status info element not found');
+                    if (statusInfo)
+                        statusInfo.textContent = 'Edit mode: OFF';
+                } catch (error) {
+                    console.warn('Status info element not available:', error.message);
+                }
             }
         }
         // Toggle contenteditable on all editable elements
         const editables = document.querySelectorAll('.editable');
-        editables.forEach(el => {
-            el.contentEditable = String(isEditMode);
-        });
+        if (editables.length > 0) {
+            editables.forEach(el => {
+                el.contentEditable = String(isEditMode);
+            });
+        }
         // Properly handle media placeholders
         const mediaPlaceholders = document.querySelectorAll('.media-placeholder');
-        mediaPlaceholders.forEach(placeholder => {
-            if (!isEditMode && !placeholder.classList.contains('has-media')) {
-                // Hide all placeholders without images when exiting edit mode
-                placeholder.style.display = 'none';
-            }
-            else if (isEditMode) {
-                // Show all placeholders when entering edit mode
-                placeholder.style.display = 'flex';
-            }
-        });
+        if (mediaPlaceholders.length > 0) {
+            mediaPlaceholders.forEach(placeholder => {
+                if (!isEditMode && !placeholder.classList.contains('has-media')) {
+                    // Hide all placeholders without images when exiting edit mode
+                    placeholder.style.display = 'none';
+                }
+                else if (isEditMode) {
+                    // Show all placeholders when entering edit mode
+                    placeholder.style.display = 'flex';
+                }
+            });
+        }
     });
 }
 // Layout Control
@@ -271,9 +282,9 @@ function setupThemeControl() {
         }
         catch (e) {
             // Fallback for older browsers
-            darkModeMediaQuery.addListener((e) => {
-                if (websiteOsaveWebsiteFilesptions.theme === 'auto') {
-                    const newMode = e.matches ? 'dark' : 'light';
+            darkModeMediaQuery.addListener((event) => {
+                if (websiteOptions.theme === 'auto') {
+                    const newMode = event.matches ? 'dark' : 'light';
                     setColorMode(newMode, false);
                     console.log('System color preference changed to:', newMode);
                 }
@@ -298,10 +309,10 @@ function setupButtonActions() {
     // Save to Sites/ folder (all browsers)
     async function saveToSitesFolder() {
         const siteName = prompt('Enter the name for your website (e.g., "MySite"):') || 'MyWebsite';
-        
+
         // Generate the complete website HTML
         const websiteHTML = generateCompleteHTML();
-        
+
         // Create download link that will save to Sites/ folder
         const blob = new Blob([websiteHTML], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
@@ -312,7 +323,7 @@ function setupButtonActions() {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        
+
         if (window.updateStatus) {
             window.updateStatus(`Website saved as Sites/${siteName}.html`, 'success');
         }
@@ -322,27 +333,37 @@ function setupButtonActions() {
     function generateCompleteHTML() {
         // Clone the current document to avoid modifying the original
         const docClone = document.cloneNode(true);
-        
+
         // Remove the control panel from the clone
-        const controlPanel = docClone.getElementById('control-panel');
-        if (controlPanel) {
-            controlPanel.remove();
+        try {
+            const controlPanel = docClone.getElementById('control-panel');
+            if (controlPanel) {
+                controlPanel.remove();
+            }
+        } catch (error) {
+            console.warn('Control panel not found in cloned document:', error.message);
         }
-        
+
         // Remove edit mode classes and attributes
         docClone.body.classList.remove('edit-mode');
-        docClone.querySelectorAll('.editable').forEach(el => {
-            el.removeAttribute('contenteditable');
-            el.classList.remove('editable');
-        });
-        
+        const editableElements = docClone.querySelectorAll('.editable');
+        if (editableElements.length > 0) {
+            editableElements.forEach(el => {
+                el.removeAttribute('contenteditable');
+                el.classList.remove('editable');
+            });
+        }
+
         // Hide media placeholders that don't have content
-        docClone.querySelectorAll('.media-placeholder').forEach(placeholder => {
-            if (!placeholder.classList.contains('has-media')) {
-                placeholder.style.display = 'none';
-            }
-        });
-        
+        const mediaPlaceholders = docClone.querySelectorAll('.media-placeholder');
+        if (mediaPlaceholders.length > 0) {
+            mediaPlaceholders.forEach(placeholder => {
+                if (!placeholder.classList.contains('has-media')) {
+                    placeholder.style.display = 'none';
+                }
+            });
+        }
+
         // Add meta tags for responsive design
         let headContent = docClone.head.innerHTML;
         if (!headContent.includes('viewport')) {
@@ -351,7 +372,7 @@ function setupButtonActions() {
         if (!headContent.includes('charset')) {
             headContent = '<meta charset="UTF-8">\n' + headContent;
         }
-        
+
         // Generate complete HTML
         return `<!DOCTYPE html>
 <html lang="en">
@@ -362,10 +383,10 @@ ${headContent}
 ${docClone.body.outerHTML}
 </html>`;
     }
-    
+
     // Note: Save button handler is defined above in the folder explorer section
     // No additional save handlers should be added here
-    
+
     // Reset Content
     resetBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to reset all content to defaults?')) {
@@ -408,7 +429,7 @@ ${docClone.body.outerHTML}
             location.reload();
         }
     });
-    
+
     // Note: Save button handler is defined above in the folder explorer section
     // No additional save handlers should be added here
 }
@@ -457,7 +478,12 @@ function setupMediaPlaceholders() {
     initializeExistingPlaceholders();
 }
 function initializeExistingPlaceholders() {
-    document.querySelectorAll('.media-placeholder').forEach(placeholder => {
+    const placeholders = document.querySelectorAll('.media-placeholder');
+    if (placeholders.length === 0) {
+        console.warn('No media placeholders found');
+        return;
+    }
+    placeholders.forEach(placeholder => {
         const el = placeholder;
         if (el.style.backgroundImage && el.style.backgroundImage !== 'none' &&
             el.style.backgroundImage !== '') {
@@ -482,24 +508,30 @@ function updatePlaceholderVisibility(placeholder) {
 // Dynamic Page Creation and Navigation
 function setupDynamicPagesNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
+    if (navLinks.length === 0) {
+        console.warn('No navigation links found with class .nav-link');
+        return;
+    }
     navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
+        link.addEventListener('click', async (e) => {
             const href = link.getAttribute('href');
             // Skip if it's an external link or doesn't start with #
             if (!href || !href.startsWith('#'))
                 return;
             const pageId = href.substring(1); // Remove the #
-            const existingPage = document.getElementById(pageId);
-            // If page doesn't exist, create it
-            if (!existingPage) {
+            try {
+                const existingPage = getElementByIdWithError(pageId, `Page with id '${pageId}' not found`);
+                // Page exists, let default behavior handle scrolling
+            } catch (error) {
+                // If page doesn't exist, create it
                 e.preventDefault(); // Prevent default scroll behavior
-                createDynamicPage(pageId, link.textContent);
+                await createDynamicPage(pageId, link.textContent);
             }
         });
     });
 }
 function createDynamicPage(pageId, pageTitle) {
-    const mainContent = document.getElementById('main-content');
+    const mainContent = getElementByIdWithError('main-content', 'Main content element not found for dynamic page creation');
     if (!mainContent)
         return;
     // Create new page section
@@ -515,151 +547,45 @@ function createDynamicPage(pageId, pageTitle) {
     newPage.scrollIntoView({ behavior: 'smooth' });
     // Make elements editable if in edit mode
     if (isEditMode) {
-        newPage.querySelectorAll('.editable').forEach(el => {
-            el.contentEditable = 'true';
-        });
+        const editableElements = newPage.querySelectorAll('.editable');
+        if (editableElements.length > 0) {
+            editableElements.forEach(el => {
+                el.contentEditable = 'true';
+            });
+        } else {
+            console.warn('No editable elements found in new page');
+        }
     }
     console.log(`🆕 Created dynamic page: ${pageId}`);
 }
-function generatePageContent(pageId, pageTitle, websiteType) {
-    const pageTemplates = {
-        about: `
-            <div class="page-content">
-                <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
-                <div class="page-intro">
-                    <p class="editable" contenteditable="false">Learn more about our story, mission, and values.</p>
-                </div>
-                <div class="content-grid">
-                    <div class="content-column">
-                        <h3 class="editable" contenteditable="false">Our Story</h3>
-                        <p class="editable" contenteditable="false">We started with a simple idea: to create something meaningful that makes a difference in people's lives.</p>
-                        <div class="media-placeholder" style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin: 1rem 0;">
-                            <span>Click to add image (400x200)</span>
-                        </div>
-                    </div>
-                    <div class="content-column">
-                        <h3 class="editable" contenteditable="false">Our Mission</h3>
-                        <p class="editable" contenteditable="false">To deliver exceptional value and create lasting relationships with our clients through innovation and excellence.</p>
-                    </div>
-                </div>
-            </div>
-        `,
-        services: `
-            <div class="page-content">
-                <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
-                <div class="page-intro">
-                    <p class="editable" contenteditable="false">Discover the comprehensive solutions we offer to help you succeed.</p>
-                </div>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="media-placeholder" style="width: 100%; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
-                            <span>Service Icon (150x150)</span>
-                        </div>
-                        <h3 class="editable" contenteditable="false">Service One</h3>
-                        <p class="editable" contenteditable="false">Description of your first service offering and its benefits.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="media-placeholder" style="width: 100%; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
-                            <span>Service Icon (150x150)</span>
-                        </div>
-                        <h3 class="editable" contenteditable="false">Service Two</h3>
-                        <p class="editable" contenteditable="false">Description of your second service offering and its benefits.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="media-placeholder" style="width: 100%; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
-                            <span>Service Icon (150x150)</span>
-                        </div>
-                        <h3 class="editable" contenteditable="false">Service Three</h3>
-                        <p class="editable" contenteditable="false">Description of your third service offering and its benefits.</p>
-                    </div>
-                </div>
-            </div>
-        `,
-        portfolio: `
-            <div class="page-content">
-                <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
-                <div class="page-intro">
-                    <p class="editable" contenteditable="false">Explore our featured work and creative projects.</p>
-                </div>
-                <div class="portfolio-grid">
-                    <div class="portfolio-item">
-                        <div class="media-placeholder" style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
-                            <span>Project Image (300x200)</span>
-                        </div>
-                        <h3 class="editable" contenteditable="false">Project One</h3>
-                        <p class="editable" contenteditable="false">Brief description of this portfolio project.</p>
-                    </div>
-                    <div class="portfolio-item">
-                        <div class="media-placeholder" style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
-                            <span>Project Image (300x200)</span>
-                        </div>
-                        <h3 class="editable" contenteditable="false">Project Two</h3>
-                        <p class="editable" contenteditable="false">Brief description of this portfolio project.</p>
-                    </div>
-                    <div class="portfolio-item">
-                        <div class="media-placeholder" style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 1rem;">
-                            <span>Project Image (300x200)</span>
-                        </div>
-                        <h3 class="editable" contenteditable="false">Project Three</h3>
-                        <p class="editable" contenteditable="false">Brief description of this portfolio project.</p>
-                    </div>
-                </div>
-            </div>
-        `,
-        contact: `
-            <div class="page-content">
-                <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
-                <div class="page-intro">
-                    <p class="editable" contenteditable="false">Get in touch with us. We'd love to hear from you!</p>
-                </div>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <h3 class="editable" contenteditable="false">Contact Information</h3>
-                        <div class="contact-item">
-                            <strong>Email:</strong> <span class="editable" contenteditable="false">info@yourcompany.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <strong>Phone:</strong> <span class="editable" contenteditable="false">(555) 123-4567</span>
-                        </div>
-                        <div class="contact-item">
-                            <strong>Address:</strong> <span class="editable" contenteditable="false">123 Main St, City, State 12345</span>
-                        </div>
-                    </div>
-                    <div class="contact-form">
-                        <h3 class="editable" contenteditable="false">Send us a Message</h3>
-                        <form>
-                            <div class="form-group">
-                                <label for="name">Name:</label>
-                                <input type="text" id="name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Message:</label>
-                                <textarea id="message" name="message" rows="5" required></textarea>
-                            </div>
-                            <button type="submit" class="btn">Send Message</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        `
-    };
-    // Return appropriate template or default
-    return pageTemplates[pageId.toLowerCase()] || `
-        <div class="page-content">
-            <h2 class="page-title editable" contenteditable="false">${pageTitle}</h2>
-            <div class="page-intro">
-                <p class="editable" contenteditable="false">Welcome to the ${pageTitle} page. Add your content here.</p>
-            </div>
-            <div class="media-placeholder" style="width: 100%; height: 300px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin: 2rem 0;">
-                <span>Click to add image (600x300)</span>
-            </div>
-            <p class="editable" contenteditable="false">This is a dynamically created page. Edit this content to customize your page.</p>
-        </div>
-    `;
+// Global variable to cache page templates
+let pageTemplates = null;
+
+// Load page templates from JSON file
+async function loadPageTemplates() {
+    if (pageTemplates === null) {
+        try {
+            const response = await fetch('pageTemplates.json');
+            pageTemplates = await response.json();
+        } catch (error) {
+            console.error('Failed to load page templates:', error);
+            // Fallback to simple default template
+            pageTemplates = {
+                default: '<div class="page-content"><h2 class="page-title editable" contenteditable="false">${pageTitle}</h2><p class="editable" contenteditable="false">Failed to load page templates. Please check pageTemplates.json file.</p></div>'
+            };
+        }
+    }
+    return pageTemplates;
+}
+
+async function generatePageContent(pageId, pageTitle, websiteType) {
+    const templates = await loadPageTemplates();
+
+    // Get the appropriate template or use default
+    const template = templates[pageId.toLowerCase()] || templates.default;
+
+    // Replace template variables with actual values
+    return template.replace(/\$\{pageTitle\}/g, pageTitle);
 }
 // State Management Functions
 function saveState() {
@@ -673,24 +599,30 @@ function saveState() {
         mediaPlaceholders: {}
     };
     // Save all editable content
-    document.querySelectorAll('.editable').forEach((el, index) => {
-        const id = el.id || `editable-${index}`;
-        const htmlEl = el;
-        state.editableContent[id] = htmlEl.textContent || htmlEl.innerHTML;
-    });
+    const editables = document.querySelectorAll('.editable');
+    if (editables.length > 0) {
+        editables.forEach((el, index) => {
+            const id = el.id || `editable-${index}`;
+            const htmlEl = el;
+            state.editableContent[id] = htmlEl.textContent || htmlEl.innerHTML;
+        });
+    }
     // Update status bar
     if (window.updateStatus) {
         window.updateStatus('Website state saved', 'success');
     }
     // Save media placeholder states
-    document.querySelectorAll('.media-placeholder').forEach((placeholder, index) => {
-        const id = placeholder.id || `placeholder-${index}`;
-        const placeholderEl = placeholder;
-        state.mediaPlaceholders[id] = {
-            backgroundImage: placeholderEl.style.backgroundImage,
-            hasMedia: placeholderEl.classList.contains('has-media')
-        };
-    });
+    const mediaPlaceholders = document.querySelectorAll('.media-placeholder');
+    if (mediaPlaceholders.length > 0) {
+        mediaPlaceholders.forEach((placeholder, index) => {
+            const id = placeholder.id || `placeholder-${index}`;
+            const placeholderEl = placeholder;
+            state.mediaPlaceholders[id] = {
+                backgroundImage: placeholderEl.style.backgroundImage,
+                hasMedia: placeholderEl.classList.contains('has-media')
+            };
+        });
+    }
     localStorage.setItem('websiteBuilderState', JSON.stringify(state));
     console.log('💾 State saved to localStorage');
 }
@@ -723,17 +655,27 @@ function loadSavedState() {
             // Load editable content
             if (state.editableContent) {
                 Object.keys(state.editableContent).forEach(id => {
-                    const element = document.getElementById(id) || document.querySelector(`[data-id="${id}"]`);
-                    if (element) {
-                        element.textContent = state.editableContent[id];
+                    try {
+                        const element = getElementByIdWithError(id, `Editable element with id '${id}' not found`);
+                        if (element) {
+                            element.textContent = state.editableContent[id];
+                        }
+                    } catch (error) {
+                        // Try data-id selector as fallback
+                        try {
+                            const element = getQuerySelectorWithError(`[data-id="${id}"]`, `Element with data-id '${id}' not found`);
+                            element.textContent = state.editableContent[id];
+                        } catch (dataIdError) {
+                            console.warn(`Could not restore content for element '${id}':`, error.message);
+                        }
                     }
                 });
             }
             // Load media placeholder states
             if (state.mediaPlaceholders) {
                 Object.keys(state.mediaPlaceholders).forEach(id => {
-                    const placeholder = document.getElementById(id) || document.querySelector(`[data-id="${id}"]`);
-                    if (placeholder) {
+                    try {
+                        const placeholder = getElementByIdWithError(id, `Media placeholder with id '${id}' not found`);
                         const data = state.mediaPlaceholders[id];
                         if (data.backgroundImage) {
                             placeholder.style.backgroundImage = data.backgroundImage;
@@ -745,6 +687,25 @@ function loadSavedState() {
                             const span = placeholder.querySelector('span');
                             if (span)
                                 span.style.display = 'none';
+                        }
+                    } catch (error) {
+                        // Try data-id selector as fallback
+                        try {
+                            const placeholder = getQuerySelectorWithError(`[data-id="${id}"]`, `Media placeholder with data-id '${id}' not found`);
+                            const data = state.mediaPlaceholders[id];
+                            if (data.backgroundImage) {
+                                placeholder.style.backgroundImage = data.backgroundImage;
+                                placeholder.style.backgroundSize = 'cover';
+                                placeholder.style.backgroundPosition = 'center';
+                            }
+                            if (data.hasMedia) {
+                                placeholder.classList.add('has-media');
+                                const span = placeholder.querySelector('span');
+                                if (span)
+                                    span.style.display = 'none';
+                            }
+                        } catch (dataIdError) {
+                            console.warn(`Could not restore media placeholder '${id}':`, error.message);
                         }
                     }
                 });
@@ -1146,11 +1107,15 @@ function rgbToHsl(r, g, b) {
 }
 // Function to fix position of any dynamic pages that might be outside the main content
 function fixDynamicPagesPosition() {
-    const mainContent = document.getElementById('main-content');
+    const mainContent = getElementByIdWithError('main-content', 'Main content element not found for dynamic pages position fix');
     if (!mainContent)
         return;
     // Find all dynamic pages outside of main content
     const dynamicPages = document.querySelectorAll('.dynamic-page');
+    if (dynamicPages.length === 0) {
+        console.log('No dynamic pages found to reposition');
+        return;
+    }
     dynamicPages.forEach(page => {
         // Check if this page is not inside main-content
         if (page.parentNode !== mainContent) {
@@ -1164,7 +1129,7 @@ function fixDynamicPagesPosition() {
 }
 // Set up a MutationObserver to ensure sections stay in main content
 function setupSectionObserver() {
-    const mainContent = document.getElementById('main-content');
+    const mainContent = getElementByIdWithError('main-content', 'Main content element not found for section observer');
     if (!mainContent)
         return;
     const bodyElement = document.body;
