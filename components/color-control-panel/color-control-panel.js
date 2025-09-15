@@ -5,6 +5,7 @@ class ColorControlPanel {
     this.container = document.getElementById(containerId);
     this.editMode = false;
     this.hasChanges = false;
+    this.selectedColor = '#FF0000';
     this.currentHue = 0;
     this.currentSaturation = 100;
     this.currentLightness = 50;
@@ -41,9 +42,84 @@ class ColorControlPanel {
   }
   
   init() {
+    this.initializeColorSpectrum();
     this.attachEventListeners();
-    this.updateColorBar();
+    this.updateSpectrumSelector();
+    this.updateSliderValues();
+    this.updateColorPreview();
+    this.updateSliderBackgrounds();
     this.loadSavedState();
+  }
+
+  initializeColorSpectrum() {
+    // The spectrum slider will be handled in attachEventListeners
+    // This method can be used for any additional spectrum setup if needed
+  }
+
+  setHue(hue) {
+    this.currentHue = Math.max(0, Math.min(360, hue));
+    this.updateSpectrumSelector();
+    this.updateSliderValues();
+    this.updateColorPreview();
+    this.updateSliderBackgrounds();
+  }
+
+  updateColorPreview() {
+    const preview = document.getElementById('color-preview');
+    if (!preview) return;
+    
+    const hslColor = `hsl(${this.currentHue}, ${this.currentSaturation}%, ${this.currentLightness}%)`;
+    const hexColor = this.hslToHex(this.currentHue, this.currentSaturation, this.currentLightness);
+    
+    preview.style.backgroundColor = hslColor;
+    preview.textContent = hexColor.toUpperCase();
+    
+    this.selectedColor = hexColor;
+  }
+
+  updateSpectrumSelector() {
+    const spectrumSelector = document.getElementById('spectrum-selector');
+    const spectrumBar = document.getElementById('color-spectrum-bar');
+    
+    if (spectrumSelector && spectrumBar) {
+      const percentage = (this.currentHue / 360) * 100;
+      const barWidth = spectrumBar.offsetWidth;
+      const selectorWidth = spectrumSelector.offsetWidth;
+      const position = (percentage / 100) * (barWidth - selectorWidth);
+      spectrumSelector.style.left = `${position}px`;
+    }
+  }
+
+  updateSliderValues() {
+    const hueValue = document.getElementById('hue-value');
+    const saturationValue = document.getElementById('saturation-value');
+    const lightnessValue = document.getElementById('lightness-value');
+    const spectrumSlider = document.getElementById('spectrum-slider');
+    const hueSlider = document.getElementById('hue-slider');
+    const saturationSlider = document.getElementById('saturation-slider');
+    const lightnessSlider = document.getElementById('lightness-slider');
+    
+    if (hueValue) hueValue.textContent = `${this.currentHue}°`;
+    if (saturationValue) saturationValue.textContent = `${this.currentSaturation}%`;
+    if (lightnessValue) lightnessValue.textContent = `${this.currentLightness}%`;
+    
+    if (spectrumSlider) spectrumSlider.value = this.currentHue;
+    if (hueSlider) hueSlider.value = this.currentHue;
+    if (saturationSlider) saturationSlider.value = this.currentSaturation;
+    if (lightnessSlider) lightnessSlider.value = this.currentLightness;
+  }
+
+  updateSliderBackgrounds() {
+    const saturationSlider = document.getElementById('saturation-slider');
+    const lightnessSlider = document.getElementById('lightness-slider');
+    
+    if (saturationSlider) {
+      saturationSlider.style.background = `linear-gradient(to right, hsl(${this.currentHue}, 0%, 50%), hsl(${this.currentHue}, 100%, 50%))`;
+    }
+    
+    if (lightnessSlider) {
+      lightnessSlider.style.background = `linear-gradient(to right, hsl(${this.currentHue}, 100%, 0%), hsl(${this.currentHue}, 100%, 50%), hsl(${this.currentHue}, 100%, 100%))`;
+    }
   }
   
   attachEventListeners() {
@@ -65,28 +141,43 @@ class ColorControlPanel {
       layoutSelector.addEventListener('change', (e) => this.changeLayout(e.target.value));
     }
     
-    // Color bar slider
-    const colorSlider = this.container.querySelector('#color-bar-slider');
-    if (colorSlider) {
-      colorSlider.addEventListener('input', (e) => this.updateColorFromSlider(e.target.value));
+    // Spectrum Slider (main color spectrum control)
+    const spectrumSlider = this.container.querySelector('#spectrum-slider');
+    if (spectrumSlider) {
+      spectrumSlider.addEventListener('input', (e) => {
+        this.setHue(parseInt(e.target.value));
+      });
+    }
+
+    // HSL Sliders
+    const hueSlider = this.container.querySelector('#hue-slider');
+    const saturationSlider = this.container.querySelector('#saturation-slider');
+    const lightnessSlider = this.container.querySelector('#lightness-slider');
+    
+    if (hueSlider) {
+      hueSlider.addEventListener('input', (e) => {
+        this.setHue(parseInt(e.target.value));
+      });
     }
     
-    // Fine adjustment buttons
-    const fineButtons = this.container.querySelectorAll('.color-fine-btn');
-    fineButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => this.adjustColorFine(e.target.dataset.action));
-    });
-    
-    // Saturation and lightness sliders
-    const satSlider = this.container.querySelector('#saturation-slider');
-    const lightSlider = this.container.querySelector('#lightness-slider');
-    
-    if (satSlider) {
-      satSlider.addEventListener('input', (e) => this.updateSaturation(e.target.value));
+    if (saturationSlider) {
+      saturationSlider.addEventListener('input', (e) => {
+        this.currentSaturation = parseInt(e.target.value);
+        this.updateColorPreview();
+        this.updateSliderValues();
+        this.updateSliderBackgrounds();
+        this.markChanged();
+      });
     }
     
-    if (lightSlider) {
-      lightSlider.addEventListener('input', (e) => this.updateLightness(e.target.value));
+    if (lightnessSlider) {
+      lightnessSlider.addEventListener('input', (e) => {
+        this.currentLightness = parseInt(e.target.value);
+        this.updateColorPreview();
+        this.updateSliderValues();
+        this.updateSliderBackgrounds();
+        this.markChanged();
+      });
     }
     
     // Theme selector

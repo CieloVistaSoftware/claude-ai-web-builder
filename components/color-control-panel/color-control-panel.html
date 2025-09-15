@@ -1,4 +1,14 @@
 <!-- Color Control Panel Web Component -->
+<link rel="stylesheet" href="color-control-panel.css">
+<link rel="stylesheet" href="dark-mode-override.css">
+<style>
+  * { background: #000000 !important; color: #ffffff !important; }
+  body { background: #000000 !important; color: #ffffff !important; margin: 0; padding: 20px; }
+  .control-panel { background: #0a0a0a !important; border: 2px solid #333333 !important; }
+  .color-spectrum-bar { 
+    background: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff) !important; 
+  }
+</style>
 <div id="control-panel" class="control-panel">
   <div class="control-panel-header">
     <h3>Website Builder</h3>
@@ -30,56 +40,66 @@
     </div>
 
     <div class="control-group">
-      <label for="color-bar">Color Explorer</label>
-      <div class="color-bar-container">
-        <div class="color-bar-wrapper">
+      <label>Color Spectrum Explorer</label>
+      <div class="color-spectrum-container">
+        <!-- Color Spectrum Bar with Slider -->
+        <div class="spectrum-slider-container">
+          <div class="color-spectrum-bar"></div>
           <input
             type="range"
-            id="color-bar"
+            id="spectrum-slider"
             min="0"
             max="360"
             value="0"
-            class="color-bar-slider"
+            class="spectrum-slider"
           />
-          <div
-            id="color-indicator"
-            class="color-bar-current-indicator"
-          ></div>
         </div>
-        <div
-          id="color-bar-preview"
-          class="color-bar-preview color-preview-box"
-        >
+        
+        <!-- Hue Slider -->
+        <div class="color-slider-container">
+          <label for="hue-slider">Hue (0-360°)</label>
+          <input
+            type="range"
+            id="hue-slider"
+            min="0"
+            max="360"
+            value="0"
+            class="hue-slider"
+          />
+          <span class="hue-value" id="hue-value">0°</span>
+        </div>
+        
+        <!-- Saturation Slider -->
+        <div class="color-slider-container">
+          <label for="saturation-slider">Saturation (0-100%)</label>
+          <input
+            type="range"
+            id="saturation-slider"
+            min="0"
+            max="100"
+            value="100"
+            class="saturation-slider"
+          />
+          <span class="saturation-value" id="saturation-value">100%</span>
+        </div>
+        
+        <!-- Lightness Slider -->
+        <div class="color-slider-container">
+          <label for="lightness-slider">Lightness (0-100%)</label>
+          <input
+            type="range"
+            id="lightness-slider"
+            min="0"
+            max="100"
+            value="50"
+            class="lightness-slider"
+          />
+          <span class="lightness-value" id="lightness-value">50%</span>
+        </div>
+        
+        <!-- Color Preview -->
+        <div id="color-preview" class="color-preview">
           #FF0000
-        </div>
-        <div class="color-fine-controls">
-          <button class="color-fine-btn" id="color-left-btn" title="Move left (-1)">◀</button>
-          <span class="color-fine-label">Fine Adjust</span>
-          <button class="color-fine-btn" id="color-right-btn" title="Move right (+1)">▶</button>
-        </div>
-        <div class="color-adjustment-controls">
-          <div class="slider-container">
-            <label for="lightness-slider">Lightness</label>
-            <input
-              type="range"
-              id="lightness-slider"
-              min="20"
-              max="80"
-              value="50"
-              class="adjustment-slider"
-            />
-          </div>
-          <div class="slider-container">
-            <label for="saturation-slider">Saturation</label>
-            <input
-              type="range"
-              id="saturation-slider"
-              min="30"
-              max="100"
-              value="70"
-              class="adjustment-slider"
-            />
-          </div>
         </div>
       </div>
     </div>
