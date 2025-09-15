@@ -99,6 +99,279 @@
         .usage-example {
             margin: 20px 0;
         }
+        
+        /* Semantic Elements Popup Styles */
+        .semantic-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .semantic-popup.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .semantic-content {
+            background: linear-gradient(135deg, var(--bg-primary, #1a1a2e) 0%, var(--bg-secondary, #16213e) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--error-color, #e74c3c);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .close-popup:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .semantic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .semantic-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--theme-primary, #3498db);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .semantic-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.2);
+        }
+
+        .semantic-section h3 {
+            color: var(--theme-primary, #3498db);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--theme-primary, #3498db);
+        }
+
+        .semantic-section header {
+            background: var(--theme-primary, #3498db);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .semantic-section nav {
+            background: var(--accent-color, #f39c12);
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .semantic-section nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .semantic-section nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .semantic-section nav a:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .semantic-section main {
+            background: var(--bg-tertiary, #0f3460);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border-left: 4px solid var(--theme-primary, #3498db);
+        }
+
+        .semantic-section article {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border: 1px solid var(--theme-secondary, #2980b9);
+        }
+
+        .semantic-section section {
+            background: var(--bg-secondary, #16213e);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border-top: 3px solid var(--accent-color, #f39c12);
+        }
+
+        .semantic-section aside {
+            background: var(--info-color, #3498db);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .semantic-section footer {
+            background: var(--text-muted, #999);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            text-align: center;
+        }
+
+        .semantic-section figure {
+            background: var(--bg-tertiary, #0f3460);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            text-align: center;
+        }
+
+        .semantic-section figcaption {
+            font-style: italic;
+            color: var(--text-secondary, #ccc);
+            margin-top: 0.5rem;
+        }
+
+        .semantic-section blockquote {
+            background: var(--warning-color, #f39c12);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border-left: 5px solid rgba(255, 255, 255, 0.3);
+            font-style: italic;
+        }
+
+        .semantic-section details {
+            background: var(--success-color, #27ae60);
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .semantic-section summary {
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+        }
+
+        .semantic-section details[open] summary {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .semantic-section details p {
+            padding: 1rem;
+            color: white;
+        }
+
+        .popup-trigger {
+            background: linear-gradient(135deg, var(--theme-primary, #3498db), var(--accent-color, #f39c12));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .popup-trigger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .popup-header {
+            color: var(--theme-primary, #3498db);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .demo-placeholder {
+            width: 100%;
+            height: 100px;
+            background: var(--theme-primary, #3498db);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .form-example-container {
+            background: var(--bg-tertiary, #0f3460);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .form-example-fieldset {
+            border: 2px solid var(--theme-primary, #3498db);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .form-example-legend {
+            color: var(--theme-primary, #3498db);
+            font-weight: bold;
+        }
+
+        .form-example-label {
+            display: block;
+            margin: 0.5rem 0;
+            color: var(--text-primary, #eee);
+        }
+
+        .form-example-input {
+            margin-left: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color, #333);
+            background: var(--bg-secondary, #16213e);
+            color: var(--text-primary, #eee);
+        }
     </style>
 </head>
 <body>

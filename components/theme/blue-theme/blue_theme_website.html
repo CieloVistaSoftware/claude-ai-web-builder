@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-bind="site.title">loading...</title>
+    <link rel="stylesheet" href="blue-theme.css">
+    <!-- Content Loader Script -->
+    <script src="content-loader.js"></script>
+</head>
+<body data-content-file="blue-theme-content.json">
+    <header>
+        <div class="header-top">
+            <h1 data-bind="site.title">loading...</h1>
+            <div class="load-time-counter" id="load-time-counter" title="Load Timer">measuring...</div>
+        </div>
+        <nav>
+            <menu>
+                <li><a href="#structure" data-bind="navigation.links.0.text">loading...</a></li>
+                <li><a href="#text" data-bind="navigation.links.1.text">loading...</a></li>
+                <li><a href="#media" data-bind="navigation.links.2.text">loading...</a></li>
+                <li><a href="#forms" data-bind="navigation.links.3.text">loading...</a></li>
+                <li><a href="#interactive" data-bind="navigation.links.4.text">loading...</a></li>
+            </menu>
+        </nav>
+    </header>
+
+    <main>
+        <section id="structure">
+            <h2 data-bind="sections.0.title">loading...</h2>
+            <article>
+                <header>
+                    <h3 data-bind="sections.0.content.article.title">loading...</h3>
+                    <time datetime="2025-09-14">September 14, 2025</time>
+                </header>
+                <p>This <strong>article</strong> demonstrates semantic HTML structure with <em>proper nesting</em> of elements.</p>
+                <footer>Article footer content</footer>
+            </article>
+        </section>
+
+        <section id="text">
+            <h2 data-bind="sections.1.title">loading...</h2>
+            <h4>Heading Level 4</h4>
+            <h5>Heading Level 5</h5>
+            <h6>Heading Level 6</h6>
+            <p>Text with <strong>strong</strong>, <em>emphasis</em>, <mark>highlighted</mark>, <small>small</small>, <del>deleted</del>, <ins>inserted</ins> text.</p>
+            <p>Chemical formula: H<sub>2</sub>O, Math: E=mc<sup>2</sup></p>
+            <p>Code: <code>console.log('Hello')</code>, Variable: <var>x</var>, Keyboard: <kbd>Ctrl+C</kbd></p>
+            <blockquote>This is a blockquote with <cite>citation</cite></blockquote>
+            <p>Short quote: <q>inline quote</q></p>
+            <p><abbr title="HyperText Markup Language">HTML</abbr> definition: <dfn>markup language</dfn></p>
+        </section>
+
+        <section id="lists">
+            <h2>loading...</h2>
+            <ul>
+                <li>Unordered item 1</li>
+                <li>Unordered item 2</li>
+            </ul>
+            <ol>
+                <li>Ordered item 1</li>
+                <li>Ordered item 2</li>
+            </ol>
+            <dl>
+                <dt>HTML</dt>
+                <dd>HyperText Markup Language</dd>
+                <dt>CSS</dt>
+                <dd>Cascading Style Sheets</dd>
+            </dl>
+        </section>
+
+        <section id="media">
+            <h2 data-bind="sections.2.title">loading...</h2>
+            <figure>
+                <img src="https://dummyimage.com/400x200/2196f3/ffffff&text=Blue+Demo" alt="Blue theme demo">
+                <figcaption>Figure caption for the image</figcaption>
+            </figure>
+            <audio controls>
+                <source src="#" type="audio/mpeg">
+                Your browser does not support audio.
+            </audio>
+            <video controls width="300">
+                <source src="#" type="video/mp4">
+                Your browser does not support video.
+            </video>
+        </section>
+
+        <section id="forms">
+            <h2 data-bind="sections.3.title">loading...</h2>
+            <form>
+                <fieldset>
+                    <legend data-bind="sections.3.content.fieldset.legend">loading...</legend>
+                    <label for="name" data-bind="sections.3.content.fieldset.fields.0.label">loading...</label>
+                    <input type="text" id="name" placeholder="loading..." data-bind-placeholder="sections.3.content.fieldset.fields.0.placeholder">
+                    <label for="email" data-bind="sections.3.content.fieldset.fields.1.label">loading...</label>
+                    <input type="email" id="email" placeholder="loading..." data-bind-placeholder="sections.3.content.fieldset.fields.1.placeholder">
+                    <label for="bio" data-bind="sections.3.content.fieldset.fields.2.label">loading...</label>
+                    <textarea id="bio" rows="3" placeholder="loading..." data-bind-placeholder="sections.3.content.fieldset.fields.2.placeholder"></textarea>
+                    <label for="country" data-bind="sections.3.content.fieldset.fields.3.label">loading...</label>
+                    <select id="country">
+                        <option value="us">United States</option>
+                        <option value="ca">Canada</option>
+                    </select>
+                </fieldset>
+                <button type="submit" data-bind="sections.3.content.buttons.0.text">loading...</button>
+                <button type="reset" data-bind="sections.3.content.buttons.1.text">loading...</button>
+                <output>Form output will appear here</output>
+            </form>
+        </section>
+
+        <section id="tables">
+            <h2>Table Elements</h2>
+            <table>
+                <caption>Sample Data Table</caption>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Experience</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>Developer</td>
+                        <td>5 years</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>Designer</td>
+                        <td>3 years</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="interactive">
+            <h2 data-bind="sections.4.title">loading...</h2>
+            <details>
+                <summary data-bind="sections.4.content.details.summary">loading...</summary>
+                <p data-bind="sections.4.content.details.content">loading...</p>
+            </details>
+            <dialog id="demo-dialog">
+                <p data-bind="sections.4.content.dialog.content">loading...</p>
+                <button onclick="this.parentElement.close()" data-bind="sections.4.content.dialog.closeText">loading...</button>
+            </dialog>
+            <button onclick="document.getElementById('demo-dialog').showModal()">Open Dialog</button>
+        </section>
+
+        <section id="misc-elements">
+            <h2>Other Elements</h2>
+            <p>Before horizontal rule</p>
+            <hr>
+            <p>After horizontal rule</p>
+            <p>Line break:<br>New line</p>
+            <p>Word break: super<wbr>long<wbr>word</p>
+            <p><data value="12345">Product Data</data></p>
+            <address>Contact: <a href="mailto:test@example.com">test@example.com</a></address>
+        </section>
+    </main>
+
+    <aside id="sidebar">
+        <h2>Sidebar</h2>
+        <p>This aside contains supplementary information.</p>
+        <nav>
+            <h3>Quick Navigation</h3>
+            <ul>
+                <li><a href="#structure">Structure</a></li>
+                <li><a href="#text">Text</a></li>
+                <li><a href="#lists">Lists</a></li>
+                <li><a href="#media">Media</a></li>
+                <li><a href="#forms">Forms</a></li>
+                <li><a href="#tables">Tables</a></li>
+                <li><a href="#interactive">Interactive</a></li>
+                <li><a href="#misc-elements">Other Elements</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <footer>
+        <p data-bind="footer.copyright">loading...</p>
+        <nav>
+            <a href="#top">Top</a> | <a href="mailto:contact@example.com">Contact</a>
+        </nav>
+    </footer>
+</body>
+</html>

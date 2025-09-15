@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Element Editors Dashboard</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #111827;
+            color: #f9fafb;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .title {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f9fafb;
+            margin-bottom: 16px;
+        }
+        
+        .subtitle {
+            color: #d1d5db;
+            margin-bottom: 16px;
+        }
+        
+        .instructions {
+            font-size: 14px;
+            color: #93c5fd;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .card {
+            border: 2px solid #374151;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: #1f2937;
+        }
+        
+        .card:hover {
+            border-color: #4b5563;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .card-icon.blue { background-color: #2563eb; }
+        .card-icon.green { background-color: #16a34a; }
+        .card-icon.purple { background-color: #9333ea; }
+        
+        .edit-btn {
+            font-size: 12px;
+            color: #f9fafb;
+            background-color: #2563eb;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .edit-btn:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .preview-area {
+            background-color: #374151;
+            border-radius: 8px;
+            border: 1px solid #4b5563;
+            padding: 12px;
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            color: #f9fafb;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        
+        .card-description {
+            color: #d1d5db;
+            font-size: 14px;
+        }
+        
+        .floating-editor {
+            position: fixed;
+            z-index: 1000;
+            background: #1f2937;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            border: 1px solid #374151;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .editor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .editor-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #f9fafb;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 4px;
+        }
+        
+        .close-btn:hover {
+            color: #d1d5db;
+        }
+        
+        .editor-content {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #d1d5db;
+            margin-bottom: 4px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #4b5563;
+            background-color: #374151;
+            color: #f9fafb;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #4b5563;
+            background-color: #374151;
+            color: #f9fafb;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Element styles */
+        .link-default {
+            color: #60a5fa;
+            text-decoration: underline;
+        }
+        
+        .link-button {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #2563eb;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+        
+        .link-subtle {
+            color: #d1d5db;
+            text-decoration: none;
+            border-bottom: 1px solid #9ca3af;
+        }
+        
+        .link-bold {
+            font-weight: bold;
+            color: #93c5fd;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+        }
+        
+        .btn {
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-small { padding: 6px 12px; font-size: 14px; }
+        .btn-medium { padding: 8px 16px; font-size: 16px; }
+        .btn-large { padding: 12px 24px; font-size: 18px; }
+        
+        .btn-primary { background-color: #2563eb; color: white; }
+        .btn-secondary { background-color: #4b5563; color: white; }
+        .btn-success { background-color: #16a34a; color: white; }
+        .btn-danger { background-color: #dc2626; color: white; }
+        
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .img-default { border: 1px solid transparent; }
+        .img-rounded { border-radius: 8px; }
+        .img-circle { border-radius: 50%; }
+        .img-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .img-border { border: 2px solid #d1d5db; }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .test-btn {
+            padding: 8px 16px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .test-btn:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
+
+        function Dashboard() {
+            const [floatingEditor, setFloatingEditor] = useState(null);
+            const [floatingPosition, setFloatingPosition] = useState({ x: 0, y: 0 });
+            const inputRefs = useRef({});
+            
+            const [editorStates, setEditorStates] = useState({
+                anchor: { text: 'Sample Link', url: 'https://example.com', target: '_self', style: 'default' },
+                button: { text: 'Click Me', style: 'primary', size: 'medium', disabled: false, type: 'button' },
+                image: { src: 'https://picsum.photos/60/40', alt: 'Sample image', width: '60', height: '40', style: 'default' }
+            });
+            
+            const updateEditorState = (editorId, updates, inputId = null) => {
+                let cursorPosition = null;
+                if (inputId && inputRefs.current[inputId]) {
+                    cursorPosition = inputRefs.current[inputId].selectionStart;
+                }
+                
+                setEditorStates(prev => ({
+                    ...prev,
+                    [editorId]: { ...prev[editorId], ...updates }
+                }));
+                
+                if (inputId && cursorPosition !== null) {
+                    setTimeout(() => {
+                        if (inputRefs.current[inputId]) {
+                            inputRefs.current[inputId].setSelectionRange(cursorPosition, cursorPosition);
+                            inputRefs.current[inputId].focus();
+                        }
+                    }, 0);
+                }
+            };
+            
+            const openFloatingEditor = (editorId, event) => {
+                console.log('Opening floating editor for:', editorId);
+                event.preventDefault();
+                event.stopPropagation();
+                
+                const rect = event.currentTarget.getBoundingClientRect();
+                let x = rect.right + 10;
+                let y = rect.top;
+                
+                if (x + 400 > window.innerWidth) {
+                    x = rect.left - 410;
+                }
+                if (y + 400 > window.innerHeight) {
+                    y = window.innerHeight - 400;
+                }
+                if (y < 0) y = 10;
+                
+                console.log('Setting position:', { x, y });
+                setFloatingPosition({ x, y });
+                setFloatingEditor(editorId);
+            };
+            
+            const closeFloatingEditor = () => {
+                setFloatingEditor(null);
+            };
+
+            const editors = [
+                { id: 'anchor', name: 'Anchor Link', color: 'blue' },
+                { id: 'button', name: 'Button', color: 'green' },
+                { id: 'image', name: 'Image', color: 'purple' }
+            ];
+
+            const renderElementPreview = (editor) => {
+                const state = editorStates[editor.id];
+                
+                switch (editor.id) {
+                    case 'anchor':
+                        const linkClass = `link-${state.style}`;
+                        return (
+                            <a
+                                href={state.url}
+                                target={state.target}
+                                className={linkClass}
+                                style={{ fontSize: '14px' }}
+                                title={`Link opens in: ${state.target === '_blank' ? 'New window' : 'Same window'}`}
+                            >
+                                {state.text}
+                            </a>
+                        );
+                        
+                    case 'button':
+                        const buttonClass = `btn btn-${state.style} btn-${state.size}`;
+                        return (
+                            <button
+                                type={state.type}
+                                disabled={state.disabled}
+                                className={buttonClass}
+                                title="This is a working button preview"
+                            >
+                                {state.text}
+                            </button>
+                        );
+                        
+                    case 'image':
+                        const imageClass = `img-${state.style}`;
+                        return (
+                            <img
+                                src={state.src}
+                                alt={state.alt}
+                                width={state.width}
+                                height={state.height}
+                                className={imageClass}
+                                title="This is a working image preview"
+                            />
+                        );
+                        
+                    default:
+                        return <div style={{ fontSize: '12px', color: '#9ca3af' }}>Preview</div>;
+                }
+            };
+
+            const FloatingEditorContent = ({ editorId }) => {
+                const state = editorStates[editorId];
+
+                switch (editorId) {
+                    case 'anchor':
+                        return (
+                            <div className="editor-content">
+                                <div className="editor-header">
+                                    <h3 className="editor-title">Anchor Link Editor</h3>
+                                    <button onClick={closeFloatingEditor} className="close-btn">×</button>
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Link Text</label>
+                                    <input
+                                        ref={el => inputRefs.current['anchor-text'] = el}
+                                        type="text"
+                                        value={state.text}
+                                        onChange={(e) => updateEditorState('anchor', { text: e.target.value }, 'anchor-text')}
+                                        className="form-input"
+                                    />
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">URL</label>
+                                    <input
+                                        ref={el => inputRefs.current['anchor-url'] = el}
+                                        type="url"
+                                        value={state.url}
+                                        onChange={(e) => updateEditorState('anchor', { url: e.target.value }, 'anchor-url')}
+                                        className="form-input"
+                                    />
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Target</label>
+                                    <select
+                                        value={state.target}
+                                        onChange={(e) => {
+                                            console.log('Target changed to:', e.target.value);
+                                            updateEditorState('anchor', { target: e.target.value });
+                                        }}
+                                        className="form-select"
+                                    >
+                                        <option value="_self">Same window - replaces current page</option>
+                                        <option value="_blank">New window - opens in new tab</option>
+                                        <option value="_parent">Parent frame - if page is in iframe</option>
+                                        <option value="_top">Full window - breaks out of all frames</option>
+                                    </select>
+                                    <small style={{ color: '#9ca3af', fontSize: '12px', marginTop: '4px' }}>
+                                        Current: {state.target}
+                                    </small>
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Style</label>
+                                    <select
+                                        value={state.style}
+                                        onChange={(e) => updateEditorState('anchor', { style: e.target.value })}
+                                        className="form-select"
+                                    >
+                                        <option value="default">Default Link</option>
+                                        <option value="button">Button Style</option>
+                                        <option value="subtle">Subtle Link</option>
+                                        <option value="bold">Bold Link</option>
+                                    </select>
+                                </div>
+                            </div>
+                        );
+
+                    case 'button':
+                        return (
+                            <div className="editor-content">
+                                <div className="editor-header">
+                                    <h3 className="editor-title">Button Editor</h3>
+                                    <button onClick={closeFloatingEditor} className="close-btn">×</button>
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Button Text</label>
+                                    <input
+                                        ref={el => inputRefs.current['button-text'] = el}
+                                        type="text"
+                                        value={state.text}
+                                        onChange={(e) => updateEditorState('button', { text: e.target.value }, 'button-text')}
+                                        className="form-input"
+                                    />
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Style</label>
+                                    <select
+                                        value={state.style}
+                                        onChange={(e) => updateEditorState('button', { style: e.target.value })}
+                                        className="form-select"
+                                    >
+                                        <option value="primary">Primary</option>
+                                        <option value="secondary">Secondary</option>
+                                        <option value="success">Success</option>
+                                        <option value="danger">Danger</option>
+                                    </select>
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Size</label>
+                                    <select
+                                        value={state.size}
+                                        onChange={(e) => updateEditorState('button', { size: e.target.value })}
+                                        className="form-select"
+                                    >
+                                        <option value="small">Small</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="large">Large</option>
+                                    </select>
+                                </div>
+                            </div>
+                        );
+
+                    case 'image':
+                        return (
+                            <div className="editor-content">
+                                <div className="editor-header">
+                                    <h3 className="editor-title">Image Editor</h3>
+                                    <button onClick={closeFloatingEditor} className="close-btn">×</button>
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Image URL</label>
+                                    <input
+                                        ref={el => inputRefs.current['image-src'] = el}
+                                        type="url"
+                                        value={state.src}
+                                        onChange={(e) => updateEditorState('image', { src: e.target.value }, 'image-src')}
+                                        className="form-input"
+                                    />
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Alt Text</label>
+                                    <input
+                                        ref={el => inputRefs.current['image-alt'] = el}
+                                        type="text"
+                                        value={state.alt}
+                                        onChange={(e) => updateEditorState('image', { alt: e.target.value }, 'image-alt')}
+                                        className="form-input"
+                                    />
+                                </div>
+                                
+                                <div className="grid-2">
+                                    <div className="form-group">
+                                        <label className="form-label">Width</label>
+                                        <input
+                                            ref={el => inputRefs.current['image-width'] = el}
+                                            type="number"
+                                            value={state.width}
+                                            onChange={(e) => updateEditorState('image', { width: e.target.value }, 'image-width')}
+                                            className="form-input"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Height</label>
+                                        <input
+                                            ref={el => inputRefs.current['image-height'] = el}
+                                            type="number"
+                                            value={state.height}
+                                            onChange={(e) => updateEditorState('image', { height: e.target.value }, 'image-height')}
+                                            className="form-input"
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Style</label>
+                                    <select
+                                        value={state.style}
+                                        onChange={(e) => updateEditorState('image', { style: e.target.value })}
+                                        className="form-select"
+                                    >
+                                        <option value="default">Default</option>
+                                        <option value="rounded">Rounded Corners</option>
+                                        <option value="circle">Circle</option>
+                                        <option value="shadow">Drop Shadow</option>
+                                        <option value="border">Border</option>
+                                    </select>
+                                </div>
+                            </div>
+                        );
+
+                    default:
+                        return (
+                            <div className="editor-content">
+                                <div className="editor-header">
+                                    <h3 className="editor-title">Editor</h3>
+                                    <button onClick={closeFloatingEditor} className="close-btn">×</button>
+                                </div>
+                                <p style={{ fontSize: '14px', color: '#9ca3af' }}>Editor coming soon...</p>
+                            </div>
+                        );
+                }
+            };
+
+            // Close floating editor when clicking outside
+            useEffect(() => {
+                const handleClickOutside = (event) => {
+                    if (floatingEditor && !event.target.closest('.floating-editor')) {
+                        closeFloatingEditor();
+                    }
+                };
+
+                document.addEventListener('mousedown', handleClickOutside);
+                return () => document.removeEventListener('mousedown', handleClickOutside);
+            }, [floatingEditor]);
+
+            return (
+                <div className="container">
+                    <div className="header">
+                        <h1 className="title">HTML Element Editors</h1>
+                        <p className="subtitle">Professional tools for creating HTML elements with live preview</p>
+                        <p className="instructions">💡 Click "Edit" button on any card to open floating editor</p>
+                        <button 
+                            onClick={() => {
+                                console.log('Test button clicked');
+                                setFloatingPosition({ x: 100, y: 100 });
+                                setFloatingEditor('anchor');
+                            }}
+                            className="test-btn"
+                        >
+                            Test Floating Editor
+                        </button>
+                    </div>
+
+                    <div className="grid">
+                        {editors.map(editor => (
+                            <div key={editor.id} className="card">
+                                <div className="card-header">
+                                    <div className={`card-icon ${editor.color}`}>
+                                        {editor.name.charAt(0)}
+                                    </div>
+                                    <button 
+                                        className="edit-btn"
+                                        onClick={(e) => openFloatingEditor(editor.id, e)}
+                                    >
+                                        Edit
+                                    </button>
+                                </div>
+                                
+                                <div className="preview-area">
+                                    {renderElementPreview(editor)}
+                                </div>
+                                
+                                <h3 className="card-title">{editor.name}</h3>
+                                <p className="card-description">Edit {editor.name.toLowerCase()} properties</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Floating Editor */}
+                    {floatingEditor && (
+                        <div
+                            className="floating-editor"
+                            style={{
+                                left: floatingPosition.x + 'px',
+                                top: floatingPosition.y + 'px'
+                            }}
+                        >
+                            <FloatingEditorContent editorId={floatingEditor} />
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Initialize the app
+        console.log('Starting dashboard...');
+        try {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(React.createElement(Dashboard));
+            console.log('Dashboard loaded successfully!');
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+            document.body.innerHTML = '<div style="color: red; padding: 20px;"><h1>Error loading dashboard</h1><p>' + error.message + '</p></div>';
+        }
+    </script>
+</body>
+</html>

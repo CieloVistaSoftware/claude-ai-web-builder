@@ -1,0 +1,63 @@
+/* Color Control Panel Additional Styles */
+
+/* Preset color backgrounds to avoid inline styles */
+.preset-color[data-color="#3498db"] { background: #3498db; }
+.preset-color[data-color="#e74c3c"] { background: #e74c3c; }
+.preset-color[data-color="#2ecc71"] { background: #2ecc71; }
+.preset-color[data-color="#f39c12"] { background: #f39c12; }
+.preset-color[data-color="#9b59b6"] { background: #9b59b6; }
+.preset-color[data-color="#1abc9c"] { background: #1abc9c; }
+.preset-color[data-color="#34495e"] { background: #34495e; }
+.preset-color[data-color="#e67e22"] { background: #e67e22; }
+
+/* Enhanced color slider styles */
+.color-slider:focus {
+    outline: 2px solid var(--theme-primary);
+    outline-offset: 2px;
+}
+
+/* Enhanced preset color accessibility */
+.preset-color:focus {
+    outline: 3px solid var(--theme-primary);
+    outline-offset: 2px;
+}
+
+/* Improved harmony color visibility */
+.harmony-color:focus {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 1px;
+}
+
+/* Animation for color changes */
+.harmony-color,
+.preset-color {
+    transition: all 0.3s ease;
+}
+
+/* Color harmony animations */
+@keyframes colorFade {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.harmony-color {
+    animation: colorFade 0.3s ease;
+}
+
+/* Responsive adjustments for color control panel */
+@media (max-width: 768px) {
+    .color-panel-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .preset-colors {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .color-input-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+}

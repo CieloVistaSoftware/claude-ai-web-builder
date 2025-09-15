@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Image Display</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+        
+        .debug-info {
+            background: #2d3748;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .image-card {
+            background: #2d3748;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #4a5568;
+        }
+        
+        .image-container {
+            height: 200px;
+            background: #1a202c;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 4px;
+        }
+        
+        .loading {
+            color: #a0aec0;
+            font-size: 14px;
+        }
+        
+        button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #3182ce;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Image Display Debug Tool</h1>
+    
+    <div class="debug-info">
+        <h3>Debug Information</h3>
+        <p><strong>Images loaded:</strong> <span id="debugCount">0</span></p>
+        <p><strong>Status:</strong> <span id="debugStatus">Ready</span></p>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <button onclick="testImageDisplay()">🖼️ Test Image Display</button>
+        <button onclick="testPlaceholders()">🎨 Test Placeholders</button>
+        <button onclick="testRealUrls()">🌐 Test Real URLs</button>
+        <button onclick="clearImages()">🗑️ Clear</button>
+    </div>
+    
+    <div class="image-grid" id="imageGrid"></div>
+
+    <script>
+        let imageCount = 0;
+        
+        function updateDebug(status) {
+            document.getElementById('debugStatus').textContent = status;
+            document.getElementById('debugCount').textContent = imageCount;
+        }
+        
+        function createImageCard(name, url) {
+            return new Promise((resolve) => {
+                console.log(`Creating card for: ${name} - ${url}`);
+                
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.innerHTML = `
+                    <div class="image-container">
+                        <div class="loading">Loading ${name}...</div>
+                        <img style="display:none;">
+                    </div>
+                    <h4>${name}</h4>
+                    <p style="font-size: 0.8rem; color: #a0aec0; word-break: break-all;">${url}</p>
+                `;
+                
+                const img = card.querySelector('img');
+                const loading = card.querySelector('.loading');
+                
+                img.onload = () => {
+                    console.log(`✅ Loaded: ${name}`);
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                    imageCount++;
+                    updateDebug(`Loaded ${imageCount} images`);
+                    resolve(card);
+                };
+                
+                img.onerror = () => {
+                    console.log(`❌ Failed: ${name}`);
+                    loading.textContent = `Failed to load ${name}`;
+                    loading.style.color = '#e53e3e';
+                    resolve(card);
+                };
+                
+                img.src = url;
+            });
+        }
+        
+        async function testImageDisplay() {
+            updateDebug('Testing basic image display...');
+            const grid = document.getElementById('imageGrid');
+            
+            const testImages = [
+                { name: 'Test 1', url: 'https://via.placeholder.com/300x200/4299e1/ffffff?text=Test+1' },
+                { name: 'Test 2', url: 'https://via.placeholder.com/300x200/38a169/ffffff?text=Test+2' },
+                { name: 'Test 3', url: 'https://picsum.photos/300/200?random=1' }
+            ];
+            
+            for (const img of testImages) {
+                const card = await createImageCard(img.name, img.url);
+                grid.appendChild(card);
+            }
+            
+            updateDebug('Basic test complete');
+        }
+        
+        async function testPlaceholders() {
+            updateDebug('Testing placeholder images...');
+            const grid = document.getElementById('imageGrid');
+            
+            const colors = ['4299e1', '38a169', '805ad5', 'e53e3e', 'd69e2e'];
+            
+            for (let i = 0; i < 5; i++) {
+                const name = `Placeholder ${i + 1}`;
+                const url = `https://via.placeholder.com/300x200/${colors[i]}/ffffff?text=Placeholder+${i + 1}`;
+                const card = await createImageCard(name, url);
+                grid.appendChild(card);
+            }
+            
+            updateDebug('Placeholder test complete');
+        }
+        
+        async function testRealUrls() {
+            updateDebug('Testing real image URLs...');
+            const grid = document.getElementById('imageGrid');
+            
+            const realImages = [
+                { name: 'Random Photo 1', url: 'https://picsum.photos/300/200?random=10' },
+                { name: 'Random Photo 2', url: 'https://picsum.photos/300/200?random=20' },
+                { name: 'Random Photo 3', url: 'https://picsum.photos/300/200?random=30' }
+            ];
+            
+            for (const img of realImages) {
+                const card = await createImageCard(img.name, img.url);
+                grid.appendChild(card);
+            }
+            
+            updateDebug('Real URL test complete');
+        }
+        
+        function clearImages() {
+            document.getElementById('imageGrid').innerHTML = '';
+            imageCount = 0;
+            updateDebug('Cleared');
+        }
+        
+        // Auto-run basic test on page load
+        setTimeout(() => {
+            testImageDisplay();
+        }, 1000);
+    </script>
+</body>
+</html>

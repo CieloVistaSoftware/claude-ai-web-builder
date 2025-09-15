@@ -1,0 +1,123 @@
+{
+  "site": {
+    "title": "Blue Theme - All Semantic Elements Demo",
+    "description": "A comprehensive demonstration of all HTML semantic elements with blue theme styling",
+    "company": "Cielo Vista Software", 
+    "year": "2025"
+  },
+  "navigation": {
+    "logo": "Blue Theme Demo",
+    "links": [
+      {"text": "Structure", "href": "#structure", "id": "nav-structure"},
+      {"text": "Text", "href": "#text", "id": "nav-text"},
+      {"text": "Media", "href": "#media", "id": "nav-media"},
+      {"text": "Forms", "href": "#forms", "id": "nav-forms"},
+      {"text": "Interactive", "href": "#interactive", "id": "nav-interactive"}
+    ]
+  },
+  "hero": {
+    "heading": "Blue Theme - All Semantic Elements Demo",
+    "description": "A comprehensive showcase of HTML semantic elements styled with our blue theme"
+  },
+  "sections": [
+    {
+      "id": "structure",
+      "title": "Document Structure & Layout",
+      "description": "Demonstration of semantic HTML structure elements",
+      "content": {
+        "article": {
+          "title": "Article Header",
+          "date": "2025-09-14",
+          "content": "This article demonstrates semantic HTML structure with proper nesting of elements.",
+          "footer": "Article footer content"
+        }
+      }
+    },
+    {
+      "id": "text", 
+      "title": "Text Content Elements",
+      "description": "Various text formatting and semantic text elements",
+      "content": {
+        "headings": ["Heading Level 4", "Heading Level 5", "Heading Level 6"],
+        "textFormats": {
+          "strong": "strong",
+          "emphasis": "emphasis", 
+          "highlighted": "highlighted",
+          "small": "small",
+          "deleted": "deleted",
+          "inserted": "inserted"
+        },
+        "specialElements": {
+          "chemical": "H₂O",
+          "math": "E=mc²",
+          "code": "console.log('Hello')",
+          "variable": "x",
+          "keyboard": "Ctrl+C"
+        }
+      }
+    },
+    {
+      "id": "media",
+      "title": "Media Elements", 
+      "description": "Images, audio, video and figure elements",
+      "content": {
+        "image": {
+          "src": "https://dummyimage.com/400x200/2196f3/ffffff&text=Blue+Demo",
+          "alt": "Blue theme demo",
+          "caption": "Figure caption for the image"
+        }
+      }
+    },
+    {
+      "id": "forms",
+      "title": "Form Elements",
+      "description": "Form controls and interactive elements",
+      "content": {
+        "fieldset": {
+          "legend": "Personal Information",
+          "fields": [
+            {"type": "text", "id": "name", "label": "Name:", "placeholder": "Enter name"},
+            {"type": "email", "id": "email", "label": "Email:", "placeholder": "Enter email"},
+            {"type": "textarea", "id": "bio", "label": "Bio:", "placeholder": "Tell us about yourself", "rows": 3},
+            {
+              "type": "select", 
+              "id": "country",
+              "label": "Country:",
+              "options": [
+                {"value": "us", "text": "United States"},
+                {"value": "ca", "text": "Canada"}
+              ]
+            }
+          ]
+        },
+        "buttons": [
+          {"type": "submit", "text": "Submit", "id": "submit-btn"},
+          {"type": "reset", "text": "Reset", "id": "reset-btn"}
+        ]
+      }
+    },
+    {
+      "id": "interactive",
+      "title": "Interactive Elements",
+      "description": "Details, dialog and other interactive components",
+      "content": {
+        "details": {
+          "summary": "Click to expand",
+          "content": "This content is hidden by default and revealed when clicked."
+        },
+        "dialog": {
+          "id": "demo-dialog",
+          "content": "This is a dialog element.",
+          "closeText": "Close"
+        }
+      }
+    }
+  ],
+  "footer": {
+    "copyright": "© 2025 Cielo Vista Software - All Semantic HTML Elements",
+    "bottomLinks": [
+      {"text": "Top", "href": "#top"},
+      {"text": "Contact", "href": "mailto:contact@example.com"}
+    ]
+  }
+}

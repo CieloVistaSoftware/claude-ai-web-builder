@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Element Theme Editor</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-tertiary: #0f3460;
+            --text-primary: #eee;
+            --text-secondary: #ccc;
+            --text-muted: #999;
+            --border-color: #333;
+            --theme-primary: #3498db;
+            --theme-secondary: #2980b9;
+            --accent-color: #e74c3c;
+            --background-color: #2c3e50;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --error-color: #e74c3c;
+            --info-color: #3498db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        header {
+            width: 100% !important;
+            background: var(--theme-primary);
+            color: white;
+            padding: 2rem 0;
+            margin: 0;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        main {
+            width: 100% !important;
+            padding: 0;
+            margin: 0;
+        }
+
+        .main-content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        footer {
+            width: 100% !important;
+            background: var(--accent-color);
+            color: white;
+            padding: 2rem 0;
+            margin: 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .theme-controls {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-item label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .control-item input[type="color"] {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .element-showcase {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .element-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .element-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
+        }
+
+        .element-section h3 {
+            color: var(--theme-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--theme-primary);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--theme-primary);
+        }
+
+        em {
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--theme-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--theme-secondary);
+            text-decoration: underline;
+        }
+
+        blockquote {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--theme-primary);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--text-muted), #666);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #1e8449);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color), #d68910);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--error-color), #c0392b);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--theme-primary);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--theme-primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body id="main-body">
+    <header id="page-header">
+        <div class="header-content">
+            <h1 id="header-title">🎨 HTML Element Theme Editor</h1>
+            <p id="header-subtitle">Interactive HTML elements with live theme customization</p>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <div class="main-content-wrapper">
+            <div id="theme-controls-container" class="theme-controls">
+                <h2 id="theme-controls-title">🎛️ Theme Controls</h2>
+                <div id="color-inputs-group" class="control-group">
+                    <div id="primary-color-control" class="control-item">
+                        <label id="primary-color-label" for="primaryColor">Primary Color:</label>
+                        <input id="primaryColor" type="color" value="#3498db">
+                    </div>
+                    <div id="accent-color-control" class="control-item">
+                        <label id="accent-color-label" for="accentColor">Accent Color:</label>
+                        <input id="accentColor" type="color" value="#e74c3c">
+                    </div>
+                    <div id="background-color-control" class="control-item">
+                        <label id="background-color-label" for="backgroundColor">Background:</label>
+                        <input id="backgroundColor" type="color" value="#2c3e50">
+                    </div>
+                </div>
+            </div>
+
+            <div id="element-showcase-container" class="element-showcase">
+                <h2 id="showcase-title">🧩 HTML Elements Showcase</h2>
+                
+                <section id="typography-section" class="element-section">
+                    <h3 id="typography-heading">Typography Elements</h3>
+                    <h1 id="sample-h1">Heading 1 - Main Title</h1>
+                    <h2 id="sample-h2">Heading 2 - Section Title</h2>
+                    <h3 id="sample-h3">Heading 3 - Subsection</h3>
+                    <p id="sample-paragraph">This is a sample paragraph with <strong id="strong-text">bold text</strong>, <em id="emphasized-text">emphasized text</em>, and <a id="sample-link" href="#">a hyperlink</a>.</p>
+                    <blockquote id="sample-blockquote">"This is a blockquote showcasing quoted text with proper styling."</blockquote>
+                </section>
+
+                <section id="buttons-section" class="element-section">
+                    <h3 id="buttons-heading">Button Elements</h3>
+                    <button id="primary-button" class="btn-primary">Primary Button</button>
+                    <button id="secondary-button" class="btn-secondary">Secondary Button</button>
+                    <button id="success-button" class="btn-success">Success Button</button>
+                    <button id="warning-button" class="btn-warning">Warning Button</button>
+                    <button id="danger-button" class="btn-danger">Danger Button</button>
+                </section>
+
+                <section id="form-section" class="element-section">
+                    <h3 id="form-heading">Form Elements</h3>
+                    <form id="sample-form">
+                        <div id="form-group-1" class="form-group">
+                            <label id="name-label" for="name-input">Name:</label>
+                            <input id="name-input" type="text" name="name" placeholder="Enter your name">
+                        </div>
+                        <div id="form-group-2" class="form-group">
+                            <label id="email-label" for="email-input">Email:</label>
+                            <input id="email-input" type="email" name="email" placeholder="Enter your email">
+                        </div>
+                        <div id="form-group-3" class="form-group">
+                            <label id="message-label" for="message-textarea">Message:</label>
+                            <textarea id="message-textarea" name="message" rows="4" placeholder="Enter your message"></textarea>
+                        </div>
+                        <div id="form-group-4" class="form-group">
+                            <label id="category-label" for="category-select">Category:</label>
+                            <select id="category-select" name="category">
+                                <option id="option-general" value="general">General</option>
+                                <option id="option-support" value="support">Support</option>
+                                <option id="option-feedback" value="feedback">Feedback</option>
+                            </select>
+                        </div>
+                        <button id="submit-button" type="submit">Submit Form</button>
+                    </form>
+                </section>
+
+                <section id="table-section" class="element-section">
+                    <h3 id="table-heading">Table Elements</h3>
+                    <table id="sample-table">
+                        <thead id="table-head">
+                            <tr id="header-row">
+                                <th id="header-name">Name</th>
+                                <th id="header-role">Role</th>
+                                <th id="header-department">Department</th>
+                                <th id="header-status">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <tr id="row-1">
+                                <td id="cell-john">John Doe</td>
+                                <td id="cell-developer">Developer</td>
+                                <td id="cell-engineering">Engineering</td>
+                                <td id="cell-active">Active</td>
+                            </tr>
+                            <tr id="row-2">
+                                <td id="cell-jane">Jane Smith</td>
+                                <td id="cell-designer">Designer</td>
+                                <td id="cell-creative">Creative</td>
+                                <td id="cell-active-2">Active</td>
+                            </tr>
+                            <tr id="row-3">
+                                <td id="cell-mike">Mike Johnson</td>
+                                <td id="cell-manager">Manager</td>
+                                <td id="cell-operations">Operations</td>
+                                <td id="cell-away">Away</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer id="page-footer">
+        <div class="footer-content">
+            <p id="footer-text">© 2025 HTML Element Theme Editor | Built with semantic HTML5</p>
+            <p id="footer-info">Real-time theme customization for modern web development</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTheme() {
+            const primaryColor = document.getElementById('primaryColor').value;
+            const accentColor = document.getElementById('accentColor').value;
+            const backgroundColor = document.getElementById('backgroundColor').value;
+
+            document.documentElement.style.setProperty('--theme-primary', primaryColor);
+            document.documentElement.style.setProperty('--accent-color', accentColor);
+            document.documentElement.style.setProperty('--background-color', backgroundColor);
+        }
+
+        // Add event listeners
+        document.getElementById('primaryColor').addEventListener('change', updateTheme);
+        document.getElementById('accentColor').addEventListener('change', updateTheme);
+        document.getElementById('backgroundColor').addEventListener('change', updateTheme);
+
+        // Initialize theme
+        updateTheme();
+    </script>
+</body>
+</html>

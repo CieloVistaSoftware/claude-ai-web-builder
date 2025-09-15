@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic HTML5 Elements Popup with Color Control Panel</title>
+    <link rel="stylesheet" href="semantic-elements-popup.css">
+    <link rel="stylesheet" href="color-control-panel.css">
+    <style>
+        /* Color Control Panel Styles */
+        .color-control-trigger {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            bor    <script src=\"semantic-elements-popup.js\"></script>\n    <script src=\"semantic-elements-extension.js\"></script>er-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            margin-bottom: 2rem;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .color-control-trigger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        .color-control-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: none;
+        }
+
+        .color-control-popup.active {
+            display: block;
+        }
+
+        .popup-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+
+        .color-control-popup .popup-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(26, 26, 46, 0.95);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .color-control-popup .popup-header {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .color-control-popup .popup-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .color-control-popup .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-control-popup .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .color-control-popup .popup-body {
+            padding: 2rem;
+        }
+
+        .semantic-elements-showcase {
+            background: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .semantic-elements-showcase h2 {
+            color: var(--theme-primary);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .color-control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .color-panel-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .color-panel-header h2 {
+            color: var(--theme-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .color-panel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .color-control-group {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .color-control-group h3 {
+            color: var(--theme-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .color-input-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-input-wrapper label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .color-input-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .color-input-container input[type="color"] {
+            width: 60px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .color-value-display {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .color-sliders {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slider-value {
+            color: var(--theme-primary);
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .color-slider {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--theme-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .preset-colors {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .preset-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .preset-color:hover {
+            transform: scale(1.1);
+            border-color: var(--theme-primary);
+        }
+
+        .preset-color.active {
+            border-color: var(--theme-accent);
+            transform: scale(1.1);
+        }
+
+        .color-harmony {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .harmony-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .harmony-color:hover {
+            transform: scale(1.2);
+        }
+
+        .reset-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Semantic Elements with Color Control</h1>
+        <p>Use the color control panel below to customize themes, then view semantic elements</p>
+        
+        <!-- Color Control Panel -->
+        <div class="color-control-panel">
+            <div class="color-panel-header">
+                <h2>🎛️ Color Control Panel</h2>
+                <p>Real-time theme customization with live semantic element updates</p>
+            </div>
+            
+            <div class="color-panel-grid">
+                <!-- Primary Colors -->
+                <div class="color-control-group">
+                    <h3>🎨 Primary Colors</h3>
+                    
+                    <div class="color-input-wrapper">
+                        <label for="primaryColorInput">Primary Color:</label>
+                        <div class="color-input-container">
+                            <input type="color" id="primaryColorInput" value="#3498db">
+                            <span class="color-value-display" id="primaryColorValue">#3498db</span>
+                        </div>
+                    </div>
+                    
+                    <div class="color-input-wrapper">
+                        <label for="accentColorInput">Accent Color:</label>
+                        <div class="color-input-container">
+                            <input type="color" id="accentColorInput" value="#f39c12">
+                            <span class="color-value-display" id="accentColorValue">#f39c12</span>
+                        </div>
+                    </div>
+                    
+                    <div class="color-input-wrapper">
+                        <label for="backgroundColorInput">Background Color:</label>
+                        <div class="color-input-container">
+                            <input type="color" id="backgroundColorInput" value="#1a1a2e">
+                            <span class="color-value-display" id="backgroundColorValue">#1a1a2e</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HSL Controls -->
+                <div class="color-control-group">
+                    <h3>🌈 HSL Adjustments</h3>
+                    
+                    <div class="color-sliders">
+                        <div class="slider-wrapper">
+                            <div class="slider-label">
+                                <span>Hue:</span>
+                                <span class="slider-value" id="hueValue">210°</span>
+                            </div>
+                            <input type="range" class="color-slider" id="hueSlider" min="0" max="360" value="210" aria-label="Hue adjustment slider">
+                        </div>
+                        
+                        <div class="slider-wrapper">
+                            <div class="slider-label">
+                                <span>Saturation:</span>
+                                <span class="slider-value" id="saturationValue">70%</span>
+                            </div>
+                            <input type="range" class="color-slider" id="saturationSlider" min="0" max="100" value="70" aria-label="Saturation adjustment slider">
+                        </div>
+                        
+                        <div class="slider-wrapper">
+                            <div class="slider-label">
+                                <span>Lightness:</span>
+                                <span class="slider-value" id="lightnessValue">50%</span>
+                            </div>
+                            <input type="range" class="color-slider" id="lightnessSlider" min="0" max="100" value="50" aria-label="Lightness adjustment slider">
+                        </div>
+                        
+                        <div class="slider-wrapper">
+                            <div class="slider-label">
+                                <span>Opacity:</span>
+                                <span class="slider-value" id="opacityValue">100%</span>
+                            </div>
+                            <input type="range" class="color-slider" id="opacitySlider" min="0" max="100" value="100" aria-label="Opacity adjustment slider">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Preset Colors -->
+                <div class="color-control-group">
+                    <h3>🎨 Preset Themes</h3>
+                    
+                    <div class="preset-colors">
+                        <div class="preset-color" data-color="#3498db" title="Ocean Blue"></div>
+                        <div class="preset-color" data-color="#e74c3c" title="Crimson Red"></div>
+                        <div class="preset-color" data-color="#2ecc71" title="Emerald Green"></div>
+                        <div class="preset-color" data-color="#f39c12" title="Orange Peel"></div>
+                        <div class="preset-color" data-color="#9b59b6" title="Amethyst Purple"></div>
+                        <div class="preset-color" data-color="#1abc9c" title="Turquoise"></div>
+                        <div class="preset-color" data-color="#34495e" title="Wet Asphalt"></div>
+                        <div class="preset-color" data-color="#e67e22" title="Carrot Orange"></div>
+                    </div>
+                    
+                    <div class="color-harmony" id="colorHarmony">
+                        <!-- Color harmony will be generated here -->
+                    </div>
+                    
+                    <button class="reset-button" onclick="resetToDefaults()">
+                        🔄 Reset to Defaults
+                    </button>
+                </div>
+                
+
+            </div>
+        </div>
+        
+        <!-- Main Semantic Elements Content -->
+        <div class="semantic-elements-showcase" id="semanticElementsShowcase">
+            <!-- This content will be populated by JavaScript -->
+        </div>
+        
+        <button class="popup-trigger" onclick="showSemanticPopup()">
+            🏗️ View Full Semantic Elements Popup
+        </button>
+    </div>
+
+    <!-- Semantic Elements Popup -->
+    <div class="semantic-popup" id="semanticPopup">
+        <div class="semantic-content">
+            <button class="close-popup" onclick="hideSemanticPopup()">×</button>
+            
+            <h2 class="popup-header">
+                🏗️ Semantic HTML5 Elements Showcase
+            </h2>
+            
+            <div class="semantic-grid">
+                <!-- Structure Elements -->
+                <div class="semantic-section">
+                    <h3>📋 Document Structure</h3>
+                    
+                    <header>
+                        <h4>&lt;header&gt;</h4>
+                        <p>Website header with navigation and branding</p>
+                    </header>
+                    
+                    <nav>
+                        <h4>&lt;nav&gt;</h4>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Services</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                    
+                    <main>
+                        <h4>&lt;main&gt;</h4>
+                        <p>Primary content area of the document</p>
+                    </main>
+                    
+                    <footer>
+                        <h4>&lt;footer&gt;</h4>
+                        <p>© 2025 Semantic Elements Demo. All rights reserved.</p>
+                    </footer>
+                </div>
+
+                <!-- Content Elements -->
+                <div class="semantic-section">
+                    <h3>📝 Content Elements</h3>
+                    
+                    <article>
+                        <h4>&lt;article&gt;</h4>
+                        <p>Self-contained, independently distributable content like blog posts or news articles.</p>
+                    </article>
+                    
+                    <section>
+                        <h4>&lt;section&gt;</h4>
+                        <p>Thematic grouping of content, typically with a heading.</p>
+                    </section>
+                    
+                    <aside>
+                        <h4>&lt;aside&gt;</h4>
+                        <p>Content tangentially related to main content, like sidebars or callouts.</p>
+                    </aside>
+                </div>
+
+                <!-- Media Elements -->
+                <div class="semantic-section">
+                    <h3>🖼️ Media & Interactive</h3>
+                    
+                    <figure>
+                        <div class="demo-placeholder">
+                            📸 Image Placeholder
+                        </div>
+                        <figcaption>&lt;figure&gt; with &lt;figcaption&gt;</figcaption>
+                    </figure>
+                    
+                    <blockquote>
+                        <h4>&lt;blockquote&gt;</h4>
+                        "Semantic HTML improves accessibility and SEO while making code more maintainable."
+                    </blockquote>
+                    
+                    <details>
+                        <summary>&lt;details&gt; with &lt;summary&gt;</summary>
+                        <p>This expandable content shows when the summary is clicked. Perfect for FAQs and progressive disclosure.</p>
+                    </details>
+                </div>
+
+                <!-- Form Elements -->
+                <div class="semantic-section">
+                    <h3>📋 Form Elements</h3>
+                    
+                    <div class="form-example-container">
+                        <h4>&lt;fieldset&gt; with &lt;legend&gt;</h4>
+                        <fieldset class="form-example-fieldset">
+                            <legend class="form-example-legend">Contact Information</legend>
+                            <label class="form-example-label">
+                                Name: <input type="text" class="form-example-input" placeholder="Enter your name">
+                            </label>
+                            <label class="form-example-label">
+                                Email: <input type="email" class="form-example-input" placeholder="Enter your email">
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <!-- Text Elements -->
+                <div class="semantic-section">
+                    <h3>📰 Text Semantics</h3>
+                    
+                    <div class="text-example-container">
+                        <p><strong>&lt;strong&gt;</strong> for important text</p>
+                        <p><em>&lt;em&gt;</em> for emphasized text</p>
+                        <p><mark class="text-example-mark">&lt;mark&gt;</mark> for highlighted text</p>
+                        <p><code class="text-example-code">&lt;code&gt;</code> for inline code</p>
+                        <p><kbd class="text-example-kbd">Ctrl+C</kbd> &lt;kbd&gt; for keyboard input</p>
+                        <p><small>&lt;small&gt; for fine print and legal text</small></p>
+                    </div>
+                </div>
+
+                <!-- List Elements -->
+                <div class="semantic-section">
+                    <h3>📋 List Elements</h3>
+                    
+                    <div class="list-example-container">
+                        <h4>&lt;ol&gt; Ordered List</h4>
+                        <ol class="list-example-ol">
+                            <li>First item</li>
+                            <li>Second item</li>
+                            <li>Third item</li>
+                        </ol>
+                        
+                        <h4>&lt;ul&gt; Unordered List</h4>
+                        <ul class="list-example-ul">
+                            <li>Bullet point one</li>
+                            <li>Bullet point two</li>
+                            <li>Bullet point three</li>
+                        </ul>
+                        
+                        <h4>&lt;dl&gt; Description List</h4>
+                        <dl class="list-example-dl">
+                            <dt class="list-example-dt">HTML</dt>
+                            <dd class="list-example-dd">HyperText Markup Language</dd>
+                            <dt class="list-example-dt">CSS</dt>
+                            <dd class="list-example-dd">Cascading Style Sheets</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <!-- HTML5 Semantic Elements -->
+                <div class="semantic-section">
+                    <h3>🎯 HTML5 Semantic Tags</h3>
+                    
+                    <div class="html5-example-container">
+                        <p><code class="semantic-code">&lt;time&gt;</code> Current time: <time datetime="2025-09-15">September 15, 2025</time></p>
+                        <p><code class="semantic-code">&lt;progress&gt;</code> Loading: <progress value="70" max="100">70%</progress></p>
+                        <p><code class="semantic-code">&lt;meter&gt;</code> Score: <meter value="8" min="0" max="10">8 out of 10</meter></p>
+                        <p><code class="semantic-code">&lt;address&gt;</code></p>
+                        <address class="address-example">
+                            Contact us at:<br>
+                            Email: info@semanticdemo.com<br>
+                            Phone: (555) 123-4567
+                        </address>
+                    </div>
+                </div>
+
+                <!-- Data Elements -->
+                <div class="semantic-section">
+                    <h3>📊 Data Elements</h3>
+                    
+                    <div class="data-example-container">
+                        <p><code class="semantic-code">&lt;data&gt;</code> Product: <data value="123456">Semantic Widget</data></p>
+                        <p><code class="semantic-code">&lt;output&gt;</code> Calculation result: <output>42</output></p>
+                        <p><code class="semantic-code">&lt;var&gt;</code> Variable: <var>x</var> = 10</p>
+                        <p><code class="semantic-code">&lt;samp&gt;</code> Sample output: <samp>Hello, World!</samp></p>
+                        <p><code class="semantic-code">&lt;abbr&gt;</code> Abbreviation: <abbr title="HyperText Markup Language">HTML</abbr></p>
+                        <p><code class="semantic-code">&lt;dfn&gt;</code> Definition: <dfn>Semantic HTML</dfn> is the use of HTML markup to reinforce meaning.</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Elements -->
+                <div class="semantic-section">
+                    <h3>🎮 Interactive Elements</h3>
+                    
+                    <div class="interactive-example-container">
+                        <p><code class="semantic-code">&lt;dialog&gt;</code> Modal dialog (click to open):</p>
+                        <button onclick="openDialog()" class="dialog-trigger">Open Dialog</button>
+                        <dialog id="exampleDialog" class="example-dialog">
+                            <p>This is a semantic &lt;dialog&gt; element!</p>
+                            <button onclick="closeDialog()">Close</button>
+                        </dialog>
+                        
+                        <p><code class="semantic-code">&lt;summary&gt;</code> with nested content:</p>
+                        <details class="nested-details">
+                            <summary>Advanced Features</summary>
+                            <ul>
+                                <li>Responsive design</li>
+                                <li>Accessibility features</li>
+                                <li>SEO optimization</li>
+                            </ul>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="semantic-elements-popup.js"></script>
+    <script>
+        // Color Control Panel JavaScript
+        class ColorControlPanel {
+            constructor() {
+                this.currentTheme = {
+                    primary: '#3498db',
+                    accent: '#f39c12',
+                    background: '#1a1a2e'
+                };
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.updateColorHarmony();
+                this.updateAllDisplays();
+            }
+
+            setupEventListeners() {
+                // Color inputs
+                document.getElementById('primaryColorInput').addEventListener('input', (e) => {
+                    this.updatePrimaryColor(e.target.value);
+                });
+                
+                document.getElementById('accentColorInput').addEventListener('input', (e) => {
+                    this.updateAccentColor(e.target.value);
+                });
+                
+                document.getElementById('backgroundColorInput').addEventListener('input', (e) => {
+                    this.updateBackgroundColor(e.target.value);
+                });
+
+                // HSL sliders
+                document.getElementById('hueSlider').addEventListener('input', (e) => {
+                    this.updateFromHSL();
+                });
+                
+                document.getElementById('saturationSlider').addEventListener('input', (e) => {
+                    this.updateFromHSL();
+                });
+                
+                document.getElementById('lightnessSlider').addEventListener('input', (e) => {
+                    this.updateFromHSL();
+                });
+                
+                document.getElementById('opacitySlider').addEventListener('input', (e) => {
+                    this.updateOpacity(e.target.value);
+                });
+
+                // Preset colors
+                document.querySelectorAll('.preset-color').forEach(preset => {
+                    preset.addEventListener('click', (e) => {
+                        const color = e.target.getAttribute('data-color');
+                        this.applyPresetColor(color);
+                    });
+                });
+
+                // Color harmony
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('harmony-color')) {
+                        const color = e.target.style.backgroundColor;
+                        const hexColor = this.rgbToHex(color);
+                        this.updatePrimaryColor(hexColor);
+                    }
+                });
+            }
+
+            updatePrimaryColor(color) {
+                this.currentTheme.primary = color;
+                document.documentElement.style.setProperty('--theme-primary', color);
+                document.getElementById('primaryColorValue').textContent = color;
+                this.updateHSLSliders(color);
+                this.updateColorHarmony();
+                this.updateSemanticElements();
+                this.autoOpenSemanticPopup();
+            }
+
+            updateAccentColor(color) {
+                this.currentTheme.accent = color;
+                document.documentElement.style.setProperty('--theme-accent', color);
+                document.getElementById('accentColorValue').textContent = color;
+                this.updateSemanticElements();
+                this.autoOpenSemanticPopup();
+            }
+
+            updateBackgroundColor(color) {
+                this.currentTheme.background = color;
+                document.documentElement.style.setProperty('--bg-primary', color);
+                document.getElementById('backgroundColorValue').textContent = color;
+                document.body.style.background = `linear-gradient(135deg, ${color} 0%, ${this.adjustBrightness(color, 0.1)} 100%)`;
+                this.autoOpenSemanticPopup();
+            }
+
+            updateFromHSL() {
+                const h = document.getElementById('hueSlider').value;
+                const s = document.getElementById('saturationSlider').value;
+                const l = document.getElementById('lightnessSlider').value;
+                
+                const hexColor = this.hslToHex(h, s, l);
+                
+                document.getElementById('primaryColorInput').value = hexColor;
+                this.updatePrimaryColor(hexColor);
+                
+                // Update displays
+                document.getElementById('hueValue').textContent = h + '°';
+                document.getElementById('saturationValue').textContent = s + '%';
+                document.getElementById('lightnessValue').textContent = l + '%';
+            }
+
+            updateOpacity(opacity) {
+                document.getElementById('opacityValue').textContent = opacity + '%';
+                const opacityValue = opacity / 100;
+                document.documentElement.style.setProperty('--theme-opacity', opacityValue);
+            }
+
+            updateHSLSliders(hexColor) {
+                const hsl = this.hexToHsl(hexColor);
+                
+                document.getElementById('hueSlider').value = Math.round(hsl.h);
+                document.getElementById('saturationSlider').value = Math.round(hsl.s);
+                document.getElementById('lightnessSlider').value = Math.round(hsl.l);
+                
+                document.getElementById('hueValue').textContent = Math.round(hsl.h) + '°';
+                document.getElementById('saturationValue').textContent = Math.round(hsl.s) + '%';
+                document.getElementById('lightnessValue').textContent = Math.round(hsl.l) + '%';
+            }
+
+            updateColorHarmony() {
+                const baseColor = this.currentTheme.primary;
+                const hsl = this.hexToHsl(baseColor);
+                
+                const harmonies = [
+                    this.hslToHex((hsl.h + 30) % 360, hsl.s, hsl.l), // Analogous
+                    this.hslToHex((hsl.h + 60) % 360, hsl.s, hsl.l), // Triadic
+                    this.hslToHex((hsl.h + 120) % 360, hsl.s, hsl.l), // Triadic
+                    this.hslToHex((hsl.h + 180) % 360, hsl.s, hsl.l), // Complementary
+                    this.hslToHex((hsl.h + 240) % 360, hsl.s, hsl.l), // Triadic
+                ];
+                
+                const harmonyContainer = document.getElementById('colorHarmony');
+                harmonyContainer.innerHTML = harmonies.map(color => 
+                    `<div class="harmony-color" style="background-color: ${color};" title="${color}"></div>`
+                ).join('');
+            }
+
+            updateSemanticElements() {
+                // Update semantic elements in the popup if it's open
+                if (window.semanticPopup) {
+                    window.semanticPopup.updateTheme(this.currentTheme.primary, this.currentTheme.accent);
+                }
+            }
+
+            autoOpenSemanticPopup() {
+                // Update main semantic elements showcase instead of opening popup
+                this.updateMainSemanticElements();
+            }
+
+            updateMainSemanticElements() {
+                const showcase = document.getElementById('semanticElementsShowcase');
+                if (showcase && window.semanticPopup) {
+                    // Get the semantic elements content from the popup and display it in main content
+                    const popupContent = window.semanticPopup.createSemanticContent();
+                    showcase.innerHTML = '<h2>🏗️ Live Semantic Elements Preview</h2>' + popupContent;
+                    // Apply current theme to the showcase
+                    window.semanticPopup.updateTheme(this.currentTheme.primary, this.currentTheme.accent);
+                }
+            }
+
+            applyPresetColor(color) {
+                document.getElementById('primaryColorInput').value = color;
+                this.updatePrimaryColor(color);
+                
+                // Update active preset
+                document.querySelectorAll('.preset-color').forEach(p => p.classList.remove('active'));
+                document.querySelector(`[data-color="${color}"]`).classList.add('active');
+            }
+
+            updateAllDisplays() {
+                this.updateHSLSliders(this.currentTheme.primary);
+            }
+
+            // Color utility functions
+            hexToHsl(hex) {
+                const r = parseInt(hex.slice(1, 3), 16) / 255;
+                const g = parseInt(hex.slice(3, 5), 16) / 255;
+                const b = parseInt(hex.slice(5, 7), 16) / 255;
+
+                const max = Math.max(r, g, b);
+                const min = Math.min(r, g, b);
+                let h, s, l = (max + min) / 2;
+
+                if (max === min) {
+                    h = s = 0;
+                } else {
+                    const d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch (max) {
+                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                        case g: h = (b - r) / d + 2; break;
+                        case b: h = (r - g) / d + 4; break;
+                    }
+                    h /= 6;
+                }
+
+                return { h: h * 360, s: s * 100, l: l * 100 };
+            }
+
+            hslToHex(h, s, l) {
+                l /= 100;
+                const a = s * Math.min(l, 1 - l) / 100;
+                const f = n => {
+                    const k = (n + h / 30) % 12;
+                    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                    return Math.round(255 * color).toString(16).padStart(2, '0');
+                };
+                return `#${f(0)}${f(8)}${f(4)}`;
+            }
+
+            rgbToHex(rgb) {
+                const match = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+                if (!match) return rgb;
+                const r = parseInt(match[1]).toString(16).padStart(2, '0');
+                const g = parseInt(match[2]).toString(16).padStart(2, '0');
+                const b = parseInt(match[3]).toString(16).padStart(2, '0');
+                return `#${r}${g}${b}`;
+            }
+
+            adjustBrightness(hex, factor) {
+                const hsl = this.hexToHsl(hex);
+                hsl.l = Math.max(0, Math.min(100, hsl.l + (factor * 100)));
+                return this.hslToHex(hsl.h, hsl.s, hsl.l);
+            }
+        }
+
+        // Global functions
+        function resetToDefaults() {
+            document.getElementById('primaryColorInput').value = '#3498db';
+            document.getElementById('accentColorInput').value = '#f39c12';
+            document.getElementById('backgroundColorInput').value = '#1a1a2e';
+            
+            if (window.colorPanel) {
+                window.colorPanel.updatePrimaryColor('#3498db');
+                window.colorPanel.updateAccentColor('#f39c12');
+                window.colorPanel.updateBackgroundColor('#1a1a2e');
+            }
+        }
+
+        function showColorControlPopup() {
+            document.getElementById('colorControlPopup').classList.add('active');
+        }
+
+        function closeColorControlPopup() {
+            document.getElementById('colorControlPopup').classList.remove('active');
+        }
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeColorControlPopup();
+            }
+        });
+
+        // Initialize color control panel and semantic elements
+        document.addEventListener('DOMContentLoaded', function() {
+            window.colorPanel = new ColorControlPanel();
+            
+            // Initialize semantic popup instance for main content
+            window.semanticPopup = new SemanticElementsPopup();
+            
+            // Populate main semantic elements showcase
+            setTimeout(() => {
+                if (window.colorPanel) {
+                    window.colorPanel.updateMainSemanticElements();
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

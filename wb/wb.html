@@ -21,132 +21,14 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="wb.css" />
+    <link rel="stylesheet" href="../components/color-control-panel/color-control-panel.css" />
 
     <!-- Status Bar Styles -->
    
   </head>
   <body data-layout="top-nav" data-theme="dark" data-footer="same-page">
-    <!-- Control Panel -->
-    <div id="control-panel" class="control-panel">
-      <div class="control-panel-header">
-        <h3>Website Builder</h3>
-        <div class="control-panel-actions">
-          <button id="minimize-btn" class="control-btn" title="Minimize">
-            ▾
-          </button>
-        </div>
-      </div>
-
-      <div class="control-panel-body">
-        <div class="control-group">
-          <button id="edit-mode-toggle" class="edit-mode-toggle">
-            Edit Mode
-          </button>
-        </div>
-
-        <div class="control-group">
-          <button id="save-btn" class="btn save-btn-hidden">Save</button>
-        </div>
-
-        <div class="control-group">
-          <label for="layout-select">Layout Style</label>
-          <select id="layout-select">
-            <option value="top-nav">Top Navigation</option>
-            <option value="left-nav">Left Navigation</option>
-            <option value="right-nav">Right Navigation</option>
-          </select>
-        </div>
-        <div class="control-group">
-          <label for="color-bar">Color Explorer</label>
-          <div class="color-bar-container">
-            <div class="color-bar-wrapper">
-              <input
-                type="range"
-                id="color-bar"
-                min="0"
-                max="360"
-                value="0"
-                class="color-bar-slider"
-              />
-              <div
-                id="color-indicator"
-                class="color-bar-current-indicator"
-              ></div>
-            </div>
-            <div
-              id="color-bar-preview"
-              class="color-bar-preview color-preview-box"
-            >
-              #FF0000
-            </div>
-            <div class="color-fine-controls">
-              <button class="color-fine-btn" id="color-left-btn" title="Move left (-1)">◀</button>
-              <span class="color-fine-label">Fine Adjust</span>
-              <button class="color-fine-btn" id="color-right-btn" title="Move right (+1)">▶</button>
-            </div>
-            <div class="color-adjustment-controls">
-              <div class="slider-container">
-                <label for="lightness-slider">Lightness</label>
-                <input
-                  type="range"
-                  id="lightness-slider"
-                  min="20"
-                  max="80"
-                  value="50"
-                  class="adjustment-slider"
-                />
-              </div>
-              <div class="slider-container">
-                <label for="saturation-slider">Saturation</label>
-                <input
-                  type="range"
-                  id="saturation-slider"
-                  min="30"
-                  max="100"
-                  value="70"
-                  class="adjustment-slider"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label for="theme-select">Theme</label>
-          <select id="theme-select">
-            <option value="dark" selected>Dark</option>
-            <option value="light">Light</option>
-            <option value="auto">Auto (System)</option>
-            <option value="cyberpunk">Cyberpunk</option>
-            <option value="ocean">Ocean</option>
-            <option value="sunset">Sunset</option>
-            <option value="forest">Forest</option>
-          </select>
-        </div>
-
-        <div class="control-group color-controls">
-          <label>Custom Colors</label>
-          <div class="color-sliders">
-            <div class="color-slider-group">
-              <label for="primary-color">Primary</label>
-              <input type="color" id="primary-color" value="#6366f1" />
-              <span class="color-value">#6366f1</span>
-            </div>
-            <div class="color-slider-group">
-              <label for="secondary-color">Secondary</label>
-              <input type="color" id="secondary-color" value="#64748b" />
-              <span class="color-value">#64748b</span>
-            </div>
-            <div class="color-slider-group">
-              <label for="accent-color">Accent</label>
-              <input type="color" id="accent-color" value="#10b981" />
-              <span class="color-value">#10b981</span>
-            </div>
-          </div>
-        </div>
-        <button id="reset-btn" class="btn">Reset Content</button>
-      </div>
-    </div>
+    <!-- Color Control Panel Component -->
+    <div id="color-control-panel-container"></div>
 
     <!-- Main Website -->
     <div id="site-container" class="site-container">
@@ -394,6 +276,7 @@
 
     <!-- JavaScript -->
     <script src="wb.js"></script>
+    <script src="../components/color-control-panel/color-control-panel.js"></script>
 
     <!-- Status Bar Script -->
     <script>
@@ -418,18 +301,40 @@
         updateStatus("Website Builder loaded - Ready to edit", "success");
         document.getElementById("status-info").textContent = "Edit mode: OFF";
         
+        // Load color control panel component
+        loadColorControlPanelComponent();
+        
         // Initialize change tracking
         initializeChangeTracking();
         
         // Initialize media browser
         initializeMediaBrowser();
         
-        // Initialize color explorer fine controls
-        initializeColorFineControls();
-        
         // Initialize scroll wheel image resizing
         initializeImageScrollResize();
       });
+      
+      // Load Color Control Panel Component
+      async function loadColorControlPanelComponent() {
+        try {
+          const response = await fetch('../components/color-control-panel/color-control-panel.html');
+          const html = await response.text();
+          
+          const container = document.getElementById('color-control-panel-container');
+          container.innerHTML = html;
+          
+          // Initialize the component
+          const controlPanel = container.querySelector('.control-panel');
+          if (controlPanel) {
+            controlPanel.id = 'control-panel';
+            window.colorControlPanel = new ColorControlPanel('control-panel');
+            updateStatus('Color Control Panel component loaded successfully', 'success');
+          }
+        } catch (error) {
+          console.error('Failed to load color control panel component:', error);
+          updateStatus('Failed to load control panel component', 'error');
+        }
+      }
 
       // Image Scroll Resize Functionality
       function initializeImageScrollResize() {
@@ -543,40 +448,7 @@
         markAsChanged();
       }
 
-      // Color Explorer Fine Controls
-      function initializeColorFineControls() {
-        const colorBar = document.getElementById('color-bar');
-        const leftBtn = document.getElementById('color-left-btn');
-        const rightBtn = document.getElementById('color-right-btn');
-        
-        if (leftBtn && rightBtn && colorBar) {
-          leftBtn.addEventListener('click', function() {
-            let currentValue = parseInt(colorBar.value);
-            currentValue = Math.max(0, currentValue - 1);
-            colorBar.value = currentValue;
-            
-            // Trigger change event to update color preview
-            const changeEvent = new Event('input', { bubbles: true });
-            colorBar.dispatchEvent(changeEvent);
-            
-            markAsChanged();
-            updateStatus(`Color adjusted to ${currentValue}°`, 'info');
-          });
-          
-          rightBtn.addEventListener('click', function() {
-            let currentValue = parseInt(colorBar.value);
-            currentValue = Math.min(360, currentValue + 1);
-            colorBar.value = currentValue;
-            
-            // Trigger change event to update color preview
-            const changeEvent = new Event('input', { bubbles: true });
-            colorBar.dispatchEvent(changeEvent);
-            
-            markAsChanged();
-            updateStatus(`Color adjusted to ${currentValue}°`, 'info');
-          });
-        }
-      }
+
 
       // Media Browser Functionality
       let currentMediaTarget = null;

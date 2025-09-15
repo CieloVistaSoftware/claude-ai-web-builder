@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Editor Suite</title>
+    <link rel="stylesheet" href="dark-styles.css">
+    <style>
+        /* Additional styles for the tabbed interface */
+        .editor-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(156, 163, 175, 0.2);
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: rgba(107, 114, 128, 0.3);
+            border: none;
+            border-radius: 8px 8px 0 0;
+            color: #d1d5db;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: rgba(107, 114, 128, 0.5);
+        }
+
+        .tab-button.active {
+            background: rgba(99, 102, 241, 0.3);
+            color: #c7d2fe;
+            border-bottom-color: #6366f1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .editor-suite-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .editor-suite-header h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .editor-suite-header p {
+            font-size: 18px;
+            color: #9ca3af;
+        }
+
+        .hidden-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <div class="editor-suite-header">
+            <h1>Multi-Editor Suite</h1>
+            <p>Professional editing tools for buttons, text, and images</p>
+        </div>
+
+        <!-- Editor Tabs -->
+        <div class="editor-tabs">
+            <button class="tab-button active" data-tab="button-editor">Button Editor</button>
+            <button class="tab-button" data-tab="text-editor">Text Editor</button>
+            <button class="tab-button" data-tab="image-editor">Image Editor</button>
+        </div>
+
+        <!-- Button Editor Tab -->
+        <div id="button-editor" class="tab-content active">
+            <div class="editor-header">
+                <h1>Button Editor</h1>
+                <p>Design and customize interactive buttons with advanced styling options</p>
+            </div>
+
+            <div class="editor-content">
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <h2>Button Properties</h2>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="button-text">Button Text</label>
+                        <input type="text" id="button-text" class="form-input" value="Click Me" placeholder="Enter button text">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="button-style">Button Style</label>
+                        <select id="button-style" class="form-input">
+                            <option value="solid">Solid</option>
+                            <option value="outline">Outline</option>
+                            <option value="ghost">Ghost</option>
+                            <option value="gradient">Gradient</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="button-size">Button Size</label>
+                        <select id="button-size" class="form-input">
+                            <option value="small">Small</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="large">Large</option>
+                            <option value="xl">Extra Large</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Background Color</label>
+                        <div class="color-input-group">
+                            <input type="color" id="bg-color" class="color-input" value="#6366f1" title="Background Color">
+                            <input type="text" class="color-value" id="bg-color-value" value="#6366f1" readonly title="Background Color Value">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Text Color</label>
+                        <div class="color-input-group">
+                            <input type="color" id="text-color" class="color-input" value="#ffffff" title="Text Color">
+                            <input type="text" class="color-value" id="text-color-value" value="#ffffff" readonly title="Text Color Value">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="border-radius">Border Radius</label>
+                        <div class="slider-group">
+                            <input type="range" id="border-radius" class="slider-input" min="0" max="50" value="8">
+                            <div class="slider-value"><span id="border-radius-value">8</span>px</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <h2>Preview</h2>
+                    </div>
+
+                    <div class="preview-area">
+                        <button id="preview-button" class="preview-button">Click Me</button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" id="reset-btn">Reset</button>
+                        <button class="btn btn-primary" id="export-btn">Export Code</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Text Editor Tab -->
+        <div id="text-editor" class="tab-content">
+            <div class="editor-header">
+                <h1>Text Editor</h1>
+                <p>Create and format text content with rich text editing capabilities</p>
+            </div>
+
+            <div class="editor-content">
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <h2>Text Properties</h2>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="font-family">Font Family</label>
+                        <select id="font-family" class="form-input">
+                            <option value="Arial">Arial</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Roboto" selected>Roboto</option>
+                            <option value="Open Sans">Open Sans</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="font-size-text">Font Size</label>
+                        <div class="slider-group">
+                            <input type="range" id="font-size-text" class="slider-input" min="12" max="72" value="16">
+                            <div class="slider-value"><span id="font-size-text-value">16</span>px</div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Text Color</label>
+                        <div class="color-input-group">
+                            <input type="color" id="text-color-editor" class="color-input" value="#f9fafb" title="Text Color">
+                            <input type="text" class="color-value" id="text-color-editor-value" value="#f9fafb" readonly title="Text Color Value">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="line-height">Line Height</label>
+                        <div class="slider-group">
+                            <input type="range" id="line-height" class="slider-input" min="1" max="3" step="0.1" value="1.6">
+                            <div class="slider-value"><span id="line-height-value">1.6</span></div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="text-align">Text Alignment</label>
+                        <select id="text-align" class="form-input">
+                            <option value="left" selected>Left</option>
+                            <option value="center">Center</option>
+                            <option value="right">Right</option>
+                            <option value="justify">Justify</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <h2>Text Editor</h2>
+                    </div>
+
+                    <div class="text-editor-toolbar">
+                        <button class="toolbar-btn" id="bold-btn" title="Bold">B</button>
+                        <button class="toolbar-btn" id="italic-btn" title="Italic">I</button>
+                        <button class="toolbar-btn" id="underline-btn" title="Underline">U</button>
+                        <button class="toolbar-btn" id="list-btn" title="Bullet List">•</button>
+                        <button class="toolbar-btn" id="link-btn" title="Insert Link">🔗</button>
+                    </div>
+
+                    <div class="text-editor-content" contenteditable="true" id="text-content">
+                        <p>Start typing your content here...</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" id="clear-btn">Clear</button>
+                        <button class="btn btn-primary" id="export-text-btn">Export HTML</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Editor Tab -->
+        <div id="image-editor" class="tab-content">
+            <div class="editor-header">
+                <h1>Image Editor</h1>
+                <p>Upload, resize, and apply filters to images with advanced editing tools</p>
+            </div>
+
+            <div class="editor-content">
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <h2>Image Upload</h2>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="image-upload-area" id="upload-area">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">Click to upload an image</div>
+                            <div class="upload-subtext">or drag and drop a file here</div>
+                            <input type="file" id="image-input" accept="image/*" class="hidden-input">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="image-width">Width</label>
+                        <div class="slider-group">
+                            <input type="range" id="image-width" class="slider-input" min="50" max="800" value="300">
+                            <div class="slider-value"><span id="width-value">300</span>px</div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="image-height">Height</label>
+                        <div class="slider-group">
+                            <input type="range" id="image-height" class="slider-input" min="50" max="600" value="200">
+                            <div class="slider-value"><span id="height-value">200</span>px</div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="image-border-radius">Border Radius</label>
+                        <div class="slider-group">
+                            <input type="range" id="image-border-radius" class="slider-input" min="0" max="50" value="8">
+                            <div class="slider-value"><span id="radius-value">8</span>px</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <h2>Preview</h2>
+                    </div>
+
+                    <div class="preview-area">
+                        <div id="image-preview-container">
+                            <div class="upload-icon">🖼️</div>
+                            <div class="upload-text">No image uploaded</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" id="reset-image-btn">Reset</button>
+                        <button class="btn btn-primary" id="export-image-btn">Export Code</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Management
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                button.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // Button Editor JavaScript
+        const buttonText = document.getElementById('button-text');
+        const buttonStyle = document.getElementById('button-style');
+        const buttonSize = document.getElementById('button-size');
+        const bgColor = document.getElementById('bg-color');
+        const bgColorValue = document.getElementById('bg-color-value');
+        const textColor = document.getElementById('text-color');
+        const textColorValue = document.getElementById('text-color-value');
+        const borderRadius = document.getElementById('border-radius');
+        const borderRadiusValue = document.getElementById('border-radius-value');
+        const previewButton = document.getElementById('preview-button');
+        const resetBtn = document.getElementById('reset-btn');
+        const exportBtn = document.getElementById('export-btn');
+
+        // Update preview function
+        function updatePreview() {
+            const text = buttonText.value || 'Click Me';
+            const style = buttonStyle.value;
+            const size = buttonSize.value;
+            const bg = bgColor.value;
+            const textCol = textColor.value;
+            const radius = borderRadius.value;
+
+            previewButton.textContent = text;
+            
+            // Reset styles
+            previewButton.style.cssText = '';
+            
+            // Apply size styles
+            const sizes = {
+                small: { padding: '8px 16px', fontSize: '14px' },
+                medium: { padding: '12px 24px', fontSize: '16px' },
+                large: { padding: '16px 32px', fontSize: '18px' },
+                xl: { padding: '20px 40px', fontSize: '20px' }
+            };
+            
+            const sizeStyle = sizes[size];
+            previewButton.style.padding = sizeStyle.padding;
+            previewButton.style.fontSize = sizeStyle.fontSize;
+            previewButton.style.borderRadius = radius + 'px';
+            previewButton.style.fontWeight = '600';
+            previewButton.style.cursor = 'pointer';
+            previewButton.style.transition = 'all 0.2s ease';
+            previewButton.style.border = 'none';
+            
+            // Apply style-specific properties
+            switch (style) {
+                case 'solid':
+                    previewButton.style.backgroundColor = bg;
+                    previewButton.style.color = textCol;
+                    break;
+                case 'outline':
+                    previewButton.style.backgroundColor = 'transparent';
+                    previewButton.style.color = bg;
+                    previewButton.style.border = `2px solid ${bg}`;
+                    break;
+                case 'ghost':
+                    previewButton.style.backgroundColor = 'transparent';
+                    previewButton.style.color = bg;
+                    previewButton.style.border = 'none';
+                    break;
+                case 'gradient':
+                    previewButton.style.background = `linear-gradient(135deg, ${bg}, ${adjustBrightness(bg, -20)})`;
+                    previewButton.style.color = textCol;
+                    break;
+            }
+        }
+
+        // Adjust brightness helper function
+        function adjustBrightness(hex, percent) {
+            const num = parseInt(hex.replace("#", ""), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+        }
+
+        // Button editor event listeners
+        buttonText.addEventListener('input', updatePreview);
+        buttonStyle.addEventListener('change', updatePreview);
+        buttonSize.addEventListener('change', updatePreview);
+        
+        bgColor.addEventListener('input', function() {
+            bgColorValue.value = this.value;
+            updatePreview();
+        });
+        
+        textColor.addEventListener('input', function() {
+            textColorValue.value = this.value;
+            updatePreview();
+        });
+        
+        borderRadius.addEventListener('input', function() {
+            borderRadiusValue.textContent = this.value;
+            updatePreview();
+        });
+
+        // Reset button
+        resetBtn.addEventListener('click', function() {
+            buttonText.value = 'Click Me';
+            buttonStyle.value = 'solid';
+            buttonSize.value = 'medium';
+            bgColor.value = '#6366f1';
+            bgColorValue.value = '#6366f1';
+            textColor.value = '#ffffff';
+            textColorValue.value = '#ffffff';
+            borderRadius.value = '8';
+            borderRadiusValue.textContent = '8';
+            updatePreview();
+        });
+
+        // Export button
+        exportBtn.addEventListener('click', function() {
+            const styles = window.getComputedStyle(previewButton);
+            const cssCode = `
+.custom-button {
+    padding: ${styles.padding};
+    font-size: ${styles.fontSize};
+    font-weight: ${styles.fontWeight};
+    border-radius: ${styles.borderRadius};
+    border: ${styles.border};
+    background: ${styles.background};
+    color: ${styles.color};
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.custom-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}`;
+
+            const htmlCode = `<button class="custom-button">${buttonText.value}</button>`;
+            
+            const output = `<!-- HTML -->\n${htmlCode}\n\n/* CSS */\n${cssCode}`;
+            
+            navigator.clipboard.writeText(output).then(() => {
+                exportBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    exportBtn.textContent = 'Export Code';
+                }, 2000);
+            });
+        });
+
+        // Text Editor JavaScript
+        const fontFamily = document.getElementById('font-family');
+        const fontSizeText = document.getElementById('font-size-text');
+        const fontSizeTextValue = document.getElementById('font-size-text-value');
+        const textColorEditor = document.getElementById('text-color-editor');
+        const textColorEditorValue = document.getElementById('text-color-editor-value');
+        const lineHeight = document.getElementById('line-height');
+        const lineHeightValue = document.getElementById('line-height-value');
+        const textAlign = document.getElementById('text-align');
+        const textContent = document.getElementById('text-content');
+        const clearBtn = document.getElementById('clear-btn');
+        const exportTextBtn = document.getElementById('export-text-btn');
+
+        // Toolbar buttons
+        const boldBtn = document.getElementById('bold-btn');
+        const italicBtn = document.getElementById('italic-btn');
+        const underlineBtn = document.getElementById('underline-btn');
+        const listBtn = document.getElementById('list-btn');
+        const linkBtn = document.getElementById('link-btn');
+
+        // Update text styles
+        function updateTextStyles() {
+            const family = fontFamily.value;
+            const size = fontSizeText.value;
+            const color = textColorEditor.value;
+            const height = lineHeight.value;
+            const align = textAlign.value;
+
+            textContent.style.fontFamily = family;
+            textContent.style.fontSize = size + 'px';
+            textContent.style.color = color;
+            textContent.style.lineHeight = height;
+            textContent.style.textAlign = align;
+        }
+
+        // Event listeners for style controls
+        fontFamily.addEventListener('change', updateTextStyles);
+        textAlign.addEventListener('change', updateTextStyles);
+
+        fontSizeText.addEventListener('input', function() {
+            fontSizeTextValue.textContent = this.value;
+            updateTextStyles();
+        });
+
+        textColorEditor.addEventListener('input', function() {
+            textColorEditorValue.value = this.value;
+            updateTextStyles();
+        });
+
+        lineHeight.addEventListener('input', function() {
+            lineHeightValue.textContent = this.value;
+            updateTextStyles();
+        });
+
+        // Toolbar functionality
+        boldBtn.addEventListener('click', function() {
+            document.execCommand('bold');
+            this.classList.toggle('active');
+        });
+
+        italicBtn.addEventListener('click', function() {
+            document.execCommand('italic');
+            this.classList.toggle('active');
+        });
+
+        underlineBtn.addEventListener('click', function() {
+            document.execCommand('underline');
+            this.classList.toggle('active');
+        });
+
+        listBtn.addEventListener('click', function() {
+            document.execCommand('insertUnorderedList');
+            this.classList.toggle('active');
+        });
+
+        linkBtn.addEventListener('click', function() {
+            const url = prompt('Enter URL:');
+            if (url) {
+                document.execCommand('createLink', false, url);
+            }
+        });
+
+        // Clear content
+        clearBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to clear all content?')) {
+                textContent.innerHTML = '<p>Start typing your content here...</p>';
+                updateTextStyles();
+            }
+        });
+
+        // Export HTML
+        exportTextBtn.addEventListener('click', function() {
+            const htmlContent = textContent.innerHTML;
+            const styles = window.getComputedStyle(textContent);
+            
+            const cssCode = `
+.custom-text {
+    font-family: ${styles.fontFamily};
+    font-size: ${styles.fontSize};
+    color: ${styles.color};
+    line-height: ${styles.lineHeight};
+    text-align: ${styles.textAlign};
+}`;
+
+            const output = `<!-- HTML -->\n<div class="custom-text">\n${htmlContent}\n</div>\n\n/* CSS */\n${cssCode}`;
+            
+            navigator.clipboard.writeText(output).then(() => {
+                exportTextBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    exportTextBtn.textContent = 'Export HTML';
+                }, 2000);
+            });
+        });
+
+        // Image Editor JavaScript
+        const uploadArea = document.getElementById('upload-area');
+        const imageInput = document.getElementById('image-input');
+        const imageWidth = document.getElementById('image-width');
+        const imageHeight = document.getElementById('image-height');
+        const imageBorderRadius = document.getElementById('image-border-radius');
+        const widthValue = document.getElementById('width-value');
+        const heightValue = document.getElementById('height-value');
+        const radiusValue = document.getElementById('radius-value');
+        const previewContainer = document.getElementById('image-preview-container');
+        const resetImageBtn = document.getElementById('reset-image-btn');
+        const exportImageBtn = document.getElementById('export-image-btn');
+
+        let currentImage = null;
+
+        // Upload area click handler
+        uploadArea.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        // Drag and drop handlers
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleImageUpload(files[0]);
+            }
+        });
+
+        // File input change handler
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleImageUpload(e.target.files[0]);
+            }
+        });
+
+        // Handle image upload
+        function handleImageUpload(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentImage = e.target.result;
+                displayImage();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Display uploaded image
+        function displayImage() {
+            if (currentImage) {
+                previewContainer.innerHTML = `<img src="${currentImage}" class="image-preview" id="preview-image" alt="Preview">`;
+                updateImageStyles();
+            }
+        }
+
+        // Update image styles
+        function updateImageStyles() {
+            const image = document.getElementById('preview-image');
+            if (image) {
+                image.style.width = imageWidth.value + 'px';
+                image.style.height = imageHeight.value + 'px';
+                image.style.borderRadius = imageBorderRadius.value + 'px';
+                image.style.objectFit = 'cover';
+            }
+        }
+
+        // Slider event listeners
+        imageWidth.addEventListener('input', function() {
+            widthValue.textContent = this.value;
+            updateImageStyles();
+        });
+
+        imageHeight.addEventListener('input', function() {
+            heightValue.textContent = this.value;
+            updateImageStyles();
+        });
+
+        imageBorderRadius.addEventListener('input', function() {
+            radiusValue.textContent = this.value;
+            updateImageStyles();
+        });
+
+        // Reset button
+        resetImageBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset the image?')) {
+                currentImage = null;
+                previewContainer.innerHTML = `
+                    <div class="upload-icon">🖼️</div>
+                    <div class="upload-text">No image uploaded</div>
+                `;
+                imageInput.value = '';
+                imageWidth.value = 300;
+                imageHeight.value = 200;
+                imageBorderRadius.value = 8;
+                widthValue.textContent = '300';
+                heightValue.textContent = '200';
+                radiusValue.textContent = '8';
+            }
+        });
+
+        // Export button
+        exportImageBtn.addEventListener('click', function() {
+            if (!currentImage) {
+                alert('Please upload an image first.');
+                return;
+            }
+
+            const cssCode = `
+.custom-image {
+    width: ${imageWidth.value}px;
+    height: ${imageHeight.value}px;
+    border-radius: ${imageBorderRadius.value}px;
+    object-fit: cover;
+    display: block;
+}`;
+
+            const htmlCode = `<img src="your-image-url.jpg" class="custom-image" alt="Custom Image">`;
+            
+            const output = `<!-- HTML -->\n${htmlCode}\n\n/* CSS */\n${cssCode}`;
+            
+            navigator.clipboard.writeText(output).then(() => {
+                exportImageBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    exportImageBtn.textContent = 'Export Code';
+                }, 2000);
+            });
+        });
+
+        // Initial setup
+        updatePreview();
+        updateTextStyles();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Editor - Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Button Editor - Demo</h1>
+        
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p>This demo shows different button styles and configurations. Click on any button when edit mode is enabled to modify its properties.</p>
+            <p>Use the gallery below to see various button styles in action.</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>Button Gallery</h2>
+            
+            <div class="button-gallery">
+                <button class="test-button" data-editable="button" data-button-style="primary">Primary Button</button>
+                <button class="test-button secondary" data-editable="button" data-button-style="secondary">Secondary Button</button>
+                <button class="test-button success" data-editable="button" data-button-style="success">Success Button</button>
+                <button class="test-button danger" data-editable="button" data-button-style="danger">Danger Button</button>
+                <button class="test-button warning" data-editable="button" data-button-style="warning">Warning Button</button>
+            </div>
+
+            <div class="button-gallery">
+                <button class="test-button" data-editable="button" data-button-size="small">Small Button</button>
+                <button class="test-button" data-editable="button" data-button-size="medium">Medium Button</button>
+                <button class="test-button" data-editable="button" data-button-size="large">Large Button</button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Button Customization</h2>
+            <p>Buttons can be customized with different styles, sizes, and states. The button editor allows you to:</p>
+            <ul>
+                <li>Change button text</li>
+                <li>Modify button styles (primary, secondary, success, danger, warning)</li>
+                <li>Adjust button sizes</li>
+                <li>Set button states (enabled, disabled, loading)</li>
+                <li>Configure click actions</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="button-editor.js"></script>
+    <script src="universal-element-editor.js"></script>
+</body>
+</html>

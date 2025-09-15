@@ -1,0 +1,44 @@
+{
+  "name": "claude-ai-website-builder-wb",
+  "version": "1.0.0",
+  "description": "Website Builder Core Module - Modernized Architecture",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write src/**/*.{ts,tsx,css,html}",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "zustand": "^4.4.7",
+    "canvas-confetti": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "@vitest/ui": "^0.34.6",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.6"
+  },
+  "keywords": [
+    "website-builder",
+    "drag-drop",
+    "typescript",
+    "vite"
+  ],
+  "author": "CieloVistaSoftware",
+  "license": "MIT"
+}

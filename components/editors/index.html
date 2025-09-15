@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-sc                    <img src="https://picsum.photos/180/120?random=3" alt="Random image 3" data-editable="true" class="demo-img-3">le=1.0">
+        <title>Universal Element Editor Test Suite</title>
+    <link rel="stylesheet" href="styles-complete.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional specific styles for the universal demo */
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .element-item {
+            padding: 15px;
+            border: 1px solid var(--border-secondary);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+        }
+        
+        .element-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        
+        .sample-form {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-secondary);
+        }
+        
+        .sample-table {
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .video-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">🔧 Universal Element Editor - Complete Test Suite</h1>
+        <p class="demo-description">
+            This page contains all types of elements that can be edited with the Universal Element Editor. 
+            Click on any element marked with <code>data-editable="true"</code> to test the editor functionality.
+        </p>
+        
+        <!-- Edit Mode Toggle -->
+        <div class="instructions">
+            <h4>Edit Mode Control:</h4>
+            <button id="editModeToggle" class="edit-mode-button">
+                🔧 Enable Edit Mode
+            </button>
+            <p id="editModeStatus">Edit Mode: <span class="status-off">OFF</span> - Elements will function normally (links navigate, buttons work, etc.)</p>
+        </div>
+
+        <div class="instructions">
+            <h4>Testing Instructions:</h4>
+            <p>1. <strong>Toggle Edit Mode</strong> using the button above<br>
+            2. <strong>Edit Mode OFF:</strong> Elements work normally (click links, submit forms, etc.)<br>
+            3. <strong>Edit Mode ON:</strong> Click elements to open editors<br>
+            4. The universal editor will detect the element type automatically<br>
+            5. Make changes and see them applied in real-time<br>
+            6. Click outside the editor to close it</p>
+        </div>
+
+        <!-- Anchor/Link Elements -->
+        <div class="demo-section">
+            <h3>🔗 Anchor Elements</h3>
+            <div class="element-grid">
+                <div class="element-item">
+                    <div class="element-label">Basic Link</div>
+                    <a href="https://example.com" data-editable="true">Example Website</a>
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Email Link</div>
+                    <a href="mailto:test@example.com" data-editable="true">Send Email</a>
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Phone Link</div>
+                    <a href="tel:+1234567890" data-editable="true">Call Us</a>
+                </div>
+                <div class="element-item">
+                    <div class="element-label">External Link</div>
+                    <a href="https://github.com" data-editable="true" target="_blank" class="demo-github-link">GitHub →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button Elements -->
+        <div class="demo-section">
+            <h3>🔘 Button Elements</h3>
+            <div class="element-grid">
+                <div class="element-item">
+                    <div class="element-label">Default Button</div>
+                    <button type="button" data-editable="true">Click Me</button>
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Submit Button</div>
+                    <button type="submit" data-editable="true" class="demo-submit-button">Submit Form</button>
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Reset Button</div>
+                    <button type="reset" data-editable="true" style="background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-secondary); padding: 10px 20px; border-radius: 6px;">Reset</button>
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Styled Button</div>
+                                        <button type="button" data-editable="true" class="demo-gradient-button">Gradient Button</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Elements -->
+        <div class="demo-section">
+            <h3>🖼️ Image Elements</h3>
+            <div class="element-grid">
+                <div class="element-item">
+                    <div class="element-label">Basic Image</div>
+                    <img src="https://picsum.photos/200/150?random=1" alt="Random image 1" data-editable="true" class="demo-img-1">
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Circular Image</div>
+                    <img src="https://picsum.photos/120/120?random=2" alt="Random image 2" data-editable="true" class="demo-img-2">
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Bordered Image</div>
+                    <img src="https://picsum.photos/180/120?random=3" alt="Random image 3" data-editable="true" style="width: 180px; height: 120px; border: 3px solid var(--accent-blue); border-radius: 8px; object-fit: cover;">
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Shadow Image</div>
+                    <img src="https://picsum.photos/200/130?random=4" alt="Random image 4" data-editable="true" class="demo-img-4">
+                </div>
+            </div>
+        </div>
+
+        <!-- Text Elements -->
+        <div class="demo-section">
+            <h3>📝 Text Elements</h3>
+            <div class="demo-content">
+                <div class="element-item">
+                    <div class="element-label">Headings</div>
+                    <h1 data-editable="true">Main Heading (H1)</h1>
+                    <h2 data-editable="true">Section Heading (H2)</h2>
+                    <h3 data-editable="true">Subsection (H3)</h3>
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Paragraphs & Spans</div>
+                    <p data-editable="true">This is an editable paragraph. Click to modify the text content and styling.</p>
+                    <span data-editable="true" class="demo-span">Inline Span Element</span>
+                </div>
+                <div class="element-item">
+                    <div class="element-label">Styled Text</div>
+                    <div data-editable="true" class="demo-large-blue">Large Blue Text</div>
+                    <p data-editable="true" class="demo-italic">Italic muted text paragraph</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Elements -->
+        <div class="demo-section">
+            <h3>📊 Table Elements</h3>
+            <div class="demo-content">
+                <div class="element-item">
+                    <div class="element-label">Data Table</div>
+                    <table data-editable="true" class="sample-table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Department</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Developer</td>
+                                <td>Engineering</td>
+                            </tr>
+                            <tr>
+                                <td>Jane Smith</td>
+                                <td>Designer</td>
+                                <td>Creative</td>
+                            </tr>
+                            <tr>
+                                <td>Bob Wilson</td>
+                                <td>Manager</td>
+                                <td>Operations</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="element-item">
+                    <div class="element-label">Simple Table</div>
+                    <table data-editable="true" class="sample-table">
+                        <tbody>
+                            <tr>
+                                <td>Product</td>
+                                <td>Price</td>
+                            </tr>
+                            <tr>
+                                <td>Laptop</td>
+                                <td>$999</td>
+                            </tr>
+                            <tr>
+                                <td>Mouse</td>
+                                <td>$29</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Elements -->
+        <div class="demo-section">
+            <h3>📋 Form Elements</h3>
+            <div class="demo-content">
+                <div class="element-item">
+                    <div class="element-label">Contact Form</div>
+                    <form data-editable="true" class="sample-form" method="post" action="/contact">
+                        <div class="form-field">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" placeholder="Enter your message" rows="4"></textarea>
+                        </div>
+                        <div class="form-field">
+                            <button type="submit">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="element-item">
+                    <div class="element-label">Registration Form</div>
+                    <form data-editable="true" class="sample-form" method="post" action="/register">
+                        <div class="form-field">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" placeholder="Choose username" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Create password" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="birthdate">Birth Date</label>
+                            <input type="date" id="birthdate" name="birthdate">
+                        </div>
+                        <div class="form-field">
+                            <button type="submit">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Elements -->
+        <div class="demo-section">
+            <h3>🎥 Video Elements</h3>
+            <div class="demo-content">
+                <div class="element-item">
+                    <div class="element-label">Basic Video</div>
+                    <div class="video-container">
+                        <video data-editable="true" controls width="300" height="200">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+
+                <div class="element-item">
+                    <div class="element-label">Video with Poster</div>
+                    <div class="video-container">
+                        <video data-editable="true" controls width="300" height="200" poster="https://picsum.photos/300/200?random=5">
+                            <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mixed Elements Test -->
+        <div class="demo-section">
+            <h3>🧪 Mixed Elements Test</h3>
+            <div class="demo-content">
+                <p data-editable="true">This section tests multiple element types together: </p>
+                <a href="https://test.com" data-editable="true" class="demo-test-link">Test Link</a>
+                <button type="button" data-editable="true" class="demo-test-button">Test Button</button>
+                <span data-editable="true" class="demo-test-span">Test Span</span>
+                <br><br>
+                <img src="https://picsum.photos/100/100?random=6" alt="Test image" data-editable="true" class="demo-test-img">
+                <div data-editable="true" class="demo-inline-block">
+                    <strong>Test Div:</strong> This div element should be editable with the text editor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the Universal Element Editor -->
+        <script src="universal-element-editor.js"></script>
+    
+    <!-- Edit Mode Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let isEditMode = false;
+            const toggleButton = document.getElementById('editModeToggle');
+            const statusElement = document.getElementById('editModeStatus');
+            
+            // Update UI based on edit mode state
+            function updateEditModeUI() {
+                if (isEditMode) {
+                    document.body.classList.add('edit-mode-on');
+                    toggleButton.classList.add('active');
+                    toggleButton.textContent = '✏️ Disable Edit Mode';
+                    statusElement.innerHTML = 'Edit Mode: <span class="status-on">ON</span> - Click elements to edit them';
+                    console.log('🔧 Edit Mode ENABLED - Click elements to edit');
+                } else {
+                    document.body.classList.remove('edit-mode-on');
+                    toggleButton.classList.remove('active');
+                    toggleButton.textContent = '🔧 Enable Edit Mode';
+                    statusElement.innerHTML = 'Edit Mode: <span class="status-off">OFF</span> - Elements will function normally (links navigate, buttons work, etc.)';
+                    console.log('🚫 Edit Mode DISABLED - Elements work normally');
+                }
+            }
+
+            // Toggle edit mode
+            toggleButton.addEventListener('click', function() {
+                isEditMode = !isEditMode;
+                updateEditModeUI();
+            });
+
+            // Override the universal editor's click handling
+            document.addEventListener('click', function(e) {
+                const editableElement = e.target.closest('[data-editable="true"]');
+                
+                if (editableElement) {
+                    if (isEditMode) {
+                        // In edit mode - prevent default behavior and open editor
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('🎯 Opening editor for:', editableElement.tagName, editableElement);
+                        
+                        // Trigger the universal editor
+                        if (typeof window.UniversalElementEditor !== 'undefined') {
+                            const editor = new window.UniversalElementEditor();
+                            editor.openEditor(editableElement);
+                        } else {
+                            console.error('Universal editor not loaded');
+                        }
+                    } else {
+                        // Not in edit mode - let elements behave normally
+                        console.log('🖱️ Normal click on:', editableElement.tagName, '- Element will function normally');
+                        // Don't prevent default - let links navigate, buttons submit, etc.
+                    }
+                }
+            }, true); // Use capture phase to intercept before other handlers
+
+            // Initialize UI
+            updateEditModeUI();
+        });
+    </script>
+</head>
+    
+    <script>
+        // Optional: Add some debugging to see which elements are detected
+        document.addEventListener('DOMContentLoaded', function() {
+            const editableElements = document.querySelectorAll('[data-editable="true"]');
+            console.log(`Found ${editableElements.length} editable elements:`, editableElements);
+            
+            // Add visual indicators for editable elements
+            editableElements.forEach(el => {
+                el.style.position = 'relative';
+            });
+        });
+    </script>
+</body>
+</html>

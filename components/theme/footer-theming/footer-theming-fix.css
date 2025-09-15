@@ -1,0 +1,80 @@
+/* Footer Color Theming Fix for html-element-editor-fullwidth.html */
+
+footer {
+    background: var(--theme-primary, #3498db) !important;
+    color: white !important;
+    border-top: 3px solid var(--theme-accent, #f39c12) !important;
+    transition: all 0.3s ease !important;
+    padding: 2rem !important;
+    text-align: center !important;
+}
+
+footer * {
+    color: inherit !important;
+}
+
+footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
+    color: white !important;
+    margin-bottom: 1rem !important;
+}
+
+footer p, footer div, footer span, footer li {
+    color: rgba(255, 255, 255, 0.9) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+footer a:not(.social-link):not(.social-links a) {
+    color: var(--theme-accent, #f39c12) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+footer a:not(.social-link):not(.social-links a):hover {
+    color: white !important;
+    text-decoration: underline !important;
+}
+
+footer button {
+    background: var(--theme-accent, #f39c12) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+footer button:hover {
+    background: var(--theme-primary, #3498db) !important;
+    transform: translateY(-2px) !important;
+}
+
+footer .social-link, footer .social-links a {
+    background: var(--theme-accent, #f39c12) !important;
+    color: white !important;
+    display: inline-block !important;
+    padding: 0.5rem !important;
+    border-radius: 50% !important;
+    margin: 0 0.5rem !important;
+    width: 40px !important;
+    height: 40px !important;
+    text-align: center !important;
+    line-height: 30px !important;
+}
+
+footer .social-link:hover, footer .social-links a:hover {
+    background: var(--theme-primary, #3498db) !important;
+    transform: scale(1.1) !important;
+}
+
+footer .footer-links {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 2rem !important;
+    margin: 1rem 0 !important;
+    flex-wrap: wrap !important;
+}
+
+footer .footer-section {
+    margin: 1rem 0 !important;
+}

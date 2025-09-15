@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Builder - Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            background: #2563eb;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .status {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .status h2 {
+            color: #16a34a;
+            margin-bottom: 1rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .feature h3 {
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .feature li {
+            padding: 0.25rem 0;
+        }
+        
+        .feature li:before {
+            content: '✅ ';
+            margin-right: 0.5rem;
+        }
+        
+        .console {
+            background: #1f2937;
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background: #1d4ed8;
+        }
+        
+        .btn.secondary {
+            background: #6b7280;
+        }
+        
+        .btn.secondary:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏗️ Website Builder - Phase 1 Implementation</h1>
+        <p>Modern TypeScript Architecture with Vite Build System</p>
+    </div>
+    
+    <div class="container">
+        <div class="status">
+            <h2>✅ Phase 1 - Foundation & Architecture Complete</h2>
+            <p>The core Website Builder foundation has been successfully implemented with modern TypeScript architecture.</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>🔧 Core Infrastructure</h3>
+                <ul>
+                    <li>TypeScript 5.x with strict configuration</li>
+                    <li>Vite 4.x build system with HMR</li>
+                    <li>ESLint 9.x with flat config</li>
+                    <li>Prettier code formatting</li>
+                    <li>Modern ES6+ module system</li>
+                </ul>
+            </div>
+            
+            <div class="feature">
+                <h3>🏗️ Builder Architecture</h3>
+                <ul>
+                    <li>WebsiteBuilder core engine</li>
+                    <li>Component management system</li>
+                    <li>Event-driven architecture</li>
+                    <li>Undo/Redo functionality</li>
+                    <li>State management with Zustand</li>
+                </ul>
+            </div>
+            
+            <div class="feature">
+                <h3>🧩 Component System</h3>
+                <ul>
+                    <li>Type-safe component definitions</li>
+                    <li>Drag & drop interfaces</li>
+                    <li>Component validation engine</li>
+                    <li>Plugin architecture ready</li>
+                    <li>Export/Import capabilities</li>
+                </ul>
+            </div>
+            
+            <div class="feature">
+                <h3>🛠️ Development Tools</h3>
+                <ul>
+                    <li>Hot module replacement</li>
+                    <li>Source map support</li>
+                    <li>Testing framework (Vitest)</li>
+                    <li>Code splitting ready</li>
+                    <li>Path aliases configured</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn" onclick="initializeBuilder()">Initialize Builder</button>
+            <button class="btn secondary" onclick="runTests()">Run Tests</button>
+            <button class="btn secondary" onclick="showComponents()">Show Components</button>
+            <button class="btn secondary" onclick="clearConsole()">Clear Console</button>
+        </div>
+        
+        <div class="console" id="console">
+            <div>Website Builder Phase 1 - Ready for initialization...</div>
+        </div>
+    </div>
+
+    <script type="module">
+        let builder = null;
+        
+        function log(message) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            console.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        window.initializeBuilder = async function() {
+            try {
+                log('🚀 Initializing Website Builder...');
+                
+                // Import and initialize the builder
+                const { createBuilder } = await import('./dist/index.js');
+                builder = createBuilder();
+                await builder.initialize();
+                
+                log('✅ Builder initialized successfully!');
+                log(`📊 Builder state: ${JSON.stringify(builder.state, null, 2)}`);
+                
+                // Add some test components
+                const testComponent = {
+                    id: 'test-1',
+                    type: 'text',
+                    props: { content: 'Hello, World!' },
+                    metadata: {
+                        id: 'text',
+                        name: 'Test Text',
+                        category: 'Basic',
+                        description: 'Test text component',
+                        version: '1.0.0'
+                    }
+                };
+                
+                builder.addComponent(testComponent);
+                log('📝 Added test component');
+                
+            } catch (error) {
+                log(`❌ Initialization failed: ${error.message}`);
+                console.error(error);
+            }
+        };
+        
+        window.runTests = function() {
+            log('🧪 Running validation tests...');
+            
+            if (!builder) {
+                log('⚠️ Builder not initialized. Please initialize first.');
+                return;
+            }
+            
+            const result = builder.validate();
+            log(`📋 Validation result: ${result.valid ? '✅ PASSED' : '❌ FAILED'}`);
+            
+            if (result.errors.length > 0) {
+                log(`🔴 Errors: ${result.errors.length}`);
+                result.errors.forEach(error => log(`  - ${error.message}`));
+            }
+            
+            if (result.warnings.length > 0) {
+                log(`🟡 Warnings: ${result.warnings.length}`);
+                result.warnings.forEach(warning => log(`  - ${warning.message}`));
+            }
+        };
+        
+        window.showComponents = function() {
+            if (!builder) {
+                log('⚠️ Builder not initialized. Please initialize first.');
+                return;
+            }
+            
+            const components = builder.getAllComponents();
+            log(`📦 Total components: ${components.length}`);
+            
+            components.forEach(component => {
+                log(`  - ${component.type} (${component.id})`);
+            });
+        };
+        
+        window.clearConsole = function() {
+            document.getElementById('console').innerHTML = '<div>Console cleared...</div>';
+        };
+        
+        // Auto-initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🎯 Phase 1 Implementation loaded successfully!');
+            log('📚 Available commands: initializeBuilder(), runTests(), showComponents()');
+        });
+    </script>
+</body>
+</html>

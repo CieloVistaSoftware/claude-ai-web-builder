@@ -1,0 +1,13 @@
+{
+  "name": "file-explorer-server",
+  "version": "1.0.0",
+  "description": "File system explorer server for browsing images",
+  "main": "fileExplorerServer.js",
+  "scripts": {
+    "start": "node fileExplorerServer.js",
+    "install-and-start": "npm install && npm start"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

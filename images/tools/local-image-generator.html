@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Image Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 2px solid #4a5568;
+        }
+
+        h1 {
+            color: #63b3ed;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(45, 55, 72, 0.8);
+            border-radius: 12px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+            transform: translateY(-2px);
+        }
+
+        .status {
+            background: rgba(56, 161, 105, 0.2);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #38a169;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .image-card {
+            background: rgba(45, 55, 72, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #4a5568;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-color: #63b3ed;
+        }
+
+        .image-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            background: #2d3748;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .generated-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .image-details {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #805ad5 0%, #6b46c1 100%);
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Local Image Generator</h1>
+            <p>Generates images locally using Canvas - No external dependencies!</p>
+        </header>
+
+        <div class="controls">
+                        <button class="btn" onclick="testLocalImages()">🎨 Generate Level 1 + New Random Gradients</button>
+            <button onclick="imageGenerator.generateMore()">➕ Generate More</button>
+            <button onclick="imageGenerator.generatePatterns()">🔳 Generate Patterns</button>
+            <button onclick="imageGenerator.clear()">🗑️ Clear All</button>
+        </div>
+
+        <div class="status">
+            <p>📊 <strong>Status:</strong> <span id="status">Ready to generate</span></p>
+            <p>🖼️ <strong>Images:</strong> <span id="imageCount">0 generated</span></p>
+        </div>
+
+        <div class="image-grid" id="imageGrid"></div>
+    </div>
+
+    <script>
+        // Progressive complexity system
+        let complexityLevel = 1;
+        let maxComplexity = 10;
+        let generationCount = 0;
+
+        function generateComplexImage(text, bgColor, level, gradientIndex, textColor = 'white', width = 300, height = 200) {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            
+            // Create unique gradient for this specific image using complementary HSL
+            generateHSLComplementaryGradient(ctx, width, height, bgColor, gradientIndex);
+            
+            // Add patterns based on complexity level
+            addComplexPatterns(ctx, width, height, level);
+            
+            // Add text with complexity-based styling
+            addComplexText(ctx, text, width, height, textColor, level);
+            
+            return canvas.toDataURL();
+        }
+
+        function generateHSLComplementaryGradient(ctx, width, height, baseColor, gradientIndex) {
+            // Convert base color to HSL
+            const hsl = hexToHSL(baseColor);
+            
+            // Generate different gradient types with complementary colors
+            const gradientTypes = [
+                'linear-horizontal', 'linear-vertical', 'linear-diagonal', 'linear-reverse-diagonal',
+                'radial-center', 'radial-corner', 'radial-off-center', 'radial-multi',
+                'complementary-split', 'triadic', 'analogous', 'tetradic',
+                'monochromatic', 'warm-cool', 'sunset', 'ocean',
+                'rainbow', 'earth-tones', 'neon', 'pastel'
+            ];
+            
+            const gradientType = gradientTypes[gradientIndex % gradientTypes.length];
+            let gradient;
+            
+            switch(gradientType) {
+                case 'linear-horizontal':
+                    gradient = ctx.createLinearGradient(0, 0, width, 0);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 180) % 360, hsl.s, Math.max(20, hsl.l - 30)));
+                    break;
+                    
+                case 'linear-vertical':
+                    gradient = ctx.createLinearGradient(0, 0, 0, height);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, Math.min(80, hsl.l + 20)));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 180) % 360, hsl.s, Math.max(10, hsl.l - 40)));
+                    break;
+                    
+                case 'linear-diagonal':
+                    gradient = ctx.createLinearGradient(0, 0, width, height);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(0.5, hslToHex((hsl.h + 60) % 360, Math.min(100, hsl.s + 20), hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 180) % 360, hsl.s, Math.max(20, hsl.l - 30)));
+                    break;
+                    
+                case 'linear-reverse-diagonal':
+                    gradient = ctx.createLinearGradient(width, 0, 0, height);
+                    gradient.addColorStop(0, hslToHex((hsl.h + 120) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 240) % 360, hsl.s, hsl.l));
+                    break;
+                    
+                case 'radial-center':
+                    gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height)/2);
+                    gradient.addColorStop(0, hslToHex(hsl.h, Math.min(100, hsl.s + 30), Math.min(90, hsl.l + 30)));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 180) % 360, hsl.s, Math.max(10, hsl.l - 40)));
+                    break;
+                    
+                case 'radial-corner':
+                    gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.sqrt(width*width + height*height));
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 180) % 360, Math.max(30, hsl.s - 20), Math.max(20, hsl.l - 30)));
+                    break;
+                    
+                case 'radial-off-center':
+                    gradient = ctx.createRadialGradient(width*0.3, height*0.3, 0, width*0.3, height*0.3, Math.max(width, height));
+                    gradient.addColorStop(0, hslToHex((hsl.h + 60) % 360, hsl.s, Math.min(80, hsl.l + 20)));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 240) % 360, hsl.s, Math.max(20, hsl.l - 20)));
+                    break;
+                    
+                case 'radial-multi':
+                    gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height)/2);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, Math.min(90, hsl.l + 30)));
+                    gradient.addColorStop(0.3, hslToHex((hsl.h + 90) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(0.7, hslToHex((hsl.h + 180) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 270) % 360, hsl.s, Math.max(20, hsl.l - 30)));
+                    break;
+                    
+                case 'complementary-split':
+                    gradient = ctx.createLinearGradient(0, 0, width, height);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(0.5, hslToHex((hsl.h + 150) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 210) % 360, hsl.s, hsl.l));
+                    break;
+                    
+                case 'triadic':
+                    gradient = ctx.createLinearGradient(0, 0, width, 0);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(0.5, hslToHex((hsl.h + 120) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 240) % 360, hsl.s, hsl.l));
+                    break;
+                    
+                case 'analogous':
+                    gradient = ctx.createLinearGradient(0, 0, 0, height);
+                    gradient.addColorStop(0, hslToHex((hsl.h - 30 + 360) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(0.33, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(0.66, hslToHex((hsl.h + 30) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 60) % 360, hsl.s, hsl.l));
+                    break;
+                    
+                case 'tetradic':
+                    gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height)/2);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(0.25, hslToHex((hsl.h + 90) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(0.5, hslToHex((hsl.h + 180) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(0.75, hslToHex((hsl.h + 270) % 360, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex(hsl.h, Math.max(20, hsl.s - 30), Math.max(20, hsl.l - 30)));
+                    break;
+                    
+                case 'monochromatic':
+                    gradient = ctx.createLinearGradient(0, 0, width, height);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, Math.min(90, hsl.l + 40)));
+                    gradient.addColorStop(0.25, hslToHex(hsl.h, hsl.s, Math.min(80, hsl.l + 20)));
+                    gradient.addColorStop(0.5, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(0.75, hslToHex(hsl.h, hsl.s, Math.max(30, hsl.l - 20)));
+                    gradient.addColorStop(1, hslToHex(hsl.h, hsl.s, Math.max(10, hsl.l - 40)));
+                    break;
+                    
+                case 'warm-cool':
+                    gradient = ctx.createLinearGradient(0, 0, width, 0);
+                    gradient.addColorStop(0, hslToHex(30, 80, 60)); // Warm orange
+                    gradient.addColorStop(1, hslToHex(210, 80, 60)); // Cool blue
+                    break;
+                    
+                case 'sunset':
+                    gradient = ctx.createLinearGradient(0, 0, 0, height);
+                    gradient.addColorStop(0, hslToHex(50, 100, 70)); // Light yellow
+                    gradient.addColorStop(0.3, hslToHex(30, 100, 60)); // Orange
+                    gradient.addColorStop(0.7, hslToHex(350, 80, 50)); // Red
+                    gradient.addColorStop(1, hslToHex(270, 60, 30)); // Purple
+                    break;
+                    
+                case 'ocean':
+                    gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height)/2);
+                    gradient.addColorStop(0, hslToHex(200, 100, 80)); // Light cyan
+                    gradient.addColorStop(0.5, hslToHex(210, 80, 60)); // Blue
+                    gradient.addColorStop(1, hslToHex(220, 100, 20)); // Deep blue
+                    break;
+                    
+                case 'rainbow':
+                    gradient = ctx.createLinearGradient(0, 0, width, 0);
+                    gradient.addColorStop(0, hslToHex(0, 100, 60)); // Red
+                    gradient.addColorStop(0.17, hslToHex(60, 100, 60)); // Yellow
+                    gradient.addColorStop(0.33, hslToHex(120, 100, 60)); // Green
+                    gradient.addColorStop(0.5, hslToHex(180, 100, 60)); // Cyan
+                    gradient.addColorStop(0.67, hslToHex(240, 100, 60)); // Blue
+                    gradient.addColorStop(0.83, hslToHex(300, 100, 60)); // Magenta
+                    gradient.addColorStop(1, hslToHex(360, 100, 60)); // Red
+                    break;
+                    
+                case 'earth-tones':
+                    gradient = ctx.createLinearGradient(0, 0, width, height);
+                    gradient.addColorStop(0, hslToHex(40, 60, 70)); // Sand
+                    gradient.addColorStop(0.5, hslToHex(25, 50, 45)); // Brown
+                    gradient.addColorStop(1, hslToHex(100, 40, 30)); // Dark green
+                    break;
+                    
+                case 'neon':
+                    gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height)/2);
+                    gradient.addColorStop(0, hslToHex(hsl.h, 100, 80)); // Bright center
+                    gradient.addColorStop(0.7, hslToHex((hsl.h + 60) % 360, 100, 60)); // Neon
+                    gradient.addColorStop(1, hslToHex(0, 0, 5)); // Near black
+                    break;
+                    
+                case 'pastel':
+                    gradient = ctx.createLinearGradient(0, 0, 0, height);
+                    gradient.addColorStop(0, hslToHex(hsl.h, 30, 85)); // Light pastel
+                    gradient.addColorStop(0.5, hslToHex((hsl.h + 120) % 360, 40, 80)); // Mid pastel
+                    gradient.addColorStop(1, hslToHex((hsl.h + 240) % 360, 35, 75)); // Darker pastel
+                    break;
+                    
+                default:
+                    gradient = ctx.createLinearGradient(0, 0, width, height);
+                    gradient.addColorStop(0, hslToHex(hsl.h, hsl.s, hsl.l));
+                    gradient.addColorStop(1, hslToHex((hsl.h + 180) % 360, hsl.s, Math.max(20, hsl.l - 30)));
+                    break;
+            }
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        // HSL conversion functions
+        function hexToHSL(hex) {
+            const r = parseInt(hex.substr(1, 2), 16) / 255;
+            const g = parseInt(hex.substr(3, 2), 16) / 255;
+            const b = parseInt(hex.substr(5, 2), 16) / 255;
+            
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+        }
+
+        function hslToHex(h, s, l) {
+            l /= 100;
+            const a = s * Math.min(l, 1 - l) / 100;
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`;
+        }
+
+        function addComplexPatterns(ctx, width, height, level) {
+
+            // Level 2: Add concentric circles
+            if (level >= 2) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.lineWidth = 2;
+                for (let radius = 20; radius < Math.min(width, height) / 2; radius += 25) {
+                    ctx.beginPath();
+                    ctx.arc(width / 2, height / 2, radius, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            }
+
+            // Level 3: Add wave patterns
+            if (level >= 3) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.lineWidth = 1;
+                for (let y = 0; y < height; y += 20) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    for (let x = 0; x <= width; x += 5) {
+                        const waveY = y + Math.sin(x * 0.02 + level) * 10;
+                        ctx.lineTo(x, waveY);
+                    }
+                    ctx.stroke();
+                }
+            }
+
+            // Level 4: Add triangular grid
+            if (level >= 4) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+                ctx.lineWidth = 1;
+                const triangleSize = 30;
+                for (let x = 0; x < width; x += triangleSize) {
+                    for (let y = 0; y < height; y += triangleSize) {
+                        drawTriangle(ctx, x, y, triangleSize);
+                    }
+                }
+            }
+
+            // Level 5: Add spiral patterns
+            if (level >= 5) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+                ctx.lineWidth = 2;
+                drawSpiral(ctx, width / 4, height / 4, 30, level);
+                drawSpiral(ctx, (3 * width) / 4, (3 * height) / 4, 25, level);
+            }
+
+            // Level 6: Add fractal-like branching
+            if (level >= 6) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+                ctx.lineWidth = 1;
+                drawFractalBranch(ctx, width / 2, height, -Math.PI / 2, 40, level - 5);
+            }
+
+            // Level 7: Add hexagonal tessellation
+            if (level >= 7) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.lineWidth = 1;
+                const hexSize = 20;
+                for (let x = 0; x < width; x += hexSize * 1.5) {
+                    for (let y = 0; y < height; y += hexSize * Math.sqrt(3)) {
+                        const offsetX = (y / (hexSize * Math.sqrt(3))) % 2 === 1 ? hexSize * 0.75 : 0;
+                        drawHexagon(ctx, x + offsetX, y, hexSize);
+                    }
+                }
+            }
+
+            // Level 8: Add complex mandala pattern
+            if (level >= 8) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.lineWidth = 1;
+                drawMandala(ctx, width / 2, height / 2, 60, level);
+            }
+
+            // Level 9: Add interference patterns
+            if (level >= 9) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+                ctx.lineWidth = 1;
+                for (let i = 0; i < 5; i++) {
+                    const centerX = (width / 5) * (i + 0.5);
+                    for (let radius = 5; radius < 80; radius += 8) {
+                        ctx.beginPath();
+                        ctx.arc(centerX, height / 2, radius, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Level 10: Add complex mathematical curves
+            if (level >= 10) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 2;
+                drawLissajousCurve(ctx, width / 2, height / 2, 50, 40, level, level + 1);
+                drawRosePattern(ctx, width / 2, height / 2, 30, level);
+            }
+        }
+
+        function addComplexText(ctx, text, width, height, textColor, level) {
+            ctx.fillStyle = textColor;
+            
+            if (level <= 3) {
+                // Simple text
+                ctx.font = 'bold 24px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(text, width/2, height/2 - 10);
+                ctx.font = '14px Arial';
+                ctx.fillText(`Level ${level}`, width/2, height/2 + 15);
+            } else if (level <= 6) {
+                // Outlined text with shadow
+                ctx.font = 'bold 28px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // Shadow
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillText(text, width/2 + 2, height/2 - 8);
+                
+                // Main text
+                ctx.fillStyle = textColor;
+                ctx.fillText(text, width/2, height/2 - 10);
+                
+                // Outline
+                ctx.strokeStyle = adjustBrightness(textColor, -50);
+                ctx.lineWidth = 2;
+                ctx.strokeText(text, width/2, height/2 - 10);
+                
+                ctx.font = '16px Arial';
+                ctx.fillText(`Level ${level}`, width/2, height/2 + 20);
+            } else {
+                // Complex text with multiple effects
+                ctx.font = 'bold 32px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // Multiple shadows for depth
+                for (let i = 3; i >= 1; i--) {
+                    ctx.fillStyle = `rgba(0, 0, 0, ${0.3 / i})`;
+                    ctx.fillText(text, width/2 + i * 2, height/2 - 10 + i * 2);
+                }
+                
+                // Main text with gradient
+                const textGradient = ctx.createLinearGradient(0, height/2 - 20, 0, height/2);
+                textGradient.addColorStop(0, textColor);
+                textGradient.addColorStop(1, adjustBrightness(textColor, 30));
+                ctx.fillStyle = textGradient;
+                ctx.fillText(text, width/2, height/2 - 10);
+                
+                // Outline
+                ctx.strokeStyle = adjustBrightness(textColor, -60);
+                ctx.lineWidth = 3;
+                ctx.strokeText(text, width/2, height/2 - 10);
+                
+                // Level indicator with effects
+                ctx.font = 'bold 18px Arial';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillText(`◆ LEVEL ${level} ◆`, width/2, height/2 + 25);
+            }
+        }
+
+        function createUniqueRandomGradient(ctx, width, height, bgColor) {
+            // Generate random parameters for unique gradients each time
+            const gradientTypes = ['linear', 'radial', 'conic', 'complex'];
+            const randomType = gradientTypes[Math.floor(Math.random() * gradientTypes.length)];
+            
+            let gradient;
+            
+            switch(randomType) {
+                case 'linear':
+                    // Random linear gradient with random angle
+                    const angle = Math.random() * Math.PI * 2;
+                    const x1 = width/2 + Math.cos(angle) * width/2;
+                    const y1 = height/2 + Math.sin(angle) * height/2;
+                    const x2 = width/2 - Math.cos(angle) * width/2;
+                    const y2 = height/2 - Math.sin(angle) * height/2;
+                    
+                    gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                    
+                    // Random number of color stops (2-5)
+                    const linearStops = 2 + Math.floor(Math.random() * 4);
+                    for (let i = 0; i < linearStops; i++) {
+                        const position = i / (linearStops - 1);
+                        const brightness = -60 + Math.random() * 80; // Random brightness variation
+                        const hueShift = -30 + Math.random() * 60; // Random hue shift
+                        gradient.addColorStop(position, adjustColorRandomly(bgColor, brightness, hueShift));
+                    }
+                    break;
+                    
+                case 'radial':
+                    // Random radial gradient with random center and radius
+                    const centerX = width * (0.2 + Math.random() * 0.6); // Random center within middle 60%
+                    const centerY = height * (0.2 + Math.random() * 0.6);
+                    const innerRadius = Math.random() * 30;
+                    const outerRadius = 50 + Math.random() * Math.max(width, height);
+                    
+                    gradient = ctx.createRadialGradient(centerX, centerY, innerRadius, centerX, centerY, outerRadius);
+                    
+                    // Random number of color stops (2-6)
+                    const radialStops = 2 + Math.floor(Math.random() * 5);
+                    for (let i = 0; i < radialStops; i++) {
+                        const position = i / (radialStops - 1);
+                        const brightness = -50 + Math.random() * 70;
+                        const hueShift = -40 + Math.random() * 80;
+                        gradient.addColorStop(position, adjustColorRandomly(bgColor, brightness, hueShift));
+                    }
+                    break;
+                    
+                case 'conic':
+                    // Simulate conic gradient with multiple overlapping radials
+                    const segments = 6 + Math.floor(Math.random() * 6); // 6-12 segments
+                    for (let i = 0; i < segments; i++) {
+                        const angle = (i / segments) * Math.PI * 2;
+                        const centerX = width/2 + Math.cos(angle) * (20 + Math.random() * 40);
+                        const centerY = height/2 + Math.sin(angle) * (20 + Math.random() * 40);
+                        const radius = 30 + Math.random() * 80;
+                        
+                        gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                        const brightness = -40 + Math.random() * 60;
+                        const hueShift = -50 + Math.random() * 100;
+                        gradient.addColorStop(0, adjustColorRandomly(bgColor, brightness + 20, hueShift));
+                        gradient.addColorStop(1, 'transparent');
+                        
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(0, 0, width, height);
+                    }
+                    return; // Skip main gradient fill
+                    
+                case 'complex':
+                    // Multiple overlapping gradients with random orientations
+                    const layers = 2 + Math.floor(Math.random() * 3); // 2-4 layers
+                    
+                    for (let layer = 0; layer < layers; layer++) {
+                        const isRadial = Math.random() > 0.5;
+                        
+                        if (isRadial) {
+                            const centerX = width * Math.random();
+                            const centerY = height * Math.random();
+                            const radius = 50 + Math.random() * 150;
+                            
+                            gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                        } else {
+                            const angle = Math.random() * Math.PI * 2;
+                            const x1 = Math.random() * width;
+                            const y1 = Math.random() * height;
+                            const x2 = x1 + Math.cos(angle) * width;
+                            const y2 = y1 + Math.sin(angle) * height;
+                            
+                            gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                        }
+                        
+                        const opacity = layer === 0 ? '' : Math.floor(40 + Math.random() * 40).toString(16);
+                        const brightness = -30 + Math.random() * 60;
+                        const hueShift = -60 + Math.random() * 120;
+                        
+                        gradient.addColorStop(0, adjustColorRandomly(bgColor, brightness, hueShift) + opacity);
+                        gradient.addColorStop(1, adjustColorRandomly(bgColor, brightness - 30, hueShift + 20) + opacity);
+                        
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(0, 0, width, height);
+                    }
+                    return; // Skip main gradient fill
+                    
+                default:
+                    // Fallback to simple linear
+                    gradient = ctx.createLinearGradient(0, 0, width, height);
+                    gradient.addColorStop(0, bgColor);
+                    gradient.addColorStop(1, adjustBrightness(bgColor, -30));
+                    break;
+            }
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        function adjustColorRandomly(color, brightness, hueShift) {
+            // Parse hex color
+            const hex = color.replace('#', '');
+            let r = parseInt(hex.substr(0, 2), 16);
+            let g = parseInt(hex.substr(2, 2), 16);
+            let b = parseInt(hex.substr(4, 2), 16);
+            
+            // Apply brightness adjustment
+            r = Math.max(0, Math.min(255, r + brightness));
+            g = Math.max(0, Math.min(255, g + brightness));
+            b = Math.max(0, Math.min(255, b + brightness));
+            
+            // Apply random hue shift (simplified)
+            const hueShiftAmount = hueShift * 0.01;
+            if (Math.abs(hueShiftAmount) > 0.1) {
+                r = Math.max(0, Math.min(255, r + hueShift * 0.3));
+                g = Math.max(0, Math.min(255, g + hueShift * 0.5));
+                b = Math.max(0, Math.min(255, b + hueShift * 0.7));
+            }
+            
+            return `#${Math.round(r).toString(16).padStart(2, '0')}${Math.round(g).toString(16).padStart(2, '0')}${Math.round(b).toString(16).padStart(2, '0')}`;
+        }
+
+        function getRandomGradientDescription() {
+            const descriptions = [
+                "Unique linear gradient",
+                "Random radial blend",
+                "Multi-directional flow",
+                "Organic color sweep",
+                "Dynamic radial burst",
+                "Flowing color waves",
+                "Layered color depth",
+                "Spontaneous gradient",
+                "Random color fusion",
+                "Unique blend pattern"
+            ];
+            return descriptions[Math.floor(Math.random() * descriptions.length)];
+        }
+        function drawTriangle(ctx, x, y, size) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + size, y);
+            ctx.lineTo(x + size/2, y + size * Math.sqrt(3)/2);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        function drawSpiral(ctx, centerX, centerY, maxRadius, turns) {
+            ctx.beginPath();
+            for (let angle = 0; angle < turns * Math.PI * 2; angle += 0.1) {
+                const radius = (angle / (turns * Math.PI * 2)) * maxRadius;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                if (angle === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        }
+
+        function drawFractalBranch(ctx, x, y, angle, length, depth) {
+            if (depth === 0 || length < 2) return;
+            
+            const endX = x + length * Math.cos(angle);
+            const endY = y + length * Math.sin(angle);
+            
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            
+            drawFractalBranch(ctx, endX, endY, angle - Math.PI/6, length * 0.7, depth - 1);
+            drawFractalBranch(ctx, endX, endY, angle + Math.PI/6, length * 0.7, depth - 1);
+        }
+
+        function drawHexagon(ctx, centerX, centerY, radius) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        function drawMandala(ctx, centerX, centerY, radius, complexity) {
+            const petals = complexity * 2;
+            for (let i = 0; i < petals; i++) {
+                const angle = (i * Math.PI * 2) / petals;
+                ctx.beginPath();
+                ctx.arc(
+                    centerX + (radius * 0.5) * Math.cos(angle),
+                    centerY + (radius * 0.5) * Math.sin(angle),
+                    radius * 0.3,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.stroke();
+            }
+        }
+
+        function drawLissajousCurve(ctx, centerX, centerY, a, b, freqX, freqY) {
+            ctx.beginPath();
+            for (let t = 0; t < Math.PI * 2; t += 0.01) {
+                const x = centerX + a * Math.sin(freqX * t);
+                const y = centerY + b * Math.sin(freqY * t);
+                if (t === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        }
+
+        function drawRosePattern(ctx, centerX, centerY, radius, petals) {
+            ctx.beginPath();
+            for (let angle = 0; angle < Math.PI * 2; angle += 0.01) {
+                const r = radius * Math.cos(petals * angle);
+                const x = centerX + r * Math.cos(angle);
+                const y = centerY + r * Math.sin(angle);
+                if (angle === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        }
+
+        function testLocalImages() {
+            generationCount++;
+            const imageContainer = document.getElementById('imageContainer');
+            imageContainer.innerHTML = `<h3 style="text-align: center; margin-bottom: 20px;">🎨 Generating Level ${complexityLevel} - Unique Random Gradients (Set #${generationCount})...</h3>`;
+            
+            const testImages = [
+                { text: 'Ocean Blue', color: '#4299e1' },
+                { text: 'Forest Green', color: '#38a169' },
+                { text: 'Royal Purple', color: '#805ad5' },
+                { text: 'Crimson Red', color: '#e53e3e' },
+                { text: 'Golden Sun', color: '#d69e2e' },
+                { text: 'Deep Teal', color: '#3182ce' },
+                { text: 'Violet Dream', color: '#6b46c1' },
+                { text: 'Emerald', color: '#2f855a' },
+                { text: 'Fire Orange', color: '#c53030' },
+                { text: 'Amber Glow', color: '#b7791f' }
+            ];
+            
+            let loadedCount = 0;
+            
+            testImages.forEach((imageData, index) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.className = 'image-test';
+                    
+                    const img = document.createElement('img');
+                    img.src = generateComplexImage(imageData.text, imageData.color, complexityLevel);
+                    img.style.cssText = 'width: 200px; height: 133px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);';
+                    
+                    const title = document.createElement('div');
+                    title.textContent = imageData.text;
+                    title.style.cssText = 'font-weight: bold; margin-bottom: 8px; color: #e0e7ff;';
+                    
+                    const status = document.createElement('div');
+                    status.className = 'status success';
+                    status.textContent = `✅ Level ${complexityLevel} - Set ${generationCount} (#${index + 1})`;
+                    
+                    const info = document.createElement('div');
+                    info.textContent = `${getComplexityDescription(complexityLevel)} | ${getRandomGradientDescription()}`;
+                    info.style.cssText = 'color: #94a3b8; font-size: 11px; margin-top: 4px; line-height: 1.3;';
+                    
+                    div.appendChild(title);
+                    div.appendChild(img);
+                    div.appendChild(status);
+                    div.appendChild(info);
+                    imageContainer.appendChild(div);
+                    
+                    loadedCount++;
+                    
+                    if (loadedCount === testImages.length) {
+                        setTimeout(() => addComplexitySummary(testImages.length), 500);
+                    }
+                }, index * 150);
+            });
+
+            // Increase complexity for next click
+            complexityLevel++;
+            if (complexityLevel > maxComplexity) {
+                complexityLevel = 1; // Reset to level 1
+            }
+
+            // Update button text
+            updateButtonText();
+        }
+
+        function addComplexitySummary(count) {
+            const imageContainer = document.getElementById('imageContainer');
+            
+            const summary = document.createElement('div');
+            summary.className = 'summary';
+            const currentLevel = complexityLevel - 1; // Since we already incremented
+            
+            summary.innerHTML = `
+                <h3 style="color: #22c55e; margin: 0 0 15px 0;">🎉 Level ${currentLevel} + Unique Random Gradients Generated!</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left; max-width: 600px; margin: 0 auto;">
+                    <div>
+                        <p style="margin: 5px 0; color: #4ade80;"><strong>✅ Complexity Level:</strong> ${currentLevel}/${maxComplexity}</p>
+                        <p style="margin: 5px 0; color: #4ade80;"><strong>✅ Generation Set:</strong> #${generationCount}</p>
+                        <p style="margin: 5px 0; color: #4ade80;"><strong>✅ Images Generated:</strong> ${count} unique patterns</p>
+                    </div>
+                    <div>
+                        <p style="margin: 5px 0; color: #4ade80;"><strong>✅ Pattern Type:</strong> ${getComplexityDescription(currentLevel)}</p>
+                        <p style="margin: 5px 0; color: #4ade80;"><strong>✅ Gradient Type:</strong> Never-repeating random</p>
+                        <p style="margin: 5px 0; color: #4ade80;"><strong>✅ Uniqueness:</strong> 100% unique gradients</p>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 10px; background: rgba(34, 197, 94, 0.1); border-radius: 6px;">
+                    <p style="margin: 0; color: #e0e7ff; font-style: italic;">
+                        🎯 <strong>Next Click:</strong> Level ${complexityLevel > maxComplexity ? '1' : complexityLevel} + Brand New Random Gradients (Set #${generationCount + 1})
+                    </p>
+                </div>
+            `;
+            imageContainer.appendChild(summary);
+        }
+
+        function updateButtonText() {
+            const button = document.querySelector('.btn');
+            if (button) {
+                button.textContent = `🎨 Generate Level ${complexityLevel} + New Random Gradients`;
+            }
+        }
+        class LocalImageGenerator {
+            constructor() {
+                this.imageCount = 0;
+                this.colors = [
+                    { name: 'Ocean Blue', hex: '#4299e1', rgb: [66, 153, 225] },
+                    { name: 'Forest Green', hex: '#38a169', rgb: [56, 161, 105] },
+                    { name: 'Royal Purple', hex: '#805ad5', rgb: [128, 90, 213] },
+                    { name: 'Sunset Red', hex: '#e53e3e', rgb: [229, 62, 62] },
+                    { name: 'Golden Yellow', hex: '#d69e2e', rgb: [214, 158, 46] },
+                    { name: 'Deep Teal', hex: '#3182ce', rgb: [49, 130, 206] },
+                    { name: 'Emerald', hex: '#2f855a', rgb: [47, 133, 90] },
+                    { name: 'Violet', hex: '#6b46c1', rgb: [107, 70, 193] },
+                    { name: 'Crimson', hex: '#c53030', rgb: [197, 48, 48] },
+                    { name: 'Amber', hex: '#b7791f', rgb: [183, 121, 31] }
+                ];
+            }
+
+            updateStatus(text) {
+                document.getElementById('status').textContent = text;
+                document.getElementById('imageCount').textContent = `${this.imageCount} generated`;
+            }
+
+            createCanvas(width = 300, height = 200) {
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                return canvas;
+            }
+
+            generateSolidColor(color, text) {
+                const canvas = this.createCanvas();
+                const ctx = canvas.getContext('2d');
+                
+                // Fill background
+                ctx.fillStyle = color.hex;
+                ctx.fillRect(0, 0, 300, 200);
+                
+                // Add text
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 24px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(text, 150, 100);
+                
+                // Add subtitle
+                ctx.font = '14px Arial';
+                ctx.fillText(color.name, 150, 130);
+                
+                return canvas.toDataURL();
+            }
+
+            generateGradient(color1, color2, text) {
+                const canvas = this.createCanvas();
+                const ctx = canvas.getContext('2d');
+                
+                // Create gradient
+                const gradient = ctx.createLinearGradient(0, 0, 300, 200);
+                gradient.addColorStop(0, color1.hex);
+                gradient.addColorStop(1, color2.hex);
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 300, 200);
+                
+                // Add text
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(text, 150, 100);
+                
+                return canvas.toDataURL();
+            }
+
+            generatePattern(color, patternType) {
+                const canvas = this.createCanvas();
+                const ctx = canvas.getContext('2d');
+                
+                // Background
+                ctx.fillStyle = color.hex;
+                ctx.fillRect(0, 0, 300, 200);
+                
+                // Pattern
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                
+                switch (patternType) {
+                    case 'circles':
+                        for (let i = 0; i < 20; i++) {
+                            ctx.beginPath();
+                            ctx.arc(Math.random() * 300, Math.random() * 200, Math.random() * 30 + 10, 0, 2 * Math.PI);
+                            ctx.fill();
+                        }
+                        break;
+                    case 'squares':
+                        for (let i = 0; i < 15; i++) {
+                            ctx.fillRect(Math.random() * 250, Math.random() * 150, 30, 30);
+                        }
+                        break;
+                    case 'lines':
+                        ctx.lineWidth = 3;
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                        for (let i = 0; i < 20; i++) {
+                            ctx.beginPath();
+                            ctx.moveTo(Math.random() * 300, Math.random() * 200);
+                            ctx.lineTo(Math.random() * 300, Math.random() * 200);
+                            ctx.stroke();
+                        }
+                        break;
+                }
+                
+                // Add label
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 18px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(`${patternType.toUpperCase()}`, 150, 100);
+                ctx.font = '12px Arial';
+                ctx.fillText(color.name, 150, 120);
+                
+                return canvas.toDataURL();
+            }
+
+            createImageCard(name, dataUrl, details) {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.style.animation = 'fadeIn 0.5s ease-in';
+                
+                card.innerHTML = `
+                    <div class="image-container">
+                        <img src="${dataUrl}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="image-info">
+                        <div class="image-name">${name}</div>
+                        <div class="image-details">${details}</div>
+                        <button onclick="this.copyDataUrl('${dataUrl}')" class="copy-btn">📋 Copy Data URL</button>
+                    </div>
+                `;
+                
+                // Add copy functionality
+                const button = card.querySelector('button');
+                button.copyDataUrl = (dataUrl) => {
+                    navigator.clipboard.writeText(dataUrl).then(() => {
+                        button.textContent = '✅ Copied!';
+                        setTimeout(() => {
+                            button.textContent = '📋 Copy Data URL';
+                        }, 2000);
+                    });
+                };
+                
+                return card;
+            }
+
+            generateImages() {
+                this.updateStatus('Generating solid color images...');
+                const grid = document.getElementById('imageGrid');
+                
+                this.colors.slice(0, 5).forEach((color, index) => {
+                    const dataUrl = this.generateSolidColor(color, `Image ${index + 1}`);
+                    const card = this.createImageCard(
+                        `Solid ${color.name}`,
+                        dataUrl,
+                        `Generated locally with Canvas API`
+                    );
+                    grid.appendChild(card);
+                    this.imageCount++;
+                });
+                
+                this.updateStatus('Generated solid color images');
+            }
+
+            generateMore() {
+                this.updateStatus('Generating gradient images...');
+                const grid = document.getElementById('imageGrid');
+                
+                for (let i = 0; i < 5; i++) {
+                    const color1 = this.colors[i];
+                    const color2 = this.colors[(i + 1) % this.colors.length];
+                    const dataUrl = this.generateGradient(color1, color2, `Gradient ${i + 1}`);
+                    const card = this.createImageCard(
+                        `Gradient ${color1.name} to ${color2.name}`,
+                        dataUrl,
+                        `Canvas-generated gradient`
+                    );
+                    grid.appendChild(card);
+                    this.imageCount++;
+                }
+                
+                this.updateStatus('Generated gradient images');
+            }
+
+            generatePatterns() {
+                this.updateStatus('Generating pattern images...');
+                const grid = document.getElementById('imageGrid');
+                
+                const patterns = ['circles', 'squares', 'lines'];
+                
+                patterns.forEach((pattern, index) => {
+                    const color = this.colors[index];
+                    const dataUrl = this.generatePattern(color, pattern);
+                    const card = this.createImageCard(
+                        `${pattern.charAt(0).toUpperCase() + pattern.slice(1)} Pattern`,
+                        dataUrl,
+                        `Generated pattern with ${color.name}`
+                    );
+                    grid.appendChild(card);
+                    this.imageCount++;
+                });
+                
+                this.updateStatus('Generated pattern images');
+            }
+
+            clear() {
+                document.getElementById('imageGrid').innerHTML = '';
+                this.imageCount = 0;
+                this.updateStatus('Cleared all images');
+            }
+        }
+
+        // Initialize
+        const imageGenerator = new LocalImageGenerator();
+        
+        // Auto-generate some images on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                imageGenerator.generateImages();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

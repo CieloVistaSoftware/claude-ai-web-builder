@@ -1,0 +1,469 @@
+:root {
+    /* Dark mode color palette */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #3d3d3d;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --border-primary: #404040;
+    --border-secondary: #505050;
+    --accent-blue: #4a9eff;
+    --accent-blue-hover: #357abd;
+    --accent-blue-dark: #2d5a87;
+    --accent-blue-lightest: #e6f2ff;
+    --accent-green: #4caf50;
+    --accent-green-hover: #45a049;
+    --accent-green-dark: #2e7d32;
+    --accent-red: #f44336;
+    --accent-red-hover: #d32f2f;
+    --accent-yellow: #ff9800;
+    --accent-yellow-hover: #f57c00;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.2);
+    --shadow-strong: rgba(0, 0, 0, 0.4);
+}
+
+/* Universal element editor styles */
+.universal-element-editor {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow-strong);
+    z-index: 9999;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.universal-element-editor h3 {
+    margin: 0 0 16px 0;
+    color: var(--accent-blue);
+    font-size: 1.4em;
+}
+
+.universal-element-editor .editor-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.universal-element-editor .editor-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.universal-element-editor .editor-group label {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.universal-element-editor .editor-input,
+.universal-element-editor .editor-select,
+.universal-element-editor .editor-textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.universal-element-editor .editor-input:focus,
+.universal-element-editor .editor-select:focus,
+.universal-element-editor .editor-textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--accent-blue-dark);
+}
+
+.universal-element-editor .editor-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.universal-element-editor .editor-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.universal-element-editor .editor-button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.universal-element-editor .editor-button.save-button {
+    background-color: var(--accent-blue);
+    color: white;
+}
+
+.universal-element-editor .editor-button.save-button:hover {
+    background-color: var(--accent-blue-hover);
+}
+
+.universal-element-editor .editor-button.cancel-button {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-secondary);
+}
+
+.universal-element-editor .editor-button.cancel-button:hover {
+    background-color: var(--border-secondary);
+}
+
+.universal-element-editor .editor-button.delete-button {
+    background-color: var(--accent-red);
+    color: white;
+}
+
+.universal-element-editor .editor-button.delete-button:hover {
+    background-color: var(--accent-red-hover);
+}
+
+/* Universal Element Editor Test Suite Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--accent-blue);
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.instructions {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border-primary);
+}
+
+.instructions h4 {
+    margin-top: 0;
+    color: var(--accent-blue);
+    font-size: 1.2em;
+}
+
+.instructions p {
+    margin-bottom: 0;
+    line-height: 1.8;
+}
+
+.section {
+    margin: 40px 0;
+    padding: 30px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-primary);
+}
+
+.section h2 {
+    color: var(--accent-blue);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section h3 {
+    color: var(--text-secondary);
+    margin: 20px 0 10px 0;
+    font-size: 1.2em;
+}
+
+.element-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 0;
+    align-items: center;
+}
+
+.form-section {
+    margin: 20px 0;
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.form-section input,
+.form-section select,
+.form-section textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-family: inherit;
+    margin-bottom: 15px;
+}
+
+.form-section input:focus,
+.form-section select:focus,
+.form-section textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--accent-blue-dark);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+th {
+    background: var(--bg-secondary);
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+tr:hover {
+    background: var(--bg-primary);
+}
+
+video {
+    border-radius: 8px;
+    box-shadow: var(--shadow-medium);
+}
+
+/* Universal editor styling */
+.universal-editor {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow-strong);
+    z-index: 9999;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Debug styles */
+.debug {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 12px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 12px;
+    max-width: 300px;
+    border: 1px solid var(--border-secondary);
+}
+
+/* Edit Mode Toggle */
+.edit-mode-button {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-secondary);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+}
+
+.edit-mode-button:hover {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+    transform: translateY(-1px);
+}
+
+.edit-mode-button.active {
+    background: var(--accent-green);
+    color: white;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 20px var(--accent-green-dark);
+}
+
+#editModeStatus {
+    margin: 8px 0;
+    font-weight: 500;
+}
+
+.status-on {
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+.status-off {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Visual indicator for editable elements when in edit mode */
+body.edit-mode-on [data-editable="true"] {
+    outline: 2px dashed var(--accent-blue);
+    outline-offset: 2px;
+    cursor: pointer;
+    transition: outline-color 0.3s ease;
+}
+
+body.edit-mode-on [data-editable="true"]:hover {
+    outline-color: var(--accent-green);
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+/* Demo element specific styles to replace inline styles */
+.demo-github-link {
+    color: var(--accent-blue);
+}
+
+.demo-submit-button {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+.demo-reset-button {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-secondary);
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+.demo-gradient-button {
+    background: linear-gradient(45deg, var(--accent-blue), var(--accent-blue-hover));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+}
+
+.demo-img-1 {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.demo-img-2 {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.demo-img-3 {
+    width: 180px;
+    height: 120px;
+    border: 3px solid var(--accent-blue);
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.demo-img-4 {
+    width: 200px;
+    height: 130px;
+    box-shadow: 0 8px 20px var(--shadow-medium);
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.demo-span {
+    background: var(--accent-blue-dark);
+    color: var(--accent-blue-lightest);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.demo-large-blue {
+    font-size: 18px;
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.demo-italic {
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+.demo-test-link {
+    margin-right: 10px;
+}
+
+.demo-test-button {
+    margin-right: 10px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+.demo-test-span {
+    background: var(--bg-tertiary);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.demo-test-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.demo-inline-block {
+    display: inline-block;
+    vertical-align: top;
+}

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Generator Demo with Semantic Elements Popup</title>
+    <link rel="stylesheet" href="theme-generator-demo.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Theme Generator Demo</h1>
+            <p>Interactive theme customization with real-time preview</p>
+        </div>
+
+        <div class="theme-controls">
+            <h2>Theme Controls</h2>
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="primaryColor">Primary Color</label>
+                    <input type="color" id="primaryColor" value="#e74c3c">
+                </div>
+                <div class="control-item">
+                    <label for="accentColor">Accent Color</label>
+                    <input type="color" id="accentColor" value="#f39c12">
+                </div>
+                <div class="control-item">
+                    <label for="brightnessSlider">Brightness: <span id="brightnessValue">100%</span></label>
+                    <input type="range" id="brightnessSlider" min="50" max="150" value="100">
+                </div>
+            </div>
+            
+            <button class="popup-trigger" onclick="showSemanticPopup()">
+                🏗️ View Semantic HTML Elements
+            </button>
+        </div>
+    </div>
+
+    <!-- Semantic Elements Popup -->
+    <div class="semantic-popup" id="semanticPopup">
+        <div class="semantic-content">
+            <button class="close-popup" onclick="hideSemanticPopup()">×</button>
+            
+            <h2 class="popup-header">
+                🏗️ Semantic HTML5 Elements Showcase
+            </h2>
+            
+            <div class="semantic-grid">
+                <!-- Structure Elements -->
+                <div class="semantic-section">
+                    <h3>📋 Document Structure</h3>
+                    
+                    <header>
+                        <h4>&lt;header&gt;</h4>
+                        <p>Website header with navigation and branding</p>
+                    </header>
+                    
+                    <nav>
+                        <h4>&lt;nav&gt;</h4>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Services</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                    
+                    <main>
+                        <h4>&lt;main&gt;</h4>
+                        <p>Primary content area of the document</p>
+                    </main>
+                    
+                    <footer>
+                        <h4>&lt;footer&gt;</h4>
+                        <p>© 2025 Theme Demo. All rights reserved.</p>
+                    </footer>
+                </div>
+
+                <!-- Content Elements -->
+                <div class="semantic-section">
+                    <h3>📝 Content Elements</h3>
+                    
+                    <article>
+                        <h4>&lt;article&gt;</h4>
+                        <p>Self-contained, independently distributable content like blog posts or news articles.</p>
+                    </article>
+                    
+                    <section>
+                        <h4>&lt;section&gt;</h4>
+                        <p>Thematic grouping of content, typically with a heading.</p>
+                    </section>
+                    
+                    <aside>
+                        <h4>&lt;aside&gt;</h4>
+                        <p>Content tangentially related to main content, like sidebars or callouts.</p>
+                    </aside>
+                </div>
+
+                <!-- Media Elements -->
+                <div class="semantic-section">
+                    <h3>🖼️ Media & Interactive</h3>
+                    
+                    <figure>
+                        <div class="demo-placeholder">
+                            📸 Image Placeholder
+                        </div>
+                        <figcaption>&lt;figure&gt; with &lt;figcaption&gt;</figcaption>
+                    </figure>
+                    
+                    <blockquote>
+                        <h4>&lt;blockquote&gt;</h4>
+                        "Semantic HTML improves accessibility and SEO while making code more maintainable."
+                    </blockquote>
+                    
+                    <details>
+                        <summary>&lt;details&gt; with &lt;summary&gt;</summary>
+                        <p>This expandable content shows when the summary is clicked. Perfect for FAQs and progressive disclosure.</p>
+                    </details>
+                </div>
+
+                <!-- Form Elements -->
+                <div class="semantic-section">
+                    <h3>📋 Form Elements</h3>
+                    
+                    <div class="form-example-container">
+                        <h4>&lt;fieldset&gt; with &lt;legend&gt;</h4>
+                        <fieldset class="form-example-fieldset">
+                            <legend class="form-example-legend">Contact Information</legend>
+                            <label class="form-example-label">
+                                Name: <input type="text" class="form-example-input">
+                            </label>
+                            <label class="form-example-label">
+                                Email: <input type="email" class="form-example-input">
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <!-- Text Elements -->
+                <div class="semantic-section">
+                    <h3>📰 Text Semantics</h3>
+                    
+                    <div class="text-example-container">
+                        <p><strong>&lt;strong&gt;</strong> for important text</p>
+                        <p><em>&lt;em&gt;</em> for emphasized text</p>
+                        <p><mark class="text-example-mark">&lt;mark&gt;</mark> for highlighted text</p>
+                        <p><code class="text-example-code">&lt;code&gt;</code> for inline code</p>
+                        <p><kbd class="text-example-kbd">Ctrl+C</kbd> &lt;kbd&gt; for keyboard input</p>
+                        <p><small>&lt;small&gt; for fine print and legal text</small></p>
+                    </div>
+                </div>
+
+                <!-- List Elements -->
+                <div class="semantic-section">
+                    <h3>📋 List Elements</h3>
+                    
+                    <div class="list-example-container">
+                        <h4>&lt;ol&gt; Ordered List</h4>
+                        <ol class="list-example-ol">
+                            <li>First item</li>
+                            <li>Second item</li>
+                            <li>Third item</li>
+                        </ol>
+                        
+                        <h4>&lt;ul&gt; Unordered List</h4>
+                        <ul class="list-example-ul">
+                            <li>Bullet point one</li>
+                            <li>Bullet point two</li>
+                            <li>Bullet point three</li>
+                        </ul>
+                        
+                        <h4>&lt;dl&gt; Description List</h4>
+                        <dl class="list-example-dl">
+                            <dt class="list-example-dt">HTML</dt>
+                            <dd class="list-example-dd">HyperText Markup Language</dd>
+                            <dt class="list-example-dt">CSS</dt>
+                            <dd class="list-example-dd">Cascading Style Sheets</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme-generator-demo.js"></script>
+</body>
+</html>

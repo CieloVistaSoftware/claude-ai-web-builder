@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Editor - Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Table Editor - Demo</h1>
+        
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p>This demo shows different table configurations. Click on any table element when edit mode is enabled to modify its properties.</p>
+            <p>Use the controls below to customize table appearance and structure.</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>Sample Tables</h2>
+            
+            <div class="table-container">
+                <table data-editable="table" data-table-style="modern">
+                    <thead>
+                        <tr>
+                            <th data-editable="th">Product</th>
+                            <th data-editable="th">Price</th>
+                            <th data-editable="th">Stock</th>
+                            <th data-editable="th">Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-editable="td">Laptop Pro</td>
+                            <td data-editable="td">$1,299</td>
+                            <td data-editable="td">15</td>
+                            <td data-editable="td">Electronics</td>
+                        </tr>
+                        <tr>
+                            <td data-editable="td">Wireless Mouse</td>
+                            <td data-editable="td">$29</td>
+                            <td data-editable="td">50</td>
+                            <td data-editable="td">Accessories</td>
+                        </tr>
+                        <tr>
+                            <td data-editable="td">USB-C Hub</td>
+                            <td data-editable="td">$79</td>
+                            <td data-editable="td">25</td>
+                            <td data-editable="td">Accessories</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-container" style="margin-top: 30px;">
+                <table data-editable="table" data-table-style="simple">
+                    <thead>
+                        <tr>
+                            <th data-editable="th">Name</th>
+                            <th data-editable="th">Department</th>
+                            <th data-editable="th">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-editable="td">John Smith</td>
+                            <td data-editable="td">Engineering</td>
+                            <td data-editable="td">Active</td>
+                        </tr>
+                        <tr>
+                            <td data-editable="td">Sarah Johnson</td>
+                            <td data-editable="td">Design</td>
+                            <td data-editable="td">Active</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Table Customization</h2>
+            <p>Tables can be customized with different styles, borders, and responsive behavior. The table editor allows you to:</p>
+            <ul>
+                <li>Add/remove rows and columns</li>
+                <li>Edit cell content</li>
+                <li>Change table styling</li>
+                <li>Set responsive behavior</li>
+                <li>Configure sorting and filtering</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="table-editor.js"></script>
+    <script src="universal-element-editor.js"></script>
+</body>
+</html>

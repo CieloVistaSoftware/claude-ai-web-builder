@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anchor Editor - Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Anchor Editor - Demo</h1>
+        
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p>This demo shows different anchor and link configurations. Click on any link when edit mode is enabled to modify its properties.</p>
+            <p>Use the samples below to see various link styles and anchor sections.</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>Link Samples</h2>
+            
+            <div class="link-samples">
+                <a href="#section1" data-editable="a" data-link-type="internal">Internal Link</a>
+                <a href="https://example.com" data-editable="a" data-link-type="external" target="_blank">External Link</a>
+                <a href="mailto:contact@example.com" data-editable="a" data-link-type="email">Email Link</a>
+                <a href="tel:+1234567890" data-editable="a" data-link-type="phone">Phone Link</a>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Anchor Sections</h2>
+            
+            <div class="anchor-section" id="section1">
+                <h3 data-editable="h3">Section 1</h3>
+                <p data-editable="p">This is the first anchor section that can be linked to from other parts of the page.</p>
+            </div>
+
+            <div class="anchor-section" id="section2">
+                <h3 data-editable="h3">Section 2</h3>
+                <p data-editable="p">This is the second anchor section demonstrating how internal page navigation works.</p>
+            </div>
+
+            <div class="anchor-section" id="section3">
+                <h3 data-editable="h3">Section 3</h3>
+                <p data-editable="p">This is the third anchor section showing multiple linkable content areas.</p>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Anchor Customization</h2>
+            <p>Anchors and links can be customized with different properties. The anchor editor allows you to:</p>
+            <ul>
+                <li>Change link text and URLs</li>
+                <li>Set link targets (same window, new window)</li>
+                <li>Configure link types (internal, external, email, phone)</li>
+                <li>Add anchor IDs for page navigation</li>
+                <li>Set link relationships and attributes</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="anchor-editor.js"></script>
+    <script src="universal-element-editor.js"></script>
+</body>
+</html>

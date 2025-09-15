@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Blue Theme Website Content Schema",
+  "type": "object",
+  "properties": {
+    "site": {
+      "type": "object",
+      "properties": {
+        "title": {"type": "string"},
+        "description": {"type": "string"},
+        "company": {"type": "string"},
+        "year": {"type": "string"}
+      },
+      "required": ["title", "company"]
+    },
+    "navigation": {
+      "type": "object",
+      "properties": {
+        "logo": {"type": "string"},
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {"type": "string"},
+              "href": {"type": "string"},
+              "id": {"type": "string"}
+            },
+            "required": ["text", "href"]
+          }
+        }
+      },
+      "required": ["logo", "links"]
+    },
+    "hero": {
+      "type": "object", 
+      "properties": {
+        "heading": {"type": "string"},
+        "description": {"type": "string"},
+        "primaryButton": {
+          "type": "object",
+          "properties": {
+            "text": {"type": "string"},
+            "href": {"type": "string"},
+            "class": {"type": "string"}
+          }
+        },
+        "secondaryButton": {
+          "type": "object",
+          "properties": {
+            "text": {"type": "string"},
+            "href": {"type": "string"},
+            "class": {"type": "string"}
+          }
+        }
+      },
+      "required": ["heading", "description"]
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "sectionTitle": {"type": "string"},
+        "cards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "icon": {"type": "string"},
+              "title": {"type": "string"},
+              "description": {"type": "string"},
+              "id": {"type": "string"}
+            },
+            "required": ["icon", "title", "description"]
+          }
+        }
+      },
+      "required": ["sectionTitle", "cards"]
+    },
+    "stats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {"type": "string"},
+          "label": {"type": "string"},
+          "id": {"type": "string"}
+        },
+        "required": ["value", "label"]
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "properties": {
+        "sectionTitle": {"type": "string"},
+        "plans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "title": {"type": "string"},
+              "price": {"type": "string"},
+              "period": {"type": "string"},
+              "subtitle": {"type": "string"},
+              "features": {
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "buttonText": {"type": "string"},
+              "buttonClass": {"type": "string"},
+              "featured": {"type": "boolean"}
+            },
+            "required": ["id", "title", "price", "features", "buttonText"]
+          }
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "title": {"type": "string"},
+        "description": {"type": "string"},
+        "info": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string"},
+              "label": {"type": "string"},
+              "value": {"type": "string"}
+            },
+            "required": ["type", "label", "value"]
+          }
+        },
+        "email": {"type": "string"},
+        "buttonText": {"type": "string"}
+      }
+    },
+    "footer": {
+      "type": "object",
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string"},
+              "links": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {"type": "string"},
+                    "href": {"type": "string"}
+                  },
+                  "required": ["text", "href"]
+                }
+              }
+            },
+            "required": ["title", "links"]
+          }
+        },
+        "copyright": {"type": "string"},
+        "bottomLinks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {"type": "string"},
+              "href": {"type": "string"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["site", "navigation"]
+}

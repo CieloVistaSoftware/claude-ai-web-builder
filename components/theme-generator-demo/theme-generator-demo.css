@@ -1,0 +1,426 @@
+/* Theme Generator Demo CSS */
+:root {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-tertiary: #0f3460;
+    --text-primary: #eee;
+    --text-secondary: #ccc;
+    --text-muted: #999;
+    --border-color: #333;
+    --theme-primary: #e74c3c;
+    --theme-secondary: #c0392b;
+    --theme-accent: #f39c12;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --error-color: #e74c3c;
+    --info-color: #3498db;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.theme-controls {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.control-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.control-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.control-item label {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.control-item input[type="color"] {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: transparent;
+}
+
+.control-item input[type="range"] {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.control-item input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--theme-primary);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.popup-trigger {
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+}
+
+.popup-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+/* Semantic Elements Popup Styles */
+.semantic-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.semantic-popup.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.semantic-content {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.close-popup {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--error-color);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.close-popup:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+}
+
+.semantic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.semantic-section {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--theme-primary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.semantic-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(231, 76, 60, 0.2);
+}
+
+.semantic-section h3 {
+    color: var(--theme-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--theme-primary);
+}
+
+/* Semantic HTML Elements Styling */
+.semantic-section header {
+    background: var(--theme-primary);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+}
+
+.semantic-section nav {
+    background: var(--theme-accent);
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+}
+
+.semantic-section nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.semantic-section nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0.3rem 0.8rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.semantic-section nav a:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.semantic-section main {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    border-left: 4px solid var(--theme-primary);
+}
+
+.semantic-section article {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    border: 1px solid var(--theme-secondary);
+}
+
+.semantic-section section {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    border-top: 3px solid var(--theme-accent);
+}
+
+.semantic-section aside {
+    background: var(--info-color);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+}
+
+.semantic-section footer {
+    background: var(--text-muted);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+.semantic-section figure {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+.semantic-section figcaption {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.semantic-section blockquote {
+    background: var(--warning-color);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    border-left: 5px solid rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+.semantic-section details {
+    background: var(--success-color);
+    border-radius: 8px;
+    margin: 0.5rem 0;
+}
+
+.semantic-section summary {
+    padding: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+.semantic-section details[open] summary {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.semantic-section details p {
+    padding: 1rem;
+    color: white;
+}
+
+/* Popup content styling classes */
+.popup-header {
+    color: var(--theme-primary);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.demo-placeholder {
+    width: 100%;
+    height: 100px;
+    background: var(--theme-primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.form-example-container {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+}
+
+.form-example-fieldset {
+    border: 2px solid var(--theme-primary);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.form-example-legend {
+    color: var(--theme-primary);
+    font-weight: bold;
+}
+
+.form-example-label {
+    display: block;
+    margin: 0.5rem 0;
+}
+
+.form-example-input {
+    margin-left: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.text-example-container {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+}
+
+.text-example-mark {
+    background: var(--theme-accent);
+    color: black;
+    padding: 0.2rem;
+}
+
+.text-example-code {
+    background: var(--theme-primary);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.text-example-kbd {
+    background: var(--text-muted);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.list-example-container {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+}
+
+.list-example-ol, .list-example-ul, .list-example-dl {
+    margin-left: 1rem;
+}
+
+.list-example-dt {
+    font-weight: bold;
+    color: var(--theme-primary);
+}
+
+.list-example-dd {
+    margin-left: 1rem;
+}

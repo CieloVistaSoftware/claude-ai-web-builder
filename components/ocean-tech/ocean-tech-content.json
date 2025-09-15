@@ -1,0 +1,320 @@
+{
+  "site": {
+    "title": "OceanTech - Blue Theme Website", 
+    "description": "Experience the power of our blue-themed platform designed to make waves in your industry",
+    "company": "Cielo Vista Software",
+    "year": "2025"
+  },
+  "navigation": {
+    "logo": "🌊 OceanTech by Cielo Vista Software",
+    "links": [
+      {"text": "Home", "href": "#home", "id": "nav-home"},
+      {"text": "Features", "href": "#features", "id": "nav-features"},
+      {"text": "Getting Started", "href": "#getting-started", "id": "nav-getting-started"},
+      {"text": "Learn More", "href": "#learn-more", "id": "nav-learn-more"},
+      {"text": "Pricing", "href": "#pricing", "id": "nav-pricing"},
+      {"text": "Contact", "href": "#contact", "id": "nav-contact"}
+    ]
+  },
+  "hero": {
+    "heading": "Dive Deep into Innovation",
+    "description": "Experience the power of our blue-themed platform designed to make waves in your industry. Clean, professional, and refreshingly modern.",
+    "primaryButton": {
+      "text": "Get Started", 
+      "href": "#pricing",
+      "class": "btn btn-primary"
+    },
+    "secondaryButton": {
+      "text": "Learn More",
+      "href": "#features", 
+      "class": "btn btn-secondary"
+    }
+  },
+  "features": {
+    "sectionTitle": "Our Features",
+    "cards": [
+      {
+        "icon": "🚀",
+        "title": "Lightning Fast",
+        "description": "Our optimized platform delivers blazing-fast performance with industry-leading load times and responsive design.",
+        "id": "feature-performance"
+      },
+      {
+        "icon": "🔒", 
+        "title": "Secure & Reliable",
+        "description": "Enterprise-grade security with 99.9% uptime guarantee. Your data is protected with advanced encryption.",
+        "id": "feature-security"
+      },
+      {
+        "icon": "📊",
+        "title": "Analytics Dashboard", 
+        "description": "Comprehensive insights and real-time analytics to help you make data-driven decisions for your business.",
+        "id": "feature-analytics"
+      }
+    ]
+  },
+  "stats": [
+    {"value": "10M+", "label": "Happy Users", "id": "stat-users"},
+    {"value": "99.9%", "label": "Uptime", "id": "stat-uptime"},
+    {"value": "24/7", "label": "Support", "id": "stat-support"},
+    {"value": "150+", "label": "Countries", "id": "stat-countries"}
+  ],
+  "gettingStarted": {
+    "title": "Getting Started",
+    "description": "Follow these simple steps to get up and running with OceanTech in minutes.",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Sign Up",
+        "description": "Create your free account and get instant access to our platform. No credit card required.",
+        "linkText": "Create Account →",
+        "linkHref": "#"
+      },
+      {
+        "number": "2", 
+        "title": "Choose Your Plan",
+        "description": "Select the plan that best fits your needs. Start with our free tier and upgrade anytime.",
+        "linkText": "View Plans →",
+        "linkHref": "#pricing"
+      },
+      {
+        "number": "3",
+        "title": "Start Building", 
+        "description": "Use our intuitive dashboard to create your first project. Follow our quick-start guide.",
+        "linkText": "Launch Dashboard →",
+        "linkHref": "#"
+      }
+    ],
+    "quickLinks": {
+      "title": "Quick Links",
+      "links": [
+        {
+          "icon": "📚",
+          "title": "Documentation",
+          "description": "Comprehensive guides and API reference",
+          "href": "#"
+        },
+        {
+          "icon": "🎥",
+          "title": "Video Tutorials", 
+          "description": "Step-by-step video walkthroughs",
+          "href": "#"
+        },
+        {
+          "icon": "💬",
+          "title": "Community",
+          "description": "Join our active community forum", 
+          "href": "#"
+        },
+        {
+          "icon": "🛠️",
+          "title": "Support",
+          "description": "Get help from our expert team",
+          "href": "#"
+        }
+      ]
+    }
+  },
+  "learnMore": {
+    "title": "Learn More About OceanTech",
+    "description": "Discover the powerful features and capabilities that make OceanTech the perfect solution for your business needs.",
+    "sections": [
+      {
+        "id": "technology",
+        "title": "Advanced Technology",
+        "description": "Built on cutting-edge infrastructure with industry-leading performance and reliability.",
+        "features": [
+          "Cloud-native architecture",
+          "99.9% uptime guarantee", 
+          "Auto-scaling capabilities",
+          "Enterprise-grade security"
+        ],
+        "image": "🏗️"
+      },
+      {
+        "id": "integrations",
+        "title": "Seamless Integrations",
+        "description": "Connect with your existing tools and workflows through our comprehensive API ecosystem.",
+        "features": [
+          "RESTful API with full documentation",
+          "Webhooks for real-time updates",
+          "Third-party app integrations",
+          "Custom connector support"
+        ],
+        "image": "🔗"
+      },
+      {
+        "id": "analytics",
+        "title": "Powerful Analytics",
+        "description": "Gain deep insights into your data with our advanced analytics and reporting tools.",
+        "features": [
+          "Real-time dashboards",
+          "Custom report builder",
+          "Data visualization tools",
+          "Export capabilities"
+        ],
+        "image": "📊"
+      }
+    ],
+    "testimonials": {
+      "title": "What Our Customers Say",
+      "items": [
+        {
+          "quote": "OceanTech transformed our workflow and increased our productivity by 300%. The team is fantastic!",
+          "author": "Sarah Johnson",
+          "company": "Tech Innovations Inc.",
+          "rating": 5
+        },
+        {
+          "quote": "The best platform we've ever used. Intuitive, powerful, and incredibly reliable.",
+          "author": "Michael Chen", 
+          "company": "Digital Solutions Ltd.",
+          "rating": 5
+        },
+        {
+          "quote": "Outstanding support and amazing features. Highly recommend to any growing business.",
+          "author": "Emma Rodriguez",
+          "company": "StartUp Accelerator",
+          "rating": 5
+        }
+      ]
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "description": "Join thousands of satisfied customers and start your journey with OceanTech today.",
+      "primaryButton": {
+        "text": "Start Free Trial",
+        "href": "#pricing",
+        "class": "btn btn-primary"
+      },
+      "secondaryButton": {
+        "text": "Schedule Demo",
+        "href": "#contact", 
+        "class": "btn btn-secondary"
+      }
+    }
+  },
+  "pricing": {
+    "sectionTitle": "Choose Your Plan",
+    "plans": [
+      {
+        "id": "starter",
+        "title": "Starter",
+        "price": "$9",
+        "period": "/mo",
+        "subtitle": "Perfect for individuals",
+        "features": [
+          "5 Projects",
+          "10GB Storage", 
+          "Basic Support",
+          "Standard Analytics"
+        ],
+        "buttonText": "Choose Plan",
+        "buttonClass": "btn btn-secondary",
+        "featured": false
+      },
+      {
+        "id": "professional",
+        "title": "Professional", 
+        "price": "$29",
+        "period": "/mo",
+        "subtitle": "Best for growing teams",
+        "features": [
+          "25 Projects",
+          "100GB Storage",
+          "Priority Support", 
+          "Advanced Analytics",
+          "Team Collaboration"
+        ],
+        "buttonText": "Choose Plan",
+        "buttonClass": "btn btn-primary",
+        "featured": true
+      },
+      {
+        "id": "enterprise",
+        "title": "Enterprise",
+        "price": "$99", 
+        "period": "/mo",
+        "subtitle": "For large organizations",
+        "features": [
+          "Unlimited Projects",
+          "1TB Storage",
+          "24/7 Phone Support",
+          "Custom Analytics", 
+          "Advanced Security"
+        ],
+        "buttonText": "Contact Sales",
+        "buttonClass": "btn btn-secondary",
+        "featured": false
+      }
+    ]
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Ready to dive deep into innovation? Contact our team today and let's make waves together.",
+    "info": [
+      {
+        "type": "email",
+        "label": "Email", 
+        "value": "contact@oceantech.com"
+      },
+      {
+        "type": "phone",
+        "label": "Phone",
+        "value": "+1 (555) 123-4567"
+      },
+      {
+        "type": "address",
+        "label": "Address",
+        "value": "123 Ocean Drive<br>Tech City, TC 12345"
+      }
+    ],
+    "email": "contact@oceantech.com",
+    "buttonText": "Send us a message"
+  },
+  "footer": {
+    "sections": [
+      {
+        "title": "Product",
+        "links": [
+          {"text": "Features", "href": "#features"},
+          {"text": "Pricing", "href": "#pricing"},
+          {"text": "Security", "href": "#security"},
+          {"text": "Roadmap", "href": "#roadmap"}
+        ]
+      },
+      {
+        "title": "Company", 
+        "links": [
+          {"text": "About Us", "href": "#about"},
+          {"text": "Careers", "href": "#careers"},
+          {"text": "Blog", "href": "#blog"},
+          {"text": "Press", "href": "#press"}
+        ]
+      },
+      {
+        "title": "Support",
+        "links": [
+          {"text": "Help Center", "href": "#help"},
+          {"text": "Contact", "href": "#contact"},
+          {"text": "Status", "href": "#status"},
+          {"text": "Community", "href": "#community"}
+        ]
+      },
+      {
+        "title": "Legal",
+        "links": [
+          {"text": "Privacy", "href": "#privacy"},
+          {"text": "Terms", "href": "#terms"},
+          {"text": "Cookies", "href": "#cookies"},
+          {"text": "License", "href": "#license"}
+        ]
+      }
+    ],
+    "copyright": "© 2025 Cielo Vista Software. All rights reserved.",
+    "bottomLinks": [
+      {"text": "Top", "href": "#top"},
+      {"text": "Contact", "href": "mailto:contact@oceantech.com"}
+    ]
+  }
+}

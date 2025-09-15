@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 20px; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9fafb;
+        }
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React;
+        
+        function VideoEditor() {
+            const [videoSrc, setVideoSrc] = useState('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+            const [videoWidth, setVideoWidth] = useState('640');
+            const [videoHeight, setVideoHeight] = useState('360');
+            const [controls, setControls] = useState(true);
+            const [autoplay, setAutoplay] = useState(false);
+            const [loop, setLoop] = useState(false);
+            const [muted, setMuted] = useState(false);
+            const [poster, setPoster] = useState('');
+            const [preload, setPreload] = useState('metadata');
+            
+            const generateHTML = () => {
+                const widthAttr = videoWidth ? ` width="${videoWidth}"` : '';
+                const heightAttr = videoHeight ? ` height="${videoHeight}"` : '';
+                const controlsAttr = controls ? ' controls' : '';
+                const autoplayAttr = autoplay ? ' autoplay' : '';
+                const loopAttr = loop ? ' loop' : '';
+                const mutedAttr = muted ? ' muted' : '';
+                const posterAttr = poster ? ` poster="${poster}"` : '';
+                const preloadAttr = preload !== 'metadata' ? ` preload="${preload}"` : '';
+                
+                return `<video${widthAttr}${heightAttr}${controlsAttr}${autoplayAttr}${loopAttr}${mutedAttr}${posterAttr}${preloadAttr}>\n    <source src="${videoSrc}" type="video/mp4">\n    Your browser does not support the video tag.\n</video>`;
+            };
+            
+            const copyToClipboard = () => {
+                navigator.clipboard.writeText(generateHTML()).then(() => {
+                    alert('HTML copied to clipboard!');
+                });
+            };
+            
+            return (
+                <div className="max-w-6xl mx-auto">
+                    <div className="bg-white rounded-lg shadow-lg p-6">
+                        <div className="flex items-center justify-between mb-6">
+                            <h1 className="text-3xl font-bold text-gray-900">Video Editor</h1>
+                            <button 
+                                onClick={() => window.close()}
+                                className="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+                            >
+                                Close
+                            </button>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div className="space-y-6">
+                                <h2 className="text-xl font-semibold text-gray-800">Video Properties</h2>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Video URL</label>
+                                    <input
+                                        type="url"
+                                        value={videoSrc}
+                                        onChange={(e) => setVideoSrc(e.target.value)}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        placeholder="https://example.com/video.mp4"
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Poster Image URL (Optional)</label>
+                                    <input
+                                        type="url"
+                                        value={poster}
+                                        onChange={(e) => setPoster(e.target.value)}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        placeholder="https://example.com/poster.jpg"
+                                    />
+                                </div>
+                                
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Width</label>
+                                        <input
+                                            type="number"
+                                            value={videoWidth}
+                                            onChange={(e) => setVideoWidth(e.target.value)}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="640"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Height</label>
+                                        <input
+                                            type="number"
+                                            value={videoHeight}
+                                            onChange={(e) => setVideoHeight(e.target.value)}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="360"
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Preload</label>
+                                    <select
+                                        value={preload}
+                                        onChange={(e) => setPreload(e.target.value)}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    >
+                                        <option value="none">None</option>
+                                        <option value="metadata">Metadata (Recommended)</option>
+                                        <option value="auto">Auto</option>
+                                    </select>
+                                </div>
+                                
+                                <div className="space-y-3">
+                                    <h3 className="text-lg font-medium text-gray-800">Video Options</h3>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={controls}
+                                            onChange={(e) => setControls(e.target.checked)}
+                                            className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                        />
+                                        <span className="ml-2 text-sm text-gray-700">Show controls</span>
+                                    </label>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={autoplay}
+                                            onChange={(e) => setAutoplay(e.target.checked)}
+                                            className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                        />
+                                        <span className="ml-2 text-sm text-gray-700">Autoplay</span>
+                                    </label>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={loop}
+                                            onChange={(e) => setLoop(e.target.checked)}
+                                            className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                        />
+                                        <span className="ml-2 text-sm text-gray-700">Loop</span>
+                                    </label>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={muted}
+                                            onChange={(e) => setMuted(e.target.checked)}
+                                            className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                        />
+                                        <span className="ml-2 text-sm text-gray-700">Muted</span>
+                                    </label>
+                                </div>
+                                
+                                {autoplay && (
+                                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                        <p className="text-sm text-yellow-800">
+                                            <strong>Note:</strong> Most browsers require videos to be muted for autoplay to work.
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                            
+                            <div className="space-y-6">
+                                <h2 className="text-xl font-semibold text-gray-800">Preview</h2>
+                                
+                                <div className="p-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 text-center">
+                                    <video
+                                        src={videoSrc}
+                                        width={videoWidth || undefined}
+                                        height={videoHeight || undefined}
+                                        controls={controls}
+                                        autoPlay={autoplay}
+                                        loop={loop}
+                                        muted={muted}
+                                        poster={poster || undefined}
+                                        preload={preload}
+                                        style={{ maxWidth: '100%', maxHeight: '400px' }}
+                                    >
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                                
+                                <div>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-lg font-medium text-gray-800">Generated HTML</h3>
+                                        <button
+                                            onClick={copyToClipboard}
+                                            className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+                                        >
+                                            Copy HTML
+                                        </button>
+                                    </div>
+                                    <pre className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+                                        <code>{generateHTML()}</code>
+                                    </pre>
+                                </div>
+                                
+                                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                    <h4 className="font-medium text-blue-900 mb-2">💡 Video Tips:</h4>
+                                    <ul className="text-sm text-blue-800 space-y-1">
+                                        <li>• Use MP4 format for best compatibility</li>
+                                        <li>• Add poster images for better loading experience</li>
+                                        <li>• Consider file size for web performance</li>
+                                        <li>• Test autoplay policies across browsers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
+        ReactDOM.render(React.createElement(VideoEditor), document.getElementById('root'));
+    </script>
+    <script src="universal-element-editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Element Editor - Demo</title>
+    <link rel="stylesheet" href="../../editors/styles.css">
+    <style>
+        :root {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a2332;
+            --bg-tertiary: #253344;
+            --text-primary: #e6f1ff;
+            --text-secondary: #a8c2e0;
+            --accent-primary: #2196f3;
+            --accent-primary-hover: #1976d2;
+            --accent-secondary: #03dac6;
+            --border-color: #3d5a7a;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --shadow-light: rgba(33, 150, 243, 0.1);
+            --shadow-medium: rgba(33, 150, 243, 0.2);
+            --shadow-heavy: rgba(33, 150, 243, 0.3);
+        }
+
+        .element-editor {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .editor-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-primary-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .preview-area {
+            background: var(--bg-primary);
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 200px;
+            margin-top: 20px;
+        }
+        
+        .element-properties {
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .property-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .property-item:last-child {
+            border-bottom: none;
+        }
+        
+        .property-key {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .property-value {
+            color: var(--text-primary);
+            font-family: monospace;
+        }
+        
+        .html-output {
+            font-family: 'Courier New', monospace;
+            min-height: 100px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        footer {
+            width: 100% !important;
+            background: var(--accent-color);
+            color: white;
+            padding: 2rem 0;
+            margin: 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .footer-content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="element-editor">
+        <h1>HTML Element Editor</h1>
+        
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p>This editor allows you to create and modify HTML elements dynamically. Select an element type, configure its properties, and see the live preview.</p>
+        </div>
+
+        <div class="editor-panel">
+            <h2>Element Configuration</h2>
+            
+            <div class="form-group">
+                <label for="elementType">Element Type:</label>
+                <select id="elementType" onchange="handleElementTypeChange()">
+                    <optgroup label="Document Structure">
+                        <option value="html">HTML</option>
+                        <option value="head">Head</option>
+                        <option value="body">Body</option>
+                        <option value="main">Main</option>
+                    </optgroup>
+                    <optgroup label="Semantic Layout">
+                        <option value="header">Header</option>
+                        <option value="nav">Navigation</option>
+                        <option value="section">Section</option>
+                        <option value="article">Article</option>
+                        <option value="aside">Aside</option>
+                        <option value="footer">Footer</option>
+                        <option value="div">Div</option>
+                    </optgroup>
+                    <optgroup label="Text Content">
+                        <option value="h1">Heading 1</option>
+                        <option value="h2">Heading 2</option>
+                        <option value="h3">Heading 3</option>
+                        <option value="h4">Heading 4</option>
+                        <option value="h5">Heading 5</option>
+                        <option value="h6">Heading 6</option>
+                        <option value="p">Paragraph</option>
+                        <option value="span">Span</option>
+                        <option value="strong">Strong</option>
+                        <option value="em">Emphasis</option>
+                        <option value="mark">Mark</option>
+                        <option value="small">Small</option>
+                        <option value="del">Deleted</option>
+                        <option value="ins">Inserted</option>
+                        <option value="sub">Subscript</option>
+                        <option value="sup">Superscript</option>
+                        <option value="code">Code</option>
+                        <option value="pre">Preformatted</option>
+                        <option value="kbd">Keyboard</option>
+                        <option value="samp">Sample</option>
+                        <option value="var">Variable</option>
+                        <option value="blockquote">Blockquote</option>
+                        <option value="cite">Citation</option>
+                        <option value="q">Quote</option>
+                        <option value="abbr">Abbreviation</option>
+                        <option value="dfn">Definition</option>
+                        <option value="time">Time</option>
+                        <option value="address">Address</option>
+                    </optgroup>
+                    <optgroup label="Lists">
+                        <option value="ul">Unordered List</option>
+                        <option value="ol">Ordered List</option>
+                        <option value="li">List Item</option>
+                        <option value="dl">Description List</option>
+                        <option value="dt">Description Term</option>
+                        <option value="dd">Description Details</option>
+                    </optgroup>
+                    <optgroup label="Links & Navigation">
+                        <option value="a">Link</option>
+                        <option value="menu">Menu</option>
+                    </optgroup>
+                    <optgroup label="Media">
+                        <option value="img">Image</option>
+                        <option value="video">Video</option>
+                        <option value="audio">Audio</option>
+                        <option value="figure">Figure</option>
+                        <option value="figcaption">Figure Caption</option>
+                        <option value="picture">Picture</option>
+                        <option value="source">Source</option>
+                        <option value="track">Track</option>
+                    </optgroup>
+                    <optgroup label="Forms">
+                        <option value="form">Form</option>
+                        <option value="input">Input</option>
+                        <option value="textarea">Textarea</option>
+                        <option value="button">Button</option>
+                        <option value="select">Select</option>
+                        <option value="option">Option</option>
+                        <option value="optgroup">Option Group</option>
+                        <option value="label">Label</option>
+                        <option value="fieldset">Fieldset</option>
+                        <option value="legend">Legend</option>
+                        <option value="datalist">Data List</option>
+                        <option value="output">Output</option>
+                        <option value="progress">Progress</option>
+                        <option value="meter">Meter</option>
+                    </optgroup>
+                    <optgroup label="Tables">
+                        <option value="table">Table</option>
+                        <option value="thead">Table Head</option>
+                        <option value="tbody">Table Body</option>
+                        <option value="tfoot">Table Footer</option>
+                        <option value="tr">Table Row</option>
+                        <option value="th">Table Header</option>
+                        <option value="td">Table Data</option>
+                        <option value="caption">Table Caption</option>
+                        <option value="colgroup">Column Group</option>
+                        <option value="col">Column</option>
+                    </optgroup>
+                    <optgroup label="Interactive">
+                        <option value="details">Details</option>
+                        <option value="summary">Summary</option>
+                        <option value="dialog">Dialog</option>
+                    </optgroup>
+                    <optgroup label="Embedded">
+                        <option value="iframe">IFrame</option>
+                        <option value="embed">Embed</option>
+                        <option value="object">Object</option>
+                        <option value="param">Parameter</option>
+                        <option value="canvas">Canvas</option>
+                        <option value="svg">SVG</option>
+                        <option value="math">Math</option>
+                    </optgroup>
+                    <optgroup label="Scripting">
+                        <option value="script">Script</option>
+                        <option value="noscript">No Script</option>
+                        <option value="template">Template</option>
+                        <option value="slot">Slot</option>
+                    </optgroup>
+                    <optgroup label="Meta & Links">
+                        <option value="link">Link (Meta)</option>
+                        <option value="meta">Meta</option>
+                        <option value="base">Base</option>
+                        <option value="title">Title</option>
+                        <option value="style">Style</option>
+                    </optgroup>
+                    <optgroup label="Other">
+                        <option value="hr">Horizontal Rule</option>
+                        <option value="br">Line Break</option>
+                        <option value="wbr">Word Break</option>
+                        <option value="area">Area</option>
+                        <option value="map">Map</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="rt">Ruby Text</option>
+                        <option value="rp">Ruby Parentheses</option>
+                        <option value="bdi">Bidirectional Isolate</option>
+                        <option value="bdo">Bidirectional Override</option>
+                        <option value="data">Data</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="elementText">Text Content:</label>
+                <textarea id="elementText" placeholder="Enter text content...">Sample text content</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="elementId">ID:</label>
+                <input type="text" id="elementId" placeholder="element-id">
+            </div>
+
+            <div class="form-group">
+                <label for="elementClass">CSS Classes:</label>
+                <input type="text" id="elementClass" placeholder="class1 class2">
+            </div>
+
+            <div class="form-group">
+                <label for="elementStyle">Inline Styles:</label>
+                <input type="text" id="elementStyle" placeholder="color: blue; font-size: 16px;">
+            </div>
+
+            <div id="specificProperties">
+                <!-- Dynamic properties based on element type will appear here -->
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="updatePreview()">Update Preview</button>
+                <button class="btn btn-secondary" onclick="resetEditor()">Reset</button>
+                <button class="btn btn-secondary" onclick="exportHTML()">Export HTML</button>
+            </div>
+        </div>
+
+        <div class="editor-panel">
+            <h2>Live Preview</h2>
+            <div id="preview" class="preview-area">
+                <p>Select an element type and click "Update Preview" to see the result.</p>
+            </div>
+        </div>
+
+        <div class="editor-panel">
+            <h2>Element Properties</h2>
+            <div id="properties" class="element-properties">
+                <div class="property-item">
+                    <span class="property-key">Type:</span>
+                    <span class="property-value">Not selected</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-panel">
+            <h2>Generated HTML</h2>
+            <div class="form-group">
+                <label for="htmlOutput">Generated HTML Code:</label>
+                <textarea id="htmlOutput" readonly class="html-output"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentElement = null;
+
+        function handleElementTypeChange() {
+            const elementType = document.getElementById('elementType').value;
+            updateSpecificProperties(elementType);
+            updatePreview();
+        }
+
+        function updateSpecificProperties(elementType) {
+            const container = document.getElementById('specificProperties');
+            container.innerHTML = '';
+
+            switch (elementType) {
+                case 'img':
+                    container.innerHTML = `
+                        <div class="form-group">
+                            <label for="imgSrc">Image Source (URL):</label>
+                            <input type="text" id="imgSrc" placeholder="https://example.com/image.jpg" value="https://via.placeholder.com/300x200/4a9eff/ffffff?text=Sample+Image">
+                        </div>
+                        <div class="form-group">
+                            <label for="imgAlt">Alt Text:</label>
+                            <input type="text" id="imgAlt" placeholder="Image description" value="Sample image">
+                        </div>
+                        <div class="form-group">
+                            <label for="imgWidth">Width:</label>
+                            <input type="text" id="imgWidth" placeholder="300" value="300">
+                        </div>
+                        <div class="form-group">
+                            <label for="imgHeight">Height:</label>
+                            <input type="text" id="imgHeight" placeholder="200" value="200">
+                        </div>
+                    `;
+                    break;
+                case 'a':
+                    container.innerHTML = `
+                        <div class="form-group">
+                            <label for="linkHref">Link URL:</label>
+                            <input type="text" id="linkHref" placeholder="https://example.com" value="#sample-link">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkTarget">Target:</label>
+                            <select id="linkTarget">
+                                <option value="_self">Same Window</option>
+                                <option value="_blank">New Window</option>
+                                <option value="_parent">Parent Frame</option>
+                                <option value="_top">Top Frame</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                case 'input':
+                    container.innerHTML = `
+                        <div class="form-group">
+                            <label for="inputType">Input Type:</label>
+                            <select id="inputType">
+                                <option value="text">Text</option>
+                                <option value="email">Email</option>
+                                <option value="password">Password</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="checkbox">Checkbox</option>
+                                <option value="radio">Radio</option>
+                                <option value="submit">Submit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPlaceholder">Placeholder:</label>
+                            <input type="text" id="inputPlaceholder" placeholder="Enter placeholder text" value="Enter text here...">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputValue">Value:</label>
+                            <input type="text" id="inputValue" placeholder="Default value">
+                        </div>
+                    `;
+                    break;
+                case 'button':
+                    container.innerHTML = `
+                        <div class="form-group">
+                            <label for="buttonType">Button Type:</label>
+                            <select id="buttonType">
+                                <option value="button">Button</option>
+                                <option value="submit">Submit</option>
+                                <option value="reset">Reset</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="buttonOnClick">onClick Event:</label>
+                            <input type="text" id="buttonOnClick" placeholder="alert('Hello!');">
+                        </div>
+                    `;
+                    break;
+                case 'table':
+                    container.innerHTML = `
+                        <div class="form-group">
+                            <label for="tableRows">Number of Rows:</label>
+                            <input type="number" id="tableRows" value="3" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="tableCols">Number of Columns:</label>
+                            <input type="number" id="tableCols" value="3" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="tableHeaders">Include Headers:</label>
+                            <input type="checkbox" id="tableHeaders" checked>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+
+        function updatePreview() {
+            const elementType = document.getElementById('elementType').value;
+            const text = document.getElementById('elementText').value;
+            const id = document.getElementById('elementId').value;
+            const className = document.getElementById('elementClass').value;
+            const style = document.getElementById('elementStyle').value;
+
+            let element;
+
+            switch (elementType) {
+                case 'img':
+                    element = document.createElement('img');
+                    element.src = document.getElementById('imgSrc')?.value || 'https://via.placeholder.com/300x200';
+                    element.alt = document.getElementById('imgAlt')?.value || 'Sample image';
+                    if (document.getElementById('imgWidth')?.value) {
+                        element.width = document.getElementById('imgWidth').value;
+                    }
+                    if (document.getElementById('imgHeight')?.value) {
+                        element.height = document.getElementById('imgHeight').value;
+                    }
+                    break;
+                case 'a':
+                    element = document.createElement('a');
+                    element.href = document.getElementById('linkHref')?.value || '#';
+                    element.target = document.getElementById('linkTarget')?.value || '_self';
+                    element.textContent = text || 'Sample Link';
+                    break;
+                case 'input':
+                    element = document.createElement('input');
+                    element.type = document.getElementById('inputType')?.value || 'text';
+                    element.placeholder = document.getElementById('inputPlaceholder')?.value || '';
+                    element.value = document.getElementById('inputValue')?.value || '';
+                    break;
+                case 'button':
+                    element = document.createElement('button');
+                    element.type = document.getElementById('buttonType')?.value || 'button';
+                    element.textContent = text || 'Sample Button';
+                    const onClick = document.getElementById('buttonOnClick')?.value;
+                    if (onClick) {
+                        element.setAttribute('onclick', onClick);
+                    }
+                    break;
+                case 'table':
+                    element = createTable();
+                    break;
+                default:
+                    element = document.createElement(elementType);
+                    if (elementType !== 'img' && elementType !== 'input') {
+                        element.textContent = text || `Sample ${elementType} element`;
+                    }
+            }
+
+            if (id) element.id = id;
+            if (className) element.className = className;
+            if (style) element.style.cssText = style;
+
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            preview.appendChild(element);
+
+            currentElement = element;
+            updateProperties();
+            updateHTMLOutput();
+        }
+
+        function createTable() {
+            const rows = parseInt(document.getElementById('tableRows')?.value) || 3;
+            const cols = parseInt(document.getElementById('tableCols')?.value) || 3;
+            const hasHeaders = document.getElementById('tableHeaders')?.checked;
+
+            const table = document.createElement('table');
+            table.style.borderCollapse = 'collapse';
+            table.style.width = '100%';
+
+            if (hasHeaders) {
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                for (let j = 0; j < cols; j++) {
+                    const th = document.createElement('th');
+                    th.textContent = `Header ${j + 1}`;
+                    th.style.border = '1px solid var(--border-color)';
+                    th.style.padding = '8px';
+                    th.style.background = 'var(--bg-secondary)';
+                    headerRow.appendChild(th);
+                }
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+            }
+
+            const tbody = document.createElement('tbody');
+            for (let i = 0; i < rows; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < cols; j++) {
+                    const cell = document.createElement('td');
+                    cell.textContent = `Cell ${i + 1},${j + 1}`;
+                    cell.style.border = '1px solid var(--border-color)';
+                    cell.style.padding = '8px';
+                    row.appendChild(cell);
+                }
+                tbody.appendChild(row);
+            }
+            table.appendChild(tbody);
+
+            return table;
+        }
+
+        function updateProperties() {
+            if (!currentElement) return;
+
+            const container = document.getElementById('properties');
+            container.innerHTML = '';
+
+            const properties = [
+                { key: 'Tag', value: currentElement.tagName.toLowerCase() },
+                { key: 'ID', value: currentElement.id || 'none' },
+                { key: 'Classes', value: currentElement.className || 'none' },
+                { key: 'Text Content', value: currentElement.textContent || 'none' }
+            ];
+
+            // Add specific properties based on element type
+            if (currentElement.tagName === 'IMG') {
+                properties.push(
+                    { key: 'Source', value: currentElement.src || 'none' },
+                    { key: 'Alt Text', value: currentElement.alt || 'none' }
+                );
+            } else if (currentElement.tagName === 'A') {
+                properties.push(
+                    { key: 'Href', value: currentElement.href || 'none' },
+                    { key: 'Target', value: currentElement.target || '_self' }
+                );
+            } else if (currentElement.tagName === 'INPUT') {
+                properties.push(
+                    { key: 'Type', value: currentElement.type || 'text' },
+                    { key: 'Placeholder', value: currentElement.placeholder || 'none' },
+                    { key: 'Value', value: currentElement.value || 'none' }
+                );
+            }
+
+            properties.forEach(prop => {
+                const item = document.createElement('div');
+                item.className = 'property-item';
+                item.innerHTML = `
+                    <span class="property-key">${prop.key}:</span>
+                    <span class="property-value">${prop.value}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function updateHTMLOutput() {
+            if (!currentElement) return;
+            
+            const output = document.getElementById('htmlOutput');
+            output.value = currentElement.outerHTML;
+        }
+
+        function resetEditor() {
+            document.getElementById('elementType').value = 'div';
+            document.getElementById('elementText').value = 'Sample text content';
+            document.getElementById('elementId').value = '';
+            document.getElementById('elementClass').value = '';
+            document.getElementById('elementStyle').value = '';
+            document.getElementById('specificProperties').innerHTML = '';
+            document.getElementById('preview').innerHTML = '<p>Select an element type and click "Update Preview" to see the result.</p>';
+            document.getElementById('properties').innerHTML = '<div class="property-item"><span class="property-key">Type:</span><span class="property-value">Not selected</span></div>';
+            document.getElementById('htmlOutput').value = '';
+            currentElement = null;
+        }
+
+        function exportHTML() {
+            if (!currentElement) {
+                alert('No element to export. Please create an element first.');
+                return;
+            }
+
+            const html = currentElement.outerHTML;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'element.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize with default element
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSpecificProperties('div');
+            updatePreview();
+        });
+    </script>
+
+    <script src="../../editors/universal-element-editor.js"></script>
+</body>
+</html>

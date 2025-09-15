@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Server Explorer - Auto Start</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #status {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1976d2;
+            font-weight: bold;
+        }
+        #image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background: #1976d2;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .server-controls {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .command-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        .success { background: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .warning { background: #fff3cd; border-color: #ffeaa7; color: #856404; }
+        .info { background: #d1ecf1; border-color: #bee5eb; color: #0c5460; }
+        
+        .server-option {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+        }
+        
+        .server-option h4 {
+            margin-top: 0;
+            color: #2196f3;
+        }
+        
+        .copy-btn {
+            background: #28a745;
+            font-size: 12px;
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Image Server Explorer - Auto Start</h1>
+        
+        <div class="server-controls">
+            <h3>🔧 Server Management</h3>
+            
+            <div class="controls">
+                <button onclick="detectAndStartServer()">🚀 Auto-Detect & Start Server</button>
+                <button onclick="loadImages()">📁 Load Images</button>
+                <button onclick="checkServerStatus()">📡 Check Server Status</button>
+                <button onclick="stopServer()" id="stopBtn" disabled>⏹️ Stop Server</button>
+            </div>
+            
+            <div id="server-status" class="info">
+                Ready to start server automatically. Click "Auto-Detect & Start Server" to begin.
+            </div>
+        </div>
+        
+        <div id="status">Click "Auto-Detect & Start Server" to automatically find and start your image server.</div>
+        
+        <div id="manual-instructions" style="display: none;">
+            <h3>📋 Manual Server Start Options</h3>
+            
+            <div class="server-option">
+                <h4>Option 1: Node.js Server</h4>
+                <div class="command-box">node image-server.js</div>
+                <button class="copy-btn" onclick="copyToClipboard('node image-server.js')">📋 Copy</button>
+            </div>
+            
+            <div class="server-option">
+                <h4>Option 2: NPM Start</h4>
+                <div class="command-box">npm start</div>
+                <button class="copy-btn" onclick="copyToClipboard('npm start')">📋 Copy</button>
+            </div>
+            
+            <div class="server-option">
+                <h4>Option 3: Express Server</h4>
+                <div class="command-box">node server.js</div>
+                <button class="copy-btn" onclick="copyToClipboard('node server.js')">📋 Copy</button>
+            </div>
+            
+            <div class="server-option">
+                <h4>Option 4: Python HTTP Server</h4>
+                <div class="command-box">python -m http.server 3000</div>
+                <button class="copy-btn" onclick="copyToClipboard('python -m http.server 3000')">📋 Copy</button>
+            </div>
+        </div>
+        
+        <div id="image-container"></div>
+    </div>
+
+    <script>
+        let serverProcess = null;
+        let currentPort = null;
+        const portsToTry = [3000, 3001, 3002];
+        
+        async function detectAndStartServer() {
+            const statusDiv = document.getElementById('status');
+            const serverStatusDiv = document.getElementById('server-status');
+            
+            statusDiv.innerHTML = '🔍 Detecting server configuration...';
+            serverStatusDiv.className = 'info';
+            serverStatusDiv.innerHTML = '🔍 Scanning for server files and configuration...';
+            
+            // First, check if server is already running
+            const runningServer = await checkExistingServer();
+            if (runningServer) {
+                statusDiv.innerHTML = `✅ Server already running on port ${runningServer}`;
+                serverStatusDiv.className = 'success';
+                serverStatusDiv.innerHTML = `✅ Found running server on port ${runningServer}`;
+                currentPort = runningServer;
+                document.getElementById('stopBtn').disabled = false;
+                await loadImages();
+                return;
+            }
+            
+            // Try to start server using different methods
+            const startMethods = [
+                { name: 'Node.js Server', command: 'node image-server.js', file: 'image-server.js' },
+                { name: 'NPM Start', command: 'npm start', file: 'package.json' },
+                { name: 'Express Server', command: 'node server.js', file: 'server.js' },
+                { name: 'Python Server', command: 'python -m http.server 3000', file: null }
+            ];
+            
+            for (const method of startMethods) {
+                statusDiv.innerHTML = `🔄 Trying to start server: ${method.name}...`;
+                serverStatusDiv.innerHTML = `🔄 Attempting: ${method.command}`;
+                
+                if (method.file && !await checkFileExists(method.file)) {
+                    serverStatusDiv.innerHTML = `⚠️ ${method.file} not found, skipping ${method.name}`;
+                    continue;
+                }
+                
+                const success = await attemptServerStart(method);
+                if (success) {
+                    statusDiv.innerHTML = `✅ Server started successfully using ${method.name}`;
+                    serverStatusDiv.className = 'success';
+                    serverStatusDiv.innerHTML = `✅ Server started: ${method.command} on port ${currentPort}`;
+                    document.getElementById('stopBtn').disabled = false;
+                    await loadImages();
+                    return;
+                }
+            }
+            
+            // If all methods failed, show manual instructions
+            statusDiv.innerHTML = '❌ Could not auto-start server. Please start manually.';
+            serverStatusDiv.className = 'error';
+            serverStatusDiv.innerHTML = '❌ Auto-start failed. Please use manual instructions below.';
+            document.getElementById('manual-instructions').style.display = 'block';
+        }
+        
+        async function checkExistingServer() {
+            for (const port of portsToTry) {
+                try {
+                    const response = await fetch(`http://localhost:${port}/images`);
+                    if (response.ok) {
+                        return port;
+                    }
+                } catch (error) {
+                    // Server not running on this port
+                }
+            }
+            return null;
+        }
+        
+        async function checkFileExists(filename) {
+            // In a browser environment, we can't directly check file existence
+            // This is a limitation of browser security
+            // In a real implementation, this would need a server endpoint
+            return true; // Assume file exists for demo
+        }
+        
+        async function attemptServerStart(method) {
+            try {
+                // Browser limitation: Cannot directly start processes
+                // This would require a native app or electron wrapper
+                
+                // For demonstration, we'll simulate server starting
+                // In a real implementation, this would use:
+                // 1. Electron with Node.js integration
+                // 2. A service worker with broader permissions
+                // 3. A desktop app wrapper
+                // 4. A browser extension with native messaging
+                
+                document.getElementById('server-status').innerHTML = 
+                    `ℹ️ Browser security prevents direct server starting. Please run manually: ${method.command}`;
+                
+                // Wait a moment to simulate startup time
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Check if server started (user might have started it manually)
+                const runningPort = await checkExistingServer();
+                if (runningPort) {
+                    currentPort = runningPort;
+                    return true;
+                }
+                
+                return false;
+            } catch (error) {
+                console.log(`Failed to start server with ${method.name}:`, error);
+                return false;
+            }
+        }
+        
+        async function loadImages() {
+            const container = document.getElementById('image-container');
+            const statusDiv = document.getElementById('status');
+            
+            const runningPort = await checkExistingServer();
+            if (!runningPort) {
+                statusDiv.innerHTML = '❌ No server found. Please start the server first.';
+                return;
+            }
+            
+            try {
+                statusDiv.innerHTML = `📁 Loading images from server on port ${runningPort}...`;
+                const response = await fetch(`http://localhost:${runningPort}/images`);
+                const images = await response.json();
+                
+                container.innerHTML = '';
+                currentPort = runningPort;
+                
+                for (let i = 0; i < images.length; i += 10) {
+                    const chunk = images.slice(i, i + 10);
+                    
+                    await Promise.all(chunk.map(async (imageName) => {
+                        try {
+                            const img = document.createElement('img');
+                            img.src = `http://localhost:${runningPort}/image/${imageName}`;
+                            img.alt = imageName;
+                            img.title = `${imageName} (Port: ${runningPort})`;
+                            img.style.cssText = `
+                                width: 200px; height: 150px; object-fit: cover; margin: 10px;
+                                border: 2px solid #ddd; border-radius: 8px; cursor: pointer;
+                                transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                            `;
+                            
+                            img.onmouseover = () => {
+                                img.style.transform = 'scale(1.05)';
+                                img.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+                            };
+                            img.onmouseout = () => {
+                                img.style.transform = 'scale(1)';
+                                img.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                            };
+                            img.onclick = () => {
+                                img.style.border = img.style.border === '4px solid #f44336' ? 
+                                    '2px solid #ddd' : '4px solid #f44336';
+                            };
+                            
+                            container.appendChild(img);
+                        } catch (error) {
+                            console.log(`Failed to load image: ${imageName}`);
+                        }
+                    }));
+                    
+                    statusDiv.innerHTML = `📁 Loaded ${Math.min(i + 10, images.length)}/${images.length} images...`;
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                }
+                
+                statusDiv.innerHTML = `✅ Successfully loaded ${images.length} images from port ${runningPort}`;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `❌ Failed to load images: ${error.message}`;
+            }
+        }
+        
+        async function checkServerStatus() {
+            const statusDiv = document.getElementById('status');
+            const serverStatusDiv = document.getElementById('server-status');
+            
+            statusDiv.innerHTML = '🔍 Checking server status...';
+            
+            const results = [];
+            for (const port of portsToTry) {
+                try {
+                    const response = await fetch(`http://localhost:${port}/images`);
+                    if (response.ok) {
+                        const images = await response.json();
+                        results.push(`✅ Port ${port}: Running (${images.length} images)`);
+                    } else {
+                        results.push(`⚠️ Port ${port}: Responding but status ${response.status}`);
+                    }
+                } catch (error) {
+                    results.push(`❌ Port ${port}: Not running`);
+                }
+            }
+            
+            statusDiv.innerHTML = 'Server status check complete.';
+            serverStatusDiv.className = 'info';
+            serverStatusDiv.innerHTML = `📊 Server Status:<br>${results.join('<br>')}`;
+        }
+        
+        function stopServer() {
+            // Browser limitation: Cannot directly stop processes
+            const serverStatusDiv = document.getElementById('server-status');
+            serverStatusDiv.className = 'warning';
+            serverStatusDiv.innerHTML = `
+                ⚠️ Browser cannot directly stop server processes.<br>
+                To stop the server:<br>
+                1. Go to the terminal where server is running<br>
+                2. Press Ctrl+C (Windows/Linux) or Cmd+C (Mac)<br>
+                3. Or close the terminal window
+            `;
+            
+            document.getElementById('stopBtn').disabled = true;
+            currentPort = null;
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const event = new CustomEvent('show-toast', { 
+                    detail: { message: `Copied: ${text}` } 
+                });
+                window.dispatchEvent(event);
+            });
+        }
+        
+        // Show toast messages
+        window.addEventListener('show-toast', (event) => {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed; top: 20px; right: 20px; z-index: 1000;
+                background: #4caf50; color: white; padding: 10px 20px;
+                border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            `;
+            toast.textContent = event.detail.message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        });
+        
+        // Auto-check for server on page load
+        window.addEventListener('load', () => {
+            setTimeout(checkServerStatus, 1000);
+        });
+    </script>
+</body>
+</html>

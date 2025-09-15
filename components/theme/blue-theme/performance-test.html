@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Loading Performance Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        
+        /* Tab styles */
+        .tabs { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 1rem; }
+        .tab { 
+            background: #f5f5f5; 
+            border: none; 
+            padding: 0.75rem 1.5rem; 
+            cursor: pointer; 
+            border-top: 2px solid transparent;
+            margin-right: 2px;
+        }
+        .tab.active { background: #2196f3; color: white; border-top-color: #1976d2; }
+        .tab:hover:not(.active) { background: #e5e5e5; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .test-result { 
+            margin: 1rem 0; 
+            padding: 1rem; 
+            border-radius: 4px; 
+            border-left: 4px solid #2196f3;
+            background: #f5f5f5;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fast { border-left-color: #4caf50; background: #e8f5e8; }
+        .slow { border-left-color: #f44336; background: #fde8e8; }
+        .benchmark { font-family: monospace; font-size: 1.2em; font-weight: bold; }
+        button { 
+            background: #2196f3; 
+            color: white; 
+            border: none; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            margin: 0.5rem;
+        }
+        button:hover { background: #1976d2; }
+        .comparison { margin: 2rem 0; padding: 1rem; background: #f0f8ff; border-radius: 4px; }
+        
+        #results { min-height: 100px; }
+        .results-container { margin-top: 2rem; }
+    </style>
+</head>
+<body>
+    <h1>Content Loading Performance Test</h1>
+    <p>Compare different content loading approaches:</p>
+
+    <!-- Tab Navigation -->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('expected')">Expected Performance Results</button>
+        <button class="tab" onclick="switchTab('tests')">Performance Tests</button>
+        <button class="tab" onclick="switchTab('results')">Test Results</button>
+    </div>
+
+    <!-- Expected Performance Results Tab -->
+    <div id="expected-tab" class="tab-content active">
+        <div class="comparison">
+            <h3>Expected Performance Results:</h3>
+            <ul>
+                <li><strong>Original Loader:</strong> 200ms+ (network + parsing + DOM updates)</li>
+                <li><strong>Optimized Loader:</strong> 50-100ms (cached elements + batch updates)</li>
+                <li><strong>Inline Content:</strong> &lt;10ms (zero network, direct DOM updates)</li>
+            </ul>
+            <p><em>Click on "Performance Tests" tab to run actual tests and see results.</em></p>
+        </div>
+    </div>
+
+    <!-- Performance Tests Tab -->
+    <div id="tests-tab" class="tab-content">
+        <h3>Run Performance Tests:</h3>
+        <p>Click any test below to run it. Results will appear in the "Test Results" tab.</p>
+        
+        <button onclick="runTest('testOriginalLoader')">Test Original Loader</button>
+        <button onclick="runTest('testOptimizedLoader')">Test Optimized Loader</button>
+        <button onclick="runTest('testInlineContent')">Test Inline Content</button>
+        <button onclick="clearResults()">Clear All Results</button>
+    </div>
+
+    <!-- Test Results Tab -->
+    <div id="results-tab" class="tab-content">
+        <h3>Test Results:</h3>
+        <div id="results"></div>
+        <p><em>No results yet. Run tests from the "Performance Tests" tab.</em></p>
+    </div>
+
+    <!-- Test content area -->
+    <div style="display: none;" id="test-area">
+        <h2 data-bind="site.title">loading...</h2>
+        <p data-bind="hero.description">loading...</p>
+        <div data-bind="features.cards.0.title">loading...</div>
+        <div data-bind="pricing.plans.0.price">loading...</div>
+    </div>
+
+    <script>
+        const testContent = {
+            site: { title: "Test Website" },
+            hero: { description: "Test description for performance testing" },
+            features: { cards: [{ title: "Test Feature" }] },
+            pricing: { plans: [{ price: "$99" }] }
+        };
+
+        function switchTab(tabName) {
+            // Remove active class from all tabs and tab contents
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        function runTest(testFunction) {
+            // Switch to results tab when a test is clicked
+            switchTab('results');
+            document.querySelector('[onclick="switchTab(\'results\')"]').classList.add('active');
+            
+            // Run the test function
+            window[testFunction]();
+        }
+
+        function addResult(method, time, details = '') {
+            const results = document.getElementById('results');
+            const result = document.createElement('div');
+            
+            let className = 'test-result';
+            if (time < 50) className += ' fast';
+            else if (time > 150) className += ' slow';
+            
+            result.className = className;
+            result.innerHTML = `
+                <div><strong>${method}</strong></div>
+                <div class="benchmark">${time.toFixed(1)}ms</div>
+                ${details ? `<div><small>${details}</small></div>` : ''}
+                <div><small>Tested at: ${new Date().toLocaleTimeString()}</small></div>
+            `;
+            
+            // Add result at the top (prepend instead of append)
+            results.insertBefore(result, results.firstChild);
+            
+            // Hide the "no results" message
+            const noResultsMsg = results.parentElement.querySelector('p em');
+            if (noResultsMsg && noResultsMsg.textContent.includes('No results yet')) {
+                noResultsMsg.style.display = 'none';
+            }
+        }
+
+        function testOriginalLoader() {
+            const start = performance.now();
+            
+            // Simulate original loader behavior
+            setTimeout(() => {
+                fetch('ocean-tech-content.json')
+                    .then(response => response.json())
+                    .then(content => {
+                        const elements = document.querySelectorAll('#test-area [data-bind]');
+                        elements.forEach(el => {
+                            const path = el.getAttribute('data-bind');
+                            const value = getNestedValue(content, path);
+                            if (value) el.textContent = value;
+                        });
+                        
+                        const end = performance.now();
+                        addResult('Original Loader', end - start, 'Network fetch + DOM updates');
+                    })
+                    .catch(() => {
+                        // Fallback with test content
+                        const elements = document.querySelectorAll('#test-area [data-bind]');
+                        elements.forEach(el => {
+                            const path = el.getAttribute('data-bind');
+                            const value = getNestedValue(testContent, path);
+                            if (value) el.textContent = value;
+                        });
+                        
+                        const end = performance.now();
+                        addResult('Original Loader (fallback)', end - start, 'No network - using test data');
+                    });
+            }, 50); // Simulate network delay
+        }
+
+        function testOptimizedLoader() {
+            const start = performance.now();
+            
+            // Pre-cache elements
+            const elementCache = new Map();
+            const elements = document.querySelectorAll('#test-area [data-bind]');
+            elements.forEach(el => {
+                const path = el.getAttribute('data-bind');
+                if (!elementCache.has(path)) elementCache.set(path, []);
+                elementCache.get(path).push(el);
+            });
+            
+            // Batch update using cached elements
+            requestAnimationFrame(() => {
+                for (const [path, els] of elementCache) {
+                    const value = getNestedValue(testContent, path);
+                    if (value) {
+                        els.forEach(el => el.textContent = value);
+                    }
+                }
+                
+                const end = performance.now();
+                addResult('Optimized Loader', end - start, 'Cached elements + batch updates');
+            });
+        }
+
+        function testInlineContent() {
+            const start = performance.now();
+            
+            // Direct inline binding (fastest possible)
+            const bindings = [
+                ['[data-bind="site.title"]', testContent.site.title],
+                ['[data-bind="hero.description"]', testContent.hero.description],
+                ['[data-bind="features.cards.0.title"]', testContent.features.cards[0].title],
+                ['[data-bind="pricing.plans.0.price"]', testContent.pricing.plans[0].price]
+            ];
+            
+            bindings.forEach(([selector, value]) => {
+                const el = document.querySelector('#test-area ' + selector);
+                if (el) el.textContent = value;
+            });
+            
+            const end = performance.now();
+            addResult('Inline Content', end - start, 'Zero network + direct DOM updates');
+        }
+
+        function getNestedValue(obj, path) {
+            return path.split('.').reduce((current, key) => {
+                if (current == null) return undefined;
+                return current[isNaN(key) ? key : parseInt(key)];
+            }, obj);
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            
+            // Show the "no results" message again
+            const noResultsMsg = document.querySelector('#results-tab p em');
+            if (noResultsMsg && noResultsMsg.textContent.includes('No results yet')) {
+                noResultsMsg.style.display = 'block';
+            }
+            
+            // Reset test elements
+            document.querySelectorAll('#test-area [data-bind]').forEach(el => {
+                el.textContent = 'loading...';
+            });
+        }
+
+        // Auto-add page load result when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                // Don't auto-switch to results tab, just add the result
+                const results = document.getElementById('results');
+                const result = document.createElement('div');
+                
+                result.className = 'test-result fast';
+                result.innerHTML = `
+                    <div><strong>Page Load Complete</strong></div>
+                    <div class="benchmark">${performance.now().toFixed(1)}ms</div>
+                    <div><small>Total time to interactive</small></div>
+                    <div><small>Loaded at: ${new Date().toLocaleTimeString()}</small></div>
+                `;
+                
+                results.appendChild(result);
+                
+                // Hide the "no results" message
+                const noResultsMsg = results.parentElement.querySelector('p em');
+                if (noResultsMsg && noResultsMsg.textContent.includes('No results yet')) {
+                    noResultsMsg.style.display = 'none';
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

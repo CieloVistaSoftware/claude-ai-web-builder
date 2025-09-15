@@ -1,3 +1,4 @@
+1. In File scanner ...
 1. ✅ COMPLETED - add function to import existing website files made by this tool. It must have .js .css and .html files in the folder. present the folder explorer. When folder is selected bring up the site as is but add the control-panel. This allows the user to change things in their website that was created with this tool.
 
 When the file is read in, the color selector changes to what was in the webiste e.g. primary colors, secondary colors etc.
