@@ -1,0 +1,364 @@
+/* Color Transformer Component Styles */
+
+.color-transformer-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.color-transformer {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--color-transformer-border-radius, 0.5rem);
+  padding: var(--color-transformer-spacing, 1rem);
+  transition: var(--color-transformer-transition, all 0.2s ease);
+}
+
+.color-transformer-header {
+  margin-bottom: var(--space-md, 1.5rem);
+}
+
+.color-transformer-title {
+  margin: 0 0 var(--space-xs, 0.5rem) 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.color-transformer-description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.color-transformer-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 1.5rem);
+  margin-bottom: var(--space-md, 1.5rem);
+}
+
+.color-transformer-picker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 1rem);
+  flex-wrap: wrap;
+}
+
+.color-transformer-picker label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  min-width: 5rem;
+}
+
+.color-transformer-color-input {
+  width: 3rem;
+  height: 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  background: none;
+}
+
+.color-transformer-color-input:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.color-transformer-color-value {
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  padding: 0.5rem;
+  background: var(--bg-secondary);
+  border-radius: 0.25rem;
+  min-width: 5rem;
+  text-align: center;
+}
+
+.color-transformer-actions {
+  display: flex;
+  gap: var(--space-sm, 1rem);
+  flex-wrap: wrap;
+}
+
+.color-transformer-button {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--color-transformer-transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.color-transformer-button:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 5%, var(--bg-primary));
+  color: var(--primary);
+}
+
+.color-transformer-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.color-transformer-button--transform {
+  background: var(--primary);
+  color: var(--bg-primary);
+  border-color: var(--primary);
+}
+
+.color-transformer-button--transform:hover:not(:disabled) {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.color-transformer-button.success {
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--bg-primary);
+}
+
+.color-transformer-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-sm, 1rem);
+  padding: var(--space-md, 1.5rem);
+  background: var(--bg-secondary);
+  border-radius: 0.375rem;
+  margin-bottom: var(--space-md, 1.5rem);
+}
+
+.color-transformer-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.color-transformer-stat label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.color-transformer-stat-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.color-transformer-stat-value.success {
+  color: var(--success);
+}
+
+.color-transformer-stat-value.warning {
+  color: var(--warning);
+}
+
+.color-transformer-stat-value.error {
+  color: var(--error);
+}
+
+.color-transformer-preview {
+  margin-bottom: var(--space-md, 1.5rem);
+}
+
+.color-transformer-preview h4 {
+  margin: 0 0 var(--space-sm, 1rem) 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.color-transformer-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-sm, 1rem);
+}
+
+.color-transformer-color {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 1rem);
+  padding: var(--space-sm, 1rem);
+  background: var(--bg-secondary);
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-color);
+}
+
+.color-transformer-color-swatch {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.color-transformer-color-swatch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(45deg, var(--neutral-300) 25%, transparent 25%), 
+    linear-gradient(-45deg, var(--neutral-300) 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, var(--neutral-300) 75%), 
+    linear-gradient(-45deg, transparent 75%, var(--neutral-300) 75%);
+  background-size: 6px 6px;
+  background-position: 0 0, 0 3px, 3px -3px, -3px 0px;
+  z-index: 1;
+}
+
+.color-transformer-color-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.color-transformer-color-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-transform: capitalize;
+}
+
+.color-transformer-color-value {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.color-transformer-output {
+  margin-top: var(--space-md, 1.5rem);
+}
+
+.color-transformer-output textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: var(--space-sm, 1rem);
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.color-transformer-output textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+/* Size variations */
+.color-transformer--small {
+  padding: var(--space-sm, 1rem);
+}
+
+.color-transformer--small .color-transformer-title {
+  font-size: 1.125rem;
+}
+
+.color-transformer--small .color-transformer-controls {
+  gap: var(--space-sm, 1rem);
+}
+
+.color-transformer--large {
+  padding: var(--space-lg, 2rem);
+}
+
+.color-transformer--large .color-transformer-title {
+  font-size: 1.5rem;
+}
+
+/* Variant styles */
+.color-transformer--compact .color-transformer-preview,
+.color-transformer--compact .color-transformer-stats {
+  display: none;
+}
+
+.color-transformer--compact .color-transformer-controls {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.color-transformer--preview .color-transformer-stats {
+  display: none;
+}
+
+.color-transformer--preview .color-transformer-actions {
+  display: none;
+}
+
+/* WordPress environment indicator */
+.color-transformer--wordpress {
+  border-color: var(--success);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--success) 20%, transparent);
+}
+
+.color-transformer--wordpress .color-transformer-title::after {
+  content: ' ✓';
+  color: var(--success);
+  font-weight: normal;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .color-transformer-picker {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .color-transformer-actions {
+    flex-direction: column;
+  }
+
+  .color-transformer-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .color-transformer-colors {
+    grid-template-columns: 1fr;
+  }
+
+  .color-transformer-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .color-transformer {
+    padding: var(--space-sm, 1rem);
+  }
+
+  .color-transformer-controls {
+    gap: var(--space-sm, 1rem);
+  }
+
+  .color-transformer-color {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+  }
+}

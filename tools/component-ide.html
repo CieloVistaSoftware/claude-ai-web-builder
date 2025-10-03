@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Component IDE - Symbol Discovery & Autocomplete</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #475569;
+            --primary: #6366f1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .status {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .status-item {
+            background: var(--bg-tertiary);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        .sidebar {
+            width: 300px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-section {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header {
+            padding: 12px 15px;
+            background: var(--bg-tertiary);
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .sidebar-content {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .symbol-item {
+            padding: 8px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .symbol-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .symbol-type {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+
+        .web-component {
+            color: var(--success);
+        }
+
+        .legacy-component {
+            color: var(--warning);
+        }
+
+        .broken-component {
+            color: var(--error);
+        }
+
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-toolbar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .toolbar-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .toolbar-button:hover {
+            opacity: 0.8;
+        }
+
+        .toolbar-button.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .editor {
+            flex: 1;
+            background: var(--bg-primary);
+            border: none;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            resize: none;
+            outline: none;
+        }
+
+        .autocomplete {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .autocomplete-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .autocomplete-item:hover,
+        .autocomplete-item.selected {
+            background: var(--primary);
+        }
+
+        .autocomplete-tag {
+            font-family: var(--font-mono);
+            color: var(--success);
+        }
+
+        .autocomplete-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .output-panel {
+            height: 250px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-header {
+            background: var(--bg-tertiary);
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .output-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+        }
+
+        .discovery-stats {
+            padding: 15px;
+            background: var(--bg-tertiary);
+            margin: 15px;
+            border-radius: 6px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+        }
+
+        .stat-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔍 WB Component IDE</h1>
+        <div class="status">
+            <div class="status-item">
+                <span id="component-count">0</span> Components
+            </div>
+            <div class="status-item">
+                <span id="symbol-count">0</span> Symbols
+            </div>
+            <div class="status-item" id="discovery-status">Discovering...</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">Web Components</div>
+                <div class="sidebar-content" id="web-components-list">
+                    <div class="symbol-item">Loading...</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">Classes & Functions</div>
+                <div class="sidebar-content" id="symbols-list">
+                    <div class="symbol-item">Loading...</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">Component Status</div>
+                <div class="sidebar-content" id="status-list">
+                    <div class="symbol-item">Loading...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-container">
+            <div class="editor-toolbar">
+                <button class="toolbar-button" onclick="runDiscovery()">🔍 Re-scan Components</button>
+                <button class="toolbar-button secondary" onclick="validateCode()">✅ Validate Usage</button>
+                <button class="toolbar-button secondary" onclick="generateBoilerplate()">📝 Generate Component</button>
+                <button class="toolbar-button secondary" onclick="exportSymbols()">💾 Export Symbols</button>
+            </div>
+
+            <div style="position: relative; flex: 1;">
+                <textarea 
+                    class="editor" 
+                    id="code-editor" 
+                    placeholder="Start typing to see autocomplete suggestions for WB components...
+
+Examples:
+- Type '<wb-' to see web component suggestions
+- Type 'WB' to see class suggestions
+- Write HTML and get live validation"
+                ></textarea>
+                <div class="autocomplete" id="autocomplete" style="display: none;"></div>
+            </div>
+
+            <div class="output-panel">
+                <div class="output-header">📊 Discovery Output</div>
+                <div class="output-content" id="output"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load component discovery data -->
+    <script src="component-data.js"></script>
+    
+    <script>
+        class WBComponentIDE {
+            constructor() {
+                this.symbolTable = new Map();
+                this.webComponents = [];
+                this.classes = [];
+                this.functions = [];
+                this.componentStatus = new Map();
+                this.autocompleteData = [];
+                this.currentAutocompleteIndex = 0;
+
+                this.initializeEditor();
+                this.loadStaticData();
+            }
+
+            initializeEditor() {
+                const editor = document.getElementById('code-editor');
+                const autocomplete = document.getElementById('autocomplete');
+
+                editor.addEventListener('input', (e) => {
+                    this.handleInput(e);
+                });
+
+                editor.addEventListener('keydown', (e) => {
+                    this.handleKeydown(e);
+                });
+
+                // Hide autocomplete when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!autocomplete.contains(e.target) && e.target !== editor) {
+                        autocomplete.style.display = 'none';
+                    }
+                });
+            }
+
+            loadStaticData() {
+                this.log('🔍 Loading component discovery data...');
+                
+                if (!window.WB_DISCOVERY_DATA) {
+                    this.log('❌ Component discovery data not found!');
+                    return;
+                }
+                
+                const results = {
+                    symbolTable: new Map(window.WB_DISCOVERY_DATA.symbolTable),
+                    componentRegistry: window.WB_DISCOVERY_DATA.componentRegistry,
+                    metadata: window.WB_DISCOVERY_DATA.metadata
+                };
+                
+                this.processDiscoveryResults(results);
+                this.updateUI();
+                
+                this.log('✅ Component discovery complete!');
+                document.getElementById('discovery-status').textContent = 'Ready';
+            }
+
+
+            processDiscoveryResults(results) {
+                this.symbolTable = results.symbolTable;
+                this.webComponents = [];
+                this.classes = [];
+                this.functions = [];
+                this.componentStatus.clear();
+
+                // Process symbol table
+                for (const [key, symbol] of results.symbolTable) {
+                    if (symbol.type === 'custom-element') {
+                        this.webComponents.push(symbol);
+                    } else if (symbol.type === 'class') {
+                        this.classes.push(symbol);
+                    } else if (symbol.type === 'function') {
+                        this.functions.push(symbol);
+                    }
+                }
+
+                // Process component status
+                for (const component of results.componentRegistry) {
+                    this.componentStatus.set(component.name, component);
+                }
+
+                // Build autocomplete data
+                this.buildAutocompleteData();
+
+                // Update stats
+                document.getElementById('component-count').textContent = results.metadata.totalComponents;
+                document.getElementById('symbol-count').textContent = results.symbolTable.size;
+            }
+
+            buildAutocompleteData() {
+                this.autocompleteData = [];
+
+                // Add web components
+                for (const component of this.webComponents) {
+                    this.autocompleteData.push({
+                        text: `<${component.name}>`,
+                        type: 'web-component',
+                        description: `Web component from ${component.component}`,
+                        insertText: `<${component.name}></${component.name}>`
+                    });
+                }
+
+                // Add classes
+                for (const cls of this.classes) {
+                    this.autocompleteData.push({
+                        text: cls.name,
+                        type: 'class',
+                        description: `Class from ${cls.component}`,
+                        insertText: cls.name
+                    });
+                }
+
+                // Add functions
+                for (const func of this.functions) {
+                    this.autocompleteData.push({
+                        text: func.name,
+                        type: 'function',
+                        description: `Function from ${func.component}`,
+                        insertText: `${func.name}()`
+                    });
+                }
+            }
+
+            updateUI() {
+                // Update web components list
+                const webComponentsList = document.getElementById('web-components-list');
+                webComponentsList.innerHTML = this.webComponents.map(comp => 
+                    `<div class="symbol-item web-component" onclick="insertSymbol('&lt;${comp.name}&gt;')">
+                        &lt;${comp.name}&gt;
+                        <span class="symbol-type">web component</span>
+                    </div>`
+                ).join('');
+
+                // Update symbols list
+                const symbolsList = document.getElementById('symbols-list');
+                const allSymbols = [...this.classes, ...this.functions];
+                symbolsList.innerHTML = allSymbols.map(symbol => 
+                    `<div class="symbol-item" onclick="insertSymbol('${symbol.name}')">
+                        ${symbol.name}
+                        <span class="symbol-type">${symbol.type}</span>
+                    </div>`
+                ).join('');
+
+                // Update status list
+                const statusList = document.getElementById('status-list');
+                const statusItems = Array.from(this.componentStatus.values());
+                statusList.innerHTML = statusItems.map(comp => 
+                    `<div class="symbol-item ${comp.status === 'broken' ? 'broken-component' : comp.type === 'web-component' ? 'web-component' : 'legacy-component'}">
+                        ${comp.name}
+                        <span class="symbol-type">${comp.status}</span>
+                    </div>`
+                ).join('');
+
+                // Add discovery stats
+                this.updateDiscoveryStats();
+            }
+
+            updateDiscoveryStats() {
+                const output = document.getElementById('output');
+                const stats = {
+                    total: this.componentStatus.size,
+                    webComponents: this.webComponents.length,
+                    classes: this.classes.length,
+                    functions: this.functions.length,
+                    broken: Array.from(this.componentStatus.values()).filter(c => c.status === 'broken').length
+                };
+
+                output.innerHTML = `📊 Component Discovery Statistics:
+
+Total Components: ${stats.total}
+Web Components: ${stats.webComponents}
+Classes: ${stats.classes}
+Functions: ${stats.functions}
+Broken Components: ${stats.broken}
+
+🔧 Symbol Table Generated: ${this.symbolTable.size} symbols
+🎯 Autocomplete Ready: ${this.autocompleteData.length} suggestions
+
+✅ All WB components are now discoverable and available for autocomplete!`;
+            }
+
+            handleInput(e) {
+                const editor = e.target;
+                const cursorPos = editor.selectionStart;
+                const text = editor.value;
+                const lineStart = text.lastIndexOf('\n', cursorPos - 1) + 1;
+                const currentLine = text.substring(lineStart, cursorPos);
+                
+                // Check for autocomplete triggers
+                if (currentLine.includes('<wb-') || currentLine.includes('WB') || currentLine.includes('loadCSS') || currentLine.includes('generateId')) {
+                    this.showAutocomplete(editor, currentLine);
+                } else {
+                    this.hideAutocomplete();
+                }
+            }
+
+            showAutocomplete(editor, currentLine) {
+                const autocomplete = document.getElementById('autocomplete');
+                const matches = this.getAutocompleteMatches(currentLine);
+                
+                if (matches.length === 0) {
+                    this.hideAutocomplete();
+                    return;
+                }
+
+                autocomplete.innerHTML = matches.map((match, index) => 
+                    `<div class="autocomplete-item ${index === 0 ? 'selected' : ''}" data-index="${index}">
+                        <div class="autocomplete-tag">${match.text}</div>
+                        <div class="autocomplete-desc">${match.description}</div>
+                    </div>`
+                ).join('');
+
+                // Position autocomplete near cursor
+                const rect = editor.getBoundingClientRect();
+                autocomplete.style.left = rect.left + 'px';
+                autocomplete.style.top = (rect.top + 100) + 'px';
+                autocomplete.style.display = 'block';
+
+                this.currentAutocompleteMatches = matches;
+                this.currentAutocompleteIndex = 0;
+
+                // Add click handlers
+                autocomplete.querySelectorAll('.autocomplete-item').forEach((item, index) => {
+                    item.addEventListener('click', () => {
+                        this.insertAutocomplete(editor, matches[index]);
+                    });
+                });
+            }
+
+            getAutocompleteMatches(line) {
+                const lastWord = line.split(/\s+/).pop();
+                return this.autocompleteData.filter(item => 
+                    item.text.toLowerCase().includes(lastWord.toLowerCase()) ||
+                    item.insertText.toLowerCase().includes(lastWord.toLowerCase())
+                ).slice(0, 10);
+            }
+
+            hideAutocomplete() {
+                document.getElementById('autocomplete').style.display = 'none';
+            }
+
+            handleKeydown(e) {
+                const autocomplete = document.getElementById('autocomplete');
+                if (autocomplete.style.display === 'none') return;
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    this.moveAutocompleteSelection(1);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    this.moveAutocompleteSelection(-1);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.insertAutocomplete(e.target, this.currentAutocompleteMatches[this.currentAutocompleteIndex]);
+                } else if (e.key === 'Escape') {
+                    this.hideAutocomplete();
+                }
+            }
+
+            moveAutocompleteSelection(direction) {
+                const items = document.querySelectorAll('.autocomplete-item');
+                items[this.currentAutocompleteIndex].classList.remove('selected');
+                
+                this.currentAutocompleteIndex = Math.max(0, Math.min(items.length - 1, this.currentAutocompleteIndex + direction));
+                
+                items[this.currentAutocompleteIndex].classList.add('selected');
+                items[this.currentAutocompleteIndex].scrollIntoView({ block: 'nearest' });
+            }
+
+            insertAutocomplete(editor, match) {
+                const cursorPos = editor.selectionStart;
+                const text = editor.value;
+                const lineStart = text.lastIndexOf('\n', cursorPos - 1) + 1;
+                const currentLine = text.substring(lineStart, cursorPos);
+                const lastWord = currentLine.split(/\s+/).pop();
+                
+                const beforeCursor = text.substring(0, cursorPos - lastWord.length);
+                const afterCursor = text.substring(cursorPos);
+                
+                editor.value = beforeCursor + match.insertText + afterCursor;
+                editor.selectionStart = editor.selectionEnd = beforeCursor.length + match.insertText.length;
+                
+                this.hideAutocomplete();
+                editor.focus();
+            }
+
+            log(message) {
+                const output = document.getElementById('output');
+                output.textContent += new Date().toLocaleTimeString() + ' ' + message + '\n';
+                output.scrollTop = output.scrollHeight;
+            }
+
+            validateCode() {
+                this.log('🔍 Validating component usage...');
+                const editor = document.getElementById('code-editor');
+                const code = editor.value;
+                
+                // Basic validation - check for unknown web components
+                const webComponentTags = code.match(/<(wb-[^>\s]+)/g);
+                if (webComponentTags) {
+                    const unknownTags = webComponentTags
+                        .map(tag => tag.replace('<', ''))
+                        .filter(tag => !this.webComponents.some(comp => comp.name === tag));
+                    
+                    if (unknownTags.length > 0) {
+                        this.log('❌ Unknown web components found: ' + unknownTags.join(', '));
+                    } else {
+                        this.log('✅ All web components are valid!');
+                    }
+                } else {
+                    this.log('ℹ️ No web components found in code.');
+                }
+            }
+
+            generateBoilerplate() {
+                const componentName = prompt('Enter component name (e.g., wb-my-component):');
+                if (!componentName) return;
+                
+                const boilerplate = this.generateComponentBoilerplate(componentName);
+                document.getElementById('code-editor').value = boilerplate;
+                this.log(`📝 Generated boilerplate for ${componentName}`);
+            }
+
+            generateComponentBoilerplate(name) {
+                return `<!-- ${name} Web Component Boilerplate -->
+
+<script>
+class ${this.toPascalCase(name)} extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.render();
+    }
+
+    static get observedAttributes() {
+        return ['data-config', 'variant', 'theme'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue !== newValue) {
+            this.render();
+        }
+    }
+
+    render() {
+        this.shadowRoot.innerHTML = \`
+            <style>
+                :host {
+                    display: block;
+                    font-family: inherit;
+                }
+                
+                .${name}-container {
+                    padding: 1rem;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                }
+            </style>
+            
+            <div class="${name}-container">
+                <slot></slot>
+            </div>
+        \`;
+    }
+
+    // Custom methods here
+    doSomething() {
+        this.dispatchEvent(new CustomEvent('${name}:action', {
+            detail: { message: 'Action performed' },
+            bubbles: true
+        }));
+    }
+}
+
+customElements.define('${name}', ${this.toPascalCase(name)});
+</script>
+
+<!-- Usage example -->
+<${name}>
+    Content goes here
+</${name}>`;
+            }
+
+            toPascalCase(str) {
+                return str.replace(/(^|-)([a-z])/g, (match, dash, char) => char.toUpperCase());
+            }
+
+            exportSymbols() {
+                const data = {
+                    symbolTable: Array.from(this.symbolTable.entries()),
+                    webComponents: this.webComponents,
+                    classes: this.classes,
+                    functions: this.functions,
+                    componentStatus: Array.from(this.componentStatus.entries()),
+                    autocompleteData: this.autocompleteData
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'wb-component-symbols.json';
+                a.click();
+                URL.revokeObjectURL(url);
+
+                this.log('💾 Symbol table exported to wb-component-symbols.json');
+            }
+        }
+
+        // Global functions for UI interaction
+        function insertSymbol(symbol) {
+            const editor = document.getElementById('code-editor');
+            const cursorPos = editor.selectionStart;
+            const before = editor.value.substring(0, cursorPos);
+            const after = editor.value.substring(cursorPos);
+            editor.value = before + symbol + after;
+            editor.selectionStart = editor.selectionEnd = cursorPos + symbol.length;
+            editor.focus();
+        }
+
+        function runDiscovery() {
+            window.ide.loadStaticData();
+        }
+
+        function validateCode() {
+            window.ide.validateCode();
+        }
+
+        function generateBoilerplate() {
+            window.ide.generateBoilerplate();
+        }
+
+        function exportSymbols() {
+            window.ide.exportSymbols();
+        }
+
+        // Initialize IDE when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            window.ide = new WBComponentIDE();
+        });
+    </script>
+</body>
+</html>

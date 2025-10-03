@@ -1,0 +1,345 @@
+/**
+ * WB Keyboard Manager Component Styles
+ * Help modal and keyboard shortcut styling
+ */
+
+:root {
+    --wb-kbd-bg: var(--background-color, #ffffff);
+    --wb-kbd-text: var(--text-color, #212529);
+    --wb-kbd-border: var(--border-color, #dee2e6);
+    --wb-kbd-muted: var(--text-muted, #6c757d);
+    --wb-kbd-primary: var(--primary, #6366f1);
+    --wb-kbd-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --wb-kbd-radius: 8px;
+    
+    /* Dark mode */
+    --wb-kbd-bg-dark: var(--background-color-dark, #1a1a1a);
+    --wb-kbd-text-dark: var(--text-color-dark, #ffffff);
+    --wb-kbd-border-dark: var(--border-color-dark, #404040);
+    --wb-kbd-muted-dark: var(--text-muted-dark, #b0b0b0);
+}
+
+/* Component container (hidden by default) */
+.wb-keyboard-manager {
+    display: none;
+}
+
+/* Help Modal */
+.wb-keyboard-help-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.wb-keyboard-help-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+}
+
+.wb-keyboard-help-content {
+    position: relative;
+    background: var(--wb-kbd-bg);
+    color: var(--wb-kbd-text);
+    border: 1px solid var(--wb-kbd-border);
+    border-radius: var(--wb-kbd-radius);
+    box-shadow: var(--wb-kbd-shadow);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    outline: none;
+}
+
+/* Dark mode support */
+[data-theme="dark"] .wb-keyboard-help-content {
+    background: var(--wb-kbd-bg-dark);
+    color: var(--wb-kbd-text-dark);
+    border-color: var(--wb-kbd-border-dark);
+}
+
+/* Header */
+.wb-keyboard-help-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--wb-kbd-border);
+}
+
+[data-theme="dark"] .wb-keyboard-help-header {
+    border-bottom-color: var(--wb-kbd-border-dark);
+}
+
+.wb-keyboard-help-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wb-keyboard-help-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    color: var(--wb-kbd-muted);
+    transition: all 0.2s ease;
+}
+
+.wb-keyboard-help-close:hover {
+    background: var(--wb-kbd-border);
+    color: var(--wb-kbd-text);
+}
+
+[data-theme="dark"] .wb-keyboard-help-close {
+    color: var(--wb-kbd-muted-dark);
+}
+
+[data-theme="dark"] .wb-keyboard-help-close:hover {
+    background: var(--wb-kbd-border-dark);
+    color: var(--wb-kbd-text-dark);
+}
+
+/* Body */
+.wb-keyboard-help-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Groups */
+.wb-keyboard-help-group {
+    margin-bottom: 24px;
+}
+
+.wb-keyboard-help-group:last-child {
+    margin-bottom: 0;
+}
+
+.wb-keyboard-help-group h3 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--wb-kbd-primary);
+    text-transform: capitalize;
+}
+
+/* Shortcuts */
+.wb-keyboard-help-shortcuts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.wb-keyboard-help-shortcut {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .wb-keyboard-help-shortcut {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.wb-keyboard-help-shortcut:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--wb-kbd-border);
+}
+
+[data-theme="dark"] .wb-keyboard-help-shortcut:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--wb-kbd-border-dark);
+}
+
+.wb-keyboard-help-keys {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 120px;
+}
+
+.wb-keyboard-help-description {
+    flex: 1;
+    text-align: right;
+    color: var(--wb-kbd-muted);
+    font-size: 14px;
+}
+
+[data-theme="dark"] .wb-keyboard-help-description {
+    color: var(--wb-kbd-muted-dark);
+}
+
+/* Keyboard keys */
+kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: monospace;
+    background: var(--wb-kbd-border);
+    color: var(--wb-kbd-text);
+    border: 1px solid var(--wb-kbd-border);
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    min-width: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+[data-theme="dark"] kbd {
+    background: var(--wb-kbd-border-dark);
+    color: var(--wb-kbd-text-dark);
+    border-color: var(--wb-kbd-border-dark);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Special key styling */
+kbd:contains("Ctrl"), 
+kbd[data-key="ctrl"] {
+    background: var(--wb-kbd-primary);
+    color: white;
+    border-color: var(--wb-kbd-primary);
+}
+
+/* Footer */
+.wb-keyboard-help-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--wb-kbd-border);
+    text-align: center;
+}
+
+[data-theme="dark"] .wb-keyboard-help-footer {
+    border-top-color: var(--wb-kbd-border-dark);
+}
+
+.wb-keyboard-help-footer p {
+    margin: 0;
+    color: var(--wb-kbd-muted);
+    font-size: 14px;
+}
+
+[data-theme="dark"] .wb-keyboard-help-footer p {
+    color: var(--wb-kbd-muted-dark);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .wb-keyboard-help-content {
+        width: 95%;
+        margin: 20px;
+        max-height: calc(100vh - 40px);
+    }
+    
+    .wb-keyboard-help-header {
+        padding: 16px 20px 12px;
+    }
+    
+    .wb-keyboard-help-body {
+        padding: 16px 20px;
+    }
+    
+    .wb-keyboard-help-footer {
+        padding: 12px 20px;
+    }
+    
+    .wb-keyboard-help-shortcut {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .wb-keyboard-help-description {
+        text-align: left;
+        font-size: 13px;
+    }
+    
+    .wb-keyboard-help-keys {
+        min-width: auto;
+    }
+}
+
+/* Animation */
+.wb-keyboard-help-modal {
+    animation: wb-kbd-modal-fade-in 0.3s ease-out;
+}
+
+.wb-keyboard-help-content {
+    animation: wb-kbd-modal-slide-in 0.3s ease-out;
+}
+
+@keyframes wb-kbd-modal-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes wb-kbd-modal-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Accessibility */
+.wb-keyboard-help-content:focus {
+    outline: 2px solid var(--wb-kbd-primary);
+    outline-offset: -2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .wb-keyboard-help-content {
+        border-width: 2px;
+    }
+    
+    kbd {
+        border-width: 2px;
+        font-weight: bold;
+    }
+    
+    .wb-keyboard-help-shortcut {
+        border-width: 1px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .wb-keyboard-help-modal,
+    .wb-keyboard-help-content {
+        animation: none;
+    }
+    
+    .wb-keyboard-help-close,
+    .wb-keyboard-help-shortcut {
+        transition: none;
+    }
+}

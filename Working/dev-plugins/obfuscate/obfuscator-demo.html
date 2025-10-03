@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obfuscator Plugin Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #2c3e50;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    h2 {
+      color: #3498db;
+      margin-top: 30px;
+    }
+    
+    pre {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      overflow: auto;
+      font-family: Consolas, Monaco, 'Andale Mono', monospace;
+      font-size: 14px;
+    }
+    
+    .code-container {
+      display: flex;
+      margin-bottom: 20px;
+      gap: 20px;
+    }
+    
+    .code-panel {
+      flex: 1;
+    }
+    
+    .panel-header {
+      background: #2c3e50;
+      color: white;
+      padding: 8px 15px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+    
+    .btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin: 10px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .btn:hover {
+      background-color: #2980b9;
+    }
+    
+    .output {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin: 20px 0;
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 15px;
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      margin-bottom: -1px;
+    }
+    
+    .tab.active {
+      border: 1px solid #ddd;
+      border-bottom: 1px solid white;
+      background: white;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Obfuscator Plugin Demo</h1>
+  
+  <div class="tabs">
+    <div class="tab active" data-tab="overview">Overview</div>
+    <div class="tab" data-tab="demo">Live Demo</div>
+    <div class="tab" data-tab="integration">Integration Example</div>
+    <div class="tab" data-tab="documentation">Documentation</div>
+  </div>
+  
+  <div class="tab-content active" id="overview-tab">
+    <h2>Overview</h2>
+    <p>This demo demonstrates how to use the Website Builder's Obfuscator plugin with various external obfuscation tools. The plugin provides a framework for integrating code obfuscation capabilities into your development workflow.</p>
+    
+    <h3>Key Features:</h3>
+    <ul>
+      <li>JavaScript obfuscation</li>
+      <li>CSS minification</li>
+      <li>HTML minification</li>
+      <li>Configurable options for each type</li>
+      <li>Development-only functionality to keep your code secure</li>
+    </ul>
+    
+    <h3>Implementation Options:</h3>
+    <ol>
+      <li><strong>External API Integration</strong>: Connect to a local or remote API service</li>
+      <li><strong>JavaScript Library Integration</strong>: Use libraries like JavaScript-Obfuscator</li>
+      <li><strong>Command-line Tool Integration</strong>: Execute command-line obfuscation tools</li>
+    </ol>
+  </div>
+  
+  <div class="tab-content" id="demo-tab">
+    <h2>Live Demo</h2>
+    
+    <div class="code-container">
+      <div class="code-panel">
+        <div class="panel-header">Original JavaScript</div>
+        <pre id="js-original">
+// Example JavaScript code
+function calculateTotal(items) {
+  // Sum all item prices
+  let total = 0;
+  let taxRate = 0.07; // 7% tax
+  
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    total += item.price * item.quantity;
+    
+    // Apply discount if available
+    if (item.discount) {
+      total -= item.discount;
+    }
+  }
+  
+  // Add tax
+  total = total * (1 + taxRate);
+  
+  return total.toFixed(2);
+}
+
+// Example data
+const cartItems = [
+  { name: "Product 1", price: 19.99, quantity: 2, discount: 5.00 },
+  { name: "Product 2", price: 29.99, quantity: 1, discount: 0 },
+  { name: "Product 3", price: 9.99, quantity: 3, discount: 2.50 }
+];
+
+console.log("Total price: $" + calculateTotal(cartItems));
+</pre>
+        <button class="btn" id="obfuscate-js-btn">Obfuscate JavaScript</button>
+      </div>
+      
+      <div class="code-panel">
+        <div class="panel-header">Obfuscated JavaScript</div>
+        <pre id="js-obfuscated">// Obfuscated code will appear here</pre>
+      </div>
+    </div>
+    
+    <div class="code-container">
+      <div class="code-panel">
+        <div class="panel-header">Original CSS</div>
+        <pre id="css-original">
+/* Example CSS code */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+header {
+  background-color: #35424a;
+  color: white;
+  padding: 30px 0;
+  min-height: 70px;
+  border-bottom: #e8491d 3px solid;
+}
+
+header a {
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+/* Navigation styles */
+nav {
+  float: right;
+  margin-top: 10px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav li {
+  display: inline;
+  margin: 0 20px;
+}
+
+nav a:hover {
+  color: #e8491d;
+  font-weight: bold;
+}
+</pre>
+        <button class="btn" id="obfuscate-css-btn">Obfuscate CSS</button>
+      </div>
+      
+      <div class="code-panel">
+        <div class="panel-header">Obfuscated CSS</div>
+        <pre id="css-obfuscated">/* Obfuscated code will appear here */</pre>
+      </div>
+    </div>
+    
+    <div class="code-container">
+      <div class="code-panel">
+        <div class="panel-header">Original HTML</div>
+        <pre id="html-original">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Example Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>My Website</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="container">
+    <section>
+      <h2>Welcome to Our Website</h2>
+      <p>
+        This is an example page to demonstrate HTML minification.
+        The HTML minifier will remove unnecessary whitespace and comments.
+      </p>
+      <!-- This is a comment that will be removed by minification -->
+      <div class="content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </section>
+  </div>
+  
+  <footer>
+    <p>Copyright &copy; 2023</p>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
+</pre>
+        <button class="btn" id="obfuscate-html-btn">Obfuscate HTML</button>
+      </div>
+      
+      <div class="code-panel">
+        <div class="panel-header">Obfuscated HTML</div>
+        <pre id="html-obfuscated"><!-- Obfuscated code will appear here --></pre>
+      </div>
+    </div>
+    
+    <div class="output" id="status">Status: Ready to obfuscate</div>
+  </div>
+  
+  <div class="tab-content" id="integration-tab">
+    <h2>Integration Example</h2>
+    
+    <p>To integrate the obfuscator plugin with your preferred obfuscation tool, override the <code>callObfuscationTool</code> method with your own implementation:</p>
+    
+    <pre>
+// Example of how to override the obfuscation method
+ObfuscatorPlugin.callObfuscationTool = async function(code, type, options) {
+  console.log(`Obfuscating ${type} code with custom tool...`);
+  
+  try {
+    switch (type) {
+      case 'js':
+        return await yourJavaScriptObfuscator(code, options);
+      case 'css':
+        return await yourCSSObfuscator(code, options);
+      case 'html':
+        return await yourHTMLObfuscator(code, options);
+      default:
+        throw new Error(`Unsupported code type: ${type}`);
+    }
+  } catch (error) {
+    console.error(`Error obfuscating ${type} code:`, error);
+    throw error;
+  }
+};
+</pre>
+    
+    <h3>Integration Approaches:</h3>
+    
+    <h4>1. External API Integration</h4>
+    <pre>
+async function callExternalObfuscatorAPI(code, type, options) {
+  try {
+    const apiUrl = 'http://localhost:3000/api/obfuscate';
+    
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        code,
+        type,
+        options
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+    
+    return await response.text();
+  } catch (error) {
+    console.error('Error calling external obfuscator API:', error);
+    throw error;
+  }
+}</pre>
+    
+    <h4>2. JavaScript Library Integration</h4>
+    <pre>
+// Using JavaScript Obfuscator library
+if (window.JavaScriptObfuscator) {
+  try {
+    const result = window.JavaScriptObfuscator.obfuscate(code, {
+      compact: options.compact,
+      controlFlowFlattening: options.controlFlowFlattening,
+      stringArray: options.stringArray,
+      // ... other options
+    });
+    
+    return result.getObfuscatedCode();
+  } catch (error) {
+    console.error('Error using JavaScript Obfuscator:', error);
+    throw error;
+  }
+}</pre>
+    
+    <h4>3. Command-line Tool Integration</h4>
+    <pre>
+// Using a server-side proxy to execute a command-line tool
+async function callCommandLineTool(code, type, options) {
+  try {
+    // Call to your server endpoint that executes the command-line tool
+    const response = await fetch('/api/execute-obfuscator', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        code,
+        type,
+        command: type === 'js' ? 'javascript-obfuscator' : 
+                 type === 'css' ? 'cleancss' : 'html-minifier',
+        args: buildCommandLineArgs(type, options)
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Command execution failed: ${response.status}`);
+    }
+    
+    return await response.text();
+  } catch (error) {
+    console.error('Error calling command-line tool:', error);
+    throw error;
+  }
+}</pre>
+  </div>
+  
+  <div class="tab-content" id="documentation-tab">
+    <h2>Documentation</h2>
+    
+    <h3>Plugin API</h3>
+    <p>The Obfuscator plugin exposes the following API:</p>
+    
+    <h4>Properties</h4>
+    <ul>
+      <li><code>name</code> - The name of the plugin</li>
+      <li><code>description</code> - Description of the plugin</li>
+      <li><code>version</code> - Plugin version</li>
+      <li><code>author</code> - Plugin author</li>
+      <li><code>isDevelopmentOnly</code> - Whether the plugin should only be active during development</li>
+      <li><code>initialized</code> - Whether the plugin has been initialized</li>
+      <li><code>config</code> - Plugin configuration options</li>
+    </ul>
+    
+    <h4>Methods</h4>
+    <ul>
+      <li><code>initialize(api)</code> - Initialize the plugin with the Website Builder API</li>
+      <li><code>obfuscateJS(code)</code> - Obfuscate JavaScript code</li>
+      <li><code>obfuscateCSS(code)</code> - Obfuscate CSS code</li>
+      <li><code>obfuscateHTML(code)</code> - Obfuscate HTML code</li>
+      <li><code>callObfuscationTool(code, type, options)</code> - Call the obfuscation tool</li>
+      <li><code>cleanup()</code> - Clean up plugin resources</li>
+    </ul>
+    
+    <h3>Configuration Options</h3>
+    
+    <h4>JavaScript Options</h4>
+    <ul>
+      <li><code>compact</code> - Remove whitespace</li>
+      <li><code>controlFlowFlattening</code> - Enable control flow flattening</li>
+      <li><code>deadCodeInjection</code> - Enable dead code injection</li>
+      <li><code>debugProtection</code> - Enable debug protection</li>
+      <li><code>disableConsoleOutput</code> - Disable console.log, console.info, etc.</li>
+      <li><code>identifierNamesGenerator</code> - How to rename identifiers (e.g., 'hexadecimal')</li>
+      <li><code>stringArray</code> - Enable string array</li>
+      <li><code>stringArrayEncoding</code> - Enable string array encoding</li>
+      <li><code>target</code> - Target environment (e.g., 'browser')</li>
+      <li><code>transformObjectKeys</code> - Transform object keys</li>
+    </ul>
+    
+    <h4>CSS Options</h4>
+    <ul>
+      <li><code>restructure</code> - Restructure CSS rules</li>
+      <li><code>minify</code> - Minify CSS</li>
+      <li><code>removeComments</code> - Remove comments</li>
+    </ul>
+    
+    <h4>HTML Options</h4>
+    <ul>
+      <li><code>removeComments</code> - Remove comments</li>
+      <li><code>collapseWhitespace</code> - Collapse whitespace</li>
+      <li><code>removeAttributeQuotes</code> - Remove attribute quotes when possible</li>
+    </ul>
+  </div>
+  
+  <!-- Include the obfuscator plugin -->
+  <script src="../../../dev-plugins/obfuscate/obfuscator-plugin.js"></script>
+  
+  <!-- Include the integration example -->
+  <script src="../../../dev-plugins/obfuscate/integration-example.js"></script>
+  
+  <!-- Demo script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up tab navigation
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          
+          // Hide all tab content
+          document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+          });
+          
+          // Add active class to clicked tab
+          tab.classList.add('active');
+          
+          // Show corresponding tab content
+          const tabId = tab.getAttribute('data-tab') + '-tab';
+          document.getElementById(tabId).classList.add('active');
+        });
+      });
+      
+      // Initialize the obfuscator plugin for demo purposes
+      const obfuscatorPlugin = window.ObfuscatorPlugin;
+      const demoApi = {
+        registerCommand: () => {},
+        on: () => {},
+        notifyUser: (type, message) => {
+          document.getElementById('status').textContent = 'Status: ' + message;
+        }
+      };
+      
+      // Initialize the plugin with the demo API
+      if (obfuscatorPlugin && !obfuscatorPlugin.initialized) {
+        obfuscatorPlugin.initialize(demoApi);
+      }
+      
+      // Set up obfuscation buttons
+      document.getElementById('obfuscate-js-btn').addEventListener('click', async () => {
+        try {
+          document.getElementById('status').textContent = 'Status: Obfuscating JavaScript...';
+          const code = document.getElementById('js-original').textContent;
+          const result = await obfuscatorPlugin.obfuscateJS(code);
+          document.getElementById('js-obfuscated').textContent = result;
+          document.getElementById('status').textContent = 'Status: JavaScript obfuscation complete';
+        } catch (error) {
+          console.error('Error obfuscating JavaScript:', error);
+          document.getElementById('status').textContent = 'Status: Error - ' + error.message;
+        }
+      });
+      
+      document.getElementById('obfuscate-css-btn').addEventListener('click', async () => {
+        try {
+          document.getElementById('status').textContent = 'Status: Obfuscating CSS...';
+          const code = document.getElementById('css-original').textContent;
+          const result = await obfuscatorPlugin.obfuscateCSS(code);
+          document.getElementById('css-obfuscated').textContent = result;
+          document.getElementById('status').textContent = 'Status: CSS obfuscation complete';
+        } catch (error) {
+          console.error('Error obfuscating CSS:', error);
+          document.getElementById('status').textContent = 'Status: Error - ' + error.message;
+        }
+      });
+      
+      document.getElementById('obfuscate-html-btn').addEventListener('click', async () => {
+        try {
+          document.getElementById('status').textContent = 'Status: Obfuscating HTML...';
+          const code = document.getElementById('html-original').textContent;
+          const result = await obfuscatorPlugin.obfuscateHTML(code);
+          document.getElementById('html-obfuscated').textContent = result;
+          document.getElementById('status').textContent = 'Status: HTML obfuscation complete';
+        } catch (error) {
+          console.error('Error obfuscating HTML:', error);
+          document.getElementById('status').textContent = 'Status: Error - ' + error.message;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

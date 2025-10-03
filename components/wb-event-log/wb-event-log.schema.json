@@ -1,0 +1,213 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Event Log Web Component",
+  "description": "Schema for wb-event-log custom element attributes",
+  "type": "object",
+  "properties": {
+    "max-events": {
+      "type": "number",
+      "default": 1000,
+      "description": "Maximum number of events to store"
+    },
+    "auto-scroll": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to automatically scroll to new events"
+    },
+    "show-timestamps": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to display timestamps for events"
+    },
+    "show-source": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to display event source information"
+    },
+    "expandable-details": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether events can be expanded to show details"
+    },
+    "compact": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to use compact display mode"
+    },
+    "font-size": {
+      "type": "string",
+      "default": "14px",
+      "description": "Font size for event text"
+    },
+    "icon-size": {
+      "type": "string",
+      "default": "16px",
+      "description": "Size of event type icons"
+    },
+    "dark-mode": {
+      "type": "string",
+      "enum": ["auto", "true", "false"],
+      "default": "auto",
+      "description": "Dark mode setting"
+    },
+    "truncate-length": {
+      "type": "number",
+      "default": 80,
+      "description": "Length at which to truncate long messages"
+    },
+    "line-height": {
+      "type": "string",
+      "default": "1.4em",
+      "description": "Line height for event entries"
+    },
+    "wrap-mode": {
+      "type": "string",
+      "enum": ["truncate", "wrap", "nowrap"],
+      "default": "truncate",
+      "description": "How to handle long text content"
+    },
+    "default-filters": {
+      "type": "string",
+      "description": "JSON string containing array of default enabled filters",
+      "examples": ["[\"error\", \"info\", \"warning\"]"]
+    },
+    "event-types": {
+      "type": "string",
+      "description": "JSON string containing custom event type definitions",
+      "examples": [
+        "{\"custom\":{\"icon\":\"🔧\",\"color\":\"#007BFF\",\"label\":\"Custom\",\"enabled\":true}}"
+      ]
+    },
+    "intercept-console": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to intercept console.log messages"
+    },
+    "capture-errors": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to capture JavaScript errors"
+    },
+    "track-user-interactions": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to track user interactions"
+    },
+    "virtual-scrolling": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to use virtual scrolling for performance"
+    },
+    "batch-updates": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to batch DOM updates"
+    },
+    "update-interval": {
+      "type": "number",
+      "default": 50,
+      "description": "Update interval in milliseconds"
+    },
+    "toolbar": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show the toolbar"
+    },
+    "search": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to enable search functionality"
+    },
+    "filters": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show filter buttons"
+    },
+    "export": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to enable export functionality"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the event log"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for the event log"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "onevent-added": {
+      "type": "string",
+      "description": "JavaScript code to execute when an event is added"
+    },
+    "onevent-filtered": {
+      "type": "string",
+      "description": "JavaScript code to execute when events are filtered"
+    },
+    "onevent-cleared": {
+      "type": "string",
+      "description": "JavaScript code to execute when events are cleared"
+    },
+    "onexport": {
+      "type": "string",
+      "description": "JavaScript code to execute when events are exported"
+    },
+    "onwb-event-log:event-added": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-event-log:event-added event"
+    },
+    "onwb-event-log:filtered": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-event-log:filtered event"
+    },
+    "onwb-event-log:cleared": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-event-log:cleared event"
+    },
+    "onwb-event-log:exported": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-event-log:exported event"
+    },
+    "aria-label": {
+      "type": "string",
+      "default": "Event log",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this event log"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this event log"
+    },
+    "aria-live": {
+      "type": "string",
+      "enum": ["off", "polite", "assertive"],
+      "default": "polite",
+      "description": "How screen readers announce new events"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["log", "region", "listbox"],
+      "default": "log",
+      "description": "ARIA role for the event log"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "name": "wb-log-error",
+  "version": "1.0.0",
+  "description": "Error logging and display component with filtering and export capabilities",
+  "category": "utility",
+  "tags": ["error", "logging", "debug", "monitoring"],
+  "author": "WB Components",
+  "license": "MIT",
+  "dependencies": [],
+  "attributes": {
+    "max-errors": {
+      "type": "number",
+      "default": 100,
+      "description": "Maximum number of errors to store"
+    },
+    "auto-clear": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically clear errors after max reached"
+    },
+    "show-stack": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show stack traces in error details"
+    },
+    "filter-level": {
+      "type": "string",
+      "enum": ["all", "error", "warn", "info"],
+      "default": "all",
+      "description": "Minimum log level to display"
+    },
+    "position": {
+      "type": "string",
+      "enum": ["bottom-right", "bottom-left", "top-right", "top-left", "inline"],
+      "default": "bottom-right",
+      "description": "Display position for floating mode"
+    }
+  },
+  "events": [
+    {
+      "name": "wb-log-error-ready",
+      "description": "Fired when error logger is initialized"
+    },
+    {
+      "name": "wb-error-logged",
+      "description": "Fired when new error is logged",
+      "detail": {
+        "error": "object",
+        "level": "string",
+        "timestamp": "number"
+      }
+    },
+    {
+      "name": "wb-errors-cleared",
+      "description": "Fired when error log is cleared"
+    }
+  ],
+  "methods": [
+    {
+      "name": "logError",
+      "params": ["error: Error|string", "level?: string"],
+      "description": "Log an error"
+    },
+    {
+      "name": "clearErrors",
+      "description": "Clear all logged errors"
+    },
+    {
+      "name": "exportErrors",
+      "returns": "string",
+      "description": "Export errors as JSON string"
+    },
+    {
+      "name": "getErrors",
+      "returns": "array",
+      "description": "Get all logged errors"
+    },
+    {
+      "name": "setFilterLevel",
+      "params": ["level: string"],
+      "description": "Set minimum log level filter"
+    }
+  ],
+  "cssCustomProperties": {
+    "--wb-log-bg": "var(--surface-color)",
+    "--wb-log-text": "var(--text-color)",
+    "--wb-log-error": "#dc2626",
+    "--wb-log-warn": "#f59e0b",
+    "--wb-log-info": "#3b82f6",
+    "--wb-log-border": "var(--border-color)",
+    "--wb-log-shadow": "var(--shadow-lg)"
+  },
+  "files": {
+    "js": "wb-log-error.js",
+    "css": "wb-log-error.css",
+    "demo": "wb-log-error-demo.html",
+    "docs": "wb-log-error.md",
+    "schema": "wb-log-error.schema.json"
+  }
+}

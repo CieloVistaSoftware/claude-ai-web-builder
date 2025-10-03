@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CieloVistaSoftware AI</title>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="C:\Users\jwpmi\Downloads\Images\Photos\Small\zia.png"
+      type="image/png"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="C:\Users\jwpmi\Downloads\Images\Photos\Small\zia.png"
+    />
+
+    <!-- JSZip Library for file operations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Create professional websites with advanced layouts, themes, and animations"
+    />
+    <meta
+      name="keywords"
+      content="website, template, professional, glassmorphism, animation"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // Ensure dark mode is applied before page renders to avoid flash of unstyled content
+      document.documentElement.setAttribute("data-mode", "dark");
+      document.documentElement.setAttribute("data-theme", "default");
+    </script>
+  </head>
+  <body
+    data-layout="top-nav"
+    data-theme="default"
+    data-mode="dark"
+    class="theme-default dark-mode"
+  >
+    <!-- Control Panel Web Component (content loaded from ControlPanelContent.html) -->
+    <control-panel id="main-control-panel"></control-panel>
+    <template id="control-panel-content-template"></template>
+    <script type="module" src="./ControlPanel.js"></script>
+    <script>
+      // Initialize site content from JSON
+      let siteContent = null;
+      
+      // Load site content from JSON file
+      fetch("./site-content.json")
+        .then(response => response.json())
+        .then(data => {
+          // Store site content globally
+          window.siteContent = data;
+          // Update page title and meta
+          document.title = data.meta.title;
+          document.querySelector('meta[name="description"]').setAttribute('content', data.meta.description);
+          document.querySelector('meta[name="keywords"]').setAttribute('content', data.meta.keywords);
+          // Render content
+          renderSiteContent(data);
+        })
+        .catch(error => {
+          console.error('Failed to load site content:', error);
+        });
+        
+      // Load ControlPanelContent.html into the control-panel slot, then re-run event handler setup
+      fetch("./ControlPanelContent.html")
+        .then((r) => r.text())
+        .then((html) => {
+          const tpl = document.getElementById("control-panel-content-template");
+          tpl.innerHTML = html;
+          const panel = document.getElementById("main-control-panel");
+          // Move all children from template into the panel
+          Array.from(
+            tpl.content ? tpl.content.childNodes : tpl.childNodes
+          ).forEach((node) => {
+            panel.appendChild(node.cloneNode(true));
+          });
+          // Re-run all event handler setup (script.js expects controls to exist)
+          if (window.initControlPanelHandlers) {
+            window.initControlPanelHandlers();
+          } else if (typeof setupControlPanelHandlers === "function") {
+            setupControlPanelHandlers();
+          } else if (typeof window.dispatchEvent === "function") {
+            // Fallback: dispatch a custom event for script.js to listen for
+            window.dispatchEvent(new Event("controlpanel:contentloaded"));
+          }
+        });
+    </script>
+
+    <!-- Main Website -->
+    <div id="site-container" class="site-container">
+      <!-- Navigation -->
+      <nav id="site-nav" class="site-nav">
+        <ul id="nav-list" class="nav-list">
+          <!-- Navigation will be populated from JSON -->
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main id="main-content" class="main-content">
+        <!-- Header -->
+        <header id="site-header" class="site-header">
+          <h1 class="site-title editable" contenteditable="false">
+            <!-- Title will be populated from JSON -->
+          </h1>
+          <p class="site-subtitle editable" contenteditable="false">
+            <!-- Subtitle will be populated from JSON -->
+          </p>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="hero-section" class="hero-section">
+          <div class="hero-content">
+            <h2 class="hero-title editable" contenteditable="false">
+              <!-- Hero title will be populated from JSON -->
+            </h2>
+            <p class="hero-description editable" contenteditable="false">
+              <!-- Hero description will be populated from JSON -->
+            </p>
+            <button class="cta-button editable" contenteditable="false" aria-label="Call to action">
+              <!-- Button text will be populated from JSON -->
+            </button>
+          </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features-section" class="content-section">
+          <h2 class="section-title editable" contenteditable="false">
+            <!-- Features title will be populated from JSON -->
+          </h2>
+          <div class="content-grid">
+            <!-- Feature cards will be populated from JSON -->
+          </div>
+        </section>
+
+        <!-- Home Section -->
+        <section id="home" class="content-section">
+          <h2 class="section-title editable" contenteditable="false">
+            <!-- Home section title will be populated from JSON -->
+          </h2>
+          <div class="section-content">
+            <p class="editable" contenteditable="false">
+              <!-- Home section content will be populated from JSON -->
+            </p>
+            <div class="content-grid">
+              <!-- Home section cards will be populated from JSON -->
+            </div>
+          </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="content-section">
+          <h2 class="section-title editable" contenteditable="false">
+            <!-- About section title will be populated from JSON -->
+          </h2>
+          <div class="section-content">
+            <p class="editable" contenteditable="false">
+              <!-- About section content will be populated from JSON -->
+            </p>
+            <div class="content-grid">
+              <!-- About section cards will be populated from JSON -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="content-section">
+          <h2 class="section-title editable" contenteditable="false">
+            <!-- Services section title will be populated from JSON -->
+          </h2>
+          <div class="section-content">
+            <p class="editable" contenteditable="false">
+              <!-- Services section content will be populated from JSON -->
+            </p>
+            <div class="content-grid">
+              <!-- Services section cards will be populated from JSON -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="content-section">
+          <h2 class="section-title editable" contenteditable="false">
+            <!-- Portfolio section title will be populated from JSON -->
+          </h2>
+          <div class="section-content">
+            <p class="editable" contenteditable="false">
+              <!-- Portfolio section content will be populated from JSON -->
+            </p>
+            <div class="content-grid">
+              <!-- Portfolio section cards will be populated from JSON -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="content-section">
+          <h2 class="section-title editable" contenteditable="false">
+            <!-- Contact section title will be populated from JSON -->
+          </h2>
+          <div class="section-content">
+            <p class="editable" contenteditable="false">
+              <!-- Contact section content will be populated from JSON -->
+            </p>
+            <div class="content-grid">
+              <!-- Contact section cards will be populated from JSON -->
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer id="site-footer" class="site-footer">
+        <div class="footer-content">
+          <p class="editable" contenteditable="false">
+            <!-- Footer copyright will be populated from JSON -->
+          </p>
+          <ul class="footer-links">
+            <!-- Footer links will be populated from JSON -->
+          </ul>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Status Bar -->
+    <div id="status-bar" class="status-bar">
+      <div id="status-message" class="status-message">Ready to edit</div>
+      <div id="status-info">Edit mode: OFF</div>
+    </div>
+
+    <!-- Site Content Renderer -->
+    <script>
+      // Function to render site content from JSON data
+      function renderSiteContent(data) {
+        if (!data) return;
+        
+        // Store the content data globally for use in save functionality
+        window.siteContentData = data;
+        
+        // Render site header
+        if (data.siteHeader) {
+          document.querySelector('.site-title').textContent = data.siteHeader.title;
+          document.querySelector('.site-subtitle').textContent = data.siteHeader.subtitle;
+        }
+        
+        // Render hero section
+        if (data.hero) {
+          document.querySelector('.hero-title').textContent = data.hero.title;
+          document.querySelector('.hero-description').textContent = data.hero.description;
+          document.querySelector('.cta-button').textContent = data.hero.buttonText;
+        }
+        
+        // Render navigation
+        if (data.navigation && data.navigation.length) {
+          const navList = document.querySelector('#nav-list');
+          navList.innerHTML = '';
+          data.navigation.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = item.href;
+            a.className = 'nav-link';
+            a.textContent = item.text;
+            li.appendChild(a);
+            navList.appendChild(li);
+          });
+        }
+        
+        // Render sections
+        if (data.sections) {
+          // Features section
+          renderSection('features-section', data.sections.features);
+          
+          // Home section
+          renderSection('home', data.sections.home);
+          
+          // About section
+          renderSection('about', data.sections.about);
+          
+          // Services section
+          renderSection('services', data.sections.services);
+          
+          // Portfolio section
+          renderSection('portfolio', data.sections.portfolio);
+          
+          // Contact section
+          renderSection('contact', data.sections.contact);
+        }
+        
+        // Render footer
+        if (data.footer) {
+          document.querySelector('#site-footer p').innerHTML = data.footer.copyright;
+          
+          if (data.footer.links && data.footer.links.length) {
+            const footerLinks = document.querySelector('.footer-links');
+            footerLinks.innerHTML = '';
+            data.footer.links.forEach(link => {
+              const li = document.createElement('li');
+              const a = document.createElement('a');
+              a.href = link.href;
+              a.className = 'footer-link';
+              a.textContent = link.text;
+              li.appendChild(a);
+              footerLinks.appendChild(li);
+            });
+          }
+        }
+        
+        console.log('Site content rendered successfully');
+        
+        // Dispatch event when content is loaded
+        window.dispatchEvent(new Event('siteContent:loaded'));
+        
+        // Initialize content change listeners
+        initializeContentChangeListeners();
+      }
+      
+      // Function to save content changes back to JSON
+      function saveContentChanges() {
+        if (!window.siteContentData) return;
+        
+        const data = window.siteContentData;
+        
+        // Save site header
+        data.siteHeader.title = document.querySelector('.site-title').textContent;
+        data.siteHeader.subtitle = document.querySelector('.site-subtitle').textContent;
+        
+        // Save hero section
+        data.hero.title = document.querySelector('.hero-title').textContent;
+        data.hero.description = document.querySelector('.hero-description').textContent;
+        data.hero.buttonText = document.querySelector('.cta-button').textContent;
+        
+        // Save navigation (get from DOM since it may have been edited)
+        data.navigation = [];
+        document.querySelectorAll('#nav-list li a').forEach(link => {
+          data.navigation.push({
+            text: link.textContent,
+            href: link.getAttribute('href')
+          });
+        });
+        
+        // Save sections
+        saveSection('features-section', data.sections.features);
+        saveSection('home', data.sections.home);
+        saveSection('about', data.sections.about);
+        saveSection('services', data.sections.services);
+        saveSection('portfolio', data.sections.portfolio);
+        saveSection('contact', data.sections.contact);
+        
+        // Save footer
+        data.footer.copyright = document.querySelector('#site-footer p').innerHTML;
+        data.footer.links = [];
+        document.querySelectorAll('.footer-links li a').forEach(link => {
+          data.footer.links.push({
+            text: link.textContent,
+            href: link.getAttribute('href')
+          });
+        });
+        
+        // Save the updated JSON
+        const jsonData = JSON.stringify(data, null, 2);
+        
+        // Use fetch to save to file (normally this would require a server endpoint)
+        // For demo purposes, this will just log to console and update the window.siteContentData
+        console.log('Content would be saved:', jsonData);
+        window.siteContentData = data;
+        
+        // Alert success
+        alert('Content changes have been saved to memory. In a real implementation, this would save to the JSON file.');
+        
+        return data;
+      }
+      
+      // Helper function to save a section's content
+      function saveSection(sectionId, sectionData) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        
+        // Save title
+        const titleEl = section.querySelector('.section-title');
+        if (titleEl) sectionData.title = titleEl.textContent;
+        
+        // Save content if available
+        const contentEl = section.querySelector('.section-content p');
+        if (contentEl) sectionData.content = contentEl.innerHTML;
+        
+        // Save cards
+        const cards = section.querySelectorAll('.content-card');
+        const cardsData = [];
+        
+        cards.forEach(card => {
+          const cardData = {};
+          
+          // Get icon if available
+          const iconEl = card.querySelector('.card-icon');
+          if (iconEl) cardData.icon = iconEl.textContent;
+          
+          // Get title
+          const titleEl = card.querySelector('.card-title');
+          if (titleEl) cardData.title = titleEl.textContent;
+          
+          // Get description
+          const descEl = card.querySelector('.card-description');
+          if (descEl) cardData.description = descEl.innerHTML;
+          
+          cardsData.push(cardData);
+        });
+        
+        // Update the appropriate section data (items or cards)
+        if (sectionData.items) {
+          sectionData.items = cardsData;
+        } else {
+          sectionData.cards = cardsData;
+        }
+      }
+      
+      // Initialize content change listeners
+      function initializeContentChangeListeners() {
+        // Add change listeners to all editable elements
+        document.querySelectorAll('.editable').forEach(el => {
+          el.addEventListener('blur', function() {
+            // When an element is edited and loses focus, update the content data
+            // This could be optimized to only update the specific element that changed
+            updateContentDataFromDOM();
+          });
+        });
+        
+        // Add save button event listener if it exists
+        const saveBtn = document.getElementById('save-btn');
+        if (saveBtn) {
+          saveBtn.addEventListener('click', function() {
+            saveContentChanges();
+          });
+        }
+      }
+      
+      // Update content data from DOM (used when content is edited)
+      function updateContentDataFromDOM() {
+        if (!window.siteContentData) return;
+        // This is a simplified version - for a full implementation, you would 
+        // use the same approach as saveContentChanges but without the save to file part
+        console.log('Content updated in memory');
+      }
+      
+      // Helper function to render a single section
+      function renderSection(sectionId, sectionData) {
+        if (!sectionData) return;
+        
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        
+        // Update section title
+        const titleEl = section.querySelector('.section-title');
+        if (titleEl) titleEl.textContent = sectionData.title;
+        
+        // Update section content if available
+        if (sectionData.content) {
+          const contentEl = section.querySelector('.section-content p');
+          if (contentEl) contentEl.innerHTML = sectionData.content;
+        }
+        
+        // Update cards if available
+        if (sectionData.items || sectionData.cards) {
+          const cardsData = sectionData.items || sectionData.cards;
+          const cardsContainer = section.querySelector('.content-grid');
+          
+          if (cardsContainer && cardsData && cardsData.length) {
+            cardsContainer.innerHTML = '';
+            
+            cardsData.forEach(card => {
+              const cardEl = document.createElement('div');
+              cardEl.className = 'content-card';
+              
+              // Add icon if available
+              if (card.icon) {
+                const iconEl = document.createElement('span');
+                iconEl.className = 'card-icon';
+                iconEl.textContent = card.icon;
+                cardEl.appendChild(iconEl);
+              }
+              
+              // Add title
+              const titleEl = document.createElement('h3');
+              titleEl.className = 'card-title editable';
+              titleEl.setAttribute('contenteditable', 'false');
+              titleEl.textContent = card.title;
+              cardEl.appendChild(titleEl);
+              
+              // Add description
+              const descEl = document.createElement('p');
+              descEl.className = 'card-description editable';
+              descEl.setAttribute('contenteditable', 'false');
+              descEl.innerHTML = card.description;
+              cardEl.appendChild(descEl);
+              
+              cardsContainer.appendChild(cardEl);
+            });
+          }
+        }
+      }
+    </script>
+    
+    <!-- Plugin System -->
+    <script>
+      // Plugin registration and management system
+      window.PluginSystem = {
+        // Store registered plugins
+        plugins: {},
+        
+        // Register a new plugin
+        register: function(pluginId, pluginObj) {
+          if (this.plugins[pluginId]) {
+            console.warn(`Plugin ${pluginId} is already registered. Overwriting.`);
+          }
+          this.plugins[pluginId] = pluginObj;
+          console.log(`Plugin "${pluginId}" registered successfully`);
+          
+          // Notify that a plugin was registered
+          window.dispatchEvent(new CustomEvent('plugin:registered', { 
+            detail: { id: pluginId, plugin: pluginObj }
+          }));
+          
+          // Initialize plugin if the DOM is already loaded
+          if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            this.initializePlugin(pluginId, pluginObj);
+          }
+          
+          return pluginObj;
+        },
+        
+        // Get a registered plugin by ID
+        get: function(pluginId) {
+          return this.plugins[pluginId] || null;
+        },
+        
+        // Initialize a specific plugin
+        initializePlugin: function(pluginId, plugin) {
+          if (typeof plugin.initialize === 'function') {
+            try {
+              plugin.initialize();
+              console.log(`Plugin "${pluginId}" initialized`);
+            } catch (error) {
+              console.error(`Error initializing plugin "${pluginId}":`, error);
+            }
+          }
+        },
+        
+        // Initialize all registered plugins
+        initializeAll: function() {
+          Object.entries(this.plugins).forEach(([id, plugin]) => {
+            this.initializePlugin(id, plugin);
+          });
+        },
+        
+        // Dynamically load a plugin script
+        loadPlugin: function(url, options = {}) {
+          return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.type = options.type || 'text/javascript';
+            script.src = url;
+            script.onload = () => {
+              console.log(`Plugin script loaded: ${url}`);
+              resolve();
+            };
+            script.onerror = (error) => {
+              console.error(`Failed to load plugin: ${url}`, error);
+              reject(error);
+            };
+            document.head.appendChild(script);
+          });
+        }
+      };
+      
+      // Initialize plugins when DOM is fully loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        window.PluginSystem.initializeAll();
+        console.log('All registered plugins initialized');
+      });
+    </script>
+
+    <!-- Plugin Loader -->
+    <script src="plugin-loader.js"></script>
+    
+    <!-- Developer Plugins (not included in exported websites) -->
+    <script src="dev-plugins/dev-plugin-loader.js"></script>
+    
+    <!-- Environment and AI Integration -->
+    <script src="env-loader.js"></script>
+    <script src="claude-ai.js"></script>
+    
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    
+    <!-- Reset Content Functionality -->
+    <script>
+      // Reset functionality is now handled by the Claude AI Helper
+      // This is just a wrapper to maintain compatibility
+      function resetContent() {
+        if (window.claudeAI && window.claudeAI.resetContent) {
+          window.claudeAI.resetContent();
+        } else {
+          console.error('Claude AI Helper not initialized. Cannot reset content.');
+        }
+      }
+      
+      // Add keyboard shortcut for reset (Ctrl+Shift+R)
+      document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.shiftKey && event.key === 'R') {
+          event.preventDefault(); // Prevent browser refresh
+          resetContent();
+        }
+      });
+      
+      // Add a button to the status bar for content reset
+      document.addEventListener('DOMContentLoaded', function() {
+        const statusBar = document.getElementById('status-bar');
+        if (statusBar) {
+          const resetButton = document.createElement('button');
+          resetButton.id = 'reset-content-btn';
+          resetButton.textContent = 'Reset Content';
+          resetButton.className = 'status-action-btn';
+          resetButton.style.cssText = `
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            margin-left: 10px;
+            cursor: pointer;
+          `;
+          resetButton.addEventListener('click', resetContent);
+          statusBar.appendChild(resetButton);
+        }
+      });
+    </script>
+  </body>
+</html>

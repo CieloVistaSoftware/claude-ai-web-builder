@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Input Component Demo</title>
+    
+    <!-- Central Styles Import -->
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">    <!-- Component Styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: var(--space-xl);
+        }
+        
+        .demo-section {
+            background: var(--bg-secondary);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+        
+        .demo-form {
+            background: var(--bg-tertiary);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .status {
+            background: rgba(var(--success-color-rgb), 0.1);
+            border: 1px solid rgba(var(--success-color-rgb), 0.3);
+            padding: var(--space-sm);
+            border-radius: var(--radius-base);
+            margin: var(--space-md) 0;
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+        }
+        
+        .validation-demo {
+            background: rgba(var(--error-color-rgb), 0.1);
+            border: 1px solid rgba(var(--error-color-rgb), 0.3);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin: var(--space-md) 0;
+        }
+        
+        .button-demo {
+            display: flex;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+            flex-wrap: wrap;
+        }
+        
+        .wb-btn {
+            padding: var(--space-sm) var(--space-md);
+            border: none;
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-size: var(--text-sm);
+            transition: var(--transition-all);
+        }
+        
+        .wb-btn--primary {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+        }
+        
+        .wb-btn--success {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .wb-btn--small {
+            padding: var(--space-xs) var(--space-sm);
+            font-size: var(--text-xs);
+        }
+        
+        code {
+            background: var(--bg-tertiary);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <h1>WB Input Component Demo</h1>
+    <p>Standardized input component for the Website Builder system with validation and theming.</p>
+    
+    <div class="status" id="status">
+        Component loading...
+    </div>
+    
+    <div class="demo-section">
+        <h3>Basic Input Types</h3>
+        <p>Different input types with consistent styling:</p>
+        
+        <div class="demo-grid">
+            <div class="demo-form">
+                <h4>Text Inputs</h4>
+                <div id="text-inputs"></div>
+            </div>
+            
+            <div class="demo-form">
+                <h4>Specialized Inputs</h4>
+                <div id="special-inputs"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Input Sizes</h3>
+        <p>Different sizes for various use cases:</p>
+        
+        <div class="demo-form">
+            <div id="size-inputs"></div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Input States</h3>
+        <p>Visual feedback for different states:</p>
+        
+        <div class="demo-grid">
+            <div class="demo-form">
+                <h4>Validation States</h4>
+                <div id="state-inputs"></div>
+            </div>
+            
+            <div class="demo-form">
+                <h4>Interactive States</h4>
+                <div id="interactive-inputs"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Form Validation</h3>
+        <p>Built-in validation with custom rules:</p>
+        
+        <div class="validation-demo">
+            <form id="validation-form">
+                <div id="validation-inputs"></div>
+                <div class="button-demo">
+                    <button type="submit" class="wb-btn wb-btn--primary">Validate Form</button>
+                    <button type="button" class="wb-btn wb-btn--success" onclick="fillSampleData()">Fill Sample Data</button>
+                    <button type="button" class="wb-btn wb-btn--small" onclick="clearForm()">Clear Form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Input Groups & Layout</h3>
+        <p>Grouping inputs for complex forms:</p>
+        
+        <div class="demo-form">
+            <div id="group-inputs"></div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>JavaScript API</h3>
+        <p>Programmatic control and validation:</p>
+        
+        <div class="demo-form">
+            <div id="api-demo"></div>
+            <div class="button-demo">
+                <button class="wb-btn wb-btn--primary" onclick="validateApiInput()">Validate</button>
+                <button class="wb-btn wb-btn--success" onclick="setApiValue()">Set Value</button>
+                <button class="wb-btn wb-btn--small" onclick="toggleApiDisabled()">Toggle Disabled</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Load WB Input Component -->
+    <script src="wb-input.js"></script>
+    
+    <script>
+        let validationForm;
+        let apiInput;
+        
+        // Demo functionality
+        function createBasicInputs() {
+            const textContainer = document.getElementById('text-inputs');
+            const specialContainer = document.getElementById('special-inputs');
+            
+            // Text inputs
+            textContainer.appendChild(WBInput.create('text', {
+                label: 'Name',
+                placeholder: 'Enter your name',
+                id: 'demo-name'
+            }));
+            
+            textContainer.appendChild(WBInput.create('textarea', {
+                label: 'Description',
+                placeholder: 'Enter a description...',
+                id: 'demo-desc',
+                help: 'Provide a detailed description'
+            }));
+            
+            // Special inputs
+            specialContainer.appendChild(WBInput.create('email', {
+                label: 'Email Address',
+                placeholder: 'user@example.com',
+                id: 'demo-email'
+            }));
+            
+            specialContainer.appendChild(WBInput.create('password', {
+                label: 'Password',
+                placeholder: 'Enter password',
+                id: 'demo-password'
+            }));
+            
+            specialContainer.appendChild(WBInput.create('search', {
+                label: 'Search',
+                placeholder: 'Search...',
+                id: 'demo-search'
+            }));
+            
+            specialContainer.appendChild(WBInput.create('url', {
+                label: 'Website',
+                placeholder: 'https://example.com',
+                id: 'demo-url'
+            }));
+        }
+        
+        function createSizeInputs() {
+            const container = document.getElementById('size-inputs');
+            
+            container.appendChild(WBInput.create('text', {
+                label: 'Small Input',
+                placeholder: 'Small size',
+                size: 'small'
+            }));
+            
+            container.appendChild(WBInput.create('text', {
+                label: 'Standard Input',
+                placeholder: 'Standard size (default)'
+            }));
+            
+            container.appendChild(WBInput.create('text', {
+                label: 'Large Input',
+                placeholder: 'Large size',
+                size: 'large'
+            }));
+        }
+        
+        function createStateInputs() {
+            const stateContainer = document.getElementById('state-inputs');
+            const interactiveContainer = document.getElementById('interactive-inputs');
+            
+            // Validation states
+            const errorInput = WBInput.create('text', {
+                label: 'Error State',
+                value: 'Invalid input',
+                id: 'error-demo'
+            });
+            WBInput.setError(errorInput, 'This field has an error');
+            stateContainer.appendChild(errorInput);
+            
+            const successInput = WBInput.create('text', {
+                label: 'Success State',
+                value: 'Valid input',
+                id: 'success-demo'
+            });
+            WBInput.setSuccess(successInput, 'Great! This looks good');
+            stateContainer.appendChild(successInput);
+            
+            // Interactive states
+            interactiveContainer.appendChild(WBInput.create('text', {
+                label: 'Disabled Input',
+                value: 'Cannot edit this',
+                disabled: true
+            }));
+            
+            interactiveContainer.appendChild(WBInput.create('text', {
+                label: 'Readonly Input',
+                value: 'Read only value',
+                readonly: true
+            }));
+            
+            interactiveContainer.appendChild(WBInput.create('text', {
+                label: 'Required Input',
+                placeholder: 'This field is required',
+                required: true
+            }));
+        }
+        
+        function createValidationForm() {
+            const container = document.getElementById('validation-inputs');
+            
+            // Create validation inputs
+            const nameInput = WBInput.create('text', {
+                label: 'Full Name *',
+                placeholder: 'Enter your full name',
+                id: 'val-name',
+                required: true
+            });
+            container.appendChild(nameInput);
+            
+            const emailInput = WBInput.create('email', {
+                label: 'Email Address *',
+                placeholder: 'user@example.com',
+                id: 'val-email',
+                required: true
+            });
+            container.appendChild(emailInput);
+            
+            const phoneInput = WBInput.create('tel', {
+                label: 'Phone Number',
+                placeholder: '+1234567890',
+                id: 'val-phone'
+            });
+            container.appendChild(phoneInput);
+            
+            const messageInput = WBInput.create('textarea', {
+                label: 'Message *',
+                placeholder: 'Enter your message (min 10 chars)',
+                id: 'val-message',
+                required: true,
+                maxLength: 500,
+                showCounter: true
+            });
+            container.appendChild(messageInput);
+            
+            // Store inputs for validation
+            validationForm = {
+                name: nameInput,
+                email: emailInput,
+                phone: phoneInput,
+                message: messageInput
+            };
+        }
+        
+        function createGroupInputs() {
+            const container = document.getElementById('group-inputs');
+            
+            // Address group
+            const addressGroup = document.createElement('div');
+            addressGroup.innerHTML = '<h4>Address Information</h4>';
+            
+            const addressInput = WBInput.create('text', {
+                label: 'Street Address',
+                placeholder: '123 Main St'
+            });
+            addressGroup.appendChild(addressInput);
+            
+            // Create inline group for city/state/zip
+            const inlineGroup = document.createElement('div');
+            inlineGroup.style.display = 'grid';
+            inlineGroup.style.gridTemplateColumns = '2fr 1fr 1fr';
+            inlineGroup.style.gap = '1rem';
+            
+            inlineGroup.appendChild(WBInput.create('text', {
+                label: 'City',
+                placeholder: 'City'
+            }));
+            
+            inlineGroup.appendChild(WBInput.create('text', {
+                label: 'State',
+                placeholder: 'ST'
+            }));
+            
+            inlineGroup.appendChild(WBInput.create('text', {
+                label: 'ZIP Code',
+                placeholder: '12345'
+            }));
+            
+            addressGroup.appendChild(inlineGroup);
+            container.appendChild(addressGroup);
+        }
+        
+        function createApiDemo() {
+            const container = document.getElementById('api-demo');
+            
+            apiInput = WBInput.create('email', {
+                label: 'API Test Input',
+                placeholder: 'test@example.com',
+                id: 'api-test',
+                help: 'Use the buttons below to test the API'
+            });
+            
+            container.appendChild(apiInput);
+        }
+        
+        // API demo functions
+        function validateApiInput() {
+            const isValid = WBInput.validate(apiInput, {
+                required: true,
+                type: 'email'
+            });
+            console.log('Validation result:', isValid);
+        }
+        
+        function setApiValue() {
+            WBInput.setValue(apiInput, 'demo@example.com');
+        }
+        
+        function toggleApiDisabled() {
+            const isDisabled = apiInput._wbInput.disabled;
+            WBInput.setDisabled(apiInput, !isDisabled);
+        }
+        
+        // Form demo functions
+        function fillSampleData() {
+            WBInput.setValue(validationForm.name, 'John Doe');
+            WBInput.setValue(validationForm.email, 'john.doe@example.com');
+            WBInput.setValue(validationForm.phone, '+1234567890');
+            WBInput.setValue(validationForm.message, 'This is a sample message for testing validation.');
+        }
+        
+        function clearForm() {
+            Object.values(validationForm).forEach(input => {
+                WBInput.setValue(input, '');
+                WBInput.clearError(input);
+            });
+        }
+        
+        // Form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('validation-form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let allValid = true;
+                
+                // Validate each field
+                if (!WBInput.validate(validationForm.name, { required: true, minLength: 2 })) {
+                    allValid = false;
+                }
+                
+                if (!WBInput.validate(validationForm.email, { required: true, type: 'email' })) {
+                    allValid = false;
+                }
+                
+                if (WBInput.getValue(validationForm.phone) && 
+                    !WBInput.validate(validationForm.phone, { pattern: '^[\\+]?[1-9][\\d]{0,15}$', patternMessage: 'Please enter a valid phone number' })) {
+                    allValid = false;
+                }
+                
+                if (!WBInput.validate(validationForm.message, { required: true, minLength: 10, maxLength: 500 })) {
+                    allValid = false;
+                }
+                
+                if (allValid) {
+                    alert('Form is valid! 🎉');
+                } else {
+                    console.log('Form has validation errors');
+                }
+            });
+        });
+        
+        // Listen for component ready
+        document.addEventListener('wbInputReady', function() {
+            document.getElementById('status').innerHTML = '✅ WB Input Component loaded successfully!';
+            console.log('WB Input Component is ready!');
+            
+            // Create all demo inputs
+            createBasicInputs();
+            createSizeInputs();
+            createStateInputs();
+            createValidationForm();
+            createGroupInputs();
+            createApiDemo();
+        });
+        
+        // Listen for input events
+        document.addEventListener('wbInputChange', function(event) {
+            console.log('Input changed:', event.detail);
+        });
+        
+        document.addEventListener('wbInputValidate', function(event) {
+            console.log('Input validated:', event.detail);
+        });
+    </script>
+</body>
+</html>

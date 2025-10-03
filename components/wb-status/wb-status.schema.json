@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Status Web Component",
+  "description": "Schema for wb-status custom element attributes",
+  "type": "object",
+  "properties": {
+    "position": {
+      "type": "string",
+      "enum": ["bottom", "top", "fixed", "sticky"],
+      "default": "sticky",
+      "description": "Position of the status bar"
+    },
+    "height": {
+      "type": "string",
+      "default": "1rem",
+      "description": "Height of the status bar"
+    },
+    "font-size": {
+      "type": "string",
+      "default": "0.625rem",
+      "description": "Font size for status text"
+    },
+    "max-events": {
+      "type": "number",
+      "default": 1,
+      "description": "Maximum number of events to show simultaneously"
+    },
+    "event-duration": {
+      "type": "number",
+      "default": 4000,
+      "description": "Duration to show events in milliseconds"
+    },
+    "fade-delay": {
+      "type": "number",
+      "default": 2000,
+      "description": "Delay before starting fade out animation"
+    },
+    "queue-delay": {
+      "type": "number",
+      "default": 1000,
+      "description": "Delay between queued events"
+    },
+    "show-duplicates": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to show duplicate consecutive events"
+    },
+    "z-index": {
+      "type": "number",
+      "default": 1000,
+      "description": "CSS z-index for layering"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title text for the status bar"
+    },
+    "events": {
+      "type": "string",
+      "description": "JSON string containing initial events",
+      "examples": [
+        "[{\"message\":\"Ready\",\"type\":\"info\"},{\"message\":\"Connected\",\"type\":\"success\"}]"
+      ]
+    },
+    "settings": {
+      "type": "string",
+      "description": "JSON string containing settings to display",
+      "examples": [
+        "{\"theme\":\"dark\",\"layout\":\"grid\",\"viewport\":\"desktop\"}"
+      ]
+    },
+    "visible": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the status bar is visible"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the status bar"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for the status bar"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "onevent-added": {
+      "type": "string",
+      "description": "JavaScript code to execute when an event is added"
+    },
+    "onevent-shown": {
+      "type": "string",
+      "description": "JavaScript code to execute when an event is shown"
+    },
+    "onevent-hidden": {
+      "type": "string",
+      "description": "JavaScript code to execute when an event is hidden"
+    },
+    "onsetting-updated": {
+      "type": "string",
+      "description": "JavaScript code to execute when a setting is updated"
+    },
+    "onwb-status:event-added": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-status:event-added event"
+    },
+    "onwb-status:event-shown": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-status:event-shown event"
+    },
+    "onwb-status:event-hidden": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-status:event-hidden event"
+    },
+    "onwb-status:setting-updated": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-status:setting-updated event"
+    },
+    "onwb-status:ready": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-status:ready event"
+    },
+    "aria-label": {
+      "type": "string",
+      "default": "Status bar",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this status bar"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this status bar"
+    },
+    "aria-live": {
+      "type": "string",
+      "enum": ["off", "polite", "assertive"],
+      "default": "polite",
+      "description": "How screen readers announce status changes"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["status", "region", "log"],
+      "default": "status",
+      "description": "ARIA role for the status bar"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    }
+  }
+}

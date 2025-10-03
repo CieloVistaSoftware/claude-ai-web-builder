@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Control Panel Web Component",
+  "description": "Schema for wb-control-panel custom element - website builder control interface",
+  "type": "object",
+  "properties": {
+    "theme": {
+      "type": "string",
+      "enum": ["light", "dark", "auto"],
+      "default": "auto",
+      "description": "Theme setting for the control panel"
+    },
+    "position": {
+      "type": "string",
+      "enum": ["right", "left", "bottom"],
+      "default": "right",
+      "description": "Position of the control panel on screen"
+    },
+    "auto-hide": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to auto-hide the panel when not in use"
+    },
+    "show-themes": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show theme selection controls"
+    },
+    "show-colors": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show color picker controls"
+    },
+    "show-layout": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show layout selection controls"
+    },
+    "show-edit-mode": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show edit mode toggle"
+    },
+    "compact": {
+      "type": "boolean",
+      "default": false,
+      "description": "Use compact display mode"
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-control-panel",
+      "description": "Control panel for website builder with theme, color, and layout controls",
+      "attributes": [
+        {
+          "name": "theme",
+          "description": "Control panel theme",
+          "valueSet": "wb-control-panel-theme"
+        },
+        {
+          "name": "position",
+          "description": "Panel position on screen",
+          "valueSet": "wb-control-panel-position"
+        },
+        {
+          "name": "auto-hide",
+          "description": "Auto-hide when not in use"
+        },
+        {
+          "name": "show-themes",
+          "description": "Show theme controls"
+        },
+        {
+          "name": "show-colors",
+          "description": "Show color picker controls"
+        },
+        {
+          "name": "show-layout",
+          "description": "Show layout controls"
+        },
+        {
+          "name": "show-edit-mode",
+          "description": "Show edit mode toggle"
+        },
+        {
+          "name": "compact",
+          "description": "Use compact display"
+        }
+      ]
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "wb-control-panel-theme",
+      "values": [
+        { "name": "light", "description": "Light theme" },
+        { "name": "dark", "description": "Dark theme" },
+        { "name": "auto", "description": "Auto-detect theme" }
+      ]
+    },
+    {
+      "name": "wb-control-panel-position",
+      "values": [
+        { "name": "right", "description": "Right side of screen" },
+        { "name": "left", "description": "Left side of screen" },
+        { "name": "bottom", "description": "Bottom of screen" }
+      ]
+    }
+  ],
+  "version": "1.0.0",
+  "schema": "wb-control-panel.schema.json"
+}

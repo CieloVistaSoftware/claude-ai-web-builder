@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonic Color Mixer (HCS) - Interactive Color Theory</title>
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <style>
+        body {
+            font-family: var(--font-sans);
+            padding: 2rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .mixer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .mixer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .control-panel {
+            background: var(--surface-raised);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .preview-panel {
+            background: var(--surface-raised);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .mixer-control {
+            margin: 1.5rem 0;
+        }
+        
+        .mixer-control label {
+            display: block;
+            font-weight: var(--font-semibold);
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .mixer-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: var(--radius-full);
+            outline: none;
+            transition: opacity 0.2s;
+        }
+        
+        .mixer-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 2px solid var(--text-primary);
+        }
+        
+        .mixer-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 2px solid var(--text-primary);
+        }
+        
+        .hue-slider {
+            background: linear-gradient(to right, 
+                hsl(0, 100%, 50%) 0%,
+                hsl(60, 100%, 50%) 16.66%,
+                hsl(120, 100%, 50%) 33.33%,
+                hsl(180, 100%, 50%) 50%,
+                hsl(240, 100%, 50%) 66.66%,
+                hsl(300, 100%, 50%) 83.33%,
+                hsl(360, 100%, 50%) 100%
+            );
+        }
+        
+        .saturation-slider {
+            background: linear-gradient(to right, hsl(240, 0%, 50%), hsl(240, 100%, 50%));
+        }
+        
+        .lightness-slider {
+            background: linear-gradient(to right, hsl(240, 70%, 0%), hsl(240, 70%, 50%), hsl(240, 70%, 100%));
+        }
+        
+        .value-display {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        
+        .harmony-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .harmony-btn {
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-size: var(--text-sm);
+        }
+        
+        .harmony-btn:hover {
+            background: var(--interactive-hover);
+            border-color: var(--primary);
+        }
+        
+        .harmony-btn.active {
+            background: var(--primary);
+            color: var(--btn-primary-text);
+            border-color: var(--primary);
+        }
+        
+        .color-output {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .color-result {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .color-swatch {
+            height: 80px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-info {
+            padding: 1rem;
+        }
+        
+        .color-name {
+            font-weight: var(--font-semibold);
+            margin-bottom: 0.25rem;
+            font-size: var(--text-sm);
+        }
+        
+        .color-value {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            word-break: break-all;
+        }
+        
+        .mixer-presets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .preset-btn {
+            padding: 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-size: var(--text-xs);
+        }
+        
+        .preset-btn:hover {
+            background: var(--interactive-hover);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: var(--font-medium);
+            transition: var(--transition-colors);
+            z-index: 1000;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--btn-primary-hover);
+        }
+        
+        .copy-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--success-color);
+            color: var(--status-success-text);
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            font-weight: var(--font-medium);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1001;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+        }
+        
+        .export-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--surface-overlay);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .export-code {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--radius-base);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            white-space: pre-wrap;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+    
+    <div class="copy-notification" id="copyNotification">
+        ✅ Color copied to clipboard!
+    </div>
+    
+    <div class="mixer-container">
+        <h1>🎨 Harmonic Color Mixer</h1>
+        <p><strong>Interactive Color Theory Engine:</strong> Mix and match HSL values to generate harmonious color relationships in real-time.</p>
+        
+        <div class="mixer-grid">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <h2>🎛️ Color Controls</h2>
+                
+                <!-- Primary Color Controls -->
+                <div class="mixer-control">
+                    <label for="hue-slider">Hue (Color Type): <span id="hue-value">240°</span></label>
+                    <input type="range" id="hue-slider" class="mixer-slider hue-slider" min="0" max="360" value="240">
+                    <div class="value-display">Primary color foundation</div>
+                </div>
+                
+                <div class="mixer-control">
+                    <label for="saturation-slider">Saturation (Color Intensity): <span id="saturation-value">70%</span></label>
+                    <input type="range" id="saturation-slider" class="mixer-slider saturation-slider" min="0" max="100" value="70">
+                    <div class="value-display">Color vividness (0% = gray, 100% = pure)</div>
+                </div>
+                
+                <div class="mixer-control">
+                    <label for="lightness-slider">Lightness (Brightness): <span id="lightness-value">50%</span></label>
+                    <input type="range" id="lightness-slider" class="mixer-slider lightness-slider" min="0" max="100" value="50">
+                    <div class="value-display">Brightness (0% = black, 100% = white)</div>
+                </div>
+                
+                <!-- Color Harmony Selector -->
+                <div class="mixer-control">
+                    <label>Color Harmony Type:</label>
+                    <div class="harmony-selector">
+                        <div class="harmony-btn" data-harmony="monochromatic">Mono</div>
+                        <div class="harmony-btn active" data-harmony="complementary">Compl</div>
+                        <div class="harmony-btn" data-harmony="analogous">Analog</div>
+                        <div class="harmony-btn" data-harmony="triadic">Triadic</div>
+                        <div class="harmony-btn" data-harmony="split">Split</div>
+                        <div class="harmony-btn" data-harmony="square">Square</div>
+                        <div class="harmony-btn" data-harmony="heterodyne">🎛️ Hetero</div>
+                    </div>
+                </div>
+                
+                <!-- Heterodyne Controls (only visible when heterodyne is selected) -->
+                <div class="mixer-control" id="heterodyne-controls" style="display: none;">
+                    <label for="modulator-slider">Modulator Hue: <span id="modulator-value">60°</span></label>
+                    <input type="range" id="modulator-slider" class="mixer-slider hue-slider" min="0" max="360" value="60">
+                    <div class="value-display">Second frequency for mixing</div>
+                    
+                    <label for="mixing-depth-slider">Mixing Depth: <span id="mixing-depth-value">50%</span></label>
+                    <input type="range" id="mixing-depth-slider" class="mixer-slider" min="0" max="100" value="50" style="background: linear-gradient(to right, var(--bg-secondary), var(--primary));">
+                    <div class="value-display">Strength of heterodyne mixing effect</div>
+                </div>
+                
+                <!-- Quick Presets -->
+                <div class="mixer-control">
+                    <label>Quick Presets:</label>
+                    <div class="mixer-presets">
+                        <div class="preset-btn" data-preset="material">Material</div>
+                        <div class="preset-btn" data-preset="ocean">Ocean</div>
+                        <div class="preset-btn" data-preset="forest">Forest</div>
+                        <div class="preset-btn" data-preset="sunset">Sunset</div>
+                        <div class="preset-btn" data-preset="purple">Purple</div>
+                        <div class="preset-btn" data-preset="warm">Warm</div>
+                        <div class="preset-btn" data-preset="cool">Cool</div>
+                        <div class="preset-btn" data-preset="vibrant">Vibrant</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+                <h2>🔬 Generated Color Palette</h2>
+                <p><strong>Current Harmony:</strong> <span id="current-harmony">Complementary</span></p>
+                
+                <div class="color-output" id="color-output">
+                    <!-- Dynamic color results will be inserted here -->
+                </div>
+                
+                <!-- Export Section -->
+                <div class="export-section">
+                    <h3>📤 Export CSS Variables</h3>
+                    <div class="export-code" id="export-code">
+                        /* Generated CSS Variables will appear here */
+                    </div>
+                    <button onclick="copyExportCode()" style="padding: 0.5rem 1rem; background: var(--btn-secondary-bg); color: var(--btn-secondary-text); border: none; border-radius: var(--radius-sm); cursor: pointer;">📋 Copy CSS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Color theory calculations with heterodyne mixing
+        const ColorMixer = {
+            currentHue: 240,
+            currentSaturation: 70,
+            currentLightness: 50,
+            currentHarmony: 'complementary',
+            
+            // Heterodyne mixing properties
+            carrierHue: 240,      // Carrier frequency (main color)
+            modulatorHue: 60,     // Modulator frequency (mixing color)
+            mixingDepth: 50,      // How much to mix (0-100%)
+            
+            // Heterodyne function: creates sum and difference frequencies
+            heterodyne(carrier, modulator, depth = 50) {
+                // Normalize depth to 0-1 range
+                const mixRatio = depth / 100;
+                
+                // Calculate sum and difference frequencies
+                const sumFreq = (carrier + modulator) % 360;
+                const diffFreq = Math.abs(carrier - modulator);
+                
+                // Generate heterodyne products
+                const upperSideband = (carrier + diffFreq) % 360;
+                const lowerSideband = (carrier - diffFreq + 360) % 360;
+                
+                // Create beating pattern (amplitude modulation in hue space)
+                const beatFreq = Math.abs(carrier - modulator) / 12; // Beat frequency
+                const beat1 = (carrier + beatFreq) % 360;
+                const beat2 = (carrier - beatFreq + 360) % 360;
+                
+                return {
+                    carrier: carrier,
+                    modulator: modulator,
+                    sum: sumFreq,
+                    difference: diffFreq,
+                    upperSideband: upperSideband,
+                    lowerSideband: lowerSideband,
+                    beat1: beat1,
+                    beat2: beat2,
+                    mixRatio: mixRatio
+                };
+            },
+            
+            // Apply heterodyne mixing to create complex color relationships
+            generateHeterodyne() {
+                const het = this.heterodyne(this.carrierHue, this.modulatorHue, this.mixingDepth);
+                
+                const colors = [
+                    {
+                        name: 'Carrier',
+                        hue: het.carrier,
+                        saturation: this.currentSaturation,
+                        lightness: this.currentLightness,
+                        role: 'Primary frequency'
+                    },
+                    {
+                        name: 'Modulator',
+                        hue: het.modulator,
+                        saturation: this.currentSaturation * 0.8,
+                        lightness: this.currentLightness,
+                        role: 'Mixing frequency'
+                    },
+                    {
+                        name: 'Sum (C+M)',
+                        hue: het.sum,
+                        saturation: this.currentSaturation * het.mixRatio,
+                        lightness: this.currentLightness * 1.1,
+                        role: 'Upper mixing product'
+                    },
+                    {
+                        name: 'Difference |C-M|',
+                        hue: het.difference,
+                        saturation: this.currentSaturation * het.mixRatio,
+                        lightness: this.currentLightness * 0.9,
+                        role: 'Lower mixing product'
+                    },
+                    {
+                        name: 'Upper Sideband',
+                        hue: het.upperSideband,
+                        saturation: this.currentSaturation * (0.5 + het.mixRatio * 0.5),
+                        lightness: this.currentLightness * 1.05,
+                        role: 'Carrier + difference'
+                    },
+                    {
+                        name: 'Lower Sideband',
+                        hue: het.lowerSideband,
+                        saturation: this.currentSaturation * (0.5 + het.mixRatio * 0.5),
+                        lightness: this.currentLightness * 0.95,
+                        role: 'Carrier - difference'
+                    },
+                    {
+                        name: 'Beat 1',
+                        hue: het.beat1,
+                        saturation: this.currentSaturation * (0.3 + het.mixRatio * 0.4),
+                        lightness: this.currentLightness,
+                        role: 'Beat frequency +'
+                    },
+                    {
+                        name: 'Beat 2',
+                        hue: het.beat2,
+                        saturation: this.currentSaturation * (0.3 + het.mixRatio * 0.4),
+                        lightness: this.currentLightness,
+                        role: 'Beat frequency -'
+                    }
+                ];
+                
+                return colors;
+            },
+            
+            // Initialize the mixer
+            init() {
+                // Set initial heterodyne values
+                this.carrierHue = this.currentHue;
+                this.modulatorHue = 60;
+                this.mixingDepth = 50;
+                
+                this.bindEvents();
+                this.updateDisplay();
+                this.updateSliderBackgrounds();
+            },
+            
+            // Bind all event listeners
+            bindEvents() {
+                document.getElementById('hue-slider').addEventListener('input', (e) => {
+                    this.currentHue = parseInt(e.target.value);
+                    document.getElementById('hue-value').textContent = this.currentHue + '°';
+                    this.updateDisplay();
+                    this.updateSliderBackgrounds();
+                });
+                
+                document.getElementById('saturation-slider').addEventListener('input', (e) => {
+                    this.currentSaturation = parseInt(e.target.value);
+                    document.getElementById('saturation-value').textContent = this.currentSaturation + '%';
+                    this.updateDisplay();
+                    this.updateSliderBackgrounds();
+                });
+                
+                document.getElementById('lightness-slider').addEventListener('input', (e) => {
+                    this.currentLightness = parseInt(e.target.value);
+                    document.getElementById('lightness-value').textContent = this.currentLightness + '%';
+                    this.updateDisplay();
+                    this.updateSliderBackgrounds();
+                });
+                
+                // Harmony selector
+                document.querySelectorAll('.harmony-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.harmony-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentHarmony = e.target.dataset.harmony;
+                        document.getElementById('current-harmony').textContent = this.getHarmonyName(this.currentHarmony);
+                        
+                        // Show/hide heterodyne controls
+                        const hetControls = document.getElementById('heterodyne-controls');
+                        if (this.currentHarmony === 'heterodyne') {
+                            hetControls.style.display = 'block';
+                        } else {
+                            hetControls.style.display = 'none';
+                        }
+                        
+                        this.updateDisplay();
+                    });
+                });
+                
+                // Heterodyne controls
+                document.getElementById('modulator-slider').addEventListener('input', (e) => {
+                    this.modulatorHue = parseInt(e.target.value);
+                    document.getElementById('modulator-value').textContent = this.modulatorHue + '°';
+                    if (this.currentHarmony === 'heterodyne') {
+                        this.updateDisplay();
+                    }
+                });
+                
+                document.getElementById('mixing-depth-slider').addEventListener('input', (e) => {
+                    this.mixingDepth = parseInt(e.target.value);
+                    document.getElementById('mixing-depth-value').textContent = this.mixingDepth + '%';
+                    if (this.currentHarmony === 'heterodyne') {
+                        this.updateDisplay();
+                    }
+                });
+                
+                // Preset buttons
+                document.querySelectorAll('.preset-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.loadPreset(e.target.dataset.preset);
+                    });
+                });
+            },
+            
+            // Update slider backgrounds based on current values
+            updateSliderBackgrounds() {
+                const satSlider = document.getElementById('saturation-slider');
+                const lightSlider = document.getElementById('lightness-slider');
+                
+                satSlider.style.background = `linear-gradient(to right, hsl(${this.currentHue}, 0%, ${this.currentLightness}%), hsl(${this.currentHue}, 100%, ${this.currentLightness}%))`;
+                lightSlider.style.background = `linear-gradient(to right, hsl(${this.currentHue}, ${this.currentSaturation}%, 0%), hsl(${this.currentHue}, ${this.currentSaturation}%, 50%), hsl(${this.currentHue}, ${this.currentSaturation}%, 100%))`;
+            },
+            
+            // Calculate color harmonies
+            calculateHarmony(harmony) {
+                const colors = [];
+                const h = this.currentHue;
+                const s = this.currentSaturation;
+                const l = this.currentLightness;
+                
+                // Always include the primary color
+                colors.push({
+                    name: 'Primary',
+                    hue: h,
+                    saturation: s,
+                    lightness: l,
+                    role: 'Foundation color'
+                });
+                
+                switch(harmony) {
+                    case 'heterodyne':
+                        // Use the true heterodyne mixing function
+                        return this.generateHeterodyne();
+                        
+                    case 'monochromatic':
+                        colors.push(
+                            { name: 'Light', hue: h, saturation: Math.max(10, s - 20), lightness: Math.min(90, l + 25), role: 'Lighter variant' },
+                            { name: 'Dark', hue: h, saturation: Math.min(100, s + 10), lightness: Math.max(10, l - 25), role: 'Darker variant' },
+                            { name: 'Muted', hue: h, saturation: Math.max(10, s - 40), lightness: l, role: 'Desaturated variant' }
+                        );
+                        break;
+                        
+                    case 'complementary':
+                        colors.push({
+                            name: 'Complement',
+                            hue: (h + 180) % 360,
+                            saturation: Math.max(50, s - 10),
+                            lightness: l,
+                            role: 'Maximum contrast'
+                        });
+                        break;
+                        
+                    case 'analogous':
+                        colors.push(
+                            { name: 'Analogous -30°', hue: (h - 30 + 360) % 360, saturation: s - 10, lightness: l + 5, role: 'Harmonious neighbor' },
+                            { name: 'Analogous +30°', hue: (h + 30) % 360, saturation: s - 10, lightness: l + 5, role: 'Harmonious neighbor' }
+                        );
+                        break;
+                        
+                    case 'triadic':
+                        colors.push(
+                            { name: 'Triadic 1', hue: (h + 120) % 360, saturation: s - 5, lightness: l, role: '120° spacing' },
+                            { name: 'Triadic 2', hue: (h + 240) % 360, saturation: s - 5, lightness: l, role: '240° spacing' }
+                        );
+                        break;
+                        
+                    case 'split':
+                        colors.push(
+                            { name: 'Split 1', hue: (h + 150) % 360, saturation: s - 10, lightness: l, role: 'Split complement' },
+                            { name: 'Split 2', hue: (h + 210) % 360, saturation: s - 10, lightness: l, role: 'Split complement' }
+                        );
+                        break;
+                        
+                    case 'square':
+                        colors.push(
+                            { name: 'Square 1', hue: (h + 90) % 360, saturation: s - 5, lightness: l, role: '90° spacing' },
+                            { name: 'Square 2', hue: (h + 180) % 360, saturation: s - 5, lightness: l, role: '180° spacing' },
+                            { name: 'Square 3', hue: (h + 270) % 360, saturation: s - 5, lightness: l, role: '270° spacing' }
+                        );
+                        break;
+                }
+                
+                return colors;
+            },
+            
+            // Convert HSL to HEX
+            hslToHex(h, s, l) {
+                h /= 360;
+                s /= 100;
+                l /= 100;
+                
+                const a = s * Math.min(l, 1 - l);
+                const f = n => {
+                    const k = (n + h / (1/12)) % 12;
+                    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                    return Math.round(255 * color);
+                };
+                
+                const r = f(0);
+                const g = f(8);
+                const b = f(4);
+                
+                return `#${[r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')}`;
+            },
+            
+            // Update the color display
+            updateDisplay() {
+                const colors = this.calculateHarmony(this.currentHarmony);
+                const output = document.getElementById('color-output');
+                
+                output.innerHTML = colors.map(color => {
+                    const hex = this.hslToHex(color.hue, color.saturation, color.lightness);
+                    const hsl = `hsl(${Math.round(color.hue)}, ${Math.round(color.saturation)}%, ${Math.round(color.lightness)}%)`;
+                    
+                    return `
+                        <div class="color-result">
+                            <div class="color-swatch" style="background-color: ${hex};" onclick="copyColor('${hex}')" title="Click to copy ${hex}"></div>
+                            <div class="color-info">
+                                <div class="color-name">${color.name}</div>
+                                <div class="color-value">${hsl}</div>
+                                <div class="color-value">${hex}</div>
+                                <div class="color-value" style="font-size: 0.7rem; margin-top: 0.25rem;">${color.role}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                this.updateExportCode(colors);
+            },
+            
+            // Update export CSS code
+            updateExportCode(colors) {
+                const code = `:root {\n${colors.map((color, index) => {
+                    const varName = color.name.toLowerCase().replace(/\s+/g, '-');
+                    const hsl = `hsl(${Math.round(color.hue)}, ${Math.round(color.saturation)}%, ${Math.round(color.lightness)}%)`;
+                    return `  --color-${varName}: ${hsl};`;
+                }).join('\n')}\n}`;
+                
+                document.getElementById('export-code').textContent = code;
+            },
+            
+            // Get harmony display name
+            getHarmonyName(harmony) {
+                const names = {
+                    monochromatic: 'Monochromatic',
+                    complementary: 'Complementary',
+                    analogous: 'Analogous',
+                    triadic: 'Triadic',
+                    split: 'Split-Complementary',
+                    square: 'Square',
+                    heterodyne: 'Heterodyne Mixing'
+                };
+                return names[harmony] || harmony;
+            },
+            
+            // Load preset colors
+            loadPreset(preset) {
+                const presets = {
+                    material: { hue: 240, saturation: 70, lightness: 50 },
+                    ocean: { hue: 200, saturation: 80, lightness: 45 },
+                    forest: { hue: 120, saturation: 60, lightness: 40 },
+                    sunset: { hue: 25, saturation: 85, lightness: 55 },
+                    purple: { hue: 280, saturation: 75, lightness: 50 },
+                    warm: { hue: 30, saturation: 80, lightness: 60 },
+                    cool: { hue: 200, saturation: 70, lightness: 50 },
+                    vibrant: { hue: 340, saturation: 95, lightness: 55 }
+                };
+                
+                if (presets[preset]) {
+                    const p = presets[preset];
+                    this.currentHue = p.hue;
+                    this.currentSaturation = p.saturation;
+                    this.currentLightness = p.lightness;
+                    
+                    document.getElementById('hue-slider').value = p.hue;
+                    document.getElementById('saturation-slider').value = p.saturation;
+                    document.getElementById('lightness-slider').value = p.lightness;
+                    
+                    document.getElementById('hue-value').textContent = p.hue + '°';
+                    document.getElementById('saturation-value').textContent = p.saturation + '%';
+                    document.getElementById('lightness-value').textContent = p.lightness + '%';
+                    
+                    this.updateDisplay();
+                    this.updateSliderBackgrounds();
+                }
+            }
+        };
+        
+        // Copy color to clipboard
+        function copyColor(color) {
+            navigator.clipboard.writeText(color).then(() => {
+                const notification = document.getElementById('copyNotification');
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            });
+        }
+        
+        // Copy export code
+        function copyExportCode() {
+            const code = document.getElementById('export-code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const notification = document.getElementById('copyNotification');
+                notification.textContent = '📋 CSS code copied to clipboard!';
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    notification.textContent = '✅ Color copied to clipboard!';
+                }, 2000);
+            });
+        }
+        
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+        }
+        
+        // Initialize the mixer when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            ColorMixer.init();
+            console.log('🎨 Harmonic Color Mixer initialized');
+        });
+    </script>
+</body>
+</html>

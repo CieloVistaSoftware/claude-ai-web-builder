@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Color Picker Component Demo</title>
+    
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="wb-color-picker.css">
+    
+    <style>
+
+        body {
+            padding: var(--space-xl);
+        }
+
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin: var(--space-2xl) 0;
+            padding: var(--space-xl);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-secondary);
+        }
+
+        .demo-section h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: var(--space-sm);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            margin: var(--space-lg) 0;
+        }
+
+        .demo-item {
+            padding: var(--space-lg);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .demo-item h3 {
+            margin-top: 0;
+            font-size: var(--text-base);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .demo-item p {
+            margin: var(--space-sm) 0;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .demo-output {
+            margin-top: var(--space-md);
+            padding: var(--space-md);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-base);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+        }
+
+        .color-demo-box {
+            width: 100%;
+            height: 60px;
+            border-radius: var(--radius-md);
+            margin-top: var(--space-md);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            text-shadow: var(--shadow-sm);
+        }
+
+        pre {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            font-size: var(--text-sm);
+        }
+
+        .api-section {
+            background: rgba(var(--warning-color-rgb), 0.1);
+            border-color: var(--warning-color);
+        }
+
+        .format-demo {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .format-demo > div {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Dark mode improvements for the demo */
+        .demo-opened-picker .wb-color-picker {
+            position: static !important;
+        }
+
+        .demo-opened-picker .wb-color-picker-popup {
+            position: static !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            margin-top: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced dark mode styles */
+        h1 {
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .demo-section {
+            border-color: var(--border-color);
+            background: var(--bg-secondary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-item {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .demo-output {
+            background: #0f172a;
+            color: #34d399;
+            border: 1px solid var(--border-color);
+        }
+
+        pre {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="demo-container">
+        <h1>WB Color Picker Component Demo</h1>
+        <p>Interactive color picker component with accessibility and theming support.</p>
+
+        <!-- Live Color Picker Interface -->
+        <div class="demo-section">
+            <h2>Interactive Color Picker Interface</h2>
+            <div class="demo-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="demo-item" style="position: relative; z-index: 100;">
+                    <h3>Full Color Picker (Always Open)</h3>
+                    <p>Complete color picker interface with wheel, sliders, and presets</p>
+                    <div id="main-picker" class="demo-opened-picker"></div>
+                    <div class="demo-output" id="main-output">Color: var(--primary)</div>
+                    <div class="color-demo-box" id="main-demo" style="background-color: var(--primary);">Live Preview</div>
+                </div>
+
+                <div class="demo-item" style="position: relative; z-index: 99;">
+                    <h3>Alpha Channel Picker (Always Open)</h3>
+                    <p>Color picker with transparency support</p>
+                    <div id="alpha-picker" class="demo-opened-picker"></div>
+                    <div class="demo-output" id="alpha-output">Color: var(--primary)</div>
+                    <div class="color-demo-box" id="alpha-demo" style="background-color: var(--primary);">Transparency Support</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Examples -->
+        <div class="demo-section">
+            <h2>Click to Open Color Pickers</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>Theme Color Picker</h3>
+                    <p>Click the color swatch to open the picker</p>
+                    <div id="theme-picker"></div>
+                    <div class="demo-output" id="theme-output">Color: var(--accent)</div>
+                    <div class="color-demo-box" id="theme-demo" style="background-color: var(--accent);">Click Above to Change</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Background Color</h3>
+                    <p>Interactive color selection</p>
+                    <div id="bg-picker"></div>
+                    <div class="demo-output" id="bg-output">Color: var(--success)</div>
+                    <div class="color-demo-box" id="bg-demo" style="background-color: var(--success);">Background Demo</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Text Color</h3>
+                    <p>Color picker for text elements</p>
+                    <div id="text-picker"></div>
+                    <div class="demo-output" id="text-output">Color: var(--warning)</div>
+                    <div class="color-demo-box" id="text-demo" style="background-color: var(--warning); color: var(--text-primary);">Text Color Demo</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Minimal Style</h3>
+                    <p>Compact color picker variant</p>
+                    <div id="minimal-picker"></div>
+                    <div class="demo-output" id="minimal-output">Color: var(--error)</div>
+                    <div class="color-demo-box" id="minimal-demo" style="background-color: var(--error);">Minimal Interface</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Format Options -->
+        <div class="demo-section">
+            <h2>Color Format Options</h2>
+            <div class="format-demo">
+                <div class="demo-item">
+                    <h3>HEX Format</h3>
+                    <div id="hex-picker"></div>
+                    <div class="demo-output" id="hex-output">Color: #8b5cf6</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>RGB Format</h3>
+                    <div id="rgb-picker"></div>
+                    <div class="demo-output" id="rgb-output">Color: rgb(139, 92, 246)</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>HSL Format</h3>
+                    <div id="hsl-picker"></div>
+                    <div class="demo-output" id="hsl-output">Color: hsl(258, 90%, 66%)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Size Variations -->
+        <div class="demo-section">
+            <h2>Size Variations</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>Small Size</h3>
+                    <div id="small-picker"></div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Standard Size (Default)</h3>
+                    <div id="standard-picker"></div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Large Size</h3>
+                    <div id="large-picker"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- States -->
+        <div class="demo-section">
+            <h2>States</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>Normal State</h3>
+                    <div id="normal-picker"></div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Disabled State</h3>
+                    <div id="disabled-picker"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript API -->
+        <div class="demo-section api-section">
+            <h2>JavaScript API</h2>
+            <div class="demo-item">
+                <h3>Programmatic Control</h3>
+                <div id="api-picker"></div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button onclick="setPickerColor('#ff0000')">Red</button>
+                    <button onclick="setPickerColor('#00ff00')">Green</button>
+                    <button onclick="setPickerColor('#0000ff')">Blue</button>
+                    <button onclick="setPickerColor('#ffff00')">Yellow</button>
+                    <button onclick="togglePickerDisabled()">Toggle Disabled</button>
+                    <button onclick="openPicker()">Open Picker</button>
+                    <button onclick="closePicker()">Close Picker</button>
+                </div>
+                <div class="demo-output" id="api-output">Color: #6366f1</div>
+                <div class="color-demo-box" id="api-demo" style="background-color: #6366f1;">API Demo</div>
+            </div>
+        </div>
+
+        <!-- Preset Colors Demo -->
+        <div class="demo-section">
+            <h2>Custom Preset Colors</h2>
+            <div class="demo-item">
+                <h3>Brand Colors</h3>
+                <p>Color picker with custom brand preset colors</p>
+                <div id="preset-picker"></div>
+                <div class="demo-output" id="preset-output">Color: #1e40af</div>
+            </div>
+        </div>
+
+        <!-- Usage Examples -->
+        <div class="demo-section">
+            <h2>Usage Examples</h2>
+            
+            <h3>HTML Usage</h3>
+            <pre><code>&lt;!-- Basic color picker --&gt;
+&lt;wb-color-picker id="bg-color" label="Background Color" value="#6366f1"&gt;&lt;/wb-color-picker&gt;
+
+&lt;!-- With alpha channel --&gt;
+&lt;wb-color-picker id="text-color" label="Text Color" 
+                 show-alpha="true" format="rgba"&gt;&lt;/wb-color-picker&gt;
+
+&lt;!-- Minimal variant --&gt;
+&lt;wb-color-picker variant="minimal" value="#ef4444"&gt;&lt;/wb-color-picker&gt;
+
+&lt;!-- Different formats --&gt;
+&lt;wb-color-picker format="hsl" label="Theme Color"&gt;&lt;/wb-color-picker&gt;</code></pre>
+
+            <h3>JavaScript Usage</h3>
+            <pre><code>// Create color picker programmatically
+const picker = WBColorPicker.create({
+    label: 'Theme Color',
+    value: '#6366f1',
+    format: 'hex',
+    showAlpha: false,
+    onchange: (color, colorObj) => {
+        console.log('Color changed:', color);
+        document.body.style.backgroundColor = color;
+    },
+    oninput: (color, colorObj) => {
+        console.log('Color input:', color);
+    }
+});
+
+// API methods
+WBColorPicker.setValue(picker, '#ff0000');
+const currentColor = WBColorPicker.getValue(picker);
+const rgbColor = WBColorPicker.getValue(picker, 'rgb');
+WBColorPicker.setDisabled(picker, true);
+WBColorPicker.open(picker);
+WBColorPicker.close(picker);</code></pre>
+
+            <h3>Event Handling</h3>
+            <pre><code>// Listen for color picker events
+document.addEventListener('wbColorPickerChange', function(e) {
+    console.log('Color changed:', e.detail.value);
+    console.log('Color object:', e.detail.color);
+});
+
+document.addEventListener('wbColorPickerInput', function(e) {
+    console.log('Color input:', e.detail.value);
+});
+
+document.addEventListener('wbColorPickerOpen', function(e) {
+    console.log('Color picker opened');
+});
+
+document.addEventListener('wbColorPickerClose', function(e) {
+    console.log('Color picker closed');
+});</code></pre>
+        </div>
+    </div>
+
+    <script src="wb-color-picker.js"></script>
+    <script>
+        // Initialize demo color pickers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get CSS custom property values
+            const getStyleValue = (property) => getComputedStyle(document.documentElement).getPropertyValue(property).trim();
+            
+            // Main always-open color picker
+            const mainPicker = WBColorPicker.create({
+                label: 'Primary Theme Color',
+                value: getStyleValue('--primary'),
+                format: 'hex',
+                showPresets: true,
+                presetColors: [
+                    getStyleValue('--primary'),
+                    getStyleValue('--primary-dark'),
+                    getStyleValue('--accent'),
+                    getStyleValue('--success'),
+                    getStyleValue('--warning'),
+                    getStyleValue('--error')
+                ],
+                onchange: (color) => {
+                    document.getElementById('main-output').textContent = `Color: ${color}`;
+                    document.getElementById('main-demo').style.backgroundColor = color;
+                },
+                oninput: (color) => {
+                    document.getElementById('main-demo').style.backgroundColor = color;
+                }
+            });
+            document.getElementById('main-picker').appendChild(mainPicker);
+            
+            // Auto-open main picker
+            setTimeout(() => {
+                const mainPickerElement = mainPicker.querySelector('.wb-color-picker');
+                if (mainPickerElement) {
+                    WBColorPicker.open(mainPickerElement);
+                }
+            }, 100);
+
+            // Alpha channel picker (always open)
+            const alphaPicker = WBColorPicker.create({
+                label: 'Color with Transparency',
+                value: getStyleValue('--primary'),
+                format: 'rgba',
+                showAlpha: true,
+                showPresets: true,
+                presetColors: [
+                    getStyleValue('--primary'),
+                    getStyleValue('--accent'),
+                    getStyleValue('--success'),
+                    getStyleValue('--warning'),
+                    getStyleValue('--error'),
+                    getStyleValue('--neutral-500')
+                ],
+                onchange: (color) => {
+                    document.getElementById('alpha-output').textContent = `Color: ${color}`;
+                    document.getElementById('alpha-demo').style.backgroundColor = color;
+                },
+                oninput: (color) => {
+                    document.getElementById('alpha-demo').style.backgroundColor = color;
+                }
+            });
+            document.getElementById('alpha-picker').appendChild(alphaPicker);
+            
+            // Auto-open alpha picker
+            setTimeout(() => {
+                const alphaPickerElement = alphaPicker.querySelector('.wb-color-picker');
+                if (alphaPickerElement) {
+                    WBColorPicker.open(alphaPickerElement);
+                }
+            }, 150);
+
+            // Interactive theme picker
+            const themePicker = WBColorPicker.create({
+                label: 'Theme Color',
+                value: getStyleValue('--accent'),
+                format: 'hex',
+                onchange: (color) => {
+                    document.getElementById('theme-output').textContent = `Color: ${color}`;
+                    document.getElementById('theme-demo').style.backgroundColor = color;
+                }
+            });
+            document.getElementById('theme-picker').appendChild(themePicker);
+
+            // Background color picker
+            const bgPicker = WBColorPicker.create({
+                label: 'Background Color',
+                value: getStyleValue('--success'),
+                format: 'hex',
+                onchange: (color) => {
+                    document.getElementById('bg-output').textContent = `Color: ${color}`;
+                    document.getElementById('bg-demo').style.backgroundColor = color;
+                }
+            });
+            document.getElementById('bg-picker').appendChild(bgPicker);
+
+            // Text color picker
+            const textPicker = WBColorPicker.create({
+                label: 'Text Color',
+                value: getStyleValue('--warning'),
+                format: 'hex',
+                onchange: (color) => {
+                    document.getElementById('text-output').textContent = `Color: ${color}`;
+                    document.getElementById('text-demo').style.backgroundColor = color;
+                }
+            });
+            document.getElementById('text-picker').appendChild(textPicker);
+
+            // Minimal variant
+            const minimalPicker = WBColorPicker.create({
+                variant: 'minimal',
+                value: getStyleValue('--error'),
+                onchange: (color) => {
+                    document.getElementById('minimal-output').textContent = `Color: ${color}`;
+                    document.getElementById('minimal-demo').style.backgroundColor = color;
+                }
+            });
+            document.getElementById('minimal-picker').appendChild(minimalPicker);
+
+            // Format demonstrations
+            const hexPicker = WBColorPicker.create({
+                label: 'HEX Color',
+                format: 'hex',
+                value: getStyleValue('--primary'),
+                onchange: (color) => {
+                    document.getElementById('hex-output').textContent = `Color: ${color}`;
+                }
+            });
+            document.getElementById('hex-picker').appendChild(hexPicker);
+
+            const rgbPicker = WBColorPicker.create({
+                label: 'RGB Color',
+                format: 'rgb',
+                value: getStyleValue('--primary'),
+                onchange: (color) => {
+                    document.getElementById('rgb-output').textContent = `Color: ${color}`;
+                }
+            });
+            document.getElementById('rgb-picker').appendChild(rgbPicker);
+
+            const hslPicker = WBColorPicker.create({
+                label: 'HSL Color',
+                format: 'hsl',
+                value: getStyleValue('--primary'),
+                onchange: (color) => {
+                    document.getElementById('hsl-output').textContent = `Color: ${color}`;
+                }
+            });
+            document.getElementById('hsl-picker').appendChild(hslPicker);
+
+            // Size variations
+            document.getElementById('small-picker').appendChild(
+                WBColorPicker.create({ label: 'Small', size: 'small', value: getStyleValue('--warning') })
+            );
+            document.getElementById('standard-picker').appendChild(
+                WBColorPicker.create({ label: 'Standard', value: getStyleValue('--primary') })
+            );
+            document.getElementById('large-picker').appendChild(
+                WBColorPicker.create({ label: 'Large', size: 'large', value: getStyleValue('--accent') })
+            );
+
+            // States
+            document.getElementById('normal-picker').appendChild(
+                WBColorPicker.create({ label: 'Normal', value: getStyleValue('--success') })
+            );
+            document.getElementById('disabled-picker').appendChild(
+                WBColorPicker.create({ label: 'Disabled', value: getStyleValue('--neutral-500'), disabled: true })
+            );
+
+            // API demo
+            window.apiPicker = WBColorPicker.create({
+                label: 'API Demo',
+                value: getStyleValue('--primary'),
+                onchange: (color) => {
+                    document.getElementById('api-output').textContent = `Color: ${color}`;
+                    document.getElementById('api-demo').style.backgroundColor = color;
+                }
+            });
+            document.getElementById('api-picker').appendChild(window.apiPicker);
+
+            // Custom presets
+            const presetPicker = WBColorPicker.create({
+                label: 'Theme Colors',
+                value: getStyleValue('--accent'),
+                presetColors: [
+                    getStyleValue('--primary'),
+                    getStyleValue('--primary-dark'),
+                    getStyleValue('--accent'),
+                    getStyleValue('--success'),
+                    getStyleValue('--warning'),
+                    getStyleValue('--error'),
+                    getStyleValue('--neutral-500'),
+                    getStyleValue('--neutral-600'),
+                    getStyleValue('--neutral-700')
+                ],
+                onchange: (color) => {
+                    document.getElementById('preset-output').textContent = `Color: ${color}`;
+                }
+            });
+            document.getElementById('preset-picker').appendChild(presetPicker);
+        });
+
+        // API demo functions
+        function setPickerColor(color) {
+            WBColorPicker.setValue(window.apiPicker.querySelector('.wb-color-picker'), color);
+            document.getElementById('api-output').textContent = `Color: ${color}`;
+            document.getElementById('api-demo').style.backgroundColor = color;
+        }
+
+        function togglePickerDisabled() {
+            const picker = window.apiPicker.querySelector('.wb-color-picker');
+            const isDisabled = picker.classList.contains('wb-color-picker--disabled');
+            WBColorPicker.setDisabled(picker, !isDisabled);
+        }
+
+        function openPicker() {
+            const picker = window.apiPicker.querySelector('.wb-color-picker');
+            WBColorPicker.open(picker);
+        }
+
+        function closePicker() {
+            const picker = window.apiPicker.querySelector('.wb-color-picker');
+            WBColorPicker.close(picker);
+        }
+    </script>
+</body>
+</html>

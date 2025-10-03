@@ -1,0 +1,532 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Website Builder Configuration Schema",
+  "description": "Schema for wb.html configuration and content management",
+  "type": "object",
+  "required": ["metadata", "settings", "navigation", "header", "hero", "sections", "footer"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Website metadata and SEO information",
+      "required": ["title"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Website title displayed in browser tab",
+          "default": "CieloVistaSoftware AI"
+        },
+        "description": {
+          "type": "string",
+          "description": "SEO meta description",
+          "default": "Create professional websites with advanced layouts, themes, and animations"
+        },
+        "keywords": {
+          "type": "string",
+          "description": "SEO keywords comma-separated",
+          "default": "website, template, professional, glassmorphism, animation"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Website version (semver format)",
+          "default": "1.0.0"
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modification timestamp"
+        }
+      }
+    },
+    "settings": {
+      "type": "object",
+      "description": "Global website settings",
+      "properties": {
+        "layout": {
+          "type": "string",
+          "enum": ["top-nav", "side-nav", "no-nav"],
+          "default": "top-nav",
+          "description": "Navigation layout style"
+        },
+        "theme": {
+          "type": "string",
+          "enum": ["dark", "light", "auto", "default", "cyberpunk", "ocean", "sunset", "forest"],
+          "default": "dark",
+          "description": "Website theme"
+        },
+        "footer": {
+          "type": "string",
+          "enum": ["same-page", "bottom", "expanded", "hidden"],
+          "default": "same-page",
+          "description": "Footer positioning mode"
+        },
+        "editMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/disable edit mode"
+        }
+      }
+    },
+    "navigation": {
+      "type": "object",
+      "description": "Main navigation configuration",
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "Navigation menu items",
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "href"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^nav-item-\\d+$",
+                "description": "Unique navigation item ID"
+              },
+              "label": {
+                "type": "string",
+                "description": "Display text for navigation link"
+              },
+              "href": {
+                "type": "string",
+                "description": "Link destination (URL or anchor)"
+              },
+              "active": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether this is the current active page"
+              },
+              "icon": {
+                "type": "string",
+                "description": "Optional icon for navigation item"
+              },
+              "target": {
+                "type": "string",
+                "enum": ["_self", "_blank", "_parent", "_top"],
+                "default": "_self",
+                "description": "Link target attribute"
+              }
+            }
+          }
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "description": "Header/brand section configuration",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Main header title",
+          "default": "Your Amazing Website"
+        },
+        "subtitle": {
+          "type": "string",
+          "description": "Header subtitle/tagline",
+          "default": "Build something beautiful today"
+        },
+        "logo": {
+          "type": "string",
+          "description": "Logo image URL"
+        },
+        "editable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allow inline editing of header content"
+        }
+      }
+    },
+    "hero": {
+      "type": "object",
+      "description": "Hero section configuration",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Hero section main title",
+          "default": "Welcome to the Future"
+        },
+        "description": {
+          "type": "string",
+          "description": "Hero section description text",
+          "default": "Create stunning websites with our powerful template generator. No coding required."
+        },
+        "backgroundImage": {
+          "type": "string",
+          "description": "Hero background image URL"
+        },
+        "ctaButton": {
+          "type": "object",
+          "description": "Call-to-action button configuration",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "Button text",
+              "default": "Get Started"
+            },
+            "action": {
+              "type": "string",
+              "description": "Button action (URL or anchor)",
+              "default": "#get-started"
+            },
+            "type": {
+              "type": "string",
+              "enum": ["primary", "secondary", "accent", "ghost"],
+              "default": "primary",
+              "description": "Button style variant"
+            }
+          }
+        },
+        "editable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allow inline editing of hero content"
+        }
+      }
+    },
+    "sections": {
+      "type": "object",
+      "description": "Main content sections",
+      "properties": {
+        "features": {
+          "type": "object",
+          "description": "Features section configuration",
+          "properties": {
+            "title": {
+              "type": "string",
+              "default": "Features",
+              "description": "Section title"
+            },
+            "layout": {
+              "type": "string",
+              "enum": ["grid", "list", "carousel"],
+              "default": "grid",
+              "description": "Features display layout"
+            },
+            "columns": {
+              "type": "number",
+              "enum": [1, 2, 3, 4],
+              "default": 3,
+              "description": "Number of columns in grid layout"
+            },
+            "editable": {
+              "type": "boolean",
+              "default": true,
+              "description": "Allow inline editing"
+            },
+            "items": {
+              "type": "array",
+              "description": "Feature items",
+              "items": {
+                "type": "object",
+                "required": ["id", "title", "description"],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^feature-card-\\d+$",
+                    "description": "Unique feature ID"
+                  },
+                  "icon": {
+                    "type": "string",
+                    "description": "Feature icon (emoji or icon class)"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Feature title"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Feature description"
+                  },
+                  "link": {
+                    "type": "string",
+                    "description": "Optional link for feature"
+                  },
+                  "editable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allow inline editing"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "gallery": {
+          "type": "object",
+          "description": "Gallery section configuration",
+          "properties": {
+            "title": {
+              "type": "string",
+              "default": "Gallery",
+              "description": "Section title"
+            },
+            "layout": {
+              "type": "string",
+              "enum": ["grid", "masonry", "slider"],
+              "default": "grid",
+              "description": "Gallery layout type"
+            },
+            "columns": {
+              "type": "number",
+              "enum": [2, 3, 4, 5, 6],
+              "default": 3,
+              "description": "Number of columns"
+            },
+            "editable": {
+              "type": "boolean",
+              "default": true,
+              "description": "Allow inline editing"
+            },
+            "items": {
+              "type": "array",
+              "description": "Gallery items",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^gallery-item-\\d+$",
+                    "description": "Unique gallery item ID"
+                  },
+                  "image": {
+                    "type": ["string", "null"],
+                    "description": "Image URL"
+                  },
+                  "thumbnail": {
+                    "type": "string",
+                    "description": "Thumbnail image URL"
+                  },
+                  "alt": {
+                    "type": "string",
+                    "description": "Alt text for accessibility"
+                  },
+                  "caption": {
+                    "type": "string",
+                    "description": "Image caption"
+                  },
+                  "placeholder": {
+                    "type": "string",
+                    "default": "Click to add image",
+                    "description": "Placeholder text when no image"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "about": {
+          "type": "object",
+          "description": "About section configuration",
+          "properties": {
+            "title": {
+              "type": "string",
+              "default": "About Us",
+              "description": "Section title"
+            },
+            "description": {
+              "type": "string",
+              "description": "About section content"
+            },
+            "image": {
+              "type": "string",
+              "description": "Optional about section image"
+            },
+            "editable": {
+              "type": "boolean",
+              "default": true,
+              "description": "Allow inline editing"
+            }
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "object",
+      "description": "Footer configuration",
+      "properties": {
+        "copyright": {
+          "type": "string",
+          "description": "Copyright notice",
+          "default": "© 2025 Cielo Vista Software. All rights reserved."
+        },
+        "links": {
+          "type": "array",
+          "description": "Footer links",
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "href"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^footer-item-\\d+$",
+                "description": "Unique footer link ID"
+              },
+              "label": {
+                "type": "string",
+                "description": "Link text"
+              },
+              "href": {
+                "type": "string",
+                "description": "Link destination"
+              }
+            }
+          }
+        },
+        "socialMedia": {
+          "type": "array",
+          "description": "Social media links",
+          "items": {
+            "type": "object",
+            "properties": {
+              "platform": {
+                "type": "string",
+                "enum": ["facebook", "twitter", "instagram", "linkedin", "github", "youtube"],
+                "description": "Social media platform"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Social media profile URL"
+              },
+              "icon": {
+                "type": "string",
+                "description": "Icon class or emoji"
+              }
+            }
+          }
+        },
+        "editable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allow inline editing of footer content"
+        }
+      }
+    },
+    "plugins": {
+      "type": "object",
+      "description": "Plugin configurations",
+      "properties": {
+        "search": {
+          "type": "object",
+          "description": "Search plugin configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable/disable search functionality"
+            },
+            "placement": {
+              "type": "string",
+              "enum": ["navigation", "header", "footer", "floating"],
+              "default": "navigation",
+              "description": "Search button placement"
+            },
+            "buttonText": {
+              "type": "string",
+              "default": "Search",
+              "description": "Search button text"
+            },
+            "buttonIcon": {
+              "type": "string",
+              "default": "🔍",
+              "description": "Search button icon"
+            },
+            "placeholder": {
+              "type": "string",
+              "default": "Search website...",
+              "description": "Search input placeholder"
+            },
+            "indexContent": {
+              "type": "boolean",
+              "default": true,
+              "description": "Index page content for search"
+            },
+            "searchableElements": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["title", "description", "label", "content"],
+              "description": "HTML elements to include in search"
+            },
+            "highlightResults": {
+              "type": "boolean",
+              "default": true,
+              "description": "Highlight search terms in results"
+            },
+            "minQueryLength": {
+              "type": "number",
+              "minimum": 1,
+              "default": 2,
+              "description": "Minimum characters to trigger search"
+            },
+            "maxResults": {
+              "type": "number",
+              "minimum": 1,
+              "default": 10,
+              "description": "Maximum number of search results"
+            },
+            "fuzzySearch": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable fuzzy/approximate matching"
+            }
+          }
+        },
+        "analytics": {
+          "type": "object",
+          "description": "Analytics plugin configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable analytics tracking"
+            },
+            "provider": {
+              "type": "string",
+              "enum": ["google", "plausible", "fathom", "custom"],
+              "description": "Analytics provider"
+            },
+            "trackingId": {
+              "type": "string",
+              "description": "Analytics tracking ID"
+            }
+          }
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "description": "Content templates and configurations",
+      "properties": {
+        "templates": {
+          "type": "object",
+          "description": "HTML templates for dynamic content",
+          "properties": {
+            "card": {
+              "type": "object",
+              "properties": {
+                "feature": {
+                  "type": "string",
+                  "description": "Feature card HTML template"
+                },
+                "gallery": {
+                  "type": "string",
+                  "description": "Gallery item HTML template"
+                }
+              }
+            },
+            "navigation": {
+              "type": "string",
+              "description": "Navigation item HTML template"
+            },
+            "footerLink": {
+              "type": "string",
+              "description": "Footer link HTML template"
+            }
+          }
+        }
+      }
+    }
+  }
+}

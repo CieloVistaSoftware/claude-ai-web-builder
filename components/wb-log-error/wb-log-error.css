@@ -1,0 +1,386 @@
+/* ===== WB LOG ERROR COMPONENT ===== */
+/* Error logging and notification component for Website Builder */
+
+:root {
+    --wb-log-error-z-index: 10000;
+    --wb-log-error-max-width: 50vw;
+    --wb-log-error-max-height: 50vh;
+    --wb-log-error-border-radius: var(--radius-lg, 8px);
+    --wb-log-error-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1));
+    --wb-log-error-transition: var(--transition-medium, 0.3s ease);
+    
+    /* Error level colors */
+    --wb-log-error-error: #ef4444;
+    --wb-log-error-warn: #f59e0b;
+    --wb-log-error-info: #3b82f6;
+    --wb-log-error-debug: #6b7280;
+}
+
+/* Main Container */
+.wb-log-error-container {
+    position: fixed;
+    z-index: var(--wb-log-error-z-index);
+    width: 50%;
+    height: 100%;
+    background: var(--bg-modal, rgba(42, 42, 42, 0.95));
+    border: 1px solid var(--border-color, #475569);
+    border-radius: var(--wb-log-error-border-radius);
+    box-shadow: var(--wb-log-error-shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-primary, #f1f5f9);
+    font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    font-size: var(--text-sm, 0.875rem);
+    transition: var(--wb-log-error-transition);
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.wb-log-error-container.wb-log-error--visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Position Variants */
+.wb-log-error--top-left {
+    top: 0;
+    left: 0;
+}
+
+.wb-log-error--top-right {
+    top: 0;
+    right: 0;
+}
+
+.wb-log-error--bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.wb-log-error--bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+.wb-log-error--center {
+    top: 0;
+    left: 25%;
+}
+
+.wb-log-error--center.wb-log-error--visible {
+    transform: translateY(0);
+}
+
+/* Compact Header */
+.wb-log-error-header {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border-color, #475569);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--wb-log-error-border-radius) var(--wb-log-error-border-radius) 0 0;
+    gap: 4px;
+    min-height: 48px;
+}
+
+.wb-log-error-title {
+    margin: 0;
+    font-size: 11px;
+    color: var(--primary, #007acc);
+    font-weight: var(--font-semibold, 600);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
+.wb-log-error-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.wb-log-error-controls button {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary, #cbd5e1);
+    padding: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.wb-log-error-controls button svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+}
+
+.wb-log-error-controls button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary, #f1f5f9);
+    transform: translateY(-1px);
+}
+
+.wb-log-error-controls button:active {
+    transform: translateY(0);
+}
+
+/* Specific button hover colors */
+.wb-log-error-clear:hover {
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.wb-log-error-copy:hover {
+    color: #10b981;
+    border-color: rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.wb-log-error-export:hover,
+.wb-log-error-file-export:hover {
+    color: #3b82f6;
+    border-color: rgba(59, 130, 246, 0.3);
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.wb-log-error-add:hover {
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.3);
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.wb-log-error-toggle:hover {
+    color: #8b5cf6;
+    border-color: rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+/* Compact Table Body */
+.wb-log-error-body {
+    height: calc(100% - 48px);
+    overflow: auto;
+    padding: 0;
+}
+
+.wb-log-error-body::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.wb-log-error-body::-webkit-scrollbar-track {
+    background: var(--bg-secondary, #334155);
+}
+
+.wb-log-error-body::-webkit-scrollbar-thumb {
+    background: var(--border-color, #475569);
+}
+
+.wb-log-error-body::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary, #cbd5e1);
+}
+
+/* Error Table */
+.wb-log-error-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: var(--font-mono, monospace);
+    table-layout: fixed;
+}
+
+/* Table Header */
+.wb-log-error-table thead {
+    background: var(--bg-secondary, #334155);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 2px solid var(--border-color, #475569);
+}
+
+.wb-log-error-table th {
+    padding: 8px 6px;
+    border-bottom: 1px solid var(--border-color, #475569);
+    border-right: 1px solid var(--border-color, #475569);
+    text-align: left;
+    font-weight: 700;
+    color: var(--text-primary, #f1f5f9);
+    user-select: none;
+    position: relative;
+    white-space: nowrap;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--bg-secondary, #334155);
+}
+
+
+.wb-log-error-table th:last-child {
+    border-right: none;
+}
+
+/* Column Widths */
+.wb-log-error-table th:nth-child(1) { width: 50px; min-width: 50px; } /* Level */
+.wb-log-error-table th:nth-child(2) { width: 80px; min-width: 80px; } /* Time */
+.wb-log-error-table th:nth-child(3) { width: 100px; min-width: 100px; } /* Source */
+.wb-log-error-table th:nth-child(4) { width: auto; min-width: 200px; } /* Message */
+
+.wb-log-error-table td:nth-child(1) { width: 50px; min-width: 50px; } /* Level */
+.wb-log-error-table td:nth-child(2) { width: 80px; min-width: 80px; } /* Time */
+.wb-log-error-table td:nth-child(3) { width: 100px; min-width: 100px; } /* Source */
+.wb-log-error-table td:nth-child(4) { width: auto; min-width: 200px; } /* Message */
+
+
+/* Table Body */
+.wb-log-error-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.15s ease;
+}
+
+.wb-log-error-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.wb-log-error-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.wb-log-error-table td {
+    padding: 6px 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    vertical-align: top;
+    line-height: 1.3;
+    color: var(--text-primary, #f1f5f9);
+    font-size: 11px;
+}
+
+.wb-log-error-table td:last-child {
+    border-right: none;
+}
+
+/* Level Column */
+.wb-log-error-level {
+    text-align: center;
+    font-weight: 600;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wb-log-error-level.wb-log-error--error { color: var(--wb-log-error-error); }
+.wb-log-error-level.wb-log-error--warn { color: var(--wb-log-error-warn); }
+.wb-log-error-level.wb-log-error--info { color: var(--wb-log-error-info); }
+.wb-log-error-level.wb-log-error--debug { color: var(--wb-log-error-debug); }
+
+/* Time Column */
+.wb-log-error-time {
+    color: var(--text-secondary, #cbd5e1);
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+/* Source Column */
+.wb-log-error-source {
+    color: var(--text-secondary, #cbd5e1);
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80px;
+}
+
+/* Message Column */
+.wb-log-error-message {
+    color: var(--text-primary, #f1f5f9);
+    word-break: break-word;
+    cursor: pointer;
+}
+
+.wb-log-error-message:hover {
+    color: var(--primary, #007acc);
+}
+
+/* Empty State */
+.wb-log-error-table tbody.wb-log-error--empty {
+    display: block;
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary, #cbd5e1);
+    font-style: italic;
+    font-size: 11px;
+}
+
+
+/* Collapsed State */
+.wb-log-error--collapsed .wb-log-error-body {
+    display: none;
+}
+
+.wb-log-error--collapsed {
+    max-height: 60px;
+}
+
+/* Animation for new errors */
+@keyframes wb-log-error-highlight {
+    0% {
+        background: rgba(239, 68, 68, 0.2);
+        transform: scale(1.02);
+    }
+    100% {
+        background: var(--bg-secondary, #334155);
+        transform: scale(1);
+    }
+}
+
+.wb-log-error-entry.wb-log-error--new {
+    animation: wb-log-error-highlight 0.5s ease-out;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+    .wb-log-error-container {
+        max-width: calc(100vw - 2rem);
+        left: 1rem !important;
+        right: 1rem !important;
+        top: auto !important;
+        bottom: 1rem !important;
+    }
+    
+    .wb-log-error--center {
+        transform: translateX(-50%);
+        left: 50%;
+        top: auto;
+        bottom: 1rem;
+    }
+}
+
+/* Accessibility */
+.wb-log-error-container:focus-within {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 2px;
+}
+
+.wb-log-error-controls button:focus {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 1px;
+}
+
+/* Print Styles */
+@media print {
+    .wb-log-error-container {
+        display: none;
+    }
+}

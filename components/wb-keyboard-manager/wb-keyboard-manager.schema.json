@@ -1,0 +1,114 @@
+{
+  "name": "wb-keyboard-manager",
+  "version": "1.0.0",
+  "description": "Keyboard shortcut manager with conflict detection and global hotkey support",
+  "category": "utility",
+  "tags": ["keyboard", "shortcuts", "hotkeys", "accessibility"],
+  "author": "WB Components",
+  "license": "MIT",
+  "dependencies": [],
+  "attributes": {
+    "global": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable global keyboard event handling"
+    },
+    "prevent-defaults": {
+      "type": "boolean",
+      "default": true,
+      "description": "Prevent default browser shortcuts"
+    },
+    "debug": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable debug logging"
+    },
+    "shortcuts": {
+      "type": "string",
+      "description": "JSON string of shortcut definitions"
+    }
+  },
+  "events": [
+    {
+      "name": "wb-keyboard-ready",
+      "description": "Fired when keyboard manager is initialized"
+    },
+    {
+      "name": "wb-shortcut-triggered",
+      "description": "Fired when a keyboard shortcut is triggered",
+      "detail": {
+        "shortcut": "string",
+        "action": "string",
+        "event": "KeyboardEvent"
+      }
+    },
+    {
+      "name": "wb-shortcut-conflict",
+      "description": "Fired when shortcut conflicts are detected",
+      "detail": {
+        "conflicts": "array"
+      }
+    }
+  ],
+  "methods": [
+    {
+      "name": "addShortcut",
+      "params": ["shortcut: string", "action: string|function", "description?: string"],
+      "description": "Add a keyboard shortcut"
+    },
+    {
+      "name": "removeShortcut",
+      "params": ["shortcut: string"],
+      "description": "Remove a keyboard shortcut"
+    },
+    {
+      "name": "getShortcuts",
+      "returns": "object",
+      "description": "Get all registered shortcuts"
+    },
+    {
+      "name": "enable",
+      "description": "Enable keyboard handling"
+    },
+    {
+      "name": "disable",
+      "description": "Disable keyboard handling"
+    },
+    {
+      "name": "checkConflicts",
+      "returns": "array",
+      "description": "Check for shortcut conflicts"
+    }
+  ],
+  "shortcutFormat": {
+    "examples": [
+      "Ctrl+S",
+      "Ctrl+Shift+N",
+      "Alt+F4",
+      "Meta+C",
+      "Escape",
+      "F1"
+    ],
+    "modifiers": ["Ctrl", "Alt", "Shift", "Meta"],
+    "keys": "Any valid key name (e.g., 'a', 'Enter', 'ArrowUp', 'F1')"
+  },
+  "accessibility": {
+    "features": [
+      "Screen reader announcements for shortcuts",
+      "Visual indicators for active shortcuts",
+      "Conflict detection and resolution",
+      "Context-aware shortcut handling"
+    ]
+  },
+  "examples": {
+    "basic": "<wb-keyboard-manager global></wb-keyboard-manager>",
+    "withShortcuts": "<wb-keyboard-manager shortcuts='[{\"key\":\"Ctrl+S\",\"action\":\"save\",\"description\":\"Save document\"}]'></wb-keyboard-manager>"
+  },
+  "files": {
+    "js": "wb-keyboard-manager.js",
+    "css": "wb-keyboard-manager.css",
+    "demo": "wb-keyboard-manager-demo.html",
+    "docs": "wb-keyboard-manager.md",
+    "schema": "wb-keyboard-manager.schema.json"
+  }
+}

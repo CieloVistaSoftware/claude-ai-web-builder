@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Table Component Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #475569;
+            --primary: #6366f1;
+            --font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .demo-container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 0 20px;
+        }
+
+        .demo-section {
+            margin-bottom: 40px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .demo-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .demo-description {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .demo-controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .demo-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .demo-button:hover {
+            opacity: 0.8;
+        }
+
+        .demo-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .table-container {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-tertiary);
+        }
+
+        .stats {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        pre {
+            background: var(--bg-primary);
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .json-section {
+            margin-bottom: 20px;
+        }
+
+        .json-section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .json-input {
+            width: 100%;
+            height: 120px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            resize: vertical;
+            tab-size: 2;
+        }
+
+        .json-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .json-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>WB Table Component Demo</h1>
+        <p>Demonstration of the reusable table component for Website Builder.</p>
+
+        <!-- Basic Table Demo -->
+        <div class="demo-section">
+            <h2 class="demo-title">Basic Table</h2>
+            <p class="demo-description">Simple table with user data.</p>
+            
+            <div class="demo-controls">
+                <button class="demo-button" onclick="loadUsers()">Load Users</button>
+                <button class="demo-button" onclick="addUser()">Add User</button>
+                <button class="demo-button" onclick="clearUsers()">Clear</button>
+            </div>
+            
+            <div class="json-section">
+                <label for="users-json">JSON Data:</label>
+                <textarea id="users-json" class="json-input" placeholder="Edit JSON data here..."></textarea>
+            </div>
+            
+            <div id="users-table" class="table-container"></div>
+            <div id="users-stats" class="stats">0 rows</div>
+        </div>
+
+        <!-- Error Log Demo -->
+        <div class="demo-section">
+            <h2 class="demo-title">Error Log Table</h2>
+            <p class="demo-description">Table formatted for error logging with custom formatters.</p>
+            
+            <div class="demo-controls">
+                <button class="demo-button" onclick="logError()">Log Error</button>
+                <button class="demo-button" onclick="logWarning()">Log Warning</button>
+                <button class="demo-button" onclick="logInfo()">Log Info</button>
+                <button class="demo-button" onclick="clearErrors()">Clear</button>
+            </div>
+            
+            <div class="json-section">
+                <label for="errors-json">JSON Data:</label>
+                <textarea id="errors-json" class="json-input" placeholder="Edit JSON data here..."></textarea>
+            </div>
+            
+            <div id="errors-table" class="table-container"></div>
+            <div id="errors-stats" class="stats">0 rows</div>
+        </div>
+
+        <!-- Advanced Demo -->
+        <div class="demo-section">
+            <h2 class="demo-title">Advanced Features</h2>
+            <p class="demo-description">Table with custom formatters, badges, and styling.</p>
+            
+            <div class="demo-controls">
+                <button class="demo-button" onclick="loadTasks()">Load Tasks</button>
+                <button class="demo-button" onclick="addTask()">Add Task</button>
+                <button class="demo-button" onclick="clearTasks()">Clear</button>
+            </div>
+            
+            <div class="json-section">
+                <label for="tasks-json">JSON Data:</label>
+                <textarea id="tasks-json" class="json-input" placeholder="Edit JSON data here..."></textarea>
+            </div>
+            
+            <div id="tasks-table" class="table-container"></div>
+            <div id="tasks-stats" class="stats">0 rows</div>
+        </div>
+
+        <!-- Code Example -->
+        <div class="demo-section">
+            <h2 class="demo-title">Usage Example</h2>
+            <pre><code>// Create table
+const table = WBTable.create('my-container');
+
+// Define columns with percentage-based widths (should total 100%)
+table.setColumns([
+    { key: 'id', title: 'ID', width: '10%' },
+    { key: 'name', title: 'Name', width: '25%' },
+    { key: 'status', title: 'Status', width: '20%' },
+    { key: 'message', title: 'Message', width: '45%' }
+]);
+
+// Load JSON data
+const jsonData = [
+    { id: 1, name: 'John', status: 'active', message: 'Hello' },
+    { id: 2, name: 'Jane', status: 'inactive', message: 'Bye' }
+];
+table.setData(jsonData);
+
+// Add single row
+table.addRow({ id: 3, name: 'Bob', status: 'pending', message: 'Hi' });</code></pre>
+        </div>
+    </div>
+
+    <script src="wb-table.js"></script>
+    <script>
+        let usersTable, errorsTable, tasksTable;
+        let userCounter = 1;
+        let errorCounter = 1;
+        let taskCounter = 1;
+
+        // Initialize tables immediately when script loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📊 DOM loaded, initializing tables...');
+            try {
+                initializeTables();
+                console.log('📊 Tables initialized successfully');
+            } catch (error) {
+                console.error('📊 Error initializing tables:', error);
+                document.body.innerHTML += '<div style="color: red; padding: 20px; background: #ffe6e6; margin: 20px; border-radius: 4px;">ERROR: Failed to initialize tables. Check console for details.</div>';
+            }
+        });
+        
+        // Fallback - if DOMContentLoaded already fired
+        if (document.readyState === 'loading') {
+            // DOMContentLoaded will fire
+        } else {
+            // DOM is already ready
+            console.log('📊 DOM already ready, initializing tables immediately...');
+            try {
+                initializeTables();
+                console.log('📊 Tables initialized successfully (immediate)');
+            } catch (error) {
+                console.error('📊 Error initializing tables (immediate):', error);
+                document.body.innerHTML += '<div style="color: red; padding: 20px; background: #ffe6e6; margin: 20px; border-radius: 4px;">ERROR: Failed to initialize tables. Check console for details.</div>';
+            }
+        }
+
+        // Default JSON data
+        const defaultUsersJSON = [
+            { "id": 1, "name": "John Doe", "email": "john@example.com", "role": "Admin", "joined": "2024-01-15" },
+            { "id": 2, "name": "Jane Smith", "email": "jane@example.com", "role": "User", "joined": "2024-02-20" },
+            { "id": 3, "name": "Bob Wilson", "email": "bob@example.com", "role": "Editor", "joined": "2024-03-10" }
+        ];
+
+        const defaultErrorsJSON = [
+            { "level": "error", "timestamp": 1696320000000, "source": "api.js", "message": "Failed to connect to database" },
+            { "level": "warn", "timestamp": 1696320060000, "source": "auth.js", "message": "Password strength is weak" },
+            { "level": "info", "timestamp": 1696320120000, "source": "app.js", "message": "User logged in successfully" }
+        ];
+
+        const defaultTasksJSON = [
+            { "id": 1, "title": "Fix login bug", "priority": "High", "progress": 75, "assigned": "John Doe" },
+            { "id": 2, "title": "Update documentation", "priority": "Low", "progress": 30, "assigned": "Jane Smith" },
+            { "id": 3, "title": "Add new feature", "priority": "Medium", "progress": 60, "assigned": "Bob Wilson" }
+        ];
+
+        function initializeTables() {
+            console.log('📊 Starting table initialization...');
+            
+            // Check if WBTable is available
+            if (!window.WBTable) {
+                console.error('📊 WBTable not found! wb-table.js may not be loaded.');
+                document.body.innerHTML += '<div style="color: red; padding: 20px; background: #ffe6e6; margin: 20px; border-radius: 4px;">ERROR: WBTable component not loaded. Make sure wb-table.js exists and loads properly.</div>';
+                return;
+            }
+            
+            console.log('📊 WBTable found, creating tables...');
+            
+            // Users table with percentage-based widths
+            try {
+                usersTable = WBTable.create('users-table');
+                console.log('📊 Users table created');
+            } catch (error) {
+                console.error('📊 Error creating users table:', error);
+                return;
+            }
+            usersTable.setColumns([
+                { key: 'id', title: 'ID', width: '10%' },
+                { key: 'name', title: 'Name', width: '25%' },
+                { key: 'email', title: 'Email', width: '35%' },
+                { key: 'role', title: 'Role', width: '15%' },
+                { key: 'joined', title: 'Joined', width: '15%' }
+            ]);
+
+            // Errors table with percentage-based widths
+            try {
+                errorsTable = WBTable.create('errors-table');
+                console.log('📊 Errors table created');
+                errorsTable.setColumns([
+                    { 
+                        key: 'level', 
+                        title: 'LVL', 
+                        width: '10%',
+                        formatter: (level) => `<span class="wb-table-cell-badge ${level}">${level.substring(0, 3).toUpperCase()}</span>`,
+                        html: true
+                    },
+                    { 
+                        key: 'timestamp', 
+                        title: 'TIME', 
+                        width: '15%',
+                        formatter: (time) => new Date(time).toLocaleTimeString()
+                    },
+                    { 
+                        key: 'source', 
+                        title: 'SOURCE', 
+                        width: '20%'
+                    },
+                    { 
+                        key: 'message', 
+                        title: 'MESSAGE',
+                        width: '55%'
+                    }
+                ]);
+            } catch (error) {
+                console.error('📊 Error creating errors table:', error);
+                return;
+            }
+
+            // Tasks table with percentage-based widths
+            try {
+                tasksTable = WBTable.create('tasks-table');
+                console.log('📊 Tasks table created');
+                tasksTable.setColumns([
+                    { key: 'id', title: 'ID', width: '8%' },
+                    { key: 'title', title: 'Task', width: '40%' },
+                    { 
+                        key: 'priority', 
+                        title: 'Priority', 
+                        width: '15%',
+                        formatter: (priority) => `<span class="wb-table-cell-badge ${priority.toLowerCase()}">${priority}</span>`,
+                        html: true
+                    },
+                    { 
+                        key: 'progress', 
+                        title: 'Progress', 
+                        width: '12%',
+                        formatter: (progress) => `${progress}%`
+                    },
+                    { 
+                        key: 'assigned', 
+                        title: 'Assigned To',
+                        width: '25%'
+                    }
+                ]);
+            } catch (error) {
+                console.error('📊 Error creating tasks table:', error);
+                return;
+            }
+
+            console.log('📊 All tables created, setting up JSON and data...');
+            
+            // Initialize JSON text areas
+            try {
+                document.getElementById('users-json').value = JSON.stringify(defaultUsersJSON, null, 2);
+                document.getElementById('errors-json').value = JSON.stringify(defaultErrorsJSON, null, 2);
+                document.getElementById('tasks-json').value = JSON.stringify(defaultTasksJSON, null, 2);
+                console.log('📊 JSON text areas populated');
+            } catch (error) {
+                console.error('📊 Error populating JSON text areas:', error);
+            }
+            
+            // Load default data into tables at startup (now that all tables are created)
+            try {
+                console.log('📊 Loading data into tables...');
+                usersTable.setData(defaultUsersJSON);
+                console.log('📊 Users data loaded:', defaultUsersJSON.length, 'rows');
+                
+                errorsTable.setData(defaultErrorsJSON);
+                console.log('📊 Errors data loaded:', defaultErrorsJSON.length, 'rows');
+                
+                tasksTable.setData(defaultTasksJSON);
+                console.log('📊 Tasks data loaded:', defaultTasksJSON.length, 'rows');
+                
+                updateStats();
+                console.log('📊 All data loaded successfully!');
+            } catch (error) {
+                console.error('📊 Error loading data into tables:', error);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('users-stats').textContent = `${usersTable?.getRowCount() || 0} rows`;
+            document.getElementById('errors-stats').textContent = `${errorsTable?.getRowCount() || 0} rows`;
+            document.getElementById('tasks-stats').textContent = `${tasksTable?.getRowCount() || 0} rows`;
+        }
+
+        // Users demo functions
+        function loadUsers() {
+            // Load from JSON textarea
+            bindUsersJSON();
+        }
+
+        function addUser() {
+            try {
+                const names = ['Alice Cooper', 'David Brown', 'Emma Davis', 'Frank Miller', 'Grace Lee'];
+                const roles = ['User', 'Editor', 'Admin', 'Viewer'];
+                const name = names[Math.floor(Math.random() * names.length)];
+                const role = roles[Math.floor(Math.random() * roles.length)];
+                
+                const currentData = JSON.parse(document.getElementById('users-json').value);
+                currentData.push({
+                    id: ++userCounter + 3,
+                    name: name,
+                    email: name.toLowerCase().replace(' ', '.') + '@example.com',
+                    role: role,
+                    joined: new Date().toISOString().split('T')[0]
+                });
+                document.getElementById('users-json').value = JSON.stringify(currentData, null, 2);
+                bindUsersJSON();
+            } catch (error) {
+                console.error('Error updating users JSON:', error);
+            }
+        }
+
+        function clearUsers() {
+            document.getElementById('users-json').value = JSON.stringify([], null, 2);
+            bindUsersJSON();
+            userCounter = 1;
+        }
+
+        // Errors demo functions
+        function logError() {
+            try {
+                const currentData = JSON.parse(document.getElementById('errors-json').value);
+                currentData.push({
+                    level: 'error',
+                    timestamp: Date.now(),
+                    source: 'demo.js',
+                    message: `Error ${++errorCounter}: Something went wrong`
+                });
+                document.getElementById('errors-json').value = JSON.stringify(currentData, null, 2);
+                bindErrorsJSON();
+            } catch (error) {
+                console.error('Error updating errors JSON:', error);
+            }
+        }
+
+        function logWarning() {
+            try {
+                const currentData = JSON.parse(document.getElementById('errors-json').value);
+                currentData.push({
+                    level: 'warn',
+                    timestamp: Date.now(),
+                    source: 'app.js',
+                    message: `Warning ${++errorCounter}: This is a warning message`
+                });
+                document.getElementById('errors-json').value = JSON.stringify(currentData, null, 2);
+                bindErrorsJSON();
+            } catch (error) {
+                console.error('Error updating errors JSON:', error);
+            }
+        }
+
+        function logInfo() {
+            try {
+                const currentData = JSON.parse(document.getElementById('errors-json').value);
+                currentData.push({
+                    level: 'info',
+                    timestamp: Date.now(),
+                    source: 'system.js',
+                    message: `Info ${++errorCounter}: Information message`
+                });
+                document.getElementById('errors-json').value = JSON.stringify(currentData, null, 2);
+                bindErrorsJSON();
+            } catch (error) {
+                console.error('Error updating errors JSON:', error);
+            }
+        }
+
+        function clearErrors() {
+            document.getElementById('errors-json').value = JSON.stringify([], null, 2);
+            bindErrorsJSON();
+            errorCounter = 1;
+        }
+
+        // Tasks demo functions
+        function loadTasks() {
+            // Load from JSON textarea
+            bindTasksJSON();
+        }
+
+        function addTask() {
+            try {
+                const titles = ['Review code', 'Test feature', 'Deploy update', 'Write tests', 'Fix styling'];
+                const priorities = ['High', 'Medium', 'Low'];
+                const assignees = ['Alice Cooper', 'David Brown', 'Emma Davis'];
+                
+                const currentData = JSON.parse(document.getElementById('tasks-json').value);
+                currentData.push({
+                    id: ++taskCounter + 3,
+                    title: titles[Math.floor(Math.random() * titles.length)],
+                    priority: priorities[Math.floor(Math.random() * priorities.length)],
+                    progress: Math.floor(Math.random() * 100),
+                    assigned: assignees[Math.floor(Math.random() * assignees.length)]
+                });
+                document.getElementById('tasks-json').value = JSON.stringify(currentData, null, 2);
+                bindTasksJSON();
+            } catch (error) {
+                console.error('Error updating tasks JSON:', error);
+            }
+        }
+
+        function clearTasks() {
+            document.getElementById('tasks-json').value = JSON.stringify([], null, 2);
+            bindTasksJSON();
+            taskCounter = 1;
+        }
+
+        // JSON binding functions
+        function bindUsersJSON() {
+            try {
+                const jsonText = document.getElementById('users-json').value;
+                const data = JSON.parse(jsonText);
+                usersTable.setData(data);
+                updateStats();
+            } catch (error) {
+                alert('Invalid JSON format: ' + error.message);
+            }
+        }
+
+        function bindErrorsJSON() {
+            try {
+                const jsonText = document.getElementById('errors-json').value;
+                const data = JSON.parse(jsonText);
+                errorsTable.setData(data);
+                updateStats();
+            } catch (error) {
+                alert('Invalid JSON format: ' + error.message);
+            }
+        }
+
+        function bindTasksJSON() {
+            try {
+                const jsonText = document.getElementById('tasks-json').value;
+                const data = JSON.parse(jsonText);
+                tasksTable.setData(data);
+                updateStats();
+            } catch (error) {
+                alert('Invalid JSON format: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

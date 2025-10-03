@@ -1,0 +1,64 @@
+<!-- Save this as icon-generator.html and open in browser to generate icon files -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Extension Icons</title>
+</head>
+<body>
+    <h2>Extension Icon Generator</h2>
+    <p>Right-click each icon and save with the exact filename shown:</p>
+    
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div>
+            <p>icon16.png</p>
+            <canvas id="icon16" width="16" height="16"></canvas>
+        </div>
+        <div>
+            <p>icon32.png</p>
+            <canvas id="icon32" width="32" height="32"></canvas>
+        </div>
+        <div>
+            <p>icon48.png</p>
+            <canvas id="icon48" width="48" height="48"></canvas>
+        </div>
+        <div>
+            <p>icon128.png</p>
+            <canvas id="icon128" width="128" height="128"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Generate icons for each size
+        [16, 32, 48, 128].forEach(size => {
+            const canvas = document.getElementById(`icon${size}`);
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Draw CSS brackets
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.5}px monospace`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('{ }', size/2, size/2);
+            
+            // Draw color dots if size is large enough
+            if (size >= 48) {
+                const dotSize = size * 0.08;
+                const colors = ['#ff6b6b', '#feca57', '#48dbfb'];
+                colors.forEach((color, i) => {
+                    ctx.fillStyle = color;
+                    ctx.beginPath();
+                    ctx.arc(size/2 + (i-1) * size * 0.2, size * 0.8, dotSize, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

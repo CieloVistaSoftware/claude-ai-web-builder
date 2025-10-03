@@ -1,0 +1,31 @@
+/**
+ * Website Builder - Main CSS Entry Point
+ * 
+ * This file imports all foundational styles in the correct order.
+ * Use this single import in all component demos and pages.
+ * 
+ * Loading Order:
+ * 1. Variables - CSS custom properties and design tokens
+ * 2. Base - Reset, typography, and foundational element styles  
+ * 3. Utilities - Reusable utility classes and patterns
+ * 
+ * Usage in HTML:
+ * <link rel="stylesheet" href="../../styles/main.css">
+ * <link rel="stylesheet" href="component-name.css">
+ */
+
+/* REQUIRED FIRST: CSS Variables and Design Tokens */
+@import url('./_variables.css');
+
+/* REQUIRED SECOND: Base Styles and Reset */
+@import url('./_base.css');
+
+/* REQUIRED THIRD: Utility Classes and Patterns */
+@import url('./_utilities.css');
+
+/* 
+ * Component-specific CSS should be loaded AFTER this file
+ * Example:
+ * <link rel="stylesheet" href="../../styles/main.css">
+ * <link rel="stylesheet" href="wb-component.css">
+ */

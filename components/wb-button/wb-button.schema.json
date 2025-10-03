@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Button Web Component",
+  "description": "Schema for wb-btn custom element attributes",
+  "type": "object",
+  "properties": {
+    "variant": {
+      "type": "string",
+      "enum": ["primary", "success", "toggle", "bgImage", "iconOnly", "imageOnly"],
+      "default": "primary",
+      "description": "Visual style variant of the button"
+    },
+    "size": {
+      "type": "string", 
+      "enum": ["small", "standard", "large"],
+      "default": "standard",
+      "description": "Size of the button"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon to display (emoji or text symbol)",
+      "examples": ["🏠", "💾", "⚙️", "✓", "→"]
+    },
+    "icon-position": {
+      "type": "string",
+      "enum": ["left", "right"],
+      "default": "left", 
+      "description": "Position of the icon relative to text"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive", "neutral"],
+      "description": "Status indicator type (shows colored dot)"
+    },
+    "active": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the button is in active state (toggle variant)"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the button is disabled"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the button"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "onclick": {
+      "type": "string",
+      "description": "JavaScript code to execute on click"
+    },
+    "onwb-toggle": {
+      "type": "string", 
+      "description": "JavaScript code for toggle event (toggle variant)"
+    },
+    "onwb-click": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-click event"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-pressed": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "ARIA pressed state for toggle buttons"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    }
+  }
+}

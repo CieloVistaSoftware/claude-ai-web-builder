@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Converter Tool</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="converter-container">
+      <header>
+        <h1>Website Converter Tool</h1>
+        <p>
+          Convert external websites to a format compatible with the Website
+          Builder
+        </p>
+      </header>
+
+      <main>
+        <section class="upload-section">
+          <h2>Import Website</h2>
+          <p>Upload an HTML file or provide a URL to convert</p>
+
+          <div class="input-group">
+            <div class="file-input">
+              <label for="html-file">Choose HTML File</label>
+              <input type="file" id="html-file" accept=".html,.htm" />
+              <span class="file-name" id="file-name">No file selected</span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="site-url">Or Enter Website URL:</label>
+            <input type="url" id="site-url" placeholder="https://example.com" />
+          </div>
+
+          <div class="button-group">
+            <button id="convert-btn" class="primary-btn">
+              Convert Website
+            </button>
+            <button id="preview-btn" class="secondary-btn">
+              Preview Original
+            </button>
+          </div>
+        </section>
+
+        <section class="options-section">
+          <h2>Conversion Options</h2>
+          <div class="option">
+            <input type="checkbox" id="preserve-styles" checked />
+            <label for="preserve-styles">Preserve original styles</label>
+          </div>
+          <div class="option">
+            <input type="checkbox" id="preserve-scripts" checked />
+            <label for="preserve-scripts">Preserve original scripts</label>
+          </div>
+          <div class="option">
+            <input type="checkbox" id="auto-extract-sections" checked />
+            <label for="auto-extract-sections">Auto-extract sections</label>
+          </div>
+          <div class="option">
+            <input type="checkbox" id="auto-extract-media" checked />
+            <label for="auto-extract-media">Auto-extract media</label>
+          </div>
+        </section>
+
+        <section
+          class="result-section"
+          id="result-section"
+          style="display: none"
+        >
+          <h2>Conversion Results</h2>
+          <div class="conversion-info">
+            <p id="conversion-summary"></p>
+            <div class="result-details">
+              <div class="detail-item">
+                <span class="detail-label">Layout:</span>
+                <span id="detected-layout"></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Theme:</span>
+                <span id="detected-theme"></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Sections:</span>
+                <span id="sections-count"></span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Media Items:</span>
+                <span id="media-count"></span>
+              </div>
+            </div>
+          </div>
+          <div class="button-group">
+            <button id="save-btn" class="primary-btn">
+              Save Converted Site
+            </button>
+            <button id="open-builder-btn" class="secondary-btn">
+              Open in Website Builder
+            </button>
+          </div>
+        </section>
+
+        <section class="history-section">
+          <h2>Conversion History</h2>
+          <p>View and open previously converted sites</p>
+
+          <div class="button-group">
+            <button id="view-history-btn" class="secondary-btn">
+              View Conversion History
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <div id="preview-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Website Preview</h2>
+            <button id="close-preview-btn" class="close-btn">&times;</button>
+          </div>
+          <div class="modal-body">
+            <iframe id="preview-frame" src="about:blank"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div id="progress-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Converting Website</h2>
+          </div>
+          <div class="modal-body">
+            <p id="progress-status">Analyzing website structure...</p>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Website Converter Tool &copy; 2025</p>
+      <p><a href="../../../wb-core/wb.html">Open Website Builder</a></p>
+    </footer>
+    <script src="site-converter.js"></script>
+    <script src="convert-and-stack.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

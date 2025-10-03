@@ -1,0 +1,542 @@
+{
+  "component": {
+    "name": "wb-select",
+    "version": "2.0.0", 
+    "description": "Data-driven select dropdown component with search, multi-select, and grouping",
+    "type": "form-component",
+    "author": "Website Builder System",
+    "dependencies": [],
+    "assets": []
+  },
+  "template": {
+    "structure": [
+      {
+        "tag": "div",
+        "attributes": {
+          "class": "wb-select-wrapper wb-select--{{variant}} wb-select--{{size}}",
+          "data-disabled": { "bind": { "data": "disabled" } },
+          "data-multiple": { "bind": { "data": "multiple" } }
+        },
+        "children": [
+          {
+            "tag": "label",
+            "attributes": {
+              "class": "wb-select-label",
+              "for": "{{id}}"
+            },
+            "content": "{{label}}",
+            "condition": {
+              "field": "label",
+              "operator": "exists"
+            }
+          },
+          {
+            "tag": "div",
+            "attributes": {
+              "class": "wb-select-container"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attributes": {
+                  "class": "wb-select-trigger",
+                  "tabindex": "0",
+                  "role": "combobox",
+                  "aria-expanded": "false",
+                  "aria-haspopup": "listbox",
+                  "aria-labelledby": "{{id}}-label"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attributes": {
+                      "class": "wb-select-value"
+                    },
+                    "content": "{{displayValue}}"
+                  },
+                  {
+                    "tag": "span",
+                    "attributes": {
+                      "class": "wb-select-icon",
+                      "aria-hidden": "true"
+                    },
+                    "content": "▼"
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attributes": {
+                  "class": "wb-select-dropdown",
+                  "role": "listbox",
+                  "aria-multiselectable": { "bind": { "data": "multiple" } }
+                },
+                "children": [
+                  {
+                    "tag": "input",
+                    "attributes": {
+                      "type": "text",
+                      "class": "wb-select-search",
+                      "placeholder": "{{searchPlaceholder}}",
+                      "aria-label": "Search options"
+                    },
+                    "condition": {
+                      "field": "searchable",
+                      "operator": "truthy"
+                    }
+                  },
+                  {
+                    "tag": "div",
+                    "attributes": {
+                      "class": "wb-select-options"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attributes": {
+                          "class": "wb-select-option",
+                          "role": "option",
+                          "data-value": "{{option.value}}",
+                          "aria-selected": "false"
+                        },
+                        "content": "{{option.label}}",
+                        "repeat": {
+                          "collection": "options",
+                          "item": "option"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "span",
+            "attributes": {
+              "class": "wb-select-help-text",
+              "id": "{{id}}-help"
+            },
+            "content": "{{helpText}}",
+            "condition": {
+              "field": "helpText",
+              "operator": "exists"
+            }
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "type": "hidden",
+              "id": "{{id}}",
+              "name": "{{name}}",
+              "value": { "bind": { "data": "value" } }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "styles": {
+    "base": {
+      "position": "relative",
+      "display": "inline-block",
+      "width": "100%",
+      "fontFamily": "inherit"
+    },
+    "elements": {
+      ".wb-select-label": {
+        "display": "block",
+        "marginBottom": "0.5rem",
+        "fontSize": "0.875rem",
+        "fontWeight": "500",
+        "color": "var(--text-primary)"
+      },
+      ".wb-select-container": {
+        "position": "relative"
+      },
+      ".wb-select-trigger": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between",
+        "width": "100%",
+        "padding": "0.75rem",
+        "backgroundColor": "var(--bg-primary)",
+        "border": "1px solid var(--border-color)",
+        "borderRadius": "6px",
+        "cursor": "pointer",
+        "transition": "all 0.2s ease",
+        "minHeight": "2.5rem"
+      },
+      ".wb-select-trigger:hover": {
+        "borderColor": "var(--primary)"
+      },
+      ".wb-select-trigger:focus": {
+        "outline": "2px solid var(--primary)",
+        "outlineOffset": "2px",
+        "borderColor": "var(--primary)"
+      },
+      ".wb-select-value": {
+        "flex": "1",
+        "textAlign": "left",
+        "color": "var(--text-primary)",
+        "whiteSpace": "nowrap",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis"
+      },
+      ".wb-select-icon": {
+        "marginLeft": "0.5rem",
+        "transition": "transform 0.2s ease",
+        "color": "var(--text-secondary)"
+      },
+      ".wb-select-dropdown": {
+        "position": "absolute",
+        "top": "100%",
+        "left": "0",
+        "right": "0",
+        "zIndex": "1000",
+        "backgroundColor": "var(--bg-primary)",
+        "border": "1px solid var(--border-color)",
+        "borderRadius": "6px",
+        "marginTop": "4px",
+        "maxHeight": "200px",
+        "overflowY": "auto",
+        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.1)",
+        "opacity": "0",
+        "visibility": "hidden",
+        "transform": "translateY(-10px)",
+        "transition": "all 0.2s ease"
+      },
+      ".wb-select-search": {
+        "width": "100%",
+        "padding": "0.5rem",
+        "border": "none",
+        "borderBottom": "1px solid var(--border-color)",
+        "fontSize": "0.875rem",
+        "backgroundColor": "transparent"
+      },
+      ".wb-select-search:focus": {
+        "outline": "none",
+        "borderBottomColor": "var(--primary)"
+      },
+      ".wb-select-options": {
+        "padding": "0.25rem 0"
+      },
+      ".wb-select-option": {
+        "padding": "0.75rem",
+        "cursor": "pointer",
+        "color": "var(--text-primary)",
+        "transition": "background-color 0.15s ease"
+      },
+      ".wb-select-option:hover": {
+        "backgroundColor": "var(--neutral-100)"
+      },
+      ".wb-select-option[aria-selected=\"true\"]": {
+        "backgroundColor": "var(--primary)",
+        "color": "white"
+      },
+      ".wb-select-help-text": {
+        "display": "block",
+        "marginTop": "0.25rem",
+        "fontSize": "0.75rem",
+        "color": "var(--text-secondary)"
+      }
+    },
+    "states": {
+      "open": {
+        ".wb-select-icon": {
+          "transform": "rotate(180deg)"
+        },
+        ".wb-select-dropdown": {
+          "opacity": "1",
+          "visibility": "visible",
+          "transform": "translateY(0)"
+        }
+      },
+      "disabled": {
+        "opacity": "0.6",
+        "pointerEvents": "none",
+        ".wb-select-trigger": {
+          "cursor": "not-allowed",
+          "backgroundColor": "var(--neutral-100)"
+        }
+      },
+      "error": {
+        ".wb-select-trigger": {
+          "borderColor": "var(--error-color)"
+        },
+        ".wb-select-trigger:focus": {
+          "outlineColor": "var(--error-color)"
+        }
+      },
+      "success": {
+        ".wb-select-trigger": {
+          "borderColor": "var(--accent)"
+        },
+        ".wb-select-trigger:focus": {
+          "outlineColor": "var(--accent)"
+        }
+      }
+    },
+    "variants": {
+      "primary": {},
+      "minimal": {
+        ".wb-select-trigger": {
+          "border": "none",
+          "borderBottom": "1px solid var(--border-color)",
+          "borderRadius": "0",
+          "backgroundColor": "transparent"
+        }
+      },
+      "filled": {
+        ".wb-select-trigger": {
+          "backgroundColor": "var(--neutral-100)",
+          "border": "1px solid transparent"
+        }
+      }
+    },
+    "sizes": {
+      "small": {
+        ".wb-select-trigger": {
+          "padding": "0.5rem",
+          "minHeight": "2rem",
+          "fontSize": "0.875rem"
+        },
+        ".wb-select-option": {
+          "padding": "0.5rem"
+        }
+      },
+      "large": {
+        ".wb-select-trigger": {
+          "padding": "1rem",
+          "minHeight": "3rem",
+          "fontSize": "1rem"
+        },
+        ".wb-select-option": {
+          "padding": "1rem"
+        }
+      }
+    },
+    "responsive": {
+      "(max-width: 640px)": {
+        ".wb-select-dropdown": {
+          "maxHeight": "150px"
+        }
+      }
+    }
+  },
+  "handlers": {
+    "click": {
+      "selector": ".wb-select-trigger",
+      "action": {
+        "type": "method",
+        "payload": {
+          "method": "toggleDropdown"
+        }
+      }
+    },
+    "click": {
+      "selector": ".wb-select-option",
+      "action": {
+        "type": "method",
+        "payload": {
+          "method": "selectOption",
+          "args": ["event.target.dataset.value"]
+        }
+      }
+    },
+    "keydown": {
+      "selector": ".wb-select-trigger",
+      "action": {
+        "type": "custom",
+        "payload": {
+          "handler": "handleSelectKeydown"
+        }
+      }
+    },
+    "input": {
+      "selector": ".wb-select-search",
+      "action": {
+        "type": "method",
+        "payload": {
+          "method": "filterOptions",
+          "args": ["event.target.value"]
+        }
+      }
+    },
+    "blur": {
+      "selector": ".wb-select-trigger",
+      "action": {
+        "type": "method",
+        "payload": {
+          "method": "closeDropdown"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "data": {
+      "value": "",
+      "displayValue": "Select an option...",
+      "placeholder": "Select an option...",
+      "searchPlaceholder": "Search...",
+      "options": [],
+      "multiple": false,
+      "searchable": false,
+      "disabled": false,
+      "variant": "primary",
+      "size": "standard",
+      "id": "select-{{timestamp}}",
+      "name": ""
+    },
+    "state": "closed"
+  },
+  "events": {
+    "ready": "wbSelectReady",
+    "change": "wbSelectChange", 
+    "open": "wbSelectOpen",
+    "close": "wbSelectClose",
+    "search": "wbSelectSearch",
+    "stateChanged": "wbSelectStateChanged"
+  },
+  "validation": {
+    "required": ["id", "options"],
+    "schema": {
+      "label": { "type": "string", "maxLength": 100 },
+      "value": { "type": ["string", "array"] },
+      "placeholder": { "type": "string", "maxLength": 100 },
+      "options": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "value": { "type": ["string", "number"] },
+            "label": { "type": "string" },
+            "disabled": { "type": "boolean" },
+            "group": { "type": "string" }
+          },
+          "required": ["value", "label"]
+        },
+        "minItems": 1
+      },
+      "multiple": { "type": "boolean" },
+      "searchable": { "type": "boolean" },
+      "disabled": { "type": "boolean" },
+      "variant": { "type": "string", "enum": ["primary", "minimal", "filled"] },
+      "size": { "type": "string", "enum": ["small", "standard", "large"] },
+      "id": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9-_]*$" },
+      "name": { "type": "string" },
+      "helpText": { "type": "string", "maxLength": 200 }
+    }
+  },
+  "accessibility": {
+    "features": [
+      "keyboard navigation",
+      "screen reader support",
+      "focus management", 
+      "ARIA attributes",
+      "label association"
+    ],
+    "attributes": {
+      "role": "combobox",
+      "aria-expanded": "dynamic",
+      "aria-haspopup": "listbox",
+      "aria-labelledby": "label association",
+      "aria-describedby": "help text"
+    },
+    "keyboardShortcuts": {
+      "Enter": "Open/close dropdown",
+      "Space": "Open/close dropdown",
+      "ArrowDown": "Navigate down options",
+      "ArrowUp": "Navigate up options",
+      "Escape": "Close dropdown",
+      "Home": "First option",
+      "End": "Last option"
+    }
+  },
+  "examples": {
+    "basic": {
+      "label": "Choose Theme",
+      "options": [
+        { "value": "light", "label": "Light Theme" },
+        { "value": "dark", "label": "Dark Theme" },
+        { "value": "auto", "label": "Auto Theme" }
+      ],
+      "id": "theme-select"
+    },
+    "withSearch": {
+      "label": "Select Country",
+      "searchable": true,
+      "searchPlaceholder": "Search countries...",
+      "options": [
+        { "value": "us", "label": "United States" },
+        { "value": "uk", "label": "United Kingdom" }, 
+        { "value": "ca", "label": "Canada" },
+        { "value": "au", "label": "Australia" }
+      ],
+      "id": "country-select"
+    },
+    "multiSelect": {
+      "label": "Select Skills",
+      "multiple": true,
+      "searchable": true,
+      "options": [
+        { "value": "js", "label": "JavaScript" },
+        { "value": "ts", "label": "TypeScript" },
+        { "value": "react", "label": "React" },
+        { "value": "vue", "label": "Vue" }
+      ],
+      "id": "skills-select"
+    },
+    "disabled": {
+      "label": "Premium Features",
+      "disabled": true,
+      "placeholder": "Upgrade to access",
+      "options": [
+        { "value": "feature1", "label": "Advanced Analytics" },
+        { "value": "feature2", "label": "Custom Domains" }
+      ],
+      "id": "premium-select"
+    },
+    "variants": {
+      "minimal": {
+        "label": "Layout Style",
+        "variant": "minimal",
+        "options": [
+          { "value": "grid", "label": "Grid Layout" },
+          { "value": "flex", "label": "Flex Layout" }
+        ],
+        "id": "layout-select"
+      },
+      "filled": {
+        "label": "Color Scheme",
+        "variant": "filled",
+        "options": [
+          { "value": "blue", "label": "Blue" },
+          { "value": "green", "label": "Green" },
+          { "value": "purple", "label": "Purple" }
+        ],
+        "id": "color-select"
+      }
+    },
+    "sizes": {
+      "small": {
+        "label": "Compact Select",
+        "size": "small",
+        "options": [
+          { "value": "1", "label": "Option 1" },
+          { "value": "2", "label": "Option 2" }
+        ],
+        "id": "compact-select"
+      },
+      "large": {
+        "label": "Prominent Select",
+        "size": "large",
+        "options": [
+          { "value": "1", "label": "Option 1" },
+          { "value": "2", "label": "Option 2" }
+        ],
+        "id": "prominent-select"
+      }
+    }
+  }
+}

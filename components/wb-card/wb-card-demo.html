@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Card Component Demo</title>
+    
+    <!-- Existing WB Core CSS -->
+    <link rel="stylesheet" href="../../wb-core/wb.css">
+    <!-- Control Panel Component CSS -->
+    <link rel="stylesheet" href="../control-panel/control-panel.css">
+    <!-- Event Log Component CSS -->
+    <link rel="stylesheet" href="../wb-event-log/wb-event-log.css">
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="wb-card.css">
+</head>
+<body data-theme="light" data-layout="top-nav" data-footer="same-page">
+    <!-- Control Panel Component -->
+    <control-panel></control-panel>
+
+    <!-- Live Event Log for System Monitoring -->
+    <div id="floating-event-log" class="floating-event-log">
+      <div class="floating-event-log-header">
+        <h3 class="floating-event-log-title">🔍 Demo Events</h3>
+        <div class="floating-event-log-controls">
+          <wb-button size="small" variant="minimal" onclick="toggleEventLog()">−</wb-button>
+        </div>
+      </div>
+      <div class="floating-event-log-content">
+        <wb-event-log id="demo-event-log"></wb-event-log>
+      </div>
+    </div>
+
+    <!-- Main Website Container -->
+    <div class="site-container">
+        <!-- Navigation using wb-nav component -->
+        <wb-nav id="site-nav" 
+                layout="horizontal" 
+                variant="default"
+                items='[{"id": "variants", "text": "Variants", "href": "#variants-section", "active": true}, {"id": "sizes", "text": "Sizes", "href": "#sizes-section"}, {"id": "layouts", "text": "Layouts", "href": "#layouts-section"}, {"id": "interactive", "text": "Interactive", "href": "#interactive-section"}, {"id": "javascript", "text": "JavaScript", "href": "#javascript-section"}]'>
+        </wb-nav>
+
+        <main class="main-content">
+            <!-- Header Section -->
+            <header class="site-header">
+                <h1 class="site-title">WB Card Component</h1>
+                <p class="site-subtitle">Flexible content containers with multiple layouts, variants, and interactive capabilities</p>
+            </header>
+
+            <!-- Interactive Demo Controls -->
+            <section class="content-section">
+                <wb-card title="Interactive Demo Controls" 
+                         subtitle="Customize the demo card below" 
+                         variant="outlined" 
+                         show-actions="true"
+                         actions='[{"text": "Reset Demo", "variant": "secondary"}]'>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <wb-input id="variant-select" 
+                                     type="select" 
+                                     label="Variant" 
+                                     options='[{"value": "default", "text": "Default"}, {"value": "elevated", "text": "Elevated"}, {"value": "outlined", "text": "Outlined"}, {"value": "filled", "text": "Filled"}, {"value": "glass", "text": "Glass"}]'
+                                     value="default">
+                            </wb-input>
+                        </div>
+                        <div>
+                            <wb-input id="size-select" 
+                                     type="select" 
+                                     label="Size" 
+                                     options='[{"value": "compact", "text": "Compact"}, {"value": "standard", "text": "Standard"}, {"value": "large", "text": "Large"}]'
+                                     value="standard">
+                            </wb-input>
+                        </div>
+                        <div>
+                            <wb-input id="layout-select" 
+                                     type="select" 
+                                     label="Layout" 
+                                     options='[{"value": "vertical", "text": "Vertical"}, {"value": "horizontal", "text": "Horizontal"}, {"value": "media-top", "text": "Media Top"}, {"value": "media-left", "text": "Media Left"}, {"value": "media-right", "text": "Media Right"}]'
+                                     value="vertical">
+                            </wb-input>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <wb-button onclick="toggleClickable()" variant="secondary" size="small">Toggle Clickable</wb-button>
+                            <wb-button onclick="toggleLoading()" variant="secondary" size="small">Toggle Loading</wb-button>
+                            <wb-button onclick="updateContent()" variant="primary" size="small">Update Content</wb-button>
+                        </div>
+                    </div>
+                </wb-card>
+            </section>
+
+            <!-- Interactive Demo Section -->
+            <section id="demo-section" class="content-section">
+                <h2 class="section-title">Interactive Demo</h2>
+                <p class="card-description">Use the controls above to modify this card in real-time.</p>
+                
+                <div style="display: flex; justify-content: center;">
+                    <wb-card id="demo-card"
+                        title="Interactive Demo Card"
+                        subtitle="Customize me with the controls above"
+                        body="This card demonstrates the flexibility of the WB Card component. Try changing the variant, size, layout, and other options to see how it adapts."
+                        media-src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2dyYWRpZW50KSIvPgo8dGV4dCB4PSIyMDAiIHk9IjEwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9IjAuMzVlbSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsIFNlZ29lIFVJLCBSb2JvdG8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPkRlbW8gSW1hZ2U8L3RleHQ+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzYzNjZmMTtzdG9wLW9wYWNpdHk6MSIgLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTBiOTgxO3N0b3Atb3BhY2l0eToxIiAvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg=="
+                        media-alt="Demo card image"
+                        variant="default"
+                        size="standard"
+                        layout="vertical">
+                    </wb-card>
+                </div>
+            </section>
+
+            <!-- Card Variants Section -->
+            <section id="variants-section" class="content-section">
+                <h2 class="section-title">Card Variants</h2>
+                <p class="card-description">Different visual styles for various use cases.</p>
+                
+                <div class="content-grid">
+                    <wb-card
+                        title="Default Card"
+                        subtitle="Clean and minimal"
+                        body="The default card variant provides a clean, minimal appearance with subtle borders and background."
+                        variant="default">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Elevated Card"
+                        subtitle="With shadow depth"
+                        body="The elevated variant adds shadow depth for visual prominence and hierarchy."
+                        variant="elevated">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Outlined Card"
+                        subtitle="Clear boundaries"
+                        body="The outlined variant uses borders to define card boundaries without background."
+                        variant="outlined">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Filled Card"
+                        subtitle="Bold and prominent"
+                        body="The filled variant uses colored backgrounds for high impact and attention."
+                        variant="filled">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Glass Card"
+                        subtitle="Modern glassmorphism"
+                        body="The glass variant creates a modern glassmorphism effect with backdrop blur."
+                        variant="glass">
+                    </wb-card>
+                </div>
+            </section>
+
+            <!-- Card Sizes Section -->
+            <section id="sizes-section" class="content-section">
+                <h2 class="section-title">Card Sizes</h2>
+                <p class="card-description">Different sizes for various content densities.</p>
+                
+                <div class="content-grid">
+                    <wb-card
+                        title="Compact Card"
+                        subtitle="Space efficient"
+                        body="Compact cards are perfect for dense layouts and mobile interfaces."
+                        variant="elevated"
+                        size="compact">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Standard Card"
+                        subtitle="Balanced sizing"
+                        body="Standard cards provide a good balance between content space and visual comfort."
+                        variant="elevated"
+                        size="standard">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Large Card"
+                        subtitle="Spacious layout"
+                        body="Large cards offer plenty of space for detailed content and are perfect for feature highlights."
+                        variant="elevated"
+                        size="large">
+                    </wb-card>
+                </div>
+            </section>
+
+            <!-- Card Layouts Section -->
+            <section id="layouts-section" class="content-section">
+                <h2 class="section-title">Card Layouts</h2>
+                <p class="card-description">Different content arrangements for various use cases.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <wb-card
+                        title="Horizontal Layout"
+                        subtitle="Side-by-side content"
+                        body="Horizontal layout arranges content side by side, perfect for product cards or listings."
+                        media-src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDIwMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiBmaWxsPSJ1cmwoI2dyYWRpZW50MikiLz4KPHR4dCB4PSIxMDAiIHk9IjYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zNWVtIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgU2Vnb2UgVUksIFJvYm90bywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCI+SW1hZ2U8L3RleHQ+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MiIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmNTllMGI7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2VmNDQ0NDtzdG9wLW9wYWNpdHk6MSIgLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4="
+                        media-alt="Horizontal layout demo"
+                        variant="outlined"
+                        layout="horizontal">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Media Left Layout"
+                        subtitle="Image on the left"
+                        body="Media left layout places images or media on the left side of the content."
+                        media-src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDIwMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiBmaWxsPSJ1cmwoI2dyYWRpZW50MykvPgo8dGV4dCB4PSIxMDAiIHk9IjYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zNWVtIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgU2Vnb2UgVUksIFJvYm90bywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCI+TGVmdDwvdGV4dD4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQzIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzEwYjk4MTtzdG9wLW9wYWNpdHk6MSIgLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMDZiNmQ0O3N0b3Atb3BhY2l0eToxIiAvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg=="
+                        media-alt="Media left demo"
+                        variant="elevated"
+                        layout="media-left">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Media Right Layout"
+                        subtitle="Image on the right"
+                        body="Media right layout places images or media on the right side of the content."
+                        media-src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDIwMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiBmaWxsPSJ1cmwoI2dyYWRpZW50NCkvPgo8dGV4dCB4PSIxMDAiIHk9IjYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zNWVtIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgU2Vnb2UgVUksIFJvYm90bywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCI+UmlnaHQ8L3RleHQ+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50NCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlZjQ0NDQ7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Y5NzMxNjtzdG9wLW9wYWNpdHk6MSIgLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4="
+                        media-alt="Media right demo"
+                        variant="glass"
+                        layout="media-right">
+                    </wb-card>
+                </div>
+            </section>
+
+            <!-- Interactive Cards Section -->
+            <section id="interactive-section" class="content-section">
+                <h2 class="section-title">Interactive Cards</h2>
+                <p class="card-description">Cards with click interactions and actions.</p>
+                
+                <div class="content-grid">
+                    <wb-card
+                        title="Clickable Card"
+                        subtitle="Click me!"
+                        body="This card is clickable and will respond to user interactions. Check the event log for click events."
+                        variant="outlined"
+                        clickable>
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Card with Actions"
+                        subtitle="Multiple actions"
+                        body="This card includes action buttons that can trigger different behaviors."
+                        actions='[{"text": "Primary Action", "variant": "primary"}, {"text": "Secondary", "variant": "secondary"}]'
+                        show-actions="true"
+                        variant="elevated">
+                    </wb-card>
+                    
+                    <wb-card
+                        title="Loading Card"
+                        subtitle="Loading state"
+                        body="This card demonstrates the loading state with a shimmer effect."
+                        variant="elevated"
+                        loading>
+                    </wb-card>
+                </div>
+            </section>
+
+            <!-- JavaScript Integration Section -->
+            <section id="javascript-section" class="content-section">
+                <h2 class="section-title">JavaScript Integration</h2>
+                <p class="card-description">Cards created and manipulated with JavaScript.</p>
+                
+                <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <wb-button onclick="createDynamicCard()" variant="primary">Create Dynamic Card</wb-button>
+                    <wb-button onclick="updateDynamicCard()" variant="secondary">Update Content</wb-button>
+                    <wb-button onclick="removeDynamicCard()" variant="danger">Remove Card</wb-button>
+                </div>
+                
+                <div id="dynamic-cards-container" class="content-grid">
+                    <!-- Dynamic cards will be added here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer using wb-footer component -->
+        <div id="demo-footer-container"></div>
+    </div>
+
+    <!-- Status Bar using wb-status component -->
+    <wb-status id="demo-status-bar" position="bottom"></wb-status>
+
+    <!-- Component JavaScript -->
+    <script src="../wb-component-utils.js"></script>
+    
+    <!-- Core Web Components -->
+    <script src="../wb-event-log/wb-event-log.js"></script>
+    <script src="../wb-button/wb-button.js"></script>
+    <script src="../wb-nav/wb-nav.js"></script>
+    <script src="../wb-status/wb-status.js"></script>
+    <script src="../wb-input/wb-input.js"></script>
+    <script src="../wb-footer/wb-footer.js"></script>
+    <script src="wb-card.js"></script>
+    
+    <!-- Control Panel Component -->
+    <script src="../control-panel/control-panel.js"></script>
+    
+    <!-- Demo JavaScript -->
+    <script>
+        let dynamicCardCount = 0;
+        let currentDynamicCard = null;
+        let isMinimized = false;
+        
+        // Interactive demo controls
+        function updateDemoCard() {
+            const demoCard = document.getElementById('demo-card');
+            const variant = document.getElementById('variant-select').value;
+            const size = document.getElementById('size-select').value;
+            const layout = document.getElementById('layout-select').value;
+            
+            demoCard.setAttribute('variant', variant);
+            demoCard.setAttribute('size', size);
+            demoCard.setAttribute('layout', layout);
+        }
+        
+        function toggleClickable() {
+            const demoCard = document.getElementById('demo-card');
+            if (demoCard.hasAttribute('clickable')) {
+                demoCard.removeAttribute('clickable');
+            } else {
+                demoCard.setAttribute('clickable', '');
+            }
+        }
+        
+        function toggleLoading() {
+            const demoCard = document.getElementById('demo-card');
+            if (demoCard.hasAttribute('loading')) {
+                demoCard.removeAttribute('loading');
+            } else {
+                demoCard.setAttribute('loading', '');
+            }
+        }
+        
+        function updateContent() {
+            const demoCard = document.getElementById('demo-card');
+            const titles = [
+                'Updated Content',
+                'New Information',
+                'Fresh Data',
+                'Modified Card',
+                'Changed Content'
+            ];
+            const bodies = [
+                'This content has been dynamically updated to demonstrate the flexibility of the card component.',
+                'The card content can be modified in real-time using JavaScript methods.',
+                'Dynamic content updates help create engaging user experiences.',
+                'Content management becomes easy with the WB Card component API.',
+                'Real-time updates keep your interface fresh and responsive.'
+            ];
+            
+            const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+            const randomBody = bodies[Math.floor(Math.random() * bodies.length)];
+            
+            demoCard.setAttribute('title', randomTitle);
+            demoCard.setAttribute('body', randomBody);
+        }
+        
+        // Dynamic card creation
+        function createDynamicCard() {
+            dynamicCardCount++;
+            const container = document.getElementById('dynamic-cards-container');
+            
+            const variants = ['default', 'elevated', 'outlined', 'filled', 'glass'];
+            const sizes = ['compact', 'standard', 'large'];
+            const randomVariant = variants[Math.floor(Math.random() * variants.length)];
+            const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+            
+            const card = WBCard.create({
+                title: `Dynamic Card ${dynamicCardCount}`,
+                subtitle: `Created with JavaScript`,
+                body: `This card was created dynamically using the WB Card API. It has a ${randomVariant} variant and ${randomSize} size.`,
+                actions: [
+                    {
+                        text: 'Delete',
+                        variant: 'danger',
+                        onClick: function(e) {
+                            e.target.closest('wb-card').remove();
+                        }
+                    }
+                ]
+            }, {
+                variant: randomVariant,
+                size: randomSize,
+                clickable: true,
+                showActions: true
+            });
+            
+            card.id = `dynamic-card-${dynamicCardCount}`;
+            currentDynamicCard = card;
+            container.appendChild(card);
+            
+            // Add click listener
+            card.addEventListener('wbCardClick', (e) => {
+                console.log('Dynamic card clicked:', e.detail);
+            });
+        }
+        
+        function updateDynamicCard() {
+            if (!currentDynamicCard) {
+                alert('Create a dynamic card first!');
+                return;
+            }
+            
+            const titles = ['Updated Dynamic Card', 'Modified Card', 'Changed Card'];
+            const bodies = ['This content has been updated!', 'New content loaded successfully.', 'Dynamic update completed.'];
+            
+            currentDynamicCard.setContent({
+                title: titles[Math.floor(Math.random() * titles.length)],
+                body: bodies[Math.floor(Math.random() * bodies.length)]
+            });
+        }
+        
+        function removeDynamicCard() {
+            if (!currentDynamicCard) {
+                alert('No dynamic card to remove!');
+                return;
+            }
+            
+            currentDynamicCard.remove();
+            currentDynamicCard = null;
+        }
+        
+        // Event listeners for demo controls
+        document.getElementById('variant-select').addEventListener('change', updateDemoCard);
+        document.getElementById('size-select').addEventListener('change', updateDemoCard);
+        document.getElementById('layout-select').addEventListener('change', updateDemoCard);
+        
+        // Global event listeners
+        document.addEventListener('wbCardClick', (e) => {
+            console.log('Card clicked:', e.detail);
+        });
+        
+        document.addEventListener('wbCardActionClick', (e) => {
+            console.log('Card action clicked:', e.detail);
+        });
+        
+        document.addEventListener('wbCardReady', (e) => {
+            console.log('Card ready:', e.detail.component);
+        });
+        
+        // Initialize
+        console.log('WB Card Demo: Initialized');
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "name": "@wb/website-builder",
+  "version": "1.0.0",
+  "description": "WB Website Builder TypeScript Component with compile-time path validation - all compiled JS and demo HTML in dist/",
+  "type": "module",
+  "main": "dist/wb-website-builder.js",
+  "types": "dist/wb-website-builder.d.ts",
+  "scripts": {
+    "build": "tsc && node config/build.cjs",
+    "build:watch": "tsc --watch",
+    "dev": "concurrently \"tsc --watch\" \"live-server --port=3001 --open=dist/demo.html --wait=500\"",
+    "serve": "live-server --port=3001 --open=dist/demo.html",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "test-paths": "tsc --noEmit --skipLibCheck"
+  },
+  "files": [
+    "dist/",
+    "*.ts",
+    "tsconfig.json"
+  ],
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "rimraf": "^5.0.0",
+    "live-server": "^1.2.2",
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "typescript",
+    "web-components",
+    "website-builder",
+    "compile-time-validation"
+  ],
+  "author": "WB Components Team",
+  "license": "MIT"
+}

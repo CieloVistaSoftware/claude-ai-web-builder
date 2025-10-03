@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Toggle Component Demo</title>
+    
+    <!-- Central Styles Import -->
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">    <!-- Load wb-toggle component -->
+    <script src="wb-toggle.js"></script>
+    
+    <!-- Demo Styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: var(--space-xl);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .demo-section {
+            background: var(--bg-secondary);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .demo-section h2 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .demo-section h3 {
+            color: var(--accent);
+        }
+        
+        .demo-grid {
+            display: grid;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+        
+        .demo-grid-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .demo-grid-3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            margin: var(--space-md) 0;
+        }
+        
+        .status-box {
+            background: rgba(var(--success-color-rgb), 0.1);
+            border: 1px solid rgba(var(--success-color-rgb), 0.3);
+            padding: var(--space-md);
+            border-radius: var(--radius-base);
+            margin: var(--space-md) 0;
+            color: var(--text-primary);
+        }
+        
+        code {
+            background: var(--bg-tertiary);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .toggle-demo {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+        
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            border: none;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--text-sm);
+            transition: var(--transition-colors);
+        }
+        
+        .btn:hover {
+            background: var(--btn-primary-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--btn-secondary-hover);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <h1>WB Toggle Component Demo</h1>
+    <p>Interactive toggle switch component with accessibility and theming support.</p>
+    
+    <div class="demo-section">
+        <h2>🎮 Basic Toggle Switches</h2>
+        <div class="toggle-demo">
+            <div class="toggle-row">
+                <div id="basic-toggle-1"></div>
+                <div id="basic-toggle-2"></div>
+                <div id="basic-toggle-3"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📏 Sizes</h2>
+        <div class="toggle-demo">
+            <div class="toggle-row">
+                <div id="small-toggle"></div>
+                <div id="standard-toggle"></div>
+                <div id="large-toggle"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🎨 Variants</h2>
+        <div class="toggle-demo">
+            <div class="toggle-row">
+                <div id="primary-toggle"></div>
+                <div id="success-toggle"></div>
+                <div id="warning-toggle"></div>
+                <div id="error-toggle"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📍 Label Positions</h2>
+        <div class="toggle-demo">
+            <div class="toggle-row">
+                <div id="label-left-toggle"></div>
+                <div id="label-right-toggle"></div>
+            </div>
+            <div class="toggle-row">
+                <div id="label-top-toggle"></div>
+                <div id="label-bottom-toggle"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🔧 States</h2>
+        <div class="toggle-demo">
+            <div class="toggle-row">
+                <div id="disabled-toggle"></div>
+                <div id="checked-disabled-toggle"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>⚡ API Demonstration</h2>
+        <div class="toggle-demo">
+            <div class="toggle-row">
+                <div id="api-test-toggle"></div>
+            </div>
+            <div class="demo-buttons">
+                <button class="btn" onclick="testSetChecked(true)">Set Checked</button>
+                <button class="btn" onclick="testSetChecked(false)">Set Unchecked</button>
+                <button class="btn" onclick="testSetDisabled(true)">Disable</button>
+                <button class="btn" onclick="testSetDisabled(false)">Enable</button>
+                <button class="btn" onclick="testSetLabel()">Change Label</button>
+                <button class="btn btn-secondary" onclick="testGetState()">Get State</button>
+                <button class="btn btn-secondary" onclick="debugAPI()">🔍 Debug API</button>
+            </div>
+            <div id="api-output" class="status-box">
+                <p>Use the buttons above to test the toggle API</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📊 Event Logging</h2>
+        <div class="toggle-demo">
+            <div class="toggle-row">
+                <div id="event-toggle-1"></div>
+                <div id="event-toggle-2"></div>
+                <div id="event-toggle-3"></div>
+            </div>
+            <div id="event-log" class="status-box">
+                <p>Toggle switches above to see events...</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>💻 Code Examples</h2>
+        <h3>Basic Usage</h3>
+        <pre><code>// Create a simple toggle
+const toggle = WBToggle.create({
+    label: 'Dark Mode',
+    checked: false,
+    onchange: (checked) => {
+        console.log('Dark mode:', checked);
+    }
+});
+document.body.appendChild(toggle);</code></pre>
+        
+        <h3>Advanced Options</h3>
+        <pre><code>// Create toggle with all options
+const advancedToggle = WBToggle.create({
+    id: 'notifications-toggle',
+    label: 'Push Notifications',
+    checked: true,
+    disabled: false,
+    size: 'large',
+    labelPosition: 'left',
+    variant: 'success',
+    onchange: (checked, element) => {
+        console.log('Notifications:', checked);
+    },
+    onfocus: (event, element) => {
+        console.log('Toggle focused');
+    }
+});</code></pre>
+        
+        <h3>API Methods</h3>
+        <pre><code>// Get/Set state
+WBToggle.setChecked(toggle, true);
+const isChecked = WBToggle.getChecked(toggle);
+
+// Enable/Disable
+WBToggle.setDisabled(toggle, false);
+
+// Change label
+WBToggle.setLabel(toggle, 'New Label');</code></pre>
+    </div>
+    
+    <div class="demo-section">
+        <h2>✨ Features</h2>
+        <ul class="feature-list">
+            <li>✅ Full keyboard accessibility (Space/Enter to toggle)</li>
+            <li>✅ Screen reader support with ARIA attributes</li>
+            <li>✅ Multiple sizes: small, standard, large</li>
+            <li>✅ Color variants: primary, success, warning, error</li>
+            <li>✅ Flexible label positioning</li>
+            <li>✅ Smooth animations and transitions</li>
+            <li>✅ Control panel color integration</li>
+            <li>✅ Disabled and loading states</li>
+            <li>✅ Event system for integration</li>
+            <li>✅ Programmatic API</li>
+        </ul>
+    </div>
+    
+    <script>
+        // Demo initialization
+        document.addEventListener('wbToggleReady', () => {
+            console.log('WB Toggle component is ready!');
+            console.log('WBToggle API available:', !!window.WBToggle);
+            if (window.WBToggle) {
+                console.log('WBToggle API methods:', Object.keys(window.WBToggle));
+            }
+            createDemoToggles();
+            setupEventLogging();
+        });
+        
+        // Fallback initialization if ready event doesn't fire
+        setTimeout(() => {
+            if (!window.apiTestToggle) {
+                console.log('Fallback initialization...');
+                if (window.WBToggle) {
+                    createDemoToggles();
+                    setupEventLogging();
+                } else {
+                    console.error('WBToggle API still not available after timeout');
+                }
+            }
+        }, 2000);
+        
+        function createDemoToggles() {
+            // Basic toggles
+            document.getElementById('basic-toggle-1').appendChild(
+                WBToggle.create({ label: 'Enable Feature' })
+            );
+            
+            document.getElementById('basic-toggle-2').appendChild(
+                WBToggle.create({ label: 'Auto Save', checked: true })
+            );
+            
+            document.getElementById('basic-toggle-3').appendChild(
+                WBToggle.create({ label: 'Show Notifications' })
+            );
+            
+            // Size variations
+            document.getElementById('small-toggle').appendChild(
+                WBToggle.create({ label: 'Small Toggle', size: 'small' })
+            );
+            
+            document.getElementById('standard-toggle').appendChild(
+                WBToggle.create({ label: 'Standard Toggle', size: 'standard' })
+            );
+            
+            document.getElementById('large-toggle').appendChild(
+                WBToggle.create({ label: 'Large Toggle', size: 'large' })
+            );
+            
+            // Variants
+            document.getElementById('primary-toggle').appendChild(
+                WBToggle.create({ label: 'Primary', variant: 'primary', checked: true })
+            );
+            
+            document.getElementById('success-toggle').appendChild(
+                WBToggle.create({ label: 'Success', variant: 'success', checked: true })
+            );
+            
+            document.getElementById('warning-toggle').appendChild(
+                WBToggle.create({ label: 'Warning', variant: 'warning', checked: true })
+            );
+            
+            document.getElementById('error-toggle').appendChild(
+                WBToggle.create({ label: 'Error', variant: 'error', checked: true })
+            );
+            
+            // Label positions
+            document.getElementById('label-left-toggle').appendChild(
+                WBToggle.create({ label: 'Label Left', labelPosition: 'left' })
+            );
+            
+            document.getElementById('label-right-toggle').appendChild(
+                WBToggle.create({ label: 'Label Right', labelPosition: 'right' })
+            );
+            
+            document.getElementById('label-top-toggle').appendChild(
+                WBToggle.create({ label: 'Label Top', labelPosition: 'top' })
+            );
+            
+            document.getElementById('label-bottom-toggle').appendChild(
+                WBToggle.create({ label: 'Label Bottom', labelPosition: 'bottom' })
+            );
+            
+            // States
+            document.getElementById('disabled-toggle').appendChild(
+                WBToggle.create({ label: 'Disabled', disabled: true })
+            );
+            
+            document.getElementById('checked-disabled-toggle').appendChild(
+                WBToggle.create({ label: 'Checked & Disabled', checked: true, disabled: true })
+            );
+            
+            // API test toggle
+            window.apiTestToggle = WBToggle.create({ 
+                label: 'API Test Toggle',
+                onchange: (checked) => {
+                    updateApiOutput(`Toggle changed to: ${checked ? 'ON' : 'OFF'}`);
+                }
+            });
+            document.getElementById('api-test-toggle').appendChild(window.apiTestToggle);
+            
+            // Event logging toggles
+            document.getElementById('event-toggle-1').appendChild(
+                WBToggle.create({ label: 'Events A', id: 'event-a' })
+            );
+            
+            document.getElementById('event-toggle-2').appendChild(
+                WBToggle.create({ label: 'Events B', id: 'event-b' })
+            );
+            
+            document.getElementById('event-toggle-3').appendChild(
+                WBToggle.create({ label: 'Events C', id: 'event-c' })
+            );
+        }
+        
+        function setupEventLogging() {
+            document.addEventListener('wbToggleChange', (event) => {
+                const { id, checked } = event.detail;
+                const timestamp = new Date().toLocaleTimeString();
+                logEvent(`[${timestamp}] Toggle "${id}": ${checked ? 'ON' : 'OFF'}`);
+            });
+        }
+        
+        function logEvent(message) {
+            const log = document.getElementById('event-log');
+            log.innerHTML = `<p><strong>Latest Event:</strong> ${message}</p>`;
+        }
+        
+        // API test functions
+        function testSetChecked(checked) {
+            try {
+                if (!window.WBToggle) {
+                    updateApiOutput('❌ Error: WBToggle API not available');
+                    return;
+                }
+                if (!window.apiTestToggle) {
+                    updateApiOutput('❌ Error: API test toggle not found');
+                    return;
+                }
+                WBToggle.setChecked(window.apiTestToggle, checked);
+                updateApiOutput(`✅ Set checked to: ${checked}`);
+            } catch (error) {
+                updateApiOutput(`❌ Error: ${error.message}`);
+                console.error('testSetChecked error:', error);
+            }
+        }
+        
+        function testSetDisabled(disabled) {
+            try {
+                if (!window.WBToggle) {
+                    updateApiOutput('❌ Error: WBToggle API not available');
+                    return;
+                }
+                if (!window.apiTestToggle) {
+                    updateApiOutput('❌ Error: API test toggle not found');
+                    return;
+                }
+                WBToggle.setDisabled(window.apiTestToggle, disabled);
+                updateApiOutput(`✅ Set disabled to: ${disabled}`);
+            } catch (error) {
+                updateApiOutput(`❌ Error: ${error.message}`);
+                console.error('testSetDisabled error:', error);
+            }
+        }
+        
+        function testSetLabel() {
+            try {
+                if (!window.WBToggle) {
+                    updateApiOutput('❌ Error: WBToggle API not available');
+                    return;
+                }
+                if (!window.apiTestToggle) {
+                    updateApiOutput('❌ Error: API test toggle not found');
+                    return;
+                }
+                
+                const labels = ['API Test Toggle', 'Modified Label', 'Another Label', 'Dynamic Label'];
+                const labelElement = window.apiTestToggle.querySelector('.wb-toggle-label');
+                if (!labelElement) {
+                    updateApiOutput('❌ Error: Label element not found');
+                    return;
+                }
+                
+                const currentLabel = labelElement.textContent;
+                const currentIndex = labels.indexOf(currentLabel);
+                const newLabel = labels[(currentIndex + 1) % labels.length];
+                
+                WBToggle.setLabel(window.apiTestToggle, newLabel);
+                updateApiOutput(`✅ Label changed to: "${newLabel}"`);
+            } catch (error) {
+                updateApiOutput(`❌ Error: ${error.message}`);
+                console.error('testSetLabel error:', error);
+            }
+        }
+        
+        function testGetState() {
+            try {
+                if (!window.WBToggle) {
+                    updateApiOutput('❌ Error: WBToggle API not available');
+                    return;
+                }
+                if (!window.apiTestToggle) {
+                    updateApiOutput('❌ Error: API test toggle not found');
+                    return;
+                }
+                
+                const checked = WBToggle.getChecked(window.apiTestToggle);
+                updateApiOutput(`✅ Current state: ${checked ? 'CHECKED' : 'UNCHECKED'}`);
+            } catch (error) {
+                updateApiOutput(`❌ Error: ${error.message}`);
+                console.error('testGetState error:', error);
+            }
+        }
+        
+        function debugAPI() {
+            const debug = {
+                wbToggleAvailable: !!window.WBToggle,
+                apiTestToggleExists: !!window.apiTestToggle,
+                apiTestToggleElement: !!document.querySelector('#api-test-toggle'),
+                wbToggleMethods: window.WBToggle ? Object.keys(window.WBToggle) : 'N/A'
+            };
+            
+            let debugMsg = `🔍 Debug Info:<br>`;
+            debugMsg += `• WBToggle API: ${debug.wbToggleAvailable ? '✅ Available' : '❌ Missing'}<br>`;
+            debugMsg += `• API Test Toggle: ${debug.apiTestToggleExists ? '✅ Created' : '❌ Missing'}<br>`;
+            debugMsg += `• Toggle Container: ${debug.apiTestToggleElement ? '✅ Found' : '❌ Missing'}<br>`;
+            if (debug.wbToggleAvailable) {
+                debugMsg += `• API Methods: ${debug.wbToggleMethods.join(', ')}<br>`;
+            }
+            
+            updateApiOutput(debugMsg);
+            console.log('Debug info:', debug);
+        }
+        
+        function updateApiOutput(message) {
+            const output = document.getElementById('api-output');
+            const timestamp = new Date().toLocaleTimeString();
+            output.innerHTML = `<p><strong>[${timestamp}]</strong> ${message}</p>`;
+        }
+    </script>
+</body>
+</html>

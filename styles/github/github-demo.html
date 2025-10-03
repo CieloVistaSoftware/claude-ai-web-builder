@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Design System Demo</title>
+    <link rel="stylesheet" href="css-complete-github.com-2025-10-02-23-09-24.css">
+    <style>
+        /* Demo-specific styles to showcase the GitHub design tokens */
+        body {
+            font-family: var(--fontStack-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif);
+            line-height: 1.5;
+            color: var(--fgColor-default, #1f2328);
+            background-color: var(--bgColor-default, #ffffff);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .demo-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid var(--borderColor-default, #d1d9e0);
+            border-radius: 8px;
+            background-color: var(--bgColor-default, #ffffff);
+        }
+
+        .demo-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--fgColor-default);
+            border-bottom: 1px solid var(--borderColor-muted, #d8dee4);
+            padding-bottom: 8px;
+        }
+
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .color-swatch {
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid var(--borderColor-default);
+            text-align: center;
+        }
+
+        .color-label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-family: monospace;
+        }
+
+        .color-value {
+            font-size: 11px;
+            opacity: 0.7;
+            font-family: monospace;
+        }
+
+        /* Button styles using GitHub tokens */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--borderColor-default);
+            background-color: var(--bgColor-default);
+            color: var(--fgColor-default);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 4px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--button-primary-bgColor-rest, #1f883d);
+            color: var(--button-primary-fgColor-rest, #ffffff);
+            border-color: transparent;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--button-primary-bgColor-hover, #1a7f37);
+        }
+
+        .btn-danger {
+            background-color: var(--button-danger-bgColor-rest, #d1242f);
+            color: var(--button-danger-fgColor-rest, #ffffff);
+            border-color: transparent;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--button-danger-bgColor-hover, #b91c1c);
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .status-success {
+            background-color: var(--bgColor-success-muted, #dcfdf7);
+            color: var(--fgColor-success, #1f883d);
+        }
+
+        .status-danger {
+            background-color: var(--bgColor-danger-muted, #fef2f2);
+            color: var(--fgColor-danger, #d1242f);
+        }
+
+        .status-attention {
+            background-color: var(--bgColor-attention-muted, #fff8e1);
+            color: var(--fgColor-attention, #bf8700);
+        }
+
+        /* Code block styling */
+        .code-block {
+            background-color: var(--bgColor-muted, #f6f8fa);
+            border: 1px solid var(--borderColor-default);
+            border-radius: 6px;
+            padding: 16px;
+            font-family: var(--fontStack-monospace, 'SFMono-Regular', 'Monaco', 'Menlo', monospace);
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        /* Avatar styling */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bgColor-neutral-muted, #f6f8fa);
+            border: 1px solid var(--borderColor-default);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4px;
+            font-weight: 600;
+            color: var(--fgColor-muted);
+        }
+
+        /* Variable showcase table */
+        .variable-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            font-family: monospace;
+        }
+
+        .variable-table th,
+        .variable-table td {
+            padding: 8px 12px;
+            border: 1px solid var(--borderColor-default);
+            text-align: left;
+        }
+
+        .variable-table th {
+            background-color: var(--bgColor-muted);
+            font-weight: 600;
+        }
+
+        .variable-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: inline-block;
+            border: 1px solid var(--borderColor-default);
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <header>
+            <h1 class="demo-title">🐙 GitHub Design System Demo</h1>
+            <p>This demo showcases the GitHub design tokens extracted from <code>github.com</code> on October 2, 2025.</p>
+            <p><strong>Stats:</strong> 1996 variables, 5092 unique styles, 2825 colors</p>
+        </header>
+
+        <!-- Color System -->
+        <section class="demo-section">
+            <h2 class="demo-title">Color System</h2>
+            <div class="color-grid">
+                <div class="color-swatch" style="background-color: var(--bgColor-accent-emphasis); color: var(--fgColor-onEmphasis);">
+                    <div class="color-label">Accent Emphasis</div>
+                    <div class="color-value">--bgColor-accent-emphasis</div>
+                </div>
+                <div class="color-swatch" style="background-color: var(--bgColor-success-emphasis); color: var(--fgColor-onEmphasis);">
+                    <div class="color-label">Success Emphasis</div>
+                    <div class="color-value">--bgColor-success-emphasis</div>
+                </div>
+                <div class="color-swatch" style="background-color: var(--bgColor-danger-emphasis); color: var(--fgColor-onEmphasis);">
+                    <div class="color-label">Danger Emphasis</div>
+                    <div class="color-value">--bgColor-danger-emphasis</div>
+                </div>
+                <div class="color-swatch" style="background-color: var(--bgColor-attention-emphasis); color: var(--fgColor-onEmphasis);">
+                    <div class="color-label">Attention Emphasis</div>
+                    <div class="color-value">--bgColor-attention-emphasis</div>
+                </div>
+                <div class="color-swatch" style="background-color: var(--bgColor-muted); color: var(--fgColor-default);">
+                    <div class="color-label">Background Muted</div>
+                    <div class="color-value">--bgColor-muted</div>
+                </div>
+                <div class="color-swatch" style="background-color: var(--bgColor-neutral-emphasis); color: var(--fgColor-onEmphasis);">
+                    <div class="color-label">Neutral Emphasis</div>
+                    <div class="color-value">--bgColor-neutral-emphasis</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Buttons -->
+        <section class="demo-section">
+            <h2 class="demo-title">Button Components</h2>
+            <div>
+                <button class="btn">Default Button</button>
+                <button class="btn btn-primary">Primary Button</button>
+                <button class="btn btn-danger">Danger Button</button>
+            </div>
+        </section>
+
+        <!-- Status Badges -->
+        <section class="demo-section">
+            <h2 class="demo-title">Status Indicators</h2>
+            <div>
+                <span class="status-badge status-success">✓ Success</span>
+                <span class="status-badge status-danger">✗ Error</span>
+                <span class="status-badge status-attention">⚠ Warning</span>
+            </div>
+        </section>
+
+        <!-- Avatars -->
+        <section class="demo-section">
+            <h2 class="demo-title">Avatar Components</h2>
+            <div>
+                <div class="avatar">JD</div>
+                <div class="avatar">AB</div>
+                <div class="avatar">XY</div>
+                <div class="avatar">GH</div>
+            </div>
+        </section>
+
+        <!-- Code Block -->
+        <section class="demo-section">
+            <h2 class="demo-title">Code Block</h2>
+            <div class="code-block">
+                <pre>// GitHub design tokens in action
+const theme = {
+  colors: {
+    primary: 'var(--bgColor-accent-emphasis)',
+    success: 'var(--bgColor-success-emphasis)',
+    danger: 'var(--bgColor-danger-emphasis)',
+    muted: 'var(--bgColor-muted)'
+  }
+};</pre>
+            </div>
+        </section>
+
+        <!-- Variable Reference Table -->
+        <section class="demo-section">
+            <h2 class="demo-title">Key Design Tokens (Sample)</h2>
+            <table class="variable-table">
+                <thead>
+                    <tr>
+                        <th>Preview</th>
+                        <th>Variable Name</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="variable-preview" style="background-color: var(--button-primary-bgColor-rest);"></span></td>
+                        <td>--button-primary-bgColor-rest</td>
+                        <td>Primary button background</td>
+                    </tr>
+                    <tr>
+                        <td><span class="variable-preview" style="background-color: var(--button-danger-bgColor-rest);"></span></td>
+                        <td>--button-danger-bgColor-rest</td>
+                        <td>Danger button background</td>
+                    </tr>
+                    <tr>
+                        <td><span class="variable-preview" style="background-color: var(--bgColor-success-emphasis);"></span></td>
+                        <td>--bgColor-success-emphasis</td>
+                        <td>Success state emphasis</td>
+                    </tr>
+                    <tr>
+                        <td><span class="variable-preview" style="background-color: var(--bgColor-attention-emphasis);"></span></td>
+                        <td>--bgColor-attention-emphasis</td>
+                        <td>Warning/attention state</td>
+                    </tr>
+                    <tr>
+                        <td><span class="variable-preview" style="background-color: var(--borderColor-default);"></span></td>
+                        <td>--borderColor-default</td>
+                        <td>Default border color</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ANSI Colors -->
+        <section class="demo-section">
+            <h2 class="demo-title">ANSI Terminal Colors</h2>
+            <div class="color-grid">
+                <div class="color-swatch" style="background-color: var(--color-ansi-cyan); color: var(--fgColor-onEmphasis);">
+                    <div class="color-label">ANSI Cyan</div>
+                    <div class="color-value">--color-ansi-cyan</div>
+                </div>
+                <div class="color-swatch" style="background-color: var(--color-ansi-cyan-bright); color: var(--fgColor-onEmphasis);">
+                    <div class="color-label">ANSI Cyan Bright</div>
+                    <div class="color-value">--color-ansi-cyan-bright</div>
+                </div>
+            </div>
+        </section>
+
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--borderColor-muted); text-align: center; color: var(--fgColor-muted);">
+            <p>🎨 Generated from GitHub's complete CSS extraction</p>
+            <p>Contains 1996 CSS custom properties extracted from github.com</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add some interactivity to demonstrate the design system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click effects to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
+                });
+            });
+
+            // Log the number of CSS custom properties available
+            const styles = getComputedStyle(document.documentElement);
+            const customProps = [];
+            for (let prop in styles) {
+                if (styles[prop] && styles[prop].startsWith('--')) {
+                    customProps.push(styles[prop]);
+                }
+            }
+            console.log(`🎨 GitHub Design System: ${customProps.length} CSS custom properties loaded`);
+        });
+    </script>
+</body>
+</html>

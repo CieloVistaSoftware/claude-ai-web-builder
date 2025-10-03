@@ -1,0 +1,62 @@
+{
+  "name": "website-builder",
+  "version": "1.0.0",
+  "description": "Claude AI Web Builder",
+  "main": "wb.js",
+  "type": "module",
+  "workspaces": [
+    "mcp-docs-server",
+    "mcp-server"
+  ],
+  "scripts": {
+    "kill-port": "node kill-port.js",
+    "check-server": "node server-health-check.js",
+    "test": "npm run kill-port && playwright test --config=playwright.real.config.cjs",
+    "test:ui": "npm run kill-port && playwright test --ui --config=playwright.real.config.cjs",
+    "test:config": "node test-with-config.js",
+    "test:failfast": "npm run kill-port && playwright test -x --config=playwright.config.js",
+    "serve": "npm run kill-port && http-server -p 3000",
+    "test:safe": "node server-health-check.js && playwright test --config=playwright.real.config.js",
+    "test:serve": "start-server-and-test 'http-server -p 3000' http://localhost:3000 'playwright test --config=playwright.real.config.js'",
+    "watch": "node conversion/file-watcher.js",
+    "convert": "node conversion/cli-converter.js",
+    "dev": "npm run wb:dev",
+    "wb:dev": "npm run kill-port && npm run wb:build && concurrently \"npm run wb:build:watch\" \"npm run wb:serve\"",
+    "wb:build": "cd components/wb-website-builder && npm run build",
+    "wb:build:watch": "cd components/wb-website-builder && npm run build:watch",
+    "wb:serve": "http-server -p 8080 -o /components/wb-website-builder/dist/complete-demo.html",
+    "wb:serve:demo": "http-server -p 8080 -o /components/wb-website-builder/dist/wb-website-builder-demo.html",
+    "wb:install": "cd components/wb-website-builder && npm install",
+    "wb:setup": "npm run wb:install && npm run wb:build",
+    "build:socket": "npx tsc websocket-server-manager.ts start-websocket-server.ts claude-websocket-server.ts --esModuleInterop --resolveJsonModule --target ES2020 --module ESNext --moduleResolution Node",
+    "socket:test": "npm run build:socket && node start-websocket-server.js",
+    "claude:build": "npx tsc claude-socket-server.ts --esModuleInterop --resolveJsonModule --target ES2020 --module ESNext --moduleResolution Node",
+    "claude:server": "npm run kill-port && npm run claude:build && node claude-socket-server.js",
+    "claude:test": "npm run kill-port && npm run claude:build && node claude-socket-server.js",
+    "unified:build": "npx tsc unified-claude-websocket-server.ts --esModuleInterop --resolveJsonModule --target ES2020 --module ESNext --moduleResolution Node",
+    "unified:server": "npm run kill-port && npm run unified:build && node unified-claude-websocket-server.js",
+    "unified:server:mock": "SET USE_MOCK_RESPONSES=true && npm run unified:server",
+    "remove-puppeteer": "node remove-puppeteer.js",
+    "test:all": "node run-all-tests.js",
+    "test:socket-only": "node run-all-tests.js --categories socket --loglevel=verbose",
+    "test:ui-only": "node run-all-tests.js --categories ui --loglevel=verbose",
+    "test:category": "node run-all-tests.js --categories",
+    "start-mcp": "cd mcp-docs-server && npm start"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.37.0",
+    "chokidar": "^3.5.3",
+    "concurrently": "^8.2.2",
+    "http-server": "^14.1.1",
+    "jest": "^29.6.0",
+    "jsdom": "^22.1.0",
+    "start-server-and-test": "^1.11.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/socket.io": "^3.0.1",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  }
+}

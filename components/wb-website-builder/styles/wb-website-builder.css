@@ -1,0 +1,152 @@
+/**
+ * WB Website Builder Component Styles
+ * Main stylesheet for the website builder component
+ */
+
+wb-website-builder {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Component initialization state */
+wb-website-builder:not([initialized]) {
+    opacity: 0.5;
+}
+
+wb-website-builder[initialized] {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Loading state */
+wb-website-builder.loading::before {
+    content: 'Loading Website Builder...';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--surface-color, #1e1e1e);
+    color: var(--text-color, #ffffff);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+/* Ensure proper z-index for nested components */
+wb-website-builder #control-panel {
+    z-index: 1000;
+}
+
+wb-website-builder #edit-overlay {
+    z-index: 999;
+}
+
+wb-website-builder #search-modal {
+    z-index: 998;
+}
+
+/* Responsive container */
+wb-website-builder .wb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Component integration styles */
+wb-website-builder .component-slot {
+    min-height: 50px;
+    border: 2px dashed transparent;
+    transition: border-color 0.2s ease;
+}
+
+wb-website-builder.edit-mode .component-slot {
+    border-color: var(--primary-color, #6366f1);
+}
+
+wb-website-builder.edit-mode .component-slot:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+/* Error state */
+wb-website-builder.error::after {
+    content: 'Error loading Website Builder component';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #dc2626;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    z-index: 9999;
+}
+
+/* Theme integration */
+wb-website-builder[data-theme="dark"] {
+    background: var(--bg-color, #0a0a0a);
+    color: var(--text-color, #ffffff);
+}
+
+wb-website-builder[data-theme="light"] {
+    background: var(--bg-color, #ffffff);
+    color: var(--text-color, #000000);
+}
+
+/* Layout support */
+wb-website-builder[data-layout="top-nav"] nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+wb-website-builder[data-layout="side-nav"] {
+    display: flex;
+}
+
+wb-website-builder[data-layout="side-nav"] nav {
+    width: 250px;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+wb-website-builder[data-layout="side-nav"] .wb-content {
+    margin-left: 250px;
+    flex: 1;
+}
+
+/* Animation support */
+wb-website-builder.animate-in {
+    animation: slideInFromBottom 0.6s ease-out;
+}
+
+@keyframes slideInFromBottom {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    wb-website-builder[data-layout="side-nav"] nav {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    wb-website-builder[data-layout="side-nav"].nav-open nav {
+        transform: translateX(0);
+    }
+    
+    wb-website-builder[data-layout="side-nav"] .wb-content {
+        margin-left: 0;
+    }
+}

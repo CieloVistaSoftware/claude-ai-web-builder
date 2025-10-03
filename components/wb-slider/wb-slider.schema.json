@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Slider Web Component",
+  "description": "Schema for wb-slider custom element attributes",
+  "type": "object",
+  "properties": {
+    "min": {
+      "type": "number",
+      "default": 0,
+      "description": "Minimum value of the slider"
+    },
+    "max": {
+      "type": "number",
+      "default": 100,
+      "description": "Maximum value of the slider"
+    },
+    "value": {
+      "type": "number",
+      "default": 50,
+      "description": "Current value of the slider"
+    },
+    "step": {
+      "type": "number",
+      "default": 1,
+      "description": "Step increment for slider values"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["small", "standard", "large"],
+      "default": "standard",
+      "description": "Size of the slider"
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "horizontal",
+      "description": "Orientation of the slider"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["primary", "success", "warning", "error"],
+      "default": "primary",
+      "description": "Visual style variant of the slider"
+    },
+    "show-value": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to display the current value"
+    },
+    "show-ticks": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to display tick marks"
+    },
+    "label": {
+      "type": "string",
+      "description": "Label text displayed above the slider"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the slider is disabled"
+    },
+    "readonly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the slider is read-only"
+    },
+    "precision": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of decimal places for value display"
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit to display with the value (e.g., 'px', '%', 'ms')"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the slider"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for form submission"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "onchange": {
+      "type": "string",
+      "description": "JavaScript code to execute when value changes"
+    },
+    "oninput": {
+      "type": "string",
+      "description": "JavaScript code to execute on input events"
+    },
+    "onfocus": {
+      "type": "string",
+      "description": "JavaScript code to execute when slider gains focus"
+    },
+    "onblur": {
+      "type": "string",
+      "description": "JavaScript code to execute when slider loses focus"
+    },
+    "onwb-slider:change": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-slider:change event"
+    },
+    "onwb-slider:input": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-slider:input event"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this slider"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this slider"
+    },
+    "aria-valuemin": {
+      "type": "number",
+      "description": "Minimum value for accessibility (automatically set to min)"
+    },
+    "aria-valuemax": {
+      "type": "number",
+      "description": "Maximum value for accessibility (automatically set to max)"
+    },
+    "aria-valuenow": {
+      "type": "number",
+      "description": "Current value for accessibility (automatically set to value)"
+    },
+    "aria-valuetext": {
+      "type": "string",
+      "description": "Text description of current value"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "source": {
+    "include": ["core", "components", "plugins"],
+    "includePattern": ".+\\.js(doc|x)?$"
+  },
+  "opts": {
+    "destination": "./docs/code",
+    "recurse": true,
+    "template": "node_modules/docdash"
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": false
+  },
+  "docdash": {
+    "static": true,
+    "sort": true,
+    "sectionOrder": [
+      "Classes",
+      "Modules",
+      "Externals",
+      "Events",
+      "Namespaces",
+      "Mixins",
+      "Tutorials",
+      "Interfaces"
+    ],
+    "meta": {
+      "title": "Website Builder Documentation",
+      "description": "Documentation for the modular Website Builder",
+      "keyword": "website-builder, documentation"
+    },
+    "search": true,
+    "collapse": true,
+    "wrap": true
+  }
+}

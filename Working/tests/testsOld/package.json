@@ -1,0 +1,27 @@
+{
+  "name": "website-builder-tests",
+  "version": "1.0.0",
+  "description": "Tests for Website Builder",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "kill-ports": "powershell -Command \"$ports = @(3000, 8080, 5173); foreach($port in $ports) { $process = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -First 1; if($process) { Write-Host \\\"Killing process $process on port $port\\\"; Stop-Process -Id $process -Force } else { Write-Host \\\"Port $port is already free\\\" } }\"",
+    "start": "npm run kill-ports && node test-server.js",
+    "test": "npm run kill-ports && playwright test",
+    "test:ui": "npm run kill-ports && playwright test --ui",
+    "test:headed": "npm run kill-ports && playwright test --headed",
+    "report": "playwright show-report",
+    "test:server": "npm run kill-ports && node test-server.js",
+    "test:theme": "npm run kill-ports && playwright test theme-init-darkmode.spec.js --headed",
+    "test:all": "npm run kill-ports && playwright test"
+  },
+  "keywords": [
+    "test",
+    "playwright"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}

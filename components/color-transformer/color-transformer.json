@@ -1,0 +1,205 @@
+{
+  "component": {
+    "name": "color-transformer",
+    "version": "1.0.0",
+    "description": "Website Builder color transformer component for WordPress color scheme conversion",
+    "type": "utility-component",
+    "author": "Website Builder System",
+    "dependencies": [],
+    "assets": [
+      "color-transformer.css",
+      "color-transformer.js"
+    ]
+  },
+  "configuration": {
+    "cssVariables": {
+      "borderRadius": "--color-transformer-border-radius",
+      "transition": "--color-transformer-transition",
+      "spacing": "--color-transformer-spacing"
+    },
+    "colorBindings": {
+      "primary": "--primary",
+      "primaryDark": "--primary-dark",
+      "accent": "--accent",
+      "success": "--success",
+      "warning": "--warning",
+      "error": "--error",
+      "neutral300": "--neutral-300",
+      "neutral500": "--neutral-500",
+      "neutral600": "--neutral-600",
+      "neutral700": "--neutral-700",
+      "bgPrimary": "--bg-primary",
+      "bgSecondary": "--bg-secondary",
+      "textPrimary": "--text-primary",
+      "textSecondary": "--text-secondary",
+      "borderColor": "--border-color"
+    },
+    "spacingBindings": {
+      "xs": "--space-xs",
+      "sm": "--space-sm",
+      "md": "--space-md",
+      "lg": "--space-lg"
+    }
+  },
+  "classes": {
+    "base": "color-transformer",
+    "wrapper": "color-transformer-wrapper",
+    "header": "color-transformer-header",
+    "title": "color-transformer-title",
+    "description": "color-transformer-description",
+    "controls": "color-transformer-controls",
+    "picker": "color-transformer-picker",
+    "preview": "color-transformer-preview",
+    "colors": "color-transformer-colors",
+    "color": "color-transformer-color",
+    "colorName": "color-transformer-color-name",
+    "colorValue": "color-transformer-color-value",
+    "colorSwatch": "color-transformer-color-swatch",
+    "actions": "color-transformer-actions",
+    "button": "color-transformer-button",
+    "output": "color-transformer-output",
+    "stats": "color-transformer-stats",
+    "sizes": {
+      "small": "color-transformer--small",
+      "standard": "",
+      "large": "color-transformer--large"
+    },
+    "states": {
+      "active": "color-transformer--active",
+      "processing": "color-transformer--processing",
+      "disabled": "color-transformer--disabled",
+      "wordpress": "color-transformer--wordpress"
+    },
+    "variants": {
+      "compact": "color-transformer--compact",
+      "detailed": "color-transformer--detailed",
+      "preview": "color-transformer--preview"
+    }
+  },
+  "defaults": {
+    "size": "standard",
+    "variant": "detailed",
+    "showPreview": true,
+    "showStats": true,
+    "autoDetect": true,
+    "borderRadius": "0.5rem",
+    "transition": "all 0.2s ease",
+    "spacing": "1rem"
+  },
+  "events": {
+    "ready": "colorTransformerReady",
+    "transform": "colorTransformerTransform",
+    "apply": "colorTransformerApply",
+    "detect": "colorTransformerDetect",
+    "error": "colorTransformerError"
+  },
+  "api": {
+    "methods": {
+      "create": {
+        "description": "Create a new color transformer",
+        "parameters": [
+          "options (object): variant, showPreview, autoDetect, etc."
+        ],
+        "returns": "HTMLElement (wrapper div)"
+      },
+      "transform": {
+        "description": "Transform WordPress colors based on new primary",
+        "parameters": [
+          "transformer (HTMLElement): Transformer element",
+          "primaryColor (string): New primary color hex value"
+        ],
+        "returns": "object (transformed colors)"
+      },
+      "apply": {
+        "description": "Apply transformed colors to document",
+        "parameters": [
+          "transformer (HTMLElement): Transformer element",
+          "colors (object): Color mapping object"
+        ],
+        "returns": "boolean (success)"
+      },
+      "detectWordPress": {
+        "description": "Check if running in WordPress environment",
+        "parameters": [
+          "transformer (HTMLElement): Transformer element"
+        ],
+        "returns": "boolean"
+      },
+      "generateCSS": {
+        "description": "Generate CSS with WordPress variables",
+        "parameters": [
+          "transformer (HTMLElement): Transformer element",
+          "colors (object): Color mapping object"
+        ],
+        "returns": "string (CSS)"
+      }
+    }
+  },
+  "controlPanelIntegration": {
+    "reactsToColorChanges": true,
+    "reactsToThemeChanges": true,
+    "bindsToCSSVariables": true,
+    "dispatchesEvents": [
+      "colorTransformerTransform",
+      "colorTransformerApply"
+    ],
+    "listensForEvents": [
+      "colorChanged",
+      "themeChanged",
+      "wb-color-changed"
+    ]
+  },
+  "accessibility": {
+    "features": [
+      "keyboard navigation",
+      "screen reader support",
+      "focus management",
+      "ARIA attributes",
+      "semantic structure"
+    ],
+    "attributes": {
+      "role": "region",
+      "aria-label": "Color transformer",
+      "aria-describedby": "transformer description"
+    }
+  },
+  "wordpressIntegration": {
+    "features": [
+      "WordPress color variable detection",
+      "Automatic hue shifting",
+      "WordPress CSS variable generation",
+      "Block editor compatibility",
+      "Theme customizer integration"
+    ],
+    "variables": [
+      "--wp--preset--color--black",
+      "--wp--preset--color--cyan-bluish-gray",
+      "--wp--preset--color--white",
+      "--wp--preset--color--pale-pink",
+      "--wp--preset--color--vivid-red",
+      "--wp--preset--color--luminous-vivid-orange",
+      "--wp--preset--color--luminous-vivid-amber",
+      "--wp--preset--color--light-green-cyan",
+      "--wp--preset--color--vivid-green-cyan",
+      "--wp--preset--color--pale-cyan-blue",
+      "--wp--preset--color--vivid-cyan-blue",
+      "--wp--preset--color--vivid-purple"
+    ]
+  },
+  "usage": {
+    "examples": {
+      "basic": "<color-transformer id=\"wp-transformer\"></color-transformer>",
+      "compact": "<color-transformer variant=\"compact\" show-preview=\"false\"></color-transformer>",
+      "preview": "<color-transformer variant=\"preview\" show-stats=\"true\"></color-transformer>",
+      "javascript": "const transformer = ColorTransformer.create({ variant: 'detailed', autoDetect: true, onTransform: handleTransform });"
+    },
+    "bestPractices": [
+      "Use in WordPress environments for best results",
+      "Enable auto-detection for seamless integration",
+      "Preview colors before applying to document",
+      "Test with various WordPress themes",
+      "Maintain color accessibility ratios",
+      "Document custom color schemes"
+    ]
+  }
+}

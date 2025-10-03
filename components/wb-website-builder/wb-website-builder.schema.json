@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Website Builder Web Component",
+  "description": "Schema for wb-website-builder custom element - main website builder interface",
+  "type": "object",
+  "properties": {
+    "template": {
+      "type": "string",
+      "default": "default",
+      "description": "Template to load for the website"
+    },
+    "theme": {
+      "type": "string",
+      "enum": ["light", "dark", "auto"],
+      "default": "auto",
+      "description": "Theme setting"
+    },
+    "layout": {
+      "type": "string",
+      "enum": ["top-nav", "left-nav", "right-nav"],
+      "default": "top-nav",
+      "description": "Layout type for navigation"
+    },
+    "edit-mode": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable edit mode for content"
+    },
+    "auto-save": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable automatic saving of changes"
+    },
+    "show-grid": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show layout grid lines"
+    },
+    "responsive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable responsive design features"
+    },
+    "data-source": {
+      "type": "string",
+      "description": "URL or path to JSON data source"
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-website-builder",
+      "description": "Main website builder component with semantic HTML structure and editing capabilities",
+      "attributes": [
+        {
+          "name": "template",
+          "description": "Template name to load"
+        },
+        {
+          "name": "theme",
+          "description": "Theme setting",
+          "valueSet": "wb-website-builder-theme"
+        },
+        {
+          "name": "layout",
+          "description": "Navigation layout type",
+          "valueSet": "wb-website-builder-layout"
+        },
+        {
+          "name": "edit-mode",
+          "description": "Enable edit mode"
+        },
+        {
+          "name": "auto-save",
+          "description": "Enable automatic saving"
+        },
+        {
+          "name": "show-grid",
+          "description": "Show layout grid"
+        },
+        {
+          "name": "responsive",
+          "description": "Enable responsive features"
+        },
+        {
+          "name": "data-source",
+          "description": "JSON data source URL"
+        }
+      ]
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "wb-website-builder-theme",
+      "values": [
+        { "name": "light", "description": "Light theme" },
+        { "name": "dark", "description": "Dark theme" },
+        { "name": "auto", "description": "Auto-detect theme" }
+      ]
+    },
+    {
+      "name": "wb-website-builder-layout",
+      "values": [
+        { "name": "top-nav", "description": "Top navigation layout" },
+        { "name": "left-nav", "description": "Left sidebar navigation" },
+        { "name": "right-nav", "description": "Right sidebar navigation" }
+      ]
+    }
+  ],
+  "version": "1.0.0",
+  "schema": "wb-website-builder.schema.json"
+}

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Bar Component Demo</title>
+    
+    <!-- Central Styles Import -->
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">    <style>
+        body {
+            padding: var(--space-lg);
+            transition: background-color var(--transition-medium), color var(--transition-medium);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+        }
+        
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .demo-section {
+            margin: var(--space-xl) 0;
+            padding: var(--space-lg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-tertiary);
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .output {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-base);
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            color: #e6e1e5;
+        }
+        
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .tab {
+            padding: var(--space-sm) var(--space-lg);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+            font-weight: var(--font-medium);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        /* Light theme overrides */
+        body.light {
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+        
+        body.light .container {
+            background: white;
+            color: #1a1a1a;
+        }
+        
+        body.light .demo-section {
+            border-color: #e0e0e0;
+            background: #fafafa;
+        }
+        
+        body.light .output {
+            background: #f8f9fa;
+            border-color: #e9ecef;
+            color: #1a1a1a;
+        }
+        
+        /* Light theme tab overrides */
+        body.light .tabs {
+            border-bottom-color: #e0e0e0;
+        }
+        
+        body.light .tab {
+            color: #666;
+        }
+        
+        body.light .tab:hover {
+            background: rgba(99, 102, 241, 0.05);
+            color: #333;
+        }
+        
+        body.light .tab.active {
+            color: #6366f1;
+        }
+        
+        .documentation-output {
+            text-align: left;
+            white-space: pre-line;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <button class="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
+    
+    <div class="container">
+        <h1>Color Bar Web Component Demo</h1>
+        <p>A reusable, accessible color picker component extracted from the Material Design Color Picker.</p>
+        
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('examples')">🎨 Examples</button>
+            <button class="tab" onclick="showTab('documentation')">📚 Documentation</button>
+        </div>
+        
+        <!-- Examples Tab -->
+        <div class="tab-content active" id="examples-tab">
+            <!-- Hue Color Bar -->
+            <div class="demo-section">
+                <h3>Hue Color Bar</h3>
+                <p>Color spectrum bar for hue selection:</p>
+                <p><strong>Keyboard Controls:</strong> Click on the color bar to focus it, then use:</p>
+                <ul>
+                    <li><strong>Arrow Keys</strong> - Adjust hue by 1° (hold <kbd>Shift</kbd> for 10°)
+                        <ul>
+                            <li><kbd>←</kbd> / <kbd>↓</kbd> - Decrease hue</li>
+                            <li><kbd>→</kbd> / <kbd>↑</kbd> - Increase hue</li>
+                        </ul>
+                    </li>
+                    <li><kbd>Home</kbd> - Jump to red (0°)</li>
+                    <li><kbd>End</kbd> - Jump to red (360°)</li>
+                </ul>
+                <wb-color-bar id="hue-color-bar" type="hue" hue="240" saturation="70" lightness="50" theme="dark">
+                    <span slot="label">Hue Spectrum</span>
+                </wb-color-bar>
+                <div class="output" id="hue-output">Waiting for color selection...</div>
+            </div>
+            
+            <!-- Saturation Grayscale Bar -->
+            <div class="demo-section">
+                <h3>Saturation Grayscale Bar</h3>
+                <p>Grayscale bar for saturation selection (from gray to full color):</p>
+                                <wb-color-bar id="saturation-bar" type="saturation" hue="240" saturation="70" lightness="50" value="70" theme="dark">
+                    <!-- Fallback content -->
+                </wb-color-bar>
+                <div class="output" id="saturation-output">Waiting for color selection...</div>
+            </div>
+            
+            <!-- Lightness Grayscale Bar -->
+            <div class="demo-section">
+                <h3>Lightness Grayscale Bar</h3>
+                <p>Grayscale bar for lightness selection (from black to white):</p>
+                <wb-color-bar id="lightness-bar" type="lightness" hue="240" saturation="70" lightness="50" value="50" theme="dark">
+                    <span slot="label">Lightness</span>
+                </wb-color-bar>
+                <div class="output" id="lightness-output">Waiting for color selection...</div>
+            </div>
+            
+            <!-- Event Handling -->
+            <div class="demo-section">
+                <h3>Event Handling</h3>
+                <p>This hue bar logs all events:</p>
+                <wb-color-bar id="event-color-bar" type="hue" hue="30" saturation="85" lightness="55" theme="dark">
+                    <span slot="label">Event Demo - Orange Start</span>
+                </wb-color-bar>
+                
+                <h4>Event Log</h4>
+                <div class="output" id="event-log-output">Events will appear here...</div>
+            </div>
+        </div>
+        
+        <!-- Documentation Tab -->
+        <div class="tab-content" id="documentation-tab">
+            <div class="demo-section">
+                <h3>📚 Documentation</h3>
+                <p>Complete documentation for the Color Bar Web Component.</p>
+                <div class="output documentation-output">
+                    <strong>Note:</strong> Full documentation is available in <code>color-bar.md</code>
+                    
+                    <h4>Quick Reference:</h4>
+                    
+                    <strong>Basic Usage:</strong>
+                    &lt;wb-color-bar hue="240" saturation="70" lightness="50"&gt;&lt;/wb-color-bar&gt;
+                    
+                    <strong>Events:</strong>
+                    • colorchange - Fires during color selection
+                    • colorselect - Fires when selection is complete
+                    
+                    <strong>Properties:</strong>
+                    • hue (0-360) - Color hue in degrees
+                    • saturation (0-100) - Color saturation percentage  
+                    • lightness (0-100) - Color lightness percentage
+                    • theme - 'light' or 'dark' theme
+                    
+                    <strong>Keyboard Controls:</strong>
+                    • Arrow keys - Adjust hue by 1° (Shift+arrow for 10°)
+                    • Home/End - Jump to red (0°/360°)
+                    
+                    <strong>API Methods:</strong>
+                    • setColor(hue, saturation, lightness)
+                    • color property - Get current color data
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load components -->
+    <script src="../../utils/wb/wb-component-utils.js"></script>
+    <script src="wb-color-bar.js"></script>
+    
+    <script>
+        let currentTheme = 'dark';
+        
+        // Hue color bar event handling
+        document.getElementById('hue-color-bar').addEventListener('colorchange', (e) => {
+            document.getElementById('hue-output').textContent = 
+                `Hue: ${e.detail.hue.toFixed(1)}°\nColor: ${e.detail.hex}\nHSL: ${e.detail.hsl}\nRGB: rgb(${e.detail.rgb.r}, ${e.detail.rgb.g}, ${e.detail.rgb.b})`;
+                
+            // Update the saturation and lightness bars to use the new hue
+            const satBar = document.getElementById('saturation-bar');
+            const lightBar = document.getElementById('lightness-bar');
+            if (satBar) satBar.updateContext(e.detail.hue, undefined, undefined);
+            if (lightBar) lightBar.updateContext(e.detail.hue, undefined, undefined);
+        });
+        
+        // Saturation bar event handling
+        document.getElementById('saturation-bar').addEventListener('colorchange', (e) => {
+            document.getElementById('saturation-output').textContent = 
+                `Saturation: ${e.detail.value}%\nColor: ${e.detail.hex}\nHSL: ${e.detail.hsl}`;
+        });
+        
+        // Lightness bar event handling
+        document.getElementById('lightness-bar').addEventListener('colorchange', (e) => {
+            document.getElementById('lightness-output').textContent = 
+                `Lightness: ${e.detail.value}%\nColor: ${e.detail.hex}\nHSL: ${e.detail.hsl}`;
+        });
+        
+        // Event logging to div
+        document.getElementById('event-color-bar').addEventListener('colorchange', (e) => {
+            const logDiv = document.getElementById('event-log-output');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `${timestamp}: Color changed to ${e.detail.hex} (${Math.round(e.detail.hue)}°, ${Math.round(e.detail.saturation)}%, ${Math.round(e.detail.lightness)}%)`;
+            logDiv.innerHTML = logEntry + '<br>' + logDiv.innerHTML;
+        });
+        
+        document.getElementById('event-color-bar').addEventListener('colorselect', (e) => {
+            const logDiv = document.getElementById('event-log-output');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `${timestamp}: Color selected - ${e.detail.hex}`;
+            logDiv.innerHTML = '<strong>' + logEntry + '</strong><br>' + logDiv.innerHTML;
+        });
+        
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+                tab.style.display = 'none';
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            const targetTab = document.getElementById(tabName + '-tab');
+            if (targetTab) {
+                targetTab.classList.add('active');
+                targetTab.style.display = 'block';
+            }
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+            const isLight = document.body.classList.contains('light');
+            currentTheme = isLight ? 'light' : 'dark';
+            
+            // Update theme toggle button
+            const button = document.querySelector('.theme-toggle');
+            button.textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
+            
+            // Update all color bars
+            document.querySelectorAll('wb-color-bar').forEach(colorBar => {
+                colorBar.setAttribute('theme', currentTheme);
+            });
+            
+            // Update md-to-html
+            document.querySelectorAll('md-to-html').forEach(mdElement => {
+                mdElement.setAttribute('theme', currentTheme);
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            document.dispatchEvent(new CustomEvent('wb:info', {
+                detail: { 
+                    message: 'Color Bar Demo: Components loaded and ready',
+                    source: 'demo-page'
+                }
+            }));
+        });
+    </script>
+</body>
+</html>

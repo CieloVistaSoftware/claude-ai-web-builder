@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel Demo</title>
+    
+    <!-- Import the Control Panel Web Component -->
+    <script type="module" src="./ControlPanel.js"></script>
+    
+    <style>
+    /* Dark mode styling for standalone viewing */
+    body {
+      background: #1a1a1a !important;
+      color: #ffffff !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    
+    /* Position control panel for demo */
+    control-panel {
+      position: relative !important;
+      top: 0 !important;
+      right: 0 !important;
+      margin: 0 !important;
+    }
+    
+    .demo-info {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .demo-info h1 {
+      margin: 0 0 0.5rem 0;
+      color: #6366f1;
+      font-size: 1.5rem;
+    }
+    
+    .demo-info p {
+      margin: 0;
+      color: #cccccc;
+      font-size: 0.9rem;
+    }
+    </style>
+</head>
+<body>
+    <div class="demo-info">
+        <h1>Control Panel Component Demo</h1>
+        <p>This control panel dynamically loads its content from external component files. All functionality is imported and configured.</p>
+    </div>
+
+    <!-- Control Panel Component - Content Loaded Dynamically -->
+    <control-panel id="demo-control-panel">
+        <span slot="title">Website Builder Controls</span>
+        <!-- Content will be loaded here dynamically -->
+    </control-panel>
+
+    <script type="module">
+        // Dynamic content loading for proper component architecture
+        class ControlPanelContentLoader {
+            constructor(panelElement) {
+                this.panel = panelElement;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    await this.loadControlPanelContent();
+                    await this.loadFunctionality();
+                    console.log('✅ Control Panel properly loaded with dynamic content');
+                } catch (error) {
+                    console.error('❌ Failed to load control panel content:', error);
+                    this.loadFallbackContent();
+                }
+            }
+
+            async loadControlPanelContent() {
+                // Load the control panel content template
+                const response = await fetch('./content-template.html');
+                if (!response.ok) {
+                    throw new Error('Content template not found, creating dynamically');
+                }
+                const html = await response.text();
+                this.panel.insertAdjacentHTML('beforeend', html);
+            }
+
+            loadFallbackContent() {
+                // If external file doesn't exist, create content programmatically
+                console.log('📦 Creating control panel content programmatically');
+                
+                const controlGroups = [
+                    this.createEditModeGroup(),
+                    this.createLayoutGroup(),
+                    this.createColorGroup(),
+                    this.createThemeGroup(),
+                    this.createActionGroup()
+                ];
+
+                controlGroups.forEach(group => {
+                    this.panel.appendChild(group);
+                });
+            }
+
+            createEditModeGroup() {
+                const group = document.createElement('div');
+                group.className = 'control-group';
+                group.innerHTML = `
+                    <button id="edit-mode-toggle" class="edit-mode-toggle">Edit Mode</button>
+                `;
+                return group;
+            }
+
+            createLayoutGroup() {
+                const group = document.createElement('div');
+                group.className = 'control-group';
+                group.innerHTML = `
+                    <label for="layout-select">Layout:</label>
+                    <select id="layout-select">
+                        <option value="top-nav">Top Navigation</option>
+                        <option value="left-nav">Left Navigation</option>
+                        <option value="right-nav">Right Navigation</option>
+                    </select>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="gradient-toggle">
+                        <label for="gradient-toggle">Gradient Background</label>
+                    </div>
+                `;
+                return group;
+            }
+
+            createColorGroup() {
+                const group = document.createElement('div');
+                group.className = 'control-group';
+                group.innerHTML = `
+                    <label for="hue-slider">Color Explorer:</label>
+                    <input type="range" id="hue-slider" min="0" max="360" value="240">
+                    <div class="color-bar-label">Hue: <span id="hue-value">240°</span></div>
+                    <div id="color-preview" class="color-preview-box">#2626d9</div>
+                    <label for="saturation-slider">Saturation:</label>
+                    <input type="range" id="saturation-slider" min="30" max="100" value="70">
+                    <label for="lightness-slider">Lightness:</label>
+                    <input type="range" id="lightness-slider" min="20" max="80" value="50">
+                    <label for="harmony-angle-slider">Color Harmony Angle:</label>
+                    <input type="range" id="harmony-angle-slider" min="30" max="180" value="60">
+                    <div class="color-bar-label">
+                        Harmony: <span id="harmony-value">60° (Triadic)</span>
+                    </div>
+                `;
+                return group;
+            }
+
+            createThemeGroup() {
+                const group = document.createElement('div');
+                group.className = 'control-group';
+                group.innerHTML = `
+                    <label for="theme-select">Theme:</label>
+                    <select id="theme-select">
+                        <option value="default" selected>Default</option>
+                        <option value="cyberpunk">Cyberpunk</option>
+                        <option value="ocean">Ocean</option>
+                        <option value="sunset">Sunset</option>
+                        <option value="forest">Forest</option>
+                    </select>
+                    <div class="checkbox-wrapper mode-toggle">
+                        <input type="checkbox" id="dark-mode-toggle" checked>
+                        <label for="dark-mode-toggle">Dark Mode</label>
+                    </div>
+                `;
+                return group;
+            }
+
+            createActionGroup() {
+                const group = document.createElement('div');
+                group.className = 'control-group';
+                group.innerHTML = `
+                    <button id="reset-btn" class="btn">Reset Settings</button>
+                    <button id="save-btn" class="btn">Save Website</button>
+                    <button id="import-btn" class="btn">Import Website</button>
+                    <input id="import-file" type="file" accept=".html" style="display: none">
+                `;
+                return group;
+            }
+
+            async loadFunctionality() {
+                // Import and initialize control panel functionality
+                try {
+                    // Try to import functionality module
+                    const { ControlPanelFunctionality } = await import('./functionality.js').catch(() => {
+                        // If module doesn't exist, use inline functionality
+                        return { ControlPanelFunctionality: null };
+                    });
+
+                    if (ControlPanelFunctionality) {
+                        new ControlPanelFunctionality(this.panel);
+                    } else {
+                        this.initInlineFunctionality();
+                    }
+                } catch (error) {
+                    console.log('📦 Loading inline functionality');
+                    this.initInlineFunctionality();
+                }
+            }
+
+            initInlineFunctionality() {
+                // Inline functionality as fallback
+                let hue = 240, saturation = 70, lightness = 50, harmonyAngle = 60;
+                
+                // Color controls functionality
+                const sliders = [
+                    { id: 'hue-slider', property: 'hue' },
+                    { id: 'saturation-slider', property: 'saturation' },
+                    { id: 'lightness-slider', property: 'lightness' },
+                    { id: 'harmony-angle-slider', property: 'harmonyAngle' }
+                ];
+                
+                sliders.forEach(({ id, property }) => {
+                    const slider = document.getElementById(id);
+                    if (slider) {
+                        slider.addEventListener('input', (e) => {
+                            const value = parseInt(e.target.value);
+                            
+                            if (property === 'hue') hue = value;
+                            else if (property === 'saturation') saturation = value;
+                            else if (property === 'lightness') lightness = value;
+                            else if (property === 'harmonyAngle') harmonyAngle = value;
+                            
+                            this.updateColors(hue, saturation, lightness, harmonyAngle);
+                        });
+                    }
+                });
+                
+                // Edit mode toggle
+                const editToggle = document.getElementById('edit-mode-toggle');
+                if (editToggle) {
+                    editToggle.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        this.textContent = this.classList.contains('active') ? 'Exit Edit Mode' : 'Edit Mode';
+                    });
+                }
+                
+                // Initialize colors
+                this.updateColors(hue, saturation, lightness, harmonyAngle);
+            }
+
+            updateColors(hue, saturation, lightness, harmonyAngle) {
+                const primary = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+                
+                // Update preview
+                const colorPreview = document.getElementById('color-preview');
+                if (colorPreview) {
+                    colorPreview.textContent = this.hslToHex(hue, saturation, lightness);
+                    colorPreview.style.background = primary;
+                }
+                
+                const hueValue = document.getElementById('hue-value');
+                if (hueValue) hueValue.textContent = hue + '°';
+                
+                const harmonyValue = document.getElementById('harmony-value');
+                if (harmonyValue) {
+                    const harmonyName = this.getHarmonyName(harmonyAngle);
+                    harmonyValue.textContent = `${harmonyAngle}° (${harmonyName})`;
+                }
+            }
+
+            getHarmonyName(angle) {
+                if (angle === 30) return 'Analogous';
+                if (angle === 60) return 'Triadic';
+                if (angle === 90) return 'Tetradic';
+                if (angle === 120) return 'Split-Complementary';
+                if (angle >= 150) return 'Complementary';
+                return 'Custom';
+            }
+
+            hslToHex(h, s, l) {
+                h = h / 360;
+                s = s / 100;
+                l = l / 100;
+                
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1 / 6) return p + (q - p) * 6 * t;
+                    if (t < 1 / 2) return q;
+                    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                    return p;
+                };
+                
+                let r, g, b;
+                if (s === 0) {
+                    r = g = b = l;
+                } else {
+                    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                    const p = 2 * l - q;
+                    r = hue2rgb(p, q, h + 1 / 3);
+                    g = hue2rgb(p, q, h);
+                    b = hue2rgb(p, q, h - 1 / 3);
+                }
+                
+                const toHex = (c) => {
+                    const hex = Math.round(c * 255).toString(16);
+                    return hex.length === 1 ? '0' + hex : hex;
+                };
+                
+                return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            const controlPanel = document.getElementById('demo-control-panel');
+            if (controlPanel) {
+                new ControlPanelContentLoader(controlPanel);
+            }
+        });
+    </script>
+
+    <!-- Load control panel styles -->
+    <link rel="stylesheet" href="./control-panel-content.css">
+</body>
+</html>

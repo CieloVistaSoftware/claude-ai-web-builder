@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Image Insert Component",
+  "description": "Schema for wb-image-insert component - double-click image insertion for semantic elements",
+  "type": "object",
+  "properties": {
+    "edit-mode": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable edit mode for image insertion"
+    },
+    "upload-enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Allow image uploads"
+    },
+    "max-size": {
+      "type": "number",
+      "default": 5242880,
+      "description": "Maximum file size in bytes (default 5MB)"
+    },
+    "allowed-types": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": ["image/jpeg", "image/png", "image/gif", "image/webp"],
+      "description": "Allowed MIME types for image uploads"
+    },
+    "target-selector": {
+      "type": "string",
+      "default": ".editable",
+      "description": "CSS selector for elements that can receive images"
+    },
+    "placeholder-text": {
+      "type": "string",
+      "default": "Double-click to add image",
+      "description": "Placeholder text shown before image is added"
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-image-insert",
+      "description": "Component for adding images to semantic HTML elements via double-click interface",
+      "attributes": [
+        {
+          "name": "edit-mode",
+          "description": "Enable edit mode for image insertion"
+        },
+        {
+          "name": "upload-enabled",
+          "description": "Allow image uploads"
+        },
+        {
+          "name": "max-size",
+          "description": "Maximum file size in bytes"
+        },
+        {
+          "name": "target-selector",
+          "description": "CSS selector for editable elements"
+        },
+        {
+          "name": "placeholder-text",
+          "description": "Placeholder text for empty image slots"
+        }
+      ]
+    }
+  ],
+  "version": "1.0.0",
+  "schema": "wb-image-insert.schema.json"
+}

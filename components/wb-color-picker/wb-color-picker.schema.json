@@ -1,0 +1,202 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Color Picker Web Component",
+  "description": "Schema for wb-color-picker custom element attributes",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "string",
+      "default": "#6366f1",
+      "description": "Current color value in any supported format (hex, rgb, hsl)",
+      "examples": ["#ff5733", "rgb(255, 87, 51)", "hsl(9, 100%, 60%)"]
+    },
+    "format": {
+      "type": "string",
+      "enum": ["hex", "rgb", "hsl"],
+      "default": "hex",
+      "description": "Color format for input and output"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["small", "standard", "large"],
+      "default": "standard",
+      "description": "Size of the color picker"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["primary", "minimal", "advanced"],
+      "default": "primary",
+      "description": "Visual variant of the color picker"
+    },
+    "show-alpha": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to show alpha/opacity controls"
+    },
+    "show-presets": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show preset color swatches"
+    },
+    "show-eyedropper": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show eyedropper tool (if supported)"
+    },
+    "swatch-size": {
+      "type": "string",
+      "default": "2rem",
+      "description": "Size of the color swatch"
+    },
+    "border-radius": {
+      "type": "string",
+      "default": "0.375rem",
+      "description": "Border radius for picker elements"
+    },
+    "preset-colors": {
+      "type": "string",
+      "description": "JSON string containing array of preset colors",
+      "examples": [
+        "[\"#ef4444\", \"#f97316\", \"#f59e0b\", \"#eab308\", \"#84cc16\"]"
+      ]
+    },
+    "label": {
+      "type": "string",
+      "description": "Label text displayed above the color picker"
+    },
+    "help": {
+      "type": "string",
+      "description": "Help text displayed below the color picker"
+    },
+    "error": {
+      "type": "string",
+      "description": "Error message to display"
+    },
+    "success": {
+      "type": "string",
+      "description": "Success message to display"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the color picker is disabled"
+    },
+    "readonly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the color picker is read-only"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a color selection is required"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the color picker"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for form submission"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "onchange": {
+      "type": "string",
+      "description": "JavaScript code to execute when color changes"
+    },
+    "oninput": {
+      "type": "string",
+      "description": "JavaScript code to execute on input events"
+    },
+    "onfocus": {
+      "type": "string",
+      "description": "JavaScript code to execute when picker gains focus"
+    },
+    "onblur": {
+      "type": "string",
+      "description": "JavaScript code to execute when picker loses focus"
+    },
+    "onopen": {
+      "type": "string",
+      "description": "JavaScript code to execute when picker opens"
+    },
+    "onclose": {
+      "type": "string",
+      "description": "JavaScript code to execute when picker closes"
+    },
+    "onwb-color-picker:change": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-color-picker:change event"
+    },
+    "onwb-color-picker:input": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-color-picker:input event"
+    },
+    "onwb-color-picker:open": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-color-picker:open event"
+    },
+    "onwb-color-picker:close": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-color-picker:close event"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this color picker"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this color picker"
+    },
+    "aria-haspopup": {
+      "type": "string",
+      "enum": ["true", "false", "dialog"],
+      "default": "dialog",
+      "description": "Indicates picker has a popup"
+    },
+    "aria-expanded": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Whether the picker popup is expanded (automatically managed)"
+    },
+    "aria-invalid": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Indicates if the selected color is invalid"
+    },
+    "aria-required": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Indicates if color selection is required"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["button", "combobox"],
+      "default": "button",
+      "description": "ARIA role for the color picker"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    },
+    "autocomplete": {
+      "type": "string",
+      "description": "Hint for browser autocomplete behavior"
+    }
+  }
+}

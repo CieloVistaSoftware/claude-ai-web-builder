@@ -1,0 +1,250 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Image Insert Component Schema",
+  "description": "Schema for image-insert component - double-click image insertion for semantic elements",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-image-insert",
+      "description": "Component for adding images to semantic HTML elements via double-click interface (Legacy IIFE - needs Web Component conversion)",
+      "attributes": [
+        {
+          "name": "data-edit-mode",
+          "description": "Enable/disable edit mode for image insertion",
+          "valueSet": "boolean",
+          "values": [
+            {
+              "name": "true",
+              "description": "Enable image editing"
+            },
+            {
+              "name": "false",
+              "description": "Disable image editing (default)"
+            },
+            {
+              "name": "",
+              "description": "Enable image editing (boolean attribute)"
+            }
+          ]
+        },
+        {
+          "name": "data-max-file-size",
+          "description": "Maximum file size for image uploads (in bytes)",
+          "valueSet": "number",
+          "values": [
+            {
+              "name": "5242880",
+              "description": "5MB (default)"
+            },
+            {
+              "name": "1048576",
+              "description": "1MB"
+            },
+            {
+              "name": "10485760",
+              "description": "10MB"
+            }
+          ]
+        },
+        {
+          "name": "data-allowed-types",
+          "description": "Comma-separated list of allowed MIME types",
+          "valueSet": "mime-types",
+          "values": [
+            {
+              "name": "image/*",
+              "description": "All image types (default)"
+            },
+            {
+              "name": "image/jpeg,image/png",
+              "description": "JPEG and PNG only"
+            },
+            {
+              "name": "image/jpeg,image/png,image/gif",
+              "description": "JPEG, PNG, and GIF"
+            },
+            {
+              "name": "image/jpeg,image/png,image/webp",
+              "description": "Modern formats (JPEG, PNG, WebP)"
+            }
+          ]
+        },
+        {
+          "name": "data-position",
+          "description": "Default image position within element",
+          "valueSet": "position",
+          "values": [
+            {
+              "name": "bottom",
+              "description": "After content (default)"
+            },
+            {
+              "name": "top",
+              "description": "Before content"
+            },
+            {
+              "name": "left",
+              "description": "Left side of content"
+            },
+            {
+              "name": "right",
+              "description": "Right side of content"
+            }
+          ]
+        },
+        {
+          "name": "data-size-range",
+          "description": "Allowed size range for images (min-max in pixels)",
+          "valueSet": "size-range",
+          "values": [
+            {
+              "name": "50-1200",
+              "description": "50px to 1200px (default)"
+            },
+            {
+              "name": "100-800",
+              "description": "100px to 800px"
+            },
+            {
+              "name": "200-600",
+              "description": "200px to 600px"
+            }
+          ]
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the component instance"
+        },
+        {
+          "name": "class",
+          "description": "CSS classes to apply to the component"
+        }
+      ],
+      "references": [
+        {
+          "name": "Image Insert Documentation",
+          "url": "components/wb-image-insert/image-insert.md"
+        }
+      ]
+    }
+  ],
+  "globalAttributes": [
+    {
+      "name": "data-*",
+      "description": "Custom data attributes for component configuration"
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "boolean",
+      "values": [
+        {
+          "name": "true",
+          "description": "Boolean true value"
+        },
+        {
+          "name": "false",
+          "description": "Boolean false value"
+        },
+        {
+          "name": "",
+          "description": "Empty string evaluates to true for boolean attributes"
+        }
+      ]
+    },
+    {
+      "name": "number",
+      "values": [
+        {
+          "name": "1048576",
+          "description": "1MB in bytes"
+        },
+        {
+          "name": "5242880",
+          "description": "5MB in bytes"
+        },
+        {
+          "name": "10485760",
+          "description": "10MB in bytes"
+        }
+      ]
+    },
+    {
+      "name": "mime-types",
+      "values": [
+        {
+          "name": "image/*",
+          "description": "All image types"
+        },
+        {
+          "name": "image/jpeg",
+          "description": "JPEG images only"
+        },
+        {
+          "name": "image/png",
+          "description": "PNG images only"
+        },
+        {
+          "name": "image/gif",
+          "description": "GIF images only"
+        },
+        {
+          "name": "image/webp",
+          "description": "WebP images only"
+        },
+        {
+          "name": "image/svg+xml",
+          "description": "SVG images only"
+        }
+      ]
+    },
+    {
+      "name": "position",
+      "values": [
+        {
+          "name": "top",
+          "description": "Position image before content"
+        },
+        {
+          "name": "bottom",
+          "description": "Position image after content"
+        },
+        {
+          "name": "left",
+          "description": "Position image to the left of content"
+        },
+        {
+          "name": "right",
+          "description": "Position image to the right of content"
+        }
+      ]
+    },
+    {
+      "name": "size-range",
+      "values": [
+        {
+          "name": "50-300",
+          "description": "Small images (50px to 300px)"
+        },
+        {
+          "name": "50-600",
+          "description": "Medium images (50px to 600px)"
+        },
+        {
+          "name": "50-1200",
+          "description": "Large images (50px to 1200px)"
+        },
+        {
+          "name": "100-800",
+          "description": "Standard size range (100px to 800px)"
+        }
+      ]
+    }
+  ]
+}

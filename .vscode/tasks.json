@@ -1,0 +1,44 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Claude WebSocket Test",
+			"type": "shell",
+			"command": "pwsh.exe",
+			"args": [
+				"-Command",
+				"node start-websocket-server.js && Start-Process \"http://localhost:3000/test-claude-socket.html\""
+			],
+			"group": "test",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build and Run WebSocket Test",
+			"type": "shell",
+			"command": "pwsh.exe",
+			"args": [
+				"-File",
+				"${workspaceFolder}/build-and-run-socket.ps1"
+			],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"isBackground": false,
+			"problemMatcher": ["$tsc"]
+		},
+		{
+			"label": "Start Unified Claude WebSocket Server",
+			"type": "shell",
+			"command": "pwsh.exe",
+			"args": [
+				"-File",
+				"${workspaceFolder}/test-unified-server.ps1"
+			],
+			"group": "test",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

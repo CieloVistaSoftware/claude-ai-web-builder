@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Builder</title>
+    <link rel="icon" href="C:\Users\jwpmi\Downloads\Images\Photos\Small\zia.png" type="image/png">
+    <link rel="apple-touch-icon" href="C:\Users\jwpmi\Downloads\Images\Photos\Small\zia.png">
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- JSZip Library for file operations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- WebSocket Support for Dependency Loading -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+      // Initialize WebSocket connection if one doesn't exist
+      if (!window.socket && typeof io !== 'undefined') {
+        console.log('Initializing WebSocket connection for dependency loading...');
+        window.socket = io();
+        
+        // Set up basic event handling
+        window.socket.on('connect', () => {
+          console.log('WebSocket connected for dependency loading');
+        });
+        
+        window.socket.on('disconnect', () => {
+          console.log('WebSocket disconnected');
+        });
+        
+        window.socket.on('error', (error) => {
+          console.error('WebSocket error:', error);
+        });
+      }
+    </script>
+    
+    <!-- Import WebSocket Dependency Loader -->
+    <script type="module">
+      import WebSocketDependencyLoader from '../websocket-dependency-loader.js';
+      
+      // Create loader instance when socket is available
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.socket) {
+          console.log('Creating WebSocket dependency loader');
+          window.wsLoader = new WebSocketDependencyLoader(window.socket);
+        } else {
+          console.warn('Socket not available for dependency loading');
+        }
+      });
+    </script>
+
+    <!-- Control Panel Web Component (content loaded from ControlPanelContent.html) -->
+    <script type="module" src="./components/ControlPanel.js"></script>
+  </head>
+  <body data-theme="default" data-mode="dark" data-layout="top-nav">
+    <!-- Site Container -->
+    <div id="site-container" class="site-container">
+      <!-- Navigation -->
+      <nav id="site-nav" class="site-nav">
+        <div class="nav-container">
+          <div class="site-branding">
+            <h1 class="site-title editable">My Website</h1>
+          </div>
+          <ul class="nav-list">
+            <li><a href="#" class="nav-link active">Home</a></li>
+            <li><a href="#" class="nav-link">About</a></li>
+            <li><a href="#" class="nav-link">Services</a></li>
+            <li><a href="#" class="nav-link">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main id="main-content" class="main-content">
+        <!-- Hero Section -->
+        <section id="hero-section" class="hero-section">
+          <h2 class="hero-title editable">Build Beautiful Websites</h2>
+          <p class="hero-text editable">
+            Create responsive, modern websites with this easy-to-use builder.
+          </p>
+          <button class="primary-button">Get Started</button>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+          <h2 class="section-title editable">Key Features</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🎨</div>
+              <h3 class="card-title editable">Theme System</h3>
+              <p class="card-text editable">
+                Customize colors, layouts, and styles with ease.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📱</div>
+              <h3 class="card-title editable">Responsive Design</h3>
+              <p class="card-text editable">
+                Looks great on mobile, tablet, and desktop.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔧</div>
+              <h3 class="card-title editable">Easy Editing</h3>
+              <p class="card-text editable">
+                Simple interface for content editing.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section">
+          <h2 class="section-title editable">About This Builder</h2>
+          <p class="section-text editable">
+            This website builder provides an intuitive interface for creating
+            and customizing websites without coding knowledge. Change themes,
+            layouts, colors, and content with ease.
+          </p>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer id="site-footer" class="site-footer">
+        <p class="footer-text editable">
+          © 2023 Website Builder. All rights reserved.
+        </p>
+      </footer>
+    </div>
+
+    <!-- Control Panel Component -->
+    <control-panel id="control-panel">
+      <span slot="title">Website Builder Controls</span>
+    </control-panel>
+
+    <!-- Dev plugins loader (for development only) -->
+    <script src="dev-plugins/dev-plugin-loader.js"></script>
+
+    <!-- Environment and AI Integration -->
+    <script src="env-loader.js"></script>
+    <script src="claude-ai.js"></script>
+
+    <!-- Website Builder Functionality - Integrates with Control Panel Component -->
+    <script>
+      // Website Builder functionality that integrates with the control-panel web component
+      window.addEventListener('DOMContentLoaded', function() {
+        let editMode = false;
+        let hue = 240, saturation = 70, lightness = 50, harmonyAngle = 60;
+        
+        // Wait for control panel component to load
+        function waitForControlPanel() {
+          const controlPanel = document.querySelector('control-panel');
+          if (controlPanel && controlPanel.shadowRoot) {
+            initializeControlPanelFunctionality();
+          } else {
+            setTimeout(waitForControlPanel, 100);
+          }
+        }
+        
+        function initializeControlPanelFunctionality() {
+          console.log('Initializing functionality with control-panel component');
+          
+          // Wait for control panel content to be loaded
+          setTimeout(() => {
+            setupEditMode();
+            setupColorControls();
+            setupThemeControls();
+          }, 500);
+        }
+        
+        // Edit mode toggle functionality
+        function setupEditMode() {
+          const editToggle = document.getElementById('edit-mode-toggle');
+          if (editToggle) {
+            editToggle.addEventListener('click', function() {
+              editMode = !editMode;
+              document.body.classList.toggle('edit-mode', editMode);
+              
+              // Update button text
+              editToggle.textContent = editMode ? 'Exit Edit Mode' : 'Edit Mode';
+              editToggle.classList.toggle('active', editMode);
+              
+              // Update editable elements
+              const editables = document.querySelectorAll('.editable');
+              editables.forEach(el => {
+                el.contentEditable = editMode;
+              });
+              
+              // Handle contextual insert media buttons
+              if (editMode) {
+                addContextualButtons();
+              } else {
+                removeContextualButtons();
+              }
+              
+              console.log(`Edit mode: ${editMode ? 'ON' : 'OFF'}`);
+            });
+          } else {
+            console.warn('Edit mode toggle button not found');
+          }
+        }
+        
+        // Add contextual insert media buttons
+        function addContextualButtons() {
+          removeContextualButtons(); // Remove existing first
+          
+          const editables = document.querySelectorAll('.editable');
+          editables.forEach(target => {
+            const btn = document.createElement('button');
+            btn.textContent = '➕ Insert Media';
+            btn.className = 'contextual-insert-media-btn insert-media-above-btn';
+            btn.style.cssText = 'margin: 5px; padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;';
+            btn.onclick = function(e) {
+              e.stopPropagation();
+              openMediaPicker(target, 'above');
+            };
+            target.parentNode.insertBefore(btn, target);
+          });
+          
+          console.log(`✅ Added ${editables.length} contextual insert media buttons`);
+        }
+        
+        // Remove contextual buttons
+        function removeContextualButtons() {
+          const existingButtons = document.querySelectorAll('.contextual-insert-media-btn');
+          console.log(`Removing ${existingButtons.length} existing contextual buttons`);
+          existingButtons.forEach(btn => btn.remove());
+        }
+        
+        // Media picker functionality
+        function openMediaPicker(target, position) {
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = 'image/*,video/*,audio/*';
+          input.style.display = 'none';
+          document.body.appendChild(input);
+          
+          input.onchange = function(e) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+              let element;
+              if (file.type.startsWith('image/')) {
+                element = document.createElement('img');
+                element.src = ev.target.result;
+                element.alt = file.name;
+                element.style.maxWidth = '100%';
+              } else if (file.type.startsWith('video/')) {
+                element = document.createElement('video');
+                element.src = ev.target.result;
+                element.controls = true;
+                element.style.maxWidth = '100%';
+              } else if (file.type.startsWith('audio/')) {
+                element = document.createElement('audio');
+                element.src = ev.target.result;
+                element.controls = true;
+              }
+              
+              if (element) {
+                if (position === 'above') {
+                  target.parentNode.insertBefore(element, target);
+                } else {
+                  target.parentNode.insertBefore(element, target.nextSibling);
+                }
+              }
+              
+              input.remove();
+              addContextualButtons(); // Refresh buttons
+            };
+            reader.readAsDataURL(file);
+          };
+          
+          input.click();
+        }
+        
+        // Color controls functionality
+        function setupColorControls() {
+          const sliders = [
+            { id: 'hue-slider', property: 'hue' },
+            { id: 'saturation-slider', property: 'saturation' },
+            { id: 'lightness-slider', property: 'lightness' },
+            { id: 'harmony-angle-slider', property: 'harmonyAngle' }
+          ];
+          
+          sliders.forEach(({ id, property }) => {
+            const slider = document.getElementById(id);
+            if (slider) {
+              slider.addEventListener('input', function(e) {
+                const value = parseInt(e.target.value);
+                
+                if (property === 'hue') hue = value;
+                else if (property === 'saturation') saturation = value;
+                else if (property === 'lightness') lightness = value;
+                else if (property === 'harmonyAngle') harmonyAngle = value;
+                
+                updateColors();
+              });
+              console.log(`✅ Setup color control: ${id}`);
+            } else {
+              console.warn(`Color control not found: ${id}`);
+            }
+          });
+        }
+        
+        // Theme controls functionality
+        function setupThemeControls() {
+          // Theme selector
+          const themeSelect = document.getElementById('theme-select');
+          if (themeSelect) {
+            themeSelect.addEventListener('change', function(e) {
+              const theme = e.target.value;
+              document.body.setAttribute('data-theme', theme);
+              
+              // Apply theme-specific colors
+              if (theme === 'cyberpunk') {
+                hue = 180; saturation = 100; lightness = 50;
+              } else if (theme === 'ocean') {
+                hue = 200; saturation = 85; lightness = 55;
+              } else if (theme === 'sunset') {
+                hue = 25; saturation = 90; lightness = 55;
+              } else if (theme === 'forest') {
+                hue = 150; saturation = 80; lightness = 45;
+              } else {
+                hue = 240; saturation = 70; lightness = 50;
+              }
+              
+              // Update sliders to reflect theme colors
+              const hueSlider = document.getElementById('hue-slider');
+              const satSlider = document.getElementById('saturation-slider');
+              const lightSlider = document.getElementById('lightness-slider');
+              
+              if (hueSlider) hueSlider.value = hue;
+              if (satSlider) satSlider.value = saturation;
+              if (lightSlider) lightSlider.value = lightness;
+              
+              updateColors();
+              console.log(`✅ Theme changed to: ${theme}`);
+            });
+          }
+          
+          // Dark mode toggle
+          const darkModeToggle = document.getElementById('dark-mode-toggle');
+          if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', function(e) {
+              const mode = e.target.checked ? 'dark' : 'light';
+              document.body.setAttribute('data-mode', mode);
+              document.body.classList.toggle('dark-mode', e.target.checked);
+              console.log(`✅ Dark mode: ${mode}`);
+            });
+          }
+          
+          // Layout selector
+          const layoutSelect = document.getElementById('layout-select');
+          if (layoutSelect) {
+            layoutSelect.addEventListener('change', function(e) {
+              const layout = e.target.value;
+              document.body.setAttribute('data-layout', layout);
+              console.log(`✅ Layout changed to: ${layout}`);
+            });
+          }
+          
+          // Gradient background toggle
+          const gradientToggle = document.getElementById('gradient-toggle');
+          if (gradientToggle) {
+            gradientToggle.addEventListener('change', function(e) {
+              const heroSection = document.getElementById('hero-section');
+              if (heroSection) {
+                if (e.target.checked) {
+                  heroSection.style.background = `linear-gradient(135deg, hsl(${hue}, ${saturation}%, ${lightness}%), hsl(${(hue + harmonyAngle) % 360}, ${saturation}%, ${lightness + 10}%))`;
+                } else {
+                  heroSection.style.background = '';
+                }
+                console.log(`✅ Gradient background: ${e.target.checked ? 'ON' : 'OFF'}`);
+              }
+            });
+          }
+        }
+        
+        // Update CSS color variables
+        function updateColors() {
+          const primary = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+          const secondaryHue = (hue + harmonyAngle) % 360;
+          const secondary = `hsl(${secondaryHue}, ${saturation}%, ${lightness}%)`;
+          const accentHue = (hue + 180) % 360;
+          const accent = `hsl(${accentHue}, ${saturation}%, ${lightness}%)`;
+          
+          const root = document.documentElement;
+          root.style.setProperty('--primary', primary);
+          root.style.setProperty('--primary-color', primary);
+          root.style.setProperty('--secondary', secondary);
+          root.style.setProperty('--accent', accent);
+          root.style.setProperty('--accent-color', accent);
+          
+          // Update preview
+          const colorPreview = document.getElementById('color-preview');
+          if (colorPreview) {
+            colorPreview.textContent = hslToHex(hue, saturation, lightness);
+          }
+          
+          const hueValue = document.getElementById('hue-value');
+          if (hueValue) {
+            hueValue.textContent = hue + '°';
+          }
+          
+          const harmonyValue = document.getElementById('harmony-value');
+          if (harmonyValue) {
+            const harmonyName = getHarmonyName(harmonyAngle);
+            harmonyValue.textContent = `${harmonyAngle}° (${harmonyName})`;
+          }
+          
+          // Update gradient background if it's enabled
+          const gradientToggle = document.getElementById('gradient-toggle');
+          if (gradientToggle && gradientToggle.checked) {
+            const heroSection = document.getElementById('hero-section');
+            if (heroSection) {
+              heroSection.style.background = `linear-gradient(135deg, hsl(${hue}, ${saturation}%, ${lightness}%), hsl(${(hue + harmonyAngle) % 360}, ${saturation}%, ${lightness + 10}%))`;
+            }
+          }
+        }
+        
+        // Get harmony relationship name
+        function getHarmonyName(angle) {
+          if (angle === 30) return 'Analogous';
+          if (angle === 60) return 'Triadic';
+          if (angle === 90) return 'Tetradic';
+          if (angle === 120) return 'Split-Complementary';
+          if (angle >= 150) return 'Complementary';
+          return 'Custom';
+        }
+        
+        // HSL to Hex conversion
+        function hslToHex(h, s, l) {
+          h = h / 360;
+          s = s / 100;
+          l = l / 100;
+          
+          const hue2rgb = (p, q, t) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+          };
+          
+          let r, g, b;
+          if (s === 0) {
+            r = g = b = l;
+          } else {
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+          }
+          
+          const toHex = (c) => {
+            const hex = Math.round(c * 255).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+          };
+          
+          return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+        }
+        
+        // Start initialization
+        waitForControlPanel();
+        
+        // Make functions globally available for tests
+        window.openMediaPicker = openMediaPicker;
+        window.addContextualButtons = addContextualButtons;
+        window.removeContextualButtons = removeContextualButtons;
+        window.updateColors = updateColors;
+        
+        console.log('🏗️ Website Builder functionality initialized (integrates with control-panel component)');
+      });
+    </script>
+
+    <!-- Control Panel Content Loader -->
+    <script>
+      // Function to load content via WebSocket if available, or fallback to fetch
+      function loadContentViaSocketOrFetch(path) {
+        return new Promise((resolve, reject) => {
+          // Check if we have a socket and wsLoader
+          if (window.socket && window.wsLoader) {
+            console.log('Loading content via WebSocket:', path);
+            
+            // Use WebSocketDependencyLoader if available
+            window.wsLoader.loadHTML(path)
+              .then(content => {
+                console.log('Content loaded via WebSocket:', path);
+                resolve(content);
+              })
+              .catch(error => {
+                console.warn('WebSocket loading failed, falling back to fetch:', error);
+                fallbackToFetch();
+              });
+          } else {
+            // No socket, use fetch directly
+            console.log('No WebSocket available, using fetch for:', path);
+            fallbackToFetch();
+          }
+          
+          // Helper function for fetch fallback
+          function fallbackToFetch() {
+            fetch(path)
+              .then(response => response.text())
+              .then(resolve)
+              .catch(err => {
+                console.error('Fetch failed:', err);
+                reject(err);
+              });
+          }
+        });
+      }
+      
+      // Load ControlPanelContent.html into the control-panel default slot
+      loadContentViaSocketOrFetch("./ControlPanelContent.html")
+        .then((html) => {
+          const controlPanel = document.querySelector("control-panel");
+          if (controlPanel) {
+            console.log('Inserting control panel content');
+            
+            // Parse the HTML to extract just the content (not the title slot)
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+
+            // Remove the title slot element since we already have it
+            const titleSlot = tempDiv.querySelector('[slot="title"]');
+            if (titleSlot) {
+              titleSlot.remove();
+            }
+
+            // Add the remaining content to the control panel
+            controlPanel.innerHTML += tempDiv.innerHTML;
+
+            // Re-run all event handler setup (script.js expects controls to exist)
+            if (window.initControlPanelHandlers) {
+              window.initControlPanelHandlers();
+              console.log('Control panel handlers initialized via global function');
+            } else if (typeof setupControlPanelHandlers === "function") {
+              setupControlPanelHandlers();
+              console.log('Control panel handlers initialized via module function');
+            } else {
+              // Fallback: dispatch a custom event for script.js to listen for
+              console.log('Dispatching controlpanel:contentloaded event');
+              window.dispatchEvent(new Event("controlpanel:contentloaded"));
+            }
+          } else {
+            console.warn('Control panel element not found');
+          }
+        })
+        .catch((error) =>
+          console.log(
+            "ControlPanelContent.html not found - using inline content:", error
+          )
+        );
+    </script>
+  </body>
+</html>

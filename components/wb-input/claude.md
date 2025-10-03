@@ -1,0 +1,2 @@
+http://127.0.0.1:8080/components/wb-input/wb-input-demo.html
+none of the examples are acting like input elements rather the user cannot enterr any text. Also there are no samples of input elements with images. green dot, red dot or even .png image. 

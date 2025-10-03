@@ -1,0 +1,1 @@
+the smaller viewports make the content look darker

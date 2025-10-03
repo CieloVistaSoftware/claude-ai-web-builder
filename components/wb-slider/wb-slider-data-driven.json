@@ -1,0 +1,695 @@
+{
+  "component": {
+    "name": "wb-slider",
+    "version": "2.0.0",
+    "description": "Data-driven range slider component with dual handles, tick marks, and custom formatting",
+    "type": "form-component",
+    "author": "Website Builder System",
+    "dependencies": [],
+    "assets": []
+  },
+  "template": {
+    "structure": [
+      {
+        "tag": "div",
+        "attributes": {
+          "class": "wb-slider-wrapper wb-slider--{{orientation}} wb-slider--{{variant}} wb-slider--{{size}}",
+          "data-disabled": { "bind": { "data": "disabled" } }
+        },
+        "children": [
+          {
+            "tag": "div",
+            "attributes": {
+              "class": "wb-slider-header"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "class": "wb-slider-label",
+                  "for": "{{id}}"
+                },
+                "content": "{{label}}",
+                "condition": {
+                  "field": "label",
+                  "operator": "exists"
+                }
+              },
+              {
+                "tag": "span",
+                "attributes": {
+                  "class": "wb-slider-value-display"
+                },
+                "content": "{{formattedValue}}",
+                "condition": {
+                  "field": "showValue",
+                  "operator": "truthy"
+                }
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attributes": {
+              "class": "wb-slider-container"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attributes": {
+                  "class": "wb-slider-track"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "attributes": {
+                      "class": "wb-slider-progress"
+                    }
+                  },
+                  {
+                    "tag": "div",
+                    "attributes": {
+                      "class": "wb-slider-ticks"
+                    },
+                    "condition": {
+                      "field": "showTicks",
+                      "operator": "truthy"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attributes": {
+                          "class": "wb-slider-tick",
+                          "style": "{{tick.position}}"
+                        },
+                        "children": [
+                          {
+                            "tag": "span",
+                            "attributes": {
+                              "class": "wb-slider-tick-label"
+                            },
+                            "content": "{{tick.label}}",
+                            "condition": {
+                              "field": "showTickLabels",
+                              "operator": "truthy"
+                            }
+                          }
+                        ],
+                        "repeat": {
+                          "collection": "ticks",
+                          "item": "tick"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "input",
+                "attributes": {
+                  "type": "range",
+                  "id": "{{id}}",
+                  "class": "wb-slider-input wb-slider-input--primary",
+                  "min": "{{min}}",
+                  "max": "{{max}}",
+                  "step": "{{step}}",
+                  "value": { "bind": { "data": "value" } },
+                  "disabled": { "bind": { "data": "disabled" } },
+                  "aria-labelledby": "{{id}}-label",
+                  "aria-valuemin": "{{min}}",
+                  "aria-valuemax": "{{max}}",
+                  "aria-valuenow": { "bind": { "data": "value" } },
+                  "aria-valuetext": "{{formattedValue}}"
+                }
+              },
+              {
+                "tag": "input",
+                "attributes": {
+                  "type": "range",
+                  "class": "wb-slider-input wb-slider-input--secondary",
+                  "min": "{{min}}",
+                  "max": "{{max}}",
+                  "step": "{{step}}",
+                  "value": { "bind": { "data": "valueEnd" } },
+                  "disabled": { "bind": { "data": "disabled" } },
+                  "aria-labelledby": "{{id}}-label",
+                  "aria-valuemin": "{{min}}",
+                  "aria-valuemax": "{{max}}",
+                  "aria-valuenow": { "bind": { "data": "valueEnd" } }
+                },
+                "condition": {
+                  "field": "range",
+                  "operator": "truthy"
+                }
+              },
+              {
+                "tag": "div",
+                "attributes": {
+                  "class": "wb-slider-tooltip",
+                  "role": "tooltip"
+                },
+                "content": "{{tooltipText}}",
+                "condition": {
+                  "field": "showTooltip",
+                  "operator": "truthy"
+                }
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attributes": {
+              "class": "wb-slider-range-labels"
+            },
+            "condition": {
+              "field": "showMinMax", 
+              "operator": "truthy"
+            },
+            "children": [
+              {
+                "tag": "span",
+                "attributes": {
+                  "class": "wb-slider-min-label"
+                },
+                "content": "{{formattedMin}}"
+              },
+              {
+                "tag": "span",
+                "attributes": {
+                  "class": "wb-slider-max-label"
+                },
+                "content": "{{formattedMax}}"
+              }
+            ]
+          },
+          {
+            "tag": "span",
+            "attributes": {
+              "class": "wb-slider-help-text",
+              "id": "{{id}}-help"
+            },
+            "content": "{{helpText}}",
+            "condition": {
+              "field": "helpText",
+              "operator": "exists"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "styles": {
+    "base": {
+      "position": "relative",
+      "width": "100%",
+      "fontFamily": "inherit"
+    },
+    "elements": {
+      ".wb-slider-header": {
+        "display": "flex",
+        "justifyContent": "space-between",
+        "alignItems": "center",
+        "marginBottom": "0.75rem"
+      },
+      ".wb-slider-label": {
+        "fontSize": "0.875rem",
+        "fontWeight": "500",
+        "color": "var(--text-primary)"
+      },
+      ".wb-slider-value-display": {
+        "fontSize": "0.875rem",
+        "fontWeight": "600",
+        "color": "var(--primary)",
+        "backgroundColor": "var(--bg-secondary)",
+        "padding": "0.25rem 0.5rem",
+        "borderRadius": "4px",
+        "minWidth": "3rem",
+        "textAlign": "center"
+      },
+      ".wb-slider-container": {
+        "position": "relative",
+        "padding": "1rem 0"
+      },
+      ".wb-slider-track": {
+        "position": "relative",
+        "width": "100%",
+        "height": "6px",
+        "backgroundColor": "var(--neutral-200)",
+        "borderRadius": "3px",
+        "overflow": "hidden"
+      },
+      ".wb-slider-progress": {
+        "position": "absolute",
+        "height": "100%",
+        "backgroundColor": "var(--primary)",
+        "borderRadius": "3px",
+        "transition": "all 0.15s ease",
+        "left": "0",
+        "width": "0%"
+      },
+      ".wb-slider-input": {
+        "position": "absolute",
+        "top": "0",
+        "left": "0",
+        "width": "100%",
+        "height": "100%",
+        "appearance": "none",
+        "background": "transparent",
+        "cursor": "pointer",
+        "outline": "none"
+      },
+      ".wb-slider-input::-webkit-slider-thumb": {
+        "appearance": "none",
+        "width": "20px",
+        "height": "20px",
+        "borderRadius": "50%",
+        "backgroundColor": "var(--primary)",
+        "border": "2px solid white",
+        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
+        "cursor": "pointer",
+        "transition": "all 0.15s ease"
+      },
+      ".wb-slider-input::-webkit-slider-thumb:hover": {
+        "transform": "scale(1.1)",
+        "boxShadow": "0 3px 6px rgba(0, 0, 0, 0.3)"
+      },
+      ".wb-slider-input::-moz-range-thumb": {
+        "width": "20px",
+        "height": "20px",
+        "borderRadius": "50%",
+        "backgroundColor": "var(--primary)",
+        "border": "2px solid white",
+        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
+        "cursor": "pointer",
+        "transition": "all 0.15s ease",
+        "border": "none"
+      },
+      ".wb-slider-input--secondary": {
+        "pointerEvents": "none"
+      },
+      ".wb-slider-input--secondary::-webkit-slider-thumb": {
+        "backgroundColor": "var(--accent)",
+        "pointerEvents": "all"
+      },
+      ".wb-slider-ticks": {
+        "position": "absolute",
+        "top": "100%",
+        "left": "0",
+        "width": "100%",
+        "height": "10px"
+      },
+      ".wb-slider-tick": {
+        "position": "absolute",
+        "width": "2px",
+        "height": "6px",
+        "backgroundColor": "var(--neutral-400)",
+        "top": "2px"
+      },
+      ".wb-slider-tick-label": {
+        "position": "absolute",
+        "top": "8px",
+        "left": "50%",
+        "transform": "translateX(-50%)",
+        "fontSize": "0.75rem",
+        "color": "var(--text-secondary)",
+        "whiteSpace": "nowrap"
+      },
+      ".wb-slider-range-labels": {
+        "display": "flex",
+        "justifyContent": "space-between",
+        "marginTop": "0.5rem",
+        "fontSize": "0.75rem",
+        "color": "var(--text-secondary)"
+      },
+      ".wb-slider-help-text": {
+        "display": "block",
+        "marginTop": "0.25rem",
+        "fontSize": "0.75rem",
+        "color": "var(--text-secondary)"
+      },
+      ".wb-slider-tooltip": {
+        "position": "absolute",
+        "bottom": "100%",
+        "left": "50%",
+        "transform": "translateX(-50%)",
+        "backgroundColor": "var(--neutral-900)",
+        "color": "white",
+        "padding": "0.25rem 0.5rem",
+        "borderRadius": "4px",
+        "fontSize": "0.75rem",
+        "whiteSpace": "nowrap",
+        "opacity": "0",
+        "visibility": "hidden",
+        "transition": "all 0.2s ease",
+        "pointerEvents": "none"
+      },
+      ".wb-slider-tooltip::after": {
+        "content": "''",
+        "position": "absolute",
+        "top": "100%",
+        "left": "50%",
+        "transform": "translateX(-50%)",
+        "border": "4px solid transparent",
+        "borderTopColor": "var(--neutral-900)"
+      }
+    },
+    "variants": {
+      "primary": {},
+      "success": {
+        ".wb-slider-progress": {
+          "backgroundColor": "var(--accent)"
+        },
+        ".wb-slider-input::-webkit-slider-thumb": {
+          "backgroundColor": "var(--accent)"
+        },
+        ".wb-slider-value-display": {
+          "color": "var(--accent)"
+        }
+      },
+      "warning": {
+        ".wb-slider-progress": {
+          "backgroundColor": "var(--warning-color)"
+        },
+        ".wb-slider-input::-webkit-slider-thumb": {
+          "backgroundColor": "var(--warning-color)"
+        },
+        ".wb-slider-value-display": {
+          "color": "var(--warning-color)"
+        }
+      },
+      "minimal": {
+        ".wb-slider-track": {
+          "backgroundColor": "transparent",
+          "borderBottom": "1px solid var(--border-color)"
+        }
+      }
+    },
+    "orientations": {
+      "vertical": {
+        ".wb-slider-container": {
+          "height": "200px",
+          "width": "auto",
+          "padding": "0 1rem"
+        },
+        ".wb-slider-track": {
+          "width": "6px",
+          "height": "100%"
+        },
+        ".wb-slider-input": {
+          "width": "100%",
+          "height": "100%",
+          "transform": "rotate(-90deg)",
+          "transformOrigin": "center"
+        }
+      }
+    },
+    "sizes": {
+      "small": {
+        ".wb-slider-track": {
+          "height": "4px"
+        },
+        ".wb-slider-input::-webkit-slider-thumb": {
+          "width": "16px",
+          "height": "16px"
+        }
+      },
+      "large": {
+        ".wb-slider-track": {
+          "height": "8px"
+        },
+        ".wb-slider-input::-webkit-slider-thumb": {
+          "width": "24px",
+          "height": "24px"
+        }
+      }
+    },
+    "states": {
+      "disabled": {
+        "opacity": "0.6",
+        "pointerEvents": "none",
+        ".wb-slider-input": {
+          "cursor": "not-allowed"
+        }
+      },
+      "hover": {
+        ".wb-slider-tooltip": {
+          "opacity": "1",
+          "visibility": "visible"
+        }
+      },
+      "focused": {
+        ".wb-slider-input:focus": {
+          "outline": "2px solid var(--primary)",
+          "outlineOffset": "2px"
+        }
+      }
+    },
+    "responsive": {
+      "(max-width: 640px)": {
+        ".wb-slider-header": {
+          "flexDirection": "column",
+          "alignItems": "flex-start",
+          "gap": "0.5rem"
+        }
+      }
+    }
+  },
+  "handlers": {
+    "input": {
+      "selector": ".wb-slider-input--primary",
+      "action": {
+        "type": "updateData",
+        "payload": {
+          "value": "event.target.value"
+        }
+      }
+    },
+    "input": {
+      "selector": ".wb-slider-input--secondary",
+      "action": {
+        "type": "updateData",
+        "payload": {
+          "valueEnd": "event.target.value"
+        }
+      }
+    },
+    "mouseenter": {
+      "selector": ".wb-slider-input",
+      "action": {
+        "type": "setState",
+        "payload": {
+          "state": "hover"
+        }
+      }
+    },
+    "mouseleave": {
+      "selector": ".wb-slider-input",
+      "action": {
+        "type": "setState",
+        "payload": {
+          "state": "default"
+        }
+      }
+    },
+    "focus": {
+      "selector": ".wb-slider-input",
+      "action": {
+        "type": "setState",
+        "payload": {
+          "state": "focused"
+        }
+      }
+    },
+    "blur": {
+      "selector": ".wb-slider-input",
+      "action": {
+        "type": "setState",
+        "payload": {
+          "state": "default"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "data": {
+      "value": 50,
+      "valueEnd": 75,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "orientation": "horizontal",
+      "variant": "primary",
+      "size": "standard",
+      "range": false,
+      "showValue": true,
+      "showMinMax": false,
+      "showTicks": false,
+      "showTickLabels": false,
+      "showTooltip": false,
+      "disabled": false,
+      "id": "slider-{{timestamp}}",
+      "unit": "",
+      "precision": 0,
+      "ticks": [],
+      "formattedValue": "50",
+      "formattedMin": "0",
+      "formattedMax": "100",
+      "tooltipText": "50"
+    },
+    "state": "default"
+  },
+  "events": {
+    "ready": "wbSliderReady",
+    "change": "wbSliderChange",
+    "input": "wbSliderInput",
+    "focus": "wbSliderFocus",
+    "blur": "wbSliderBlur",
+    "stateChanged": "wbSliderStateChanged"
+  },
+  "validation": {
+    "required": ["id", "min", "max"],
+    "schema": {
+      "label": { "type": "string", "maxLength": 100 },
+      "value": { "type": "number" },
+      "valueEnd": { "type": "number" },
+      "min": { "type": "number" },
+      "max": { "type": "number" },
+      "step": { "type": "number", "minimum": 0.01 },
+      "orientation": { "type": "string", "enum": ["horizontal", "vertical"] },
+      "variant": { "type": "string", "enum": ["primary", "success", "warning", "minimal"] },
+      "size": { "type": "string", "enum": ["small", "standard", "large"] },
+      "range": { "type": "boolean" },
+      "showValue": { "type": "boolean" },
+      "showMinMax": { "type": "boolean" },
+      "showTicks": { "type": "boolean" },
+      "showTickLabels": { "type": "boolean" },
+      "showTooltip": { "type": "boolean" },
+      "disabled": { "type": "boolean" },
+      "unit": { "type": "string", "maxLength": 10 },
+      "precision": { "type": "integer", "minimum": 0, "maximum": 5 },
+      "id": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9-_]*$" },
+      "helpText": { "type": "string", "maxLength": 200 }
+    }
+  },
+  "accessibility": {
+    "features": [
+      "keyboard navigation",
+      "screen reader support",
+      "focus management",
+      "ARIA attributes",
+      "value announcements"
+    ],
+    "attributes": {
+      "role": "slider",
+      "aria-valuemin": "dynamic",
+      "aria-valuemax": "dynamic", 
+      "aria-valuenow": "dynamic",
+      "aria-valuetext": "formatted value",
+      "aria-labelledby": "label association",
+      "aria-describedby": "help text"
+    },
+    "keyboardShortcuts": {
+      "ArrowLeft": "Decrease value",
+      "ArrowRight": "Increase value",
+      "ArrowDown": "Decrease value",
+      "ArrowUp": "Increase value",
+      "Home": "Minimum value",
+      "End": "Maximum value",
+      "PageUp": "Increase by 10",
+      "PageDown": "Decrease by 10"
+    }
+  },
+  "examples": {
+    "basic": {
+      "label": "Volume",
+      "value": 75,
+      "unit": "%",
+      "id": "volume-slider"
+    },
+    "range": {
+      "label": "Price Range",
+      "range": true,
+      "value": 20,
+      "valueEnd": 80,
+      "min": 0,
+      "max": 100,
+      "unit": "$",
+      "showMinMax": true,
+      "id": "price-range"
+    },
+    "withTicks": {
+      "label": "Rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "value": 3,
+      "showTicks": true,
+      "showTickLabels": true,
+      "ticks": [
+        { "value": 1, "label": "Poor", "position": "left: 0%" },
+        { "value": 2, "label": "Fair", "position": "left: 25%" },
+        { "value": 3, "label": "Good", "position": "left: 50%" },
+        { "value": 4, "label": "Great", "position": "left: 75%" },
+        { "value": 5, "label": "Excellent", "position": "left: 100%" }
+      ],
+      "id": "rating-slider"
+    },
+    "withTooltip": {
+      "label": "Opacity",
+      "value": 0.8,
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "precision": 1,
+      "showTooltip": true,
+      "unit": "",
+      "id": "opacity-slider"
+    },
+    "vertical": {
+      "label": "Height",
+      "orientation": "vertical",
+      "value": 150,
+      "min": 100,
+      "max": 200,
+      "unit": "px",
+      "showValue": true,
+      "id": "height-slider"
+    },
+    "variants": {
+      "success": {
+        "label": "Success Rate",
+        "variant": "success",
+        "value": 85,
+        "unit": "%",
+        "id": "success-slider"
+      },
+      "warning": {
+        "label": "Warning Level",
+        "variant": "warning",
+        "value": 65,
+        "unit": "%",
+        "id": "warning-slider"
+      },
+      "minimal": {
+        "label": "Minimal Slider",
+        "variant": "minimal",
+        "value": 45,
+        "id": "minimal-slider"
+      }
+    },
+    "sizes": {
+      "small": {
+        "label": "Small Slider",
+        "size": "small",
+        "value": 30,
+        "id": "small-slider"
+      },
+      "large": {
+        "label": "Large Slider", 
+        "size": "large",
+        "value": 70,
+        "id": "large-slider"
+      }
+    }
+  }
+}

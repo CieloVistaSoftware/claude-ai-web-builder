@@ -1,0 +1,10 @@
+{
+  "wb-btn variants": {
+    "scope": "html",
+    "prefix": "wb-btn-variant",
+    "body": [
+      "<wb-btn variant=\"${1|primary,success,toggle,bgImage,iconOnly,imageOnly|}\">$2</wb-btn>"
+    ],
+    "description": "WB Button with variant options"
+  }
+}

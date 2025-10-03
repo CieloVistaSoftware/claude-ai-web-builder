@@ -1,0 +1,48 @@
+<!-- Updated Material Design Color Utilities CDN -->
+<!-- Option 1: Latest version from unpkg -->
+<script src="https://unpkg.com/@material/material-color-utilities/dist/index.js"></script>
+
+<!-- Option 2: JSDelivr CDN (often more reliable) -->
+<script src="https://cdn.jsdelivr.net/npm/@material/material-color-utilities/dist/index.js"></script>
+
+<!-- Option 3: Fallback with version checking -->
+<script>
+  // More robust CDN loading with multiple fallbacks
+  const cdnUrls = [
+    'https://unpkg.com/@material/material-color-utilities/dist/index.js',
+    'https://cdn.jsdelivr.net/npm/@material/material-color-utilities/dist/index.js',
+    'https://unpkg.com/@material/material-color-utilities@latest/dist/index.js'
+  ];
+  
+  let cdnIndex = 0;
+  
+  function tryLoadCDN() {
+    if (cdnIndex >= cdnUrls.length) {
+      console.error('❌ All CDNs failed, using CSS fallback colors');
+      // The app will still work with CSS fallback colors
+      return;
+    }
+    
+    const script = document.createElement('script');
+    script.src = cdnUrls[cdnIndex];
+    script.onload = function() {
+      console.log('✅ Material Color Utilities loaded from:', cdnUrls[cdnIndex]);
+      if (window.updateMaterialStatus) {
+        updateMaterialStatus();
+      }
+    };
+    script.onerror = function() {
+      console.warn(`CDN ${cdnIndex + 1} failed, trying next...`);
+      cdnIndex++;
+      tryLoadCDN();
+    };
+    document.head.appendChild(script);
+  }
+  
+  // Start loading
+  window.addEventListener('load', function() {
+    if (!window.MaterialColorUtilities) {
+      tryLoadCDN();
+    }
+  });
+</script>

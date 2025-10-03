@@ -1,0 +1,59 @@
+<!-- Edit Mode Toggle -->
+<div class="control-group">
+  <button id="edit-mode-toggle" class="edit-mode-toggle">Edit Mode</button>
+</div>
+
+<!-- Layout Controls -->
+<div class="control-group">
+  <label for="layout-select">Layout:</label>
+  <select id="layout-select">
+    <option value="top-nav">Top Navigation</option>
+    <option value="left-nav">Left Navigation</option>
+    <option value="right-nav">Right Navigation</option>
+  </select>
+  <div class="checkbox-wrapper">
+    <input type="checkbox" id="gradient-toggle" />
+    <label for="gradient-toggle">Gradient Background</label>
+  </div>
+</div>
+
+<!-- Color Explorer -->
+<div class="control-group">
+  <label for="hue-slider">Color Explorer:</label>
+  <input type="range" id="hue-slider" min="0" max="360" value="240" />
+  <div class="color-bar-label">Hue: <span id="hue-value">240°</span></div>
+  <div id="color-preview" class="color-preview-box">#2626d9</div>
+  <label for="saturation-slider">Saturation:</label>
+  <input type="range" id="saturation-slider" min="30" max="100" value="70" />
+  <label for="lightness-slider">Lightness:</label>
+  <input type="range" id="lightness-slider" min="20" max="80" value="50" />
+  <label for="harmony-angle-slider">Color Harmony Angle:</label>
+  <input type="range" id="harmony-angle-slider" min="30" max="180" value="60" />
+  <div class="color-bar-label">
+    Harmony: <span id="harmony-value">60° (Triadic)</span>
+  </div>
+</div>
+
+<!-- Theme Selection -->
+<div class="control-group">
+  <label for="theme-select">Theme:</label>
+  <select id="theme-select">
+    <option value="default" selected>Default</option>
+    <option value="cyberpunk">Cyberpunk</option>
+    <option value="ocean">Ocean</option>
+    <option value="sunset">Sunset</option>
+    <option value="forest">Forest</option>
+  </select>
+  <div class="checkbox-wrapper mode-toggle">
+    <input type="checkbox" id="dark-mode-toggle" checked />
+    <label for="dark-mode-toggle">Dark Mode</label>
+  </div>
+</div>
+
+<!-- Action Buttons -->
+<div class="control-group">
+  <button id="reset-btn" class="btn">Reset Settings</button>
+  <button id="save-btn" class="btn">Save Website</button>
+  <button id="import-btn" class="btn">Import Website</button>
+  <input id="import-file" type="file" accept=".html" style="display: none">
+</div>

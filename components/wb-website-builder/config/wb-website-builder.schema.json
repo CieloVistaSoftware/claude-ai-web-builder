@@ -1,0 +1,147 @@
+{
+  "name": "wb-website-builder",
+  "version": "1.0.0",
+  "description": "Complete website builder component with integrated control panel and editing capabilities",
+  "category": "builder",
+  "tags": ["website", "builder", "editor", "cms"],
+  "author": "WB Components",
+  "license": "MIT",
+  "dependencies": [
+    "../../utils/wb/wb-component-utils.js",
+    "wb-data-binding.js",
+    "../../styles/main.css",
+    "../wb-control-panel/control-panel.js",
+    "../wb-event-log/wb-event-log.js"
+  ],
+  "config": {
+    "theme": "dark",
+    "layout": "top-nav",
+    "editMode": false,
+    "autoSave": true,
+    "components": {
+      "navigation": true,
+      "hero": true,
+      "features": true,
+      "gallery": true,
+      "about": true,
+      "footer": true,
+      "controlPanel": true,
+      "search": true
+    }
+  },
+  "data": {
+    "metadata": {
+      "title": "CieloVistaSoftware AI",
+      "description": "Create professional websites with advanced layouts, themes, and animations",
+      "keywords": ["website", "template", "professional", "glassmorphism", "animation"]
+    },
+    "header": {
+      "title": "Your Amazing Website",
+      "subtitle": "Build something beautiful today"
+    },
+    "hero": {
+      "title": "Welcome to the Future", 
+      "description": "Create stunning websites with our powerful template generator. No coding required.",
+      "ctaButton": "Get Started"
+    },
+    "navigation": {
+      "items": [
+        { "text": "Home", "href": "#hero" },
+        { "text": "Features", "href": "#features" },
+        { "text": "Gallery", "href": "#gallery" },
+        { "text": "About", "href": "#about" }
+      ]
+    },
+    "sections": {
+      "features": {
+        "title": "Features",
+        "items": [
+          {
+            "title": "Drag & Drop Editor",
+            "description": "Intuitive visual editor for building websites",
+            "icon": "🎨"
+          },
+          {
+            "title": "Responsive Design", 
+            "description": "Mobile-first responsive layouts",
+            "icon": "📱"
+          },
+          {
+            "title": "Theme System",
+            "description": "Multiple built-in themes and customization",
+            "icon": "🎭"
+          }
+        ]
+      },
+      "gallery": {
+        "title": "Gallery",
+        "items": []
+      },
+      "about": {
+        "title": "About Us",
+        "description": "We are passionate about creating beautiful, functional websites that help businesses grow."
+      }
+    },
+    "footer": {
+      "copyright": "© 2025 Cielo Vista Software. All rights reserved.",
+      "links": [
+        { "text": "Privacy", "href": "/privacy" },
+        { "text": "Terms", "href": "/terms" },
+        { "text": "Contact", "href": "/contact" }
+      ]
+    }
+  },
+  "events": [
+    "wb-website-builder-ready",
+    "wb-theme-changed",
+    "wb-layout-changed",
+    "wb-edit-mode-toggled",
+    "wb-content-saved"
+  ],
+  "methods": [
+    "init",
+    "setTheme",
+    "setLayout", 
+    "toggleEditMode",
+    "saveContent",
+    "loadContent"
+  ],
+  "files": {
+    "js": "wb-website-builder.js",
+    "css": "wb-website-builder.css",
+    "demo": "wb-website-builder-demo.html",
+    "docs": "wb-website-builder.md"
+  },
+  "demo": {
+    "title": "WB Website Builder Component Demo",
+    "tabs": [
+      {
+        "name": "examples",
+        "label": "🏗️ Examples",
+        "content": "interactive-demos"
+      },
+      {
+        "name": "documentation", 
+        "label": "📚 Documentation",
+        "content": "markdown-docs"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic",
+        "title": "Basic Website Builder",
+        "description": "Simple website builder with default configuration"
+      },
+      {
+        "name": "advanced",
+        "title": "Advanced Configuration", 
+        "description": "Fully configured website builder with all features enabled"
+      },
+      {
+        "name": "theme-demo",
+        "title": "Theme Switching",
+        "description": "Demonstrates theme switching capabilities"
+      }
+    ]
+  }
+}

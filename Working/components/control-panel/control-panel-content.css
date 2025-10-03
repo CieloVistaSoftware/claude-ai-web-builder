@@ -1,0 +1,154 @@
+/**
+ * Control Panel Content Styles
+ * These styles apply to the content inside the control panel
+ */
+
+.control-group {
+  margin-bottom: 1rem;
+  color: var(--text-primary, #fff);
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary, #fff);
+}
+
+.control-group select,
+.control-group input[type="range"] {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+  background: var(--bg-secondary, rgba(255, 255, 255, 0.1));
+  color: var(--text-primary, #fff);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.control-group select {
+  cursor: pointer;
+  /* Additional fallback styling for better browser compatibility */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 0.65rem auto;
+  padding-right: 2rem;
+}
+
+.control-group select:focus,
+.control-group input[type="range"]:focus {
+  outline: none;
+  border-color: var(--primary, #6366f1);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Fix dropdown option visibility - force proper contrast */
+.control-group select option {
+  background: #ffffff !important;
+  color: #000000 !important;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.control-group select option:hover,
+.control-group select option:focus,
+.control-group select option:checked {
+  background: var(--primary, #6366f1) !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode specific option styling */
+body[data-mode="dark"] .control-group select option {
+  background: #333333 !important;
+  color: #ffffff !important;
+}
+
+body[data-mode="dark"] .control-group select option:hover,
+body[data-mode="dark"] .control-group select option:focus,
+body[data-mode="dark"] .control-group select option:checked {
+  background: var(--primary, #6366f1) !important;
+  color: #ffffff !important;
+}
+
+.control-group button {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border-radius: 4px;
+  background: var(--bg-secondary, rgba(255, 255, 255, 0.1));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+  color: var(--text-primary, #fff);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.control-group button:hover {
+  background: var(--bg-primary, rgba(255, 255, 255, 0.2));
+  border-color: var(--primary, rgba(255, 255, 255, 0.3));
+}
+
+.edit-mode-toggle {
+  background: rgba(60, 145, 230, 0.7) !important;
+  border-color: rgba(60, 145, 230, 0.9) !important;
+  font-weight: 500;
+}
+
+.edit-mode-toggle:hover {
+  background: rgba(60, 145, 230, 0.9) !important;
+}
+
+.edit-mode-toggle.active {
+  background: rgba(230, 60, 60, 0.7) !important;
+  border-color: rgba(230, 60, 60, 0.9) !important;
+}
+
+.edit-mode-toggle.active:hover {
+  background: rgba(230, 60, 60, 0.9) !important;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.checkbox-wrapper label {
+  margin: 0 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.color-preview-box {
+  width: 100%;
+  height: 2rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  font-size: 0.875rem;
+}
+
+.color-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.hidden-link {
+  display: none;
+}

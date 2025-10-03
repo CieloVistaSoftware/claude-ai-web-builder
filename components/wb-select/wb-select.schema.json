@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Select Web Component",
+  "description": "Schema for wb-select custom element attributes",
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "string",
+      "enum": ["small", "standard", "large"],
+      "default": "standard",
+      "description": "Size of the select dropdown"
+    },
+    "placeholder": {
+      "type": "string",
+      "default": "Select option...",
+      "description": "Placeholder text shown when no option is selected"
+    },
+    "searchable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to enable search functionality"
+    },
+    "multiple": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to allow multiple selections"
+    },
+    "clearable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to show a clear button"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the select is disabled"
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to show loading state"
+    },
+    "value": {
+      "type": "string",
+      "description": "Selected value(s) - comma-separated for multiple"
+    },
+    "options": {
+      "type": "string",
+      "description": "JSON string containing options array",
+      "examples": [
+        "[{\"value\":\"1\",\"label\":\"Option 1\"},{\"value\":\"2\",\"label\":\"Option 2\"}]",
+        "[{\"value\":\"red\",\"label\":\"Red\",\"group\":\"Colors\"},{\"value\":\"blue\",\"label\":\"Blue\",\"group\":\"Colors\"}]"
+      ]
+    },
+    "max-height": {
+      "type": "string",
+      "default": "200px",
+      "description": "Maximum height of the dropdown"
+    },
+    "label": {
+      "type": "string",
+      "description": "Label text displayed above the select"
+    },
+    "help": {
+      "type": "string",
+      "description": "Help text displayed below the select"
+    },
+    "error": {
+      "type": "string",
+      "description": "Error message to display"
+    },
+    "success": {
+      "type": "string",
+      "description": "Success message to display"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the select"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for form submission"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "onchange": {
+      "type": "string",
+      "description": "JavaScript code to execute when selection changes"
+    },
+    "onfocus": {
+      "type": "string",
+      "description": "JavaScript code to execute when select gains focus"
+    },
+    "onblur": {
+      "type": "string",
+      "description": "JavaScript code to execute when select loses focus"
+    },
+    "onwb-select:change": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-select:change event"
+    },
+    "onwb-select:open": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-select:open event"
+    },
+    "onwb-select:close": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-select:close event"
+    },
+    "onwb-select:search": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-select:search event"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this select"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this select"
+    },
+    "aria-expanded": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Whether the dropdown is expanded (automatically managed)"
+    },
+    "aria-invalid": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Indicates if the selected value is invalid"
+    },
+    "aria-required": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Indicates if the select is required"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    },
+    "autocomplete": {
+      "type": "string",
+      "description": "Hint for browser autocomplete behavior"
+    }
+  }
+}

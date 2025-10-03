@@ -1,0 +1,67 @@
+[
+  {
+    "line": 1,
+    "suggestion": "Add the enhanced save functionality to preserve themes and layouts. The current save function doesn't capture the dynamic theme variables or layout settings, causing saved websites to lose their appearance.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 50,
+    "suggestion": "Replace the existing save button event handler with the enhanced version that captures current theme state (layout, theme, mode, colors) and embeds them directly into the saved HTML file.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 100,
+    "suggestion": "Add a getCurrentWebsiteState() function that extracts all current styling information including data-layout, data-theme, data-mode attributes and CSS custom properties for --primary, --secondary, --accent colors.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 150,
+    "suggestion": "Implement generateCompleteWebsite() function that creates a standalone HTML file with embedded CSS and initialization scripts, removing builder-specific elements like control panels and edit mode indicators.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 200,
+    "suggestion": "Add generateThemeCSS() function that creates embedded CSS with all theme variables and layout styles, ensuring the saved website maintains its visual appearance without external dependencies.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 250,
+    "suggestion": "Enhance the import functionality with importWebsiteWithTheme() to detect and restore theme settings from imported HTML files, updating the control panel to match the imported website's configuration.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 300,
+    "suggestion": "Add updateControlPanelFromState() function to synchronize control panel UI elements (theme selector, mode toggle, layout selector) with the current website state after import operations.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 350,
+    "suggestion": "Include theme initialization script in saved HTML that immediately applies data-theme, data-mode, and data-layout attributes to prevent flash of unstyled content when the saved website loads.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 400,
+    "suggestion": "Modify the save filename to include theme information (e.g., 'website-cyberpunk-dark-left-nav-2025-07-05.html') for better organization and identification of saved websites.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 450,
+    "suggestion": "Add error handling and user feedback for save/import operations, showing success messages with theme details and handling cases where theme extraction fails.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 500,
+    "suggestion": "Remove contenteditable attributes and edit mode classes from saved HTML to ensure the exported website doesn't have builder-specific styling or behaviors that could confuse end users.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 550,
+    "suggestion": "Strip out insert media buttons and other builder UI elements from the saved HTML while preserving the actual media content that users have added to their website.",
+    "filePath": "c:/path/to/script.js"
+  },
+  {
+    "line": 600,
+    "suggestion": "Ensure CSS custom properties (--primary, --secondary, --accent) are properly embedded in the saved file's style section so colors persist without relying on external stylesheets.",
+    "filePath": "c:/path/to/script.js"
+  }
+]

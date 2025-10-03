@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Material Design Color Editor</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Material Color Utilities - Try multiple CDN sources -->
+    <script>
+      // Robust CDN loading with multiple fallbacks
+      const cdnUrls = [
+        'https://unpkg.com/@material/material-color-utilities@0.3.0/dist/index.js',
+        'https://cdn.jsdelivr.net/npm/@material/material-color-utilities@0.3.0/dist/index.js',
+        'https://unpkg.com/@material/material-color-utilities@latest/dist/index.js',
+        'https://cdn.jsdelivr.net/npm/@material/material-color-utilities@latest/dist/index.js'
+      ];
+      
+      let cdnIndex = 0;
+      let cdnLoadTimeout;
+      
+      function tryLoadCDN() {
+        if (cdnIndex >= cdnUrls.length) {
+          // All CDNs failed, load local fallback
+          console.warn('All CDNs failed, loading local fallback...');
+          const localScript = document.createElement('script');
+          localScript.src = './material-color-utilities-local.js';
+          localScript.onload = function() {
+            console.log('✅ Local fallback loaded');
+            if (typeof updateMaterialStatus !== 'undefined') {
+              updateMaterialStatus();
+            }
+          };
+          localScript.onerror = function() {
+            console.error('❌ Local fallback also failed, using CSS colors only');
+            if (typeof updateMaterialStatus !== 'undefined') {
+              updateMaterialStatus();
+            }
+          };
+          document.head.appendChild(localScript);
+          return;
+        }
+        
+        console.log(`Trying CDN ${cdnIndex + 1}/${cdnUrls.length}: ${cdnUrls[cdnIndex]}`);
+        const script = document.createElement('script');
+        script.src = cdnUrls[cdnIndex];
+        
+        // Set timeout for CDN load
+        cdnLoadTimeout = setTimeout(() => {
+          console.warn(`CDN ${cdnIndex + 1} timed out after 5s`);
+          cdnIndex++;
+          tryLoadCDN();
+        }, 5000);
+        
+        script.onload = function() {
+          clearTimeout(cdnLoadTimeout);
+          if (window.MaterialColorUtilities) {
+            console.log('✅ Material Color Utilities loaded from:', cdnUrls[cdnIndex]);
+            if (typeof updateMaterialStatus !== 'undefined') {
+              updateMaterialStatus();
+            }
+          } else {
+            console.warn(`CDN ${cdnIndex + 1} loaded but MaterialColorUtilities not found`);
+            cdnIndex++;
+            tryLoadCDN();
+          }
+        };
+        
+        script.onerror = function() {
+          clearTimeout(cdnLoadTimeout);
+          console.warn(`CDN ${cdnIndex + 1} failed to load`);
+          cdnIndex++;
+          tryLoadCDN();
+        };
+        
+        document.head.appendChild(script);
+      }
+      
+      // Start loading when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryLoadCDN);
+      } else {
+        tryLoadCDN();
+      }
+    </script>
+    <style>
+      :root {
+        /* Material Design 3 Light Theme */
+        --md-primary: #6750a4;
+        --md-on-primary: #ffffff;
+        --md-primary-container: #eaddff;
+        --md-on-primary-container: #21005d;
+
+        --md-secondary: #625b71;
+        --md-on-secondary: #ffffff;
+        --md-secondary-container: #e8def8;
+        --md-on-secondary-container: #1d192b;
+
+        --md-tertiary: #7d5260;
+        --md-on-tertiary: #ffffff;
+        --md-tertiary-container: #ffd8e4;
+        --md-on-tertiary-container: #31111d;
+
+        --md-error: #ba1a1a;
+        --md-on-error: #ffffff;
+        --md-error-container: #ffdad6;
+        --md-on-error-container: #410002;
+
+        --md-background: #fffbfe;
+        --md-on-background: #1c1b1f;
+        --md-surface: #fffbfe;
+        --md-on-surface: #1c1b1f;
+        --md-surface-variant: #e7e0ec;
+        --md-on-surface-variant: #49454f;
+
+        --md-outline: #79747e;
+        --md-outline-variant: #cac4d0;
+        --md-shadow: #000000;
+        --md-scrim: #000000;
+
+        --md-elevation-1: 0px 1px 3px rgba(0, 0, 0, 0.12),
+          0px 1px 2px rgba(0, 0, 0, 0.24);
+        --md-elevation-2: 0px 3px 6px rgba(0, 0, 0, 0.16),
+          0px 3px 6px rgba(0, 0, 0, 0.23);
+        --md-elevation-3: 0px 10px 20px rgba(0, 0, 0, 0.19),
+          0px 6px 6px rgba(0, 0, 0, 0.23);
+      }
+
+      [data-theme="dark"] {
+        /* Material Design 3 Dark Theme */
+        --md-primary: #d0bcff;
+        --md-on-primary: #381e72;
+        --md-primary-container: #4f378b;
+        --md-on-primary-container: #eaddff;
+
+        --md-secondary: #ccc2dc;
+        --md-on-secondary: #332d41;
+        --md-secondary-container: #4a4458;
+        --md-on-secondary-container: #e8def8;
+
+        --md-tertiary: #efb8c8;
+        --md-on-tertiary: #492532;
+        --md-tertiary-container: #633b48;
+        --md-on-tertiary-container: #ffd8e4;
+
+        --md-error: #ffb4ab;
+        --md-on-error: #690005;
+        --md-error-container: #93000a;
+        --md-on-error-container: #ffdad6;
+
+        --md-background: #1c1b1f;
+        --md-on-background: #e6e1e5;
+        --md-surface: #1c1b1f;
+        --md-on-surface: #e6e1e5;
+        --md-surface-variant: #49454f;
+        --md-on-surface-variant: #cac4d0;
+
+        --md-outline: #938f99;
+        --md-outline-variant: #49454f;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: var(--md-background);
+        color: var(--md-on-background);
+        line-height: 1.5;
+        transition: all 0.3s ease;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 12px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        padding: 8px 0;
+      }
+
+      .header h1 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--md-primary);
+      }
+
+      .theme-toggle {
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+        border: none;
+        border-radius: 10px;
+        padding: 4px 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-family: inherit;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle:hover {
+        box-shadow: var(--md-elevation-2);
+        transform: translateY(-1px);
+      }
+
+      .color-palette {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .color-group {
+        background: var(--md-surface);
+        border-radius: 6px;
+        padding: 10px;
+        box-shadow: var(--md-elevation-1);
+        border: 1px solid var(--md-outline-variant);
+      }
+
+      .color-group h3 {
+        margin-bottom: 8px;
+        color: var(--md-on-surface);
+        font-weight: 500;
+        text-transform: capitalize;
+        font-size: 0.875rem;
+      }
+
+      .color-swatch {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 8px;
+        border-radius: 4px;
+        margin-bottom: 4px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .color-swatch:hover {
+        transform: translateX(2px);
+        box-shadow: var(--md-elevation-1);
+      }
+
+      .color-name {
+        font-weight: 500;
+        font-size: 12px;
+      }
+
+      .color-value {
+        font-family: "Courier New", monospace;
+        font-size: 10px;
+        opacity: 0.8;
+      }
+
+      .primary-swatch {
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+      }
+      .primary-container-swatch {
+        background: var(--md-primary-container);
+        color: var(--md-on-primary-container);
+      }
+      .secondary-swatch {
+        background: var(--md-secondary);
+        color: var(--md-on-secondary);
+      }
+      .secondary-container-swatch {
+        background: var(--md-secondary-container);
+        color: var(--md-on-secondary-container);
+      }
+      .tertiary-swatch {
+        background: var(--md-tertiary);
+        color: var(--md-on-tertiary);
+      }
+      .tertiary-container-swatch {
+        background: var(--md-tertiary-container);
+        color: var(--md-on-tertiary-container);
+      }
+      .error-swatch {
+        background: var(--md-error);
+        color: var(--md-on-error);
+      }
+      .error-container-swatch {
+        background: var(--md-error-container);
+        color: var(--md-on-error-container);
+      }
+      .surface-swatch {
+        background: var(--md-surface);
+        color: var(--md-on-surface);
+        border: 1px solid var(--md-outline-variant);
+      }
+      .surface-variant-swatch {
+        background: var(--md-surface-variant);
+        color: var(--md-on-surface-variant);
+      }
+
+      .components-demo {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin-bottom: 48px;
+      }
+
+      .component-section {
+        background: var(--md-surface);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: var(--md-elevation-1);
+        border: 1px solid var(--md-outline-variant);
+      }
+
+      .component-section h3 {
+        margin-bottom: 20px;
+        color: var(--md-primary);
+        font-weight: 500;
+      }
+
+      .btn {
+        border: none;
+        border-radius: 20px;
+        padding: 10px 24px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        margin: 4px 8px 4px 0;
+      }
+
+      .btn:hover {
+        box-shadow: var(--md-elevation-2);
+        transform: translateY(-1px);
+      }
+
+      .btn-filled {
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+      }
+
+      .btn-outlined {
+        background: transparent;
+        color: var(--md-primary);
+        border: 1px solid var(--md-outline);
+      }
+
+      .btn-text {
+        background: transparent;
+        color: var(--md-primary);
+      }
+
+      .btn-tonal {
+        background: var(--md-secondary-container);
+        color: var(--md-on-secondary-container);
+      }
+
+      .input-field {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .input-field input {
+        width: 100%;
+        padding: 16px 12px 8px 12px;
+        background: var(--md-surface);
+        border: 1px solid var(--md-outline);
+        border-radius: 4px;
+        color: var(--md-on-surface);
+        font-family: inherit;
+        font-size: 16px;
+        transition: all 0.2s ease;
+      }
+
+      .input-field input:focus {
+        outline: none;
+        border-color: var(--md-primary);
+        border-width: 2px;
+      }
+
+      .input-field label {
+        position: absolute;
+        left: 12px;
+        top: 8px;
+        color: var(--md-primary);
+        font-size: 12px;
+        font-weight: 500;
+        background: var(--md-surface);
+        padding: 0 4px;
+      }
+
+      .card {
+        background: var(--md-surface);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--md-elevation-1);
+        border: 1px solid var(--md-outline-variant);
+        margin-bottom: 16px;
+        transition: all 0.2s ease;
+      }
+
+      .card:hover {
+        box-shadow: var(--md-elevation-2);
+        transform: translateY(-2px);
+      }
+
+      .card h4 {
+        color: var(--md-on-surface);
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      .card p {
+        color: var(--md-on-surface-variant);
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .fab {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--md-elevation-3);
+        transition: all 0.2s ease;
+      }
+
+      .fab:hover {
+        transform: scale(1.1);
+      }
+
+      .notification {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        background: var(--md-surface);
+        color: var(--md-on-surface);
+        padding: 16px 20px;
+        border-radius: 8px;
+        box-shadow: var(--md-elevation-3);
+        border-left: 4px solid var(--md-primary);
+        transform: translateX(400px);
+        transition: all 0.3s ease;
+        max-width: 300px;
+      }
+
+      .notification.show {
+        transform: translateX(0);
+      }
+
+      .color-picker-section {
+        background: var(--md-surface);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: var(--md-elevation-1);
+        border: 1px solid var(--md-outline-variant);
+        margin-bottom: 32px;
+      }
+
+      .color-picker-section h2 {
+        color: var(--md-primary);
+        margin-bottom: 20px;
+        font-weight: 500;
+      }
+
+      .color-bar {
+        position: relative;
+        height: 30px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        cursor: pointer;
+        overflow: hidden;
+        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(
+          to right,
+          #ff0000 0%,
+          #ff8000 8.33%,
+          #ffff00 16.66%,
+          #80ff00 25%,
+          #00ff00 33.33%,
+          #00ff80 41.66%,
+          #00ffff 50%,
+          #0080ff 58.33%,
+          #0000ff 66.66%,
+          #8000ff 75%,
+          #ff00ff 83.33%,
+          #ff0080 91.66%,
+          #ff0000 100%
+        );
+      }
+
+      .color-bar:focus {
+        outline: 2px solid var(--md-primary);
+        outline-offset: 2px;
+      }
+
+      .color-pointer {
+        position: absolute;
+        top: 50%;
+        width: 24px;
+        height: 24px;
+        background: white;
+        border: 3px solid var(--md-on-surface);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        cursor: grab;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease;
+        z-index: 2;
+      }
+
+      .color-pointer:hover {
+        transform: translate(-50%, -50%) scale(1.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      .color-pointer:active {
+        cursor: grabbing;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+
+      .color-pointer::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--current-color, #6750a4);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+      }
+
+      .custom-color-input {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        padding: 12px;
+        background: var(--md-surface-variant);
+        border-radius: 8px;
+      }
+
+      .custom-color-input input[type="color"] {
+        width: 50px;
+        height: 50px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: none;
+      }
+
+      .custom-color-input input[type="text"] {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid var(--md-outline);
+        border-radius: 4px;
+        background: var(--md-surface);
+        color: var(--md-on-surface);
+        font-family: "Courier New", monospace;
+      }
+
+      .apply-color-btn {
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--md-outline-variant);
+        margin-bottom: 20px;
+      }
+
+      .tab {
+        background: none;
+        border: none;
+        padding: 12px 24px;
+        cursor: pointer;
+        color: var(--md-on-surface-variant);
+        font-family: inherit;
+        font-weight: 500;
+        position: relative;
+        transition: all 0.2s ease;
+      }
+
+      .tab.active {
+        color: var(--md-primary);
+      }
+
+      .tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--md-primary);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 8px;
+        }
+
+        .color-palette {
+          grid-template-columns: 1fr;
+        }
+
+        .components-demo {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body data-theme="dark">
+    <div class="container">
+      <header class="header">
+        <h1>Material Design Color Editor</h1>
+        <div style="display: flex; align-items: center; gap: 12px">
+          <div
+            id="material-status"
+            style="
+              padding: 4px 8px;
+              border-radius: 12px;
+              font-size: 12px;
+              font-weight: 500;
+              background: var(--md-primary-container);
+              color: var(--md-on-primary-container);
+            "
+          >
+            Loading...
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="material-icons">dark_mode</span>
+            Toggle Theme
+          </button>
+        </div>
+      </header>
+
+      <section class="color-picker-section">
+        <h2>🎨 Choose Your Primary Color</h2>
+        <p style="color: var(--md-on-surface-variant); margin-bottom: 16px">
+          Select a primary color below and watch how
+          <strong>authentic Material Design colors</strong>
+          automatically generate using Google's official algorithms! This uses
+          the same color science that powers Android's Material You.
+        </p>
+
+        <div class="color-bar" id="colorBar">
+          <div class="color-pointer" id="colorPointer"></div>
+        </div>
+      </section>
+
+      <button class="fab" onclick="showNotification()">
+        <span class="material-icons">add</span>
+      </button>
+
+      <div class="notification" id="notification">
+        <strong>Color Copied!</strong><br />
+        The color value has been copied to your clipboard.
+      </div>
+
+      <main>
+        <header
+          style="
+            background: var(--md-primary);
+            color: var(--md-on-primary);
+            padding: 24px;
+            border-radius: 12px 12px 0 0;
+          "
+        >
+          <h2>Semantic Header (Primary)</h2>
+          <p>This header uses the primary color scheme.</p>
+        </header>
+
+        <nav
+          style="
+            background: var(--md-secondary);
+            color: var(--md-on-secondary);
+            padding: 16px;
+            border-radius: 0 0 12px 12px;
+            margin-bottom: 16px;
+          "
+        >
+          <ul
+            style="
+              display: flex;
+              gap: 24px;
+              list-style: none;
+              margin: 0;
+              padding: 0;
+            "
+          >
+            <li>
+              <a
+                href="#"
+                style="
+                  color: var(--md-on-secondary);
+                  text-decoration: underline;
+                "
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                style="
+                  color: var(--md-on-secondary);
+                  text-decoration: underline;
+                "
+                >About</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                style="
+                  color: var(--md-on-secondary);
+                  text-decoration: underline;
+                "
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <section
+          style="
+            background: var(--md-primary-container);
+            color: var(--md-on-primary-container);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+          "
+        >
+          <h3>Section (Primary Container)</h3>
+          <p>This section uses the primary container color.</p>
+        </section>
+
+        <section
+          style="
+            background: var(--md-secondary-container);
+            color: var(--md-on-secondary-container);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+          "
+        >
+          <h3>Section (Secondary Container)</h3>
+          <p>This section uses the secondary container color.</p>
+        </section>
+
+        <aside
+          style="
+            background: var(--md-tertiary);
+            color: var(--md-on-tertiary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+          "
+        >
+          <h4>Aside (Accent/Tertiary)</h4>
+          <p>This aside uses the accent/tertiary color.</p>
+        </aside>
+
+        <article
+          style="
+            background: var(--md-tertiary-container);
+            color: var(--md-on-tertiary-container);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+          "
+        >
+          <h4>Article (Tertiary Container)</h4>
+          <p>This article uses the tertiary container color.</p>
+        </article>
+
+        <footer
+          style="
+            background: var(--md-secondary);
+            color: var(--md-on-secondary);
+            padding: 20px;
+            border-radius: 0 0 12px 12px;
+            margin-top: 32px;
+          "
+        >
+          <strong>Footer (Secondary)</strong>
+          <p>This footer uses the secondary color scheme.</p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        body.setAttribute("data-theme", newTheme);
+
+        const toggleBtn = document.querySelector(".theme-toggle span");
+        toggleBtn.textContent =
+          newTheme === "dark" ? "light_mode" : "dark_mode";
+      }
+
+      // Color manipulation utilities
+      function hexToHsl(hex) {
+        const r = parseInt(hex.slice(1, 3), 16) / 255;
+        const g = parseInt(hex.slice(3, 5), 16) / 255;
+        const b = parseInt(hex.slice(5, 7), 16) / 255;
+
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h,
+          s,
+          l = (max + min) / 2;
+
+        if (max === min) {
+          h = s = 0;
+        } else {
+          const d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch (max) {
+            case r:
+              h = (g - b) / d + (g < b ? 6 : 0);
+              break;
+            case g:
+              h = (b - r) / d + 2;
+              break;
+            case b:
+              h = (r - g) / d + 4;
+              break;
+          }
+          h /= 6;
+        }
+
+        return [h * 360, s * 100, l * 100];
+      }
+
+      function hslToHex(h, s, l) {
+        l /= 100;
+        const a = (s * Math.min(l, 1 - l)) / 100;
+        const f = (n) => {
+          const k = (n + h / 30) % 12;
+          const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+          return Math.round(255 * color)
+            .toString(16)
+            .padStart(2, "0");
+        };
+        return `#${f(0)}${f(8)}${f(4)}`;
+      }
+
+      function hueToHex(hue) {
+        // Convert hue (0-360) to RGB
+        const c = 1; // Full saturation
+        const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
+        const m = 0;
+
+        let r, g, b;
+        if (hue >= 0 && hue < 60) {
+          [r, g, b] = [c, x, 0];
+        } else if (hue >= 60 && hue < 120) {
+          [r, g, b] = [x, c, 0];
+        } else if (hue >= 120 && hue < 180) {
+          [r, g, b] = [0, c, x];
+        } else if (hue >= 180 && hue < 240) {
+          [r, g, b] = [0, x, c];
+        } else if (hue >= 240 && hue < 300) {
+          [r, g, b] = [x, 0, c];
+        } else {
+          [r, g, b] = [c, 0, x];
+        }
+
+        // Adjust for lightness and saturation to get a good primary color
+        const saturation = 0.7;
+        const lightness = 0.45;
+
+        return hslToHex(hue, saturation * 100, lightness * 100);
+      }
+
+      // Color slider functionality
+      let isDragging = false;
+      let currentHue = 270; // Default purple hue
+      let isSliderFocused = false;
+
+      function initColorSlider() {
+        const colorBar = document.getElementById("colorBar");
+        const colorPointer = document.getElementById("colorPointer");
+
+        // Make color bar focusable
+        colorBar.setAttribute("tabindex", "0");
+        colorBar.setAttribute("role", "slider");
+        colorBar.setAttribute("aria-label", "Select primary color");
+        colorBar.setAttribute("aria-valuemin", "0");
+        colorBar.setAttribute("aria-valuemax", "360");
+
+        // Set initial position for default purple
+        updatePointerPosition(currentHue);
+        updateAriaValue(currentHue);
+
+        // Mouse events
+        colorBar.addEventListener("mousedown", handleSliderStart);
+        colorBar.addEventListener("mousemove", handleSliderMove);
+        document.addEventListener("mouseup", handleSliderEnd);
+
+        // Touch events for mobile
+        colorBar.addEventListener("touchstart", handleSliderStart);
+        colorBar.addEventListener("touchmove", handleSliderMove);
+        document.addEventListener("touchend", handleSliderEnd);
+
+        // Focus events
+        colorBar.addEventListener("focus", () => {
+          isSliderFocused = true;
+          console.log("Color bar focused");
+        });
+
+        colorBar.addEventListener("blur", () => {
+          isSliderFocused = false;
+          console.log("Color bar blurred");
+        });
+
+        // Click to focus
+        colorBar.addEventListener("click", () => {
+          colorBar.focus();
+        });
+
+        // Keyboard events - attach directly to color bar
+        colorBar.addEventListener("keydown", (e) => {
+          console.log(
+            "Key pressed on color bar:",
+            e.key,
+            "Focused:",
+            isSliderFocused
+          );
+
+          let step = 1;
+          if (e.shiftKey) step = 10;
+
+          switch (e.key) {
+            case "ArrowLeft":
+              e.preventDefault();
+              currentHue = Math.max(0, currentHue - step);
+              updateFromKeyboard();
+              break;
+            case "ArrowRight":
+              e.preventDefault();
+              currentHue = Math.min(360, currentHue + step);
+              updateFromKeyboard();
+              break;
+            case "ArrowDown":
+              e.preventDefault();
+              currentHue = Math.max(0, currentHue - step);
+              updateFromKeyboard();
+              break;
+            case "ArrowUp":
+              e.preventDefault();
+              currentHue = Math.min(360, currentHue + step);
+              updateFromKeyboard();
+              break;
+            case "Home":
+              e.preventDefault();
+              currentHue = 0;
+              updateFromKeyboard();
+              break;
+            case "End":
+              e.preventDefault();
+              currentHue = 360;
+              updateFromKeyboard();
+              break;
+          }
+        });
+      }
+
+      function updateFromKeyboard() {
+        updatePointerPosition(currentHue);
+        updateAriaValue(currentHue);
+
+        const hex = hueToHex(currentHue);
+        updateColorInputs(hex);
+        applyColorScheme(hex);
+
+        console.log("Updated to hue:", currentHue, "hex:", hex);
+      }
+
+      function updateAriaValue(hue) {
+        const colorBar = document.getElementById("colorBar");
+        if (colorBar) {
+          colorBar.setAttribute("aria-valuenow", Math.round(hue));
+          colorBar.setAttribute(
+            "aria-valuetext",
+            `Hue ${Math.round(hue)} degrees`
+          );
+        }
+      }
+
+      function handleSliderStart(e) {
+        isDragging = true;
+        updateSliderFromEvent(e);
+        e.preventDefault();
+      }
+
+      function handleSliderMove(e) {
+        if (!isDragging) return;
+        updateSliderFromEvent(e);
+        e.preventDefault();
+      }
+
+      function handleSliderEnd() {
+        isDragging = false;
+      }
+
+      function updateSliderFromEvent(e) {
+        const colorBar = document.getElementById("colorBar");
+        const rect = colorBar.getBoundingClientRect();
+
+        // Get x position from mouse or touch
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const x = clientX - rect.left;
+        const percentage = Math.max(0, Math.min(1, x / rect.width));
+
+        // Convert percentage to hue (0-360)
+        currentHue = percentage * 360;
+
+        // Update pointer position and color
+        updatePointerPosition(currentHue);
+
+        // Generate color and apply
+        const hex = hueToHex(currentHue);
+        updateColorInputs(hex);
+        applyColorScheme(hex);
+      }
+
+      function updatePointerPosition(hue) {
+        const colorPointer = document.getElementById("colorPointer");
+        const percentage = hue / 360;
+        colorPointer.style.left = `${percentage * 100}%`;
+
+        // Update pointer color to match current selection
+        const currentColor = hueToHex(hue);
+        colorPointer.style.setProperty("--current-color", currentColor);
+
+        // Update aria value for accessibility
+        updateAriaValue(hue);
+      }
+
+      function updateColorInputs(hex) {
+        // Color inputs removed - just keep for internal tracking if needed
+      }
+
+      function setPrimaryColor(hex) {
+        // Convert hex to hue for slider position
+        const [h] = hexToHsl(hex);
+        currentHue = h;
+        updatePointerPosition(currentHue);
+        updateColorInputs(hex);
+        applyColorScheme(hex);
+      }
+
+      function generateMaterialColors(primaryHex) {
+        // Use Google's official Material Design Color Utilities
+        const materialColor = window.MaterialColorUtilities;
+
+        if (!materialColor) {
+          console.warn(
+            "⚠️ Material Color Utilities not loaded, falling back to custom colors"
+          );
+          
+          // Update status to show fallback mode
+          const statusElement = document.getElementById('material-status');
+          if (statusElement) {
+            statusElement.textContent = '⚠️ Fallback Colors';
+            statusElement.style.background = 'var(--md-error-container)';
+            statusElement.style.color = 'var(--md-on-error-container)';
+          }
+          
+          return generateFallbackColors(primaryHex);
+        }
+
+        try {
+          // Update status to show real Material Design
+          const statusElement = document.getElementById('material-status');
+          if (statusElement) {
+            statusElement.textContent = '✅ REAL Material Design';
+            statusElement.style.background = 'var(--md-tertiary-container)';
+            statusElement.style.color = 'var(--md-on-tertiary-container)';
+          }
+
+          // Convert hex to ARGB (Material Design's color format)
+          const argb = materialColor.argbFromHex(primaryHex);
+
+          // Create a CorePalette from the source color
+          const corePalette = materialColor.CorePalette.of(argb);
+
+          // Generate the Material Design 3 color scheme
+          const isDark = document.body.getAttribute("data-theme") === "dark";
+          const scheme = isDark
+            ? new materialColor.SchemeDark(corePalette)
+            : new materialColor.SchemeLight(corePalette);
+
+          // Convert ARGB colors back to hex
+          const colors = {
+            primary: materialColor.hexFromArgb(scheme.primary),
+            onPrimary: materialColor.hexFromArgb(scheme.onPrimary),
+            primaryContainer: materialColor.hexFromArgb(
+              scheme.primaryContainer
+            ),
+            onPrimaryContainer: materialColor.hexFromArgb(
+              scheme.onPrimaryContainer
+            ),
+
+            secondary: materialColor.hexFromArgb(scheme.secondary),
+            onSecondary: materialColor.hexFromArgb(scheme.onSecondary),
+            secondaryContainer: materialColor.hexFromArgb(
+              scheme.secondaryContainer
+            ),
+            onSecondaryContainer: materialColor.hexFromArgb(
+              scheme.onSecondaryContainer
+            ),
+
+            tertiary: materialColor.hexFromArgb(scheme.tertiary),
+            onTertiary: materialColor.hexFromArgb(scheme.onTertiary),
+            tertiaryContainer: materialColor.hexFromArgb(
+              scheme.tertiaryContainer
+            ),
+            onTertiaryContainer: materialColor.hexFromArgb(
+              scheme.onTertiaryContainer
+            ),
+
+            // Additional Material Design colors
+            error: materialColor.hexFromArgb(scheme.error),
+            onError: materialColor.hexFromArgb(scheme.onError),
+            errorContainer: materialColor.hexFromArgb(scheme.errorContainer),
+            onErrorContainer: materialColor.hexFromArgb(
+              scheme.onErrorContainer
+            ),
+
+            background: materialColor.hexFromArgb(scheme.background),
+            onBackground: materialColor.hexFromArgb(scheme.onBackground),
+            surface: materialColor.hexFromArgb(scheme.surface),
+            onSurface: materialColor.hexFromArgb(scheme.onSurface),
+            surfaceVariant: materialColor.hexFromArgb(scheme.surfaceVariant),
+            onSurfaceVariant: materialColor.hexFromArgb(
+              scheme.onSurfaceVariant
+            ),
+
+            outline: materialColor.hexFromArgb(scheme.outline),
+            outlineVariant: materialColor.hexFromArgb(scheme.outlineVariant),
+          };
+
+          console.log(
+            `✅ Generated REAL Material Design colors for ${
+              isDark ? "dark" : "light"
+            } mode:`,
+            colors
+          );
+          return colors;
+        } catch (error) {
+          console.error("Error with Material Color Utilities:", error);
+          return generateFallbackColors(primaryHex);
+        }
+      }
+
+      // Fallback color generation (our previous custom method)
+      function generateFallbackColors(primaryHex) {
+        console.warn(
+          "⚠️ Using fallback color generation (not true Material Design)"
+        );
+        const [h, s, l] = hexToHsl(primaryHex);
+        const isDark = document.body.getAttribute("data-theme") === "dark";
+
+        const baseSaturation = Math.max(50, Math.min(s, 80));
+        const baseLightness = isDark ? 65 : 45;
+
+        return {
+          primary: isDark
+            ? hslToHex(h, baseSaturation - 10, baseLightness)
+            : primaryHex,
+          onPrimary: isDark
+            ? hslToHex(h, Math.max(baseSaturation - 20, 30), 15)
+            : "#FFFFFF",
+          primaryContainer: isDark
+            ? hslToHex(h, Math.max(baseSaturation - 20, 35), 25)
+            : hslToHex(h, Math.min(baseSaturation + 10, 90), 85),
+          onPrimaryContainer: isDark
+            ? hslToHex(h, baseSaturation, 85)
+            : hslToHex(h, Math.max(baseSaturation - 10, 40), 15),
+
+          secondary: isDark
+            ? hslToHex(
+                (h + 45) % 360,
+                Math.max(baseSaturation - 25, 25),
+                baseLightness - 5
+              )
+            : hslToHex(
+                (h + 45) % 360,
+                Math.max(baseSaturation - 20, 30),
+                baseLightness - 10
+              ),
+          onSecondary: "#FFFFFF",
+          secondaryContainer: isDark
+            ? hslToHex((h + 45) % 360, Math.max(baseSaturation - 35, 20), 25)
+            : hslToHex((h + 45) % 360, Math.max(baseSaturation - 15, 35), 85),
+          onSecondaryContainer: isDark
+            ? hslToHex((h + 45) % 360, baseSaturation - 10, 85)
+            : hslToHex((h + 45) % 360, Math.max(baseSaturation - 25, 30), 15),
+
+          tertiary: isDark
+            ? hslToHex(
+                (h + 105) % 360,
+                Math.max(baseSaturation - 20, 30),
+                baseLightness - 10
+              )
+            : hslToHex(
+                (h + 105) % 360,
+                Math.max(baseSaturation - 15, 35),
+                baseLightness - 5
+              ),
+          onTertiary: "#FFFFFF",
+          tertiaryContainer: isDark
+            ? hslToHex((h + 105) % 360, Math.max(baseSaturation - 30, 25), 25)
+            : hslToHex((h + 105) % 360, Math.max(baseSaturation - 10, 40), 85),
+          onTertiaryContainer: isDark
+            ? hslToHex((h + 105) % 360, baseSaturation - 5, 85)
+            : hslToHex((h + 105) % 360, Math.max(baseSaturation - 20, 35), 15),
+        };
+      }
+
+      function updateCustomColor() {
+        const colorPicker = document.getElementById("colorPicker");
+        const colorHex = document.getElementById("colorHex");
+        const hex = colorPicker.value.toUpperCase();
+        colorHex.value = hex;
+
+        // Update slider position
+        const [h] = hexToHsl(hex);
+        currentHue = h;
+        updatePointerPosition(currentHue);
+      }
+
+      function applyCustomColor() {
+        const hex = document.getElementById("colorHex").value;
+        if (/^#[0-9A-F]{6}$/i.test(hex)) {
+          // Update slider position
+          const [h] = hexToHsl(hex);
+          currentHue = h;
+          updatePointerPosition(currentHue);
+
+          document.getElementById("colorPicker").value = hex;
+          applyColorScheme(hex);
+        } else {
+          alert("Please enter a valid hex color (e.g., #FF0000)");
+        }
+      }
+
+      function applyColorScheme(primaryHex) {
+        const colors = generateMaterialColors(primaryHex);
+        const root = document.documentElement;
+        const isDark = document.body.getAttribute("data-theme") === "dark";
+
+        // Update CSS custom properties with !important to override theme defaults
+        // Primary colors
+        root.style.setProperty("--md-primary", colors.primary, "important");
+        root.style.setProperty(
+          "--md-on-primary",
+          colors.onPrimary,
+          "important"
+        );
+        root.style.setProperty(
+          "--md-primary-container",
+          colors.primaryContainer,
+          "important"
+        );
+        root.style.setProperty(
+          "--md-on-primary-container",
+          colors.onPrimaryContainer,
+          "important"
+        );
+
+        // Secondary colors
+        root.style.setProperty("--md-secondary", colors.secondary, "important");
+        root.style.setProperty(
+          "--md-on-secondary",
+          colors.onSecondary,
+          "important"
+        );
+        root.style.setProperty(
+          "--md-secondary-container",
+          colors.secondaryContainer,
+          "important"
+        );
+        root.style.setProperty(
+          "--md-on-secondary-container",
+          colors.onSecondaryContainer,
+          "important"
+        );
+
+        // Tertiary colors
+        root.style.setProperty("--md-tertiary", colors.tertiary, "important");
+        root.style.setProperty(
+          "--md-on-tertiary",
+          colors.onTertiary,
+          "important"
+        );
+        root.style.setProperty(
+          "--md-tertiary-container",
+          colors.tertiaryContainer,
+          "important"
+        );
+        root.style.setProperty(
+          "--md-on-tertiary-container",
+          colors.onTertiaryContainer,
+          "important"
+        );
+
+        // Apply additional Material Design colors if available
+        if (colors.error) {
+          root.style.setProperty("--md-error", colors.error, "important");
+          root.style.setProperty("--md-on-error", colors.onError, "important");
+          root.style.setProperty(
+            "--md-error-container",
+            colors.errorContainer,
+            "important"
+          );
+          root.style.setProperty(
+            "--md-on-error-container",
+            colors.onErrorContainer,
+            "important"
+          );
+        }
+
+        if (colors.background) {
+          root.style.setProperty(
+            "--md-background",
+            colors.background,
+            "important"
+          );
+          root.style.setProperty(
+            "--md-on-background",
+            colors.onBackground,
+            "important"
+          );
+          root.style.setProperty("--md-surface", colors.surface, "important");
+          root.style.setProperty(
+            "--md-on-surface",
+            colors.onSurface,
+            "important"
+          );
+          root.style.setProperty(
+            "--md-surface-variant",
+            colors.surfaceVariant,
+            "important"
+          );
+          root.style.setProperty(
+            "--md-on-surface-variant",
+            colors.onSurfaceVariant,
+            "important"
+          );
+        }
+
+        if (colors.outline) {
+          root.style.setProperty("--md-outline", colors.outline, "important");
+          root.style.setProperty(
+            "--md-outline-variant",
+            colors.outlineVariant,
+            "important"
+          );
+        }
+
+        // Force a style recalculation by temporarily changing a property
+        document.body.style.display = "none";
+        document.body.offsetHeight; // Trigger reflow
+        document.body.style.display = "";
+
+        // Update color swatch display values
+        updateColorSwatchValues(colors);
+
+        const materialStatus = window.MaterialColorUtilities
+          ? "✅ REAL Material Design"
+          : "⚠️ Fallback colors";
+        console.log(
+          `${materialStatus} applied for ${isDark ? "dark" : "light"} mode:`,
+          colors
+        );
+      }
+
+      function updateColorSwatchValues(colors) {
+        const swatches = {
+          ".primary-swatch .color-value": colors.primary,
+          ".primary-container-swatch .color-value": colors.primaryContainer,
+          ".secondary-swatch .color-value": colors.secondary,
+          ".secondary-container-swatch .color-value": colors.secondaryContainer,
+          ".tertiary-swatch .color-value": colors.tertiary,
+          ".tertiary-container-swatch .color-value": colors.tertiaryContainer,
+        };
+
+        Object.entries(swatches).forEach(([selector, value]) => {
+          const element = document.querySelector(selector);
+          if (element) {
+            element.textContent = value.toUpperCase();
+            // Update onclick to copy new color
+            const swatchElement = element.closest(".color-swatch");
+            if (swatchElement) {
+              swatchElement.onclick = () => copyColor(value.toUpperCase());
+            }
+          }
+        });
+      }
+
+      // Update colors when theme changes
+      const originalToggleTheme = toggleTheme;
+      toggleTheme = function () {
+        originalToggleTheme();
+        // Wait for theme to be applied, then reapply current color scheme
+        setTimeout(() => {
+          const currentPrimary = hueToHex(currentHue);
+          console.log(
+            "Theme toggled, reapplying colors with primary:",
+            currentPrimary
+          );
+          applyColorScheme(currentPrimary);
+        }, 50);
+      };
+
+      // Initialize the color slider when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        initColorSlider();
+
+        // Update status indicator
+        updateMaterialStatus();
+
+        // Apply initial color scheme
+        const initialPrimary = hueToHex(currentHue);
+        applyColorScheme(initialPrimary);
+        console.log("Page loaded, applied initial color scheme");
+      });
+
+      function updateMaterialStatus() {
+        const statusEl = document.getElementById("material-status");
+        if (!statusEl) return;
+
+        if (window.MaterialColorUtilities) {
+          statusEl.textContent = "✅ Google Material Design";
+          statusEl.style.background = "#4CAF50";
+          statusEl.style.color = "white";
+          statusEl.title = "Using official Google Material Color Utilities";
+        } else {
+          statusEl.textContent = "⚠️ Fallback Colors";
+          statusEl.style.background = "#FF9800";
+          statusEl.style.color = "white";
+          statusEl.title =
+            "Material library failed to load, using approximation";
+        }
+      }
+
+      function copyColor(colorValue) {
+        navigator.clipboard.writeText(colorValue).then(() => {
+          showNotification();
+        });
+      }
+
+      function showNotification() {
+        const notification = document.getElementById("notification");
+        notification.classList.add("show");
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      function switchTab(tabElement) {
+        // Remove active class from all tabs
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+        // Add active class to clicked tab
+        tabElement.classList.add("active");
+      }
+
+      // Add some interactive animations
+      document.querySelectorAll(".btn").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          // Create ripple effect
+          const ripple = document.createElement("div");
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+
+          ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+
+          this.style.position = "relative";
+          this.style.overflow = "hidden";
+          this.appendChild(ripple);
+
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      });
+
+      // Add ripple animation CSS
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Material Status Update Function
+      function updateMaterialStatus() {
+        const statusElement = document.getElementById('material-status');
+        if (window.MaterialColorUtilities) {
+          statusElement.textContent = '✅ REAL Material Design';
+          statusElement.style.background = 'var(--md-tertiary-container)';
+          statusElement.style.color = 'var(--md-on-tertiary-container)';
+        } else {
+          statusElement.textContent = '⚠️ Fallback Colors';
+          statusElement.style.background = 'var(--md-error-container)';
+          statusElement.style.color = 'var(--md-on-error-container)';
+        }
+      }
+
+      // Initialize everything when DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 Initializing Material Design Color Editor...');
+        
+        // Initialize color slider
+        initColorSlider();
+        
+        // Set initial Material Design colors
+        const initialHex = hueToHex(currentHue);
+        applyColorScheme(initialHex);
+        
+        // Update status after a short delay to ensure library loading
+        setTimeout(updateMaterialStatus, 1000);
+        
+        console.log('✅ Material Design Color Editor initialized');
+      });
+    </script>
+  </body>
+</html>

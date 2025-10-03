@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Components - Component Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #475569;
+            --primary: #6366f1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .stat-complete { color: var(--success); }
+        .stat-progress { color: var(--warning); }
+        .stat-broken { color: var(--error); }
+        .stat-total { color: var(--primary); }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .component-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .component-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .component-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .component-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-complete {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .status-progress {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .status-broken {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .component-description {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .component-type {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .component-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .component-link {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: opacity 0.2s;
+        }
+
+        .component-link:hover {
+            opacity: 0.8;
+        }
+
+        .component-link.demo {
+            background: var(--success);
+        }
+
+        .component-link.docs {
+            background: var(--warning);
+        }
+
+        .issues {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .issues-title {
+            color: var(--error);
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .issues-text {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 40px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .quick-start {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .quick-start h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .quick-start pre {
+            background: var(--bg-primary);
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>WB Components</h1>
+        <p>Complete library of Website Builder components</p>
+    </div>
+
+    <div class="container">
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number stat-total">25</div>
+                <div class="stat-label">Total Components</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stat-complete">17</div>
+                <div class="stat-label">Complete</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stat-progress">3</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stat-broken">5</div>
+                <div class="stat-label">Need Fixes</div>
+            </div>
+        </div>
+
+        <!-- Quick Start -->
+        <div class="quick-start">
+            <h3>Quick Start</h3>
+            <p>Include any component in your project:</p>
+            <pre><code>&lt;!-- Web Component (Recommended) --&gt;
+&lt;script src="components/wb-table/wb-table-webcomponent.js"&gt;&lt;/script&gt;
+&lt;wb-table striped hover data-json='[{"name":"John","age":30}]'&gt;&lt;/wb-table&gt;
+
+&lt;!-- Legacy Component --&gt;
+&lt;script src="components/wb-button/wb-button.js"&gt;&lt;/script&gt;
+&lt;div id="my-button"&gt;&lt;/div&gt;
+&lt;script&gt;WBButton.create('my-button', {variant: 'primary'});&lt;/script&gt;</code></pre>
+        </div>
+
+        <!-- Search -->
+        <input type="text" class="search-box" placeholder="Search components..." id="searchBox">
+
+        <!-- Filters -->
+        <div class="filter-tabs">
+            <div class="filter-tab active" data-filter="all">All Components</div>
+            <div class="filter-tab" data-filter="complete">Complete</div>
+            <div class="filter-tab" data-filter="web-component">Web Components</div>
+            <div class="filter-tab" data-filter="broken">Need Fixes</div>
+            <div class="filter-tab" data-filter="ui">UI Components</div>
+            <div class="filter-tab" data-filter="data">Data Display</div>
+        </div>
+
+        <!-- UI Components -->
+        <div class="section">
+            <h2 class="section-title">UI Components</h2>
+            <div class="component-grid" id="ui-components">
+                <!-- Components will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Data Display Components -->
+        <div class="section">
+            <h2 class="section-title">Data Display Components</h2>
+            <div class="component-grid" id="data-components">
+                <!-- Components will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Layout Components -->
+        <div class="section">
+            <h2 class="section-title">Layout Components</h2>
+            <div class="component-grid" id="layout-components">
+                <!-- Components will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Content Components -->
+        <div class="section">
+            <h2 class="section-title">Content Components</h2>
+            <div class="component-grid" id="content-components">
+                <!-- Components will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Utility Components -->
+        <div class="section">
+            <h2 class="section-title">Utility Components</h2>
+            <div class="component-grid" id="utility-components">
+                <!-- Components will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Component data
+        const components = [
+            // UI Components
+            {
+                name: 'wb-button',
+                category: 'ui',
+                status: 'complete',
+                type: 'Web Component',
+                description: 'Customizable button with variants and themes',
+                demo: 'wb-button/wb-button-demo.html',
+                docs: 'wb-button/wb-button.md'
+            },
+            {
+                name: 'wb-color-picker',
+                category: 'ui',
+                status: 'complete',
+                type: 'Component',
+                description: 'Color picker with Material Design support',
+                demo: 'wb-color-picker/wb-color-picker-demo.html',
+                docs: 'wb-color-picker/wb-color-picker.md'
+            },
+            {
+                name: 'wb-slider',
+                category: 'ui',
+                status: 'complete',
+                type: 'Component',
+                description: 'Range slider for numeric inputs',
+                demo: 'wb-slider/wb-slider-demo.html',
+                docs: 'wb-slider/wb-slider.md'
+            },
+            {
+                name: 'wb-toggle',
+                category: 'ui',
+                status: 'complete',
+                type: 'Component',
+                description: 'Toggle switch component',
+                demo: 'wb-toggle/wb-toggle-demo.html',
+                docs: 'wb-toggle/wb-toggle.md'
+            },
+            {
+                name: 'wb-select',
+                category: 'ui',
+                status: 'complete',
+                type: 'Web Component',
+                description: 'Dropdown select component with dark mode',
+                demo: 'wb-select/wb-select-demo.html',
+                docs: 'wb-select/wb-select.md'
+            },
+            {
+                name: 'wb-input',
+                category: 'ui',
+                status: 'broken',
+                type: 'Component',
+                description: 'Input elements for text entry',
+                issues: 'Input elements not functional - users cannot enter text',
+                demo: 'wb-input/wb-input-demo.html',
+                docs: 'wb-input/wb-input.md'
+            },
+            {
+                name: 'wb-modal',
+                category: 'ui',
+                status: 'complete',
+                type: 'Component',
+                description: 'Modal dialog component',
+                demo: 'wb-modal/wb-modal-demo.html',
+                docs: 'wb-modal/wb-modal.md'
+            },
+            {
+                name: 'wb-nav-menu',
+                category: 'ui',
+                status: 'complete',
+                type: 'Component',
+                description: 'Navigation menu component',
+                demo: 'wb-nav-menu/wb-nav-menu-demo.html',
+                docs: 'wb-nav-menu/wb-nav-menu.md'
+            },
+
+            // Data Display Components
+            {
+                name: 'wb-table',
+                category: 'data',
+                status: 'complete',
+                type: 'Web Component',
+                description: 'Auto-header table that handles JSON data',
+                demo: 'wb-table/wb-table-json-demo.html',
+                docs: 'wb-table/wb-table.md'
+            },
+            {
+                name: 'wb-status',
+                category: 'data',
+                status: 'complete',
+                type: 'Component',
+                description: 'Status bar for events and settings',
+                demo: 'wb-status/wb-status-demo.html',
+                docs: 'wb-status/wb-status.md'
+            },
+            {
+                name: 'wb-log-error',
+                category: 'data',
+                status: 'complete',
+                type: 'Web Component',
+                description: 'Error logging with table display',
+                demo: 'wb-log-error/wb-log-error-demo.html',
+                docs: 'wb-log-error/wb-log-error.md'
+            },
+
+            // Layout Components
+            {
+                name: 'wb-viewport',
+                category: 'layout',
+                status: 'complete',
+                type: 'Component',
+                description: 'Viewport simulator for responsive testing',
+                issues: 'Content appears darker in smaller viewports',
+                demo: 'wb-viewport/wb-viewport-demo.html',
+                docs: 'wb-viewport/wb-viewport.md'
+            },
+            {
+                name: 'control-panel',
+                category: 'layout',
+                status: 'complete',
+                type: 'Component',
+                description: 'Main control panel for website builder',
+                demo: 'control-panel/control-panel-demo.html',
+                docs: 'control-panel/control-panel.md'
+            },
+            {
+                name: 'control-panel-new',
+                category: 'layout',
+                status: 'broken',
+                type: 'Component',
+                description: 'New control panel with enhanced features',
+                issues: 'JSON parsing errors and incorrect path references'
+            },
+
+            // Content Components
+            {
+                name: 'change-text',
+                category: 'content',
+                status: 'broken',
+                type: 'Component',
+                description: 'Text editing component',
+                issues: 'Edit mode functionality not working, buttons need to be sticky'
+            },
+            {
+                name: 'image-insert',
+                category: 'content',
+                status: 'broken',
+                type: 'Component',
+                description: 'Image insertion component',
+                issues: 'Insert function not working, needs edit button'
+            },
+            {
+                name: 'color-bar',
+                category: 'content',
+                status: 'progress',
+                type: 'Component',
+                description: 'Color visualization component',
+                issues: 'Needs tabs for presentation/documentation'
+            },
+
+            // Utility Components
+            {
+                name: 'wb-component-utils',
+                category: 'utility',
+                status: 'complete',
+                type: 'Utility Library',
+                description: 'Shared utilities for all WB components',
+                docs: 'wb-component-utils.md'
+            },
+            {
+                name: 'wb-event-log',
+                category: 'utility',
+                status: 'complete',
+                type: 'Component',
+                description: 'Passive event logging system',
+                docs: 'wb-event-log/wb-event-log.md'
+            }
+        ];
+
+        // Render components
+        function renderComponents(filteredComponents = components) {
+            const categories = {
+                'ui': document.getElementById('ui-components'),
+                'data': document.getElementById('data-components'),
+                'layout': document.getElementById('layout-components'),
+                'content': document.getElementById('content-components'),
+                'utility': document.getElementById('utility-components')
+            };
+
+            // Clear all categories
+            Object.values(categories).forEach(container => {
+                container.innerHTML = '';
+            });
+
+            // Render filtered components
+            filteredComponents.forEach(component => {
+                const container = categories[component.category];
+                if (!container) return;
+
+                const card = document.createElement('div');
+                card.className = 'component-card';
+                card.innerHTML = `
+                    <div class="component-header">
+                        <div class="component-name">${component.name}</div>
+                        <div class="status-badge status-${component.status}">
+                            ${component.status === 'complete' ? '✅ Complete' : 
+                              component.status === 'progress' ? '🔄 In Progress' : 
+                              component.status === 'broken' ? '❌ Broken' : component.status}
+                        </div>
+                    </div>
+                    <div class="component-type">${component.type}</div>
+                    <div class="component-description">${component.description}</div>
+                    ${component.issues ? `
+                        <div class="issues">
+                            <div class="issues-title">Issues:</div>
+                            <div class="issues-text">${component.issues}</div>
+                        </div>
+                    ` : ''}
+                    <div class="component-links">
+                        ${component.demo ? `<a href="${component.demo}" class="component-link demo">Demo</a>` : ''}
+                        ${component.docs ? `<a href="${component.docs}" class="component-link docs">Docs</a>` : ''}
+                        <a href="${component.name}/" class="component-link">Files</a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Filter components
+                const filter = tab.dataset.filter;
+                let filtered = components;
+
+                if (filter !== 'all') {
+                    filtered = components.filter(component => {
+                        switch (filter) {
+                            case 'complete':
+                                return component.status === 'complete';
+                            case 'web-component':
+                                return component.type === 'Web Component';
+                            case 'broken':
+                                return component.status === 'broken';
+                            case 'ui':
+                                return component.category === 'ui';
+                            case 'data':
+                                return component.category === 'data';
+                            default:
+                                return true;
+                        }
+                    });
+                }
+
+                renderComponents(filtered);
+            });
+        });
+
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', (e) => {
+            const search = e.target.value.toLowerCase();
+            const filtered = components.filter(component => 
+                component.name.toLowerCase().includes(search) ||
+                component.description.toLowerCase().includes(search) ||
+                component.type.toLowerCase().includes(search)
+            );
+            renderComponents(filtered);
+        });
+
+        // Initial render
+        renderComponents();
+    </script>
+</body>
+</html>

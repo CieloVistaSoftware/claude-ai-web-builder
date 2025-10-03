@@ -1,0 +1,161 @@
+{
+  "name": "wb-hero",
+  "version": "1.0.0",
+  "description": "Hero section component with background media, call-to-action, and responsive layouts",
+  "category": "layout",
+  "tags": ["hero", "banner", "cta", "responsive", "background"],
+  "author": "WB Components",
+  "license": "MIT",
+  "dependencies": [],
+  "attributes": {
+    "layout": {
+      "type": "string",
+      "enum": ["centered", "left", "right", "split"],
+      "default": "centered",
+      "description": "Content layout alignment"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["small", "medium", "large", "fullscreen"],
+      "default": "large",
+      "description": "Hero section height"
+    },
+    "background-type": {
+      "type": "string",
+      "enum": ["color", "gradient", "image", "video"],
+      "default": "gradient",
+      "description": "Background type"
+    },
+    "background-image": {
+      "type": "string",
+      "description": "Background image URL"
+    },
+    "background-video": {
+      "type": "string",
+      "description": "Background video URL"
+    },
+    "overlay": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable background overlay for text readability"
+    },
+    "overlay-opacity": {
+      "type": "number",
+      "default": 0.5,
+      "description": "Background overlay opacity (0-1)"
+    },
+    "parallax": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable parallax scrolling effect"
+    }
+  },
+  "slots": [
+    {
+      "name": "title",
+      "description": "Hero title content"
+    },
+    {
+      "name": "subtitle",
+      "description": "Hero subtitle/description"
+    },
+    {
+      "name": "actions",
+      "description": "Call-to-action buttons"
+    },
+    {
+      "name": "media",
+      "description": "Additional media content"
+    },
+    {
+      "name": "default",
+      "description": "Main hero content"
+    }
+  ],
+  "events": [
+    {
+      "name": "wb-hero-ready",
+      "description": "Fired when hero is initialized"
+    },
+    {
+      "name": "wb-hero-scroll",
+      "description": "Fired during parallax scroll",
+      "detail": {
+        "scrollY": "number",
+        "offset": "number"
+      }
+    },
+    {
+      "name": "wb-hero-cta-click",
+      "description": "Fired when CTA is clicked",
+      "detail": {
+        "action": "string",
+        "href": "string"
+      }
+    }
+  ],
+  "methods": [
+    {
+      "name": "setLayout",
+      "params": ["layout: string"],
+      "description": "Change hero layout"
+    },
+    {
+      "name": "setBackground",
+      "params": ["type: string", "source?: string"],
+      "description": "Set background type and source"
+    },
+    {
+      "name": "setOverlay",
+      "params": ["enabled: boolean", "opacity?: number"],
+      "description": "Configure background overlay"
+    },
+    {
+      "name": "enableParallax",
+      "params": ["enabled: boolean"],
+      "description": "Enable/disable parallax effect"
+    }
+  ],
+  "cssCustomProperties": {
+    "--wb-hero-height": "80vh",
+    "--wb-hero-padding": "4rem 2rem",
+    "--wb-hero-gap": "2rem",
+    "--wb-hero-title-size": "3rem",
+    "--wb-hero-subtitle-size": "1.25rem",
+    "--wb-hero-overlay": "rgba(0, 0, 0, 0.5)",
+    "--wb-hero-gradient": "linear-gradient(135deg, var(--primary), var(--secondary))",
+    "--wb-hero-text-align": "center"
+  },
+  "layouts": {
+    "centered": "Content centered horizontally and vertically",
+    "left": "Content aligned to the left",
+    "right": "Content aligned to the right", 
+    "split": "Content split into two columns"
+  },
+  "sizes": {
+    "small": "40vh height",
+    "medium": "60vh height",
+    "large": "80vh height",
+    "fullscreen": "100vh height"
+  },
+  "accessibility": {
+    "features": [
+      "Proper heading hierarchy",
+      "Alt text for background images",
+      "Focus management for CTAs",
+      "Reduced motion support for parallax"
+    ]
+  },
+  "examples": {
+    "basic": "<wb-hero><h1 slot=\"title\">Welcome</h1><p slot=\"subtitle\">Description</p></wb-hero>",
+    "withBackground": "<wb-hero background-type=\"image\" background-image=\"hero.jpg\" overlay><h1 slot=\"title\">Hero Title</h1></wb-hero>",
+    "fullscreen": "<wb-hero size=\"fullscreen\" layout=\"centered\" parallax></wb-hero>"
+  },
+  "files": {
+    "js": "wb-hero.js",
+    "css": "wb-hero.css",
+    "demo": "wb-hero-demo.html",
+    "docs": "wb-hero.md",
+    "schema": "wb-hero.schema.json"
+  }
+}

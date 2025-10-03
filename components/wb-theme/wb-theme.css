@@ -1,0 +1,514 @@
+/**
+ * WB Global Theme System
+ * Centralized styles and CSS custom properties for all WB components
+ * 
+ * @version 1.0.0
+ * @author Website Builder Components
+ */
+
+/* ========================================
+   1. CSS CUSTOM PROPERTIES (Design Tokens)
+   ======================================== */
+
+:root {
+    /* Color Palette - Primary */
+    --wb-primary-50: #eef2ff;
+    --wb-primary-100: #e0e7ff;
+    --wb-primary-200: #c7d2fe;
+    --wb-primary-300: #a5b4fc;
+    --wb-primary-400: #818cf8;
+    --wb-primary-500: #6366f1;
+    --wb-primary-600: #4f46e5;
+    --wb-primary-700: #4338ca;
+    --wb-primary-800: #3730a3;
+    --wb-primary-900: #312e81;
+    --wb-primary-950: #1e1b4b;
+    
+    /* Color Palette - Gray */
+    --wb-gray-50: #f8fafc;
+    --wb-gray-100: #f1f5f9;
+    --wb-gray-200: #e2e8f0;
+    --wb-gray-300: #cbd5e1;
+    --wb-gray-400: #94a3b8;
+    --wb-gray-500: #64748b;
+    --wb-gray-600: #475569;
+    --wb-gray-700: #334155;
+    --wb-gray-800: #1e293b;
+    --wb-gray-900: #0f172a;
+    --wb-gray-950: #020617;
+    
+    /* Semantic Colors */
+    --wb-success-light: #10b981;
+    --wb-success-dark: #34d399;
+    --wb-info-light: #3b82f6;
+    --wb-info-dark: #60a5fa;
+    --wb-warning-light: #f59e0b;
+    --wb-warning-dark: #fbbf24;
+    --wb-error-light: #ef4444;
+    --wb-error-dark: #f87171;
+    
+    /* Typography Scale */
+    --wb-font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --wb-font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    
+    --wb-font-size-xs: 0.75rem;    /* 12px */
+    --wb-font-size-sm: 0.875rem;   /* 14px */
+    --wb-font-size-base: 1rem;     /* 16px */
+    --wb-font-size-lg: 1.125rem;   /* 18px */
+    --wb-font-size-xl: 1.25rem;    /* 20px */
+    --wb-font-size-2xl: 1.5rem;    /* 24px */
+    --wb-font-size-3xl: 1.875rem;  /* 30px */
+    --wb-font-size-4xl: 2.25rem;   /* 36px */
+    
+    --wb-font-weight-light: 300;
+    --wb-font-weight-normal: 400;
+    --wb-font-weight-medium: 500;
+    --wb-font-weight-semibold: 600;
+    --wb-font-weight-bold: 700;
+    
+    --wb-line-height-tight: 1.25;
+    --wb-line-height-normal: 1.5;
+    --wb-line-height-relaxed: 1.625;
+    
+    /* Spacing Scale */
+    --wb-space-1: 0.25rem;  /* 4px */
+    --wb-space-2: 0.5rem;   /* 8px */
+    --wb-space-3: 0.75rem;  /* 12px */
+    --wb-space-4: 1rem;     /* 16px */
+    --wb-space-5: 1.25rem;  /* 20px */
+    --wb-space-6: 1.5rem;   /* 24px */
+    --wb-space-8: 2rem;     /* 32px */
+    --wb-space-10: 2.5rem;  /* 40px */
+    --wb-space-12: 3rem;    /* 48px */
+    --wb-space-16: 4rem;    /* 64px */
+    
+    /* Border Radius */
+    --wb-radius-none: 0;
+    --wb-radius-sm: 0.125rem;   /* 2px */
+    --wb-radius-base: 0.25rem;  /* 4px */
+    --wb-radius-md: 0.375rem;   /* 6px */
+    --wb-radius-lg: 0.5rem;     /* 8px */
+    --wb-radius-xl: 0.75rem;    /* 12px */
+    --wb-radius-2xl: 1rem;      /* 16px */
+    --wb-radius-3xl: 1.5rem;    /* 24px */
+    --wb-radius-full: 9999px;
+    
+    /* Shadows */
+    --wb-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --wb-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --wb-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --wb-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --wb-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --wb-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --wb-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    
+    /* Z-Index Scale */
+    --wb-z-auto: auto;
+    --wb-z-0: 0;
+    --wb-z-10: 10;
+    --wb-z-20: 20;
+    --wb-z-30: 30;
+    --wb-z-40: 40;
+    --wb-z-50: 50;
+    --wb-z-dropdown: 1000;
+    --wb-z-sticky: 1020;
+    --wb-z-fixed: 1030;
+    --wb-z-modal-backdrop: 1040;
+    --wb-z-modal: 1050;
+    --wb-z-popover: 1060;
+    --wb-z-tooltip: 1070;
+    
+    /* Transitions */
+    --wb-transition-none: none;
+    --wb-transition-all: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --wb-transition-colors: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                           border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                           color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                           fill 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                           stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --wb-transition-opacity: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --wb-transition-shadow: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --wb-transition-transform: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Animation Durations */
+    --wb-duration-75: 75ms;
+    --wb-duration-100: 100ms;
+    --wb-duration-150: 150ms;
+    --wb-duration-200: 200ms;
+    --wb-duration-300: 300ms;
+    --wb-duration-500: 500ms;
+    --wb-duration-700: 700ms;
+    --wb-duration-1000: 1000ms;
+    
+    /* Component Specific Tokens */
+    --wb-button-padding-x: var(--wb-space-4);
+    --wb-button-padding-y: var(--wb-space-2);
+    --wb-input-padding-x: var(--wb-space-3);
+    --wb-input-padding-y: var(--wb-space-2);
+    --wb-card-padding: var(--wb-space-6);
+    --wb-modal-padding: var(--wb-space-8);
+    
+    /* Light Theme (Default) */
+    --wb-bg-primary: var(--wb-gray-50);
+    --wb-bg-secondary: white;
+    --wb-bg-tertiary: var(--wb-gray-100);
+    --wb-text-primary: var(--wb-gray-900);
+    --wb-text-secondary: var(--wb-gray-700);
+    --wb-text-muted: var(--wb-gray-500);
+    --wb-border-primary: var(--wb-gray-200);
+    --wb-border-secondary: var(--wb-gray-300);
+    
+    /* Component Defaults */
+    --wb-primary: var(--wb-primary-600);
+    --wb-secondary: var(--wb-gray-600);
+    --wb-success: var(--wb-success-light);
+    --wb-info: var(--wb-info-light);
+    --wb-warning: var(--wb-warning-light);
+    --wb-error: var(--wb-error-light);
+}
+
+/* ========================================
+   2. DARK THEME
+   ======================================== */
+
+[data-theme="dark"] {
+    /* Dark Theme Colors */
+    --wb-bg-primary: var(--wb-gray-900);
+    --wb-bg-secondary: var(--wb-gray-800);
+    --wb-bg-tertiary: var(--wb-gray-700);
+    --wb-text-primary: var(--wb-gray-100);
+    --wb-text-secondary: var(--wb-gray-300);
+    --wb-text-muted: var(--wb-gray-400);
+    --wb-border-primary: var(--wb-gray-700);
+    --wb-border-secondary: var(--wb-gray-600);
+    
+    /* Component Colors */
+    --wb-primary: var(--wb-primary-400);
+    --wb-secondary: var(--wb-gray-400);
+    --wb-success: var(--wb-success-dark);
+    --wb-info: var(--wb-info-dark);
+    --wb-warning: var(--wb-warning-dark);
+    --wb-error: var(--wb-error-dark);
+    
+    /* Dark Mode Shadows */
+    --wb-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --wb-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+    --wb-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+    --wb-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+    --wb-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   3. GLOBAL RESETS & BASE STYLES
+   ======================================== */
+
+/* Apply to all WB components */
+[class^="wb-"], [class*=" wb-"] {
+    box-sizing: border-box;
+    font-family: var(--wb-font-family-sans);
+}
+
+/* Reset for all WB components */
+.wb-component {
+    margin: 0;
+    padding: 0;
+    font-size: var(--wb-font-size-base);
+    line-height: var(--wb-line-height-normal);
+    color: var(--wb-text-primary);
+}
+
+/* ========================================
+   4. UTILITY CLASSES
+   ======================================== */
+
+/* Typography */
+.wb-text-xs { font-size: var(--wb-font-size-xs); }
+.wb-text-sm { font-size: var(--wb-font-size-sm); }
+.wb-text-base { font-size: var(--wb-font-size-base); }
+.wb-text-lg { font-size: var(--wb-font-size-lg); }
+.wb-text-xl { font-size: var(--wb-font-size-xl); }
+.wb-text-2xl { font-size: var(--wb-font-size-2xl); }
+.wb-text-3xl { font-size: var(--wb-font-size-3xl); }
+.wb-text-4xl { font-size: var(--wb-font-size-4xl); }
+
+.wb-font-light { font-weight: var(--wb-font-weight-light); }
+.wb-font-normal { font-weight: var(--wb-font-weight-normal); }
+.wb-font-medium { font-weight: var(--wb-font-weight-medium); }
+.wb-font-semibold { font-weight: var(--wb-font-weight-semibold); }
+.wb-font-bold { font-weight: var(--wb-font-weight-bold); }
+
+/* Colors */
+.wb-text-primary { color: var(--wb-text-primary); }
+.wb-text-secondary { color: var(--wb-text-secondary); }
+.wb-text-muted { color: var(--wb-text-muted); }
+
+.wb-bg-primary { background-color: var(--wb-bg-primary); }
+.wb-bg-secondary { background-color: var(--wb-bg-secondary); }
+.wb-bg-tertiary { background-color: var(--wb-bg-tertiary); }
+
+/* Spacing */
+.wb-p-0 { padding: 0; }
+.wb-p-1 { padding: var(--wb-space-1); }
+.wb-p-2 { padding: var(--wb-space-2); }
+.wb-p-3 { padding: var(--wb-space-3); }
+.wb-p-4 { padding: var(--wb-space-4); }
+.wb-p-5 { padding: var(--wb-space-5); }
+.wb-p-6 { padding: var(--wb-space-6); }
+.wb-p-8 { padding: var(--wb-space-8); }
+
+.wb-m-0 { margin: 0; }
+.wb-m-1 { margin: var(--wb-space-1); }
+.wb-m-2 { margin: var(--wb-space-2); }
+.wb-m-3 { margin: var(--wb-space-3); }
+.wb-m-4 { margin: var(--wb-space-4); }
+.wb-m-5 { margin: var(--wb-space-5); }
+.wb-m-6 { margin: var(--wb-space-6); }
+.wb-m-8 { margin: var(--wb-space-8); }
+
+/* Borders */
+.wb-border { border: 1px solid var(--wb-border-primary); }
+.wb-border-2 { border: 2px solid var(--wb-border-primary); }
+.wb-border-t { border-top: 1px solid var(--wb-border-primary); }
+.wb-border-b { border-bottom: 1px solid var(--wb-border-primary); }
+.wb-border-l { border-left: 1px solid var(--wb-border-primary); }
+.wb-border-r { border-right: 1px solid var(--wb-border-primary); }
+
+/* Border Radius */
+.wb-rounded-none { border-radius: var(--wb-radius-none); }
+.wb-rounded-sm { border-radius: var(--wb-radius-sm); }
+.wb-rounded { border-radius: var(--wb-radius-base); }
+.wb-rounded-md { border-radius: var(--wb-radius-md); }
+.wb-rounded-lg { border-radius: var(--wb-radius-lg); }
+.wb-rounded-xl { border-radius: var(--wb-radius-xl); }
+.wb-rounded-2xl { border-radius: var(--wb-radius-2xl); }
+.wb-rounded-3xl { border-radius: var(--wb-radius-3xl); }
+.wb-rounded-full { border-radius: var(--wb-radius-full); }
+
+/* Shadows */
+.wb-shadow-xs { box-shadow: var(--wb-shadow-xs); }
+.wb-shadow-sm { box-shadow: var(--wb-shadow-sm); }
+.wb-shadow { box-shadow: var(--wb-shadow-md); }
+.wb-shadow-lg { box-shadow: var(--wb-shadow-lg); }
+.wb-shadow-xl { box-shadow: var(--wb-shadow-xl); }
+.wb-shadow-2xl { box-shadow: var(--wb-shadow-2xl); }
+.wb-shadow-inner { box-shadow: var(--wb-shadow-inner); }
+.wb-shadow-none { box-shadow: none; }
+
+/* ========================================
+   5. COMPONENT BASE STYLES
+   ======================================== */
+
+/* Buttons */
+.wb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--wb-button-padding-y) var(--wb-button-padding-x);
+    font-size: var(--wb-font-size-base);
+    font-weight: var(--wb-font-weight-medium);
+    line-height: var(--wb-line-height-normal);
+    border-radius: var(--wb-radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--wb-transition-colors);
+    text-decoration: none;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.wb-btn:focus {
+    outline: 2px solid var(--wb-primary);
+    outline-offset: 2px;
+}
+
+.wb-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Primary Button */
+.wb-btn-primary {
+    background-color: var(--wb-primary);
+    color: white;
+    border-color: var(--wb-primary);
+}
+
+.wb-btn-primary:hover:not(:disabled) {
+    background-color: var(--wb-primary-700);
+    border-color: var(--wb-primary-700);
+}
+
+/* Secondary Button */
+.wb-btn-secondary {
+    background-color: var(--wb-bg-secondary);
+    color: var(--wb-text-primary);
+    border-color: var(--wb-border-primary);
+}
+
+.wb-btn-secondary:hover:not(:disabled) {
+    background-color: var(--wb-bg-tertiary);
+}
+
+/* Inputs */
+.wb-input {
+    display: block;
+    width: 100%;
+    padding: var(--wb-input-padding-y) var(--wb-input-padding-x);
+    font-size: var(--wb-font-size-base);
+    line-height: var(--wb-line-height-normal);
+    color: var(--wb-text-primary);
+    background-color: var(--wb-bg-secondary);
+    border: 1px solid var(--wb-border-primary);
+    border-radius: var(--wb-radius-md);
+    transition: var(--wb-transition-colors);
+}
+
+.wb-input:focus {
+    outline: 2px solid var(--wb-primary);
+    outline-offset: -1px;
+    border-color: var(--wb-primary);
+}
+
+.wb-input::placeholder {
+    color: var(--wb-text-muted);
+}
+
+/* Cards */
+.wb-card {
+    background-color: var(--wb-bg-secondary);
+    border: 1px solid var(--wb-border-primary);
+    border-radius: var(--wb-radius-lg);
+    padding: var(--wb-card-padding);
+    box-shadow: var(--wb-shadow-sm);
+}
+
+/* Modals */
+.wb-modal {
+    background-color: var(--wb-bg-secondary);
+    border-radius: var(--wb-radius-xl);
+    padding: var(--wb-modal-padding);
+    box-shadow: var(--wb-shadow-2xl);
+}
+
+.wb-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .wb-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* ========================================
+   6. ANIMATIONS
+   ======================================== */
+
+@keyframes wb-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes wb-slide-in {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes wb-scale-in {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.wb-animate-fade-in {
+    animation: wb-fade-in var(--wb-duration-300) ease-out;
+}
+
+.wb-animate-slide-in {
+    animation: wb-slide-in var(--wb-duration-300) ease-out;
+}
+
+.wb-animate-scale-in {
+    animation: wb-scale-in var(--wb-duration-300) ease-out;
+}
+
+/* ========================================
+   7. ACCESSIBILITY
+   ======================================== */
+
+/* Focus Visible */
+.wb-component:focus-visible {
+    outline: 2px solid var(--wb-primary);
+    outline-offset: 2px;
+}
+
+/* Screen Reader Only */
+.wb-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .wb-component {
+        border-width: 2px;
+    }
+    
+    .wb-btn:focus {
+        outline-width: 3px;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .wb-component {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========================================
+   8. RESPONSIVE UTILITIES
+   ======================================== */
+
+/* Breakpoints */
+@media (min-width: 640px) {
+    .wb-sm\:text-lg { font-size: var(--wb-font-size-lg); }
+    .wb-sm\:p-6 { padding: var(--wb-space-6); }
+}
+
+@media (min-width: 768px) {
+    .wb-md\:text-xl { font-size: var(--wb-font-size-xl); }
+    .wb-md\:p-8 { padding: var(--wb-space-8); }
+}
+
+@media (min-width: 1024px) {
+    .wb-lg\:text-2xl { font-size: var(--wb-font-size-2xl); }
+    .wb-lg\:p-10 { padding: var(--wb-space-10); }
+}
+
+@media (min-width: 1280px) {
+    .wb-xl\:text-3xl { font-size: var(--wb-font-size-3xl); }
+    .wb-xl\:p-12 { padding: var(--wb-space-12); }
+}

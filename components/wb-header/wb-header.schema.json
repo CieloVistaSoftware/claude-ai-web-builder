@@ -1,0 +1,129 @@
+{
+  "name": "wb-header",
+  "version": "1.0.0",
+  "description": "Website header component with navigation, branding, and responsive layout",
+  "category": "layout",
+  "tags": ["header", "navigation", "branding", "responsive"],
+  "author": "WB Components",
+  "license": "MIT",
+  "dependencies": [],
+  "attributes": {
+    "layout": {
+      "type": "string",
+      "enum": ["default", "centered", "split", "minimal"],
+      "default": "default",
+      "description": "Header layout style"
+    },
+    "sticky": {
+      "type": "boolean",
+      "default": false,
+      "description": "Make header sticky on scroll"
+    },
+    "brand-text": {
+      "type": "string",
+      "description": "Brand/logo text"
+    },
+    "brand-href": {
+      "type": "string",
+      "default": "/",
+      "description": "Brand/logo link URL"
+    },
+    "show-nav": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show navigation in header"
+    },
+    "height": {
+      "type": "string",
+      "enum": ["compact", "default", "large"],
+      "default": "default",
+      "description": "Header height preset"
+    }
+  },
+  "slots": [
+    {
+      "name": "brand",
+      "description": "Brand/logo content"
+    },
+    {
+      "name": "navigation",
+      "description": "Navigation menu content"
+    },
+    {
+      "name": "actions",
+      "description": "Action buttons or controls"
+    },
+    {
+      "name": "default",
+      "description": "Additional header content"
+    }
+  ],
+  "events": [
+    {
+      "name": "wb-header-ready",
+      "description": "Fired when header is initialized"
+    },
+    {
+      "name": "wb-header-scroll",
+      "description": "Fired on scroll when sticky is enabled",
+      "detail": {
+        "scrollTop": "number",
+        "isVisible": "boolean"
+      }
+    }
+  ],
+  "methods": [
+    {
+      "name": "setLayout",
+      "params": ["layout: string"],
+      "description": "Change header layout"
+    },
+    {
+      "name": "setSticky",
+      "params": ["sticky: boolean"],
+      "description": "Enable/disable sticky behavior"
+    },
+    {
+      "name": "setBrandText",
+      "params": ["text: string"],
+      "description": "Set brand text"
+    }
+  ],
+  "cssCustomProperties": {
+    "--wb-header-height": "4rem",
+    "--wb-header-bg": "var(--surface-color)",
+    "--wb-header-border": "var(--border-color)",
+    "--wb-header-shadow": "var(--shadow-sm)",
+    "--wb-header-padding": "0 2rem",
+    "--wb-header-gap": "2rem",
+    "--wb-header-brand-size": "1.5rem",
+    "--wb-header-z-index": "100"
+  },
+  "layouts": {
+    "default": "Brand left, navigation center, actions right",
+    "centered": "All content centered",
+    "split": "Brand left, actions right, no center nav",
+    "minimal": "Minimal styling with basic layout"
+  },
+  "accessibility": {
+    "roles": ["banner", "navigation"],
+    "features": [
+      "Landmark role for screen readers",
+      "Skip navigation link support",
+      "Focus management",
+      "High contrast mode support"
+    ]
+  },
+  "examples": {
+    "basic": "<wb-header brand-text=\"My Website\"></wb-header>",
+    "sticky": "<wb-header sticky brand-text=\"My App\" layout=\"centered\"></wb-header>",
+    "withSlots": "<wb-header><img slot=\"brand\" src=\"logo.png\"><nav slot=\"navigation\">...</nav></wb-header>"
+  },
+  "files": {
+    "js": "wb-header.js",
+    "css": "wb-header.css",
+    "demo": "wb-header-demo.html",
+    "docs": "wb-header-design.md",
+    "schema": "wb-header.schema.json"
+  }
+}

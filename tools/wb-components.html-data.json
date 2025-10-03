@@ -1,0 +1,2875 @@
+{
+  "version": 1.1,
+  "tags": [
+    {
+      "name": "wb-button",
+      "description": "Schema for wb-btn custom element attributes",
+      "attributes": [
+        {
+          "name": "variant",
+          "description": "Visual style variant of the button",
+          "valueSet": "wb-button-variant"
+        },
+        {
+          "name": "size",
+          "description": "Size of the button",
+          "valueSet": "wb-button-size"
+        },
+        {
+          "name": "icon",
+          "description": "Icon to display (emoji or text symbol)"
+        },
+        {
+          "name": "icon-position",
+          "description": "Position of the icon relative to text",
+          "valueSet": "wb-button-icon-position"
+        },
+        {
+          "name": "status",
+          "description": "Status indicator type (shows colored dot)",
+          "valueSet": "wb-button-status"
+        },
+        {
+          "name": "active",
+          "description": "Whether the button is in active state (toggle variant)",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "disabled",
+          "description": "Whether the button is disabled",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the button"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "onclick",
+          "description": "JavaScript code to execute on click"
+        },
+        {
+          "name": "onwb-toggle",
+          "description": "JavaScript code for toggle event (toggle variant)"
+        },
+        {
+          "name": "onwb-click",
+          "description": "JavaScript code for custom wb-click event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-pressed",
+          "description": "ARIA pressed state for toggle buttons",
+          "valueSet": "wb-button-aria-pressed"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-card",
+      "description": "Flexible card component with multiple layouts, variants, and content types",
+      "attributes": []
+    },
+    {
+      "name": "wb-color-picker",
+      "description": "Schema for wb-color-picker custom element attributes",
+      "attributes": [
+        {
+          "name": "value",
+          "description": "Current color value in any supported format (hex, rgb, hsl)"
+        },
+        {
+          "name": "format",
+          "description": "Color format for input and output",
+          "valueSet": "wb-color-picker-format"
+        },
+        {
+          "name": "size",
+          "description": "Size of the color picker",
+          "valueSet": "wb-color-picker-size"
+        },
+        {
+          "name": "variant",
+          "description": "Visual variant of the color picker",
+          "valueSet": "wb-color-picker-variant"
+        },
+        {
+          "name": "show-alpha",
+          "description": "Whether to show alpha/opacity controls",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "show-presets",
+          "description": "Whether to show preset color swatches",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "show-eyedropper",
+          "description": "Whether to show eyedropper tool (if supported)",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "swatch-size",
+          "description": "Size of the color swatch"
+        },
+        {
+          "name": "border-radius",
+          "description": "Border radius for picker elements"
+        },
+        {
+          "name": "preset-colors",
+          "description": "JSON string containing array of preset colors"
+        },
+        {
+          "name": "label",
+          "description": "Label text displayed above the color picker"
+        },
+        {
+          "name": "help",
+          "description": "Help text displayed below the color picker"
+        },
+        {
+          "name": "error",
+          "description": "Error message to display"
+        },
+        {
+          "name": "success",
+          "description": "Success message to display"
+        },
+        {
+          "name": "disabled",
+          "description": "Whether the color picker is disabled",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "readonly",
+          "description": "Whether the color picker is read-only",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "required",
+          "description": "Whether a color selection is required",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the color picker"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for form submission"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "onchange",
+          "description": "JavaScript code to execute when color changes"
+        },
+        {
+          "name": "oninput",
+          "description": "JavaScript code to execute on input events"
+        },
+        {
+          "name": "onfocus",
+          "description": "JavaScript code to execute when picker gains focus"
+        },
+        {
+          "name": "onblur",
+          "description": "JavaScript code to execute when picker loses focus"
+        },
+        {
+          "name": "onopen",
+          "description": "JavaScript code to execute when picker opens"
+        },
+        {
+          "name": "onclose",
+          "description": "JavaScript code to execute when picker closes"
+        },
+        {
+          "name": "onwb-color-picker:change",
+          "description": "JavaScript code for custom wb-color-picker:change event"
+        },
+        {
+          "name": "onwb-color-picker:input",
+          "description": "JavaScript code for custom wb-color-picker:input event"
+        },
+        {
+          "name": "onwb-color-picker:open",
+          "description": "JavaScript code for custom wb-color-picker:open event"
+        },
+        {
+          "name": "onwb-color-picker:close",
+          "description": "JavaScript code for custom wb-color-picker:close event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this color picker"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this color picker"
+        },
+        {
+          "name": "aria-haspopup",
+          "description": "Indicates picker has a popup",
+          "valueSet": "wb-color-picker-aria-haspopup"
+        },
+        {
+          "name": "aria-expanded",
+          "description": "Whether the picker popup is expanded (automatically managed)",
+          "valueSet": "wb-color-picker-aria-expanded"
+        },
+        {
+          "name": "aria-invalid",
+          "description": "Indicates if the selected color is invalid",
+          "valueSet": "wb-color-picker-aria-invalid"
+        },
+        {
+          "name": "aria-required",
+          "description": "Indicates if color selection is required",
+          "valueSet": "wb-color-picker-aria-required"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for the color picker",
+          "valueSet": "wb-color-picker-role"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        },
+        {
+          "name": "autocomplete",
+          "description": "Hint for browser autocomplete behavior"
+        }
+      ]
+    },
+    {
+      "name": "wb-event-log",
+      "description": "Schema for wb-event-log custom element attributes",
+      "attributes": [
+        {
+          "name": "max-events",
+          "description": "Maximum number of events to store"
+        },
+        {
+          "name": "auto-scroll",
+          "description": "Whether to automatically scroll to new events",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "show-timestamps",
+          "description": "Whether to display timestamps for events",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "show-source",
+          "description": "Whether to display event source information",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "expandable-details",
+          "description": "Whether events can be expanded to show details",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "compact",
+          "description": "Whether to use compact display mode",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "font-size",
+          "description": "Font size for event text"
+        },
+        {
+          "name": "icon-size",
+          "description": "Size of event type icons"
+        },
+        {
+          "name": "dark-mode",
+          "description": "Dark mode setting",
+          "valueSet": "wb-event-log-dark-mode"
+        },
+        {
+          "name": "truncate-length",
+          "description": "Length at which to truncate long messages"
+        },
+        {
+          "name": "line-height",
+          "description": "Line height for event entries"
+        },
+        {
+          "name": "wrap-mode",
+          "description": "How to handle long text content",
+          "valueSet": "wb-event-log-wrap-mode"
+        },
+        {
+          "name": "default-filters",
+          "description": "JSON string containing array of default enabled filters"
+        },
+        {
+          "name": "event-types",
+          "description": "JSON string containing custom event type definitions"
+        },
+        {
+          "name": "intercept-console",
+          "description": "Whether to intercept console.log messages",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "capture-errors",
+          "description": "Whether to capture JavaScript errors",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "track-user-interactions",
+          "description": "Whether to track user interactions",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "virtual-scrolling",
+          "description": "Whether to use virtual scrolling for performance",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "batch-updates",
+          "description": "Whether to batch DOM updates",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "update-interval",
+          "description": "Update interval in milliseconds"
+        },
+        {
+          "name": "toolbar",
+          "description": "Whether to show the toolbar",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "search",
+          "description": "Whether to enable search functionality",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "filters",
+          "description": "Whether to show filter buttons",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "export",
+          "description": "Whether to enable export functionality",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the event log"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for the event log"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "onevent-added",
+          "description": "JavaScript code to execute when an event is added"
+        },
+        {
+          "name": "onevent-filtered",
+          "description": "JavaScript code to execute when events are filtered"
+        },
+        {
+          "name": "onevent-cleared",
+          "description": "JavaScript code to execute when events are cleared"
+        },
+        {
+          "name": "onexport",
+          "description": "JavaScript code to execute when events are exported"
+        },
+        {
+          "name": "onwb-event-log:event-added",
+          "description": "JavaScript code for custom wb-event-log:event-added event"
+        },
+        {
+          "name": "onwb-event-log:filtered",
+          "description": "JavaScript code for custom wb-event-log:filtered event"
+        },
+        {
+          "name": "onwb-event-log:cleared",
+          "description": "JavaScript code for custom wb-event-log:cleared event"
+        },
+        {
+          "name": "onwb-event-log:exported",
+          "description": "JavaScript code for custom wb-event-log:exported event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this event log"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this event log"
+        },
+        {
+          "name": "aria-live",
+          "description": "How screen readers announce new events",
+          "valueSet": "wb-event-log-aria-live"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for the event log",
+          "valueSet": "wb-event-log-role"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-footer",
+      "description": "Schema for wb-footer custom element attributes",
+      "attributes": [
+        {
+          "name": "layout",
+          "description": "Footer layout variant",
+          "valueSet": "wb-footer-layout"
+        },
+        {
+          "name": "theme",
+          "description": "Visual theme for the footer",
+          "valueSet": "wb-footer-theme"
+        },
+        {
+          "name": "columns",
+          "description": "Number of columns for navigation groups",
+          "valueSet": "wb-footer-columns"
+        },
+        {
+          "name": "alignment",
+          "description": "Text alignment for footer content",
+          "valueSet": "wb-footer-alignment"
+        },
+        {
+          "name": "positioning",
+          "description": "Footer positioning mode",
+          "valueSet": "wb-footer-positioning"
+        },
+        {
+          "name": "show-logo",
+          "description": "Whether to display company logo",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "show-social",
+          "description": "Whether to display social media links",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "show-newsletter",
+          "description": "Whether to display newsletter signup",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "responsive",
+          "description": "Whether to enable responsive behavior",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "collapsible",
+          "description": "Whether navigation groups are collapsible on mobile",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "sticky",
+          "description": "Whether to enable sticky footer behavior",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "fixed",
+          "description": "Whether to fix footer to bottom of viewport",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "sticky-breakpoint",
+          "description": "Breakpoint for sticky behavior activation"
+        },
+        {
+          "name": "company-name",
+          "description": "Company name to display"
+        },
+        {
+          "name": "company-tagline",
+          "description": "Company tagline or description"
+        },
+        {
+          "name": "logo-src",
+          "description": "URL or path to company logo image"
+        },
+        {
+          "name": "logo-alt",
+          "description": "Alt text for company logo"
+        },
+        {
+          "name": "copyright",
+          "description": "Copyright text to display"
+        },
+        {
+          "name": "navigation",
+          "description": "JSON string containing navigation groups and links"
+        },
+        {
+          "name": "social",
+          "description": "JSON string containing social media links"
+        },
+        {
+          "name": "legal",
+          "description": "JSON string containing legal links"
+        },
+        {
+          "name": "newsletter-title",
+          "description": "Newsletter signup section title"
+        },
+        {
+          "name": "newsletter-description",
+          "description": "Newsletter signup description text"
+        },
+        {
+          "name": "newsletter-placeholder",
+          "description": "Placeholder text for newsletter email input"
+        },
+        {
+          "name": "newsletter-button-text",
+          "description": "Text for newsletter submit button"
+        },
+        {
+          "name": "contact-email",
+          "description": "Contact email address"
+        },
+        {
+          "name": "contact-phone",
+          "description": "Contact phone number"
+        },
+        {
+          "name": "contact-address",
+          "description": "Company address"
+        },
+        {
+          "name": "config",
+          "description": "JSON string containing complete footer configuration"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the footer"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for the footer"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "onlink-click",
+          "description": "JavaScript code to execute when a footer link is clicked"
+        },
+        {
+          "name": "onsocial-click",
+          "description": "JavaScript code to execute when a social link is clicked"
+        },
+        {
+          "name": "onnewsletter-submit",
+          "description": "JavaScript code to execute when newsletter form is submitted"
+        },
+        {
+          "name": "onlayout-change",
+          "description": "JavaScript code to execute when layout changes"
+        },
+        {
+          "name": "onposition-change",
+          "description": "JavaScript code to execute when positioning changes"
+        },
+        {
+          "name": "onwb-footer:link-click",
+          "description": "JavaScript code for custom wb-footer:link-click event"
+        },
+        {
+          "name": "onwb-footer:social-click",
+          "description": "JavaScript code for custom wb-footer:social-click event"
+        },
+        {
+          "name": "onwb-footer:newsletter-submit",
+          "description": "JavaScript code for custom wb-footer:newsletter-submit event"
+        },
+        {
+          "name": "onwb-footer:layout-change",
+          "description": "JavaScript code for custom wb-footer:layout-change event"
+        },
+        {
+          "name": "onwb-footer:position-change",
+          "description": "JavaScript code for custom wb-footer:position-change event"
+        },
+        {
+          "name": "onwb-footer:ready",
+          "description": "JavaScript code for custom wb-footer:ready event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this footer"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this footer"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for the footer",
+          "valueSet": "wb-footer-role"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-header",
+      "description": "Website header component with navigation, branding, and responsive layout",
+      "attributes": []
+    },
+    {
+      "name": "wb-hero",
+      "description": "Hero section component with background media, call-to-action, and responsive layouts",
+      "attributes": []
+    },
+    {
+      "name": "wb-input",
+      "description": "Schema for wb-input custom element attributes",
+      "attributes": [
+        {
+          "name": "type",
+          "description": "Input type - determines validation and behavior",
+          "valueSet": "wb-input-type"
+        },
+        {
+          "name": "label",
+          "description": "Label text displayed above the input"
+        },
+        {
+          "name": "placeholder",
+          "description": "Placeholder text shown when input is empty"
+        },
+        {
+          "name": "value",
+          "description": "Initial value of the input"
+        },
+        {
+          "name": "size",
+          "description": "Size of the input field",
+          "valueSet": "wb-input-size"
+        },
+        {
+          "name": "help",
+          "description": "Help text displayed below the input"
+        },
+        {
+          "name": "max-length",
+          "description": "Maximum number of characters allowed"
+        },
+        {
+          "name": "min-length",
+          "description": "Minimum number of characters required"
+        },
+        {
+          "name": "pattern",
+          "description": "Regular expression pattern for validation"
+        },
+        {
+          "name": "validation-rules",
+          "description": "JSON string containing validation rules object"
+        },
+        {
+          "name": "required",
+          "description": "Whether the input is required",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "disabled",
+          "description": "Whether the input is disabled",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "readonly",
+          "description": "Whether the input is read-only",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the input"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for form submission"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "onchange",
+          "description": "JavaScript code to execute when value changes"
+        },
+        {
+          "name": "oninput",
+          "description": "JavaScript code to execute on input events"
+        },
+        {
+          "name": "onfocus",
+          "description": "JavaScript code to execute when input gains focus"
+        },
+        {
+          "name": "onblur",
+          "description": "JavaScript code to execute when input loses focus"
+        },
+        {
+          "name": "onwb-input:change",
+          "description": "JavaScript code for custom wb-input:change event"
+        },
+        {
+          "name": "onwb-input:validate",
+          "description": "JavaScript code for custom wb-input:validate event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this input"
+        },
+        {
+          "name": "aria-invalid",
+          "description": "Indicates if the input value is invalid",
+          "valueSet": "wb-input-aria-invalid"
+        },
+        {
+          "name": "aria-required",
+          "description": "Indicates if the input is required",
+          "valueSet": "wb-input-aria-required"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        },
+        {
+          "name": "autocomplete",
+          "description": "Hint for browser autocomplete behavior"
+        },
+        {
+          "name": "spellcheck",
+          "description": "Whether to enable spell checking",
+          "valueSet": "wb-input-spellcheck"
+        }
+      ]
+    },
+    {
+      "name": "wb-keyboard-manager",
+      "description": "Keyboard shortcut manager with conflict detection and global hotkey support",
+      "attributes": []
+    },
+    {
+      "name": "wb-log-error",
+      "description": "Error logging and display component with filtering and export capabilities",
+      "attributes": []
+    },
+    {
+      "name": "wb-modal",
+      "description": "Schema for wb-modal custom element attributes",
+      "attributes": [
+        {
+          "name": "title",
+          "description": "Modal title displayed in header"
+        },
+        {
+          "name": "size",
+          "description": "Size of the modal dialog",
+          "valueSet": "wb-modal-size"
+        },
+        {
+          "name": "variant",
+          "description": "Visual variant for semantic styling",
+          "valueSet": "wb-modal-variant"
+        },
+        {
+          "name": "animation",
+          "description": "Animation type for modal appearance",
+          "valueSet": "wb-modal-animation"
+        },
+        {
+          "name": "direction",
+          "description": "Direction for slide animations",
+          "valueSet": "wb-modal-direction"
+        },
+        {
+          "name": "duration",
+          "description": "Animation duration in milliseconds"
+        },
+        {
+          "name": "bg-color",
+          "description": "Modal background color"
+        },
+        {
+          "name": "color",
+          "description": "Modal text color"
+        },
+        {
+          "name": "backdrop",
+          "description": "Whether to show backdrop overlay",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "keyboard",
+          "description": "Whether to handle keyboard events (ESC to close)",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "focus",
+          "description": "Whether to manage focus automatically",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "max-width",
+          "description": "Maximum width of the modal"
+        },
+        {
+          "name": "offset",
+          "description": "Distance from viewport edges"
+        },
+        {
+          "name": "z-index",
+          "description": "CSS z-index for modal layering"
+        },
+        {
+          "name": "open",
+          "description": "Controls modal visibility (read-only)",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the modal"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for the modal"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "onshow",
+          "description": "JavaScript code to execute when modal is shown"
+        },
+        {
+          "name": "onshown",
+          "description": "JavaScript code to execute after modal animation completes"
+        },
+        {
+          "name": "onhide",
+          "description": "JavaScript code to execute when modal starts hiding"
+        },
+        {
+          "name": "onhidden",
+          "description": "JavaScript code to execute after modal is hidden"
+        },
+        {
+          "name": "oncancel",
+          "description": "JavaScript code to execute when modal is cancelled"
+        },
+        {
+          "name": "onconfirm",
+          "description": "JavaScript code to execute when modal is confirmed"
+        },
+        {
+          "name": "onwb-modal:show",
+          "description": "JavaScript code for custom wb-modal:show event"
+        },
+        {
+          "name": "onwb-modal:shown",
+          "description": "JavaScript code for custom wb-modal:shown event"
+        },
+        {
+          "name": "onwb-modal:hide",
+          "description": "JavaScript code for custom wb-modal:hide event"
+        },
+        {
+          "name": "onwb-modal:hidden",
+          "description": "JavaScript code for custom wb-modal:hidden event"
+        },
+        {
+          "name": "onwb-modal:cancel",
+          "description": "JavaScript code for custom wb-modal:cancel event"
+        },
+        {
+          "name": "onwb-modal:confirm",
+          "description": "JavaScript code for custom wb-modal:confirm event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this modal"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this modal"
+        },
+        {
+          "name": "aria-modal",
+          "description": "Indicates this is a modal dialog",
+          "valueSet": "wb-modal-aria-modal"
+        },
+        {
+          "name": "aria-hidden",
+          "description": "Whether modal is hidden from screen readers (automatically managed)",
+          "valueSet": "wb-modal-aria-hidden"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for the modal",
+          "valueSet": "wb-modal-role"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-nav",
+      "description": "Responsive navigation component with dropdown support, mobile hamburger menu, and accessibility features",
+      "attributes": []
+    },
+    {
+      "name": "wb-search",
+      "description": "Search component with modal interface - drop in and it works",
+      "attributes": []
+    },
+    {
+      "name": "wb-select",
+      "description": "Schema for wb-select custom element attributes",
+      "attributes": [
+        {
+          "name": "size",
+          "description": "Size of the select dropdown",
+          "valueSet": "wb-select-size"
+        },
+        {
+          "name": "placeholder",
+          "description": "Placeholder text shown when no option is selected"
+        },
+        {
+          "name": "searchable",
+          "description": "Whether to enable search functionality",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "multiple",
+          "description": "Whether to allow multiple selections",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "clearable",
+          "description": "Whether to show a clear button",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "disabled",
+          "description": "Whether the select is disabled",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "loading",
+          "description": "Whether to show loading state",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "value",
+          "description": "Selected value(s) - comma-separated for multiple"
+        },
+        {
+          "name": "options",
+          "description": "JSON string containing options array"
+        },
+        {
+          "name": "max-height",
+          "description": "Maximum height of the dropdown"
+        },
+        {
+          "name": "label",
+          "description": "Label text displayed above the select"
+        },
+        {
+          "name": "help",
+          "description": "Help text displayed below the select"
+        },
+        {
+          "name": "error",
+          "description": "Error message to display"
+        },
+        {
+          "name": "success",
+          "description": "Success message to display"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the select"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for form submission"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "onchange",
+          "description": "JavaScript code to execute when selection changes"
+        },
+        {
+          "name": "onfocus",
+          "description": "JavaScript code to execute when select gains focus"
+        },
+        {
+          "name": "onblur",
+          "description": "JavaScript code to execute when select loses focus"
+        },
+        {
+          "name": "onwb-select:change",
+          "description": "JavaScript code for custom wb-select:change event"
+        },
+        {
+          "name": "onwb-select:open",
+          "description": "JavaScript code for custom wb-select:open event"
+        },
+        {
+          "name": "onwb-select:close",
+          "description": "JavaScript code for custom wb-select:close event"
+        },
+        {
+          "name": "onwb-select:search",
+          "description": "JavaScript code for custom wb-select:search event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this select"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this select"
+        },
+        {
+          "name": "aria-expanded",
+          "description": "Whether the dropdown is expanded (automatically managed)",
+          "valueSet": "wb-select-aria-expanded"
+        },
+        {
+          "name": "aria-invalid",
+          "description": "Indicates if the selected value is invalid",
+          "valueSet": "wb-select-aria-invalid"
+        },
+        {
+          "name": "aria-required",
+          "description": "Indicates if the select is required",
+          "valueSet": "wb-select-aria-required"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        },
+        {
+          "name": "autocomplete",
+          "description": "Hint for browser autocomplete behavior"
+        }
+      ]
+    },
+    {
+      "name": "wb-slider",
+      "description": "Schema for wb-slider custom element attributes",
+      "attributes": [
+        {
+          "name": "min",
+          "description": "Minimum value of the slider"
+        },
+        {
+          "name": "max",
+          "description": "Maximum value of the slider"
+        },
+        {
+          "name": "value",
+          "description": "Current value of the slider"
+        },
+        {
+          "name": "step",
+          "description": "Step increment for slider values"
+        },
+        {
+          "name": "size",
+          "description": "Size of the slider",
+          "valueSet": "wb-slider-size"
+        },
+        {
+          "name": "orientation",
+          "description": "Orientation of the slider",
+          "valueSet": "wb-slider-orientation"
+        },
+        {
+          "name": "variant",
+          "description": "Visual style variant of the slider",
+          "valueSet": "wb-slider-variant"
+        },
+        {
+          "name": "show-value",
+          "description": "Whether to display the current value",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "show-ticks",
+          "description": "Whether to display tick marks",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "label",
+          "description": "Label text displayed above the slider"
+        },
+        {
+          "name": "disabled",
+          "description": "Whether the slider is disabled",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "readonly",
+          "description": "Whether the slider is read-only",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "precision",
+          "description": "Number of decimal places for value display"
+        },
+        {
+          "name": "unit",
+          "description": "Unit to display with the value (e.g., 'px', '%', 'ms')"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the slider"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for form submission"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "onchange",
+          "description": "JavaScript code to execute when value changes"
+        },
+        {
+          "name": "oninput",
+          "description": "JavaScript code to execute on input events"
+        },
+        {
+          "name": "onfocus",
+          "description": "JavaScript code to execute when slider gains focus"
+        },
+        {
+          "name": "onblur",
+          "description": "JavaScript code to execute when slider loses focus"
+        },
+        {
+          "name": "onwb-slider:change",
+          "description": "JavaScript code for custom wb-slider:change event"
+        },
+        {
+          "name": "onwb-slider:input",
+          "description": "JavaScript code for custom wb-slider:input event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this slider"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this slider"
+        },
+        {
+          "name": "aria-valuemin",
+          "description": "Minimum value for accessibility (automatically set to min)"
+        },
+        {
+          "name": "aria-valuemax",
+          "description": "Maximum value for accessibility (automatically set to max)"
+        },
+        {
+          "name": "aria-valuenow",
+          "description": "Current value for accessibility (automatically set to value)"
+        },
+        {
+          "name": "aria-valuetext",
+          "description": "Text description of current value"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-status",
+      "description": "Schema for wb-status custom element attributes",
+      "attributes": [
+        {
+          "name": "position",
+          "description": "Position of the status bar",
+          "valueSet": "wb-status-position"
+        },
+        {
+          "name": "height",
+          "description": "Height of the status bar"
+        },
+        {
+          "name": "font-size",
+          "description": "Font size for status text"
+        },
+        {
+          "name": "max-events",
+          "description": "Maximum number of events to show simultaneously"
+        },
+        {
+          "name": "event-duration",
+          "description": "Duration to show events in milliseconds"
+        },
+        {
+          "name": "fade-delay",
+          "description": "Delay before starting fade out animation"
+        },
+        {
+          "name": "queue-delay",
+          "description": "Delay between queued events"
+        },
+        {
+          "name": "show-duplicates",
+          "description": "Whether to show duplicate consecutive events",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "z-index",
+          "description": "CSS z-index for layering"
+        },
+        {
+          "name": "title",
+          "description": "Title text for the status bar"
+        },
+        {
+          "name": "events",
+          "description": "JSON string containing initial events"
+        },
+        {
+          "name": "settings",
+          "description": "JSON string containing settings to display"
+        },
+        {
+          "name": "visible",
+          "description": "Whether the status bar is visible",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the status bar"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for the status bar"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "onevent-added",
+          "description": "JavaScript code to execute when an event is added"
+        },
+        {
+          "name": "onevent-shown",
+          "description": "JavaScript code to execute when an event is shown"
+        },
+        {
+          "name": "onevent-hidden",
+          "description": "JavaScript code to execute when an event is hidden"
+        },
+        {
+          "name": "onsetting-updated",
+          "description": "JavaScript code to execute when a setting is updated"
+        },
+        {
+          "name": "onwb-status:event-added",
+          "description": "JavaScript code for custom wb-status:event-added event"
+        },
+        {
+          "name": "onwb-status:event-shown",
+          "description": "JavaScript code for custom wb-status:event-shown event"
+        },
+        {
+          "name": "onwb-status:event-hidden",
+          "description": "JavaScript code for custom wb-status:event-hidden event"
+        },
+        {
+          "name": "onwb-status:setting-updated",
+          "description": "JavaScript code for custom wb-status:setting-updated event"
+        },
+        {
+          "name": "onwb-status:ready",
+          "description": "JavaScript code for custom wb-status:ready event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this status bar"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this status bar"
+        },
+        {
+          "name": "aria-live",
+          "description": "How screen readers announce status changes",
+          "valueSet": "wb-status-aria-live"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for the status bar",
+          "valueSet": "wb-status-role"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-table",
+      "description": "Schema for wb-table custom element attributes",
+      "attributes": [
+        {
+          "name": "data-json",
+          "description": "JSON string containing table data as array of objects or arrays"
+        },
+        {
+          "name": "data-source",
+          "description": "Global variable name to watch for automatic data updates"
+        },
+        {
+          "name": "striped",
+          "description": "Enable alternating row colors",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "hover",
+          "description": "Enable hover effects on rows",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "bordered",
+          "description": "Enable borders around table cells",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "compact",
+          "description": "Use compact spacing for smaller tables",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "responsive",
+          "description": "Enable responsive table behavior",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "sortable",
+          "description": "Enable column sorting functionality",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "filterable",
+          "description": "Enable row filtering functionality",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "paginated",
+          "description": "Enable pagination for large datasets",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "page-size",
+          "description": "Number of rows per page when pagination is enabled"
+        },
+        {
+          "name": "auto-headers",
+          "description": "Automatically generate headers from JSON object keys",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "header-transform",
+          "description": "How to transform header text display",
+          "valueSet": "wb-table-header-transform"
+        },
+        {
+          "name": "empty-message",
+          "description": "Message to show when table has no data"
+        },
+        {
+          "name": "loading-message",
+          "description": "Message to show while data is loading"
+        },
+        {
+          "name": "error-message",
+          "description": "Message to show when data loading fails"
+        },
+        {
+          "name": "max-rows",
+          "description": "Maximum number of rows to display"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the table"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for the table"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "ondata-changed",
+          "description": "JavaScript code to execute when table data changes"
+        },
+        {
+          "name": "onrow-added",
+          "description": "JavaScript code to execute when a row is added"
+        },
+        {
+          "name": "onrow-removed",
+          "description": "JavaScript code to execute when a row is removed"
+        },
+        {
+          "name": "oncleared",
+          "description": "JavaScript code to execute when table is cleared"
+        },
+        {
+          "name": "onsorted",
+          "description": "JavaScript code to execute when table is sorted"
+        },
+        {
+          "name": "onfiltered",
+          "description": "JavaScript code to execute when table is filtered"
+        },
+        {
+          "name": "onwb-table:data-changed",
+          "description": "JavaScript code for custom wb-table:data-changed event"
+        },
+        {
+          "name": "onwb-table:row-added",
+          "description": "JavaScript code for custom wb-table:row-added event"
+        },
+        {
+          "name": "onwb-table:row-removed",
+          "description": "JavaScript code for custom wb-table:row-removed event"
+        },
+        {
+          "name": "onwb-table:cleared",
+          "description": "JavaScript code for custom wb-table:cleared event"
+        },
+        {
+          "name": "onwb-table:sorted",
+          "description": "JavaScript code for custom wb-table:sorted event"
+        },
+        {
+          "name": "onwb-table:filtered",
+          "description": "JavaScript code for custom wb-table:filtered event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this table"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this table"
+        },
+        {
+          "name": "aria-rowcount",
+          "description": "Total number of rows in the data set"
+        },
+        {
+          "name": "aria-colcount",
+          "description": "Total number of columns in the table"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for the table",
+          "valueSet": "wb-table-role"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-theme",
+      "description": "Theme management component with dark/light modes and custom theme support",
+      "attributes": []
+    },
+    {
+      "name": "wb-toggle",
+      "description": "Schema for wb-toggle custom element attributes",
+      "attributes": [
+        {
+          "name": "label",
+          "description": "Label text displayed next to the toggle switch"
+        },
+        {
+          "name": "checked",
+          "description": "Whether the toggle is initially checked/on",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "size",
+          "description": "Size of the toggle switch",
+          "valueSet": "wb-toggle-size"
+        },
+        {
+          "name": "label-position",
+          "description": "Position of the label relative to the toggle",
+          "valueSet": "wb-toggle-label-position"
+        },
+        {
+          "name": "variant",
+          "description": "Visual style variant of the toggle",
+          "valueSet": "wb-toggle-variant"
+        },
+        {
+          "name": "disabled",
+          "description": "Whether the toggle is disabled",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "loading",
+          "description": "Whether the toggle shows a loading state",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the toggle"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for form submission"
+        },
+        {
+          "name": "value",
+          "description": "Value submitted when toggle is checked"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "onchange",
+          "description": "JavaScript code to execute when toggle state changes"
+        },
+        {
+          "name": "onclick",
+          "description": "JavaScript code to execute when toggle is clicked"
+        },
+        {
+          "name": "onfocus",
+          "description": "JavaScript code to execute when toggle gains focus"
+        },
+        {
+          "name": "onblur",
+          "description": "JavaScript code to execute when toggle loses focus"
+        },
+        {
+          "name": "onwb-toggle:change",
+          "description": "JavaScript code for custom wb-toggle:change event"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for accessibility",
+          "valueSet": "wb-toggle-role"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this toggle"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this toggle"
+        },
+        {
+          "name": "aria-checked",
+          "description": "ARIA checked state (automatically managed)",
+          "valueSet": "wb-toggle-aria-checked"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-viewport",
+      "description": "Schema for wb-viewport custom element attributes",
+      "attributes": [
+        {
+          "name": "viewport",
+          "description": "Current viewport size setting",
+          "valueSet": "wb-viewport-viewport"
+        },
+        {
+          "name": "width",
+          "description": "Custom width in pixels (for custom viewports)"
+        },
+        {
+          "name": "show-controls",
+          "description": "Whether to show viewport control buttons",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "position",
+          "description": "Position of viewport controls",
+          "valueSet": "wb-viewport-position"
+        },
+        {
+          "name": "overlay",
+          "description": "Whether to show viewport overlay indicator",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "transition-duration",
+          "description": "Duration of viewport transition animations"
+        },
+        {
+          "name": "custom-viewports",
+          "description": "JSON string containing custom viewport definitions"
+        },
+        {
+          "name": "label",
+          "description": "Label text for the viewport simulator"
+        },
+        {
+          "name": "help",
+          "description": "Help text describing viewport functionality"
+        },
+        {
+          "name": "disabled",
+          "description": "Whether the viewport controls are disabled",
+          "valueSet": "booleanValues"
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the viewport"
+        },
+        {
+          "name": "name",
+          "description": "Name attribute for the viewport"
+        },
+        {
+          "name": "class",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "style",
+          "description": "Inline CSS styles"
+        },
+        {
+          "name": "title",
+          "description": "Tooltip text shown on hover"
+        },
+        {
+          "name": "onchange",
+          "description": "JavaScript code to execute when viewport changes"
+        },
+        {
+          "name": "onreset",
+          "description": "JavaScript code to execute when viewport is reset"
+        },
+        {
+          "name": "onwb-viewport:change",
+          "description": "JavaScript code for custom wb-viewport:change event"
+        },
+        {
+          "name": "onwb-viewport:reset",
+          "description": "JavaScript code for custom wb-viewport:reset event"
+        },
+        {
+          "name": "onwb-viewport:ready",
+          "description": "JavaScript code for custom wb-viewport:ready event"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-labelledby",
+          "description": "ID of element that labels this viewport"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this viewport"
+        },
+        {
+          "name": "aria-live",
+          "description": "How screen readers announce viewport changes",
+          "valueSet": "wb-viewport-aria-live"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for the viewport component",
+          "valueSet": "wb-viewport-role"
+        },
+        {
+          "name": "tabindex",
+          "description": "Tab navigation order"
+        }
+      ]
+    },
+    {
+      "name": "wb-website-builder",
+      "description": "Complete website builder component with integrated control panel and editing capabilities",
+      "attributes": []
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "booleanValues",
+      "values": [
+        {
+          "name": "true",
+          "description": "True value"
+        },
+        {
+          "name": "false",
+          "description": "False value"
+        }
+      ]
+    },
+    {
+      "name": "wb-button-aria-pressed",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-button-icon-position",
+      "values": [
+        {
+          "name": "left",
+          "description": "left option"
+        },
+        {
+          "name": "right",
+          "description": "right option"
+        }
+      ]
+    },
+    {
+      "name": "wb-button-size",
+      "values": [
+        {
+          "name": "small",
+          "description": "small option"
+        },
+        {
+          "name": "standard",
+          "description": "standard option"
+        },
+        {
+          "name": "large",
+          "description": "large option"
+        }
+      ]
+    },
+    {
+      "name": "wb-button-status",
+      "values": [
+        {
+          "name": "active",
+          "description": "active option"
+        },
+        {
+          "name": "inactive",
+          "description": "inactive option"
+        },
+        {
+          "name": "neutral",
+          "description": "neutral option"
+        }
+      ]
+    },
+    {
+      "name": "wb-button-variant",
+      "values": [
+        {
+          "name": "primary",
+          "description": "primary option"
+        },
+        {
+          "name": "success",
+          "description": "success option"
+        },
+        {
+          "name": "toggle",
+          "description": "toggle option"
+        },
+        {
+          "name": "bgImage",
+          "description": "bgImage option"
+        },
+        {
+          "name": "iconOnly",
+          "description": "iconOnly option"
+        },
+        {
+          "name": "imageOnly",
+          "description": "imageOnly option"
+        }
+      ]
+    },
+    {
+      "name": "wb-color-picker-aria-expanded",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-color-picker-aria-haspopup",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        },
+        {
+          "name": "dialog",
+          "description": "dialog option"
+        }
+      ]
+    },
+    {
+      "name": "wb-color-picker-aria-invalid",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-color-picker-aria-required",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-color-picker-format",
+      "values": [
+        {
+          "name": "hex",
+          "description": "hex option"
+        },
+        {
+          "name": "rgb",
+          "description": "rgb option"
+        },
+        {
+          "name": "hsl",
+          "description": "hsl option"
+        }
+      ]
+    },
+    {
+      "name": "wb-color-picker-role",
+      "values": [
+        {
+          "name": "button",
+          "description": "button option"
+        },
+        {
+          "name": "combobox",
+          "description": "combobox option"
+        }
+      ]
+    },
+    {
+      "name": "wb-color-picker-size",
+      "values": [
+        {
+          "name": "small",
+          "description": "small option"
+        },
+        {
+          "name": "standard",
+          "description": "standard option"
+        },
+        {
+          "name": "large",
+          "description": "large option"
+        }
+      ]
+    },
+    {
+      "name": "wb-color-picker-variant",
+      "values": [
+        {
+          "name": "primary",
+          "description": "primary option"
+        },
+        {
+          "name": "minimal",
+          "description": "minimal option"
+        },
+        {
+          "name": "advanced",
+          "description": "advanced option"
+        }
+      ]
+    },
+    {
+      "name": "wb-event-log-aria-live",
+      "values": [
+        {
+          "name": "off",
+          "description": "off option"
+        },
+        {
+          "name": "polite",
+          "description": "polite option"
+        },
+        {
+          "name": "assertive",
+          "description": "assertive option"
+        }
+      ]
+    },
+    {
+      "name": "wb-event-log-dark-mode",
+      "values": [
+        {
+          "name": "auto",
+          "description": "auto option"
+        },
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-event-log-role",
+      "values": [
+        {
+          "name": "log",
+          "description": "log option"
+        },
+        {
+          "name": "region",
+          "description": "region option"
+        },
+        {
+          "name": "listbox",
+          "description": "listbox option"
+        }
+      ]
+    },
+    {
+      "name": "wb-event-log-wrap-mode",
+      "values": [
+        {
+          "name": "truncate",
+          "description": "truncate option"
+        },
+        {
+          "name": "wrap",
+          "description": "wrap option"
+        },
+        {
+          "name": "nowrap",
+          "description": "nowrap option"
+        }
+      ]
+    },
+    {
+      "name": "wb-footer-alignment",
+      "values": [
+        {
+          "name": "left",
+          "description": "left option"
+        },
+        {
+          "name": "center",
+          "description": "center option"
+        },
+        {
+          "name": "right",
+          "description": "right option"
+        }
+      ]
+    },
+    {
+      "name": "wb-footer-columns",
+      "values": [
+        {
+          "name": 1,
+          "description": "1 option"
+        },
+        {
+          "name": 2,
+          "description": "2 option"
+        },
+        {
+          "name": 3,
+          "description": "3 option"
+        },
+        {
+          "name": 4,
+          "description": "4 option"
+        }
+      ]
+    },
+    {
+      "name": "wb-footer-layout",
+      "values": [
+        {
+          "name": "simple",
+          "description": "simple option"
+        },
+        {
+          "name": "standard",
+          "description": "standard option"
+        },
+        {
+          "name": "complex",
+          "description": "complex option"
+        },
+        {
+          "name": "sticky",
+          "description": "sticky option"
+        }
+      ]
+    },
+    {
+      "name": "wb-footer-positioning",
+      "values": [
+        {
+          "name": "same-page",
+          "description": "same-page option"
+        },
+        {
+          "name": "bottom",
+          "description": "bottom option"
+        },
+        {
+          "name": "expanded",
+          "description": "expanded option"
+        }
+      ]
+    },
+    {
+      "name": "wb-footer-role",
+      "values": [
+        {
+          "name": "contentinfo",
+          "description": "contentinfo option"
+        },
+        {
+          "name": "region",
+          "description": "region option"
+        }
+      ]
+    },
+    {
+      "name": "wb-footer-theme",
+      "values": [
+        {
+          "name": "light",
+          "description": "light option"
+        },
+        {
+          "name": "dark",
+          "description": "dark option"
+        },
+        {
+          "name": "auto",
+          "description": "auto option"
+        }
+      ]
+    },
+    {
+      "name": "wb-input-aria-invalid",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-input-aria-required",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-input-size",
+      "values": [
+        {
+          "name": "small",
+          "description": "small option"
+        },
+        {
+          "name": "standard",
+          "description": "standard option"
+        },
+        {
+          "name": "large",
+          "description": "large option"
+        }
+      ]
+    },
+    {
+      "name": "wb-input-spellcheck",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-input-type",
+      "values": [
+        {
+          "name": "text",
+          "description": "text option"
+        },
+        {
+          "name": "email",
+          "description": "email option"
+        },
+        {
+          "name": "password",
+          "description": "password option"
+        },
+        {
+          "name": "number",
+          "description": "number option"
+        },
+        {
+          "name": "tel",
+          "description": "tel option"
+        },
+        {
+          "name": "url",
+          "description": "url option"
+        },
+        {
+          "name": "search",
+          "description": "search option"
+        },
+        {
+          "name": "textarea",
+          "description": "textarea option"
+        }
+      ]
+    },
+    {
+      "name": "wb-modal-animation",
+      "values": [
+        {
+          "name": "fadeIn",
+          "description": "fadeIn option"
+        },
+        {
+          "name": "slideDown",
+          "description": "slideDown option"
+        },
+        {
+          "name": "slideUp",
+          "description": "slideUp option"
+        },
+        {
+          "name": "slideLeft",
+          "description": "slideLeft option"
+        },
+        {
+          "name": "slideRight",
+          "description": "slideRight option"
+        },
+        {
+          "name": "scaleUp",
+          "description": "scaleUp option"
+        }
+      ]
+    },
+    {
+      "name": "wb-modal-aria-hidden",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-modal-aria-modal",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-modal-direction",
+      "values": [
+        {
+          "name": "top",
+          "description": "top option"
+        },
+        {
+          "name": "right",
+          "description": "right option"
+        },
+        {
+          "name": "bottom",
+          "description": "bottom option"
+        },
+        {
+          "name": "left",
+          "description": "left option"
+        }
+      ]
+    },
+    {
+      "name": "wb-modal-role",
+      "values": [
+        {
+          "name": "dialog",
+          "description": "dialog option"
+        },
+        {
+          "name": "alertdialog",
+          "description": "alertdialog option"
+        }
+      ]
+    },
+    {
+      "name": "wb-modal-size",
+      "values": [
+        {
+          "name": "small",
+          "description": "small option"
+        },
+        {
+          "name": "standard",
+          "description": "standard option"
+        },
+        {
+          "name": "large",
+          "description": "large option"
+        },
+        {
+          "name": "fullscreen",
+          "description": "fullscreen option"
+        },
+        {
+          "name": "floating",
+          "description": "floating option"
+        }
+      ]
+    },
+    {
+      "name": "wb-modal-variant",
+      "values": [
+        {
+          "name": "default",
+          "description": "default option"
+        },
+        {
+          "name": "success",
+          "description": "success option"
+        },
+        {
+          "name": "warning",
+          "description": "warning option"
+        },
+        {
+          "name": "danger",
+          "description": "danger option"
+        }
+      ]
+    },
+    {
+      "name": "wb-select-aria-expanded",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-select-aria-invalid",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-select-aria-required",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        }
+      ]
+    },
+    {
+      "name": "wb-select-size",
+      "values": [
+        {
+          "name": "small",
+          "description": "small option"
+        },
+        {
+          "name": "standard",
+          "description": "standard option"
+        },
+        {
+          "name": "large",
+          "description": "large option"
+        }
+      ]
+    },
+    {
+      "name": "wb-slider-orientation",
+      "values": [
+        {
+          "name": "horizontal",
+          "description": "horizontal option"
+        },
+        {
+          "name": "vertical",
+          "description": "vertical option"
+        }
+      ]
+    },
+    {
+      "name": "wb-slider-size",
+      "values": [
+        {
+          "name": "small",
+          "description": "small option"
+        },
+        {
+          "name": "standard",
+          "description": "standard option"
+        },
+        {
+          "name": "large",
+          "description": "large option"
+        }
+      ]
+    },
+    {
+      "name": "wb-slider-variant",
+      "values": [
+        {
+          "name": "primary",
+          "description": "primary option"
+        },
+        {
+          "name": "success",
+          "description": "success option"
+        },
+        {
+          "name": "warning",
+          "description": "warning option"
+        },
+        {
+          "name": "error",
+          "description": "error option"
+        }
+      ]
+    },
+    {
+      "name": "wb-status-aria-live",
+      "values": [
+        {
+          "name": "off",
+          "description": "off option"
+        },
+        {
+          "name": "polite",
+          "description": "polite option"
+        },
+        {
+          "name": "assertive",
+          "description": "assertive option"
+        }
+      ]
+    },
+    {
+      "name": "wb-status-position",
+      "values": [
+        {
+          "name": "bottom",
+          "description": "bottom option"
+        },
+        {
+          "name": "top",
+          "description": "top option"
+        },
+        {
+          "name": "fixed",
+          "description": "fixed option"
+        },
+        {
+          "name": "sticky",
+          "description": "sticky option"
+        }
+      ]
+    },
+    {
+      "name": "wb-status-role",
+      "values": [
+        {
+          "name": "status",
+          "description": "status option"
+        },
+        {
+          "name": "region",
+          "description": "region option"
+        },
+        {
+          "name": "log",
+          "description": "log option"
+        }
+      ]
+    },
+    {
+      "name": "wb-table-header-transform",
+      "values": [
+        {
+          "name": "none",
+          "description": "none option"
+        },
+        {
+          "name": "capitalize",
+          "description": "capitalize option"
+        },
+        {
+          "name": "title-case",
+          "description": "title-case option"
+        },
+        {
+          "name": "upper",
+          "description": "upper option"
+        },
+        {
+          "name": "lower",
+          "description": "lower option"
+        }
+      ]
+    },
+    {
+      "name": "wb-table-role",
+      "values": [
+        {
+          "name": "table",
+          "description": "table option"
+        },
+        {
+          "name": "grid",
+          "description": "grid option"
+        },
+        {
+          "name": "treegrid",
+          "description": "treegrid option"
+        }
+      ]
+    },
+    {
+      "name": "wb-toggle-aria-checked",
+      "values": [
+        {
+          "name": "true",
+          "description": "true option"
+        },
+        {
+          "name": "false",
+          "description": "false option"
+        },
+        {
+          "name": "mixed",
+          "description": "mixed option"
+        }
+      ]
+    },
+    {
+      "name": "wb-toggle-label-position",
+      "values": [
+        {
+          "name": "left",
+          "description": "left option"
+        },
+        {
+          "name": "right",
+          "description": "right option"
+        },
+        {
+          "name": "top",
+          "description": "top option"
+        },
+        {
+          "name": "bottom",
+          "description": "bottom option"
+        }
+      ]
+    },
+    {
+      "name": "wb-toggle-role",
+      "values": [
+        {
+          "name": "switch",
+          "description": "switch option"
+        }
+      ]
+    },
+    {
+      "name": "wb-toggle-size",
+      "values": [
+        {
+          "name": "small",
+          "description": "small option"
+        },
+        {
+          "name": "standard",
+          "description": "standard option"
+        },
+        {
+          "name": "large",
+          "description": "large option"
+        }
+      ]
+    },
+    {
+      "name": "wb-toggle-variant",
+      "values": [
+        {
+          "name": "primary",
+          "description": "primary option"
+        },
+        {
+          "name": "success",
+          "description": "success option"
+        },
+        {
+          "name": "warning",
+          "description": "warning option"
+        },
+        {
+          "name": "error",
+          "description": "error option"
+        }
+      ]
+    },
+    {
+      "name": "wb-viewport-aria-live",
+      "values": [
+        {
+          "name": "off",
+          "description": "off option"
+        },
+        {
+          "name": "polite",
+          "description": "polite option"
+        },
+        {
+          "name": "assertive",
+          "description": "assertive option"
+        }
+      ]
+    },
+    {
+      "name": "wb-viewport-position",
+      "values": [
+        {
+          "name": "top",
+          "description": "top option"
+        },
+        {
+          "name": "bottom",
+          "description": "bottom option"
+        },
+        {
+          "name": "left",
+          "description": "left option"
+        },
+        {
+          "name": "right",
+          "description": "right option"
+        }
+      ]
+    },
+    {
+      "name": "wb-viewport-role",
+      "values": [
+        {
+          "name": "region",
+          "description": "region option"
+        },
+        {
+          "name": "toolbar",
+          "description": "toolbar option"
+        },
+        {
+          "name": "group",
+          "description": "group option"
+        }
+      ]
+    },
+    {
+      "name": "wb-viewport-viewport",
+      "values": [
+        {
+          "name": "auto",
+          "description": "auto option"
+        },
+        {
+          "name": "mobile",
+          "description": "mobile option"
+        },
+        {
+          "name": "tablet",
+          "description": "tablet option"
+        },
+        {
+          "name": "desktop",
+          "description": "desktop option"
+        },
+        {
+          "name": "wide",
+          "description": "wide option"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "name": "wb-search",
+  "version": "1.0.0",
+  "description": "Search component with modal interface - drop in and it works",
+  "category": "interface",
+  "tags": ["search", "modal", "component", "instant", "zero-config"],
+  "author": "WB Components",
+  "license": "MIT",
+  "instantComponent": true,
+  "dependencies": [],
+  "attributes": {
+    "variant": {
+      "type": "string",
+      "enum": ["button", "icon-only", "floating"],
+      "default": "button",
+      "description": "Display variant of the search button"
+    },
+    "button-text": {
+      "type": "string", 
+      "default": "Search",
+      "description": "Text displayed on the search button"
+    },
+    "button-icon": {
+      "type": "string",
+      "default": "🔍", 
+      "description": "Icon displayed on the search button"
+    },
+    "placeholder": {
+      "type": "string",
+      "default": "Search website...",
+      "description": "Placeholder text for search input"
+    },
+    "data-search-data": {
+      "type": "string",
+      "description": "JSON string of search data items"
+    },
+    "data-theme": {
+      "type": "string",
+      "enum": ["dark", "light"],
+      "default": "dark",
+      "description": "Theme variant"
+    }
+  },
+  "events": [
+    {
+      "name": "wb-search-ready",
+      "description": "Fired when component is initialized"
+    },
+    {
+      "name": "wb-search-opened", 
+      "description": "Fired when search modal is opened"
+    },
+    {
+      "name": "wb-search-closed",
+      "description": "Fired when search modal is closed"
+    },
+    {
+      "name": "wb-search-results",
+      "description": "Fired when search results are displayed",
+      "detail": {
+        "query": "string",
+        "results": "array"
+      }
+    },
+    {
+      "name": "wb-search-select",
+      "description": "Fired when a search result is selected",
+      "detail": {
+        "result": "object"
+      }
+    }
+  ],
+  "methods": [
+    {
+      "name": "openSearch",
+      "description": "Programmatically open the search modal"
+    },
+    {
+      "name": "closeSearch", 
+      "description": "Programmatically close the search modal"
+    },
+    {
+      "name": "focusSearch",
+      "description": "Open search and focus input"
+    },
+    {
+      "name": "setSearchData",
+      "params": ["data: array"],
+      "description": "Set custom search data"
+    },
+    {
+      "name": "getSearchQuery",
+      "returns": "string",
+      "description": "Get current search query"
+    },
+    {
+      "name": "isModalOpen",
+      "returns": "boolean", 
+      "description": "Check if search modal is open"
+    }
+  ],
+  "cssCustomProperties": {
+    "--wb-search-primary": "#6366f1",
+    "--wb-search-primary-dark": "#5856eb", 
+    "--wb-search-bg-primary": "#1e1e1e",
+    "--wb-search-bg-secondary": "#2d2d2d",
+    "--wb-search-text-primary": "#ffffff",
+    "--wb-search-text-secondary": "#a0a0a0",
+    "--wb-search-border": "#404040",
+    "--wb-search-border-radius": "8px",
+    "--wb-search-highlight": "#ffde7d"
+  },
+  "features": [
+    "Zero configuration setup",
+    "Dark/light theme support", 
+    "Keyboard shortcuts (Ctrl+K, Escape)",
+    "Mobile responsive design",
+    "Accessibility features (ARIA, focus management)",
+    "Custom search data support",
+    "Real-time search filtering",
+    "Customizable via CSS properties",
+    "Event-driven API",
+    "Multiple display variants"
+  ],
+  "installation": {
+    "html": "<wb-search></wb-search>",
+    "script": "<script src=\"components/wb-search/wb-search.js\"></script>",
+    "description": "Just add the script tag and use the HTML element - no setup required!"
+  },
+  "examples": {
+    "basic": "<wb-search></wb-search>",
+    "floating": "<wb-search variant=\"floating\"></wb-search>",
+    "iconOnly": "<wb-search variant=\"icon-only\"></wb-search>",
+    "customText": "<wb-search button-text=\"Find Content\" button-icon=\"🔎\"></wb-search>",
+    "customData": "<wb-search data-search-data='[{\"id\":\"home\",\"title\":\"Home\",\"type\":\"Page\",\"content\":\"Welcome page\"}]'></wb-search>"
+  },
+  "keyboardShortcuts": {
+    "Ctrl+K": "Open search modal",
+    "Escape": "Close search modal",
+    "Enter": "Select highlighted result",
+    "Tab": "Navigate through UI"
+  },
+  "accessibility": {
+    "roles": ["search", "button", "dialog"],
+    "features": [
+      "ARIA labels and descriptions",
+      "Focus management and trapping", 
+      "Keyboard navigation support",
+      "High contrast mode support",
+      "Screen reader compatible",
+      "Reduced motion support"
+    ]
+  },
+  "componentAdvantages": {
+    "instantUsage": "Drop the tag in HTML and it works immediately",
+    "selfContained": "All styles, scripts, and functionality included", 
+    "noConfiguration": "Works out of the box with sensible defaults",
+    "customizable": "Attributes and CSS properties for customization",
+    "reusable": "Same component works across different pages/projects",
+    "maintainable": "Single source of truth for search functionality"
+  },
+  "files": {
+    "js": "wb-search.js",
+    "css": "wb-search.css", 
+    "demo": "wb-search-demo.html",
+    "schema": "wb-search.schema.json"
+  }
+}

@@ -1,0 +1,458 @@
+/* ===== WB NAV COMPONENT ===== */
+/* Website Builder navigation component with responsive layouts */
+
+/* Navigation Variables */
+:root {
+    --wb-nav-height: 4rem;
+    --wb-nav-font-size: 0.875rem;
+    --wb-nav-transition: all 0.3s ease;
+    --wb-nav-z-index: 1100;
+    --wb-nav-padding: 1rem 2rem;
+    --wb-nav-item-padding: 0.5rem 1rem;
+    --wb-nav-border-radius: 6px;
+}
+
+/* Base Navigation Container */
+.wb-nav {
+    font-family: inherit;
+    font-size: var(--wb-nav-font-size);
+    transition: var(--wb-nav-transition);
+    z-index: var(--wb-nav-z-index);
+}
+
+/* Navigation Container */
+.wb-nav-container {
+    display: flex;
+    align-items: center;
+    padding: var(--wb-nav-padding);
+    background: var(--bg-secondary, #ffffff);
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    position: relative;
+}
+
+/* Navigation Brand */
+.wb-nav-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary, #6366f1);
+    text-decoration: none;
+    margin-right: var(--space-lg, 1.5rem);
+    flex-shrink: 0;
+}
+
+.wb-nav-brand:hover {
+    color: var(--primary-dark, #4338ca);
+}
+
+/* Navigation List */
+.wb-nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-sm, 0.5rem);
+    align-items: center;
+    flex: 1;
+}
+
+/* Navigation Items */
+.wb-nav-item {
+    position: relative;
+}
+
+/* Navigation Links */
+.wb-nav-link {
+    display: flex;
+    align-items: center;
+    padding: var(--wb-nav-item-padding);
+    color: var(--text-secondary, #64748b);
+    text-decoration: none;
+    border-radius: var(--wb-nav-border-radius);
+    transition: var(--wb-nav-transition);
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.wb-nav-link:hover {
+    color: var(--primary, #6366f1);
+    background: color-mix(in srgb, var(--primary, #6366f1) 10%, transparent);
+}
+
+.wb-nav-link:focus {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 2px;
+}
+
+/* Active State */
+.wb-nav-item.wb-nav--active .wb-nav-link,
+.wb-nav-link.wb-nav--active {
+    color: var(--primary, #6366f1);
+    background: color-mix(in srgb, var(--primary, #6366f1) 15%, transparent);
+    font-weight: 600;
+}
+
+/* Disabled State */
+.wb-nav-item.wb-nav--disabled .wb-nav-link,
+.wb-nav-link.wb-nav--disabled {
+    color: var(--neutral-400, #94a3b8);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Mobile Toggle Button */
+.wb-nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary, #1e293b);
+    cursor: pointer;
+    padding: var(--space-xs, 0.25rem);
+    border-radius: var(--wb-nav-border-radius);
+    transition: var(--wb-nav-transition);
+    margin-left: auto;
+}
+
+.wb-nav-toggle:hover {
+    background: var(--neutral-100, #f1f5f9);
+}
+
+.wb-nav-toggle:focus {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 2px;
+}
+
+/* Toggle Icon */
+.wb-nav-toggle-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+}
+
+.wb-nav-toggle-icon::before,
+.wb-nav-toggle-icon::after,
+.wb-nav-toggle-icon {
+    content: '';
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    transition: var(--wb-nav-transition);
+}
+
+.wb-nav-toggle-icon::before,
+.wb-nav-toggle-icon::after {
+    display: block;
+}
+
+/* Layout Variants */
+
+/* Horizontal Layout (Default) */
+.wb-nav--horizontal .wb-nav-list {
+    flex-direction: row;
+    justify-content: center;
+}
+
+.wb-nav.wb-nav--horizontal.wb-nav--top,
+.wb-nav--horizontal.wb-nav--top {
+    position: sticky !important;
+    top: 0;
+    width: 100%;
+    z-index: var(--wb-nav-z-index);
+    background: var(--bg-secondary, #ffffff);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure horizontal nav is always 100% width */
+.wb-nav--horizontal {
+    width: 100%;
+}
+
+/* Vertical Layout */
+.wb-nav--vertical {
+    height: 100vh;
+    width: 200px;
+}
+
+.wb-nav--vertical .wb-nav-container {
+    flex-direction: column;
+    align-items: stretch;
+    height: 100%;
+    padding: var(--space-lg, 1.5rem) var(--space-md, 1rem);
+    border-bottom: none;
+    border-right: 1px solid var(--border-color, #e2e8f0);
+}
+
+.wb-nav--vertical .wb-nav-brand {
+    margin-right: 0;
+    margin-bottom: var(--space-lg, 1.5rem);
+    text-align: center;
+}
+
+.wb-nav--vertical .wb-nav-list {
+    flex-direction: column;
+    gap: var(--space-xs, 0.25rem);
+    align-items: stretch;
+}
+
+.wb-nav--vertical .wb-nav-link {
+    justify-content: flex-start;
+    width: 100%;
+}
+
+/* Left Navigation */
+.wb-nav--left {
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.wb-nav--left.wb-nav--vertical .wb-nav-container {
+    border-right: 1px solid var(--border-color, #e2e8f0);
+    border-bottom: none;
+}
+
+/* Right Navigation */
+.wb-nav--right {
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.wb-nav--right.wb-nav--vertical .wb-nav-container {
+    border-left: 1px solid var(--border-color, #e2e8f0);
+    border-right: none;
+    border-bottom: none;
+}
+
+/* Style Variants */
+
+/* Pills Variant */
+.wb-nav--pills .wb-nav-link {
+    border-radius: 2rem;
+}
+
+.wb-nav--pills .wb-nav-item.wb-nav--active .wb-nav-link {
+    background: var(--primary, #6366f1);
+    color: white;
+}
+
+.wb-nav--pills .wb-nav-link:hover {
+    background: color-mix(in srgb, var(--primary, #6366f1) 15%, transparent);
+}
+
+/* Tabs Variant */
+.wb-nav--tabs .wb-nav-container {
+    border-bottom: 2px solid var(--border-color, #e2e8f0);
+    padding-bottom: 0;
+}
+
+.wb-nav--tabs .wb-nav-link {
+    border-radius: var(--wb-nav-border-radius) var(--wb-nav-border-radius) 0 0;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+}
+
+.wb-nav--tabs .wb-nav-item.wb-nav--active .wb-nav-link {
+    border-bottom-color: var(--primary, #6366f1);
+    background: transparent;
+}
+
+/* Minimal Variant */
+.wb-nav--minimal .wb-nav-container {
+    background: transparent;
+    border: none;
+    padding: var(--space-md, 1rem) var(--space-lg, 1.5rem);
+}
+
+.wb-nav--minimal .wb-nav-link {
+    background: transparent;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+}
+
+.wb-nav--minimal .wb-nav-link:hover {
+    background: transparent;
+    border-bottom-color: var(--primary, #6366f1);
+}
+
+.wb-nav--minimal .wb-nav-item.wb-nav--active .wb-nav-link {
+    background: transparent;
+    border-bottom-color: var(--primary, #6366f1);
+}
+
+/* Gradient Variant */
+.wb-nav--gradient .wb-nav-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: var(--space-xl, 2rem);
+    text-align: center;
+}
+
+.wb-nav--gradient .wb-nav-brand {
+    color: white;
+}
+
+.wb-nav--gradient .wb-nav-brand:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.wb-nav--gradient .wb-nav-list {
+    justify-content: space-around;
+}
+
+.wb-nav--gradient .wb-nav-link {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.wb-nav--gradient .wb-nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.wb-nav--gradient .wb-nav-item.wb-nav--active .wb-nav-link {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] .wb-nav-container {
+    background: var(--neutral-800, #1e293b);
+    border-bottom-color: var(--neutral-600, #475569);
+    color: var(--neutral-100, #f1f5f9);
+}
+
+[data-theme="dark"] .wb-nav-brand {
+    color: var(--primary, #6366f1);
+}
+
+[data-theme="dark"] .wb-nav-link {
+    color: var(--neutral-300, #cbd5e1);
+}
+
+[data-theme="dark"] .wb-nav-link:hover {
+    color: var(--primary, #6366f1);
+}
+
+[data-theme="dark"] .wb-nav-toggle {
+    color: var(--neutral-100, #f1f5f9);
+}
+
+[data-theme="dark"] .wb-nav-toggle:hover {
+    background: var(--neutral-700, #334155);
+}
+
+[data-theme="dark"] .wb-nav--vertical .wb-nav-container {
+    border-right-color: var(--neutral-600, #475569);
+}
+
+[data-theme="dark"] .wb-nav--right.wb-nav--vertical .wb-nav-container {
+    border-left-color: var(--neutral-600, #475569);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .wb-nav-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .wb-nav--horizontal .wb-nav-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--bg-secondary, #ffffff);
+        border: 1px solid var(--border-color, #e2e8f0);
+        border-top: none;
+        padding: var(--space-md, 1rem);
+        gap: var(--space-xs, 0.25rem);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .wb-nav--horizontal.wb-nav--expanded .wb-nav-list {
+        display: flex;
+    }
+    
+    .wb-nav--horizontal .wb-nav-link {
+        justify-content: flex-start;
+        width: 100%;
+    }
+    
+    /* Keep vertical layouts unchanged on mobile */
+    .wb-nav--vertical .wb-nav-toggle {
+        display: none;
+    }
+    
+    .wb-nav--vertical .wb-nav-list {
+        display: flex;
+    }
+}
+
+/* Tablet Adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .wb-nav-container {
+        padding: var(--space-md, 1rem) var(--space-lg, 1.5rem);
+    }
+    
+    .wb-nav-link {
+        padding: var(--space-sm, 0.5rem) var(--space-md, 1rem);
+    }
+}
+
+/* Animation for mobile menu */
+@keyframes wb-nav-slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wb-nav--horizontal.wb-nav--expanded .wb-nav-list {
+    animation: wb-nav-slide-down 0.3s ease-out;
+}
+
+/* Focus Management */
+.wb-nav-menu:focus-within {
+    /* Maintain focus styles when navigating with keyboard */
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .wb-nav-link {
+        border: 1px solid transparent;
+    }
+    
+    .wb-nav-link:hover,
+    .wb-nav-item.wb-nav--active .wb-nav-link {
+        border-color: currentColor;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .wb-nav-menu,
+    .wb-nav-link,
+    .wb-nav-toggle,
+    .wb-nav-toggle-icon,
+    .wb-nav-toggle-icon::before,
+    .wb-nav-toggle-icon::after {
+        transition: none;
+    }
+    
+    .wb-nav--horizontal.wb-nav--expanded .wb-nav-list {
+        animation: none;
+    }
+}

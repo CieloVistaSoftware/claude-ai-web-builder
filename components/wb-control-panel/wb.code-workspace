@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../../../.vscode/extensions/claude-code-autostart"
+		},
+		{
+			"path": "../../../ClaudeChat"
+		}
+	],
+	"settings": {
+		"emmet.includeLanguages": {
+			"html": "html"
+		},
+		"files.associations": {
+			"*.html": "html"
+		},
+		"liveServer.settings.multiRootWorkspaceName": "wb"
+	}
+}

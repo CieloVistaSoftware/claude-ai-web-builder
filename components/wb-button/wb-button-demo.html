@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Button Web Component - Complete Demo</title>
+    
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <!-- Component-Specific Styles -->
+    <link rel="stylesheet" href="wb-button.css">
+</head>
+<body data-theme="dark">
+    <div class="demo-content">
+        <h1>🔘 WB Button Web Component - Complete Demo</h1>
+        <p>Modern, accessible button component with multiple variants and states - All demos merged into one comprehensive file</p>
+        
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('documentation')">📚 Documentation</button>
+            <button class="tab" onclick="showTab('examples')">🎮 Examples</button>
+        </div>
+        
+        <!-- Documentation Tab -->
+        <div id="documentation-tab" class="tab-content active">
+            <div class="demo-section">
+                <h2>📖 Component Documentation</h2>
+                <div class="docs-content">
+                    <h1>WB Button Component</h1>
+                    
+                    <p>A standardized button component for the Website Builder system with consistent styling, responsive text sizing, and uniform dimensions across all interfaces.</p>
+                    
+                    <h2>Overview</h2>
+                    <p>The WB Button component provides a unified button system that ensures consistency across the entire Website Builder application. All buttons have a fixed 5rem width with automatic text scaling and built-in spacing for perfect alignment.</p>
+                    
+                    <h2>Key Features</h2>
+                    
+                    <h3>📏 Fixed Dimensions</h3>
+                    <ul>
+                        <li><strong>Width</strong>: Exactly 5rem for all buttons</li>
+                        <li><strong>Height</strong>: 1.5rem (configurable via CSS variables)</li>
+                        <li><strong>Consistent</strong>: Same size regardless of content length</li>
+                        <li><strong>Responsive</strong>: Text automatically scales to fit</li>
+                    </ul>
+                    
+                    <h3>🎨 Smart Text Handling</h3>
+                    <ul>
+                        <li><strong>Auto-scaling</strong>: Font size adapts from 0.5rem to 0.75rem based on viewport</li>
+                        <li><strong>Text Fitting</strong>: Content automatically shrinks to fit within 5rem width</li>
+                        <li><strong>Overflow Protection</strong>: Ellipsis for extremely long text</li>
+                        <li><strong>Word Breaking</strong>: Intelligent word wrapping when needed</li>
+                    </ul>
+                    
+                    <h3>📐 Built-in Spacing</h3>
+                    <ul>
+                        <li><strong>Margins</strong>: 0.5rem gap on bottom, left, and right sides</li>
+                        <li><strong>Grid Ready</strong>: Works perfectly in flex and grid layouts</li>
+                        <li><strong>No Overlap</strong>: Automatic spacing prevents button crowding</li>
+                        <li><strong>Consistent</strong>: Same spacing behavior across all components</li>
+                    </ul>
+                    
+                    <h2>Basic Usage</h2>
+                    
+                    <h3>Primary Button</h3>
+                    <pre><code>&lt;wb-button variant="primary"&gt;Click Me&lt;/wb-button&gt;</code></pre>
+                    
+                    <h3>Secondary Button</h3>
+                    <pre><code>&lt;wb-button variant="secondary"&gt;Cancel&lt;/wb-button&gt;</code></pre>
+                    
+                    <h3>Success Button</h3>
+                    <pre><code>&lt;wb-button variant="success"&gt;Save&lt;/wb-button&gt;</code></pre>
+                    
+                    <h3>Toggle Button</h3>
+                    <pre><code>&lt;wb-button variant="toggle" active="true"&gt;Toggle&lt;/wb-button&gt;</code></pre>
+                    
+                    <h2>Attributes</h2>
+                    
+                    <h3>variant</h3>
+                    <p>Defines the visual style of the button.</p>
+                    <ul>
+                        <li><code>primary</code> - Main action buttons (default)</li>
+                        <li><code>secondary</code> - Secondary actions</li>
+                        <li><code>success</code> - Confirmation actions</li>
+                        <li><code>toggle</code> - On/off state buttons</li>
+                    </ul>
+                    
+                    <h3>size</h3>
+                    <p>Controls the size of the button.</p>
+                    <ul>
+                        <li><code>small</code> - Compact size (1.2rem height)</li>
+                        <li><code>medium</code> - Default size (1.5rem height)</li>
+                        <li><code>large</code> - Larger size (2rem height)</li>
+                    </ul>
+                    
+                    <h3>active</h3>
+                    <p>For toggle buttons, sets the active state.</p>
+                    <ul>
+                        <li><code>true</code> - Button is active/on</li>
+                        <li><code>false</code> - Button is inactive/off (default)</li>
+                    </ul>
+                    
+                    <h3>disabled</h3>
+                    <p>Disables the button interaction.</p>
+                    <ul>
+                        <li>When present, button is disabled and shows disabled styling</li>
+                    </ul>
+                    
+                    <h2>Events</h2>
+                    
+                    <h3>wb-button:click</h3>
+                    <p>Fired when the button is clicked. Contains button information in event.detail.</p>
+                    
+                    <h3>wb-button:toggle</h3>
+                    <p>Fired when a toggle button changes state. Contains the new active state in event.detail.</p>
+                    
+                    <h3>wb-button:ready</h3>
+                    <p>Fired when the component is fully initialized and ready for interaction.</p>
+                    
+                    <h2>CSS Custom Properties</h2>
+                    
+                    <p>You can customize the appearance using CSS custom properties:</p>
+                    
+                    <pre><code>:root {
+  --wb-btn-height: 1.5rem;
+  --wb-btn-font-size: clamp(0.5rem, 2vw, 0.75rem);
+  --wb-btn-border-radius: 6px;
+  --wb-btn-transition: all 0.2s ease;
+  --wb-btn-padding: 0 0.2rem;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Examples Tab -->
+        <div id="examples-tab" class="tab-content">
+            
+            <!-- Event Log -->
+            <div class="demo-section">
+                <h2>📋 Event Log</h2>
+                <div id="eventLog" class="wb-event-log">
+                    <div class="event-entry">Events will appear here...</div>
+                </div>
+                <button onclick="clearLog()" class="clear-log-button">Clear Log</button>
+            </div>
+            
+            <!-- Basic Variants -->
+            <div class="demo-section">
+                <h2>🎨 Basic Variants</h2>
+                <div class="demo-row">
+                    <wb-button variant="primary">Primary Button</wb-button>
+                    <wb-button variant="secondary">Secondary Button</wb-button>
+                    <wb-button variant="success">Success Button</wb-button>
+                </div>
+                <p><strong>Code:</strong></p>
+                <code>&lt;wb-button variant="primary"&gt;Primary Button&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="secondary"&gt;Secondary Button&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="success"&gt;Success Button&lt;/wb-button&gt;</code>
+            </div>
+            
+            <!-- Sizes -->
+            <div class="demo-section">
+                <h2>📏 Sizes</h2>
+                <div class="demo-row">
+                    <wb-button variant="primary" size="small">Small</wb-button>
+                    <wb-button variant="primary" size="medium">Medium</wb-button>
+                    <wb-button variant="primary" size="large">Large</wb-button>
+                </div>
+                <p><strong>Code:</strong></p>
+                <code>&lt;wb-button variant="primary" size="small"&gt;Small&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="primary" size="medium"&gt;Medium&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="primary" size="large"&gt;Large&lt;/wb-button&gt;</code>
+            </div>
+            
+            <!-- States -->
+            <div class="demo-section">
+                <h2>🔘 States</h2>
+                <div class="demo-row">
+                    <wb-button variant="primary">Normal</wb-button>
+                    <wb-button variant="primary" disabled>Disabled</wb-button>
+                    <wb-button variant="primary" active>Active</wb-button>
+                </div>
+                <p><strong>Code:</strong></p>
+                <code>&lt;wb-button variant="primary"&gt;Normal&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="primary" disabled&gt;Disabled&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="primary" active&gt;Active&lt;/wb-button&gt;</code>
+            </div>
+            
+            <!-- Toggle Buttons -->
+            <div class="demo-section">
+                <h2>🔄 Toggle Buttons</h2>
+                <div class="demo-row">
+                    <wb-button variant="toggle">Toggle Me</wb-button>
+                    <wb-button variant="toggle" active>Pre-activated</wb-button>
+                    <wb-button variant="toggle" disabled>Disabled Toggle</wb-button>
+                </div>
+                <p><strong>Code:</strong></p>
+                <code>&lt;wb-button variant="toggle"&gt;Toggle Me&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="toggle" active&gt;Pre-activated&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="toggle" disabled&gt;Disabled Toggle&lt;/wb-button&gt;</code>
+            </div>
+            
+            <!-- Icons -->
+            <div class="demo-section">
+                <h2>⭐ Icons</h2>
+                <div class="demo-row">
+                    <wb-button variant="primary">⭐ Star</wb-button>
+                    <wb-button variant="secondary">Heart Right ❤️</wb-button>
+                    <wb-button variant="success">✅ Check</wb-button>
+                </div>
+                <p><strong>Code:</strong></p>
+                <code>&lt;wb-button variant="primary"&gt;⭐ Star&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="secondary"&gt;Heart Right ❤️&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="success"&gt;✅ Check&lt;/wb-button&gt;</code>
+            </div>
+            
+            <!-- Status Indicators -->
+            <div class="demo-section">
+                <h2>🚦 Status Indicators</h2>
+                <div class="demo-row">
+                    <wb-button variant="primary" status="active">Active Status</wb-button>
+                    <wb-button variant="secondary" status="inactive">Inactive Status</wb-button>
+                    <wb-button variant="success" status="neutral">Neutral Status</wb-button>
+                </div>
+                <p><strong>Code:</strong></p>
+                <code>&lt;wb-button variant="primary" status="active"&gt;Active Status&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="secondary" status="inactive"&gt;Inactive Status&lt;/wb-button&gt;</code><br>
+                <code>&lt;wb-button variant="success" status="neutral"&gt;Neutral Status&lt;/wb-button&gt;</code>
+            </div>
+            
+            <!-- Dynamic Testing -->
+            <div class="demo-section">
+                <h2>🔧 Dynamic Testing</h2>
+                <div class="demo-row">
+                    <wb-button id="testButton" variant="primary">Test Button</wb-button>
+                </div>
+                <div class="demo-row">
+                    <button onclick="toggleVariant()">Toggle Variant</button>
+                    <button onclick="toggleSize()">Toggle Size</button>
+                    <button onclick="toggleDisabled()">Toggle Disabled</button>
+                    <button onclick="toggleActive()">Toggle Active</button>
+                    <button onclick="changeText()">Change Text</button>
+                </div>
+                <p><strong>Current Properties:</strong> <span id="currentProps">Loading...</span></p>
+            </div>
+            
+            <!-- Grid Demo -->
+            <div class="demo-section">
+                <h2>📋 Button Grid & Groups</h2>
+                <div id="buttonGrid"></div>
+                <div class="demo-row">
+                    <button onclick="createGrid()">Create 3-Column Grid</button>
+                    <button onclick="createGroup()">Create Button Group</button>
+                    <button onclick="clearGrid()">Clear</button>
+                </div>
+            </div>
+            
+        </div> <!-- Close examples-tab -->
+    </div> <!-- Close demo-content -->
+    
+    <script type="module" src="wb-button.js"></script>
+    <script>
+        
+        (function() {
+            'use strict';
+
+            console.log('🔘 WB Button Web Component: Starting initialization...');
+
+            // Configuration
+            const config = {
+                component: {
+                    name: 'wb-button',
+                    version: '2.0.0',
+                    description: 'Website Builder standardized button component'
+                },
+                classes: {
+                    base: 'wb-btn',
+                    variants: {
+                        primary: 'wb-btn--primary',
+                        secondary: 'wb-btn--secondary',
+                        success: 'wb-btn--success',
+                        toggle: 'wb-btn--toggle'
+                    },
+                    sizes: {
+                        small: 'wb-btn--small',
+                        medium: '',
+                        large: 'wb-btn--large'
+                    },
+                    states: {
+                        active: 'active',
+                        disabled: 'disabled'
+                    }
+                },
+                defaults: {
+                    variant: 'primary',
+                    size: 'medium',
+                    text: 'Button',
+                    active: false
+                }
+            };
+
+            // WB Button Web Component Class
+            class WBButton extends HTMLElement {
+                constructor() {
+                    super();
+                    this.config = config;
+                    this._initialized = false;
+                    this.isToggle = false;
+                    this.isActive = false;
+                    
+                    console.log('🔘 WB Button: Web Component constructed');
+                }
+                
+                static get observedAttributes() {
+                    return ['variant', 'size', 'text', 'active', 'disabled'];
+                }
+                
+                connectedCallback() {
+                    if (this._initialized) return;
+                    this._initialized = true;
+                    
+                    console.log('🔘 WB Button: Connected to DOM, initializing...');
+                    
+                    this.render();
+                    this.setupEventListeners();
+                    this.updateFromAttributes();
+                    
+                    // Setup adjacent button sizing
+                    setTimeout(() => this.updateAdjacentButtonSizes(), 100);
+                    
+                    // Dispatch ready event
+                    this.dispatchEvent(new CustomEvent('wb-button:ready', {
+                        bubbles: true,
+                        detail: { 
+                            component: this, 
+                            variant: this.getAttribute('variant') || this.config.defaults.variant,
+                            size: this.getAttribute('size') || this.config.defaults.size
+                        }
+                    }));
+                    
+                    console.log('🔘 WB Button: Component fully initialized');
+                }
+                
+                render() {
+                    // Get text content
+                    const text = this.getAttribute('text') || this.textContent || this.config.defaults.text;
+                    
+                    // Create button element
+                    this.innerHTML = `<button class="${this.config.classes.base}">${text}</button>`;
+                    this.button = this.querySelector('button');
+                }
+                
+                setupEventListeners() {
+                    if (!this.button) return;
+                    
+                    this.button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        
+                        if (this.button.disabled) return;
+                        
+                        // Handle toggle functionality
+                        if (this.isToggle) {
+                            this.isActive = !this.isActive;
+                            this.button.classList.toggle('active', this.isActive);
+                            
+                            // Dispatch toggle event
+                            this.dispatchEvent(new CustomEvent('wb-button:toggle', {
+                                bubbles: true,
+                                detail: { 
+                                    active: this.isActive,
+                                    button: this,
+                                    variant: this.getAttribute('variant')
+                                }
+                            }));
+                        }
+                        
+                        // Dispatch click event
+                        this.dispatchEvent(new CustomEvent('wb-button:click', {
+                            bubbles: true,
+                            detail: { 
+                                button: this,
+                                variant: this.getAttribute('variant'),
+                                size: this.getAttribute('size'),
+                                active: this.isActive
+                            }
+                        }));
+                    });
+                }
+                
+                updateFromAttributes() {
+                    if (!this.button) return;
+                    
+                    // Reset classes
+                    this.button.className = this.config.classes.base;
+                    
+                    // Apply variant
+                    const variant = this.getAttribute('variant') || this.config.defaults.variant;
+                    if (this.config.classes.variants[variant]) {
+                        this.button.classList.add(this.config.classes.variants[variant]);
+                    }
+                    
+                    // Apply size
+                    const size = this.getAttribute('size') || this.config.defaults.size;
+                    if (size && this.config.classes.sizes[size]) {
+                        this.button.classList.add(this.config.classes.sizes[size]);
+                    }
+                    
+                    // Handle toggle variant
+                    this.isToggle = variant === 'toggle';
+                    
+                    // Handle active state
+                    const active = this.getAttribute('active');
+                    this.isActive = active === 'true' || active === '';
+                    if (this.isActive) {
+                        this.button.classList.add('active');
+                    }
+                    
+                    // Handle disabled state
+                    const disabled = this.hasAttribute('disabled');
+                    this.button.disabled = disabled;
+                    
+                    // Update text
+                    const text = this.getAttribute('text') || this.textContent || this.config.defaults.text;
+                    if (this.button.textContent !== text) {
+                        this.button.textContent = text;
+                    }
+                }
+                
+                attributeChangedCallback(name, oldValue, newValue) {
+                    if (!this._initialized || oldValue === newValue) return;
+                    
+                    console.log(`🔘 WB Button: Attribute '${name}' changed from '${oldValue}' to '${newValue}'`);
+                    this.updateFromAttributes();
+                }
+                
+                // Public API methods
+                setVariant(variant) {
+                    this.setAttribute('variant', variant);
+                }
+                
+                setSize(size) {
+                    this.setAttribute('size', size);
+                }
+                
+                setText(text) {
+                    this.setAttribute('text', text);
+                }
+                
+                setActive(active) {
+                    if (active) {
+                        this.setAttribute('active', 'true');
+                    } else {
+                        this.removeAttribute('active');
+                    }
+                }
+                
+                setDisabled(disabled) {
+                    if (disabled) {
+                        this.setAttribute('disabled', '');
+                    } else {
+                        this.removeAttribute('disabled');
+                    }
+                }
+                
+                // Adjacent button sizing methods
+                getAdjacentButtons() {
+                    if (this.parentElement) {
+                        const allButtons = Array.from(this.parentElement.children).filter(child => 
+                            child.tagName === 'WB-BUTTON'
+                        );
+                        
+                        console.log(`🔘 getAdjacentButtons for "${this.textContent.trim()}": found ${allButtons.length} wb-button siblings`);
+                        
+                        if (allButtons.length > 1) {
+                            return allButtons;
+                        }
+                    }
+                    return [];
+                }
+                
+                updateAdjacentButtonSizes() {
+                    const adjacentButtons = this.getAdjacentButtons();
+                    console.log(`🔘 updateAdjacentButtonSizes for "${this.textContent.trim()}": processing ${adjacentButtons.length} buttons`);
+                    
+                    if (adjacentButtons.length > 0) {
+                        // Use a more accurate method to measure text width
+                        let maxWidth = 5; // Default 5rem minimum
+                        
+                        // Create a temporary span for accurate measurement
+                        const tempSpan = document.createElement('span');
+                        tempSpan.style.position = 'absolute';
+                        tempSpan.style.visibility = 'hidden';
+                        tempSpan.style.whiteSpace = 'nowrap';
+                        tempSpan.style.fontFamily = getComputedStyle(this.button || this).fontFamily;
+                        tempSpan.style.fontSize = getComputedStyle(this.button || this).fontSize;
+                        tempSpan.style.fontWeight = '600';
+                        document.body.appendChild(tempSpan);
+                        
+                        adjacentButtons.forEach(btn => {
+                            const textContent = (btn.button ? btn.button.textContent : btn.textContent).trim();
+                            if (textContent) {
+                                tempSpan.textContent = textContent;
+                                const requiredWidth = (tempSpan.offsetWidth / 16) + 1; // Convert to rem + padding
+                                maxWidth = Math.max(maxWidth, requiredWidth);
+                            }
+                        });
+                        
+                        document.body.removeChild(tempSpan);
+                        
+                        console.log(`🔘 Applying width ${maxWidth}rem to ${adjacentButtons.length} buttons`);
+                        
+                        // Apply the same width to all adjacent buttons
+                        adjacentButtons.forEach(btn => {
+                            const targetElement = btn.button || btn;
+                            targetElement.style.width = `${maxWidth}rem`;
+                            targetElement.style.minWidth = `${maxWidth}rem`;
+                            targetElement.style.maxWidth = `${maxWidth}rem`;
+                            console.log(`🔘 Applied to "${(btn.button ? btn.button.textContent : btn.textContent).trim()}"`);
+                        });
+                    }
+                }
+            }
+
+            // Register the custom element
+            if (!customElements.get('wb-button')) {
+                customElements.define('wb-button', WBButton);
+                console.log('🔘 WB Button: Custom element registered as <wb-button>');
+            }
+
+            // Dispatch component loaded event
+            document.dispatchEvent(new CustomEvent('wb-button:loaded', {
+                detail: { version: config.component.version }
+            }));
+
+            console.log('🔘 WB Button: Component fully loaded and ready');
+
+        })();
+
+        // Demo functionality
+        let eventCounter = 0;
+        
+        function logEvent(type, message, className = '') {
+            const log = document.getElementById('eventLog');
+            const entry = document.createElement('div');
+            entry.className = `event-entry ${className}`;
+            entry.textContent = `[${++eventCounter}] ${type}: ${message}`;
+            
+            // Add to top of log
+            if (log.firstChild) {
+                log.insertBefore(entry, log.firstChild);
+            } else {
+                log.appendChild(entry);
+            }
+            
+            // Keep only last 20 entries
+            const entries = log.querySelectorAll('.event-entry');
+            if (entries.length > 20) {
+                entries[entries.length - 1].remove();
+            }
+        }
+        
+        function clearLog() {
+            const log = document.getElementById('eventLog');
+            log.innerHTML = '<div class="event-entry">Log cleared</div>';
+            eventCounter = 0;
+        }
+        
+        // Listen for wb-button events
+        document.addEventListener('wb-button:click', (e) => {
+            logEvent('CLICK', `${e.detail.variant} button clicked (active: ${e.detail.active})`, 'event-click');
+        });
+        
+        document.addEventListener('wb-button:toggle', (e) => {
+            logEvent('TOGGLE', `Toggle button ${e.detail.active ? 'activated' : 'deactivated'}`, 'event-toggle');
+        });
+        
+        document.addEventListener('wb-button:ready', (e) => {
+            logEvent('READY', `Button ready: ${e.detail.variant} ${e.detail.size}`, 'event-ready');
+        });
+        
+        // Dynamic testing functions
+        const variants = ['primary', 'secondary', 'success', 'toggle'];
+        const sizes = ['small', 'medium', 'large'];
+        const texts = ['Click Me', 'Save', 'Cancel', 'Submit', 'Test Button', 'Long Button Text'];
+        
+        let currentVariant = 0;
+        let currentSize = 1;
+        let currentText = 0;
+        
+        function toggleVariant() {
+            const testButton = document.getElementById('testButton');
+            currentVariant = (currentVariant + 1) % variants.length;
+            testButton.setVariant(variants[currentVariant]);
+            logEvent('TEST', `Changed variant to: ${variants[currentVariant]}`);
+        }
+        
+        function toggleSize() {
+            const testButton = document.getElementById('testButton');
+            currentSize = (currentSize + 1) % sizes.length;
+            testButton.setSize(sizes[currentSize]);
+            logEvent('TEST', `Changed size to: ${sizes[currentSize]}`);
+        }
+        
+        function toggleDisabled() {
+            const testButton = document.getElementById('testButton');
+            const isDisabled = testButton.hasAttribute('disabled');
+            testButton.setDisabled(!isDisabled);
+            logEvent('TEST', `${!isDisabled ? 'Disabled' : 'Enabled'} button`);
+        }
+        
+        function changeText() {
+            const testButton = document.getElementById('testButton');
+            currentText = (currentText + 1) % texts.length;
+            testButton.setText(texts[currentText]);
+            logEvent('TEST', `Changed text to: "${texts[currentText]}"`);
+        }
+        
+        // Additional dynamic testing functions for comprehensive demo
+        function toggleActive() {
+            const testButton = document.getElementById('testButton');
+            const isActive = testButton.getActive ? testButton.getActive() : testButton.hasAttribute('active');
+            if (testButton.setActive) {
+                testButton.setActive(!isActive);
+            } else {
+                if (isActive) {
+                    testButton.removeAttribute('active');
+                } else {
+                    testButton.setAttribute('active', '');
+                }
+            }
+            updateProps();
+            logEvent('TEST', `${!isActive ? 'Activated' : 'Deactivated'} button`);
+        }
+        
+        function updateProps() {
+            const testButton = document.getElementById('testButton');
+            const props = {
+                variant: testButton.getAttribute('variant'),
+                size: testButton.getAttribute('size'),
+                disabled: testButton.hasAttribute('disabled'),
+                active: testButton.getActive ? testButton.getActive() : testButton.hasAttribute('active'),
+                text: testButton.textContent || testButton.getAttribute('text')
+            };
+            document.getElementById('currentProps').textContent = JSON.stringify(props);
+        }
+        
+        // Grid and group functions
+        function createGrid() {
+            const container = document.getElementById('buttonGrid');
+            container.innerHTML = '';
+            
+            const grid = document.createElement('div');
+            grid.className = 'wb-btn-grid--three';
+            
+            for (let i = 1; i <= 6; i++) {
+                const btn = document.createElement('wb-button');
+                btn.setAttribute('variant', i % 2 === 0 ? 'secondary' : 'primary');
+                btn.textContent = `Btn ${i}`;
+                grid.appendChild(btn);
+            }
+            
+            container.appendChild(grid);
+            logEvent('DEMO', 'Created 3-column button grid');
+        }
+        
+        function createGroup() {
+            const container = document.getElementById('buttonGrid');
+            container.innerHTML = '';
+            
+            const group = document.createElement('div');
+            group.className = 'wb-btn-group';
+            
+            const buttons = ['Save', 'Edit', 'Delete'];
+            const variants = ['success', 'primary', 'secondary'];
+            
+            buttons.forEach((text, i) => {
+                const btn = document.createElement('wb-button');
+                btn.setAttribute('variant', variants[i]);
+                btn.textContent = text;
+                group.appendChild(btn);
+            });
+            
+            container.appendChild(group);
+            logEvent('DEMO', 'Created button group');
+        }
+        
+        function clearGrid() {
+            const container = document.getElementById('buttonGrid');
+            container.innerHTML = '';
+            logEvent('DEMO', 'Cleared button grid');
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(updateProps, 500); // Wait for component to initialize
+        });
+        
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Mark the correct tab button as active
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

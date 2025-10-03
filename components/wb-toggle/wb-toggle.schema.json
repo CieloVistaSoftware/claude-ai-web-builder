@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Toggle Web Component",
+  "description": "Schema for wb-toggle custom element attributes",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "Label text displayed next to the toggle switch"
+    },
+    "checked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the toggle is initially checked/on"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["small", "standard", "large"],
+      "default": "standard",
+      "description": "Size of the toggle switch"
+    },
+    "label-position": {
+      "type": "string",
+      "enum": ["left", "right", "top", "bottom"],
+      "default": "right",
+      "description": "Position of the label relative to the toggle"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["primary", "success", "warning", "error"],
+      "default": "primary",
+      "description": "Visual style variant of the toggle"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the toggle is disabled"
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the toggle shows a loading state"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the toggle"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for form submission"
+    },
+    "value": {
+      "type": "string",
+      "description": "Value submitted when toggle is checked"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "onchange": {
+      "type": "string",
+      "description": "JavaScript code to execute when toggle state changes"
+    },
+    "onclick": {
+      "type": "string",
+      "description": "JavaScript code to execute when toggle is clicked"
+    },
+    "onfocus": {
+      "type": "string",
+      "description": "JavaScript code to execute when toggle gains focus"
+    },
+    "onblur": {
+      "type": "string",
+      "description": "JavaScript code to execute when toggle loses focus"
+    },
+    "onwb-toggle:change": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-toggle:change event"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["switch"],
+      "default": "switch",
+      "description": "ARIA role for accessibility"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this toggle"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this toggle"
+    },
+    "aria-checked": {
+      "type": "string",
+      "enum": ["true", "false", "mixed"],
+      "description": "ARIA checked state (automatically managed)"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    }
+  }
+}

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Stacker Tool</title>
+
+    <!-- Load the FileStacker class first -->
+    <script src="file-stacker.js"></script>
+    <script src="file-stacker-minimal.js"></script>
+
+    <!-- Load our file stacking tool -->
+    <script src="stack-existing-files.js"></script>
+
+    <!-- Load the auto stacker -->
+    <script src="auto-stack-files.js"></script>
+    <style>
+      :root {
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --heading-color: #2c3e50;
+        --container-bg: #f9f9f9;
+        --border-color: #ddd;
+        --info-bg: #e8f4fc;
+        --info-border: #3498db;
+        --btn-primary: #3498db;
+        --btn-primary-hover: #2980b9;
+        --btn-success: #2ecc71;
+        --btn-success-hover: #27ae60;
+        --btn-danger: #e74c3c;
+        --btn-danger-hover: #c0392b;
+        --input-bg: #ffffff;
+        --table-header: #f2f2f2;
+        --table-row-even: #f9f9f9;
+        --status-success-bg: #d4edda;
+        --status-success-color: #155724;
+        --status-error-bg: #f8d7da;
+        --status-error-color: #721c24;
+        --file-count-bg: rgba(52, 152, 219, 0.15);
+        --file-count-border: rgba(52, 152, 219, 0.5);
+      }
+
+      /* Dark mode */
+      [data-theme="dark"] {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --heading-color: #6ab0de;
+        --container-bg: #2a2a2a;
+        --border-color: #444;
+        --info-bg: #2c3e50;
+        --info-border: #3498db;
+        --btn-primary: #3498db;
+        --btn-primary-hover: #2073ac;
+        --btn-success: #2ecc71;
+        --btn-success-hover: #25a25a;
+        --btn-danger: #e74c3c;
+        --btn-danger-hover: #c0392b;
+        --input-bg: #333;
+        --table-header: #2c3e50;
+        --table-row-even: #333;
+        --status-success-bg: #1e4620;
+        --status-success-color: #8bdc8b;
+        --status-error-bg: #4e1c1c;
+        --status-error-color: #f8a9a9;
+        --file-count-bg: rgba(52, 152, 219, 0.3);
+        --file-count-border: rgba(52, 152, 219, 0.7);
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: var(--heading-color);
+      }
+      .container {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background-color: var(--container-bg);
+      }
+
+      .file-section {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background-color: var(--input-bg);
+        position: relative;
+      }
+
+      .file-count {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        background-color: var(--file-count-bg);
+        border: 1px solid var(--file-count-border);
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 12px;
+        display: inline-block;
+      }
+      .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: var(--btn-primary);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s;
+      }
+
+      .btn:hover {
+        background-color: var(--btn-primary-hover);
+      }
+
+      .btn.danger {
+        background-color: var(--btn-danger);
+      }
+
+      .btn.danger:hover {
+        background-color: var(--btn-danger-hover);
+      }
+
+      .btn.success {
+        background-color: var(--btn-success);
+      }
+
+      .btn.success:hover {
+        background-color: var(--btn-success-hover);
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      input[type="file"] {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background-color: var(--input-bg);
+        color: var(--text-color);
+      }
+
+      .theme-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .status {
+        margin: 15px 0;
+        padding: 10px;
+        border-radius: 4px;
+      }
+
+      .status.success {
+        background-color: var(--status-success-bg);
+        border-color: var(--status-success-color);
+        color: var(--status-success-color);
+      }
+
+      .status.error {
+        background-color: var(--status-error-bg);
+        border-color: var(--status-error-color);
+        color: var(--status-error-color);
+      }
+
+      .info-box {
+        margin: 15px 0;
+        padding: 15px;
+        border-left: 4px solid var(--info-border);
+        background-color: var(--info-bg);
+      }
+
+      .processing-status {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: var(--file-count-bg);
+        border-radius: 4px;
+        text-align: center;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid var(--border-color);
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+      }
+
+      th {
+        background-color: var(--table-header);
+      }
+
+      tr:nth-child(even) {
+        background-color: var(--table-row-even);
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 26px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: var(--btn-primary);
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(32px);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>File Stacker Tool</h1>
+
+    <div class="theme-toggle">
+      <span>🌞</span>
+      <label class="switch">
+        <input type="checkbox" id="theme-switch" checked />
+        <span class="slider"></span>
+      </label>
+      <span>🌙</span>
+    </div>
+    <div class="info-box">
+      <h3>File Stacker Tool - Easy Project Organization</h3>
+      <p>
+        This tool helps you stack and organize HTML, CSS, and
+        JavaScript/TypeScript files that belong together by their base names.
+      </p>
+      <p>
+        <strong>How it works:</strong> Files with the same name prefix will be
+        grouped together (e.g., <code>app.html</code>, <code>app.css</code>,
+        <code>app.js</code>).
+      </p>
+
+      <div
+        class="workflow"
+        style="
+          margin-top: 10px;
+          padding-top: 10px;
+          border-top: 1px dashed var(--border-color);
+        "
+      >
+        <h4>Simple Workflow</h4>
+        <ol style="margin-left: 20px">
+          <li>
+            <strong>Scan</strong> - Select any folder to scan (including all
+            subfolders)
+          </li>
+          <li>
+            <strong>Stack</strong> - The tool automatically finds and organizes
+            matching files
+          </li>
+          <li>
+            <strong>Save</strong> - Choose where to save the organized files
+          </li>
+          <li>
+            <strong>View</strong> - See your organized files in the folder you
+            selected
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="container">
+      <h2>Stack Files Manually</h2>
+      <div class="file-section">
+        <h3>1. Select HTML Files</h3>
+        <div class="file-count" id="html-count">0 selected</div>
+        <input type="file" id="html-files" accept=".html,.htm" multiple />
+        <p><small>You can select multiple HTML files at once.</small></p>
+      </div>
+
+      <div class="file-section">
+        <h3>2. Select CSS Files</h3>
+        <div class="file-count" id="css-count">0 selected</div>
+        <input type="file" id="css-files" accept=".css" multiple />
+        <p><small>Select CSS files that match your HTML files.</small></p>
+      </div>
+
+      <div class="file-section">
+        <h3>3. Select JavaScript/TypeScript Files</h3>
+        <div class="file-count" id="js-count">0 selected</div>
+        <input type="file" id="js-files" accept=".js,.ts" multiple />
+        <p><small>Select JS/TS files that match your HTML files.</small></p>
+      </div>
+
+      <div
+        id="selection-summary"
+        class="processing-status"
+        style="display: none"
+      >
+        Total files selected: <strong id="total-selected">0</strong>
+      </div>
+
+      <button id="manual-stack-btn" class="btn success">
+        Stack Selected Files
+      </button>
+    </div>
+
+    <div class="container">
+      <h2>File Stacking Options</h2>
+      <p>Choose one of these options to stack your files:</p>
+
+      <div
+        class="option-container"
+        style="margin-bottom: 20px; display: flex; gap: 20px"
+      >
+        <div
+          class="option"
+          style="
+            flex: 1;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+          "
+        >
+          <h3>Single Directory Scan</h3>
+          <p>
+            Detect files with matching names in a single directory (no
+            subfolders).
+          </p>
+          <button id="start-stacking-btn" class="btn">
+            Auto-Detect & Stack Files
+          </button>
+        </div>
+
+        <div
+          class="option"
+          style="
+            flex: 1;
+            padding: 15px;
+            border: 1px solid var(--info-border);
+            border-radius: 5px;
+            background-color: var(--info-bg);
+          "
+        >
+          <h3>Complete Project Scan</h3>
+          <p>
+            <strong>Recommended:</strong> Scan a folder and all its subfolders
+            for matching files
+          </p>
+          <button
+            id="recursive-scan-btn"
+            class="btn success"
+            style="font-size: 16px; padding: 10px 15px"
+          >
+            <span style="font-size: 18px">↻</span>&nbsp;Scan Entire Folder
+          </button>
+        </div>
+      </div>
+
+      <p>
+        <small
+          >Note: You'll be prompted to select a directory with your
+          files.</small
+        >
+      </p>
+    </div>
+    <div id="results-container" style="display: none" class="container">
+      <h2>Results</h2>
+      <div id="stacking-results"></div>
+      <div class="btn-group">
+        <button id="save-results-btn" class="btn success">Save Files</button>
+        <button id="clear-results-btn" class="btn danger">
+          Clear & Start Over
+        </button>
+      </div>
+    </div>
+
+    <div id="processing-container" style="display: none" class="container">
+      <h2>Processing Files</h2>
+      <div id="processing-status" class="processing-status">
+        Processing files: <span id="processed-count">0</span> of
+        <span id="total-files">0</span>
+      </div>
+      <div
+        class="progress-bar-container"
+        style="
+          margin: 20px 0;
+          height: 20px;
+          background-color: var(--border-color);
+          border-radius: 10px;
+          overflow: hidden;
+        "
+      >
+        <div
+          id="progress-bar"
+          style="
+            width: 0%;
+            height: 100%;
+            background-color: var(--btn-success);
+            transition: width 0.3s;
+          "
+        ></div>
+      </div>
+    </div>
+    <script>
+      // Theme switching control function
+      function setupThemeControl() {
+        const themeSwitch = document.getElementById("theme-switch");
+        if (!themeSwitch) {
+          console.error("Theme switch element not found!");
+          return;
+        }
+
+        const body = document.body;
+
+        // Load saved theme from localStorage if available
+        const savedTheme = localStorage.getItem("fileStackerTheme");
+        console.log("Loaded saved theme:", savedTheme);
+
+        if (savedTheme) {
+          // Use saved preference if available
+          body.setAttribute("data-theme", savedTheme);
+          themeSwitch.checked = savedTheme === "dark";
+          console.log(
+            "Applied saved theme:",
+            savedTheme,
+            "Switch checked:",
+            themeSwitch.checked
+          );
+        } else {
+          // Use the default state of the checkbox from HTML (which is checked="checked")
+          const isDarkMode = themeSwitch.checked;
+          body.setAttribute("data-theme", isDarkMode ? "dark" : "light");
+          console.log(
+            "Using default checkbox state:",
+            isDarkMode ? "dark" : "light"
+          );
+        }
+
+        // Set up theme toggle event listener
+        themeSwitch.addEventListener("change", (e) => {
+          const isDarkMode = e.target.checked;
+          const newTheme = isDarkMode ? "dark" : "light";
+
+          body.setAttribute("data-theme", newTheme);
+          console.log("Theme changed to:", newTheme);
+
+          // Store preference
+          localStorage.setItem("fileStackerTheme", newTheme);
+        });
+      }
+
+      // Run theme setup immediately
+      setupThemeControl();
+
+      // Also ensure it runs when DOM is fully loaded (for safety)
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("DOM fully loaded, ensuring theme is properly set");
+        setupThemeControl();
+      });
+
+      // Set up file input counters
+      function setupFileCounters() {
+        const htmlFiles = document.getElementById("html-files");
+        const cssFiles = document.getElementById("css-files");
+        const jsFiles = document.getElementById("js-files");
+        const htmlCount = document.getElementById("html-count");
+        const cssCount = document.getElementById("css-count");
+        const jsCount = document.getElementById("js-count");
+        const totalSelected = document.getElementById("total-selected");
+        const selectionSummary = document.getElementById("selection-summary");
+
+        function updateCounts() {
+          const htmlLen = htmlFiles.files.length;
+          const cssLen = cssFiles.files.length;
+          const jsLen = jsFiles.files.length;
+          const total = htmlLen + cssLen + jsLen;
+
+          htmlCount.textContent = `${htmlLen} selected`;
+          cssCount.textContent = `${cssLen} selected`;
+          jsCount.textContent = `${jsLen} selected`;
+
+          if (total > 0) {
+            totalSelected.textContent = total;
+            selectionSummary.style.display = "block";
+          } else {
+            selectionSummary.style.display = "none";
+          }
+        }
+
+        htmlFiles.addEventListener("change", updateCounts);
+        cssFiles.addEventListener("change", updateCounts);
+        jsFiles.addEventListener("change", updateCounts);
+      }
+
+      // Initialize file counters
+      setupFileCounters();
+
+      // Global stacker tool instance
+      let currentStackingTool = null;
+
+      // Manual stacking logic
+      document
+        .getElementById("manual-stack-btn")
+        .addEventListener("click", async () => {
+          const htmlFiles = document.getElementById("html-files").files;
+          const cssFiles = document.getElementById("css-files").files;
+          const jsFiles = document.getElementById("js-files").files;
+
+          if (htmlFiles.length === 0) {
+            alert("Please select at least one HTML file.");
+            return;
+          }
+
+          const totalFiles =
+            htmlFiles.length + cssFiles.length + jsFiles.length;
+
+          try {
+            // Show processing dialog
+            const processingContainer = document.getElementById(
+              "processing-container"
+            );
+            const processedCount = document.getElementById("processed-count");
+            const totalFilesEl = document.getElementById("total-files");
+            const progressBar = document.getElementById("progress-bar");
+
+            processingContainer.style.display = "block";
+            totalFilesEl.textContent = totalFiles;
+            processedCount.textContent = "0";
+            progressBar.style.width = "0%";
+
+            // Create a new stacking tool instance
+            currentStackingTool = new FileStackingTool();
+
+            // Add progress tracking
+            let filesProcessed = 0;
+            currentStackingTool.onFileProcessed = () => {
+              filesProcessed++;
+              processedCount.textContent = filesProcessed;
+              const percentage = Math.floor(
+                (filesProcessed / totalFiles) * 100
+              );
+              progressBar.style.width = `${percentage}%`;
+            };
+
+            // Manually trigger file selection handler with our files
+            currentStackingTool.handleFileSelection(
+              htmlFiles,
+              cssFiles,
+              jsFiles
+            );
+
+            // Process the files
+            await currentStackingTool.stackFiles();
+
+            // Hide processing and show results
+            processingContainer.style.display = "none";
+            document.getElementById("results-container").style.display =
+              "block";
+          } catch (error) {
+            console.error("Error stacking files:", error);
+            alert(`Error stacking files: ${error.message}`);
+            document.getElementById("processing-container").style.display =
+              "none";
+          }
+        }); // Add handlers for the save and clear buttons
+      document
+        .getElementById("save-results-btn")
+        .addEventListener("click", async () => {
+          if (currentStackingTool) {
+            try {
+              // Update button text and disable it during saving
+              const saveBtn = document.getElementById("save-results-btn");
+              const originalText = saveBtn.textContent;
+              saveBtn.textContent = "Saving Files...";
+              saveBtn.disabled = true;
+
+              // Show saving status
+              const savingStatus = document.createElement("div");
+              savingStatus.id = "saving-status";
+              savingStatus.className = "status";
+              savingStatus.textContent =
+                "Please select a directory where you want to save the stacked files...";
+              document.getElementById("stacking-results").prepend(savingStatus);
+
+              // Save the files using the new method
+              const saveResult = await currentStackingTool.saveStackedFiles();
+
+              // Handle save results
+              if (saveResult.success) {
+                // Update the status with success message
+                savingStatus.className = "status success";
+
+                if (saveResult.outputDirHandle) {
+                  // Show folder info and add button to view it
+                  savingStatus.innerHTML = `
+                    <strong>Files saved successfully!</strong> 
+                    <p>Files saved to: <strong>${saveResult.outputFolder}</strong></p>
+                    <div id="view-folder-container" style="margin-top: 15px;">
+                      <button id="view-output-folder" class="btn">View Output Folder</button>
+                    </div>
+                  `;
+
+                  // Add button to view the folder after a short delay to ensure the DOM is updated
+                  setTimeout(() => {
+                    const viewBtn =
+                      document.getElementById("view-output-folder");
+                    if (viewBtn) {
+                      viewBtn.onclick = async () => {
+                        try {
+                          // Try to open the folder in browser if possible
+                          if (saveResult.outputDirHandle) {
+                            await window.showDirectoryPicker({
+                              id: "view-output",
+                              startIn: saveResult.outputDirHandle,
+                            });
+                          }
+                        } catch (err) {
+                          console.warn("Could not open folder directly:", err);
+                          alert(
+                            `Your files are saved in: ${saveResult.outputFolder}`
+                          );
+                        }
+                      };
+                    }
+                  }, 100);
+                } else {
+                  // Fall back handling for download mode
+                  savingStatus.innerHTML = `
+                    <strong>Files saved successfully!</strong> 
+                    <p>Check your downloads folder for the stacked files.</p>
+                  `;
+                }
+
+                // Change save button to indicate completion
+                saveBtn.textContent = "Files Saved ✓";
+                saveBtn.className = "btn success";
+                saveBtn.style.opacity = "0.8";
+                saveBtn.disabled = true;
+
+                // Add a "Stack More Files" button next to it
+                const stackMoreBtn = document.createElement("button");
+                stackMoreBtn.textContent = "Stack More Files";
+                stackMoreBtn.className = "btn primary";
+                stackMoreBtn.style.marginLeft = "10px";
+                stackMoreBtn.onclick = () => {
+                  // Reset form and hide results
+                  document.getElementById("results-container").style.display =
+                    "none";
+                  document.getElementById("html-files").value = "";
+                  document.getElementById("css-files").value = "";
+                  document.getElementById("js-files").value = "";
+                  document.getElementById("html-count").textContent =
+                    "0 selected";
+                  document.getElementById("css-count").textContent =
+                    "0 selected";
+                  document.getElementById("js-count").textContent =
+                    "0 selected";
+                  document.getElementById("selection-summary").style.display =
+                    "none";
+                  currentStackingTool = null;
+                };
+                saveBtn.parentNode.appendChild(stackMoreBtn);
+              } else {
+                // Handle error during save
+                savingStatus.className = "status error";
+                savingStatus.innerHTML = `
+                  <strong>Error saving files:</strong> 
+                  <p>${saveResult.error || "Unknown error occurred"}</p>
+                  <p>Please try again or check console for more details.</p>
+                `;
+
+                // Reset button
+                saveBtn.textContent = "Try Again";
+                saveBtn.disabled = false;
+              }
+            } catch (error) {
+              console.error("Error saving files:", error);
+
+              // Show error status
+              const savingStatus =
+                document.getElementById("saving-status") ||
+                document.createElement("div");
+              savingStatus.id = "saving-status";
+              savingStatus.className = "status error";
+              savingStatus.innerHTML = `
+                <strong>Error saving files:</strong> 
+                <p>${error.message}</p>
+                <p>Please try again or check console for more details.</p>
+              `;
+
+              if (!document.getElementById("saving-status")) {
+                document
+                  .getElementById("stacking-results")
+                  .prepend(savingStatus);
+              }
+
+              // Reset button
+              const saveBtn = document.getElementById("save-results-btn");
+              saveBtn.textContent = "Save Files";
+              saveBtn.disabled = false;
+            }
+          } else {
+            alert("No files have been stacked yet.");
+          }
+        });
+
+      document
+        .getElementById("clear-results-btn")
+        .addEventListener("click", () => {
+          // Reset the form
+          document.getElementById("html-files").value = "";
+          document.getElementById("css-files").value = "";
+          document.getElementById("js-files").value = "";
+          document.getElementById("results-container").style.display = "none";
+          document.getElementById("html-count").textContent = "0 selected";
+          document.getElementById("css-count").textContent = "0 selected";
+          document.getElementById("js-count").textContent = "0 selected";
+          document.getElementById("selection-summary").style.display = "none";
+
+          // Reset the stacking tool
+          currentStackingTool = null;
+        });
+
+      // Auto-detect and stack files
+      document
+        .getElementById("start-stacking-btn")
+        .addEventListener("click", async () => {
+          try {
+            // Show loading indicator
+            const startBtn = document.getElementById("start-stacking-btn");
+            const originalText = startBtn.textContent;
+            startBtn.textContent = "Detecting Files...";
+            startBtn.disabled = true;
+
+            // Show processing container
+            const processingContainer = document.getElementById(
+              "processing-container"
+            );
+            processingContainer.style.display = "block";
+
+            // Create a new stacking tool
+            const tool = new FileStackingTool();
+
+            // First try to use the File System Access API to select a directory
+            if (window.showDirectoryPicker) {
+              try {
+                const dirHandle = await window.showDirectoryPicker({
+                  id: "file-stacker-source",
+                  mode: "read",
+                });
+
+                // Function to scan dir recursively for files
+                const scanDirectory = async (
+                  dirHandle,
+                  fileMap = new Map(),
+                  path = ""
+                ) => {
+                  for await (const [name, handle] of dirHandle.entries()) {
+                    if (handle.kind === "directory") {
+                      // Recursively scan subdirectories
+                      await scanDirectory(
+                        handle,
+                        fileMap,
+                        path ? `${path}/${name}` : name
+                      );
+                    } else if (handle.kind === "file") {
+                      // Process file based on extension
+                      const filename = path ? `${path}/${name}` : name;
+                      const extension = name.split(".").pop().toLowerCase();
+
+                      // Get file data
+                      const file = await handle.getFile();
+
+                      if (extension === "html" || extension === "htm") {
+                        const baseName = name.substring(
+                          0,
+                          name.lastIndexOf(".")
+                        );
+                        if (!fileMap.has(baseName)) {
+                          fileMap.set(baseName, {
+                            html: null,
+                            css: [],
+                            script: [],
+                          });
+                        }
+                        fileMap.get(baseName).html = file;
+                      } else if (extension === "css") {
+                        const baseName = name.substring(
+                          0,
+                          name.lastIndexOf(".")
+                        );
+                        if (!fileMap.has(baseName)) {
+                          fileMap.set(baseName, {
+                            html: null,
+                            css: [],
+                            script: [],
+                          });
+                        }
+                        fileMap.get(baseName).css.push(file);
+                      } else if (extension === "js" || extension === "ts") {
+                        const baseName = name.substring(
+                          0,
+                          name.lastIndexOf(".")
+                        );
+                        if (!fileMap.has(baseName)) {
+                          fileMap.set(baseName, {
+                            html: null,
+                            css: [],
+                            script: [],
+                          });
+                        }
+                        fileMap.get(baseName).script.push(file);
+                      }
+                    }
+                  }
+                  return fileMap;
+                };
+
+                // Scan the directory
+                const fileMap = await scanDirectory(dirHandle); // Process files
+                currentStackingTool = tool;
+                tool.fileMap = fileMap;
+
+                // Count total files
+                const htmlFiles = Array.from(fileMap.values())
+                  .filter((f) => f.html)
+                  .map((f) => f.html);
+                const cssFiles = Array.from(fileMap.values()).flatMap(
+                  (f) => f.css
+                );
+                const scriptFiles = Array.from(fileMap.values()).flatMap(
+                  (f) => f.script
+                );
+                const totalFiles =
+                  htmlFiles.length + cssFiles.length + scriptFiles.length;
+
+                // Update progress elements
+                const processedCount =
+                  document.getElementById("processed-count");
+                const totalFilesEl = document.getElementById("total-files");
+                const progressBar = document.getElementById("progress-bar");
+
+                totalFilesEl.textContent = totalFiles;
+                processedCount.textContent = "0";
+
+                // Update stats
+                tool.filesStacked = {
+                  html: htmlFiles.map((f) => f.name),
+                  css: cssFiles.map((c) => c.name),
+                  script: scriptFiles.map((s) => s.name),
+                  get total() {
+                    return (
+                      this.html.length + this.css.length + this.script.length
+                    );
+                  },
+                };
+
+                // Add progress tracking
+                let filesProcessed = 0;
+                tool.onFileProcessed = () => {
+                  filesProcessed++;
+                  processedCount.textContent = filesProcessed;
+                  const percentage = Math.floor(
+                    (filesProcessed / totalFiles) * 100
+                  );
+                  progressBar.style.width = `${percentage}%`;
+                };
+
+                // Stack and save files
+                await tool.stackFiles();
+
+                // Hide processing and show results
+                document.getElementById("processing-container").style.display =
+                  "none";
+                document.getElementById("results-container").style.display =
+                  "block";
+              } catch (err) {
+                console.error("Error accessing directory:", err);
+                if (err.name !== "AbortError") {
+                  alert(`Error accessing directory: ${err.message}`);
+                }
+              }
+            } else {
+              // Fallback for browsers without File System Access API
+              alert(
+                "Auto-detection requires the File System Access API. Please use the manual file selection instead."
+              );
+              document.getElementById("processing-container").style.display =
+                "none";
+            }
+
+            // Reset button
+            startBtn.textContent = originalText;
+            startBtn.disabled = false;
+          } catch (error) {
+            console.error("Error auto-detecting files:", error);
+            alert(`Error: ${error.message}`);
+            document.getElementById("start-stacking-btn").textContent =
+              "Auto-Detect & Stack Files";
+            document.getElementById("start-stacking-btn").disabled = false;
+            document.getElementById("processing-container").style.display =
+              "none";
+          }
+        }); // Recursive folder scanning functionality - Simplified workflow
+      document
+        .getElementById("recursive-scan-btn")
+        .addEventListener("click", async () => {
+          try {
+            // Show loading indicator
+            const scanBtn = document.getElementById("recursive-scan-btn");
+            scanBtn.textContent = "Selecting Folder...";
+            scanBtn.disabled = true;
+
+            // Check if File System Access API is available
+            if (!window.showDirectoryPicker) {
+              throw new Error(
+                "Your browser doesn't support the File System Access API. Please use Chrome or Edge."
+              );
+            }
+
+            // Step 1: Select input folder
+            let rootDirHandle;
+            try {
+              rootDirHandle = await window.showDirectoryPicker({
+                id: "recursive-file-scan",
+                mode: "read",
+                startIn: "documents",
+              });
+
+              scanBtn.textContent = "Scanning Folders...";
+
+              // Show processing container
+              const processingContainer = document.getElementById(
+                "processing-container"
+              );
+              processingContainer.style.display = "block";
+              document.getElementById(
+                "processing-status"
+              ).textContent = `Scanning folder: ${rootDirHandle.name} and all subfolders...`;
+            } catch (err) {
+              if (err.name === "AbortError") {
+                throw new Error("Folder selection canceled");
+              }
+              throw err;
+            }
+
+            // Create a new stacking tool
+            const tool = new FileStackingTool();
+
+            // Variables to track progress
+            const processedCount = document.getElementById("processed-count");
+            const totalFilesEl = document.getElementById("total-files");
+            const progressBar = document.getElementById("progress-bar");
+            const statusEl = document.getElementById("processing-status");
+
+            // File tracking data
+            const stackableGroups = new Map();
+            const allFiles = {
+              html: [],
+              css: [],
+              script: [],
+            };
+
+            // Step 2: Recursive folder scanning - simplified in one pass
+            let totalFilesFound = 0;
+            let filesProcessed = 0;
+
+            async function scanAndProcessFolder(dirHandle, path = "") {
+              try {
+                for await (const [name, handle] of dirHandle.entries()) {
+                  // Process directories recursively
+                  if (handle.kind === "directory") {
+                    await scanAndProcessFolder(
+                      handle,
+                      path ? `${path}/${name}` : name
+                    );
+                    continue;
+                  }
+
+                  // Process file if it's a relevant file type
+                  if (handle.kind === "file") {
+                    const extension = name.split(".").pop().toLowerCase();
+
+                    if (
+                      !["html", "htm", "css", "js", "ts"].includes(extension)
+                    ) {
+                      continue; // Skip irrelevant files
+                    }
+
+                    // Found a relevant file
+                    totalFilesFound++;
+
+                    const baseName = name.substring(0, name.lastIndexOf("."));
+                    const fullPath = path ? `${path}/${name}` : name;
+
+                    try {
+                      // Update status message
+                      statusEl.textContent = `Processing: ${fullPath}`;
+
+                      // Get file data
+                      const file = await handle.getFile();
+                      file.relativePath = fullPath; // Store path for display
+
+                      // Create group if it doesn't exist
+                      if (!stackableGroups.has(baseName)) {
+                        stackableGroups.set(baseName, {
+                          html: null,
+                          css: [],
+                          script: [],
+                          path: path, // Store path for display
+                        });
+                      }
+
+                      // Add file to appropriate category
+                      if (extension === "html" || extension === "htm") {
+                        stackableGroups.get(baseName).html = file;
+                        allFiles.html.push(file);
+                      } else if (extension === "css") {
+                        stackableGroups.get(baseName).css.push(file);
+                        allFiles.css.push(file);
+                      } else if (extension === "js" || extension === "ts") {
+                        stackableGroups.get(baseName).script.push(file);
+                        allFiles.script.push(file);
+                      }
+
+                      // Update progress
+                      filesProcessed++;
+                      processedCount.textContent = filesProcessed;
+                      totalFilesEl.textContent = totalFilesFound;
+                      const percentage =
+                        totalFilesFound > 0
+                          ? Math.floor((filesProcessed / totalFilesFound) * 100)
+                          : 0;
+                      progressBar.style.width = `${percentage}%`;
+                    } catch (fileErr) {
+                      console.error(`Error reading file ${fullPath}:`, fileErr);
+                    }
+                  }
+                }
+              } catch (err) {
+                console.warn(`Error scanning directory ${path}:`, err);
+              }
+            }
+
+            // Start scanning and processing in one pass
+            await scanAndProcessFolder(rootDirHandle);
+
+            // Step 3: Filter valid groups (with HTML files) and stack the files
+            if (totalFilesFound === 0) {
+              throw new Error(
+                "No HTML, CSS, JS, or TS files found in the selected folder or its subfolders."
+              );
+            }
+
+            // Filter valid groups (those with HTML files)
+            const validGroups = new Map(
+              Array.from(stackableGroups.entries()).filter(
+                ([_, group]) => group.html !== null
+              )
+            );
+
+            if (validGroups.size === 0) {
+              throw new Error(
+                "No stackable file groups found. Files need an HTML file with matching name."
+              );
+            }
+
+            // Set up the stacking tool with our discovered files
+            currentStackingTool = tool;
+            tool.fileMap = validGroups;
+
+            // Update tool stats
+            const htmlFiles = Array.from(validGroups.values())
+              .filter((g) => g.html)
+              .map((g) => g.html);
+            const cssFiles = Array.from(validGroups.values()).flatMap(
+              (g) => g.css
+            );
+            const scriptFiles = Array.from(validGroups.values()).flatMap(
+              (g) => g.script
+            );
+
+            tool.filesStacked = {
+              html: htmlFiles.map((f) => f.name),
+              css: cssFiles.map((c) => c.name),
+              script: scriptFiles.map((s) => s.name),
+              get total() {
+                return this.html.length + this.css.length + this.script.length;
+              },
+            };
+
+            // Stack the files
+            statusEl.textContent = `Stacking ${validGroups.size} file groups...`;
+
+            try {
+              // Process all file groups
+              for (const [baseName, files] of validGroups.entries()) {
+                await tool.processFileGroup(baseName, files);
+              }
+
+              console.log("Stacking completed successfully");
+
+              // Step 4: Ask where to save the files (done automatically when clicking Save)
+              document.getElementById("processing-container").style.display =
+                "none";
+              document.getElementById("results-container").style.display =
+                "block";
+
+              // Clear and prepare the results div
+              const resultsDiv = document.getElementById("stacking-results");
+              resultsDiv.innerHTML = "";
+              // Add save prompt
+              const savePrompt = document.createElement("div");
+              savePrompt.id = "save-prompt";
+              savePrompt.className = "status success";
+              savePrompt.innerHTML = `
+                <strong>Files processed successfully!</strong> 
+                <p>Click "Save Files" to select where to save the ${validGroups.size} stacked file groups.</p>
+              `;
+              resultsDiv.appendChild(savePrompt);
+
+              // Add summary info
+              const summary = document.createElement("div");
+              summary.className = "info-box";
+              summary.innerHTML = `
+                <h3>Recursive Scan Results</h3>
+                <p>Source folder: <strong>${rootDirHandle.name}</strong></p>
+                <p>Files processed: <strong>${filesProcessed}</strong></p>
+                <p>Stackable groups found: <strong>${validGroups.size}</strong></p>
+                <p>Files by type:</p>
+                <ul>
+                  <li>HTML: ${htmlFiles.length} files</li>
+                  <li>CSS: ${cssFiles.length} files</li>
+                  <li>JavaScript/TypeScript: ${scriptFiles.length} files</li>
+                </ul>
+              `;
+              resultsDiv.appendChild(summary);
+
+              // Add table of file groups
+              if (validGroups.size > 0) {
+                const groupsList = document.createElement("div");
+                groupsList.className = "stacked-groups";
+                groupsList.innerHTML = "<h4>Stacked File Groups:</h4>";
+
+                const groupsTable = document.createElement("table");
+                groupsTable.innerHTML = `
+                  <thead>
+                    <tr>
+                      <th>Base Name</th>
+                      <th>Path</th>
+                      <th>Files</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                `;
+
+                const tbody = groupsTable.querySelector("tbody");
+
+                // Add each group to the table
+                Array.from(validGroups.entries()).forEach(
+                  ([baseName, group]) => {
+                    const row = document.createElement("tr");
+                    const filesCount =
+                      1 + group.css.length + group.script.length; // HTML + CSS + JS/TS
+
+                    row.innerHTML = `
+                      <td><strong>${baseName}</strong></td>
+                      <td>${group.path || "/"}</td>
+                      <td>${filesCount} (HTML: 1, CSS: ${
+                      group.css.length
+                    }, JS/TS: ${group.script.length})</td>
+                    `;
+
+                    tbody.appendChild(row);
+                  }
+                );
+
+                groupsList.appendChild(groupsTable);
+                resultsDiv.appendChild(groupsList);
+              }
+
+              // Update the save button to make it more prominent
+              const saveBtn = document.getElementById("save-results-btn");
+              saveBtn.textContent = "Save Files to Folder";
+              saveBtn.className = "btn success";
+              saveBtn.style.fontSize = "16px";
+              saveBtn.style.padding = "10px 20px";
+
+              // Set up the save button handler
+              saveBtn.onclick = async () => {
+                try {
+                  saveBtn.disabled = true;
+                  saveBtn.textContent = "Saving files...";
+
+                  // Save the stacked files
+                  const saveResult = await tool.saveStackedFiles();
+
+                  // Handle save results
+                  if (saveResult.success) {
+                    // Update the status message
+                    const savePrompt = document.getElementById("save-prompt");
+                    savePrompt.className = "status success";
+
+                    if (saveResult.outputDirHandle) {
+                      savePrompt.innerHTML = `
+                        <strong>Files saved successfully!</strong>
+                        <p>Saved ${validGroups.size} file groups to: <strong>${saveResult.outputFolder}</strong></p>
+                        <div id="view-folder-container" style="margin-top: 15px;">
+                          <button id="view-output-folder" class="btn">View Output Folder</button>
+                        </div>
+                      `;
+
+                      // Add button to view the folder
+                      setTimeout(() => {
+                        const viewBtn =
+                          document.getElementById("view-output-folder");
+                        if (viewBtn) {
+                          viewBtn.onclick = async () => {
+                            try {
+                              // Try to open the folder in browser if possible
+                              // This uses the browser's simple file browser
+                              if (saveResult.outputDirHandle) {
+                                await window.showDirectoryPicker({
+                                  id: "view-output",
+                                  startIn: saveResult.outputDirHandle,
+                                });
+                              }
+                            } catch (err) {
+                              console.warn(
+                                "Could not open folder directly:",
+                                err
+                              );
+                              alert(
+                                `Your files are saved in: ${saveResult.outputFolder}`
+                              );
+                            }
+                          };
+                        }
+                      }, 100);
+                    } else {
+                      // Fall back handling for download mode
+                      savePrompt.innerHTML = `
+                        <strong>Files saved successfully!</strong>
+                        <p>Saved ${validGroups.size} file groups to your downloads folder.</p>
+                      `;
+                    }
+
+                    // Disable save button to prevent duplicate saves
+                    saveBtn.textContent = "Files Saved";
+                    saveBtn.disabled = true;
+
+                    // Add a "Stack More Files" button
+                    const stackMoreBtn = document.createElement("button");
+                    stackMoreBtn.textContent = "Stack More Files";
+                    stackMoreBtn.className = "btn primary";
+                    stackMoreBtn.style.marginLeft = "10px";
+                    stackMoreBtn.onclick = () => {
+                      // Reset UI
+                      document.getElementById(
+                        "results-container"
+                      ).style.display = "none";
+                      document.getElementById(
+                        "control-container"
+                      ).style.display = "block";
+                    };
+                    saveBtn.parentNode.appendChild(stackMoreBtn);
+                  } else {
+                    // Handle save error
+                    const savePrompt = document.getElementById("save-prompt");
+                    savePrompt.className = "status error";
+                    savePrompt.innerHTML = `
+                      <strong>Error saving files</strong>
+                      <p>${
+                        saveResult.error ||
+                        "Unknown error occurred during save operation"
+                      }</p>
+                      <p>Please try again.</p>
+                    `;
+                    saveBtn.textContent = "Try Again";
+                    saveBtn.disabled = false;
+                  }
+                } catch (error) {
+                  console.error("Error during save operation:", error);
+                  alert(`Error saving files: ${error.message}`);
+                  saveBtn.textContent = "Try Again";
+                  saveBtn.disabled = false;
+                }
+              };
+            } catch (error) {
+              console.error("Error stacking files:", error);
+              throw new Error(`Failed to stack files: ${error.message}`);
+            }
+          } catch (error) {
+            console.error("Error scanning folders:", error);
+
+            // Only show alert for non-abort errors
+            if (error.message !== "Folder selection canceled") {
+              alert(`Error: ${error.message}`);
+            }
+
+            document.getElementById("processing-container").style.display =
+              "none";
+          } finally {
+            // Reset button state
+            const scanBtn = document.getElementById("recursive-scan-btn");
+            scanBtn.textContent = "Scan Folder Recursively";
+            scanBtn.disabled = false;
+          }
+        });
+    </script>
+  </body>
+</html>

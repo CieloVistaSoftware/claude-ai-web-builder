@@ -1,0 +1,55 @@
+/* =============================================================================
+   WEBSITE BUILDER LAYOUT VARIABLES
+   Centralized layout-specific CSS variables
+   ============================================================================= */
+
+:root {
+    /* Layout Dimensions */
+    --layout-sidebar-width: 200px;
+    --layout-sidebar-margin: 220px; /* sidebar width + gap */
+    --layout-header-height: auto;
+    --layout-footer-height: auto;
+    
+    /* Layout Transitions */
+    --layout-transition: 0.3s ease;
+    --layout-transition-fast: 0.15s ease;
+    --layout-transition-slow: 0.5s ease;
+    
+    /* Layout Breakpoints */
+    --layout-mobile-breakpoint: 768px;
+    --layout-tablet-breakpoint: 1024px;
+    --layout-desktop-breakpoint: 1200px;
+    
+    /* Layout Z-Index */
+    --layout-nav-z-index: 1000;
+    --layout-header-z-index: 999;
+    --layout-footer-z-index: 998;
+    --layout-modal-z-index: 1100;
+    
+    /* Layout Spacing */
+    --layout-padding: 20px;
+    --layout-margin: 20px;
+    --layout-gap: 1rem;
+    
+    /* Common Theme Colors (should match main theme) */
+    --background-color: #1a1a1a;
+    --background-color-dark: #1a1a1a;
+    --background-color-darker: #1a1a2e;
+    --text-color: #ffffff;
+    --text-color-dark: #ffffff;
+    --text-color-light: #ffffff;
+    --text-muted: #b0b0b0;
+    --text-muted-dark: #b0b0b0;
+    --border-color: #404040;
+    --border-color-dark: #404040;
+    --border-color-darker: #555555;
+    --surface-color: #2d2d2d;
+    --surface-color-dark: #2d2d2d;
+    --surface-color-darker: #3a3a3a;
+    --primary-color: #007BFF;
+    --secondary-color: #6C757D;
+    --success-color: #28A745;
+    --danger-color: #DC3545;
+    --warning-color: #FFA500;
+    --info-color: #6F42C1;
+}

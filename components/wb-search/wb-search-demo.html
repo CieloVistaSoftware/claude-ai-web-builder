@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Search Component Demo</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 2rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .demo-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+        }
+        
+        .demo-section {
+            background: #1e1e1e;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #404040;
+        }
+        
+        .demo-section h2 {
+            color: #6366f1;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .demo-section p {
+            color: #a0a0a0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .demo-variants {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-variant {
+            background: #2d2d2d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #404040;
+        }
+        
+        .demo-variant h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-button {
+            background: #374151;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background 0.2s ease;
+        }
+        
+        .demo-button:hover {
+            background: #4b5563;
+        }
+        
+        .demo-button.primary {
+            background: #6366f1;
+        }
+        
+        .demo-button.primary:hover {
+            background: #5856eb;
+        }
+        
+        .demo-status {
+            background: #065f46;
+            color: #a7f3d0;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+        
+        .code-sample {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .code-sample code {
+            color: #e6edf3;
+            font-family: 'SF Mono', Consolas, monospace;
+            font-size: 0.875rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background: #2d2d2d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #404040;
+        }
+        
+        .feature-card h4 {
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1 class="demo-title">🔍 WB Search</h1>
+            <p class="demo-subtitle">A modern, accessible search component with dark mode support</p>
+        </div>
+
+        <div class="demo-status" id="demo-status">Ready</div>
+
+        <div class="demo-section">
+            <h2>Component Variants</h2>
+            <p>The WB Search component supports multiple display variants:</p>
+            
+            <div class="demo-variants">
+                <div class="demo-variant">
+                    <h3>Standard Button</h3>
+                    <wb-search variant="button" button-text="Search Site" button-icon="🔍"></wb-search>
+                </div>
+                
+                <div class="demo-variant">
+                    <h3>Icon Only</h3>
+                    <wb-search variant="icon-only" button-icon="🔍"></wb-search>
+                </div>
+                
+                <div class="demo-variant">
+                    <h3>Custom Text</h3>
+                    <wb-search variant="button" button-text="Find Content" button-icon="🔎"></wb-search>
+                </div>
+            </div>
+            
+            <!-- Floating variant is automatically positioned -->
+            <wb-search variant="floating" button-icon="🔍"></wb-search>
+        </div>
+
+        <div class="demo-section">
+            <h2>Usage Examples</h2>
+            <p>Simple HTML usage:</p>
+            
+            <div class="code-sample">
+                <code>
+&lt;!-- Standard search button --&gt;<br>
+&lt;wb-search variant="button" button-text="Search" button-icon="🔍"&gt;&lt;/wb-search&gt;<br><br>
+&lt;!-- Floating search button --&gt;<br>
+&lt;wb-search variant="floating"&gt;&lt;/wb-search&gt;<br><br>
+&lt;!-- Icon only variant --&gt;<br>
+&lt;wb-search variant="icon-only"&gt;&lt;/wb-search&gt;
+                </code>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Interactive Demo Controls</h2>
+            <div class="demo-controls">
+                <button class="demo-button primary" onclick="openSearchProgrammatically()">Open Search (Ctrl+K)</button>
+                <button class="demo-button" onclick="setCustomData()">Set Custom Search Data</button>
+                <button class="demo-button" onclick="toggleTheme()">Toggle Theme</button>
+                <button class="demo-button" onclick="showEvents()">Show Events</button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>🌙 Dark Mode</h4>
+                    <p>Built-in dark mode support with CSS custom properties</p>
+                </div>
+                <div class="feature-card">
+                    <h4>⌨️ Keyboard Shortcuts</h4>
+                    <p>Ctrl+K to open search, Escape to close</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📱 Responsive</h4>
+                    <p>Mobile-friendly with touch support</p>
+                </div>
+                <div class="feature-card">
+                    <h4>♿ Accessible</h4>
+                    <p>ARIA labels, focus management, high contrast support</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎨 Customizable</h4>
+                    <p>CSS custom properties for easy theming</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔧 Events API</h4>
+                    <p>Custom events for search interactions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the component -->
+    <script src="wb-search.js"></script>
+    
+    <script>
+        let currentTheme = 'dark';
+        
+        // Demo functions
+        function openSearchProgrammatically() {
+            const searchComponent = document.querySelector('wb-search[variant="button"]');
+            if (searchComponent) {
+                searchComponent.focusSearch();
+            }
+            showStatus('Search opened programmatically');
+        }
+        
+        function setCustomData() {
+            const customData = [
+                { id: 'home', title: 'Home Page', type: 'Page', content: 'Welcome to our website' },
+                { id: 'about', title: 'About Us', type: 'Page', content: 'Learn more about our company' },
+                { id: 'contact', title: 'Contact', type: 'Page', content: 'Get in touch with us' },
+                { id: 'blog', title: 'Blog Posts', type: 'Content', content: 'Read our latest articles' }
+            ];
+            
+            document.querySelectorAll('wb-search').forEach(component => {
+                component.setSearchData(customData);
+            });
+            
+            showStatus('Custom search data loaded');
+        }
+        
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            // Update component theme
+            document.querySelectorAll('wb-search').forEach(component => {
+                component.setAttribute('data-theme', currentTheme);
+            });
+            
+            if (currentTheme === 'light') {
+                document.body.style.background = '#ffffff';
+                document.body.style.color = '#000000';
+            } else {
+                document.body.style.background = '#0a0a0a';
+                document.body.style.color = '#ffffff';
+            }
+            
+            showStatus(`Theme switched to ${currentTheme}`);
+        }
+        
+        function showEvents() {
+            showStatus('Check console for event logs');
+        }
+        
+        function showStatus(message) {
+            const statusEl = document.getElementById('demo-status');
+            statusEl.textContent = message;
+            statusEl.style.display = 'block';
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Event listeners for component events
+        document.addEventListener('wb-search-ready', (e) => {
+            console.log('🎉 Search component ready:', e.target);
+        });
+        
+        document.addEventListener('wb-search-opened', (e) => {
+            console.log('🔍 Search opened:', e.target);
+            showStatus('Search modal opened');
+        });
+        
+        document.addEventListener('wb-search-closed', (e) => {
+            console.log('❌ Search closed:', e.target);
+            showStatus('Search modal closed');
+        });
+        
+        document.addEventListener('wb-search-results', (e) => {
+            console.log('📋 Search results:', e.detail);
+            showStatus(`Found ${e.detail.results.length} results for "${e.detail.query}"`);
+        });
+        
+        document.addEventListener('wb-search-select', (e) => {
+            console.log('✅ Result selected:', e.detail.result);
+            showStatus(`Selected: ${e.detail.result.title}`);
+            
+            // Example: Navigate to result
+            // window.location.href = e.detail.result.url;
+        });
+        
+        // Initialize demo
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 WB Search demo initialized');
+            showStatus('Demo loaded - Try Ctrl+K to open search');
+        });
+    </script>
+</body>
+</html>

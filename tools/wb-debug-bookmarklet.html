@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Debug Manager - Bookmarklet Generator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .bookmarklet {
+            background: #f5f5f5;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .bookmarklet a {
+            display: inline-block;
+            background: #007acc;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin: 10px;
+            transition: background 0.2s;
+        }
+        
+        .bookmarklet a:hover {
+            background: #005a9e;
+        }
+        
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .instructions {
+            background: #e8f4fd;
+            border-left: 4px solid #007acc;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        h1, h2 {
+            color: #007acc;
+        }
+        
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .copy-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 WB Debug Manager - Bookmarklet Generator</h1>
+    <p>The WB Debug Manager allows you to inject debugging tools into any WB component page at runtime. No code changes required!</p>
+
+    <h2>📚 Quick Setup</h2>
+    <div class="instructions">
+        <strong>Drag the bookmarklet below to your browser's bookmarks bar:</strong>
+    </div>
+
+    <div class="bookmarklet">
+        <a href="javascript:(function(){if(window.WB&&window.WB.debug){WB.debug.toggle();return;}var s=document.createElement('script');s.src='../../shared/wb-debug-manager.js';s.onload=function(){WB.debug.enable();};document.head.appendChild(s);})();" 
+           onclick="alert('Drag this to your bookmarks bar, don\'t click it here!'); return false;">
+            🔧 WB Debug
+        </a>
+        <p><small>Drag this button to your bookmarks bar, then click it on any WB component page to enable debugging.</small></p>
+    </div>
+
+    <h2>🎯 Usage Methods</h2>
+
+    <div class="feature">
+        <h3>1. Query Parameter</h3>
+        <p>Add <code>?debug=true</code> to any WB component demo URL:</p>
+        <div class="code">
+            http://localhost/wb-button-demo.html?debug=true
+            http://localhost/wb-select-demo.html?wb-debug=true
+        </div>
+    </div>
+
+    <div class="feature">
+        <h3>2. Browser Console</h3>
+        <p>Open browser console (F12) and run:</p>
+        <div class="code">
+            // Enable debug mode
+            WB.debug.enable()
+            
+            // Toggle debug mode
+            WB.debug.toggle()
+            
+            // Get debug stats
+            WB.debug.getStats()
+            
+            // Export debug data
+            WB.debug.exportDebugData()
+        </div>
+        <button class="copy-btn" onclick="copyToClipboard('WB.debug.enable()')">Copy Enable Command</button>
+    </div>
+
+    <div class="feature">
+        <h3>3. Keyboard Shortcut</h3>
+        <p>Press <kbd>Ctrl+Shift+D</kbd> on any page that has the debug manager loaded.</p>
+    </div>
+
+    <div class="feature">
+        <h3>4. Manual Script Injection</h3>
+        <p>Include the debug manager in any page:</p>
+        <div class="code">
+            &lt;script src="../../shared/wb-debug-manager.js"&gt;&lt;/script&gt;
+        </div>
+    </div>
+
+    <h2>🧩 Available Plugins</h2>
+
+    <div class="feature">
+        <h3>📋 Error Logger</h3>
+        <p><strong>Auto-loaded:</strong> Runtime error capture and logging with export functionality.</p>
+        <ul>
+            <li>Captures JavaScript errors, warnings, and console messages</li>
+            <li>Provides visual error log with filtering and export</li>
+            <li>Automatically shows on first error</li>
+        </ul>
+    </div>
+
+    <div class="feature">
+        <h3>🔍 Component Inspector</h3>
+        <p><strong>Manual load:</strong> Discover and inspect all WB components on the page.</p>
+        <div class="code">WB.debug.loadPlugin('component-inspector')</div>
+    </div>
+
+    <div class="feature">
+        <h3>📡 Event Monitor</h3>
+        <p><strong>Manual load:</strong> Monitor all WB events in real-time.</p>
+        <div class="code">WB.debug.loadPlugin('event-monitor')</div>
+    </div>
+
+    <div class="feature">
+        <h3>⚡ Performance Tracker</h3>
+        <p><strong>Manual load:</strong> Track component loading and performance metrics.</p>
+        <div class="code">WB.debug.loadPlugin('performance-tracker')</div>
+    </div>
+
+    <h2>⚙️ Advanced Usage</h2>
+
+    <div class="feature">
+        <h3>Remote Injection</h3>
+        <p>Inject debug manager from external source:</p>
+        <div class="code">
+            javascript:(function(){
+                var s=document.createElement('script');
+                s.src='https://your-cdn.com/wb-debug-manager.js';
+                s.onload=function(){WB.debug.enable();};
+                document.head.appendChild(s);
+            })();
+        </div>
+    </div>
+
+    <div class="feature">
+        <h3>Custom Configuration</h3>
+        <p>Configure debug manager before enabling:</p>
+        <div class="code">
+            // Set custom configuration
+            WB.debugConfig = {
+                autoLoadPlugins: ['error-log', 'component-inspector'],
+                position: 'top-left',
+                autoShow: false
+            };
+            
+            // Then enable
+            WB.debug.enable();
+        </div>
+    </div>
+
+    <div class="warning">
+        <strong>⚠️ Production Warning:</strong> The debug manager is intended for development use only. 
+        Do not include it in production builds as it may impact performance and expose debugging information.
+    </div>
+
+    <h2>🧪 Test the Bookmarklet</h2>
+    <div class="instructions">
+        <ol>
+            <li>Drag the "🔧 WB Debug" button above to your bookmarks bar</li>
+            <li>Navigate to any WB component demo page</li>
+            <li>Click the bookmarklet in your bookmarks bar</li>
+            <li>You should see the debug UI appear at the bottom-left</li>
+            <li>Try pressing <kbd>Ctrl+Shift+D</kbd> to toggle debug mode</li>
+        </ol>
+    </div>
+
+    <h2>📤 Export Features</h2>
+    <p>The debug manager can export comprehensive debugging data including:</p>
+    <ul>
+        <li>Component discovery results</li>
+        <li>Error logs with stack traces</li>
+        <li>Event monitoring data</li>
+        <li>Performance metrics</li>
+        <li>Plugin load status</li>
+    </ul>
+
+    <div class="code">
+        // Export all debug data as JSON
+        WB.debug.exportDebugData()
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Copied to clipboard: ' + text);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                // Fallback for older browsers
+                var textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Copied to clipboard: ' + text);
+            });
+        }
+
+        // Add copy buttons to all code blocks
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code');
+            codeBlocks.forEach(function(block) {
+                if (!block.nextElementSibling || !block.nextElementSibling.classList.contains('copy-btn')) {
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'copy-btn';
+                    copyBtn.textContent = 'Copy';
+                    copyBtn.onclick = function() {
+                        copyToClipboard(block.textContent.trim());
+                    };
+                    block.parentNode.insertBefore(copyBtn, block.nextSibling);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

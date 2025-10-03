@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Editor</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // Check for system dark mode preference
+      function checkDarkModePref() {
+        if (
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          document.body.setAttribute("data-theme", "dark");
+          console.log("System dark mode preference detected");
+        }
+      }
+    </script>
+  </head>
+  <body onload="checkDarkModePref()">
+    <div class="container">
+      <header class="header">
+        <h1>Color Editor</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <span class="material-icons">dark_mode</span>
+          Toggle Theme
+        </button>
+      </header>
+
+      <section class="color-picker-section">
+        <h2>🎨 Choose Your Primary Color</h2>
+        <p style="color: var(--md-on-surface-variant); margin-bottom: 16px">
+          Select a primary color below and watch how all other Material Design
+          colors automatically adapt!
+        </p>
+
+        <div class="color-bar" id="colorBar">
+          <div class="color-pointer" id="colorPointer"></div>
+        </div>
+      </section>
+      <!-- Color Swatches Section -->
+      <section class="color-swatches-section">
+        <h2>Generated Color Palette</h2>
+        <div class="color-swatches">
+          <!-- Each swatch will have fixed text colors that contrast well with background -->
+          <div class="color-swatch primary-swatch">
+            <div class="swatch-color"></div>
+            <div class="color-info">
+              <div class="color-name">primary</div>
+              <div class="color-value"></div>
+            </div>
+          </div>
+          <div class="color-swatch primary-container-swatch">
+            <div class="swatch-color"></div>
+            <div class="color-info">
+              <div class="color-name">primary container</div>
+              <div class="color-value"></div>
+            </div>
+          </div>
+          <div class="color-swatch secondary-swatch">
+            <div class="swatch-color"></div>
+            <div class="color-info">
+              <div class="color-name">secondary</div>
+              <div class="color-value"></div>
+            </div>
+          </div>
+          <div class="color-swatch secondary-container-swatch">
+            <div class="swatch-color"></div>
+            <div class="color-info">
+              <div class="color-name">secondary container</div>
+              <div class="color-value"></div>
+            </div>
+          </div>
+          <div class="color-swatch tertiary-swatch">
+            <div class="swatch-color"></div>
+            <div class="color-info">
+              <div class="color-name">tertiary</div>
+              <div class="color-value"></div>
+            </div>
+          </div>
+          <div class="color-swatch tertiary-container-swatch">
+            <div class="swatch-color"></div>
+            <div class="color-info">
+              <div class="color-name">tertiary container</div>
+              <div class="color-value"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <button class="fab" onclick="showNotification()">
+        <span class="material-icons">add</span>
+      </button>
+
+      <div class="notification" id="notification">
+        <strong>Color Copied!</strong><br />
+        The color value has been copied to your clipboard.
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

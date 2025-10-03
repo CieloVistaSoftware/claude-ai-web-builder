@@ -1,0 +1,203 @@
+{
+  "name": "wb-nav",
+  "version": "1.0.0",
+  "description": "Responsive navigation component with dropdown support, mobile hamburger menu, and accessibility features",
+  "category": "navigation",
+  "tags": ["navigation", "menu", "responsive", "dropdown", "mobile", "hamburger"],
+  "author": "WB Components",
+  "license": "MIT",
+  "dependencies": [],
+  "attributes": {
+    "layout": {
+      "type": "string",
+      "enum": ["horizontal", "vertical", "top-nav", "left-nav", "right-nav"],
+      "default": "horizontal",
+      "description": "Navigation layout style"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["default", "pills", "tabs", "minimal", "gradient"],
+      "default": "default",
+      "description": "Visual style variant"
+    },
+    "brand-text": {
+      "type": "string",
+      "description": "Brand/logo text to display"
+    },
+    "brand-href": {
+      "type": "string",
+      "description": "Brand/logo link URL"
+    },
+    "items": {
+      "type": "string",
+      "description": "JSON string of navigation items array"
+    },
+    "dropdown-enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable dropdown menus"
+    },
+    "mobile-breakpoint": {
+      "type": "string",
+      "default": "768px",
+      "description": "Breakpoint for mobile hamburger menu"
+    },
+    "hover-delay": {
+      "type": "number",
+      "default": 200,
+      "description": "Delay in ms before showing dropdown on hover"
+    }
+  },
+  "events": [
+    {
+      "name": "wb-nav-ready",
+      "description": "Fired when navigation is initialized"
+    },
+    {
+      "name": "wb-nav-item-click",
+      "description": "Fired when navigation item is clicked",
+      "detail": {
+        "item": "object",
+        "link": "string",
+        "index": "number",
+        "id": "string"
+      }
+    },
+    {
+      "name": "wb-nav-active-change",
+      "description": "Fired when active item changes",
+      "detail": {
+        "newItem": "object",
+        "oldItem": "object"
+      }
+    },
+    {
+      "name": "wb-nav-expand",
+      "description": "Fired when mobile menu expands"
+    },
+    {
+      "name": "wb-nav-collapse",
+      "description": "Fired when mobile menu collapses"
+    }
+  ],
+  "methods": [
+    {
+      "name": "setItems",
+      "params": ["items: array"],
+      "description": "Set navigation items"
+    },
+    {
+      "name": "addItem",
+      "params": ["item: object"],
+      "description": "Add a navigation item"
+    },
+    {
+      "name": "removeItem",
+      "params": ["itemId: string"],
+      "description": "Remove a navigation item by ID"
+    },
+    {
+      "name": "setActiveItem",
+      "params": ["itemId: string"],
+      "description": "Set the active navigation item"
+    },
+    {
+      "name": "setLayout",
+      "params": ["layout: string"],
+      "description": "Change navigation layout"
+    },
+    {
+      "name": "toggle",
+      "description": "Toggle mobile menu open/closed"
+    },
+    {
+      "name": "expand",
+      "description": "Expand mobile menu"
+    },
+    {
+      "name": "collapse",
+      "description": "Collapse mobile menu"
+    }
+  ],
+  "cssCustomProperties": {
+    "--wb-nav-height": "4rem",
+    "--wb-nav-font-size": "0.875rem",
+    "--wb-nav-transition": "all 0.3s ease",
+    "--wb-nav-z-index": "100",
+    "--wb-nav-padding": "1rem 2rem",
+    "--wb-nav-item-padding": "0.5rem 1rem",
+    "--wb-nav-border-radius": "6px",
+    "--wb-nav-bg": "var(--neutral-800)",
+    "--wb-nav-text": "var(--neutral-100)",
+    "--wb-nav-active": "var(--primary)",
+    "--wb-nav-hover": "var(--neutral-700)"
+  },
+  "itemSchema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Unique identifier for the nav item"
+      },
+      "text": {
+        "type": "string",
+        "required": true,
+        "description": "Display text for the nav item"
+      },
+      "href": {
+        "type": "string",
+        "description": "URL or anchor link"
+      },
+      "active": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether this item is currently active"
+      },
+      "children": {
+        "type": "array",
+        "description": "Dropdown menu items",
+        "items": {
+          "$ref": "#/itemSchema"
+        }
+      },
+      "icon": {
+        "type": "string",
+        "description": "Icon HTML or emoji to display"
+      },
+      "target": {
+        "type": "string",
+        "enum": ["_self", "_blank", "_parent", "_top"],
+        "default": "_self",
+        "description": "Link target attribute"
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether the item is disabled"
+      }
+    }
+  },
+  "accessibility": {
+    "roles": ["navigation", "menubar", "menu", "menuitem"],
+    "features": [
+      "ARIA labels and roles",
+      "Keyboard navigation (arrow keys, tab, enter, escape)",
+      "Focus management",
+      "Screen reader support",
+      "High contrast mode support"
+    ]
+  },
+  "examples": {
+    "basic": "<wb-nav layout=\"horizontal\" variant=\"default\"></wb-nav>",
+    "withItems": "<wb-nav items='[{\"text\":\"Home\",\"href\":\"#home\",\"active\":true},{\"text\":\"About\",\"href\":\"#about\"}]'></wb-nav>",
+    "dropdown": "<wb-nav items='[{\"text\":\"Products\",\"children\":[{\"text\":\"Software\",\"href\":\"#software\"}]}]'></wb-nav>",
+    "vertical": "<wb-nav layout=\"vertical\" variant=\"pills\"></wb-nav>"
+  },
+  "files": {
+    "js": "wb-nav.js",
+    "css": "wb-nav.css",
+    "demo": "wb-nav-demo.html",
+    "docs": "wb-nav.md",
+    "schema": "wb-nav.schema.json"
+  }
+}

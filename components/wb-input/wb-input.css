@@ -1,0 +1,322 @@
+/* ===== WB INPUT COMPONENT ===== */
+/* Website Builder standardized input component for consistent form styling */
+
+/* Input Variables */
+:root {
+    --wb-input-height: 2.5rem;
+    --wb-input-font-size: 0.875rem;
+    --wb-input-border-radius: 6px;
+    --wb-input-transition: all 0.2s ease;
+    --wb-input-padding: 0.5rem 0.75rem;
+    --wb-input-border-width: 1px;
+    
+    /* Status Colors */
+    --error-color: #ef4444;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+}
+
+/* Input Wrapper */
+.wb-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs, 0.25rem);
+    width: 100%;
+    margin-bottom: var(--space-sm, 0.5rem);
+}
+
+/* Input Label */
+.wb-input-label {
+    font-size: var(--text-tiny, 0.75rem);
+    font-weight: 600;
+    color: var(--text-secondary, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    margin-bottom: var(--space-xs, 0.25rem);
+}
+
+/* Base Input Field */
+.wb-input-field {
+    width: 100%;
+    height: var(--wb-input-height);
+    padding: var(--wb-input-padding);
+    font-size: var(--wb-input-font-size);
+    font-family: inherit;
+    
+    background: var(--bg-secondary, #ffffff);
+    border: var(--wb-input-border-width) solid var(--border-color, #e2e8f0);
+    border-radius: var(--wb-input-border-radius);
+    color: var(--text-primary, #1e293b);
+    
+    transition: var(--wb-input-transition);
+    box-sizing: border-box;
+    
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.wb-input-field::placeholder {
+    color: var(--neutral-400, #94a3b8);
+    opacity: 1;
+}
+
+/* Focus State */
+.wb-input-field:focus,
+.wb-input--focused .wb-input-field {
+    border-color: var(--primary, #6366f1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Hover State */
+.wb-input-field:hover:not(:disabled):not(:focus) {
+    border-color: var(--neutral-400, #94a3b8);
+}
+
+/* Input Variants */
+
+/* Textarea */
+.wb-input--textarea .wb-input-field {
+    min-height: calc(var(--wb-input-height) * 2);
+    resize: vertical;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+/* Search Input */
+.wb-input--search .wb-input-field {
+    padding-left: 2.5rem;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'/%3e%3c/svg%3e");
+    background-position: 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+}
+
+/* Input Sizes */
+.wb-input--small {
+    --wb-input-height: 2rem;
+    --wb-input-font-size: 0.75rem;
+    --wb-input-padding: 0.375rem 0.5rem;
+}
+
+.wb-input--large {
+    --wb-input-height: 3rem;
+    --wb-input-font-size: 1rem;
+    --wb-input-padding: 0.75rem 1rem;
+}
+
+/* Input States */
+
+/* Error State */
+.wb-input--error .wb-input-field {
+    border-color: var(--error-color);
+    background-color: color-mix(in srgb, var(--error-color) 5%, transparent);
+}
+
+.wb-input--error .wb-input-field:focus {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--error-color) 10%, transparent);
+}
+
+.wb-input--error .wb-input-label {
+    color: var(--error-color);
+}
+
+/* Success State */
+.wb-input--success .wb-input-field {
+    border-color: var(--success-color);
+    background-color: color-mix(in srgb, var(--success-color) 5%, transparent);
+}
+
+.wb-input--success .wb-input-field:focus {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--success-color) 10%, transparent);
+}
+
+.wb-input--success .wb-input-label {
+    color: var(--success-color);
+}
+
+/* Warning State */
+.wb-input--warning .wb-input-field {
+    border-color: var(--warning-color);
+    background-color: color-mix(in srgb, var(--warning-color) 5%, transparent);
+}
+
+.wb-input--warning .wb-input-field:focus {
+    border-color: var(--warning-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--warning-color) 10%, transparent);
+}
+
+.wb-input--warning .wb-input-label {
+    color: var(--warning-color);
+}
+
+/* Disabled State */
+.wb-input--disabled .wb-input-field,
+.wb-input-field:disabled {
+    background-color: var(--neutral-100, #f1f5f9);
+    border-color: var(--neutral-300, #cbd5e1);
+    color: var(--neutral-500, #64748b);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.wb-input--disabled .wb-input-label {
+    color: var(--neutral-500, #64748b);
+}
+
+/* Readonly State */
+.wb-input--readonly .wb-input-field,
+.wb-input-field:read-only {
+    background-color: var(--neutral-50, #f8fafc);
+    border-color: var(--neutral-300, #cbd5e1);
+}
+
+/* Input Elements */
+
+/* Icon */
+.wb-input__icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--neutral-500, #64748b);
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+.wb-input__icon--left {
+    left: 0.75rem;
+}
+
+.wb-input__icon--right {
+    right: 0.75rem;
+}
+
+.wb-input--has-icon-left .wb-input-field {
+    padding-left: 2.5rem;
+}
+
+.wb-input--has-icon-right .wb-input-field {
+    padding-right: 2.5rem;
+}
+
+/* Message */
+.wb-input__message {
+    font-size: var(--text-tiny, 0.75rem);
+    margin-top: var(--space-xs, 0.25rem);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.wb-input--error .wb-input__message {
+    color: var(--error-color);
+}
+
+.wb-input--success .wb-input__message {
+    color: var(--success-color);
+}
+
+.wb-input--warning .wb-input__message {
+    color: var(--warning-color);
+}
+
+.wb-input__message--help {
+    color: var(--text-secondary, #64748b);
+}
+
+/* Character Counter */
+.wb-input__counter {
+    font-size: var(--text-tiny, 0.75rem);
+    color: var(--text-secondary, #64748b);
+    text-align: right;
+    margin-top: var(--space-xs, 0.25rem);
+    font-family: monospace;
+}
+
+.wb-input__counter--over-limit {
+    color: var(--error-color);
+    font-weight: 600;
+}
+
+/* Input Group */
+.wb-input-group {
+    display: flex;
+    gap: var(--space-sm, 0.5rem);
+    align-items: flex-end;
+}
+
+.wb-input-group .wb-input-wrapper {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Inline Input */
+.wb-input--inline {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-sm, 0.5rem);
+}
+
+.wb-input--inline .wb-input-label {
+    margin-bottom: 0;
+    min-width: max-content;
+}
+
+.wb-input--inline .wb-input-field {
+    flex: 1;
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] .wb-input-field {
+    background: var(--neutral-800, #1e293b);
+    border-color: var(--neutral-600, #475569);
+    color: var(--neutral-100, #f1f5f9);
+}
+
+[data-theme="dark"] .wb-input-field::placeholder {
+    color: var(--neutral-500, #64748b);
+}
+
+[data-theme="dark"] .wb-input--disabled .wb-input-field,
+[data-theme="dark"] .wb-input-field:disabled {
+    background-color: var(--neutral-900, #0f172a);
+    border-color: var(--neutral-700, #334155);
+    color: var(--neutral-600, #475569);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .wb-input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .wb-input--inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .wb-input--inline .wb-input-label {
+        min-width: auto;
+    }
+}
+
+/* Animation for validation states */
+@keyframes wbInputShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+.wb-input--error.wb-input--animate {
+    animation: wbInputShake 0.3s ease-in-out;
+}
+
+/* Focus ring for accessibility */
+.wb-input-field:focus-visible {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 2px;
+}

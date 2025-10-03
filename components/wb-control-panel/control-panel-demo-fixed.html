@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-layout="top-nav">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Control Panel - Complete Demo</title>
+    
+    <!-- ✅ CORRECT: Load global styles first, then layout styles -->
+    <!-- Global CSS Variables (REQUIRED FIRST) -->
+    <link rel="stylesheet" href="../../styles/_variables.css">
+    <!-- Base Styles (REQUIRED SECOND) -->
+    <link rel="stylesheet" href="../../styles/_base.css">
+    <!-- Utility Classes (REQUIRED THIRD) -->
+    <link rel="stylesheet" href="../../styles/_utilities.css">
+    <!-- Layout System CSS (FOURTH) -->
+    <link rel="stylesheet" href="../../wb-core/layouts/layouts.css">
+    <!-- Component-specific CSS (LAST) -->
+    <link rel="stylesheet" href="control-panel.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary, #0f172a);
+            color: var(--text-primary, #f1f5f9);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .demo-header h1 {
+            color: var(--primary, #6366f1);
+            margin-bottom: 10px;
+        }
+
+        .demo-instructions {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .demo-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .demo-card {
+            background: var(--bg-secondary, #1e293b);
+            border: 1px solid var(--border-color, #334155);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .demo-card h3 {
+            color: var(--primary, #6366f1);
+            margin-top: 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border-color, #334155);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--success-color, #10b981);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            background: var(--primary, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .toggle-button:hover {
+            background: var(--primary-dark, #4338ca);
+            transform: translateY(-1px);
+        }
+
+        .status-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #10b981;
+            font-size: 14px;
+            text-align: center;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Make elements editable in edit mode */
+        .editable {
+            transition: all 0.2s ease;
+        }
+
+        body.edit-mode .editable {
+            outline: 2px dashed rgba(99, 102, 241, 0.5);
+            outline-offset: 2px;
+            cursor: text;
+        }
+
+        body.edit-mode .editable:hover {
+            outline-color: rgba(99, 102, 241, 0.8);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* Control panel visibility */
+        control-panel {
+            display: none;
+        }
+
+        control-panel.visible {
+            display: block;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toggle Button -->
+    <button class="toggle-button" id="toggle-control-panel">
+        🎛️ Open Control Panel
+    </button>
+
+    <!-- Main Content -->
+    <div class="demo-container">
+        <header class="demo-header">
+            <h1 class="editable">WB Website Builder Control Panel</h1>
+            <p class="editable">Complete theme, color, and layout control system</p>
+        </header>
+
+        <div class="demo-instructions">
+            <h3>🎯 Demo Instructions</h3>
+            <p>Click the "Open Control Panel" button to access the complete website builder controls:</p>
+            <ul>
+                <li><strong>Theme Control:</strong> Switch between Dark, Light, and custom themes</li>
+                <li><strong>Layout Options:</strong> Choose from Top Nav, Left/Right Sidebar, or Ad Layout</li>
+                <li><strong>Color Customization:</strong> Adjust primary and background colors with HSL sliders</li>
+                <li><strong>Edit Mode:</strong> Enable to click and edit any text on the page</li>
+                <li><strong>Save/Export:</strong> Download your customized website as HTML</li>
+            </ul>
+        </div>
+
+        <div class="demo-content">
+            <div class="demo-card">
+                <h3 class="editable">🎨 Theme System</h3>
+                <p class="editable">Advanced theming with real-time preview and multiple built-in options.</p>
+                <ul class="feature-list">
+                    <li>Dark/Light theme toggle</li>
+                    <li>Custom theme variants</li>
+                    <li>System preference detection</li>
+                    <li>CSS variable integration</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h3 class="editable">🎯 Layout Control</h3>
+                <p class="editable">Flexible layout system with multiple navigation and content arrangements.</p>
+                <ul class="feature-list">
+                    <li>Top navigation layout</li>
+                    <li>Left/Right sidebar options</li>
+                    <li>Ad-optimized layouts</li>
+                    <li>Responsive breakpoints</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h3 class="editable">🌈 Color Customization</h3>
+                <p class="editable">Real-time color adjustment with HSL sliders and color palette presets.</p>
+                <ul class="feature-list">
+                    <li>Primary color control</li>
+                    <li>Background color adjustment</li>
+                    <li>Real-time preview</li>
+                    <li>Color palette presets</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h3 class="editable">✏️ Edit Mode</h3>
+                <p class="editable">Click-to-edit functionality for all text elements with visual indicators.</p>
+                <ul class="feature-list">
+                    <li>Inline text editing</li>
+                    <li>Visual edit indicators</li>
+                    <li>Content autosave</li>
+                    <li>Undo/Redo support</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h3 class="editable">💾 Save & Export</h3>
+                <p class="editable">Complete website export with all customizations preserved.</p>
+                <ul class="feature-list">
+                    <li>HTML export</li>
+                    <li>CSS preservation</li>
+                    <li>Asset bundling</li>
+                    <li>Configuration backup</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h3 class="editable">🔧 Developer Tools</h3>
+                <p class="editable">Advanced features for developers and power users.</p>
+                <ul class="feature-list">
+                    <li>Keyboard shortcuts</li>
+                    <li>Event system</li>
+                    <li>Plugin architecture</li>
+                    <li>API integration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Control Panel Component -->
+    <control-panel id="main-control-panel"></control-panel>
+
+    <!-- Status Bar -->
+    <div class="status-bar" id="status-bar">
+        🚀 WB Control Panel Demo Ready - Click "Open Control Panel" to start customizing
+    </div>
+
+    <!-- Load Scripts -->
+    <script type="module">
+        console.log('🚀 Starting WB Control Panel Demo...');
+        
+        let controlPanel = null;
+        let isVisible = false;
+        
+        // Get DOM elements
+        const toggleButton = document.getElementById('toggle-control-panel');
+        const statusBar = document.getElementById('status-bar');
+
+        function updateStatus(message) {
+            statusBar.innerHTML = `✅ ${message}`;
+        }
+
+        function showError(message) {
+            statusBar.innerHTML = `❌ ${message}`;
+            statusBar.style.background = 'rgba(239, 68, 68, 0.1)';
+            statusBar.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            statusBar.style.color = '#ef4444';
+        }
+
+        // Initialize control panel
+        async function initializeDemo() {
+            try {
+                updateStatus('Loading Control Panel component...');
+                
+                // Load Control Panel Component
+                await import('./control-panel.js');
+                console.log('✅ Control Panel component loaded');
+
+                // Load Color Bars Component (if available)
+                try {
+                    await import('../color-bars/wb-color-bars.js');
+                    console.log('✅ Color Bars component loaded');
+                } catch (e) {
+                    console.log('⚠️ Color Bars component not found, will use fallback');
+                }
+
+                // Get control panel reference
+                controlPanel = document.getElementById('main-control-panel');
+                
+                // Setup toggle button
+                setupToggleButton();
+                
+                // Setup event listeners
+                setupEventListeners();
+                
+                // Mark editable elements
+                markEditableElements();
+                
+                updateStatus('Control Panel ready! Click "Open Control Panel" to start customizing');
+                console.log('🎉 WB Control Panel Demo initialized successfully!');
+
+            } catch (error) {
+                console.error('❌ Failed to initialize demo:', error);
+                showError(`Failed to initialize: ${error.message}`);
+            }
+        }
+
+        function setupToggleButton() {
+            toggleButton.addEventListener('click', () => {
+                if (isVisible) {
+                    hideControlPanel();
+                } else {
+                    showControlPanel();
+                }
+            });
+        }
+
+        function showControlPanel() {
+            if (controlPanel) {
+                controlPanel.classList.add('visible');
+                toggleButton.textContent = '❌ Close Panel';
+                isVisible = true;
+                updateStatus('Control Panel opened - Adjust themes, colors, layout & enable edit mode');
+            }
+        }
+
+        function hideControlPanel() {
+            if (controlPanel) {
+                controlPanel.classList.remove('visible');
+                toggleButton.textContent = '🎛️ Open Control Panel';
+                isVisible = false;
+                updateStatus('Control Panel closed - Click to reopen for customization options');
+            }
+        }
+
+        function setupEventListeners() {
+            // Listen for control panel events
+            document.addEventListener('themeChanged', (e) => {
+                console.log('🎨 Theme changed:', e.detail.theme);
+                updateStatus(`Theme changed to ${e.detail.theme}`);
+            });
+
+            document.addEventListener('layoutChanged', (e) => {
+                console.log('📐 Layout changed:', e.detail.layout);
+                updateStatus(`Layout changed to ${e.detail.layout}`);
+            });
+
+            document.addEventListener('editModeChanged', (e) => {
+                console.log('✏️ Edit mode:', e.detail.enabled ? 'enabled' : 'disabled');
+                updateStatus(`Edit mode ${e.detail.enabled ? 'enabled' : 'disabled'} - ${e.detail.enabled ? 'Click text to edit' : 'Content locked'}`);
+            });
+
+            document.addEventListener('controlPanelReady', (e) => {
+                console.log('🎛️ Control Panel ready');
+                updateStatus('Control Panel ready with full theme, color, and layout controls');
+            });
+
+            // Handle keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + P to toggle control panel
+                if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                    e.preventDefault();
+                    if (isVisible) {
+                        hideControlPanel();
+                    } else {
+                        showControlPanel();
+                    }
+                }
+
+                // Escape to close control panel
+                if (e.key === 'Escape' && isVisible) {
+                    hideControlPanel();
+                }
+            });
+        }
+
+        function markEditableElements() {
+            const editableSelectors = [
+                'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                'p', '.editable'
+            ];
+
+            editableSelectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(el => {
+                    el.classList.add('editable');
+                    el.setAttribute('data-editable', 'true');
+                });
+            });
+
+            console.log(`✅ Marked ${document.querySelectorAll('.editable').length} elements as editable`);
+        }
+
+        // Initialize everything
+        initializeDemo();
+
+        // Expose for debugging
+        window.demoControls = {
+            controlPanel: () => controlPanel,
+            showControlPanel,
+            hideControlPanel,
+            isVisible: () => isVisible
+        };
+
+        console.log('🎯 Debug commands available: window.demoControls');
+    </script>
+    
+    <!-- Scripts: Load utilities first -->
+    <script src="../../components/wb-component-utils.js"></script>
+    <script src="../../wb-core/layouts/layout-manager.js"></script>
+</body>
+</html>

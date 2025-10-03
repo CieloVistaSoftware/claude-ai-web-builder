@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Modal Component Demo</title>
+    
+    <!-- Central Styles Import -->
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">    <!-- Modal Component CSS -->
+    <link rel="stylesheet" href="wb-modal.css">
+    
+    <!-- Component Styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: var(--space-xl);
+        }
+        
+        .demo-section {
+            background: var(--neutral-700, #334155);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .button-demo {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .status {
+            background: rgba(var(--success-color-rgb, 16, 185, 129), 0.1);
+            border: 1px solid rgba(var(--success-color-rgb, 16, 185, 129), 0.3);
+            padding: 8px;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--error-color, #ef4444);
+            border: 2px solid rgba(var(--neutral-100-rgb, 255, 255, 255), 0.3);
+            box-shadow: 0 0 6px rgba(var(--error-color-rgb, 239, 68, 68), 0.5);
+            transition: all 0.3s ease;
+            cursor: help;
+        }
+        
+        .status-light.ready {
+            background: var(--success-color, #10b981);
+            box-shadow: 0 0 6px rgba(var(--success-color-rgb, 16, 185, 129), 0.5);
+        }
+        
+        .status-light.updating {
+            background: var(--error-color, #ef4444);
+            box-shadow: 0 0 6px rgba(var(--error-color-rgb, 239, 68, 68), 0.5);
+            animation: pulse-red 1s infinite;
+        }
+        
+        .status-light.code-updating {
+            background: var(--warning-color, #f59e0b);
+            box-shadow: 0 0 8px rgba(var(--warning-color-rgb, 245, 158, 11), 0.6);
+            animation: pulse-orange 1.5s infinite;
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes pulse-orange {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            33% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+            66% {
+                opacity: 0.6;
+                transform: scale(1.15);
+            }
+        }
+        
+        .wb-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            background: var(--primary);
+            color: var(--text-primary-inverse, white);
+        }
+        
+        .wb-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .wb-btn--success {
+            background: var(--success-color);
+        }
+        
+        .wb-btn--warning {
+            background: var(--warning-color);
+        }
+        
+        .wb-btn--danger {
+            background: var(--error-color);
+        }
+        
+        .wb-btn--secondary {
+            background: var(--neutral-600);
+        }
+        
+        .wb-btn--small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        .wb-input-field {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.875rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        code {
+            background: rgba(var(--neutral-900-rgb, 0, 0, 0), 0.3);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+        }
+        
+        .hero-demo {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            text-align: center;
+            color: var(--text-primary-inverse, white);
+        }
+        
+        .hero-demo h2 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero-demo p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .hero-demo .wb-btn {
+            background: rgba(var(--neutral-100-rgb, 255, 255, 255), 0.2);
+            color: var(--text-primary-inverse, white);
+            border: 2px solid rgba(var(--neutral-100-rgb, 255, 255, 255), 0.3);
+            backdrop-filter: blur(10px);
+            font-size: 1rem;
+            padding: 0.75rem 2rem;
+        }
+        
+        .hero-demo .wb-btn:hover {
+            background: rgba(var(--neutral-100-rgb, 255, 255, 255), 0.3);
+            border-color: rgba(var(--neutral-100-rgb, 255, 255, 255), 0.5);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <h1>WB Modal Component Demo</h1>
+    <p>Click any button below to see modal demonstrations. Each click will show a live modal popup!</p>
+    
+    <div class="status" id="status">
+        Component loading...
+        <div class="status-light" id="status-light" title="Update Status"></div>
+    </div>
+    
+    <div class="hero-demo">
+        <h2>🚀 Complete Modal Demo</h2>
+        <p>See all modal features in one comprehensive demonstration</p>
+        <wb-button class="wb-btn" id="complete-demo-btn" onclick="showCompleteDemo(event)">Launch Complete Demo</wb-button>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Web Component Usage</h3>
+        <p>Direct HTML usage of the wb-modal Web Component:</p>
+        
+        <div class="button-demo">
+            <wb-button class="wb-btn" onclick="openExampleModal(event)">Open Web Component Modal</wb-button>
+        </div>
+        
+        <!-- Example Web Component Modal -->
+        <wb-modal id="example-modal" title="Web Component Modal" size="standard" variant="default" animation="fadeIn">
+            <p>This modal is created directly using the &lt;wb-modal&gt; Web Component!</p>
+            <p>You can include any HTML content here and it will be displayed in the modal body.</p>
+            <div slot="footer" class="wb-modal-footer">
+                <wb-button class="wb-btn wb-btn--secondary" onclick="document.getElementById('example-modal').removeAttribute('open')">Close</wb-button>
+                <wb-button class="wb-btn" onclick="alert('Action performed!'); document.getElementById('example-modal').removeAttribute('open')">Action</wb-button>
+            </div>
+        </wb-modal>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Basic Modals</h3>
+        <p>Simple modal dialogs with different configurations:</p>
+        
+        <div class="button-demo" id="basic-modal-buttons">
+            <wb-button class="wb-btn" id="basic-modal-btn" onclick="showBasicModal(event)">Basic Modal</wb-button>
+            <wb-button class="wb-btn" id="html-content-modal-btn" onclick="showModalWithContent(event)">With HTML Content</wb-button>
+            <wb-button class="wb-btn" id="no-header-modal-btn" onclick="showModalNoHeader(event)">No Header</wb-button>
+            <wb-button class="wb-btn wb-btn--small" id="custom-buttons-modal-btn" onclick="showCustomButtons(event)">Custom Buttons</wb-button>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Modal Sizes</h3>
+        <p>Different modal sizes for various content types:</p>
+        
+        <div class="button-demo" id="size-modal-buttons">
+            <wb-button class="wb-btn" id="small-modal-btn" onclick="showSmallModal(event)">Small Modal</wb-button>
+            <wb-button class="wb-btn" id="standard-modal-btn" onclick="showStandardModal(event)">Standard Modal</wb-button>
+            <wb-button class="wb-btn" id="large-modal-btn" onclick="showLargeModal(event)">Large Modal</wb-button>
+            <wb-button class="wb-btn wb-btn--warning" id="fullscreen-modal-btn" onclick="showFullscreenModal(event)">Fullscreen</wb-button>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Modal Variants</h3>
+        <p>Themed modals for different message types:</p>
+        
+        <div class="button-demo" id="variant-modal-buttons">
+            <wb-button class="wb-btn" id="default-modal-btn" onclick="showDefaultModal(event)">Default</wb-button>
+            <wb-button class="wb-btn wb-btn--success" id="success-modal-btn" onclick="showSuccessModal(event)">Success</wb-button>
+            <wb-button class="wb-btn wb-btn--warning" id="warning-modal-btn" onclick="showWarningModal(event)">Warning</wb-button>
+            <wb-button class="wb-btn wb-btn--danger" id="danger-modal-btn" onclick="showDangerModal(event)">Danger</wb-button>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Built-in Dialog Types</h3>
+        <p>Common dialog patterns with simplified API - results show in console:</p>
+        
+        <div class="button-demo" id="dialog-modal-buttons">
+            <wb-button class="wb-btn" id="alert-dialog-btn" onclick="showAlert(event)">Alert Dialog</wb-button>
+            <wb-button class="wb-btn wb-btn--warning" id="confirm-dialog-btn" onclick="showConfirm(event)">Confirm Dialog</wb-button>
+            <wb-button class="wb-btn wb-btn--success" id="prompt-dialog-btn" onclick="showPrompt(event)">Prompt Dialog</wb-button>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Animation Types</h3>
+        <p>Different animation styles for modal appearance:</p>
+        
+        <div class="button-demo" id="animation-modal-buttons">
+            <wb-button class="wb-btn" id="fade-modal-btn" onclick="showFadeModal(event)">Fade In</wb-button>
+            <wb-button class="wb-btn" id="slide-modal-btn" onclick="showSlideModal(event)">Slide Down</wb-button>
+            <wb-button class="wb-btn" id="scale-modal-btn" onclick="showScaleModal(event)">Scale Up</wb-button>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h3>Advanced Features</h3>
+        <p>Modal stacking, custom content, and programmatic control:</p>
+        
+        <div class="button-demo" id="advanced-modal-buttons">
+            <wb-button class="wb-btn" id="stacked-modals-btn" onclick="showStackedModals(event)">Modal Stack</wb-button>
+            <wb-button class="wb-btn" id="form-modal-btn" onclick="showFormModal(event)">Form Modal</wb-button>
+            <wb-button class="wb-btn" id="rich-content-modal-btn" onclick="showRichContentModal(event)">Rich Content</wb-button>
+            <wb-button class="wb-btn" id="loading-modal-btn" onclick="showLoadingModal(event)">Loading Modal</wb-button>
+            <wb-button class="wb-btn wb-btn--danger" id="destructive-action-btn" onclick="showDestructiveAction(event)">Destructive Action</wb-button>
+            <wb-button class="wb-btn wb-btn--small" id="close-all-modals-btn" onclick="closeAllModals(event)">Close All</wb-button>
+        </div>
+    </div>
+    
+    <!-- Load WB Components -->
+    <script src="../wb-button/wb-button.js"></script>
+    <script src="wb-modal.js"></script>
+    
+    <script>
+        // Status Light Management
+        let changeTracker = {
+            isUpdating: false,
+            updateTimeout: null,
+            lastActivity: Date.now()
+        };
+        
+        function setStatusLight(status, message = '') {
+            const statusLight = document.getElementById('status-light');
+            const statusDiv = document.getElementById('status');
+            
+            // Remove all status classes
+            statusLight.classList.remove('ready', 'updating', 'code-updating');
+            
+            if (status === 'ready') {
+                statusLight.classList.add('ready');
+                statusLight.title = 'Ready - All updates complete';
+                if (message) {
+                    statusDiv.childNodes[0].textContent = message;
+                }
+                changeTracker.isUpdating = false;
+            } else if (status === 'updating') {
+                statusLight.classList.add('updating');
+                statusLight.title = 'Updating - Changes in progress';
+                if (message) {
+                    statusDiv.childNodes[0].textContent = message;
+                }
+            } else if (status === 'code-updating') {
+                statusLight.classList.add('code-updating');
+                statusLight.title = 'Code Changes - Developer making updates';
+                if (message) {
+                    statusDiv.childNodes[0].textContent = message;
+                }
+                changeTracker.isUpdating = true;
+            }
+        }
+        
+        // Detect code changes by monitoring various indicators
+        function startCodeUpdateDetection() {
+            // Set initial code updating status
+            setStatusLight('code-updating', '🔧 Developer making changes...');
+            
+            // Monitor for completion signals
+            const checkForCompletion = () => {
+                // Reset activity timer
+                changeTracker.lastActivity = Date.now();
+                
+                // Clear existing timeout
+                if (changeTracker.updateTimeout) {
+                    clearTimeout(changeTracker.updateTimeout);
+                }
+                
+                // Set timeout to mark as ready if no activity for 3 seconds
+                changeTracker.updateTimeout = setTimeout(() => {
+                    if (changeTracker.isUpdating) {
+                        setStatusLight('ready', '✅ Code changes complete - System ready');
+                    }
+                }, 3000);
+            };
+            
+            // Monitor DOM mutations (file changes might trigger DOM updates)
+            const observer = new MutationObserver(() => {
+                if (changeTracker.isUpdating) {
+                    checkForCompletion();
+                }
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true
+            });
+            
+            // Monitor console activity (often happens during development)
+            const originalLog = console.log;
+            const originalError = console.error;
+            const originalWarn = console.warn;
+            
+            console.log = function(...args) {
+                if (changeTracker.isUpdating) {
+                    checkForCompletion();
+                }
+                return originalLog.apply(console, args);
+            };
+            
+            console.error = function(...args) {
+                if (changeTracker.isUpdating) {
+                    checkForCompletion();
+                }
+                return originalError.apply(console, args);
+            };
+            
+            console.warn = function(...args) {
+                if (changeTracker.isUpdating) {
+                    checkForCompletion();
+                }
+                return originalWarn.apply(console, args);
+            };
+            
+            // Monitor network activity (might indicate live reload or updates)
+            if (window.performance && window.performance.getEntriesByType) {
+                setInterval(() => {
+                    if (changeTracker.isUpdating) {
+                        const entries = window.performance.getEntriesByType('navigation');
+                        const resources = window.performance.getEntriesByType('resource');
+                        
+                        // Check for recent resource loads
+                        const recentLoads = resources.filter(entry => 
+                            entry.startTime > changeTracker.lastActivity - 5000
+                        );
+                        
+                        if (recentLoads.length > 0) {
+                            checkForCompletion();
+                        }
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Manual functions to control code update status
+        window.startCodeUpdates = function(message = '🔧 Developer making changes...') {
+            setStatusLight('code-updating', message);
+        };
+        
+        window.finishCodeUpdates = function(message = '✅ Code changes complete - System ready') {
+            setStatusLight('ready', message);
+        };
+        
+        // Set status to updating when any modal action occurs
+        function setUpdatingStatus(action = 'Modal action in progress...') {
+            setStatusLight('updating', action);
+        }
+        
+        // Set status to ready after action completes
+        function setReadyStatus(message = '✅ WB Modal Component ready!') {
+            setTimeout(() => {
+                setStatusLight('ready', message);
+            }, 300); // Small delay to show the update happened
+        }
+        
+        // Web Component Modal example
+        function openExampleModal(event) {
+            console.log('Opening example modal...');
+            const modal = document.getElementById('example-modal');
+            if (modal) {
+                console.log('Modal found, showing with trigger element');
+                // Use the Web Component's show method with trigger element for proper positioning
+                modal.show(event.target);
+            } else {
+                console.error('Modal element not found!');
+            }
+        }
+        
+        // Complete Demo Modal
+        function showCompleteDemo(event) {
+            setUpdatingStatus('Opening complete demo modal...');
+            const demoContent = `
+                <div style="padding: 1rem;">
+                    <h4 style="color: var(--primary); margin-top: 0;">🎉 WB Modal Features</h4>
+                    
+                    <div style="background: rgba(var(--success-color-rgb, 16, 185, 129), 0.1); padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                        <h5 style="margin-top: 0; color: var(--success-color);">✅ Core Features</h5>
+                        <ul style="margin-bottom: 0;">
+                            <li>Multiple sizes (small, standard, large, fullscreen)</li>
+                            <li>Theme variants (success, warning, danger)</li>
+                            <li>Built-in dialogs (alert, confirm, prompt)</li>
+                            <li>Animation options (fade, slide, scale)</li>
+                            <li>Modal stacking support</li>
+                            <li>Keyboard navigation & focus management</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: rgba(var(--primary-rgb, 99, 102, 241), 0.1); padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                        <h5 style="margin-top: 0; color: var(--primary);">🛠️ Technical Features</h5>
+                        <ul style="margin-bottom: 0;">
+                            <li>Responsive design for all screen sizes</li>
+                            <li>Accessibility compliant (ARIA, focus trap)</li>
+                            <li>CSS custom properties for theming</li>
+                            <li>Event-driven architecture</li>
+                            <li>Promise-based API for dialogs</li>
+                            <li>No inline styles - all CSS classes</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <p><strong>Try the buttons above to see each feature in action!</strong></p>
+                    </div>
+                </div>
+            `;
+            
+            const modal = WBModal.create({
+                title: '🚀 WB Modal Component Demo',
+                content: demoContent,
+                size: 'large',
+                buttons: [{
+                    text: 'Try Basic Modal',
+                    variant: 'primary',
+                    onclick: () => {
+                        WBModal.hide(modal);
+                        setTimeout(() => showBasicModal(), 300);
+                    }
+                }, {
+                    text: 'Try Alert',
+                    variant: 'success',
+                    onclick: () => {
+                        WBModal.hide(modal);
+                        setTimeout(() => showAlert(), 300);
+                    }
+                }, {
+                    text: 'Close Demo',
+                    variant: 'secondary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Complete demo modal opened successfully');
+            });
+        }
+        
+        // Basic Modal Examples
+        function showBasicModal(event) {
+            setUpdatingStatus('Opening basic modal...');
+            const modal = WBModal.create({
+                title: 'Basic Modal',
+                content: '<p>This is a basic modal with a title and some content. Click outside or press Escape to close.</p>',
+                buttons: [{
+                    text: 'Close',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Basic modal opened successfully');
+            });
+        }
+        
+        function showModalWithContent(event) {
+            setUpdatingStatus('Opening HTML content modal...');
+            const content = `
+                <h4 style="color: var(--accent);">Rich HTML Content</h4>
+                <p>This modal contains <strong>formatted text</strong>, <em>emphasis</em>, and other HTML elements.</p>
+                <ul>
+                    <li>✨ Supports any HTML content</li>
+                    <li>🎨 Styled with CSS variables</li>
+                    <li>📱 Responsive design</li>
+                </ul>
+                <p>You can include forms, images, videos, or any other HTML elements in modals.</p>
+            `;
+            
+            const modal = WBModal.create({
+                title: 'HTML Content Modal',
+                content: content,
+                buttons: [{
+                    text: 'Got it!',
+                    variant: 'success',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showModalNoHeader() {
+            const modal = WBModal.create({
+                content: `
+                    <div style="text-align: center; padding: 1rem;">
+                        <h3 style="margin-top: 0;">🎯 No Header Modal</h3>
+                        <p>This modal has no header bar. Perfect for clean, minimal dialogs.</p>
+                    </div>
+                `,
+                buttons: [{
+                    text: 'Perfect!',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showCustomButtons() {
+            const modal = WBModal.create({
+                title: 'Custom Buttons',
+                content: '<p>This modal demonstrates multiple custom buttons with different styles and actions.</p>',
+                buttons: [{
+                    text: 'Cancel',
+                    variant: 'secondary',
+                    onclick: () => {
+                        console.log('Cancel clicked');
+                        WBModal.hide(modal);
+                    }
+                }, {
+                    text: 'Save Draft',
+                    variant: 'warning',
+                    onclick: () => {
+                        console.log('Save Draft clicked');
+                        WBModal.alert('Draft saved successfully!');
+                        WBModal.hide(modal);
+                    }
+                }, {
+                    text: 'Publish',
+                    variant: 'success',
+                    onclick: () => {
+                        console.log('Publish clicked');
+                        WBModal.alert('Published successfully!');
+                        WBModal.hide(modal);
+                    }
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        // Size Examples
+        function showSmallModal(event) {
+            const modal = WBModal.create({
+                title: 'Small Modal',
+                content: '<p>This is a small modal, perfect for simple confirmations and quick messages.</p>',
+                size: 'small',
+                buttons: [{
+                    text: 'Close',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showStandardModal(event) {
+            const modal = WBModal.create({
+                title: 'Standard Modal',
+                content: '<p>This is a standard-sized modal, good for most content. It provides a good balance between space and screen real estate.</p>',
+                buttons: [{
+                    text: 'Close',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showLargeModal(event) {
+            const modal = WBModal.create({
+                title: 'Large Modal',
+                content: `
+                    <p>This is a large modal, suitable for forms or detailed content. It provides more space for complex interfaces.</p>
+                    <div style="background: rgba(var(--primary-rgb, 99, 102, 241), 0.1); padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                        <h5 style="margin-top: 0;">Large Modal Use Cases:</h5>
+                        <ul>
+                            <li>Complex forms with multiple fields</li>
+                            <li>Data tables and listings</li>
+                            <li>Image galleries or previews</li>
+                            <li>Settings panels</li>
+                            <li>Rich text editors</li>
+                        </ul>
+                    </div>
+                `,
+                size: 'large',
+                buttons: [{
+                    text: 'Close',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showFullscreenModal(event) {
+            const modal = WBModal.create({
+                title: 'Fullscreen Modal',
+                content: `
+                    <div style="padding: 2rem; text-align: center;">
+                        <h3>🌟 Fullscreen Experience</h3>
+                        <p>This fullscreen modal takes up the entire viewport. Perfect for:</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                            <div style="background: rgba(var(--success-color-rgb, 16, 185, 129), 0.1); padding: 1rem; border-radius: 6px;">
+                                <h4>🎥 Media Viewers</h4>
+                                <p>Photo galleries, video players</p>
+                            </div>
+                            <div style="background: rgba(var(--primary-rgb, 99, 102, 241), 0.1); padding: 1rem; border-radius: 6px;">
+                                <h4>📝 Editors</h4>
+                                <p>Text editors, code editors</p>
+                            </div>
+                            <div style="background: rgba(var(--warning-color-rgb, 245, 158, 11), 0.1); padding: 1rem; border-radius: 6px;">
+                                <h4>🎮 Interactive Apps</h4>
+                                <p>Games, tools, workflows</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                size: 'fullscreen',
+                buttons: [{
+                    text: 'Exit Fullscreen',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        // Variant Examples
+        function showDefaultModal(event) {
+            const modal = WBModal.create({
+                title: 'Default Modal',
+                content: '<p>This is the default modal style with standard colors and neutral appearance.</p>',
+                variant: 'default',
+                buttons: [{
+                    text: 'Close',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showSuccessModal(event) {
+            const modal = WBModal.create({
+                title: '✅ Success!',
+                content: `
+                    <div style="text-align: center;">
+                        <p>🎉 Operation completed successfully!</p>
+                        <p>Your changes have been saved and are now live.</p>
+                    </div>
+                `,
+                variant: 'success',
+                buttons: [{
+                    text: 'Continue',
+                    variant: 'success',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showWarningModal(event) {
+            const modal = WBModal.create({
+                title: '⚠️ Warning',
+                content: `
+                    <div>
+                        <p><strong>Please review your settings before proceeding.</strong></p>
+                        <p>Some changes cannot be undone and may affect system performance.</p>
+                        <ul>
+                            <li>Database connections will be reset</li>
+                            <li>Cache will be cleared</li>
+                            <li>Users may experience brief downtime</li>
+                        </ul>
+                    </div>
+                `,
+                variant: 'warning',
+                buttons: [{
+                    text: 'Review Settings',
+                    variant: 'warning',
+                    onclick: () => WBModal.hide(modal)
+                }, {
+                    text: 'Cancel',
+                    variant: 'secondary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showDangerModal(event) {
+            const modal = WBModal.create({
+                title: '🔥 Danger Zone',
+                content: `
+                    <div>
+                        <p><strong>⚠️ This action is potentially destructive!</strong></p>
+                        <p>You are about to permanently delete important data. This action cannot be undone.</p>
+                        <div style="background: rgba(var(--error-color-rgb, 239, 68, 68), 0.1); padding: 1rem; border-radius: 6px; margin: 1rem 0; border-left: 4px solid var(--error-color);">
+                            <strong>What will be deleted:</strong>
+                            <ul style="margin: 0.5rem 0 0 0;">
+                                <li>All user data and profiles</li>
+                                <li>Project files and backups</li>
+                                <li>Configuration settings</li>
+                            </ul>
+                        </div>
+                        <p>Are you absolutely sure you want to continue?</p>
+                    </div>
+                `,
+                variant: 'danger',
+                buttons: [{
+                    text: 'Cancel',
+                    variant: 'secondary',
+                    onclick: () => WBModal.hide(modal)
+                }, {
+                    text: 'Yes, Delete Everything',
+                    variant: 'danger',
+                    onclick: () => {
+                        WBModal.hide(modal);
+                        setTimeout(() => {
+                            WBModal.alert('Just kidding! Nothing was actually deleted. 😄', 'Safe!');
+                        }, 300);
+                    }
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        // Built-in Dialog Examples
+        async function showAlert(event) {
+            setUpdatingStatus('Opening alert dialog...');
+            const result = await WBModal.alert(
+                'This is an alert message! Check the browser console to see the returned result.',
+                'Alert Dialog',
+                event.target
+            );
+            console.log('Alert result:', result);
+            setReadyStatus('Alert dialog completed');
+        }
+        
+        async function showConfirm(event) {
+            setUpdatingStatus('Opening confirm dialog...');
+            const result = await WBModal.confirm(
+                'Do you want to save your changes? This will overwrite the existing data.',
+                'Confirm Action',
+                event.target
+            );
+            console.log('Confirm result:', result);
+            if (result) {
+                WBModal.alert('Changes saved successfully!', 'Saved', event.target);
+            } else {
+                WBModal.alert('Changes discarded.', 'Cancelled', event.target);
+            }
+            setReadyStatus('Confirm dialog completed');
+        }
+        
+        async function showPrompt(event) {
+            setUpdatingStatus('Opening prompt dialog...');
+            const result = await WBModal.prompt(
+                'What is your name? This will be used to personalize your experience.',
+                'John Doe',
+                'User Input',
+                event.target
+            );
+            console.log('Prompt result:', result);
+            if (result) {
+                WBModal.alert(`Hello, ${result}! Nice to meet you! 👋`, 'Welcome', event.target);
+            }
+            setReadyStatus('Prompt dialog completed');
+        }
+        
+        // Animation Examples
+        function showFadeModal(event) {
+            const modal = WBModal.create({
+                title: 'Fade Animation',
+                content: '<p>This modal uses the fade-in animation (default). It smoothly appears with opacity transition.</p>',
+                animation: 'fadeIn',
+                buttons: [{
+                    text: 'Close',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showSlideModal(event) {
+            const modal = WBModal.create({
+                title: 'Slide Animation',
+                content: '<p>This modal slides down from the top of the screen. Great for notifications and alerts.</p>',
+                animation: 'slideDown',
+                buttons: [{
+                    text: 'Close',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showScaleModal(event) {
+            const modal = WBModal.create({
+                title: 'Scale Animation',
+                content: '<p>This modal scales up from the center. Creates a dynamic, attention-grabbing entrance.</p>',
+                animation: 'scaleUp',
+                buttons: [{
+                    text: 'Close',
+                    variant: 'primary',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        // Advanced Examples
+        function showStackedModals(event) {
+            const firstModal = WBModal.create({
+                title: 'First Modal',
+                content: '<p>This is the first modal. Click the button below to open a second modal on top of this one.</p>',
+                buttons: [{
+                    text: 'Open Second Modal',
+                    variant: 'primary',
+                    onclick: () => {
+                        const secondModal = WBModal.create({
+                            title: 'Second Modal',
+                            content: `
+                                <p>This is the second modal, stacked on top of the first!</p>
+                                <div style="background: rgba(var(--accent-rgb, 16, 185, 129), 0.1); padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                                    <strong>Modal Stacking Features:</strong>
+                                    <ul style="margin: 0.5rem 0 0 0;">
+                                        <li>Automatic z-index management</li>
+                                        <li>Proper focus management</li>
+                                        <li>Escape key closes top modal</li>
+                                        <li>Backdrop clicks handled correctly</li>
+                                    </ul>
+                                </div>
+                            `,
+                            buttons: [{
+                                text: 'Close This Modal',
+                                variant: 'primary',
+                                onclick: () => WBModal.hide(secondModal)
+                            }, {
+                                text: 'Open Third Modal',
+                                variant: 'success',
+                                onclick: () => {
+                                    const thirdModal = WBModal.create({
+                                        title: 'Third Modal! 🎉',
+                                        content: '<p>Three modals deep! The stacking system can handle any number of modals.</p>',
+                                        buttons: [{
+                                            text: 'Close This',
+                                            variant: 'primary',
+                                            onclick: () => WBModal.hide(thirdModal)
+                                        }]
+                                    });
+                                    WBModal.show(thirdModal);
+                                }
+                            }]
+                        });
+                        WBModal.show(secondModal);
+                    }
+                }, {
+                    text: 'Close',
+                    variant: 'secondary',
+                    onclick: () => WBModal.hide(firstModal)
+                }]
+            });
+            WBModal.show(firstModal);
+        }
+        
+        function showFormModal(event) {
+            const formContent = `
+                <form id="demo-form">
+                    <div style="margin-bottom: 1rem;">
+                        <label for="demo-name" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Name:</label>
+                        <input type="text" id="demo-name" class="wb-input-field" placeholder="Enter your name" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="demo-email" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email:</label>
+                        <input type="email" id="demo-email" class="wb-input-field" placeholder="Enter your email" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="demo-role" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Role:</label>
+                        <select id="demo-role" class="wb-input-field">
+                            <option value="">Select a role</option>
+                            <option value="developer">Developer</option>
+                            <option value="designer">Designer</option>
+                            <option value="manager">Manager</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="demo-message" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Message:</label>
+                        <textarea id="demo-message" class="wb-input-field" rows="3" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                </form>
+            `;
+            
+            const modal = WBModal.create({
+                title: '📝 Contact Form',
+                content: formContent,
+                size: 'large',
+                buttons: [{
+                    text: 'Cancel',
+                    variant: 'secondary',
+                    onclick: () => WBModal.hide(modal)
+                }, {
+                    text: 'Submit',
+                    variant: 'success',
+                    onclick: () => {
+                        const name = modal.querySelector('#demo-name').value;
+                        const email = modal.querySelector('#demo-email').value;
+                        const role = modal.querySelector('#demo-role').value;
+                        const message = modal.querySelector('#demo-message').value;
+                        
+                        if (!name || !email) {
+                            WBModal.alert('Please fill in all required fields.', 'Validation Error');
+                            return;
+                        }
+                        
+                        console.log('Form submitted:', { name, email, role, message });
+                        WBModal.hide(modal);
+                        setTimeout(() => {
+                            WBModal.alert(`Thank you, ${name}! Your message has been submitted.`, 'Form Submitted');
+                        }, 300);
+                    }
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showRichContentModal(event) {
+            const richContent = `
+                <div style="text-align: center; padding: 1rem;">
+                    <h3 style="color: var(--primary); margin-top: 0;">🎨 Rich Content Showcase</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                        <div style="background: rgba(var(--primary-rgb, 99, 102, 241), 0.1); padding: 1rem; border-radius: 6px;">
+                            <h4 style="margin-top: 0;">🚀 Performance</h4>
+                            <p style="margin-bottom: 0;">Lightweight and fast rendering</p>
+                        </div>
+                        <div style="background: rgba(var(--success-color-rgb, 16, 185, 129), 0.1); padding: 1rem; border-radius: 6px;">
+                            <h4 style="margin-top: 0;">♿ Accessible</h4>
+                            <p style="margin-bottom: 0;">ARIA compliant and keyboard friendly</p>
+                        </div>
+                        <div style="background: rgba(var(--warning-color-rgb, 245, 158, 11), 0.1); padding: 1rem; border-radius: 6px;">
+                            <h4 style="margin-top: 0;">🎭 Themeable</h4>
+                            <p style="margin-bottom: 0;">CSS custom properties</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(var(--accent-rgb, 16, 185, 129), 0.1); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                        <h4 style="margin-top: 0; color: var(--accent);">✨ What You Can Include</h4>
+                        <div style="text-align: left;">
+                            <ul>
+                                <li>🖼️ Images and galleries</li>
+                                <li>📊 Charts and graphs</li>
+                                <li>🎥 Videos and media</li>
+                                <li>📝 Forms and inputs</li>
+                                <li>🧩 Interactive widgets</li>
+                                <li>📋 Data tables</li>
+                                <li>🎨 Custom CSS and styling</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p><em>Modals are perfect for any HTML content you need!</em></p>
+                </div>
+            `;
+            
+            const modal = WBModal.create({
+                title: '🌟 Rich Content Example',
+                content: richContent,
+                size: 'large',
+                buttons: [{
+                    text: 'Awesome!',
+                    variant: 'success',
+                    onclick: () => WBModal.hide(modal)
+                }]
+            });
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+        }
+        
+        function showLoadingModal(event) {
+            const loadingContent = `
+                <div style="text-align: center; padding: 3rem 2rem;">
+                    <div class="wb-modal-spinner" style="margin: 0 auto 1.5rem;"></div>
+                    <h4 style="margin: 0 0 1rem 0;">Processing your request...</h4>
+                    <p style="color: var(--text-secondary); margin: 0;">This may take a few moments. Please don't close this window.</p>
+                    <div style="background: rgba(var(--primary-rgb, 99, 102, 241), 0.1); padding: 1rem; border-radius: 6px; margin: 1.5rem 0;">
+                        <small>💡 <strong>Tip:</strong> Loading modals are great for long-running operations like file uploads, data processing, or API calls.</small>
+                    </div>
+                </div>
+            `;
+            
+            const modal = WBModal.create({
+                title: '⏳ Please Wait',
+                content: loadingContent
+            });
+            
+            WBModal.show(modal, event.target).then(() => {
+                setReadyStatus('Modal opened successfully');
+            });
+            
+            // Simulate loading completion
+            setTimeout(() => {
+                WBModal.hide(modal);
+                setTimeout(() => {
+                    WBModal.alert('Processing completed successfully! 🎉', 'Done');
+                }, 300);
+            }, 3000);
+        }
+        
+        async function showDestructiveAction(event) {
+            const confirmed = await WBModal.confirm(
+                'This will permanently delete all your data. This action cannot be undone and will affect all connected services.',
+                '⚠️ Destructive Action'
+            );
+            
+            if (confirmed) {
+                console.log('Destructive action confirmed - data would be deleted');
+                WBModal.alert('Just kidding! Nothing was actually deleted. Your data is safe! 😄', 'Safe & Sound');
+            } else {
+                console.log('Destructive action cancelled');
+                WBModal.alert('Good choice! Your data remains safe.', 'Action Cancelled');
+            }
+        }
+        
+        function closeAllModals(event) {
+            WBModal.closeAll().then(() => {
+                console.log('All modals closed');
+                // Brief delay, then show confirmation
+                setTimeout(() => {
+                    WBModal.alert('All modals have been closed successfully.', 'Cleanup Complete');
+                }, 100);
+            });
+        }
+        
+        // Listen for component ready
+        document.addEventListener('wbModalReady', function() {
+            setStatusLight('ready', '✅ WB Modal Component loaded successfully!');
+            console.log('WB Modal Component is ready!');
+        });
+        
+        // Initialize code update detection on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            startCodeUpdateDetection();
+            
+            // Provide manual controls in console
+            console.log('🔧 Code Update Controls Available:');
+            console.log('- startCodeUpdates("Custom message") - Set status to updating');
+            console.log('- finishCodeUpdates("Custom message") - Set status to ready');
+            console.log('- Or add comment "// STATUS: READY" to signal completion');
+        });
+        
+        // Listen for modal events for debugging and status updates
+        document.addEventListener('wbModalShow', function(event) {
+            console.log('Modal showing:', event.detail);
+            // Don't override status here - let the individual functions handle it
+        });
+        
+        document.addEventListener('wbModalHide', function(event) {
+            console.log('Modal hiding:', event.detail);
+            setUpdatingStatus('Modal closing...');
+            // Set ready after modal finishes closing, but with lower priority
+            setTimeout(() => {
+                // Only set to ready if not already in a specific state
+                const currentStatus = document.getElementById('status').textContent;
+                if (currentStatus.includes('closing') || currentStatus.includes('Modal action')) {
+                    setReadyStatus('Ready for next action');
+                }
+            }, 350); // Wait for modal close animation
+        });
+        
+        // STATUS: READY - Fixed alert/confirm/prompt dialogs to use proper positioning and status light
+    </script>
+</body>
+</html>

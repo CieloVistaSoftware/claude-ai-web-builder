@@ -1,0 +1,190 @@
+{
+  "meta": {
+    "title": "CieloVistaSoftware AI",
+    "description": "Create professional websites with advanced layouts, themes, and animations",
+    "keywords": "website, template, professional, glassmorphism, animation"
+  },
+  "siteHeader": {
+    "title": "Your Amazing Website",
+    "subtitle": "Build something beautiful today"
+  },
+  "hero": {
+    "title": "Welcome to the Future",
+    "description": "Create stunning websites with our powerful template generator. No coding required.",
+    "buttonText": "Get Started"
+  },
+  "navigation": [
+    {
+      "text": "Home",
+      "href": "#home"
+    },
+    {
+      "text": "About",
+      "href": "#about"
+    },
+    {
+      "text": "Services",
+      "href": "#services"
+    },
+    {
+      "text": "Portfolio",
+      "href": "#portfolio"
+    },
+    {
+      "text": "Contact",
+      "href": "#contact"
+    }
+  ],
+  "sections": {
+    "features": {
+      "title": "Features",
+      "items": [
+        {
+          "icon": "🚀",
+          "title": "Lightning Fast",
+          "description": "Built for speed and performance. Your website will load instantly."
+        },
+        {
+          "icon": "🎨",
+          "title": "Beautiful Design",
+          "description": "Choose from multiple themes and customize every aspect of your site."
+        },
+        {
+          "icon": "📱",
+          "title": "Fully Responsive",
+          "description": "Looks perfect on all devices, from mobile phones to desktop computers."
+        }
+      ]
+    },
+    "home": {
+      "title": "Welcome to Our Clinic",
+      "content": "Welcome to our clinic. We are so glad you are here and hope to be able to help you. Our board certified personnel are super helpful and friendly.<br /><br />Call us at <a href=\"tel:8008888888\">800-888-8888</a> for an appointment or <a href=\"tel:1234567\">call 123-4567</a> for more information.",
+      "cards": [
+        {
+          "title": "Our Mission",
+          "description": "To provide <strong>exceptional healthcare</strong> with compassion and expertise."
+        },
+        {
+          "title": "Why Choose Us",
+          "description": "<em>Board-certified professionals</em> dedicated to your health and wellbeing."
+        }
+      ]
+    },
+    "about": {
+      "title": "About Us",
+      "content": "Tell your story here. Share the history of your company, your team's expertise, and what makes you passionate about what you do. This is where you build trust and connection with your audience.",
+      "cards": [
+        {
+          "icon": "👥",
+          "title": "Our Team",
+          "description": "Meet the talented individuals who make everything possible."
+        },
+        {
+          "icon": "🎯",
+          "title": "Our Vision",
+          "description": "Where we're headed and the impact we want to make."
+        },
+        {
+          "icon": "⭐",
+          "title": "Our Values",
+          "description": "The principles that guide our decisions and actions."
+        }
+      ]
+    },
+    "services": {
+      "title": "Our Services",
+      "content": "Discover the range of services we offer to help you achieve your goals. Each service is designed with your success in mind.",
+      "cards": [
+        {
+          "icon": "💼",
+          "title": "Service One",
+          "description": "Description of your first service. Explain the benefits and value it provides."
+        },
+        {
+          "icon": "🔧",
+          "title": "Service Two",
+          "description": "Description of your second service. Detail how it solves customer problems."
+        },
+        {
+          "icon": "📊",
+          "title": "Service Three",
+          "description": "Description of your third service. Highlight what makes it special."
+        },
+        {
+          "icon": "🚀",
+          "title": "Premium Service",
+          "description": "Your premium or flagship service offering with enhanced features."
+        }
+      ]
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "content": "Explore our work and see the results we've achieved for our clients. These projects showcase our capabilities and commitment to excellence.",
+      "cards": [
+        {
+          "icon": "🎨",
+          "title": "Project Alpha",
+          "description": "Brief description of this project, the challenge, and the solution provided."
+        },
+        {
+          "icon": "💻",
+          "title": "Project Beta",
+          "description": "Another successful project showcasing different skills and outcomes."
+        },
+        {
+          "icon": "📱",
+          "title": "Project Gamma",
+          "description": "A third project example demonstrating versatility and expertise."
+        },
+        {
+          "icon": "🏆",
+          "title": "Award-Winning Project",
+          "description": "A standout project that received recognition or achieved exceptional results."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contact Us",
+      "content": "Ready to get started? We'd love to hear from you. Reach out through any of the methods below and let's discuss how we can help you achieve your goals.",
+      "cards": [
+        {
+          "icon": "📧",
+          "title": "Email Us",
+          "description": "hello@yourcompany.com<br />support@yourcompany.com"
+        },
+        {
+          "icon": "📞",
+          "title": "Call Us",
+          "description": "+1 (555) 123-4567<br />Monday - Friday, 9AM - 6PM"
+        },
+        {
+          "icon": "📍",
+          "title": "Visit Us",
+          "description": "123 Business Street<br />City, State 12345"
+        },
+        {
+          "icon": "💬",
+          "title": "Live Chat",
+          "description": "Available on our website<br />Instant responses during business hours"
+        }
+      ]
+    }
+  },
+  "footer": {
+    "copyright": "&copy; 2024 Your Company. All rights reserved.",
+    "links": [
+      {
+        "text": "Privacy Policy",
+        "href": "#privacy"
+      },
+      {
+        "text": "Terms of Service",
+        "href": "#terms"
+      },
+      {
+        "text": "Contact",
+        "href": "#contact"
+      }
+    ]
+  }
+}
