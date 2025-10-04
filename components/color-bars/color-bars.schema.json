@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Color Bars Component Schema",
-  "description": "Schema for color-bars Web Component - comprehensive HSL color picker",
+  "title": "Color Bars Component Schema", 
+  "description": "Schema for wb-color-bars Web Component - dual HSL color picker for text color and background color control",
   "type": "object",
   "properties": {
     "version": {
@@ -11,12 +11,12 @@
   },
   "tags": [
     {
-      "name": "color-bars",
-      "description": "Web Component for comprehensive HSL color selection with hue, saturation, and lightness controls",
+      "name": "wb-color-bars",
+      "description": "Web Component with 6 color bars: 3 for text color (H,S,L) and 3 for background color (H,S,L) to control both color and background-color CSS properties",
       "attributes": [
         {
-          "name": "hue",
-          "description": "Initial hue value (0-360 degrees)",
+          "name": "text-hue", 
+          "description": "Initial hue value for text color (0-360 degrees)",
           "valueSet": "hue-values",
           "values": [
             {
@@ -46,8 +46,8 @@
           ]
         },
         {
-          "name": "saturation",
-          "description": "Initial saturation percentage (0-100%)",
+          "name": "text-saturation",
+          "description": "Initial saturation percentage for text color (0-100%)",
           "valueSet": "percentage",
           "values": [
             {
@@ -73,8 +73,93 @@
           ]
         },
         {
-          "name": "lightness",
-          "description": "Initial lightness percentage (0-100%)",
+          "name": "text-lightness", 
+          "description": "Initial lightness percentage for text color (0-100%)",
+          "valueSet": "percentage",
+          "values": [
+            {
+              "name": "0",
+              "description": "Black (0%)"
+            },
+            {
+              "name": "25",
+              "description": "Dark (25%)"
+            },
+            {
+              "name": "50",
+              "description": "Medium (50% - default)"
+            },
+            {
+              "name": "75",
+              "description": "Light (75%)"
+            },
+            {
+              "name": "100",
+              "description": "White (100%)"
+            }
+          ]
+        },
+        {
+          "name": "bg-hue",
+          "description": "Initial hue value for background color (0-360 degrees)",
+          "valueSet": "hue-values",
+          "values": [
+            {
+              "name": "0",
+              "description": "Red (0°)"
+            },
+            {
+              "name": "60", 
+              "description": "Yellow (60°)"
+            },
+            {
+              "name": "120",
+              "description": "Green (120°)"
+            },
+            {
+              "name": "180",
+              "description": "Cyan (180°)"
+            },
+            {
+              "name": "240",
+              "description": "Blue (240° - default)"
+            },
+            {
+              "name": "300",
+              "description": "Magenta (300°)"
+            }
+          ]
+        },
+        {
+          "name": "bg-saturation",
+          "description": "Initial saturation percentage for background color (0-100%)",
+          "valueSet": "percentage",
+          "values": [
+            {
+              "name": "0",
+              "description": "Grayscale (0%)"
+            },
+            {
+              "name": "25",
+              "description": "Low saturation (25%)"
+            },
+            {
+              "name": "50",
+              "description": "Medium saturation (50%)"
+            },
+            {
+              "name": "70",
+              "description": "High saturation (70% - default)"
+            },
+            {
+              "name": "100",
+              "description": "Full saturation (100%)"
+            }
+          ]
+        },
+        {
+          "name": "bg-lightness",
+          "description": "Initial lightness percentage for background color (0-100%)",
           "valueSet": "percentage",
           "values": [
             {

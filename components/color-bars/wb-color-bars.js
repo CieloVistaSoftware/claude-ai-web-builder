@@ -26,19 +26,21 @@ class ColorBars extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     
-    // Default values
-    this._hue = 240;
-    this._saturation = 70;
-    this._lightness = 50;
+    // Initialize text color HSL values
+    this._textHue = 240;
+    this._textSaturation = 70;
+    this._textLightness = 90;
     
-    // Bind methods
-    this.handleHueChange = this.handleHueChange.bind(this);
-    this.handleSaturationChange = this.handleSaturationChange.bind(this);
-    this.handleLightnessChange = this.handleLightnessChange.bind(this);
+    // Initialize background color HSL values
+    this._bgHue = 240;
+    this._bgSaturation = 40;
+    this._bgLightness = 20;
+    
+    this.render();
   }
   
   static get observedAttributes() {
-    return ['hue', 'saturation', 'lightness', 'disabled', 'theme', 'label'];
+    return ['text-hue', 'text-saturation', 'text-lightness', 'bg-hue', 'bg-saturation', 'bg-lightness', 'disabled', 'theme'];
   }
   
   connectedCallback() {
@@ -88,19 +90,34 @@ class ColorBars extends HTMLElement {
     if (oldValue === newValue) return;
     
     switch (name) {
-      case 'hue':
+      case 'text-hue':
         if (newValue !== null) {
-          this._hue = Math.max(0, Math.min(360, parseInt(newValue) || 240));
+          this._textHue = Math.max(0, Math.min(360, parseInt(newValue) || 240));
         }
         break;
-      case 'saturation':
+      case 'text-saturation':
         if (newValue !== null) {
-          this._saturation = Math.max(0, Math.min(100, parseInt(newValue) || 70));
+          this._textSaturation = Math.max(0, Math.min(100, parseInt(newValue) || 70));
         }
         break;
-      case 'lightness':
+      case 'text-lightness':
         if (newValue !== null) {
-          this._lightness = Math.max(0, Math.min(100, parseInt(newValue) || 50));
+          this._textLightness = Math.max(0, Math.min(100, parseInt(newValue) || 90));
+        }
+        break;
+      case 'bg-hue':
+        if (newValue !== null) {
+          this._bgHue = Math.max(0, Math.min(360, parseInt(newValue) || 240));
+        }
+        break;
+      case 'bg-saturation':
+        if (newValue !== null) {
+          this._bgSaturation = Math.max(0, Math.min(100, parseInt(newValue) || 40));
+        }
+        break;
+      case 'bg-lightness':
+        if (newValue !== null) {
+          this._bgLightness = Math.max(0, Math.min(100, parseInt(newValue) || 20));
         }
         break;
       case 'disabled':
@@ -157,7 +174,13 @@ class ColorBars extends HTMLElement {
           color: var(--text-primary);
         }
         
-        .color-preview {
+        .color-previews {
+          display: flex;
+          gap: 8px;
+        }
+        
+        .text-preview,
+        .bg-preview {
           width: var(--preview-size);
           height: var(--preview-size);
           border-radius: 8px;
@@ -168,8 +191,21 @@ class ColorBars extends HTMLElement {
           overflow: hidden;
         }
         
-        .color-preview:hover {
+        .text-preview:hover,
+        .bg-preview:hover {
           transform: scale(1.05);
+        }
+        
+        .color-group {
+          margin-bottom: 20px;
+        }
+        
+        .group-title {
+          color: var(--text-primary);
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 12px;
+          margin-top: 0;
         }
         
         .color-bars-section {
@@ -225,25 +261,45 @@ class ColorBars extends HTMLElement {
       
       <div class="color-bars-container">
         <div class="color-bars-header">
-          <span class="color-bars-label">\${this.getAttribute('label') || 'Color'}</span>
-          <div class="color-preview" title="Click to copy hex value"></div>
+          <span class="color-bars-label">Color Controls</span>
+          <div class="color-previews">
+            <div class="text-preview" title="Text Color Preview"></div>
+            <div class="bg-preview" title="Background Color Preview"></div>
+          </div>
         </div>
         
         <div class="color-bars-section">
-          <!-- Hue Bar -->
-          <color-bar id="hue-bar" type="hue" hue="\${this._hue}" saturation="\${this._saturation}" lightness="\${this._lightness}" theme="\${this.getAttribute('theme') || 'light'}">
-            <span slot="label">Hue</span>
-          </color-bar>
+          <!-- Text Color Controls -->
+          <div class="color-group">
+            <h3 class="group-title">Text Color</h3>
+            <wb-color-bar id="text-hue-bar" type="hue" hue="${this._textHue}" saturation="${this._textSaturation}" lightness="${this._textLightness}" theme="${this.getAttribute('theme') || 'light'}">
+              <span slot="label">Text Hue</span>
+            </wb-color-bar>
+            
+            <wb-color-bar id="text-saturation-bar" type="saturation" hue="${this._textHue}" saturation="${this._textSaturation}" lightness="${this._textLightness}" value="${this._textSaturation}" theme="${this.getAttribute('theme') || 'light'}">
+              <span slot="label">Text Saturation</span>
+            </wb-color-bar>
+            
+            <wb-color-bar id="text-lightness-bar" type="lightness" hue="${this._textHue}" saturation="${this._textSaturation}" lightness="${this._textLightness}" value="${this._textLightness}" theme="${this.getAttribute('theme') || 'light'}">
+              <span slot="label">Text Lightness</span>
+            </wb-color-bar>
+          </div>
           
-          <!-- Saturation Bar -->
-          <color-bar id="saturation-bar" type="saturation" hue="\${this._hue}" saturation="\${this._saturation}" lightness="\${this._lightness}" value="\${this._saturation}" theme="\${this.getAttribute('theme') || 'light'}">
-            <span slot="label">Saturation</span>
-          </color-bar>
-          
-          <!-- Lightness Bar -->
-          <color-bar id="lightness-bar" type="lightness" hue="\${this._hue}" saturation="\${this._saturation}" lightness="\${this._lightness}" value="\${this._lightness}" theme="\${this.getAttribute('theme') || 'light'}">
-            <span slot="label">Lightness</span>
-          </color-bar>
+          <!-- Background Color Controls -->
+          <div class="color-group">
+            <h3 class="group-title">Background Color</h3>
+            <wb-color-bar id="bg-hue-bar" type="hue" hue="${this._bgHue}" saturation="${this._bgSaturation}" lightness="${this._bgLightness}" theme="${this.getAttribute('theme') || 'light'}">
+              <span slot="label">Background Hue</span>
+            </wb-color-bar>
+            
+            <wb-color-bar id="bg-saturation-bar" type="saturation" hue="${this._bgHue}" saturation="${this._bgSaturation}" lightness="${this._bgLightness}" value="${this._bgSaturation}" theme="${this.getAttribute('theme') || 'light'}">
+              <span slot="label">Background Saturation</span>
+            </wb-color-bar>
+            
+            <wb-color-bar id="bg-lightness-bar" type="lightness" hue="${this._bgHue}" saturation="${this._bgSaturation}" lightness="${this._bgLightness}" value="${this._bgLightness}" theme="${this.getAttribute('theme') || 'light'}">
+              <span slot="label">Background Lightness</span>
+            </wb-color-bar>
+          </div>
         </div>
         
         <!-- Color Info -->
@@ -264,34 +320,57 @@ class ColorBars extends HTMLElement {
   setupEventListeners() {
     // Wait for color-bar components to be rendered
     setTimeout(() => {
-      const hueBar = this.shadowRoot.querySelector('#hue-bar');
-      const saturationBar = this.shadowRoot.querySelector('#saturation-bar');
-      const lightnessBar = this.shadowRoot.querySelector('#lightness-bar');
-      const preview = this.shadowRoot.querySelector('.color-preview');
-      const hexValue = this.shadowRoot.querySelector('.hex-value');
+      // Text color bars
+      const textHueBar = this.shadowRoot.querySelector('#text-hue-bar');
+      const textSaturationBar = this.shadowRoot.querySelector('#text-saturation-bar');
+      const textLightnessBar = this.shadowRoot.querySelector('#text-lightness-bar');
       
-      // Set up event listeners for all color-bar components
-      if (hueBar) {
-        hueBar.addEventListener('colorchange', this.handleHueChange);
-        hueBar.addEventListener('colorselect', this.handleHueChange);
+      // Background color bars
+      const bgHueBar = this.shadowRoot.querySelector('#bg-hue-bar');
+      const bgSaturationBar = this.shadowRoot.querySelector('#bg-saturation-bar');
+      const bgLightnessBar = this.shadowRoot.querySelector('#bg-lightness-bar');
+      
+      // Set up event listeners for text color bars
+      if (textHueBar) {
+        textHueBar.addEventListener('colorchange', (e) => this.handleTextHueChange(e));
+        textHueBar.addEventListener('colorselect', (e) => this.handleTextHueChange(e));
       }
       
-      if (saturationBar) {
-        saturationBar.addEventListener('colorchange', this.handleSaturationChange);
-        saturationBar.addEventListener('colorselect', this.handleSaturationChange);
+      if (textSaturationBar) {
+        textSaturationBar.addEventListener('colorchange', (e) => this.handleTextSaturationChange(e));
+        textSaturationBar.addEventListener('colorselect', (e) => this.handleTextSaturationChange(e));
       }
       
-      if (lightnessBar) {
-        lightnessBar.addEventListener('colorchange', this.handleLightnessChange);
-        lightnessBar.addEventListener('colorselect', this.handleLightnessChange);
+      if (textLightnessBar) {
+        textLightnessBar.addEventListener('colorchange', (e) => this.handleTextLightnessChange(e));
+        textLightnessBar.addEventListener('colorselect', (e) => this.handleTextLightnessChange(e));
+      }
+      
+      // Set up event listeners for background color bars
+      if (bgHueBar) {
+        bgHueBar.addEventListener('colorchange', (e) => this.handleBgHueChange(e));
+        bgHueBar.addEventListener('colorselect', (e) => this.handleBgHueChange(e));
+      }
+      
+      if (bgSaturationBar) {
+        bgSaturationBar.addEventListener('colorchange', (e) => this.handleBgSaturationChange(e));
+        bgSaturationBar.addEventListener('colorselect', (e) => this.handleBgSaturationChange(e));
+      }
+      
+      if (bgLightnessBar) {
+        bgLightnessBar.addEventListener('colorchange', (e) => this.handleBgLightnessChange(e));
+        bgLightnessBar.addEventListener('colorselect', (e) => this.handleBgLightnessChange(e));
       }
       
       // Copy to clipboard functionality
-      if (preview) {
-        preview.addEventListener('click', () => this.copyToClipboard());
+      const textPreview = this.shadowRoot.querySelector('.text-preview');
+      const bgPreview = this.shadowRoot.querySelector('.bg-preview');
+      
+      if (textPreview) {
+        textPreview.addEventListener('click', () => this.copyTextColorToClipboard());
       }
-      if (hexValue) {
-        hexValue.addEventListener('click', () => this.copyToClipboard());
+      if (bgPreview) {
+        bgPreview.addEventListener('click', () => this.copyBgColorToClipboard());
       }
     }, 300);
   }
@@ -300,61 +379,111 @@ class ColorBars extends HTMLElement {
     // No global event listeners to remove
   }
   
-  handleHueChange(event) {
-    this._hue = event.detail.hue;
-    this.updateOtherBars();
+  // Text color event handlers
+  handleTextHueChange(event) {
+    this._textHue = event.detail.hue !== undefined ? event.detail.hue : event.detail.value;
+    this.updateTextColorBars();
     this.updateDisplay();
     this.dispatchColorChange();
   }
   
-  handleSaturationChange(event) {
-    this._saturation = event.detail.value;
-    this.updateOtherBars();
+  handleTextSaturationChange(event) {
+    this._textSaturation = event.detail.value !== undefined ? event.detail.value : event.detail.saturation;
+    this.updateTextColorBars();
     this.updateDisplay();
     this.dispatchColorChange();
   }
   
-  handleLightnessChange(event) {
-    this._lightness = event.detail.value;
-    this.updateOtherBars();
+  handleTextLightnessChange(event) {
+    this._textLightness = event.detail.value !== undefined ? event.detail.value : event.detail.lightness;
+    this.updateTextColorBars();
     this.updateDisplay();
     this.dispatchColorChange();
   }
   
-  updateOtherBars() {
-    const hueBar = this.shadowRoot.querySelector('#hue-bar');
-    const saturationBar = this.shadowRoot.querySelector('#saturation-bar');
-    const lightnessBar = this.shadowRoot.querySelector('#lightness-bar');
+  // Background color event handlers
+  handleBgHueChange(event) {
+    this._bgHue = event.detail.hue !== undefined ? event.detail.hue : event.detail.value;
+    this.updateBgColorBars();
+    this.updateDisplay();
+    this.dispatchColorChange();
+  }
+  
+  handleBgSaturationChange(event) {
+    this._bgSaturation = event.detail.value !== undefined ? event.detail.value : event.detail.saturation;
+    this.updateBgColorBars();
+    this.updateDisplay();
+    this.dispatchColorChange();
+  }
+  
+  handleBgLightnessChange(event) {
+    this._bgLightness = event.detail.value !== undefined ? event.detail.value : event.detail.lightness;
+    this.updateBgColorBars();
+    this.updateDisplay();
+    this.dispatchColorChange();
+  }
+  
+  updateTextColorBars() {
+    const textHueBar = this.shadowRoot.querySelector('#text-hue-bar');
+    const textSaturationBar = this.shadowRoot.querySelector('#text-saturation-bar');
+    const textLightnessBar = this.shadowRoot.querySelector('#text-lightness-bar');
     
-    // Update context for all bars so gradients reflect current color
-    if (hueBar) {
-      hueBar.updateContext(this._hue, this._saturation, this._lightness);
+    // Update context for text color bars so gradients reflect current color
+    if (textHueBar && textHueBar.updateContext) {
+      textHueBar.updateContext(this._textHue, this._textSaturation, this._textLightness);
     }
-    if (saturationBar) {
-      saturationBar.updateContext(this._hue, this._saturation, this._lightness);
-      saturationBar.value = this._saturation;
+    if (textSaturationBar && textSaturationBar.updateContext) {
+      textSaturationBar.updateContext(this._textHue, this._textSaturation, this._textLightness);
+      textSaturationBar.value = this._textSaturation;
     }
-    if (lightnessBar) {
-      lightnessBar.updateContext(this._hue, this._saturation, this._lightness);
-      lightnessBar.value = this._lightness;
+    if (textLightnessBar && textLightnessBar.updateContext) {
+      textLightnessBar.updateContext(this._textHue, this._textSaturation, this._textLightness);
+      textLightnessBar.value = this._textLightness;
+    }
+  }
+  
+  updateBgColorBars() {
+    const bgHueBar = this.shadowRoot.querySelector('#bg-hue-bar');
+    const bgSaturationBar = this.shadowRoot.querySelector('#bg-saturation-bar');
+    const bgLightnessBar = this.shadowRoot.querySelector('#bg-lightness-bar');
+    
+    // Update context for background color bars so gradients reflect current color
+    if (bgHueBar && bgHueBar.updateContext) {
+      bgHueBar.updateContext(this._bgHue, this._bgSaturation, this._bgLightness);
+    }
+    if (bgSaturationBar && bgSaturationBar.updateContext) {
+      bgSaturationBar.updateContext(this._bgHue, this._bgSaturation, this._bgLightness);
+      bgSaturationBar.value = this._bgSaturation;
+    }
+    if (bgLightnessBar && bgLightnessBar.updateContext) {
+      bgLightnessBar.updateContext(this._bgHue, this._bgSaturation, this._bgLightness);
+      bgLightnessBar.value = this._bgLightness;
     }
   }
   
   updateColorBars() {
-    this.updateOtherBars();
+    this.updateTextColorBars();
+    this.updateBgColorBars();
     this.updateDisplay();
   }
   
   updateDisplay() {
-    this.updatePreview();
+    this.updatePreviews();
     this.updateValues();
   }
   
-  updatePreview() {
-    const preview = this.shadowRoot.querySelector('.color-preview');
-    if (preview) {
-      const color = `hsl(${this._hue}, ${this._saturation}%, ${this._lightness}%)`;
-      preview.style.backgroundColor = color;
+  updatePreviews() {
+    const textPreview = this.shadowRoot.querySelector('.text-preview');
+    const bgPreview = this.shadowRoot.querySelector('.bg-preview');
+    
+    if (textPreview) {
+      const textColor = `hsl(${this._textHue}, ${this._textSaturation}%, ${this._textLightness}%)`;
+      textPreview.style.backgroundColor = textColor;
+    }
+    
+    if (bgPreview) {
+      const bgColor = `hsl(${this._bgHue}, ${this._bgSaturation}%, ${this._bgLightness}%)`;
+      bgPreview.style.backgroundColor = bgColor;
     }
   }
   
@@ -371,14 +500,27 @@ class ColorBars extends HTMLElement {
     if (hexValue) hexValue.textContent = hex;
   }
   
-  copyToClipboard() {
-    const hex = this.color.hex;
+  copyTextColorToClipboard() {
+    const textRgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
+    const hex = this.rgbToHex(textRgb.r, textRgb.g, textRgb.b);
     navigator.clipboard.writeText(hex).then(() => {
       this.dispatchEvent(new CustomEvent('colorcopied', {
-        detail: { hex }
+        detail: { type: 'text', hex }
       }));
     }).catch(err => {
-      console.warn('Failed to copy to clipboard:', err);
+      console.warn('Failed to copy text color to clipboard:', err);
+    });
+  }
+  
+  copyBgColorToClipboard() {
+    const bgRgb = this.hslToRgb(this._bgHue, this._bgSaturation, this._bgLightness);
+    const hex = this.rgbToHex(bgRgb.r, bgRgb.g, bgRgb.b);
+    navigator.clipboard.writeText(hex).then(() => {
+      this.dispatchEvent(new CustomEvent('colorcopied', {
+        detail: { type: 'background', hex }
+      }));
+    }).catch(err => {
+      console.warn('Failed to copy background color to clipboard:', err);
     });
   }
   
@@ -406,7 +548,28 @@ class ColorBars extends HTMLElement {
   }
   
   dispatchColorChange() {
-    const colorData = this.color;
+    const textRgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
+    const bgRgb = this.hslToRgb(this._bgHue, this._bgSaturation, this._bgLightness);
+    
+    const colorData = {
+      text: {
+        hue: this._textHue,
+        saturation: this._textSaturation,
+        lightness: this._textLightness,
+        hsl: `hsl(${this._textHue}, ${this._textSaturation}%, ${this._textLightness}%)`,
+        hex: this.rgbToHex(textRgb.r, textRgb.g, textRgb.b),
+        rgb: textRgb
+      },
+      background: {
+        hue: this._bgHue,
+        saturation: this._bgSaturation,
+        lightness: this._bgLightness,
+        hsl: `hsl(${this._bgHue}, ${this._bgSaturation}%, ${this._bgLightness}%)`,
+        hex: this.rgbToHex(bgRgb.r, bgRgb.g, bgRgb.b),
+        rgb: bgRgb
+      }
+    };
+    
     this.dispatchEvent(new CustomEvent('colorchange', {
       detail: colorData,
       bubbles: true

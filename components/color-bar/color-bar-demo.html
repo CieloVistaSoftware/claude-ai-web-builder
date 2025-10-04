@@ -192,7 +192,6 @@
                 <wb-color-bar id="hue-color-bar" type="hue" hue="240" saturation="70" lightness="50" theme="dark">
                     <span slot="label">Hue Spectrum</span>
                 </wb-color-bar>
-                <div class="output" id="hue-output">Waiting for color selection...</div>
             </div>
             
             <!-- Saturation Grayscale Bar -->
@@ -202,7 +201,6 @@
                                 <wb-color-bar id="saturation-bar" type="saturation" hue="240" saturation="70" lightness="50" value="70" theme="dark">
                     <!-- Fallback content -->
                 </wb-color-bar>
-                <div class="output" id="saturation-output">Waiting for color selection...</div>
             </div>
             
             <!-- Lightness Grayscale Bar -->
@@ -212,19 +210,53 @@
                 <wb-color-bar id="lightness-bar" type="lightness" hue="240" saturation="70" lightness="50" value="50" theme="dark">
                     <span slot="label">Lightness</span>
                 </wb-color-bar>
-                <div class="output" id="lightness-output">Waiting for color selection...</div>
             </div>
             
-            <!-- Event Handling -->
+            <!-- Global Page Event Log -->
             <div class="demo-section">
-                <h3>Event Handling</h3>
-                <p>This hue bar logs all events:</p>
-                <wb-color-bar id="event-color-bar" type="hue" hue="30" saturation="85" lightness="55" theme="dark">
-                    <span slot="label">Event Demo - Orange Start</span>
-                </wb-color-bar>
+                <h3>Global Page Event Log</h3>
+                <p>All events from all color bars on this page are logged below:</p>
                 
-                <h4>Event Log</h4>
-                <div class="output" id="event-log-output">Events will appear here...</div>
+                <h4>Page-Wide Event Log</h4>
+                <div class="output" id="global-event-log">All page events will appear here...</div>
+                <button onclick="clearEventLog()" style="margin-top: 10px; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">Clear Log</button>
+            </div>
+            
+            <!-- Code Examples -->
+            <div class="demo-section">
+                <h3>💻 Code Examples</h3>
+                <p>Here's the HTML code used to create the color bars on this page:</p>
+                
+                <h4>Basic Hue Color Bar</h4>
+                <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">&lt;wb-color-bar id="hue-color-bar" type="hue" hue="240" saturation="70" lightness="50" theme="dark"&gt;
+    &lt;span slot="label"&gt;Hue Spectrum&lt;/span&gt;
+&lt;/wb-color-bar&gt;</pre>
+                
+                <h4>Saturation Color Bar</h4>
+                <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">&lt;wb-color-bar id="saturation-bar" type="saturation" hue="240" saturation="70" lightness="50" value="70" theme="dark"&gt;
+    &lt;!-- Fallback content --&gt;
+&lt;/wb-color-bar&gt;</pre>
+                
+                <h4>Lightness Color Bar</h4>
+                <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">&lt;wb-color-bar id="lightness-bar" type="lightness" hue="240" saturation="70" lightness="50" value="50" theme="dark"&gt;
+    &lt;span slot="label"&gt;Lightness&lt;/span&gt;
+&lt;/wb-color-bar&gt;</pre>
+                
+                <h4>Event Listeners (JavaScript)</h4>
+                <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">// Listen for color changes
+document.getElementById('hue-color-bar').addEventListener('colorchange', (e) => {
+    console.log('Color changed:', e.detail.hex);
+    console.log('HSL values:', e.detail.hue, e.detail.saturation, e.detail.lightness);
+});
+
+// Listen for color selection complete
+document.getElementById('hue-color-bar').addEventListener('colorselect', (e) => {
+    console.log('Color selected:', e.detail.hex);
+});</pre>
+                
+                <h4>Component Import</h4>
+                <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">&lt;!-- Load the color bar component --&gt;
+&lt;script src="wb-color-bar.js"&gt;&lt;/script&gt;</pre>
             </div>
         </div>
         
@@ -270,44 +302,67 @@
     <script>
         let currentTheme = 'dark';
         
-        // Hue color bar event handling
-        document.getElementById('hue-color-bar').addEventListener('colorchange', (e) => {
-            document.getElementById('hue-output').textContent = 
-                `Hue: ${e.detail.hue.toFixed(1)}°\nColor: ${e.detail.hex}\nHSL: ${e.detail.hsl}\nRGB: rgb(${e.detail.rgb.r}, ${e.detail.rgb.g}, ${e.detail.rgb.b})`;
+        // Global page event logging - captures ALL events from ALL color bars
+        function logEvent(eventType, event, elementId) {
+            const logDiv = document.getElementById('global-event-log');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            let logEntry = `${timestamp} [${elementId}] ${eventType}: `;
+            
+            if (event.detail) {
+                if (event.detail.hex) {
+                    logEntry += `Color: ${event.detail.hex}`;
+                }
+                if (event.detail.hue !== undefined) {
+                    logEntry += ` (H:${Math.round(event.detail.hue)}°`;
+                }
+                if (event.detail.saturation !== undefined) {
+                    logEntry += ` S:${Math.round(event.detail.saturation)}%`;
+                }
+                if (event.detail.lightness !== undefined) {
+                    logEntry += ` L:${Math.round(event.detail.lightness)}%)`;
+                }
+                if (event.detail.value !== undefined) {
+                    logEntry += ` Value:${event.detail.value}%`;
+                }
+            }
+            
+            const isSelect = eventType === 'colorselect';
+            const logHtml = isSelect ? `<strong>${logEntry}</strong>` : logEntry;
+            
+            logDiv.innerHTML = logHtml + '<br>' + logDiv.innerHTML;
+            
+            // Keep only last 50 entries to prevent memory issues
+            const lines = logDiv.innerHTML.split('<br>');
+            if (lines.length > 50) {
+                logDiv.innerHTML = lines.slice(0, 50).join('<br>');
+            }
+        }
+        
+        // Function to clear the event log
+        function clearEventLog() {
+            document.getElementById('global-event-log').innerHTML = 'Event log cleared...';
+        }
+        
+        // Add global event listeners to all color bars on the page
+        function setupGlobalEventLogging() {
+            document.querySelectorAll('wb-color-bar').forEach(colorBar => {
+                const elementId = colorBar.id || 'unnamed-color-bar';
                 
-            // Update the saturation and lightness bars to use the new hue
-            const satBar = document.getElementById('saturation-bar');
-            const lightBar = document.getElementById('lightness-bar');
-            if (satBar) satBar.updateContext(e.detail.hue, undefined, undefined);
-            if (lightBar) lightBar.updateContext(e.detail.hue, undefined, undefined);
-        });
-        
-        // Saturation bar event handling
-        document.getElementById('saturation-bar').addEventListener('colorchange', (e) => {
-            document.getElementById('saturation-output').textContent = 
-                `Saturation: ${e.detail.value}%\nColor: ${e.detail.hex}\nHSL: ${e.detail.hsl}`;
-        });
-        
-        // Lightness bar event handling
-        document.getElementById('lightness-bar').addEventListener('colorchange', (e) => {
-            document.getElementById('lightness-output').textContent = 
-                `Lightness: ${e.detail.value}%\nColor: ${e.detail.hex}\nHSL: ${e.detail.hsl}`;
-        });
-        
-        // Event logging to div
-        document.getElementById('event-color-bar').addEventListener('colorchange', (e) => {
-            const logDiv = document.getElementById('event-log-output');
-            const timestamp = new Date().toLocaleTimeString();
-            const logEntry = `${timestamp}: Color changed to ${e.detail.hex} (${Math.round(e.detail.hue)}°, ${Math.round(e.detail.saturation)}%, ${Math.round(e.detail.lightness)}%)`;
-            logDiv.innerHTML = logEntry + '<br>' + logDiv.innerHTML;
-        });
-        
-        document.getElementById('event-color-bar').addEventListener('colorselect', (e) => {
-            const logDiv = document.getElementById('event-log-output');
-            const timestamp = new Date().toLocaleTimeString();
-            const logEntry = `${timestamp}: Color selected - ${e.detail.hex}`;
-            logDiv.innerHTML = '<strong>' + logEntry + '</strong><br>' + logDiv.innerHTML;
-        });
+                colorBar.addEventListener('colorchange', (e) => {
+                    logEvent('colorchange', e, elementId);
+                });
+                
+                colorBar.addEventListener('colorselect', (e) => {
+                    logEvent('colorselect', e, elementId);
+                });
+                
+                // Also log any other custom events
+                colorBar.addEventListener('wb:info', (e) => {
+                    logEvent('wb:info', e, elementId);
+                });
+            });
+        }
         
         // Tab switching
         function showTab(tabName) {
@@ -356,6 +411,12 @@
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            // Setup global event logging for all color bars
+            setupGlobalEventLogging();
+            
+            // Log initialization
+            document.getElementById('global-event-log').innerHTML = 'Demo initialized - all color bar events will be logged here...';
+            
             document.dispatchEvent(new CustomEvent('wb:info', {
                 detail: { 
                     message: 'Color Bar Demo: Components loaded and ready',

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en" data-theme="dark" data-layout="top-nav">
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,15 @@
     <meta name="description" content="Create professional websites with advanced layouts, themes, and animations">
     <meta name="keywords" content="website, template, professional, glassmorphism, animation">
     
+    <!-- CSS Imports - Following LayoutSystem standards -->
+    <!-- Main CSS (contains variables, base, and utilities in correct order) -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Layout System CSS (SECOND) -->
+    <link rel="stylesheet" href="wb-core/layouts/layouts.css">
+    <!-- Component-specific CSS (LAST) -->
+    <link rel="stylesheet" href="components/wb-website-builder/styles/wb-website-builder.css">
+    <link rel="stylesheet" href="components/wb-control-panel/control-panel.css">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzY2NjZmMSIvPgo8cGF0aCBkPSJNMTIgOGg4djJoLTh6IiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNOCAxMmgxNnYySDh6IiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTAgMTZoMTJ2MkgxMHoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMiAyMGg4djJoLTh6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K">
 </head>
@@ -17,6 +26,6 @@
     <wb-website-builder></wb-website-builder>
 
     <!-- Load the website builder component -->
-    <script src="components/wb-website-builder/wb-website-builder.js"></script>
+    <script src="components/wb-website-builder/dist/wb-website-builder.js"></script>
 </body>
 </html>

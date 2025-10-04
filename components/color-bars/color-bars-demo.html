@@ -4,175 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Bars Component Demo</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: #f8f9fa;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #2d3748;
-            margin-bottom: 2rem;
-        }
-        
-        .demo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .demo-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
-        }
-        
-        .demo-card h3 {
-            margin-top: 0;
-            color: #4a5568;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 0.5rem;
-        }
-        
-        .color-output {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: #f7fafc;
-            border-radius: 8px;
-            border-left: 4px solid #4299e1;
-        }
-        
-        .color-output h4 {
-            margin: 0 0 0.5rem 0;
-            color: #2d3748;
-        }
-        
-        .color-values {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .color-preview-box {
-            width: 100%;
-            height: 60px;
-            border-radius: 8px;
-            margin: 1rem 0;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s ease;
-        }
-        
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: #4299e1;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .theme-toggle:hover {
-            background: #3182ce;
-        }
-        
-        /* Dark theme */
-        body.dark {
-            background: #1a202c;
-            color: #e2e8f0;
-        }
-        
-        body.dark .demo-card {
-            background: #2d3748;
-            border-color: #4a5568;
-        }
-        
-        body.dark .color-output {
-            background: #4a5568;
-            border-left-color: #63b3ed;
-        }
-        
-        body.dark h1,
-        body.dark .demo-card h3,
-        body.dark .color-output h4 {
-            color: #e2e8f0;
-        }
-        
-        body.dark .demo-card h3 {
-            border-bottom-color: #4a5568;
-        }
-        
-        .api-section {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        body.dark .api-section {
-            background: #2d3748;
-            color: #e2e8f0;
-        }
-        
-        .api-section h2 {
-            color: #2d3748;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 0.5rem;
-        }
-        
-        body.dark .api-section h2 {
-            color: #e2e8f0;
-            border-bottom-color: #4a5568;
-        }
-        
-        pre {
-            background: #f7fafc;
-            padding: 1rem;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-        
-        body.dark pre {
-            background: #4a5568;
-        }
-        
-        .feature-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .feature-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        body.dark .feature-list li {
-            border-bottom-color: #4a5568;
-        }
-        
-        .feature-list li:before {
-            content: "✓";
-            color: #48bb78;
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-    </style>
+    
+    <!-- LayoutSystem CSS Imports -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="../../wb-core/layouts/layouts.css">
+    <link rel="stylesheet" href="color-bars-demo.css">
 </head>
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
@@ -181,14 +17,15 @@
         <h1>🎨 Color Bars Component Demo</h1>
         
         <div class="demo-grid">
-            <!-- Basic Usage -->
-            <div class="demo-card">
-                <h3>Basic Usage</h3>
-                <color-bars id="basic-color" label="Basic Color Picker" theme="dark"></color-bars>
+            <!-- Main Color Picker Demo -->
+            <div class="demo-card full-width">
+                <h3>Interactive HSL Color Picker</h3>
+                <p>This wb-color-bars component contains three individual color bars for hue, saturation, and lightness control:</p>
+                <wb-color-bars id="main-color" label="Color Picker" hue="240" saturation="70" lightness="50" theme="dark"></wb-color-bars>
                 <div class="color-output">
                     <h4>Selected Color:</h4>
-                    <div class="color-preview-box" id="basic-preview"></div>
-                    <div class="color-values" id="basic-values">
+                    <div class="color-preview-box" id="main-preview"></div>
+                    <div class="color-values" id="main-values">
                         HSL: hsl(240, 70%, 50%)<br>
                         HEX: #6366f1<br>
                         RGB: rgb(99, 102, 241)
@@ -196,55 +33,41 @@
                 </div>
             </div>
             
-            <!-- Custom Initial Values -->
+            <!-- Theme Selector Demo -->
             <div class="demo-card">
-                <h3>Custom Initial Values</h3>
-                <color-bars id="custom-color" label="Custom Color" hue="120" saturation="80" lightness="60" theme="dark"></color-bars>
-                <div class="color-output">
-                    <h4>Selected Color:</h4>
-                    <div class="color-preview-box" id="custom-preview"></div>
-                    <div class="color-values" id="custom-values">
-                        HSL: hsl(120, 80%, 60%)<br>
-                        HEX: #66e066<br>
-                        RGB: rgb(102, 224, 102)
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Primary Theme Color -->
-            <div class="demo-card">
-                <h3>Primary Theme Color</h3>
-                <color-bars id="primary-color" label="Primary Color" hue="210" saturation="75" lightness="55" theme="dark"></color-bars>
+                <h3>Theme Preset Colors</h3>
+                <p>Select from predefined color themes:</p>
+                <select id="theme-selector" class="theme-select">
+                    <option value="custom" selected>Custom Theme</option>
+                    <option value="material">Material Design</option>
+                    <option value="ocean">Ocean Blue</option>
+                    <option value="forest">Forest Green</option>
+                    <option value="sunset">Sunset Orange</option>
+                    <option value="purple">Purple Theme</option>
+                </select>
+                <wb-color-bars id="theme-color" label="Theme Color" hue="240" saturation="70" lightness="50" theme="dark"></wb-color-bars>
                 <div class="color-output">
                     <h4>Theme Preview:</h4>
-                    <select id="theme-selector" style="margin-bottom: 1rem; padding: 0.5rem; border-radius: 4px; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);">
-                        <option value="material">Material Design</option>
-                        <option value="ocean">Ocean Blue</option>
-                        <option value="forest">Forest Green</option>
-                        <option value="sunset">Sunset Orange</option>
-                        <option value="purple">Purple Theme</option>
-                        <option value="custom" selected>Custom Theme</option>
-                    </select>
-                    <div class="color-preview-box" id="primary-preview"></div>
-                    <div class="color-values" id="primary-values">
-                        HSL: hsl(210, 75%, 55%)<br>
-                        HEX: #4a90e2<br>
-                        RGB: rgb(74, 144, 226)
+                    <div class="color-preview-box" id="theme-preview"></div>
+                    <div class="color-values" id="theme-values">
+                        HSL: hsl(240, 70%, 50%)<br>
+                        HEX: #6366f1<br>
+                        RGB: rgb(99, 102, 241)
                     </div>
                 </div>
             </div>
             
-            <!-- Accent Color (Auto-generated) -->
+            <!-- Complementary Color Demo -->
             <div class="demo-card">
-                <h3>Accent Color (Auto-generated)</h3>
-                <p>Accent color is automatically calculated as a complementary color to the primary theme color:</p>
+                <h3>Complementary Accent Color</h3>
+                <p>Automatically calculated complementary color:</p>
                 <div class="color-output">
-                    <h4>Accent Preview:</h4>
+                    <h4>Accent Color:</h4>
                     <div class="color-preview-box" id="accent-preview"></div>
                     <div class="color-values" id="accent-values">
-                        HSL: hsl(30, 75%, 55%)<br>
-                        HEX: #e2904a<br>
-                        RGB: rgb(226, 144, 74)
+                        HSL: hsl(60, 70%, 50%)<br>
+                        HEX: #e6e633<br>
+                        RGB: rgb(230, 230, 51)
                     </div>
                 </div>
             </div>
@@ -272,7 +95,7 @@
             </ul>
             
             <h3>Usage Example</h3>
-            <pre><code>&lt;color-bars id="my-color" hue="240" saturation="70" lightness="50"&gt;&lt;/color-bars&gt;
+            <pre><code>&lt;wb-color-bars id="my-color" hue="240" saturation="70" lightness="50"&gt;&lt;/wb-color-bars&gt;
 
 &lt;script&gt;
 const colorPicker = document.getElementById('my-color');
@@ -305,19 +128,10 @@ console.log('Current color:', colorPicker.color);
         </div>
     </div>
     
-    <script src="../color-bar/color-bar.js"></script>
-    <script src="color-bars.js"></script>
-    <script>
-        // Predefined themes
-        const themes = {
-            material: { hue: 240, saturation: 70, lightness: 50 }, // Material Blue
-            ocean: { hue: 200, saturation: 80, lightness: 45 },     // Ocean Blue
-            forest: { hue: 120, saturation: 60, lightness: 40 },    // Forest Green
-            sunset: { hue: 25, saturation: 85, lightness: 55 },     // Sunset Orange
-            purple: { hue: 280, saturation: 75, lightness: 50 }     // Purple
-        };
-        
-        // Initialize all color pickers
+    <script src="../../utils/wb/wb-component-utils.js"></script>
+    <script src="../color-bar/wb-color-bar.js"></script>
+    <script src="wb-color-bars.js"></script>
+    <script src="color-bars-demo.js"></script>        // Initialize all color pickers
         const colorPickers = [
             { id: 'basic-color', previewId: 'basic-preview', valuesId: 'basic-values' },
             { id: 'custom-color', previewId: 'custom-preview', valuesId: 'custom-values' },
@@ -461,14 +275,14 @@ console.log('Current color:', colorPicker.color);
             
             if (isDark) {
                 body.classList.remove('dark');
-                // Update all color-bars to light theme
-                document.querySelectorAll('color-bars').forEach(picker => {
+                // Update all wb-color-bars to light theme
+                document.querySelectorAll('wb-color-bars').forEach(picker => {
                     picker.setAttribute('theme', 'light');
                 });
             } else {
                 body.classList.add('dark');
-                // Update all color-bars to dark theme
-                document.querySelectorAll('color-bars').forEach(picker => {
+                // Update all wb-color-bars to dark theme
+                document.querySelectorAll('wb-color-bars').forEach(picker => {
                     picker.setAttribute('theme', 'dark');
                 });
             }
@@ -478,11 +292,66 @@ console.log('Current color:', colorPicker.color);
         console.log('🎨 Color Bars Demo loaded');
         console.log('Try changing colors and check the console for events!');
         
-        // Initialize to dark mode by default
-        document.body.classList.add('dark');
-        document.querySelectorAll('color-bars').forEach(picker => {
-            picker.setAttribute('theme', 'dark');
-        });
+        // Debug: Check if wb-color-bars components are properly defined
+        setTimeout(() => {
+            const colorBarsElements = document.querySelectorAll('wb-color-bars');
+            console.log(`Found ${colorBarsElements.length} wb-color-bars elements`);
+            
+            colorBarsElements.forEach((element, index) => {
+                console.log(`wb-color-bars ${index + 1}:`, {
+                    tagName: element.tagName,
+                    attributes: Array.from(element.attributes).map(attr => `${attr.name}="${attr.value}"`),
+                    hasColorProperty: 'color' in element,
+                    hasSetColorMethod: 'setColor' in element,
+                    shadowRoot: element.shadowRoot ? 'exists' : 'missing'
+                });
+            });
+            
+            // Check if the individual wb-color-bar components are defined
+            console.log('Web component definitions:');
+            console.log('wb-color-bars defined:', customElements.get('wb-color-bars') ? 'YES' : 'NO');
+            console.log('wb-color-bar defined:', customElements.get('wb-color-bar') ? 'YES' : 'NO');
+        }, 2000);
+        
+        // Initialize theme and components after everything loads
+        function initializeDemo() {
+            console.log('Initializing demo...');
+            
+            // Set dark theme
+            document.body.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            
+            // Update theme toggle button
+            const themeButton = document.querySelector('.theme-toggle');
+            if (themeButton) {
+                themeButton.textContent = '☀️ Light Mode';
+            }
+            
+            // Initialize all wb-color-bars components
+            const colorBars = document.querySelectorAll('wb-color-bars');
+            console.log(`Found ${colorBars.length} wb-color-bars components`);
+            
+            colorBars.forEach((picker, index) => {
+                console.log(`Initializing wb-color-bars ${index + 1}...`);
+                picker.setAttribute('theme', 'dark');
+                
+                // Force re-render if component has this method
+                if (typeof picker.render === 'function') {
+                    picker.render();
+                }
+            });
+            
+            console.log('Demo initialization complete');
+        }
+        
+        // Initialize when DOM and components are ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(initializeDemo, 1000);
+            });
+        } else {
+            setTimeout(initializeDemo, 1000);
+        }
         
     </script>
 </body>

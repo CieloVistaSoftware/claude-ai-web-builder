@@ -112,9 +112,9 @@ class ColorBar extends HTMLElement {
           display: block;
           width: 100%;
           font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-          --color-bar-height: 0.9rem;
-          --pointer-size: 1.1rem;
-          --border-radius: 0.45rem;
+          --color-bar-height: 1.4rem;
+          --pointer-size: 1.3rem;
+          --border-radius: 0.7rem;
           --transition-speed: 0.2s;
         }
         
@@ -138,7 +138,7 @@ class ColorBar extends HTMLElement {
         .color-bar {
           position: relative;
           height: var(--color-bar-height);
-          border-radius: var(--border-radius);
+          border-radius: calc(var(--color-bar-height) / 2);
           cursor: pointer;
           overflow: hidden;
           box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -154,6 +154,7 @@ class ColorBar extends HTMLElement {
         .color-pointer {
           position: absolute;
           top: 50%;
+          left: var(--pointer-position, 50%);
           width: var(--pointer-size);
           height: var(--pointer-size);
           background: var(--bg-primary, white);
@@ -302,7 +303,7 @@ class ColorBar extends HTMLElement {
       
       <div class="color-bar-container">
         <div class="color-bar-label">
-          <slot name="label">Color Hue</slot>
+          <slot name="label">Saturation</slot>
         </div>
         <div class="color-bar" tabindex="0" role="slider" 
              aria-valuemin="0" aria-valuemax="360" aria-valuenow="240"
@@ -310,7 +311,7 @@ class ColorBar extends HTMLElement {
           <div class="color-pointer"></div>
         </div>
         <div class="color-info">
-          <span class="hue-value">Hue: <span class="hue-number">240°</span></span>
+          <span class="hue-value"><span class="value-label">Hue:</span> <span class="hue-number">240°</span></span>
           <span class="color-preview" title="Click to copy color">#6366f1</span>
         </div>
       </div>
@@ -445,38 +446,73 @@ class ColorBar extends HTMLElement {
   handleKeyboardNavigation(event) {
     const step = event.shiftKey ? 10 : 1;
     
-    // Remove debug logging - arrow keys are working!
-    
     switch(event.key) {
       case 'ArrowLeft':
       case 'ArrowDown':
         event.preventDefault();
-        const newHueLeft = Math.max(0, this._hue - step);
-        // Arrow key working - hue decreased
-        this._hue = newHueLeft;
-        this.updateColorFromHue();
+        this.adjustValue(-step);
         break;
       case 'ArrowRight':
       case 'ArrowUp':
         event.preventDefault();
-        const newHueRight = Math.min(360, this._hue + step);
-        // Arrow key working - hue increased
-        this._hue = newHueRight;
-        this.updateColorFromHue();
+        this.adjustValue(step);
         break;
       case 'Home':
         event.preventDefault();
-        // Home key - jump to start
-        this._hue = 0;
-        this.updateColorFromHue();
+        this.jumpToStart();
         break;
       case 'End':
         event.preventDefault();
-        // End key - jump to end
-        this._hue = 360;
-        this.updateColorFromHue();
+        this.jumpToEnd();
         break;
     }
+  }
+  
+  adjustValue(step) {
+    switch (this._type) {
+      case 'hue':
+        this._hue = Math.max(0, Math.min(360, this._hue + step));
+        break;
+      case 'saturation':
+        this._value = Math.max(0, Math.min(100, this._value + step));
+        break;
+      case 'lightness':
+        this._value = Math.max(0, Math.min(100, this._value + step));
+        break;
+    }
+    this.updateBarGradient();
+    this.updateDisplay();
+    this.fireColorChangeEvent();
+  }
+  
+  jumpToStart() {
+    switch (this._type) {
+      case 'hue':
+        this._hue = 0;
+        break;
+      case 'saturation':
+      case 'lightness':
+        this._value = 0;
+        break;
+    }
+    this.updateBarGradient();
+    this.updateDisplay();
+    this.fireColorChangeEvent();
+  }
+  
+  jumpToEnd() {
+    switch (this._type) {
+      case 'hue':
+        this._hue = 360;
+        break;
+      case 'saturation':
+      case 'lightness':
+        this._value = 100;
+        break;
+    }
+    this.updateBarGradient();
+    this.updateDisplay();
+    this.fireColorChangeEvent();
   }
   
   updateColorFromPercentage(percentage) {
@@ -552,7 +588,7 @@ class ColorBar extends HTMLElement {
         percentage = (this._hue / 360) * 100;
         currentValue = this._hue;
         displayText = `${Math.round(this._hue)}°`;
-        currentColor = window.WBComponentUtils.ColorUtils.hslToHex(this._hue, this._saturation, this._lightness);
+        currentColor = this.hslToHex(this._hue, this._saturation, this._lightness);
         colorBar.setAttribute('aria-valuenow', Math.round(this._hue).toString());
         colorBar.setAttribute('aria-valuemin', '0');
         colorBar.setAttribute('aria-valuemax', '360');
@@ -561,7 +597,7 @@ class ColorBar extends HTMLElement {
         percentage = this._value;
         currentValue = this._value;
         displayText = `${Math.round(this._value)}%`;
-        currentColor = window.WBComponentUtils.ColorUtils.hslToHex(this._hue, this._value, this._lightness);
+        currentColor = this.hslToHex(this._hue, this._value, this._lightness);
         colorBar.setAttribute('aria-valuenow', Math.round(this._value).toString());
         colorBar.setAttribute('aria-valuemin', '0');
         colorBar.setAttribute('aria-valuemax', '100');
@@ -570,7 +606,7 @@ class ColorBar extends HTMLElement {
         percentage = this._value;
         currentValue = this._value;
         displayText = `${Math.round(this._value)}%`;
-        currentColor = window.WBComponentUtils.ColorUtils.hslToHex(this._hue, this._saturation, this._value);
+        currentColor = this.hslToHex(this._hue, this._saturation, this._value);
         colorBar.setAttribute('aria-valuenow', Math.round(this._value).toString());
         colorBar.setAttribute('aria-valuemin', '0');
         colorBar.setAttribute('aria-valuemax', '100');
@@ -586,6 +622,23 @@ class ColorBar extends HTMLElement {
     
     // Update displays
     hueNumber.textContent = displayText;
+    
+    // Update the label based on type
+    const valueLabel = this.shadowRoot.querySelector('.value-label');
+    if (valueLabel) {
+      switch (this._type) {
+        case 'hue':
+          valueLabel.textContent = 'Hue:';
+          break;
+        case 'saturation':
+          valueLabel.textContent = 'Saturation:';
+          break;
+        case 'lightness':
+          valueLabel.textContent = 'Lightness:';
+          break;
+      }
+    }
+    
     colorPreview.textContent = currentColor.toUpperCase();
     colorPreview.style.setProperty('--preview-color', currentColor);
     colorPreview.classList.add('preview-color');
@@ -618,7 +671,7 @@ class ColorBar extends HTMLElement {
         break;
     }
     
-    const hex = window.WBComponentUtils.ColorUtils.hslToHex(this._hue, saturation, lightness);
+    const hex = this.hslToHex(this._hue, saturation, lightness);
     return {
       hue: this._hue,
       saturation: saturation,
@@ -768,6 +821,35 @@ class ColorBar extends HTMLElement {
     this._lightness = lightness !== undefined ? lightness : this._lightness;
     this.updateBarGradient();
     this.updateDisplay();
+  }
+  
+  // Color conversion utilities
+  hslToHex(h, s, l) {
+    h /= 360;
+    s /= 100;
+    l /= 100;
+    
+    const a = s * Math.min(l, 1 - l);
+    const f = n => {
+      const k = (n + h / (1/12)) % 12;
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color);
+    };
+    
+    const r = f(0);
+    const g = f(8);
+    const b = f(4);
+    
+    return `#${[r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')}`;
+  }
+  
+  hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
   }
 }
 
