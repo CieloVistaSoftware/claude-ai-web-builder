@@ -361,15 +361,6 @@ class WBSlider {
 // Initialize global instance
 const wbSlider = new WBSlider();
 
-// Global API
-window.WBSlider = {
-  create: (options) => wbSlider.create(options),
-  setValue: (slider, value) => wbSlider.setValue(slider, value),
-  getValue: (slider) => wbSlider.getValue(slider),
-  setDisabled: (slider, disabled) => wbSlider.setDisabled(slider, disabled),
-  setRange: (slider, min, max) => wbSlider.setRange(slider, min, max)
-};
-
 // Auto-initialize on DOM ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => wbSlider.initializeExistingSliders());

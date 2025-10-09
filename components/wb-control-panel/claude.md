@@ -2,6 +2,57 @@
 
 ## 📝 CHANGELOG (October 2025)
 
+### [CRITICAL FIX] Tag Name Mismatch - Component Not Rendering
+**Date**: October 8, 2025 02:50 UTC  
+**Type**: Critical Bug Fix  
+**Priority**: HIGHEST
+**Changes**:
+- **wb-control-panel.js registration**:
+  - **Issue**: Component registered as `'control-panel'` but HTML uses `<wb-control-panel>`
+  - **Root Cause**: Tag name mismatch prevents component from being recognized
+  - **Symptoms**: Component loads, registers, but never calls `connectedCallback()` or `init()`
+  - **Fix Applied**: Changed ALL instances of `'control-panel'` to `'wb-control-panel'` in registration code
+  - **Lines Changed**: 1860-1878 (customElements.define and registry calls)
+  - **Impact**: Component should now initialize and be visible
+
+**Before**:
+```javascript
+customElements.define('control-panel', ControlPanel);  // ❌ WRONG
+// HTML: <wb-control-panel></wb-control-panel>  // Doesn't match!
+```
+
+**After**:
+```javascript
+customElements.define('wb-control-panel', ControlPanel);  // ✅ CORRECT
+// HTML: <wb-control-panel></wb-control-panel>  // Matches!
+```
+
+**Testing**: Refresh browser - you should now see console messages:
+- "Control Panel: Starting initialization..."
+- "Control Panel: Creating HTML structure..."
+- "Control Panel: HTML structure created"
+- Component should be visible at top-right
+
+---
+
+### [VISIBILITY FIX] Control Panel CSS Display Issue
+**Date**: October 8, 2025 02:40 UTC  
+**Type**: Critical Bug Fix
+**Changes**:
+- **wb-control-panel.css**:
+  - **Issue**: Control panel not visible on page despite being loaded
+  - **Root Cause**: `@import url('../../styles/main.css')` may be causing CSS loading issues
+  - **Fix Applied**: 
+    - Commented out @import to avoid double-loading (main.css loaded via index.css)
+    - Added `!important` to `display: flex` for wb-control-panel
+    - Added fallback values for all CSS variables (e.g., `var(--glass-bg, rgba(17, 24, 39, 0.95))`)
+  - **Impact**: Component should now be visible at top-right corner
+  - **Positioning**: Fixed position, top: 1rem, right: 1rem, z-index: 10000
+
+**Testing**: Refresh browser at http://127.0.0.1:8081/index.html to see control panel
+
+---
+
 ### [CRITICAL FIX] import.meta Syntax Error Resolved
 **Date**: October 8, 2025 23:42 UTC  
 **Type**: Critical Bug Fix

@@ -118,26 +118,29 @@ class WBNav extends HTMLElement {
         // Clear existing content
         this.innerHTML = '';
         
-        // Apply base class
-        this.classList.add(this.config.classes.base);
+        // Apply base class (with safety check)
+        const baseClass = this.config?.classes?.base;
+        if (baseClass) {
+            this.classList.add(baseClass);
+        }
         this.setAttribute('role', 'navigation');
         this.setAttribute('aria-label', this.getAttribute('aria-label') || 'Main navigation');
         
         // Apply layout classes
-        const layout = this.getAttribute('layout') || this.config.defaults.layout;
-        if (layout && this.config.classes.layouts[layout]) {
+        const layout = this.getAttribute('layout') || this.config?.defaults?.layout || 'horizontal';
+        if (layout && this.config?.classes?.layouts?.[layout]) {
             this.classList.add(this.config.classes.layouts[layout]);
         }
         
         // Apply variant classes
-        const variant = this.getAttribute('variant') || this.config.defaults.variant;
-        if (variant && variant !== 'default' && this.config.classes.variants[variant]) {
+        const variant = this.getAttribute('variant') || this.config?.defaults?.variant;
+        if (variant && variant !== 'default' && this.config?.classes?.variants?.[variant]) {
             this.classList.add(this.config.classes.variants[variant]);
         }
         
         // Apply position classes
         const position = this.getAttribute('position');
-        if (position && this.config.classes.layouts[position]) {
+        if (position && this.config?.classes?.layouts?.[position]) {
             this.classList.add(this.config.classes.layouts[position]);
         }
         
@@ -394,18 +397,24 @@ class WBNav extends HTMLElement {
 
     // Public API methods
     setLayout(layoutName) {
-        if (!this.config) return;
+        if (!this.config) {
+            console.warn('🧭 WB Nav: Config not loaded in setLayout');
+            this.config = this.getDefaultConfig();
+        }
         
         const layoutConfig = this.config.layouts[layoutName];
         if (!layoutConfig) return;
         
-        // Remove existing layout classes
-        Object.values(this.config.classes.layouts).forEach(className => {
-            this.classList.remove(className);
-        });
+        // Remove existing layout classes (with safety check)
+        const layoutClasses = this.config?.classes?.layouts;
+        if (layoutClasses) {
+            Object.values(layoutClasses).forEach(className => {
+                this.classList.remove(className);
+            });
+        }
         
         // Apply new layout classes
-        if (layoutConfig.layout && this.config.classes.layouts[layoutConfig.layout]) {
+        if (layoutConfig.layout && this.config?.classes?.layouts?.[layoutConfig.layout]) {
             this.classList.add(this.config.classes.layouts[layoutConfig.layout]);
         }
         
@@ -481,7 +490,6 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         role: 'structural',
         description: 'Navigation component with support for horizontal, vertical, and dropdown layouts',
         api: {
-            static: ['create'],
             events: ['nav-item-clicked', 'nav-layout-changed'],
             attributes: ['items', 'layout', 'style-preset', 'mobile-breakpoint'],
             methods: ['render', 'setItems', 'setLayout', 'handleItemClick']
@@ -489,77 +497,5 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         priority: 3 // Navigation component depends on logging
     });
 }
-
-// Maintain backward compatibility with the global API
-window.WBNav = {
-    create: function(items = [], options = {}) {
-        const nav = document.createElement('wb-nav');
-        
-        if (items.length > 0) {
-            nav.setAttribute('items', JSON.stringify(items));
-        }
-        
-        if (options.layout) {
-            nav.setAttribute('layout', options.layout);
-        }
-        
-        if (options.variant) {
-            nav.setAttribute('variant', options.variant);
-        }
-        
-        if (options.position) {
-            nav.setAttribute('position', options.position);
-        }
-        
-        if (options.brand) {
-            nav.setAttribute('brand-text', options.brand.text);
-            nav.setAttribute('brand-href', options.brand.href || '#');
-        }
-        
-        if (options.responsive === false) {
-            nav.setAttribute('responsive', 'false');
-        }
-        
-        if (options.ariaLabel) {
-            nav.setAttribute('aria-label', options.ariaLabel);
-        }
-        
-        if (options.id) {
-            nav.setAttribute('id', options.id);
-        }
-        
-        return nav;
-    },
-    
-    setLayout: function(nav, layoutName) {
-        if (nav && nav.setLayout) {
-            nav.setLayout(layoutName);
-        }
-    },
-    
-    setActiveItem: function(nav, itemId) {
-        if (nav && nav.setActiveItem) {
-            const navItem = nav.querySelector(`[data-nav-id="${itemId}"]`);
-            if (navItem) {
-                nav.setActiveItem(navItem);
-            }
-        }
-    },
-    
-    addItem: function(nav, item) {
-        if (nav && nav.addItem) {
-            nav.addItem(item);
-        }
-    },
-    
-    removeItem: function(nav, itemId) {
-        if (nav && nav.removeItem) {
-            nav.removeItem(itemId);
-        }
-    }
-};
-
-// Backward compatibility - create alias for old name
-window.WBNavMenu = window.WBNav;
 
 console.log('🧭 WB Nav: Web component registered');

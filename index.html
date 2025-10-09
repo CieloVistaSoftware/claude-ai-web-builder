@@ -9,24 +9,261 @@
     <meta name="description" content="Create professional websites with advanced layouts, themes, and animations">
     <meta name="keywords" content="website, template, professional, glassmorphism, animation">
     
-    <!-- CSS Imports - Following LayoutSystem standards -->
-    <!-- Main CSS (contains variables, base, and utilities in correct order) -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- Layout System CSS (SECOND) -->
-    <link rel="stylesheet" href="styles/layouts.css">
-    <!-- Component-specific CSS (LAST) -->
-    <link rel="stylesheet" href="components/wb-website-builder/styles/wb-website-builder.css">
-    <link rel="stylesheet" href="components/wb-control-panel/wb-control-panel.css">
+    <!-- Single CSS import -->
+    <link rel="stylesheet" href="index.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzY2NjZmMSIvPgo8cGF0aCBkPSJNMTIgOGg4djJoLTh6IiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNOCAxMmgxNnYySDh6IiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTAgMTZoMTJ2MkgxMHoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMiAyMGg4djJoLTh6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body data-footer="same-page">
-    <!-- WB Website Builder Component -->
-    <wb-website-builder></wb-website-builder>
+    <!-- WB Event Log for diagnostics - DRAGGABLE & RESIZABLE -->
+    <wb-event-log></wb-event-log>
+    
+    <!-- WB Control Panel - Main UI for website building -->
+    <wb-control-panel></wb-control-panel>
 
-    <!-- Load the website builder component -->
-    <script type="module" src="components/wb-website-builder/dist/wb-website-builder.js"></script>
+    <!-- Main demo content with semantic HTML -->
+    <main style="margin-top: 220px; padding: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto;">
+        <!-- Header Section -->
+        <header>
+            <h1>WB Website Builder - Semantic HTML Demo</h1>
+            <p>This page demonstrates all semantic HTML elements with the Website Builder styling system.</p>
+        </header>
+
+        <!-- Navigation Section -->
+        <nav aria-label="Demo navigation">
+            <h2>Navigation Example</h2>
+            <ul>
+                <li><a href="#typography">Typography</a></li>
+                <li><a href="#forms">Forms</a></li>
+                <li><a href="#media">Media</a></li>
+                <li><a href="#tables">Tables</a></li>
+            </ul>
+        </nav>
+
+        <!-- Typography Section -->
+        <section id="typography">
+            <h2>Typography</h2>
+            <article>
+                <h3>Headings</h3>
+                <h1>Heading 1</h1>
+                <h2>Heading 2</h2>
+                <h3>Heading 3</h3>
+                <h4>Heading 4</h4>
+                <h5>Heading 5</h5>
+                <h6>Heading 6</h6>
+                
+                <h3>Paragraphs &amp; Text</h3>
+                <p>This is a regular paragraph with <strong>bold text</strong>, <em>italic text</em>, and <mark>highlighted text</mark>.</p>
+                <p>Here's a paragraph with <a href="#">a link</a>, <code>inline code</code>, and <kbd>Ctrl+C</kbd> keyboard shortcut.</p>
+                <blockquote>
+                    <p>This is a blockquote. It's used for longer quotations or emphasizing important text.</p>
+                    <footer>— <cite>Citation Source</cite></footer>
+                </blockquote>
+                
+                <h3>Lists</h3>
+                <h4>Unordered List</h4>
+                <ul>
+                    <li>First item</li>
+                    <li>Second item</li>
+                    <li>Third item with nested list:
+                        <ul>
+                            <li>Nested item 1</li>
+                            <li>Nested item 2</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4>Ordered List</h4>
+                <ol>
+                    <li>First step</li>
+                    <li>Second step</li>
+                    <li>Third step</li>
+                </ol>
+                
+                <h4>Description List</h4>
+                <dl>
+                    <dt>Term 1</dt>
+                    <dd>Definition for term 1</dd>
+                    <dt>Term 2</dt>
+                    <dd>Definition for term 2</dd>
+                </dl>
+            </article>
+        </section>
+
+        <!-- Forms Section -->
+        <section id="forms">
+            <h2>Forms</h2>
+            <article>
+                <form>
+                    <fieldset>
+                        <legend>Personal Information</legend>
+                        
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name">
+                        
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com">
+                        
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password">
+                        
+                        <label for="bio">Bio:</label>
+                        <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself"></textarea>
+                        
+                        <label for="country">Country:</label>
+                        <select id="country" name="country">
+                            <option value="">Select a country</option>
+                            <option value="us">United States</option>
+                            <option value="uk">United Kingdom</option>
+                            <option value="ca">Canada</option>
+                        </select>
+                        
+                        <fieldset>
+                            <legend>Preferences</legend>
+                            <label>
+                                <input type="checkbox" name="newsletter" checked>
+                                Subscribe to newsletter
+                            </label>
+                            <label>
+                                <input type="checkbox" name="terms">
+                                I agree to terms and conditions
+                            </label>
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend>Gender</legend>
+                            <label>
+                                <input type="radio" name="gender" value="male">
+                                Male
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="female">
+                                Female
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="other">
+                                Other
+                            </label>
+                        </fieldset>
+                        
+                        <button type="submit">Submit</button>
+                        <button type="reset">Reset</button>
+                    </fieldset>
+                </form>
+            </article>
+        </section>
+
+        <!-- Media Section -->
+        <section id="media">
+            <h2>Media Elements</h2>
+            <article>
+                <h3>Figure with Image</h3>
+                <figure>
+                    <img src="https://via.placeholder.com/600x400/6366f1/ffffff?text=Demo+Image" alt="Demo image" style="max-width: 100%; height: auto;">
+                    <figcaption>Figure caption describing the image above</figcaption>
+                </figure>
+                
+                <h3>Audio</h3>
+                <audio controls>
+                    <source src="audio.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                
+                <h3>Video</h3>
+                <video controls style="max-width: 100%;">
+                    <source src="video.mp4" type="video/mp4">
+                    Your browser does not support the video element.
+                </video>
+            </article>
+        </section>
+
+        <!-- Tables Section -->
+        <section id="tables">
+            <h2>Tables</h2>
+            <article>
+                <table>
+                    <caption>Sample Data Table</caption>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>28</td>
+                            <td>Developer</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td>32</td>
+                            <td>Designer</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>Bob Johnson</td>
+                            <td>45</td>
+                            <td>Manager</td>
+                            <td>Away</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">Total: 3 employees</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </article>
+        </section>
+
+        <!-- Code Section -->
+        <section>
+            <h2>Code Examples</h2>
+            <article>
+                <h3>Inline Code</h3>
+                <p>Use the <code>console.log()</code> function to debug your code.</p>
+                
+                <h3>Code Block</h3>
+                <pre><code>function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+console.log(greet('World'));</code></pre>
+            </article>
+        </section>
+
+        <!-- Details/Summary -->
+        <section>
+            <h2>Interactive Elements</h2>
+            <article>
+                <details>
+                    <summary>Click to expand details</summary>
+                    <p>This is hidden content that appears when you click the summary.</p>
+                </details>
+                
+                <details open>
+                    <summary>This one is open by default</summary>
+                    <p>More detailed information here.</p>
+                </details>
+            </article>
+        </section>
+
+        <!-- Footer -->
+        <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color, #334155);">
+            <p>&copy; 2025 WB Website Builder. All rights reserved.</p>
+            <address>
+                Contact: <a href="mailto:info@wb-builder.com">info@wb-builder.com</a>
+            </address>
+        </footer>
+    </main>
+
+    <!-- Load all components via single loader -->
+    <script src="index.js"></script>
 </body>
 </html>

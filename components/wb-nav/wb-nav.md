@@ -47,63 +47,54 @@ import './path/to/wb-nav.js';
 
 ## Basic Usage
 
-### Simple Navigation
-```html
-<wb-nav id="main-nav"></wb-nav>
-
-<script>
-  // Create nav items
-  const navItems = [
-    {id: 'home', text: 'Home', href: '#home', active: true},
-    {id: 'about', text: 'About', href: '#about'},
-    {id: 'services', text: 'Services', href: '#services'},
-    {id: 'contact', text: 'Contact', href: '#contact'}
-  ];
-  
-  // Initialize navigation
-  const nav = WBNav.create(navItems);
-  document.getElementById('main-nav').replaceWith(nav);
-</script>
-```
-
-### Using Web Component Directly
+### Declarative (Recommended)
 ```html
 <wb-nav 
-  items='[{"text":"Home","href":"#home","active":true},{"text":"About","href":"#about"}]'
+  items='[{"id":"home","text":"Home","href":"#home","active":true},{"id":"about","text":"About","href":"#about"},{"id":"services","text":"Services","href":"#services"},{"id":"contact","text":"Contact","href":"#contact"}]'
   layout="horizontal"
-  variant="default">
+  variant="default"
+  brand-text="My Site"
+  brand-href="/">
 </wb-nav>
 ```
 
-### Dropdown Menu Example
+### Programmatic Creation
 ```javascript
+// Create nav items
 const navItems = [
-  {
-    id: 'products',
-    text: 'Products',
-    href: '#products',
-    children: [
-      {text: 'Software', href: '#software'},
-      {text: 'Hardware', href: '#hardware'},
-      {text: 'Services', href: '#services'}
-    ]
-  },
-  {
-    id: 'resources',
-    text: 'Resources',
-    href: '#resources',
-    children: [
-      {text: 'Documentation', href: '#docs'},
-      {text: 'Support', href: '#support'},
-      {text: 'Blog', href: '#blog'}
-    ]
-  }
+  {id: 'home', text: 'Home', href: '#home', active: true},
+  {id: 'about', text: 'About', href: '#about'},
+  {id: 'services', text: 'Services', href: '#services'},
+  {id: 'contact', text: 'Contact', href: '#contact'}
 ];
 
-const nav = WBNav.create(navItems, {
-  dropdownEnabled: true,
-  hoverDelay: 200
-});
+// Create the navigation element
+const nav = document.createElement('wb-nav');
+nav.setAttribute('items', JSON.stringify(navItems));
+nav.setAttribute('layout', 'horizontal');
+nav.setAttribute('brand-text', 'My Site');
+document.body.appendChild(nav);
+```
+
+### Dynamic Updates
+```javascript
+const nav = document.querySelector('wb-nav');
+
+// Add a new item
+nav.addItem({id: 'blog', text: 'Blog', href: '#blog'});
+
+// Set active item
+const homeItem = nav.querySelector('[data-nav-id="home"]');
+nav.setActiveItem(homeItem);
+
+// Change layout
+nav.setLayout('vertical');
+
+// Update all items
+nav.setItems([
+  {id: 'products', text: 'Products', href: '#products'},
+  {id: 'pricing', text: 'Pricing', href: '#pricing'}
+]);
 ```
 
 ## Configuration Options
@@ -164,20 +155,42 @@ document.addEventListener('wbNavItemClick', (e) => {
 
 ## API Methods
 
-### WBNav.create(items, options)
-Creates a new navigation instance.
+### Instance Methods
 
-### WBNav.setLayout(nav, layoutName)
+**nav.setLayout(layoutName)**
 Changes the navigation layout.
+```javascript
+const nav = document.querySelector('wb-nav');
+nav.setLayout('vertical');
+```
 
-### WBNav.setActiveItem(nav, itemId)
+**nav.setActiveItem(navItem)**
 Sets the active navigation item.
+```javascript
+const item = nav.querySelector('[data-nav-id="home"]');
+nav.setActiveItem(item);
+```
 
-### WBNav.addItem(nav, item)
+**nav.addItem(item)**
 Adds a new navigation item.
+```javascript
+nav.addItem({id: 'new', text: 'New Page', href: '#new'});
+```
 
-### WBNav.removeItem(nav, itemId)
-Removes a navigation item.
+**nav.removeItem(itemId)**
+Removes a navigation item by ID.
+```javascript
+nav.removeItem('old-page');
+```
+
+**nav.setItems(items)**
+Replaces all navigation items.
+```javascript
+nav.setItems([
+  {id: 'home', text: 'Home', href: '#home'},
+  {id: 'about', text: 'About', href: '#about'}
+]);
+```
 
 ## Accessibility
 

@@ -398,35 +398,4 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
     });
 }
 
-// Global API for backward compatibility
-window.WBChangeText = {
-    create: function(options = {}) {
-        const component = document.createElement('wb-change-text');
-        if (options.editMode) component.setAttribute('edit-mode', 'true');
-        if (options.targetSelectors) component.setAttribute('target-selectors', options.targetSelectors.join(','));
-        return component;
-    },
-    
-    enable: function() {
-        const component = document.querySelector('wb-change-text') || this.create({ editMode: true });
-        if (!component.parentNode) document.body.appendChild(component);
-        component.enable();
-    },
-    
-    disable: function() {
-        const component = document.querySelector('wb-change-text');
-        if (component) component.disable();
-    },
-    
-    setEditMode: function(enabled) {
-        if (enabled) this.enable();
-        else this.disable();
-    },
-    
-    isEnabled: function() {
-        const component = document.querySelector('wb-change-text');
-        return component ? component.isEnabled() : false;
-    }
-};
-
 console.log('✏️ WB Change Text component loaded successfully');

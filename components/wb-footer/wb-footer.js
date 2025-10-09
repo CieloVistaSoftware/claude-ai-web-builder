@@ -654,45 +654,4 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
     });
 }
 
-// Backward compatibility - Global API
-window.WBFooter = {
-    create: function(content = {}, options = {}) {
-        const footer = document.createElement('wb-footer');
-        
-        // Set attributes from options
-        if (options.layout) footer.setAttribute('layout', options.layout);
-        if (options.positioning) footer.setAttribute('positioning', options.positioning);
-        if (options.showLogo !== undefined) footer.setAttribute('show-logo', options.showLogo);
-        if (options.showSocial !== undefined) footer.setAttribute('show-social', options.showSocial);
-        if (options.showNewsletter !== undefined) footer.setAttribute('show-newsletter', options.showNewsletter);
-        
-        // Store content for later use
-        if (Object.keys(content).length > 0) {
-            footer.addEventListener('wbFooterReady', () => {
-                footer.updateContent(content);
-            }, { once: true });
-        }
-        
-        return footer;
-    },
-    
-    setLayout: function(footer, layoutName) {
-        if (footer && footer.setLayout) {
-            footer.setLayout(layoutName);
-        }
-    },
-    
-    setPosition: function(footer, position) {
-        if (footer && footer.setPosition) {
-            footer.setPosition(position);
-        }
-    },
-    
-    updateContent: function(footer, content) {
-        if (footer && footer.updateContent) {
-            footer.updateContent(content);
-        }
-    }
-};
-
 console.log('🦶 WB Footer: Pure Web Component registered');

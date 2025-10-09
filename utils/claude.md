@@ -2,6 +2,14 @@
 
 ## 🕒 RECENT ACTIVITY (October 8, 2025 - Most Recent First)
 
+### ✅ [FIXED] Duplicate WB Component Utils Loading (October 8, 2025 02:52)
+- **Issue**: WB Component Utils was initializing twice (visible in console logs)
+- **Root Cause**: Both `index.js` (line 17) and `styles/main.js` (line 38) were loading `wb-component-utils.js`
+- **Fix**: Removed duplicate load from `styles/main.js` since `index.js` already handles sequential loading
+- **Impact**: Cleaner console output, no duplicate initialization, faster page load
+- **Files Modified**: `styles/main.js`
+- **Result**: Should now only see one "🔧 WB Component Utils: Initializing..." message
+
 ### 🔄 [IN PROGRESS] Convert All Console Calls to Reactive WBEventLog (October 8, 2025 18:15)
 - **Goal**: Make all messaging reactive - no console.log/warn/error, all messages go to event log with proper headers (datetime, component/class name, line#)
 - **Philosophy**: Reactive architecture - components dispatch events, wb-event-log listens and displays

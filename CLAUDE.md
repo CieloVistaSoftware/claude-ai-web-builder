@@ -1,11 +1,55 @@
 # ./claude.md - Website Builder Project - Component Issues Priority Report
-the final-ecosystem-test does not work, put in and error-log compnent.
-
-index.html:1  Refused to apply style from 'http://127.0.0.1:8081/components/wb-website-builder/styles/wb-website-builder.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
-index.html:30   GET http://127.0.0.1:8081/components/wb-website-builder/dist/wb-website-builder.js 404 (Not Found)
-index.html:1  Refused to apply style from 'http://127.0.0.1:8081/components/wb-website-builder/styles/wb-website-builder.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
 
 ## 🕒 RECENT ACTIVITY (October 8, 2025 - Most Recent First)
+
+### ✅ Fixed Symbol Registry and HTTP Server (October 8, 2025 02:30 UTC)
+- **Issue**: Page not loading at http://127.0.0.1:8081/index.html
+- **Root Causes**:
+  1. No HTTP server running on port 8081
+  2. Symbol registry missing 'wb.event-log.config' path (causing 404)
+  3. Event log trying to auto-save errors to claude.md (browser security blocks file writes)
+- **Fixes Applied**:
+  - Started http-server on port 8081 using `npx http-server -p 8081`
+  - Added 'wb.event-log.config' symbol to SymbolRegistry in wb-component-utils.js
+  - Maps to: 'components/wb-event-log/wb-event-log.config.json'
+- **Expected 404s** (normal):
+  - /audio.mp3 and /video.mp4 (demo media files in semantic HTML)
+  - CSS Extractor Pro extension errors (unrelated to project)
+- **Console Logs**: All components loading successfully, event log functional
+- **Status**: ✅ RESOLVED - Page now accessible, config loading properly
+
+### ✅ FIXED index.html - Component References Updated (October 9, 2025 00:05 UTC)
+- **Issue**: index.html was trying to load non-existent `wb-website-builder` component (404 errors)
+- **Root Cause**: Component was renamed from `wb-website-builder` to `wb-control-panel`
+- **Fix Applied**:
+  - Changed `<wb-website-builder>` to `<wb-control-panel>`
+  - Updated CSS path from `components/wb-website-builder/styles/` to `components/wb-control-panel/`
+  - Added `<wb-event-log>` component for diagnostics
+  - Updated script tags to load `wb-control-panel.js` and `wb-event-log.js`
+  - Added `main.js` for infrastructure (WBSafeLogger, etc.)
+- **Result**: index.html now loads correctly without 404 errors
+- **Status**: ✅ RESOLVED - Main entry point now functional
+
+### ✅ GLOBAL FACTORY PATTERN REMOVAL - COMPLETED (October 8, 2025 23:55 UTC)
+- **Change**: Removed all legacy factory patterns from 9 components
+- **Components Updated**:
+  - ✅ wb-nav: Removed `window.WBNav` object and all static methods
+  - ✅ wb-toggle: Removed `window.WBToggle` factory pattern
+  - ✅ wb-table: Removed `window.WBTable` factory pattern
+  - ✅ wb-status: Removed `window.WBStatus` and `window.updateStatus` legacy functions
+  - ✅ wb-slider: Removed `window.WBSlider` factory pattern
+  - ✅ wb-footer: Removed `window.WBFooter` factory pattern
+  - ✅ wb-color-picker: Removed `window.WBColorPicker` factory pattern
+  - ✅ wb-change-text: Removed `window.WBChangeText` factory pattern
+  - ✅ wb-card: Removed `window.WBCard` factory pattern
+- **Rationale**: Now using standard Web Components API exclusively - all components tested and approved
+- **Migration**: All components now use `document.createElement('wb-*')` and instance methods
+- **Impact**: 
+  - Cleaner codebase with no global namespace pollution
+  - Standards-compliant Web Components architecture
+  - Easier to maintain and test
+  - Better tree-shaking for production builds
+- **Status**: ✅ COMPLETED - All 9 components modernized and cleaned up
 
 ### 🔄 wb-control-panel Reactive Architecture - IN PROGRESS (October 8, 2025)
 - **Issue**: Control panel was using imperative DOM manipulation instead of reactive event-driven approach

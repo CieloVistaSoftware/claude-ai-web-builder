@@ -11,6 +11,7 @@
   "scripts": {
     "api": "node claude-events-api.js",
     "build": "npm run wb:build && npm run serve:root",
+    "build:manifest": "node scripts/build-manifest.js",
     "build:socket": "npx tsc websocket-server-manager.ts start-websocket-server.ts claude-websocket-server.ts --esModuleInterop --resolveJsonModule --target ES2020 --module ESNext --moduleResolution Node",
     "check-server": "node server-health-check.js",
     "claude:build": "npx tsc claude-socket-server.ts --esModuleInterop --resolveJsonModule --target ES2020 --module ESNext --moduleResolution Node",

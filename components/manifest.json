@@ -1,0 +1,32 @@
+{
+  "$schema": "./manifest.schema.json",
+  "version": "1.0.0",
+  "description": "WB Component Manifest - defines loading order and dependencies",
+  
+  "infrastructure": [
+    "wb-safe-logger.js",
+    "wb-component-utils.js"
+  ],
+  
+  "styles": [
+    "main.js"
+  ],
+  
+  "dependencies": [
+    "wb-toggle",
+    "wb-select",
+    "wb-color-bar",
+    "wb-color-bars"
+  ],
+  
+  "components": [
+    "wb-event-log",
+    "wb-control-panel"
+  ],
+  
+  "metadata": {
+    "lastUpdated": "2025-10-08T03:10:00.000Z",
+    "author": "WB Development Team",
+    "notes": "Minimal manifest for index.html - only loads essential components"
+  }
+}

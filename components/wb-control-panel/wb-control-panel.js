@@ -123,8 +123,10 @@
             setTimeout(async () => {
                 try {
                     await this.ensureSemanticStructure();
-                    this.validateThemeImplementations();
-                    this.initializeHostElementIntegration();
+                    // TODO: Implement validateThemeImplementations method
+                    // this.validateThemeImplementations();
+                    // TODO: Implement initializeHostElementIntegration method
+                    // this.initializeHostElementIntegration();
                 } catch (error) {
                     console.error('Control panel semantic structure error:', error);
                     // Dispatch error event for wb-event-log
@@ -769,15 +771,24 @@
          * @returns {string} Absolute path to config file
          */
         resolveConfigPath(relativePath) {
-            // Try to use WBComponentUtils if available
-            if (window.WBComponentUtils && window.WBComponentUtils.resolve) {
-                return window.WBComponentUtils.resolve(`wb-control-panel/${relativePath}`);
+            // Use direct path from component location
+            const scriptPath = document.currentScript?.src || 
+                              Array.from(document.querySelectorAll('script')).find(s => 
+                                  s.src.includes('wb-control-panel.js'))?.src;
+            
+            if (scriptPath) {
+                const componentDir = scriptPath.substring(0, scriptPath.lastIndexOf('/'));
+                return `${componentDir}/${relativePath}`;
             }
             
-            // Fallback: construct path relative to component directory
-            const baseURL = new URL(window.location.href);
-            const componentBase = baseURL.pathname.substring(0, baseURL.pathname.lastIndexOf('/'));
-            return `${componentBase}/${relativePath}`;
+            // Fallback: try WBComponentUtils
+            if (window.WBComponentUtils && window.WBComponentUtils.getPath) {
+                const basePath = window.WBComponentUtils.getPath('wb-control-panel.js', '../components/wb-control-panel/');
+                return `${basePath}${relativePath}`;
+            }
+            
+            // Last resort: relative to current page
+            return `components/wb-control-panel/${relativePath}`;
         }
         
         async createLayoutSpecificNav(layout) {
@@ -1846,24 +1857,24 @@
             priority: 6
         };
         
-        // Registry will call customElements.define('control-panel', ControlPanel) automatically
-        window.WBComponentRegistry.register('control-panel', ControlPanel, dependencies, metadata)
+        // Registry will call customElements.define('wb-control-panel', ControlPanel) automatically
+        window.WBComponentRegistry.register('wb-control-panel', ControlPanel, dependencies, metadata)
             .then(() => {
-                console.log('✅ control-panel registered via WBComponentRegistry (schema-driven)');
+                console.log('✅ wb-control-panel registered via WBComponentRegistry (schema-driven)');
             })
             .catch(error => {
-                console.error('⚠️ Failed to register control-panel:', error);
+                console.error('⚠️ Failed to register wb-control-panel:', error);
                 // Fallback: register directly if registry fails
-                if (!customElements.get('control-panel')) {
-                    customElements.define('control-panel', ControlPanel);
-                    console.log('✅ control-panel registered directly (fallback)');
+                if (!customElements.get('wb-control-panel')) {
+                    customElements.define('wb-control-panel', ControlPanel);
+                    console.log('✅ wb-control-panel registered directly (fallback)');
                 }
             });
     } else {
         // Fallback if registry not available
-        if (!customElements.get('control-panel')) {
-            customElements.define('control-panel', ControlPanel);
-            console.log('✅ control-panel registered directly (no registry available)');
+        if (!customElements.get('wb-control-panel')) {
+            customElements.define('wb-control-panel', ControlPanel);
+            console.log('✅ wb-control-panel registered directly (no registry available)');
         }
     }
     

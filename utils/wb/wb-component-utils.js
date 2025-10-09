@@ -857,7 +857,9 @@
      */
     const SymbolRegistry = {
         // Dynamic symbol storage - populated at runtime
-        symbols: {},
+        symbols: {
+            'wb.event-log.config': 'components/wb-event-log/wb-event-log.config.json'
+        },
         
         /**
          * Resolve a symbol to its actual path

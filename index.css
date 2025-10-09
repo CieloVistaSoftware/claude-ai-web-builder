@@ -1,0 +1,12 @@
+/**
+ * index.css - WB Website Builder Main Stylesheet
+ * 
+ * This file imports all necessary styles in the correct order.
+ * Import this single file instead of managing multiple style tags.
+ */
+
+/* Import main CSS (contains variables, base, utilities, and layouts) */
+@import url('styles/main.css');
+
+/* Components load their own CSS automatically via JavaScript */
+/* No need to import component styles here */

@@ -249,28 +249,4 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
     });
 }
 
-// Also provide a simple API for backward compatibility
-window.WBTable = {
-    create: function(containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) {
-            console.error('WB Table: Container not found:', containerId);
-            return null;
-        }
-
-        const table = document.createElement('wb-table');
-        table.setAttribute('striped', '');
-        table.setAttribute('hover', '');
-        table.setAttribute('bordered', '');
-        container.appendChild(table);
-
-        return {
-            setData: (data) => table.setData(data),
-            addRow: (row) => table.addRow(row),
-            clear: () => table.clear(),
-            getRowCount: () => table.getRowCount()
-        };
-    }
-};
-
 console.log('📊 WB Table Web Component: Ready!');

@@ -4,6 +4,21 @@
 
 ## 🕒 RECENT ACTIVITY (October 8, 2025 - Most Recent First)
 
+### ✅ REMOVED LEGACY FACTORY PATTERN (October 8, 2025 23:50 UTC)
+- **Change**: Removed all legacy factory pattern code (window.WBNav object)
+- **Removed**: 
+  - `window.WBNav.create()` - factory method for creating navigation elements
+  - `window.WBNav.setLayout()` - static layout setter
+  - `window.WBNav.setActiveItem()` - static active item setter
+  - `window.WBNav.addItem()` - static item adder
+  - `window.WBNav.removeItem()` - static item remover
+  - `window.WBNavMenu` - backwards compatibility alias
+- **Rationale**: Now using standard Web Components API exclusively
+- **Migration**: Use `document.createElement('wb-nav')` and instance methods
+- **Documentation**: Updated wb-nav.md with modern Web Components examples
+- **Impact**: Cleaner code, no global namespace pollution, standards-compliant
+- **Status**: ✅ COMPLETED - Legacy factory pattern removed, component modernized
+
 ### ✅ CRITICAL FIX: Syntax Error Resolved (October 8, 2025 23:42 UTC)
 - **Issue**: `Uncaught SyntaxError: Unexpected token 'catch'` at line 82
 - **Root Cause**: Duplicate catch block in loadConfig() method with orphaned code after catch

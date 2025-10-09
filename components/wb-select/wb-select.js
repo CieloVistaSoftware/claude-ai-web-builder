@@ -217,14 +217,22 @@
         }
 
         async loadConfig() {
-            if (this.utils) {
-                try {
+            try {
+                if (this.utils) {
                     const configPath = WBComponentUtils.getPath('wb-select-webcomponent.js', '../components/wb-select/') + 'wb-select.schema.json';
                     this.config = await this.utils.loadConfig(configPath, fallbackConfig, 'WB Select');
-                } catch (error) {
-                    console.warn('📋 WB Select: Using fallback config:', error.message);
+                } else {
                     this.config = fallbackConfig;
                 }
+            } catch (error) {
+                console.warn('📋 WB Select: Using fallback config:', error.message);
+                this.config = fallbackConfig;
+            }
+            
+            // Ensure config is never undefined
+            if (!this.config) {
+                console.error('📋 WB Select: Config is undefined, using fallback');
+                this.config = fallbackConfig;
             }
         }
 
@@ -300,6 +308,12 @@
         }
 
         createComponentStructure() {
+            // Ensure config exists
+            if (!this.config || !this.config.classes) {
+                console.error('📋 WB Select: Config missing, cannot create structure');
+                return;
+            }
+            
             // Clear existing content
             this.innerHTML = '';
             

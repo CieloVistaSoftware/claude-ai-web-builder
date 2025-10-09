@@ -1,5 +1,5 @@
 # WB Event Log Component
-
+make the event log draggable
 ## Current Status: ✅ FUNCTIONAL
 
 The wb-event-log component is working correctly for:
@@ -8,6 +8,26 @@ The wb-event-log component is working correctly for:
 - ✅ **Event export**: JSON export functionality working (used in test framework)
 - ✅ **Configuration loading**: wb-event-log.json file created and working
 - ✅ **Test integration**: Successfully integrated with test framework for debugging
+- ✅ **Resize functionality**: Drag-to-resize handle added (2025-10-08 02:30)
+- ✅ **Move functionality**: Drag-to-move handle added (2025-10-08 02:35)
+
+### Recent Changes
+
+**2025-10-08 02:35** - Added drag-to-move functionality
+- Added `.wb-event-log-drag-handle` element (⋮⋮ icon) to toolbar
+- Implemented drag-to-move functionality with mouse events
+- Automatically converts to fixed positioning when dragged
+- Keeps component within viewport bounds (no overflow)
+- Smooth dragging experience with cursor feedback
+- Files modified: `wb-event-log.js`, `wb-event-log.css`
+
+**2025-10-08 02:30** - Added resize functionality to event log
+- Added `.wb-event-log-resize-handle` element to the bottom of the component
+- Implemented drag-to-resize functionality with mouse events
+- Added CSS styling for visual resize handle indicator
+- Min height: 100px, Max height: 80vh
+- Smooth dragging experience with cursor feedback
+- Files modified: `wb-event-log.js`, `wb-event-log.css`
 
 ### ✅ Demo Files Status
 - `wb-event-log-demo.html` - ⚠️ **ORIGINAL**: Has dependency issues (requires full WB ecosystem)

@@ -530,14 +530,6 @@
                             timestamp: Date.now()
                         }
                     });
-                    
-                    // Auto-save critical resource errors to claude.md
-                    self.autoSaveCriticalError(errorMsg, {
-                        type: 'resource-error',
-                        url: event.target.src,
-                        element: event.target.outerHTML,
-                        context: self.getHtmlContext(event.target)
-                    });
                 }
             }, true); // Use capture phase to catch resource errors
             
@@ -751,16 +743,6 @@
                     from: `${event.filename}:${event.lineno}`,
                     to: 'error-handler'
                 });
-                
-                // Auto-save critical JavaScript errors to claude.md
-                this.autoSaveCriticalError(errorMessage, {
-                    type: 'javascript-error',
-                    filename: event.filename,
-                    line: event.lineno,
-                    column: event.colno,
-                    stack: event.error?.stack,
-                    context: this.getPageContext()
-                });
             }
         }
         
@@ -781,14 +763,6 @@
                     stack: event.reason?.stack,
                     from: 'promise',
                     to: 'rejection-handler'
-                });
-                
-                // Auto-save critical promise rejections to claude.md
-                this.autoSaveCriticalError(errorMessage, {
-                    type: 'promise-rejection',
-                    reason: event.reason,
-                    stack: event.reason?.stack,
-                    context: this.getPageContext()
                 });
             }
         }
@@ -1166,6 +1140,8 @@
         render() {
             this.innerHTML = `
                 <div class="wb-event-log-toolbar">
+                    <div class="wb-event-log-drag-handle" title="Drag to move">⋮⋮</div>
+                    <div class="wb-event-log-error-indicator" data-state="${this.errorIndicatorState}" title="Error Status"></div>
                     <div class="wb-event-log-title">Event Log</div>
                     <div class="wb-event-log-controls">
                         <input type="text" class="wb-event-log-search" placeholder="Search events...">
@@ -1195,9 +1171,13 @@
                     <span>Auto-scroll: ${this.autoScroll ? 'ON' : 'OFF'}</span>
                     <span>Events: ${this.getVisibleEvents().length}/${this.events.length}</span>
                 </div>
+                
+                <div class="wb-event-log-resize-handle" title="Drag to resize"></div>
             `;
             
             this.setupUIEventListeners();
+            this.setupResizeHandle();
+            this.setupDragHandle();
         }
         
         renderFilters() {
@@ -1479,6 +1459,23 @@
             return div.innerHTML;
         }
         
+        // Error indicator management
+        setErrorIndicator(state) {
+            this.errorIndicatorState = state;
+            this.hasUnsavedErrors = (state === 'error');
+            const indicator = this.querySelector('.wb-event-log-error-indicator');
+            if (indicator) {
+                indicator.setAttribute('data-state', state);
+            }
+            
+            // Auto-reset saved state after 3 seconds
+            if (state === 'saved') {
+                setTimeout(() => {
+                    this.setErrorIndicator('normal');
+                }, 3000);
+            }
+        }
+        
         formatTimestamp(timestamp) {
             const date = new Date(timestamp);
             return date.toLocaleTimeString('en-US', { hour12: false });
@@ -1586,6 +1583,117 @@
                     e.stopPropagation(); // Prevent event expansion
                     this.copySingleEvent(btn.dataset.eventId);
                 });
+            });
+        }
+        
+        setupResizeHandle() {
+            const resizeHandle = this.querySelector('.wb-event-log-resize-handle');
+            if (!resizeHandle) return;
+            
+            let isResizing = false;
+            let startY = 0;
+            let startHeight = 0;
+            
+            resizeHandle.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                startY = e.clientY;
+                startHeight = this.offsetHeight;
+                
+                document.body.style.cursor = 'ns-resize';
+                document.body.style.userSelect = 'none';
+                
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+                
+                const deltaY = e.clientY - startY;
+                const newHeight = startHeight + deltaY;
+                
+                // Minimum height: 100px, Maximum height: 80vh
+                const minHeight = 100;
+                const maxHeight = window.innerHeight * 0.8;
+                const clampedHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+                
+                this.style.height = `${clampedHeight}px`;
+                
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+        
+        setupDragHandle() {
+            const dragHandle = this.querySelector('.wb-event-log-drag-handle');
+            if (!dragHandle) return;
+            
+            let isDragging = false;
+            let startX = 0;
+            let startY = 0;
+            let initialLeft = 0;
+            let initialTop = 0;
+            
+            dragHandle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                
+                // Get current position or use computed style
+                const rect = this.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+                
+                // Convert to fixed positioning if not already
+                if (this.style.position !== 'fixed') {
+                    this.style.position = 'fixed';
+                    this.style.left = `${initialLeft}px`;
+                    this.style.top = `${initialTop}px`;
+                    this.style.right = 'auto';
+                    this.style.bottom = 'auto';
+                }
+                
+                document.body.style.cursor = 'move';
+                document.body.style.userSelect = 'none';
+                
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                const newLeft = initialLeft + deltaX;
+                const newTop = initialTop + deltaY;
+                
+                // Keep within viewport bounds
+                const maxLeft = window.innerWidth - this.offsetWidth;
+                const maxTop = window.innerHeight - this.offsetHeight;
+                
+                const clampedLeft = Math.max(0, Math.min(maxLeft, newLeft));
+                const clampedTop = Math.max(0, Math.min(maxTop, newTop));
+                
+                this.style.left = `${clampedLeft}px`;
+                this.style.top = `${clampedTop}px`;
+                
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
             });
         }
         
@@ -2124,6 +2232,7 @@ ${event.message}`;
                     const writable = await handle.createWritable();
                     await writable.write(content);
                     await writable.close();
+                    this.setErrorIndicator('saved');
                     return true;
                 }
                 
@@ -2337,6 +2446,7 @@ ${event.message}`;
         
         logError(message, details = {}) {
             this.addEvent('error', message, details);
+            this.setErrorIndicator('error');
         }
         
         logSuccess(message, details = {}) {
