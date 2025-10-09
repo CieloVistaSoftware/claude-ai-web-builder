@@ -26,6 +26,9 @@
             this.wrapMode = 'truncate';
             this.wrapLength = 80;
             
+            // Recursion protection flag
+            this._processingEvent = false;
+            
             // Console interception references
             this.originalConsole = {
                 log: console.log,
@@ -52,15 +55,13 @@
             this.setupEventListeners();
             this.render();
             
-            // Start logging immediately
-            this.logInfo('Event log initialized', { source: 'wb-event-log' });
-            
+            // Don't log to self - would create self-referential event
             console.log('🔧 WB Event Log: Ready');
         }
         
         async loadConfig() {
             try {
-                const configPath = this.getComponentPath() + '/wb-event-log.json';
+                const configPath = window.WBComponentUtils?.resolve('wb.event-log.config') || (this.getComponentPath() + '/wb-event-log.json');
                 const response = await fetch(configPath);
                 const config = await response.json();
                 
@@ -95,11 +96,12 @@
         }
         
         loadCSS() {
+            const cssPath = this.getComponentPath() + '/wb-event-log.css';
+            
             if (typeof WBComponentUtils !== 'undefined' && WBComponentUtils.loadComponentCSS) {
-                WBComponentUtils.loadComponentCSS('wb-event-log', this.getComponentPath() + '/wb-event-log.css');
+                WBComponentUtils.loadComponentCSS('wb-event-log', cssPath);
             } else {
                 // Fallback CSS loading
-                const cssPath = this.getComponentPath() + '/wb-event-log.css';
                 const existingLink = document.querySelector(`link[href*="wb-event-log.css"]`);
                 
                 if (!existingLink) {
@@ -166,36 +168,54 @@
             
             console.log = function(...args) {
                 self.originalConsole.log.apply(console, args);
-                if (!self.isPaused) {
-                    self.addEvent('info', args.join(' '), { source: 'console' });
+                if (!self.isPaused && !self._processingEvent) {
+                    const logMessage = args.join(' ');
+                    if (!logMessage.includes('wb-event-log')) {
+                        self.addEvent('info', logMessage, { source: 'console' });
+                    }
                 }
             };
             
             console.warn = function(...args) {
                 self.originalConsole.warn.apply(console, args);
-                if (!self.isPaused) {
-                    self.addEvent('warning', args.join(' '), { source: 'console' });
+                if (!self.isPaused && !self._processingEvent) {
+                    const warnMessage = args.join(' ');
+                    if (!warnMessage.includes('wb-event-log')) {
+                        self.addEvent('warning', warnMessage, { source: 'console' });
+                    }
                 }
             };
             
             console.error = function(...args) {
+                // Use original console to prevent recursion
                 self.originalConsole.error.apply(console, args);
-                if (!self.isPaused) {
-                    self.addEvent('error', args.join(' '), { source: 'console' });
+                
+                if (!self.isPaused && !self._processingEvent) {
+                    const errorMessage = args.join(' ');
+                    // Prevent logging of wb-event-log errors
+                    if (!errorMessage.includes('wb-event-log') && !errorMessage.includes('Maximum call stack')) {
+                        self.addEvent('error', errorMessage, { source: 'console' });
+                    }
                 }
             };
             
             console.info = function(...args) {
                 self.originalConsole.info.apply(console, args);
-                if (!self.isPaused) {
-                    self.addEvent('info', args.join(' '), { source: 'console' });
+                if (!self.isPaused && !self._processingEvent) {
+                    const infoMessage = args.join(' ');
+                    if (!infoMessage.includes('wb-event-log')) {
+                        self.addEvent('info', infoMessage, { source: 'console' });
+                    }
                 }
             };
             
             console.debug = function(...args) {
                 self.originalConsole.debug.apply(console, args);
-                if (!self.isPaused) {
-                    self.addEvent('debug', args.join(' '), { source: 'console' });
+                if (!self.isPaused && !self._processingEvent) {
+                    const debugMessage = args.join(' ');
+                    if (!debugMessage.includes('wb-event-log')) {
+                        self.addEvent('debug', debugMessage, { source: 'console' });
+                    }
                 }
             };
         }
@@ -510,6 +530,14 @@
                             timestamp: Date.now()
                         }
                     });
+                    
+                    // Auto-save critical resource errors to claude.md
+                    self.autoSaveCriticalError(errorMsg, {
+                        type: 'resource-error',
+                        url: event.target.src,
+                        element: event.target.outerHTML,
+                        context: self.getHtmlContext(event.target)
+                    });
                 }
             }, true); // Use capture phase to catch resource errors
             
@@ -704,7 +732,17 @@
         
         handleWindowError(event) {
             if (!this.isPaused) {
-                this.addEvent('error', `${event.message} at ${event.filename}:${event.lineno}`, {
+                const errorMessage = `${event.message} at ${event.filename}:${event.lineno}`;
+                
+                // ALWAYS LOG TO TERMINAL CONSOLE
+                console.error('\n🚨🚨🚨 === WB-EVENT-LOG WINDOW ERROR === 🚨🚨🚨');
+                console.error(`⏰ TIME: ${new Date().toISOString()}`);
+                console.error(`📝 MESSAGE: ${event.message}`);
+                console.error(`📍 LOCATION: ${event.filename}:${event.lineno}:${event.colno}`);
+                console.error(`📜 STACK: ${event.error?.stack || 'No stack trace'}`);
+                console.error('🚨🚨🚨 ================================ 🚨🚨🚨\n');
+                
+                this.addEvent('error', errorMessage, {
                     source: 'window-error',
                     filename: event.filename,
                     lineno: event.lineno,
@@ -713,82 +751,134 @@
                     from: `${event.filename}:${event.lineno}`,
                     to: 'error-handler'
                 });
+                
+                // Auto-save critical JavaScript errors to claude.md
+                this.autoSaveCriticalError(errorMessage, {
+                    type: 'javascript-error',
+                    filename: event.filename,
+                    line: event.lineno,
+                    column: event.colno,
+                    stack: event.error?.stack,
+                    context: this.getPageContext()
+                });
             }
         }
         
         handlePromiseRejection(event) {
             if (!this.isPaused) {
-                this.addEvent('error', `Unhandled promise rejection: ${event.reason}`, {
+                const errorMessage = `Unhandled promise rejection: ${event.reason}`;
+                
+                // ALWAYS LOG TO TERMINAL CONSOLE
+                console.error('\n🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨');
+                console.error(`⏰ TIME: ${new Date().toISOString()}`);
+                console.error(`📝 REASON: ${event.reason}`);
+                console.error(`📜 STACK: ${event.reason?.stack || 'No stack trace'}`);
+                console.error('🚨🚨🚨 =================================== 🚨🚨🚨\n');
+                
+                this.addEvent('error', errorMessage, {
                     source: 'promise-rejection',
                     reason: event.reason,
                     stack: event.reason?.stack,
                     from: 'promise',
                     to: 'rejection-handler'
                 });
+                
+                // Auto-save critical promise rejections to claude.md
+                this.autoSaveCriticalError(errorMessage, {
+                    type: 'promise-rejection',
+                    reason: event.reason,
+                    stack: event.reason?.stack,
+                    context: this.getPageContext()
+                });
             }
         }
         
         // Core event management
         addEvent(type, message, details = {}) {
-            // Prevent duplicate navigation events
-            if (details.source === 'navigation' && type === 'info') {
-                const recentSimilar = this.events.find(e => 
-                    e.type === type && 
-                    e.message === message && 
-                    e.details.source === 'navigation' &&
-                    (Date.now() - e.timestamp) < 1000 // Within 1 second
-                );
-                if (recentSimilar) {
-                    console.log('Duplicate navigation event prevented:', message);
+            // CRITICAL: Prevent infinite recursion by detecting if we're already processing an event
+            if (this._processingEvent) {
+                // Use original console to avoid recursion
+                this.originalConsole.warn('🚨 WB Event Log: Recursion prevented in addEvent:', type, message);
+                return;
+            }
+            
+            // Set recursion protection flag
+            this._processingEvent = true;
+            
+            try {
+                // Prevent duplicate navigation events
+                if (details.source === 'navigation' && type === 'info') {
+                    const recentSimilar = this.events.find(e => 
+                        e.type === type && 
+                        e.message === message && 
+                        e.details.source === 'navigation' &&
+                        (Date.now() - e.timestamp) < 1000 // Within 1 second
+                    );
+                    if (recentSimilar) {
+                        this.originalConsole.log('Duplicate navigation event prevented:', message);
+                        return;
+                    }
+                }
+                
+                // Prevent wb-event-log errors from logging themselves (silently drop)
+                if (details.source === 'wb-event-log' || message.includes('wb-event-log') || message.includes('Maximum call stack')) {
+                    // Silently prevent self-referential events - don't log about it
                     return;
                 }
-            }
-            
-            // Truncate very long messages for localStorage efficiency
-            const truncatedMessage = message.length > 200 ? 
-                message.substring(0, 200) + '...' : message;
-            
-            // Clean up details to prevent localStorage bloat
-            const cleanDetails = this.sanitizeDetailsForStorage(details);
-            
-            const event = {
-                id: this.generateId(),
-                type: type,
-                timestamp: Date.now(),
-                message: truncatedMessage,
-                originalMessage: message !== truncatedMessage ? message : undefined,
-                source: cleanDetails.source || 'unknown',
-                from: cleanDetails.from || this.detectEventOrigin(),
-                to: cleanDetails.to || this.detectEventTarget(cleanDetails),
-                details: cleanDetails,
-                expanded: false
-            };
-            
-            // Add new events to the beginning (newest first)
-            this.events.unshift(event);
-            
-            // Enforce max events limit (remove from end)
-            if (this.events.length > this.maxEvents) {
-                this.events.pop();
-            }
-            
-            // Manage localStorage quota before any storage operations
-            this.manageLocalStorageQuota();
-            
-            // Render new event if visible
-            if (this.isEventVisible(event)) {
-                this.renderEvent(event);
                 
-                if (this.autoScroll) {
-                    this.scrollToTop();
+                // Truncate very long messages for localStorage efficiency
+                const truncatedMessage = message.length > 200 ? 
+                    message.substring(0, 200) + '...' : message;
+                
+                // Clean up details to prevent localStorage bloat
+                const cleanDetails = this.sanitizeDetailsForStorage(details);
+                
+                const event = {
+                    id: this.generateId(),
+                    type: type,
+                    timestamp: Date.now(),
+                    message: truncatedMessage,
+                    originalMessage: message !== truncatedMessage ? message : undefined,
+                    source: cleanDetails.source || 'unknown',
+                    from: cleanDetails.from || this.detectEventOrigin(),
+                    to: cleanDetails.to || this.detectEventTarget(cleanDetails),
+                    details: cleanDetails,
+                    expanded: false
+                };
+                
+                // Add new events to the beginning (newest first)
+                this.events.unshift(event);
+                
+                // Enforce max events limit (remove from end)
+                if (this.events.length > this.maxEvents) {
+                    this.events.pop();
                 }
-            }
+                
+                // Manage localStorage quota before any storage operations
+                this.manageLocalStorageQuota();
+                
+                // Render new event if visible
+                if (this.isEventVisible(event)) {
+                    this.renderEvent(event);
+                    
+                    if (this.autoScroll) {
+                        this.scrollToTop();
+                    }
+                }
             
-            // Dispatch custom event
-            this.dispatchEvent(new CustomEvent('wb-event-logged', { 
-                detail: event,
-                bubbles: true
-            }));
+                // Dispatch custom event
+                this.dispatchEvent(new CustomEvent('wb-event-logged', { 
+                    detail: event,
+                    bubbles: true
+                }));
+                
+            } catch (error) {
+                // Use original console to avoid recursion
+                this.originalConsole.error('🚨 WB Event Log: Error in addEvent:', error);
+            } finally {
+                // Always clear recursion protection flag
+                this._processingEvent = false;
+            }
         }
         
         sanitizeDetailsForStorage(details) {
@@ -1085,6 +1175,8 @@
                         <button class="wb-event-log-btn wb-event-log-copy" title="Copy All Events (JSON)">📋</button>
                         <button class="wb-event-log-btn wb-event-log-copy-text" title="Copy All Events (Text)">📄</button>
                         <button class="wb-event-log-btn wb-event-log-export" title="Export">📤</button>
+                        <button class="wb-event-log-btn wb-event-log-load-claude" title="Load Claude.md">📂</button>
+                        <button class="wb-event-log-btn wb-event-log-save-claude" title="Save to Claude.md">🪵</button>
                         <button class="wb-event-log-btn wb-event-log-hide" title="Hide Event Log">👁️‍🗨️</button>
                     </div>
                 </div>
@@ -1460,6 +1552,16 @@
                 hideBtn.addEventListener('click', () => this.hideComponent());
             }
             
+            const loadClaudeBtn = this.querySelector('.wb-event-log-load-claude');
+            if (loadClaudeBtn) {
+                loadClaudeBtn.addEventListener('click', () => this.loadClaudeFile());
+            }
+            
+            const saveClaudeBtn = this.querySelector('.wb-event-log-save-claude');
+            if (saveClaudeBtn) {
+                saveClaudeBtn.addEventListener('click', () => this.saveToClaudeFile());
+            }
+            
             // Filter buttons
             const filterButtons = this.querySelectorAll('.wb-event-log-filter');
             filterButtons.forEach(btn => {
@@ -1761,6 +1863,11 @@ ${event.message}`;
                     filename = `wb-events-${Date.now()}.txt`;
                     mimeType = 'text/plain';
                     break;
+                case 'claude':
+                    content = this.eventsToClaudeMd(visibleEvents);
+                    filename = 'claude.md';
+                    mimeType = 'text/markdown';
+                    break;
             }
             
             this.downloadFile(content, filename, mimeType);
@@ -1795,6 +1902,295 @@ ${event.message}`;
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        }
+        
+        async loadClaudeFile() {
+            try {
+                this.showStatus('📂 Loading claude.md file...', 'info');
+                
+                // Always try current directory first (relative to HTML file)
+                const possiblePaths = [
+                    './claude.md'  // Current directory of the HTML file
+                ];
+                
+                let claudeContent = null;
+                
+                for (const path of possiblePaths) {
+                    try {
+                        const response = await fetch(path);
+                        if (response.ok) {
+                            claudeContent = await response.text();
+                            this.showStatus(`📂 Loaded ./claude.md from current directory`, 'success');
+                            break;
+                        }
+                    } catch (e) {
+                        // Continue to next path
+                    }
+                }
+                
+                if (!claudeContent) {
+                    // Use file input as fallback
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.md';
+                    input.onchange = (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.parseClaudeContent(e.target.result);
+                            };
+                            reader.readAsText(file);
+                        }
+                    };
+                    input.click();
+                    return;
+                }
+                
+                this.parseClaudeContent(claudeContent);
+                
+            } catch (error) {
+                console.error('Load claude.md error:', error);
+                this.showStatus(`❌ Error loading claude.md: ${error.message}`, 'error');
+            }
+        }
+        
+        parseClaudeContent(content) {
+            try {
+                // Parse existing claude.md content and extract previous events
+                const existingEvents = this.extractEventsFromClaudeContent(content);
+                
+                if (existingEvents.length > 0) {
+                    // Add existing events to the log with a special marker
+                    existingEvents.forEach(event => {
+                        this.addEvent(event.type, event.message, {
+                            ...event.data,
+                            source: 'claude.md',
+                            fromFile: true,
+                            timestamp: event.timestamp
+                        });
+                    });
+                    
+                    this.showStatus(`📂 Loaded ${existingEvents.length} events from claude.md`, 'success');
+                } else {
+                    this.showStatus('📂 No events found in claude.md', 'info');
+                }
+                
+                // Store the existing content to avoid duplicates
+                this.existingClaudeContent = content;
+                
+            } catch (error) {
+                console.error('Parse claude.md error:', error);
+                this.showStatus(`❌ Error parsing claude.md: ${error.message}`, 'error');
+            }
+        }
+        
+        extractEventsFromClaudeContent(content) {
+            const events = [];
+            const lines = content.split('\n');
+            
+            // Simple parsing - look for event patterns
+            // This is a basic implementation that can be enhanced
+            lines.forEach(line => {
+                // Look for patterns like "- ERROR: message" or "- INFO: message"
+                const eventMatch = line.match(/^- (ERROR|INFO|WARNING|SUCCESS|DEBUG|USER): (.+)$/);
+                if (eventMatch) {
+                    const [, type, message] = eventMatch;
+                    events.push({
+                        type: type.toLowerCase(),
+                        message: message.trim(),
+                        timestamp: Date.now(), // We don't have original timestamp
+                        data: { source: 'claude.md', fromFile: true }
+                    });
+                }
+            });
+            
+            return events;
+        }
+        
+        filterDuplicateEvents(events) {
+            if (!this.existingClaudeContent) {
+                return events; // No existing content to check against
+            }
+            
+            // Create a simple hash for each event to detect duplicates
+            const existingHashes = new Set();
+            
+            // Extract existing event signatures from the claude content
+            const lines = this.existingClaudeContent.split('\n');
+            lines.forEach(line => {
+                const eventMatch = line.match(/^- (ERROR|INFO|WARNING|SUCCESS|DEBUG|USER): (.+)$/);
+                if (eventMatch) {
+                    const [, type, message] = eventMatch;
+                    const hash = `${type.toLowerCase()}:${message.trim()}`;
+                    existingHashes.add(hash);
+                }
+            });
+            
+            // Filter out events that already exist
+            return events.filter(event => {
+                const hash = `${event.type}:${event.message}`;
+                return !existingHashes.has(hash);
+            });
+        }
+        
+        async saveToClaudeFile() {
+            try {
+                const visibleEvents = this.getVisibleEvents();
+                
+                if (visibleEvents.length === 0) {
+                    this.showStatus('No events to save with current filters', 'warning');
+                    return;
+                }
+                
+                // Filter out events that might already exist
+                const newEvents = this.filterDuplicateEvents(visibleEvents);
+                
+                if (newEvents.length === 0) {
+                    this.showStatus('No new events to save (all events already exist in claude.md)', 'info');
+                    return;
+                }
+                
+                // Format events for claude.md
+                const timestamp = new Date().toLocaleString();
+                const eventSummary = this.formatEventsForClaude(newEvents);
+                
+                const duplicateCount = visibleEvents.length - newEvents.length;
+                
+                const claudeEntry = `\n## Event Log Export - ${timestamp}\n\n### Summary\n- New events: ${newEvents.length}\n- Filtered duplicates: ${duplicateCount}\n- Filters: ${this.filters.join(', ')}\n- Search: ${this.searchFilter || 'none'}\n\n### Events\n${eventSummary}\n\n---\n`;
+                
+                // Try to save to claude.md
+                const success = await this.saveToFile(claudeEntry, 'claude.md');
+                
+                if (success) {
+                    const currentDir = this.getCurrentFolder() || 'current directory';
+                    this.showStatus(`✅ Saved ${newEvents.length} new events to ./claude.md${duplicateCount > 0 ? ` (${duplicateCount} duplicates filtered)` : ''}`, 'success');
+                } else {
+                    // Fallback: download the content
+                    this.downloadFile(claudeEntry, `claude-events-${Date.now()}.md`, 'text/markdown');
+                    this.showStatus('📥 Downloaded claude.md content (browser file saving not supported)', 'info');
+                }
+                
+            } catch (error) {
+                console.error('Save to claude.md error:', error);
+                this.showStatus(`❌ Error saving to claude.md: ${error.message}`, 'error');
+            }
+        }
+        
+        formatEventsForClaude(events) {
+            const groupedEvents = {};
+            
+            // Group events by type
+            events.forEach(event => {
+                if (!groupedEvents[event.type]) {
+                    groupedEvents[event.type] = [];
+                }
+                groupedEvents[event.type].push(event);
+            });
+            
+            let formatted = '';
+            
+            // Format each group
+            Object.keys(groupedEvents).forEach(type => {
+                const typeEvents = groupedEvents[type];
+                formatted += `\n#### ${type.toUpperCase()} Events (${typeEvents.length})\n`;
+                
+                typeEvents.forEach(event => {
+                    const time = new Date(event.timestamp).toLocaleTimeString();
+                    formatted += `- **${time}**: ${event.message}\n`;
+                    
+                    if (event.stack && type === 'error') {
+                        formatted += `  \`\`\`\n  ${event.stack.split('\n').slice(0, 3).join('\n')}\n  \`\`\`\n`;
+                    }
+                });
+                formatted += '\n';
+            });
+            
+            return formatted;
+        }
+        
+        async saveToFile(content, filename) {
+            try {
+                // Try File System Access API first (Chrome/Edge)
+                if ('showSaveFilePicker' in window) {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: filename,
+                        types: [{
+                            description: 'Markdown files',
+                            accept: {'text/markdown': ['.md']},
+                        }],
+                    });
+                    
+                    const writable = await handle.createWritable();
+                    await writable.write(content);
+                    await writable.close();
+                    return true;
+                }
+                
+                // Try server endpoint as fallback
+                const response = await fetch(window.WBComponentUtils?.resolve('api.save-claude-log') || '/api/save-claude-log', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: filename,
+                        content: content,
+                        folder: this.getCurrentFolder()
+                    })
+                });
+                
+                return response.ok;
+                
+            } catch (error) {
+                console.warn('File save failed:', error);
+                return false;
+            }
+        }
+        
+        getCurrentFolder() {
+            // Extract directory path from current URL (for server save)
+            const path = window.location.pathname;
+            const segments = path.split('/').filter(Boolean);
+            
+            // Remove the HTML filename to get the directory
+            if (segments.length > 0 && segments[segments.length - 1].includes('.html')) {
+                segments.pop(); // Remove the HTML file name
+            }
+            
+            // Return the directory path (empty string means root/current directory)
+            return segments.join('/');
+        }
+        
+        showStatus(message, type = 'info') {
+            // Create a temporary status indicator
+            const statusEl = document.createElement('div');
+            statusEl.className = `wb-event-log-status wb-event-log-status-${type}`;
+            statusEl.textContent = message;
+            statusEl.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 16px;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: 500;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                ${type === 'success' ? 'background: #1a472a; color: #4ade80; border: 1px solid #16a34a;' : ''}
+                ${type === 'error' ? 'background: #7f1d1d; color: #f87171; border: 1px solid #dc2626;' : ''}
+                ${type === 'warning' ? 'background: #78350f; color: #fbbf24; border: 1px solid #f59e0b;' : ''}
+                ${type === 'info' ? 'background: #1e3a8a; color: #60a5fa; border: 1px solid #2563eb;' : ''}
+            `;
+            
+            document.body.appendChild(statusEl);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (statusEl.parentNode) {
+                    statusEl.parentNode.removeChild(statusEl);
+                }
+            }, 5000);
         }
         
         toggleEventExpansion(eventId) {
@@ -1954,12 +2350,172 @@ ${event.message}`;
         logUser(message, details = {}) {
             this.addEvent('user', message, details);
         }
+        
+        // Auto-save critical errors to claude.md
+        async autoSaveCriticalError(errorMessage, errorDetails) {
+            try {
+                // Check if auto-save is enabled in config
+                const autoSaveEnabled = this.config?.claudeSave?.autoSaveErrors !== false;
+                if (!autoSaveEnabled) return;
+                
+                // Create critical error entry for claude.md
+                const timestamp = new Date().toLocaleString();
+                const pageUrl = window.location.href;
+                const userAgent = navigator.userAgent;
+                
+                const claudeEntry = `\n## 🚨 Critical Error Auto-Logged - ${timestamp}\n\n### Error Details\n- **Type**: ${errorDetails.type}\n- **Message**: ${errorMessage}\n- **Page**: ${pageUrl}\n- **User Agent**: ${userAgent}\n\n### Context\n${errorDetails.context}\n\n### Technical Details\n${this.formatErrorDetails(errorDetails)}\n\n---\n`;
+                
+                // Try to save directly to claude.md, create if doesn't exist
+                const success = await this.ensureClaudeFileAndSave(claudeEntry);
+                
+                if (success) {
+                    this.showStatus(`🤖 Auto-saved critical error to ./claude.md`, 'info');
+                    console.log('🔧 WB Event Log: Critical error auto-saved to ./claude.md');
+                } else {
+                    console.warn('🔧 WB Event Log: Failed to auto-save critical error');
+                }
+                
+            } catch (error) {
+                console.error('🔧 WB Event Log: Auto-save error:', error);
+            }
+        }
+        
+        async ensureClaudeFileAndSave(content) {
+            try {
+                // First try to append to existing claude.md
+                const success = await this.saveToFile(content, 'claude.md');
+                if (success) return true;
+                
+                // If that fails, try to create new claude.md with initial content
+                const initialContent = `# Claude.md - Automated Issue Log\n\nThis file is automatically maintained by the WB Event Log system.\nCritical errors, component issues, and debugging information are logged here.\n\n${content}`;
+                
+                return await this.saveToFile(initialContent, 'claude.md');
+                
+            } catch (error) {
+                console.error('🔧 WB Event Log: Error ensuring claude.md file:', error);
+                return false;
+            }
+        }
+        
+        formatErrorDetails(errorDetails) {
+            let details = '';
+            
+            if (errorDetails.filename) {
+                details += `- **File**: ${errorDetails.filename}\n`;
+            }
+            if (errorDetails.line) {
+                details += `- **Line**: ${errorDetails.line}\n`;
+            }
+            if (errorDetails.column) {
+                details += `- **Column**: ${errorDetails.column}\n`;
+            }
+            if (errorDetails.stack) {
+                details += `- **Stack Trace**:\n\`\`\`\n${errorDetails.stack}\n\`\`\`\n`;
+            }
+            if (errorDetails.url) {
+                details += `- **Resource URL**: ${errorDetails.url}\n`;
+            }
+            if (errorDetails.element) {
+                details += `- **HTML Element**:\n\`\`\`html\n${errorDetails.element}\n\`\`\`\n`;
+            }
+            
+            return details;
+        }
+        
+        getPageContext() {
+            try {
+                const context = [];
+                
+                // Basic page info
+                context.push(`**Page Title**: ${document.title}`);
+                context.push(`**URL**: ${window.location.href}`);
+                context.push(`**Timestamp**: ${new Date().toISOString()}`);
+                
+                // Find components on page
+                const wbComponents = document.querySelectorAll('[class*="wb-"], [id*="wb-"]');
+                if (wbComponents.length > 0) {
+                    context.push(`**WB Components Found**: ${wbComponents.length}`);
+                    const componentTypes = [...new Set([...wbComponents].map(el => el.tagName.toLowerCase()))];
+                    context.push(`**Component Types**: ${componentTypes.join(', ')}`);
+                }
+                
+                // Check for custom elements
+                const customElements = document.querySelectorAll('wb-button, wb-tab, wb-input, wb-select, wb-card, wb-event-log');
+                if (customElements.length > 0) {
+                    context.push(`**Custom Elements**: ${customElements.length} WB components active`);
+                }
+                
+                // Recent console errors
+                const recentErrors = this.events.filter(e => 
+                    e.type === 'error' && 
+                    (Date.now() - e.timestamp) < 60000 // Last minute
+                ).slice(-3);
+                
+                if (recentErrors.length > 0) {
+                    context.push(`**Recent Errors**: ${recentErrors.length} in last minute`);
+                }
+                
+                return context.join('\n');
+                
+            } catch (error) {
+                return `Error getting page context: ${error.message}`;
+            }
+        }
+        
+        getHtmlContext(element) {
+            try {
+                const context = [];
+                
+                // Element details
+                if (element) {
+                    context.push(`**Element**: ${element.tagName}`);
+                    if (element.id) context.push(`**ID**: ${element.id}`);
+                    if (element.className) context.push(`**Classes**: ${element.className}`);
+                    
+                    // Parent context
+                    if (element.parentElement) {
+                        context.push(`**Parent**: ${element.parentElement.tagName}`);
+                        if (element.parentElement.id) {
+                            context.push(`**Parent ID**: ${element.parentElement.id}`);
+                        }
+                    }
+                    
+                    // Siblings info
+                    const siblings = element.parentElement?.children;
+                    if (siblings) {
+                        context.push(`**Siblings**: ${siblings.length} elements`);
+                    }
+                }
+                
+                return context.join('\n');
+                
+            } catch (error) {
+                return `Error getting HTML context: ${error.message}`;
+            }
+        }
     }
     
     // Register the custom element
     if (!customElements.get('wb-event-log')) {
         customElements.define('wb-event-log', WBEventLog);
         console.log('🔧 WB Event Log: Component registered');
+    }
+    
+    // Register with WBComponentRegistry if available
+    if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+        window.WBComponentRegistry.register('wb-event-log', WBEventLog, [], {
+            version: '1.0.0',
+            type: 'logging',
+            role: 'infrastructure',
+            description: 'Passive event-driven logging system for Website Builder components',
+            api: {
+                static: ['logInfo', 'logWarning', 'logError', 'logSuccess', 'logDebug'],
+                events: ['wb:info', 'wb:warning', 'wb:error', 'wb:success', 'wb:debug'],
+                attributes: ['data-max-events', 'data-auto-scroll', 'data-wrap-mode'],
+                methods: ['addEvent', 'clearEvents', 'exportEvents', 'pauseLogging', 'resumeLogging']
+            },
+            priority: 1 // High priority infrastructure component
+        });
     }
     
     // Make static methods globally available

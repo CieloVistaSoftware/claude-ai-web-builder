@@ -11,9 +11,101 @@
     <div class="header">
         <h1>WB Components</h1>
         <p>Complete library of Website Builder components</p>
+        
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn" data-tab="control-panel">🎛️ Control Panel Demo</button>
+            <button class="tab-btn active" data-tab="components">📚 Component Library</button>
+            <button class="tab-btn" data-tab="event-log">📋 Event Log Demo</button>
+        </div>
     </div>
 
-    <div class="container">
+    <!-- Control Panel Demo Tab -->
+    <div class="tab-content full-screen" id="control-panel-tab" style="display: none;">
+        <iframe 
+            src="wb-control-panel/wb-control-panel-demo.html" 
+            width="100%" 
+            height="100%" 
+            style="border: none; display: block;">
+        </iframe>
+    </div>
+
+    <!-- Event Log Demo Tab -->
+    <div class="tab-content" id="event-log-tab" style="display: none;">
+        <div class="demo-header">
+            <h2>📋 WB Event Log Demo</h2>
+            <p>Interactive demo of the wb-event-log component with real-time error tracking, search, filtering, and claude.md auto-save</p>
+        </div>
+        
+        <div class="event-log-demo-container">
+            <!-- Event Log Controls -->
+            <div class="demo-controls">
+                <h3>Test Event Log Features</h3>
+                <div class="control-buttons">
+                    <button class="demo-btn" onclick="testInfo()">📝 Test Info Event</button>
+                    <button class="demo-btn" onclick="testWarning()">⚠️ Test Warning</button>
+                    <button class="demo-btn" onclick="testError()">❌ Test Error</button>
+                    <button class="demo-btn" onclick="testSuccess()">✅ Test Success</button>
+                    <button class="demo-btn" onclick="clearEvents()">🗑️ Clear Events</button>
+                    <button class="demo-btn" onclick="simulateErrors()">🔥 Simulate Multiple Errors</button>
+                </div>
+            </div>
+            
+            <!-- Live Event Log Component -->
+            <div class="event-log-container">
+                <h3>Live Event Log</h3>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="100"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    show-source="true"
+                    expandable-details="true"
+                    toolbar="true"
+                    search="true"
+                    filters="true"
+                    export="true"
+                    auto-save-claude="true"
+                    style="height: 400px; width: 100%; border: 1px solid var(--border-color, #334155); border-radius: 8px; background: var(--bg-secondary, #1e293b);">
+                </wb-event-log>
+            </div>
+            
+            <!-- Feature Documentation -->
+            <div class="feature-docs">
+                <h3>wb-event-log Features</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>🔍 Real-time Monitoring</h4>
+                        <p>Captures JavaScript errors, promise rejections, and custom events in real-time</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔎 Search & Filter</h4>
+                        <p>Built-in search functionality and filtering by event type (info, warning, error, success)</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📁 Auto-Save to claude.md</h4>
+                        <p>Automatically saves error logs to claude.md file for development debugging</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📊 Event Details</h4>
+                        <p>Expandable event details with stack traces, timestamps, and source information</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📤 Export Options</h4>
+                        <p>Export logs as JSON, CSV, or text format for external analysis</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚡ High Performance</h4>
+                        <p>Efficient virtual scrolling for handling large numbers of events</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Component Library Tab -->
+    <div class="tab-content" id="components-tab">
+        <div class="container">
         <!-- Statistics -->
         <div class="stats">
             <div class="stat-card">
@@ -100,8 +192,247 @@
                 <!-- Components will be loaded here -->
             </div>
         </div>
+
+        <!-- Event Log Component -->
+        <div class="section">
+            <h2 class="section-title">Event Log & Debugging</h2>
+            <div class="event-log-section">
+                <div class="event-log-info">
+                    <h3>📋 WB Event Log Component</h3>
+                    <p>Real-time error tracking, event monitoring, and debugging component with search, filtering, and auto-save to claude.md</p>
+                    
+                    <div class="usage-example">
+                        <h4>Usage Example:</h4>
+                        <pre><code>&lt;wb-event-log 
+    max-events="100"
+    auto-scroll="true"
+    show-timestamps="true"
+    show-source="true"
+    expandable-details="true"
+    toolbar="true"
+    search="true"
+    filters="true"
+    export="true"
+    auto-save-claude="true"&gt;
+&lt;/wb-event-log&gt;</code></pre>
+                    </div>
+                </div>
+                
+                <div class="live-event-log">
+                    <h4>Live Event Log:</h4>
+                    <wb-event-log 
+                        id="library-event-log"
+                        max-events="50"
+                        auto-scroll="true"
+                        show-timestamps="true"
+                        show-source="true"
+                        expandable-details="true"
+                        toolbar="true"
+                        search="true"
+                        filters="true"
+                        export="true"
+                        style="height: 300px; width: 100%; border: 1px solid var(--border-color, #475569); border-radius: 8px; background: var(--bg-secondary, #1e293b);">
+                    </wb-event-log>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <script src="index.js"></script>
+    <script>
+        // Tab switching functionality
+        function initTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetTab = btn.dataset.tab;
+                    
+                    // Remove active class from all tabs
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(content => content.style.display = 'none');
+                    
+                    // Add active class to clicked tab
+                    btn.classList.add('active');
+                    const targetTabElement = document.getElementById(targetTab + '-tab');
+                    targetTabElement.style.display = 'block';
+                    
+                    // Handle full-screen mode for control panel
+                    if (targetTab === 'control-panel') {
+                        document.body.style.overflow = 'hidden';
+                        // Hide header when in control panel mode
+                        document.querySelector('.header').style.display = 'none';
+                    } else {
+                        document.body.style.overflow = 'auto';
+                        // Show header for other tabs
+                        document.querySelector('.header').style.display = 'block';
+                    }
+                    
+                    console.log(`Switched to ${targetTab} tab`);
+                });
+            });
+        }
+        
+        // Initialize tabs when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initTabs();
+            loadEventLogComponent();
+            loadLibraryEventLog();
+        });
+        
+        // Load wb-event-log component
+        async function loadEventLogComponent() {
+            try {
+                // Load the wb-event-log component
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = 'wb-event-log/wb-event-log.js';
+                document.head.appendChild(script);
+                
+                // Wait for component to load
+                await new Promise(resolve => {
+                    script.onload = resolve;
+                    script.onerror = () => {
+                        console.warn('wb-event-log component not found, using fallback');
+                        resolve();
+                    };
+                });
+                
+                console.log('✅ wb-event-log component loaded');
+            } catch (error) {
+                console.warn('Failed to load wb-event-log:', error);
+            }
+        }
+        
+        // Event Log Demo Functions
+        function testInfo() {
+            document.dispatchEvent(new CustomEvent('wb:info', {
+                detail: {
+                    message: 'This is a test info message',
+                    source: 'demo-controls',
+                    timestamp: new Date().toISOString(),
+                    data: { testType: 'info', demoAction: true }
+                }
+            }));
+        }
+        
+        function testWarning() {
+            document.dispatchEvent(new CustomEvent('wb:warning', {
+                detail: {
+                    message: 'This is a test warning message',
+                    source: 'demo-controls',
+                    timestamp: new Date().toISOString(),
+                    data: { testType: 'warning', severity: 'medium' }
+                }
+            }));
+        }
+        
+        function testError() {
+            document.dispatchEvent(new CustomEvent('wb:error', {
+                detail: {
+                    message: 'This is a test error message',
+                    source: 'demo-controls',
+                    timestamp: new Date().toISOString(),
+                    data: { 
+                        testType: 'error', 
+                        stack: 'Error: Test error\\n    at testError (demo:1:1)',
+                        severity: 'high'
+                    }
+                }
+            }));
+        }
+        
+        function testSuccess() {
+            document.dispatchEvent(new CustomEvent('wb:success', {
+                detail: {
+                    message: 'This is a test success message',
+                    source: 'demo-controls',
+                    timestamp: new Date().toISOString(),
+                    data: { testType: 'success', operation: 'demo-test' }
+                }
+            }));
+        }
+        
+        function clearEvents() {
+            const eventLog = document.getElementById('demo-event-log');
+            if (eventLog && typeof eventLog.clear === 'function') {
+                eventLog.clear();
+            } else {
+                console.log('Event log clear method not available');
+            }
+        }
+        
+        function simulateErrors() {
+            const errors = [
+                { type: 'error', message: 'Failed to load component: wb-missing-component' },
+                { type: 'warning', message: 'Deprecated API usage detected in legacy-component.js' },
+                { type: 'error', message: 'Network request failed: 404 Not Found' },
+                { type: 'info', message: 'Component registry updated with 3 new components' },
+                { type: 'warning', message: 'Performance warning: Large DOM tree detected' },
+                { type: 'success', message: 'All components loaded successfully' }
+            ];
+            
+            errors.forEach((error, index) => {
+                setTimeout(() => {
+                    document.dispatchEvent(new CustomEvent(`wb:${error.type}`, {
+                        detail: {
+                            message: error.message,
+                            source: 'error-simulator',
+                            timestamp: new Date().toISOString(),
+                            data: { simulationIndex: index, batch: 'multi-error-test' }
+                        }
+                    }));
+                }, index * 500); // Stagger the events
+            });
+        }
+        
+        // Load wb-event-log for Component Library tab
+        async function loadLibraryEventLog() {
+            try {
+                // Load the wb-event-log component if not already loaded
+                if (!customElements.get('wb-event-log')) {
+                    const script = document.createElement('script');
+                    script.type = 'module';
+                    script.src = 'wb-event-log/wb-event-log.js';
+                    document.head.appendChild(script);
+                    
+                    await new Promise(resolve => {
+                        script.onload = resolve;
+                        script.onerror = () => {
+                            console.warn('wb-event-log component not found for library tab');
+                            resolve();
+                        };
+                    });
+                }
+                
+                // Add some demo events to the library event log
+                setTimeout(() => {
+                    document.dispatchEvent(new CustomEvent('wb:info', {
+                        detail: {
+                            message: 'Component Library initialized successfully',
+                            source: 'component-library',
+                            timestamp: new Date().toISOString(),
+                            data: { totalComponents: 25, loadedComponents: 17 }
+                        }
+                    }));
+                    
+                    document.dispatchEvent(new CustomEvent('wb:success', {
+                        detail: {
+                            message: 'wb-event-log component loaded and ready',
+                            source: 'component-library',
+                            timestamp: new Date().toISOString(),
+                            data: { componentType: 'utility', version: '1.0.0' }
+                        }
+                    }));
+                }, 1000);
+                
+                console.log('✅ wb-event-log component loaded for Component Library');
+            } catch (error) {
+                console.warn('Failed to load wb-event-log for library:', error);
+            }
+        }
+    </script>
 </body>
 </html>

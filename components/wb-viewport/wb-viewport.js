@@ -11,18 +11,18 @@
     let currentViewport = 'auto';
     let controlsVisible = false;
     
-    // Load configuration from wb-viewport.json
+    // Load configuration from wb-viewport.schema.json
     async function loadConfig() {
         try {
             const configPath = (window.WBComponentUtils ? 
                 window.WBComponentUtils.getPath('wb-viewport.js', '../components/wb-viewport/') : 
-                '../components/wb-viewport/') + 'wb-viewport.json';
+                '../components/wb-viewport/') + 'wb-viewport.schema.json';
             const response = await fetch(configPath);
             config = await response.json();
             console.log('📱 WB Viewport: Configuration loaded', config);
             return config;
         } catch (error) {
-            console.warn('📱 WB Viewport: Could not load wb-viewport.json, using defaults', error);
+            console.warn('📱 WB Viewport: Could not load wb-viewport.schema.json, using defaults', error);
             config = {
                 configuration: {
                     viewports: {

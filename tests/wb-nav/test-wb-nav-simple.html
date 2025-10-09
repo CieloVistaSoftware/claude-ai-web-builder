@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple wb-nav Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #fff;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        wb-nav {
+            margin: 20px 0;
+            display: block;
+            padding: 20px;
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>wb-nav Simple Test</h1>
+        
+        <h2>Navigation Component</h2>
+        <wb-nav id="test-nav" layout="horizontal">
+            <nav-item href="#home" label="Home"></nav-item>
+            <nav-item href="#about" label="About"></nav-item>
+            <nav-item href="#contact" label="Contact"></nav-item>
+        </wb-nav>
+        
+        <div id="output">
+            <h3>Output:</h3>
+            <div id="console-output"></div>
+        </div>
+    </div>
+    
+    <!-- Load wb-nav component -->
+    <script src="/components/wb-nav/wb-nav.js"></script>
+    <script>
+        const output = document.getElementById('console-output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += '<div>' + message + '</div>';
+        }
+        
+        // Wait for component definition
+        customElements.whenDefined('wb-nav').then(() => {
+            log('wb-nav is now defined!');
+            
+            const nav = document.getElementById('test-nav');
+            if (nav) {
+                log('wb-nav element found');
+                log('Layout: ' + nav.getAttribute('layout'));
+                
+                const items = nav.querySelectorAll('nav-item');
+                log('Found ' + items.length + ' nav items');
+            }
+        }).catch(err => {
+            log('Error defining wb-nav: ' + err.message);
+        });
+        
+        // Fallback check
+        setTimeout(() => {
+            log('wb-nav defined (fallback): ' + (customElements.get('wb-nav') ? 'YES' : 'NO'));
+        }, 2000);
+    </script>
+</body>
+</html>

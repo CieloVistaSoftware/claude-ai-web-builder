@@ -1,103 +1,301 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "WB Control Panel Web Component",
-  "description": "Schema for wb-control-panel custom element - website builder control interface",
+  "title": "WB Control Panel Component Schema",
+  "description": "Schema for wb-control-panel - a composition layer that coordinates wb- components for website builder functionality with WBComponentRegistry integration and dynamic component loading",
   "type": "object",
-  "properties": {
-    "theme": {
-      "type": "string",
-      "enum": ["light", "dark", "auto"],
-      "default": "auto",
-      "description": "Theme setting for the control panel"
+  "definitions": {
+    "wbComponent": {
+      "type": "object",
+      "description": "Definition of a wb- component configuration",
+      "properties": {
+        "component": {
+          "type": "string",
+          "enum": [
+            "wb-button", "wb-card", "wb-change-text", "wb-color-bar", "wb-color-bars", "wb-color-picker",
+            "wb-event-log", "wb-footer", "wb-header", "wb-hero", "wb-image-insert", "wb-input", 
+            "wb-keyboard-manager", "wb-layout", "wb-log-error", "wb-modal", "wb-nav", "wb-search", 
+            "wb-select", "wb-slider", "wb-status", "wb-tab", "wb-table", "wb-theme", "wb-toggle", "wb-viewport"
+          ]
+        },
+        "config": {
+          "type": "object",
+          "description": "Component-specific configuration passed as attributes"
+        }
+      },
+      "required": ["component"]
     },
+    "controlSection": {
+      "type": "object",
+      "description": "A section within the control panel containing wb- components",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "collapsible": { "type": "boolean", "default": true },
+        "controls": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/wbComponent" }
+        }
+      },
+      "required": ["id", "title", "controls"]
+    }
+  },
+  "properties": {
     "position": {
       "type": "string",
       "enum": ["right", "left", "bottom"],
       "default": "right",
       "description": "Position of the control panel on screen"
     },
-    "auto-hide": {
-      "type": "boolean",
-      "default": false,
-      "description": "Whether to auto-hide the panel when not in use"
-    },
-    "show-themes": {
+    "draggable": {
       "type": "boolean",
       "default": true,
-      "description": "Whether to show theme selection controls"
+      "description": "Enable drag-to-move functionality"
     },
-    "show-colors": {
-      "type": "boolean",
-      "default": true,
-      "description": "Whether to show color picker controls"
+    "initial-state": {
+      "type": "string",
+      "enum": ["visible", "minimized"],
+      "default": "visible",
+      "description": "Initial visibility state of the control panel"
     },
-    "show-layout": {
-      "type": "boolean",
-      "default": true,
-      "description": "Whether to show layout selection controls"
+    "sections": {
+      "type": "array",
+      "description": "Ordered list of control sections containing wb- components",
+      "items": { "$ref": "#/definitions/controlSection" },
+      "default": [
+        {
+          "id": "edit-mode",
+          "title": "Edit Mode",
+          "controls": [
+            {
+              "component": "wb-toggle",
+              "config": {
+                "id": "edit-mode-toggle",
+                "label": "Edit Mode",
+                "checked": false,
+                "theme": "primary"
+              }
+            }
+          ]
+        },
+        {
+          "id": "theme-controls",
+          "title": "Theme Settings", 
+          "controls": [
+            {
+              "component": "wb-select",
+              "config": {
+                "id": "theme-select",
+                "label": "Theme",
+                "value": "dark",
+                "options": [
+                  {"value": "dark", "label": "Dark"},
+                  {"value": "light", "label": "Light"},
+                  {"value": "auto", "label": "Auto"},
+                  {"value": "cyberpunk", "label": "Cyberpunk"},
+                  {"value": "ocean", "label": "Ocean"},
+                  {"value": "sunset", "label": "Sunset"},
+                  {"value": "forest", "label": "Forest"}
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "layout-controls",
+          "title": "Layout Settings",
+          "controls": [
+            {
+              "component": "wb-layout",
+              "config": {
+                "id": "layout-manager",
+                "layout": "top-nav",
+                "show-control": true,
+                "auto-apply": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "primary-colors",
+          "title": "Primary Color",
+          "controls": [
+            {
+              "component": "wb-color-bars",
+              "config": {
+                "id": "primary-color-bar",
+                "label": "Primary Color",
+                "text-hue": "240",
+                "text-saturation": "70",
+                "text-lightness": "50",
+                "theme": "dark"
+              }
+            }
+          ]
+        },
+        {
+          "id": "background-colors",
+          "title": "Background Color", 
+          "controls": [
+            {
+              "component": "wb-color-bars",
+              "config": {
+                "id": "bg-color-bar",
+                "label": "Background Color",
+                "text-hue": "220",
+                "text-saturation": "25", 
+                "text-lightness": "15",
+                "theme": "dark"
+              }
+            }
+          ]
+        },
+        {
+          "id": "file-operations",
+          "title": "File Operations",
+          "controls": [
+            {
+              "component": "wb-button",
+              "config": {
+                "id": "save-btn",
+                "label": "Save",
+                "variant": "primary",
+                "icon": "💾"
+              }
+            },
+            {
+              "component": "wb-button", 
+              "config": {
+                "id": "export-btn",
+                "label": "Export",
+                "variant": "secondary",
+                "icon": "📤"
+              }
+            },
+            {
+              "component": "wb-button",
+              "config": {
+                "id": "reset-btn",
+                "label": "Reset",
+                "variant": "danger",
+                "icon": "🔄"
+              }
+            }
+          ]
+        }
+      ]
     },
-    "show-edit-mode": {
-      "type": "boolean",
-      "default": true,
-      "description": "Whether to show edit mode toggle"
+    "component-dependencies": {
+      "type": "object",
+      "description": "Dependency management for wb- components that this control panel requires",
+      "properties": {
+        "critical": {
+          "type": "array",
+          "description": "Components that must load before control panel can function",
+          "items": { "type": "string" },
+          "default": ["wb-color-bar", "wb-color-bars", "wb-toggle", "wb-select", "wb-button"]
+        },
+        "optional": {
+          "type": "array", 
+          "description": "Components that enhance functionality but are not required",
+          "items": { "type": "string" },
+          "default": ["wb-event-log", "wb-keyboard-manager", "wb-layout", "wb-nav"]
+        },
+        "loadSequence": {
+          "type": "array",
+          "description": "Ordered sequence for loading components to avoid dependency conflicts",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step": { "type": "number" },
+              "components": { "type": "array", "items": { "type": "string" } },
+              "parallel": { "type": "boolean", "default": false },
+              "timeout": { "type": "number", "default": 5000 }
+            }
+          },
+          "default": [
+            {
+              "step": 1,
+              "components": ["wb-color-bar"],
+              "parallel": false,
+              "timeout": 5000
+            },
+            {
+              "step": 2, 
+              "components": ["wb-color-bars"],
+              "parallel": false,
+              "timeout": 5000
+            },
+            {
+              "step": 3,
+              "components": ["wb-nav"],
+              "parallel": false,
+              "timeout": 5000
+            },
+            {
+              "step": 4,
+              "components": ["wb-layout", "wb-event-log", "wb-keyboard-manager"],
+              "parallel": true,
+              "timeout": 3000
+            },
+            {
+              "step": 5,
+              "components": ["wb-toggle", "wb-select", "wb-button"],
+              "parallel": true,
+              "timeout": 3000
+            }
+          ]
+        }
+      }
     },
-    "compact": {
-      "type": "boolean",
-      "default": false,
-      "description": "Use compact display mode"
+    "page-components": {
+      "type": "object",
+      "description": "Configuration for wb- components that control panel coordinates on the page",
+      "properties": {
+        "layout": {
+          "component": "wb-layout",
+          "description": "Layout management component that coordinates page structure"
+        },
+        "navigation": {
+          "component": "wb-nav",
+          "description": "Navigation component coordinated by wb-layout"
+        },
+        "header": {
+          "component": "wb-header", 
+          "description": "Header component managed by control panel",
+          "optional": true
+        },
+        "footer": {
+          "component": "wb-footer",
+          "description": "Footer component managed by control panel", 
+          "optional": true
+        }
+      }
     }
   },
   "tags": [
     {
       "name": "wb-control-panel",
-      "description": "Control panel for website builder with theme, color, and layout controls",
+      "description": "Composition layer component that coordinates wb- components for website builder functionality",
       "attributes": [
-        {
-          "name": "theme",
-          "description": "Control panel theme",
-          "valueSet": "wb-control-panel-theme"
-        },
         {
           "name": "position",
           "description": "Panel position on screen",
           "valueSet": "wb-control-panel-position"
         },
         {
-          "name": "auto-hide",
-          "description": "Auto-hide when not in use"
+          "name": "draggable",
+          "description": "Enable drag-to-move functionality"
         },
         {
-          "name": "show-themes",
-          "description": "Show theme controls"
-        },
-        {
-          "name": "show-colors",
-          "description": "Show color picker controls"
-        },
-        {
-          "name": "show-layout",
-          "description": "Show layout controls"
-        },
-        {
-          "name": "show-edit-mode",
-          "description": "Show edit mode toggle"
-        },
-        {
-          "name": "compact",
-          "description": "Use compact display"
+          "name": "initial-state", 
+          "description": "Initial visibility state",
+          "valueSet": "wb-control-panel-initial-state"
         }
       ]
     }
   ],
   "valueSets": [
-    {
-      "name": "wb-control-panel-theme",
-      "values": [
-        { "name": "light", "description": "Light theme" },
-        { "name": "dark", "description": "Dark theme" },
-        { "name": "auto", "description": "Auto-detect theme" }
-      ]
-    },
     {
       "name": "wb-control-panel-position",
       "values": [
@@ -105,8 +303,194 @@
         { "name": "left", "description": "Left side of screen" },
         { "name": "bottom", "description": "Bottom of screen" }
       ]
+    },
+    {
+      "name": "wb-control-panel-initial-state",
+      "values": [
+        { "name": "visible", "description": "Control panel is visible on page load" },
+        { "name": "minimized", "description": "Control panel is minimized on page load" }
+      ]
     }
   ],
-  "version": "1.0.0",
-  "schema": "wb-control-panel.schema.json"
+  "wbComponentRegistry": {
+    "type": "object",
+    "description": "WBComponentRegistry integration details",
+    "properties": {
+      "registered": {
+        "type": "boolean",
+        "const": true,
+        "description": "Component is registered with WBComponentRegistry"
+      },
+      "type": {
+        "type": "string",
+        "const": "composite",
+        "description": "Composite component that uses multiple other wb-components"
+      },
+      "role": {
+        "type": "string",
+        "const": "infrastructure",
+        "description": "Infrastructure component providing UI coordination"
+      },
+      "dependencies": {
+        "type": "array",
+        "items": { "type": "string" },
+        "default": ["wb-color-bar", "wb-color-bars", "wb-nav", "wb-layout", "wb-event-log", "wb-keyboard-manager"],
+        "description": "Components required by control panel in dependency load order"
+      },
+      "loadOrder": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component": { "type": "string" },
+            "priority": { "type": "number" },
+            "required": { "type": "boolean" },
+            "loadBefore": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "default": [
+          {
+            "component": "wb-color-bar",
+            "priority": 1, 
+            "required": true,
+            "loadBefore": ["wb-color-bars"]
+          },
+          {
+            "component": "wb-color-bars", 
+            "priority": 2,
+            "required": true,
+            "loadBefore": ["wb-control-panel"]
+          },
+          {
+            "component": "wb-nav",
+            "priority": 3,
+            "required": true,
+            "loadBefore": ["wb-control-panel"]
+          },
+          {
+            "component": "wb-layout",
+            "priority": 4,
+            "required": false,
+            "loadBefore": ["wb-control-panel"]
+          },
+          {
+            "component": "wb-event-log",
+            "priority": 5,
+            "required": false,
+            "loadBefore": []
+          },
+          {
+            "component": "wb-keyboard-manager",
+            "priority": 6,
+            "required": false,
+            "loadBefore": []
+          }
+        ],
+        "description": "Dependency loading order with priorities and requirements"
+      },
+      "dynamicLoading": {
+        "type": "boolean",
+        "const": true,
+        "description": "Supports dynamic component loading with dependency resolution"
+      },
+      "loadingMethods": {
+        "type": "array",
+        "items": { "type": "string" },
+        "default": ["loadComponents", "loadSingleComponent", "discoverComponentDependencies"],
+        "description": "Methods available for dynamic component loading"
+      },
+      "dependencyValidation": {
+        "type": "object",
+        "description": "Validation rules for component dependencies",
+        "properties": {
+          "strictOrder": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enforce strict dependency loading order"
+          },
+          "failOnMissing": {
+            "type": "boolean", 
+            "default": false,
+            "description": "Fail initialization if critical dependencies are missing"
+          },
+          "retryAttempts": {
+            "type": "number",
+            "default": 3,
+            "description": "Number of retry attempts for failed dependency loads"
+          },
+          "fallbackBehavior": {
+            "type": "string",
+            "enum": ["graceful", "error", "partial"],
+            "default": "graceful",
+            "description": "Behavior when dependencies fail to load"
+          }
+        }
+      }
+    }
+  },
+  "architecture": {
+    "type": "object",
+    "description": "Control panel architecture principles",
+    "properties": {
+      "principle": {
+        "type": "string",
+        "const": "composition-over-implementation",
+        "description": "Control panel composes wb- components rather than implementing their functionality"
+      },
+      "responsibilities": {
+        "type": "array",
+        "items": { "type": "string" },
+        "default": [
+          "Load and coordinate wb- components dynamically",
+          "Manage component configurations and dependencies", 
+          "Handle inter-component communication via events",
+          "Provide unified control interface",
+          "Delegate functionality to specialized wb- components",
+          "Create and configure wb-nav elements for navigation",
+          "Discover and resolve component dependencies automatically",
+          "Validate components against layout-specific schema requirements"
+        ]
+      },
+      "does-not-implement": {
+        "type": "array", 
+        "items": { "type": "string" },
+        "default": [
+          "Button functionality (uses wb-button)",
+          "Color picker functionality (uses wb-color-bars and wb-color-bar)",
+          "Navigation functionality (creates and configures wb-nav elements)", 
+          "Toggle functionality (uses wb-toggle)",
+          "Select functionality (uses wb-select)",
+          "Layout management (coordinates with wb-layout)",
+          "Event logging (delegates to wb-event-log)",
+          "Keyboard handling (uses wb-keyboard-manager)"
+        ]
+      }
+    }
+  },
+  "version": "2.1.0",
+  "lastUpdated": "2025-10-06",
+  "schema": "wb-control-panel.schema.json",
+  "changeLog": {
+    "2.1.0": {
+      "date": "2025-10-06",
+      "changes": [
+        "Added wb-nav component integration with proper custom element usage",
+        "Implemented WBComponentRegistry integration with dynamic loading",
+        "Added automatic dependency discovery from registry, schema files, and fallbacks",
+        "Enhanced with wb-nav specific validation and configuration methods",
+        "Updated architecture to support async component loading",
+        "Added comprehensive dependency chain management"
+      ]
+    },
+    "2.0.0": {
+      "date": "2025-10-04",
+      "changes": [
+        "Complete rewrite to composition-based schema",
+        "Removed implementation-specific properties",
+        "Added wb- component composition definitions", 
+        "Eliminated duplication with wb-website-builder",
+        "Focused on coordination rather than implementation"
+      ]
+    }
+  }
 }

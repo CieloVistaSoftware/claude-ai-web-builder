@@ -5,17 +5,15 @@
  */
 
 import { test, expect } from '@playwright/test';
+import { BaseUnitTest } from '../helpers/BaseUnitTestSimple.js';
 
 test.describe('WB Modal Animation - REAL TESTS', () => {
+  const baseTest = new BaseUnitTest();
     
     test.beforeEach(async ({ page }) => {
-        // Navigate to modal demo page
-        await page.goto('file://' + process.cwd() + '/components/wb-modal/wb-modal-demo.html');
-        
-        // Wait for component to load
-        await page.waitForLoadState('domcontentloaded');
-        await page.waitForTimeout(1000); // Wait for component initialization
-    });
+    await baseTest.setupStandardBeforeEach(page);
+    await page.waitForTimeout(1000);
+  });
 
     test('CRITICAL: Modal starts at exact container top position', async ({ page }) => {
         console.log('🧪 Testing modal start position...');

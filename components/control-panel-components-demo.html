@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control Panel Components Demo - Data-Driven</title>
+    <title>Control Panel Components Demo - Redirecting to Working Demo</title>
     
     <!-- Central Styles Import -->
-    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
-    <link rel="stylesheet" href="../styles/main.css">    <style>
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
         body {
             font-family: var(--font-sans);
             margin: 0;
@@ -222,491 +222,114 @@
             --space-lg: 1.5rem;
             --space-xl: 2rem;
         }
+        /* Dark mode styles for redirect page */
+        :root[data-theme="dark"], 
+        html[data-theme="dark"],
+        body[data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --primary: #6366f1;
+            --border-color: #334155;
+        }
+        
+        body {
+            background: var(--bg-primary, #0f172a) !important;
+            color: var(--text-primary, #f1f5f9) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .redirect-container {
+            text-align: center;
+            max-width: 600px;
+            background: var(--bg-secondary, #1e293b);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color, #334155);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .redirect-container h1 {
+            color: var(--primary, #6366f1);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        
+        .redirect-container p {
+            color: var(--text-secondary, #94a3b8);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .redirect-btn {
+            display: inline-block;
+            background: var(--primary, #6366f1);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            margin: 10px;
+        }
+        
+        .redirect-btn:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .countdown {
+            color: var(--primary, #6366f1);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body data-theme="dark">
-    <div class="demo-container">
-        <div class="header">
-            <h1>🎛️ Control Panel Components</h1>
-            <p>Data-driven form components for the Website Builder control panel</p>
-        </div>
+    <div class="redirect-container">
+        <h1>🎛️ Control Panel Demo</h1>
+        <p>This demo has been moved to the working control panel demo with full functionality including theme controls, color sliders, layout options, and edit mode.</p>
         
-        <!-- Toggle Component -->
-        <div class="component-section">
-            <h2><span class="icon">🔄</span> WB Toggle Component</h2>
-            <p>Accessible toggle switches with multiple variants, sizes, and label positions.</p>
-            
-            <div class="controls">
-                <div class="control-group">
-                    <label for="toggle-label">Label:</label>
-                    <input type="text" id="toggle-label" value="Dark Mode">
-                </div>
-                <div class="control-group">
-                    <label for="toggle-variant">Variant:</label>
-                    <select id="toggle-variant">
-                        <option value="primary">Primary</option>
-                        <option value="success">Success</option>
-                        <option value="warning">Warning</option>
-                        <option value="error">Error</option>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label for="toggle-size">Size:</label>
-                    <select id="toggle-size">
-                        <option value="small">Small</option>
-                        <option value="standard" selected>Standard</option>
-                        <option value="large">Large</option>
-                    </select>
-                </div>
-                <button class="btn" onclick="createToggle()">Create Toggle</button>
-                <button class="btn btn-secondary" onclick="loadToggleExample('basic')">Basic</button>
-                <button class="btn btn-secondary" onclick="loadToggleExample('withHelp')">With Help</button>
-            </div>
-            
-            <div id="toggle-container" class="component-placeholder">
-                Toggle component will appear here
-            </div>
-        </div>
+        <a href="wb-control-panel/wb-control-panel-demo.html" class="redirect-btn">
+            🚀 Go to Working Control Panel Demo
+        </a>
         
-        <!-- Select Component -->
-        <div class="component-section">
-            <h2><span class="icon">📋</span> WB Select Component</h2>
-            <p>Dropdown select with search, multi-select, and custom options.</p>
-            
-            <div class="controls">
-                <div class="control-group">
-                    <label for="select-label">Label:</label>
-                    <input type="text" id="select-label" value="Choose Theme">
-                </div>
-                <div class="control-group">
-                    <label for="select-searchable">Searchable:</label>
-                    <input type="checkbox" id="select-searchable" checked>
-                </div>
-                <div class="control-group">
-                    <label for="select-options">Options (JSON):</label>
-                    <textarea id="select-options" rows="4">[
-  {"value": "light", "label": "Light Theme"},
-  {"value": "dark", "label": "Dark Theme"},
-  {"value": "auto", "label": "Auto Theme"}
-]</textarea>
-                </div>
-                <button class="btn" onclick="createSelect()">Create Select</button>
-                <button class="btn btn-secondary" onclick="loadSelectExample('withSearch')">With Search</button>
-                <button class="btn btn-secondary" onclick="loadSelectExample('multiSelect')">Multi-Select</button>
-            </div>
-            
-            <div id="select-container" class="component-placeholder">
-                Select component will appear here
-            </div>
-        </div>
-        
-        <!-- Slider Component -->
-        <div class="component-section">
-            <h2><span class="icon">🎚️</span> WB Slider Component</h2>
-            <p>Range sliders with tick marks, dual handles, and custom formatting.</p>
-            
-            <div class="controls">
-                <div class="control-group">
-                    <label for="slider-label">Label:</label>
-                    <input type="text" id="slider-label" value="Volume">
-                </div>
-                <div class="control-group">
-                    <label for="slider-min">Min Value:</label>
-                    <input type="number" id="slider-min" value="0">
-                </div>
-                <div class="control-group">
-                    <label for="slider-max">Max Value:</label>
-                    <input type="number" id="slider-max" value="100">
-                </div>
-                <div class="control-group">
-                    <label for="slider-value">Current Value:</label>
-                    <input type="number" id="slider-value" value="75">
-                </div>
-                <div class="control-group">
-                    <label for="slider-unit">Unit:</label>
-                    <input type="text" id="slider-unit" value="%" placeholder="%, px, rem, etc.">
-                </div>
-                <button class="btn" onclick="createSlider()">Create Slider</button>
-                <button class="btn btn-secondary" onclick="loadSliderExample('range')">Range Slider</button>
-                <button class="btn btn-secondary" onclick="loadSliderExample('withTicks')">With Ticks</button>
-            </div>
-            
-            <div id="slider-container" class="component-placeholder">
-                Slider component will appear here
-            </div>
-        </div>
-        
-        <!-- Color Picker Component -->
-        <div class="component-section">
-            <h2><span class="icon">🎨</span> WB Color Picker Component</h2>
-            <p>Advanced color picker with multiple formats, presets, and eyedropper tool.</p>
-            
-            <div class="controls">
-                <div class="control-group">
-                    <label for="color-label">Label:</label>
-                    <input type="text" id="color-label" value="Primary Color">
-                </div>
-                <div class="control-group">
-                    <label for="color-value">Initial Color:</label>
-                    <input type="text" id="color-value" value="#6366f1">
-                </div>
-                <div class="control-group">
-                    <label for="color-format">Format:</label>
-                    <select id="color-format">
-                        <option value="hex" selected>HEX</option>
-                        <option value="rgb">RGB</option>
-                        <option value="hsl">HSL</option>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label for="color-alpha">Show Alpha:</label>
-                    <input type="checkbox" id="color-alpha">
-                </div>
-                <button class="btn" onclick="createColorPicker()">Create Color Picker</button>
-                <button class="btn btn-secondary" onclick="loadColorExample('withAlpha')">With Alpha</button>
-                <button class="btn btn-secondary" onclick="loadColorExample('compact')">Compact</button>
-            </div>
-            
-            <div id="color-picker-container" class="component-placeholder">
-                Color picker component will appear here
-            </div>
-        </div>
-        
-        <!-- Integration Example -->
-        <div class="component-section">
-            <h2><span class="icon">🔧</span> Control Panel Integration</h2>
-            <p>See how all components work together in a control panel layout.</p>
-            
-            <button class="btn" onclick="createControlPanel()">Create Sample Control Panel</button>
-            <button class="btn btn-secondary" onclick="clearAll()">Clear All Components</button>
-            
-            <div id="control-panel-container" class="component-placeholder">
-                Integrated control panel will appear here
-            </div>
-        </div>
-        
-        <div id="status" class="status info" style="display: none;">
-            Component Factory is loading...
+        <div class="countdown" id="countdown">
+            Redirecting in 5 seconds...
         </div>
     </div>
     
-    <!-- Component Factory -->
-    <script src="../utils/component-factory.js"></script>
-    
     <script>
-        let componentInstances = [];
+        // Auto-redirect to working demo after 5 seconds
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
         
-        // Initialize
-        async function initialize() {
-            try {
-                updateStatus('Loading component definitions...', 'info');
-                
-                // Load all component definitions
-                const components = [
-                    'wb-toggle/wb-toggle-data-driven.json',
-                    'wb-select/wb-select-data-driven.json', 
-                    'wb-slider/wb-slider-data-driven.json',
-                    'wb-color-picker/wb-color-picker-data-driven.json'
-                ];
-                
-                for (const componentPath of components) {
-                    await ComponentFactory.loadDefinition(componentPath);
-                }
-                
-                updateStatus('All components loaded successfully!', 'success');
-                setTimeout(() => hideStatus(), 3000);
-                
-            } catch (error) {
-                console.error('Failed to initialize components:', error);
-                updateStatus('Failed to load component definitions', 'error');
+        const timer = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                countdownElement.textContent = `Redirecting in ${countdown} seconds...`;
+            } else {
+                countdownElement.textContent = 'Redirecting now...';
+                clearInterval(timer);
+                window.location.href = 'wb-control-panel/wb-control-panel-demo.html';
             }
-        }
+        }, 1000);
         
-        // Toggle Component
-        async function createToggle() {
-            const data = {
-                label: document.getElementById('toggle-label').value,
-                variant: document.getElementById('toggle-variant').value,
-                size: document.getElementById('toggle-size').value,
-                id: 'demo-toggle-' + Date.now()
-            };
-            
-            try {
-                const component = await ComponentFactory.create('wb-toggle', { data });
-                displayComponent('toggle-container', component);
-                updateStatus('Toggle created successfully!', 'success');
-            } catch (error) {
-                updateStatus('Failed to create toggle: ' + error.message, 'error');
-            }
-        }
-        
-        function loadToggleExample(type) {
-            const examples = {
-                basic: {
-                    label: 'Enable Feature',
-                    variant: 'primary',
-                    size: 'standard'
-                },
-                withHelp: {
-                    label: 'Auto Save',
-                    variant: 'success',
-                    size: 'standard'
-                }
-            };
-            
-            const example = examples[type];
-            if (example) {
-                document.getElementById('toggle-label').value = example.label;
-                document.getElementById('toggle-variant').value = example.variant;
-                document.getElementById('toggle-size').value = example.size;
-                createToggle();
-            }
-        }
-        
-        // Select Component
-        async function createSelect() {
-            try {
-                const options = JSON.parse(document.getElementById('select-options').value);
-                const data = {
-                    label: document.getElementById('select-label').value,
-                    searchable: document.getElementById('select-searchable').checked,
-                    options: options,
-                    id: 'demo-select-' + Date.now()
-                };
-                
-                const component = await ComponentFactory.create('wb-select', { data });
-                displayComponent('select-container', component);
-                updateStatus('Select created successfully!', 'success');
-            } catch (error) {
-                updateStatus('Failed to create select: ' + error.message, 'error');
-            }
-        }
-        
-        function loadSelectExample(type) {
-            const examples = {
-                withSearch: {
-                    label: 'Select Country',
-                    searchable: true,
-                    options: [
-                        { value: 'us', label: 'United States' },
-                        { value: 'uk', label: 'United Kingdom' },
-                        { value: 'ca', label: 'Canada' },
-                        { value: 'au', label: 'Australia' }
-                    ]
-                },
-                multiSelect: {
-                    label: 'Select Skills',
-                    searchable: true,
-                    options: [
-                        { value: 'js', label: 'JavaScript' },
-                        { value: 'ts', label: 'TypeScript' },
-                        { value: 'react', label: 'React' },
-                        { value: 'vue', label: 'Vue' }
-                    ]
-                }
-            };
-            
-            const example = examples[type];
-            if (example) {
-                document.getElementById('select-label').value = example.label;
-                document.getElementById('select-searchable').checked = example.searchable;
-                document.getElementById('select-options').value = JSON.stringify(example.options, null, 2);
-                createSelect();
-            }
-        }
-        
-        // Slider Component
-        async function createSlider() {
-            const data = {
-                label: document.getElementById('slider-label').value,
-                min: parseInt(document.getElementById('slider-min').value),
-                max: parseInt(document.getElementById('slider-max').value),
-                value: parseInt(document.getElementById('slider-value').value),
-                unit: document.getElementById('slider-unit').value,
-                showValue: true,
-                id: 'demo-slider-' + Date.now()
-            };
-            
-            try {
-                const component = await ComponentFactory.create('wb-slider', { data });
-                displayComponent('slider-container', component);
-                updateStatus('Slider created successfully!', 'success');
-            } catch (error) {
-                updateStatus('Failed to create slider: ' + error.message, 'error');
-            }
-        }
-        
-        function loadSliderExample(type) {
-            const examples = {
-                range: {
-                    label: 'Price Range',
-                    min: 0,
-                    max: 1000,
-                    value: 250,
-                    unit: '$'
-                },
-                withTicks: {
-                    label: 'Rating',
-                    min: 1,
-                    max: 5,
-                    value: 3,
-                    unit: ''
-                }
-            };
-            
-            const example = examples[type];
-            if (example) {
-                Object.keys(example).forEach(key => {
-                    const input = document.getElementById('slider-' + key);
-                    if (input) input.value = example[key];
-                });
-                createSlider();
-            }
-        }
-        
-        // Color Picker Component
-        async function createColorPicker() {
-            const data = {
-                label: document.getElementById('color-label').value,
-                value: document.getElementById('color-value').value,
-                format: document.getElementById('color-format').value,
-                showAlpha: document.getElementById('color-alpha').checked,
-                id: 'demo-color-picker-' + Date.now()
-            };
-            
-            try {
-                const component = await ComponentFactory.create('wb-color-picker', { data });
-                displayComponent('color-picker-container', component);
-                updateStatus('Color picker created successfully!', 'success');
-            } catch (error) {
-                updateStatus('Failed to create color picker: ' + error.message, 'error');
-            }
-        }
-        
-        function loadColorExample(type) {
-            const examples = {
-                withAlpha: {
-                    label: 'Background Color',
-                    value: '#6366f180',
-                    format: 'rgba',
-                    showAlpha: true
-                },
-                compact: {
-                    label: 'Accent Color',
-                    value: '#10b981',
-                    format: 'hex',
-                    showAlpha: false
-                }
-            };
-            
-            const example = examples[type];
-            if (example) {
-                document.getElementById('color-label').value = example.label;
-                document.getElementById('color-value').value = example.value;
-                document.getElementById('color-format').value = example.format;
-                document.getElementById('color-alpha').checked = example.showAlpha;
-                createColorPicker();
-            }
-        }
-        
-        // Control Panel Integration
-        async function createControlPanel() {
-            const container = document.getElementById('control-panel-container');
-            container.innerHTML = '<div style="padding: 20px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;"><h3>Sample Control Panel</h3><div id="panel-components"></div></div>';
-            
-            const panelContainer = document.getElementById('panel-components');
-            
-            try {
-                // Create multiple components for the control panel
-                const components = [
-                    { type: 'wb-toggle', data: { label: 'Dark Mode', variant: 'primary', id: 'panel-dark-mode' }},
-                    { type: 'wb-select', data: { label: 'Theme', options: [
-                        { value: 'modern', label: 'Modern' },
-                        { value: 'classic', label: 'Classic' },
-                        { value: 'minimal', label: 'Minimal' }
-                    ], id: 'panel-theme' }},
-                    { type: 'wb-slider', data: { label: 'Spacing', min: 0, max: 50, value: 16, unit: 'px', showValue: true, id: 'panel-spacing' }},
-                    { type: 'wb-color-picker', data: { label: 'Primary Color', value: '#6366f1', format: 'hex', id: 'panel-primary-color' }}
-                ];
-                
-                for (const comp of components) {
-                    const component = await ComponentFactory.create(comp.type, { data: comp.data });
-                    const wrapper = document.createElement('div');
-                    wrapper.style.marginBottom = '20px';
-                    wrapper.appendChild(component.element);
-                    panelContainer.appendChild(wrapper);
-                }
-                
-                updateStatus('Control panel created with all components!', 'success');
-            } catch (error) {
-                updateStatus('Failed to create control panel: ' + error.message, 'error');
-            }
-        }
-        
-        function clearAll() {
-            const containers = [
-                'toggle-container',
-                'select-container', 
-                'slider-container',
-                'color-picker-container',
-                'control-panel-container'
-            ];
-            
-            containers.forEach(id => {
-                const container = document.getElementById(id);
-                container.innerHTML = container.id.replace('-container', '').replace('-', ' ') + ' component will appear here';
-                container.className = 'component-placeholder';
-            });
-            
-            // Destroy all component instances
-            componentInstances.forEach(instance => {
-                if (instance.destroy) instance.destroy();
-            });
-            componentInstances = [];
-            
-            updateStatus('All components cleared', 'info');
-        }
-        
-        // Utility functions
-        function displayComponent(containerId, component) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            container.className = 'component-demo';
-            container.appendChild(component.element);
-            
-            componentInstances.push(component);
-            
-            // Add event listeners to show component events
-            component.element.addEventListener('wbToggleChange', (e) => {
-                updateStatus(`Toggle changed: ${e.detail.active ? 'ON' : 'OFF'}`, 'info');
-            });
-            
-            component.element.addEventListener('wbSelectChange', (e) => {
-                updateStatus(`Select changed: ${e.detail.value}`, 'info');
-            });
-            
-            component.element.addEventListener('wbSliderChange', (e) => {
-                updateStatus(`Slider changed: ${e.detail.value}`, 'info');
-            });
-            
-            component.element.addEventListener('wbColorPickerChange', (e) => {
-                updateStatus(`Color changed: ${e.detail.value}`, 'info');
-            });
-        }
-        
-        function updateStatus(message, type) {
-            const status = document.getElementById('status');
-            status.textContent = message;
-            status.className = `status ${type}`;
-            status.style.display = 'block';
-        }
-        
-        function hideStatus() {
-            document.getElementById('status').style.display = 'none';
-        }
-        
-        // Initialize on load
-        initialize();
+        // Log for debugging
+        console.log('🎛️ Control Panel Components Demo - Redirecting to working demo');
+        console.log('Working demo URL: wb-control-panel/wb-control-panel-demo.html');
     </script>
 </body>
 </html>

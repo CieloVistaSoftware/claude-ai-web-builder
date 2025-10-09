@@ -2,6 +2,7 @@ export {};
 // @ts-nocheck
 // @ts-check
 import { test, expect } from '@playwright/test';
+import { BaseUnitTest } from './helpers/BaseUnitTestSimple.js';
 
 // Define constants for test configuration
 const WAIT_TIMEOUT = 500; // Consistent wait time across all tests

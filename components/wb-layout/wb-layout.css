@@ -1,0 +1,187 @@
+/* WB Layout Component Styles */
+
+:root {
+  /* Layout variables - set by wb-layout component */
+  --nav-width: 100%;
+  --nav-height: 60px;
+  --content-margin-left: 0;
+  --content-margin-top: 60px;
+  --content-margin-right: 0;
+}
+
+/* Layout-specific body classes and main content positioning */
+.layout-top-nav main {
+  margin-top: var(--content-margin-top);
+}
+
+.layout-left-nav main {
+  margin-left: var(--content-margin-left);
+}
+
+.layout-right-nav main {
+  margin-right: var(--content-margin-right);
+}
+
+.layout-ad-layout main {
+  margin-top: var(--content-margin-top);
+}
+
+/* Layout control styling */
+.wb-layout-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--surface, #2a2a2a);
+  border-radius: 4px;
+  border: 1px solid var(--border, #404040);
+}
+
+.wb-layout-control label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary, #cbd5e1);
+  white-space: nowrap;
+}
+
+.wb-layout-control select {
+  background: var(--surface-elevated, #363636);
+  border: 1px solid var(--border, #404040);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  color: var(--text-primary, #f1f5f9);
+  font-size: 0.875rem;
+  min-width: 120px;
+}
+
+.wb-layout-control select:focus {
+  outline: none;
+  border-color: var(--primary, #6366f1);
+  box-shadow: 0 0 0 2px var(--primary-alpha, rgba(99, 102, 241, 0.2));
+}
+
+.wb-layout-control select option {
+  background: var(--surface-elevated, #363636);
+  color: var(--text-primary, #f1f5f9);
+}
+
+/* Layout-managed navigation positioning */
+/* wb-layout component manages wb-nav positioning */
+
+.layout-top-nav wb-nav,
+.layout-ad-layout wb-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  width: 100%;
+  z-index: 1000;
+}
+
+.layout-left-nav wb-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--nav-width);
+  height: 100vh;
+  z-index: 1000;
+}
+
+.layout-right-nav wb-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--nav-width);
+  height: 100vh;
+  z-index: 1000;
+}
+
+/* Ensure wb-nav receives layout context */
+.layout-top-nav wb-nav,
+.layout-ad-layout wb-nav {
+  --wb-nav-layout-type: horizontal;
+}
+
+.layout-left-nav wb-nav,
+.layout-right-nav wb-nav {
+  --wb-nav-layout-type: vertical;
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+  .layout-left-nav,
+  .layout-right-nav {
+    /* On mobile, convert sidebar layouts to top nav */
+    --nav-width: 100%;
+    --nav-height: 60px;
+    --content-margin-left: 0;
+    --content-margin-right: 0;
+    --content-margin-top: 60px;
+  }
+
+  .layout-left-nav wb-nav,
+  .layout-right-nav wb-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: var(--nav-height);
+  }
+
+  .layout-left-nav main,
+  .layout-right-nav main {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: var(--content-margin-top);
+  }
+}
+
+/* Layout transitions */
+main {
+  transition: margin 0.3s ease;
+}
+
+wb-nav {
+  transition: all 0.3s ease;
+}
+
+/* Layout control visibility */
+wb-layout .wb-layout-control {
+  display: none;
+}
+
+wb-layout[show-control] .wb-layout-control {
+  display: flex;
+}
+
+/* Layout coordination - wb-nav styling when managed by wb-layout */
+.wb-layout-managed wb-nav {
+  /* Ensure wb-nav adapts to layout management */
+  --wb-nav-layout-managed: true;
+}
+
+/* Prevent wb-nav from using standalone positioning when layout-managed */
+body[data-layout] wb-nav.wb-nav--standalone {
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  width: auto;
+  height: auto;
+}
+
+/* Override wb-nav responsive behavior when layout-managed */
+@media (max-width: 768px) {
+  body[data-layout="left-nav"] wb-nav,
+  body[data-layout="right-nav"] wb-nav {
+    /* Layout component handles mobile conversion */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: var(--nav-height);
+  }
+}

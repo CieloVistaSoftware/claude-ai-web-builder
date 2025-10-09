@@ -3,52 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Card Component Demo</title>
+    <title>🃏 WB Card Component - Professional Demo</title>
     
-    <!-- Existing WB Core CSS -->
-    <link rel="stylesheet" href="../../wb-core/wb.css">
-    <!-- Control Panel Component CSS -->
-    <link rel="stylesheet" href="../control-panel/control-panel.css">
-    <!-- Event Log Component CSS -->
-    <link rel="stylesheet" href="../wb-event-log/wb-event-log.css">
-    <!-- Component CSS -->
+    <!-- Core Styles Following Current Standards -->
+    <link rel="stylesheet" href="../../styles/main.css">
     <link rel="stylesheet" href="wb-card.css">
+    
+    <!-- Event Log Component -->
+    <link rel="stylesheet" href="../wb-event-log/wb-event-log.css">
+    
+    <style>
+        /* Modern Dark Theme Variables */
+        :root {
+            --demo-bg: var(--neutral-900);
+            --demo-card-bg: var(--neutral-800);
+            --demo-text: var(--neutral-100);
+            --demo-accent: var(--primary);
+            --demo-border: var(--neutral-700);
+            --demo-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            background: var(--demo-bg);
+            color: var(--demo-text);
+            font-family: var(--font-family);
+            line-height: var(--line-height-relaxed);
+            margin: 0;
+            min-height: 100vh;
+        }
+        
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            padding: var(--space-2xl);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: var(--radius-xl);
+            color: var(--neutral-100);
+        }
+        
+        .demo-title {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-md);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .demo-subtitle {
+            font-size: var(--text-lg);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            background: var(--demo-card-bg);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            border: 1px solid var(--demo-border);
+            box-shadow: var(--demo-shadow);
+        }
+        
+        .section-title {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-semibold);
+            color: var(--demo-accent);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-sm);
+            border-bottom: 2px solid var(--demo-border);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin: var(--space-xl) 0;
+        }
+        
+        .floating-event-log {
+            position: fixed;
+            bottom: var(--space-lg);
+            right: var(--space-lg);
+            width: 400px;
+            max-height: 300px;
+            background: var(--demo-card-bg);
+            border: 1px solid var(--demo-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--demo-shadow);
+            z-index: 1000;
+        }
+        
+        .floating-event-log-header {
+            padding: var(--space-md);
+            background: var(--demo-accent);
+            color: var(--neutral-100);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .floating-event-log-title {
+            margin: 0;
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+        }
+        
+        .btn {
+            padding: var(--space-sm) var(--space-md);
+            border: 2px solid var(--demo-accent);
+            border-radius: var(--radius-md);
+            background: var(--demo-accent);
+            color: var(--neutral-100);
+            cursor: pointer;
+            font-weight: var(--font-medium);
+            transition: var(--transition-all);
+        }
+        
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: var(--demo-card-bg);
+            color: var(--demo-text);
+            border-color: var(--demo-border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--neutral-700);
+            border-color: var(--demo-accent);
+        }
+    </style>
 </head>
-<body data-theme="light" data-layout="top-nav" data-footer="same-page">
-    <!-- Control Panel Component -->
-    <control-panel></control-panel>
+<body>
+    <div class="demo-container">
+        <!-- Header -->
+        <header class="demo-header">
+            <h1 class="demo-title">🃏 WB Card Component</h1>
+            <p class="demo-subtitle">
+                Professional card component with modern dark theme, multiple variants, interactive features, and comprehensive event logging
+            </p>
+        </header>
 
-    <!-- Live Event Log for System Monitoring -->
-    <div id="floating-event-log" class="floating-event-log">
-      <div class="floating-event-log-header">
-        <h3 class="floating-event-log-title">🔍 Demo Events</h3>
-        <div class="floating-event-log-controls">
-          <wb-button size="small" variant="minimal" onclick="toggleEventLog()">−</wb-button>
+        <!-- Live Event Log for System Monitoring -->
+        <div id="floating-event-log" class="floating-event-log">
+            <div class="floating-event-log-header">
+                <h3 class="floating-event-log-title">🔍 Live Demo Events</h3>
+                <div class="floating-event-log-controls">
+                    <button class="btn btn-secondary" onclick="toggleEventLog()">−</button>
+                </div>
+            </div>
+            <div class="floating-event-log-content">
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="50"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    show-source="true"
+                    toolbar="true"
+                    search="true"
+                    filters="true"
+                    export="true">
+                </wb-event-log>
+            </div>
         </div>
-      </div>
-      <div class="floating-event-log-content">
-        <wb-event-log id="demo-event-log"></wb-event-log>
-      </div>
-    </div>
+        <!-- Navigation -->
+        <nav class="demo-section">
+            <div style="display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;">
+                <button class="btn" onclick="scrollToSection('variants')">🎨 Variants</button>
+                <button class="btn" onclick="scrollToSection('sizes')">📏 Sizes</button>
+                <button class="btn" onclick="scrollToSection('layouts')">📋 Layouts</button>
+                <button class="btn" onclick="scrollToSection('interactive')">🎯 Interactive</button>
+                <button class="btn" onclick="scrollToSection('javascript')">⚡ JavaScript</button>
+                <button class="btn btn-secondary" onclick="testEventLog()">🔧 Test Events</button>
+            </div>
+        </nav>
 
-    <!-- Main Website Container -->
-    <div class="site-container">
-        <!-- Navigation using wb-nav component -->
-        <wb-nav id="site-nav" 
-                layout="horizontal" 
-                variant="default"
-                items='[{"id": "variants", "text": "Variants", "href": "#variants-section", "active": true}, {"id": "sizes", "text": "Sizes", "href": "#sizes-section"}, {"id": "layouts", "text": "Layouts", "href": "#layouts-section"}, {"id": "interactive", "text": "Interactive", "href": "#interactive-section"}, {"id": "javascript", "text": "JavaScript", "href": "#javascript-section"}]'>
-        </wb-nav>
-
-        <main class="main-content">
-            <!-- Header Section -->
-            <header class="site-header">
-                <h1 class="site-title">WB Card Component</h1>
-                <p class="site-subtitle">Flexible content containers with multiple layouts, variants, and interactive capabilities</p>
-            </header>
-
-            <!-- Interactive Demo Controls -->
-            <section class="content-section">
+        <!-- Card Variants Section -->
+        <section id="variants" class="demo-section">
+            <h2 class="section-title">🎨 Card Variants</h2>
+            <p>Different visual styles for various use cases with modern dark theme support.</p>
+            <div class="demo-grid">
                 <wb-card title="Interactive Demo Controls" 
                          subtitle="Customize the demo card below" 
                          variant="outlined" 
@@ -104,6 +248,19 @@
                         size="standard"
                         layout="vertical">
                     </wb-card>
+                </div>
+                
+                <!-- Event Log Test Controls -->
+                <div style="margin-top: 2rem; text-align: center; padding: 1.5rem; background: var(--demo-card-bg); border-radius: var(--radius-lg); border: 1px solid var(--demo-border);">
+                    <h3 style="color: var(--demo-accent); margin-bottom: 1rem;">🔧 Event Log Testing & Controls</h3>
+                    <p style="color: var(--demo-text); opacity: 0.8; margin-bottom: 1rem;">Test the integrated wb-event-log component with live event generation</p>
+                    <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+                        <wb-button onclick="testEventLog()" variant="primary">🧪 Test Event Log</wb-button>
+                        <wb-button onclick="toggleEventLog()" variant="secondary">👁️ Toggle Event Log</wb-button>
+                        <wb-button onclick="createDynamicCard()" variant="success">➕ Create Card</wb-button>
+                        <wb-button onclick="logDemoEvent('success', '✨ Custom success event!')" variant="minimal">✨ Log Success</wb-button>
+                        <wb-button onclick="logDemoEvent('warning', '⚠️ Custom warning event!')" variant="warning">⚠️ Log Warning</wb-button>
+                    </div>
                 </div>
             </section>
 
@@ -435,8 +592,142 @@
             console.log('Card ready:', e.detail.component);
         });
         
+        // Enhanced Event Logging System
+        let demoEventLog;\n        
+        // Initialize demo with event logging
+        document.addEventListener('DOMContentLoaded', () => {
+            demoEventLog = document.getElementById('demo-event-log');
+            
+            // Log initialization
+            logDemoEvent('info', '🚀 WB Card Demo initialized with modern dark theme');
+            logDemoEvent('success', '🃏 Card component loaded successfully');
+            
+            // Enhanced card interaction logging
+            document.addEventListener('click', (event) => {
+                if (event.target.closest('wb-card')) {
+                    const card = event.target.closest('wb-card');
+                    const variant = card.getAttribute('variant') || 'default';
+                    const size = card.getAttribute('size') || 'medium';
+                    logDemoEvent('info', `🃏 Card interaction: ${variant} variant (${size} size)`, {
+                        element: card.tagName,
+                        variant: variant,
+                        size: size
+                    });
+                }
+            });
+            
+            // Log component readiness
+            setTimeout(() => {
+                logDemoEvent('success', '✅ All card variants rendered successfully');
+                logDemoEvent('info', '💡 Try interacting with cards to see live events');
+            }, 1000);
+        });
+        
+        function logDemoEvent(type, message, details = {}) {
+            if (demoEventLog && demoEventLog.addEvent) {
+                demoEventLog.addEvent({
+                    type: type,
+                    message: message,
+                    timestamp: new Date().toISOString(),
+                    source: 'wb-card-demo',
+                    details: details
+                });
+            }
+            // Also log to console for debugging
+            console.log(`[${type.toUpperCase()}] ${message}`, details);
+        }
+        
+        // Enhanced dynamic card functions with logging
+        function createDynamicCard() {
+            const container = document.getElementById('dynamic-cards-container');
+            const cardId = 'dynamic-card-' + Date.now();
+            
+            const card = document.createElement('wb-card');
+            card.id = cardId;
+            card.setAttribute('variant', 'elevated');
+            card.setAttribute('size', 'medium');
+            card.innerHTML = `
+                <h3>Dynamic Card</h3>
+                <p>Created at ${new Date().toLocaleTimeString()}</p>
+                <wb-button variant="primary" onclick="updateDynamicCard()">Update</wb-button>
+                <wb-button variant="danger" onclick="removeDynamicCard()">Remove</wb-button>
+            `;
+            
+            container.appendChild(card);
+            currentDynamicCard = card;
+            
+            logDemoEvent('success', `🆕 Dynamic card created: ${cardId}`, {
+                cardId: cardId,
+                timestamp: new Date().toISOString()
+            });
+        }
+        
+        function updateDynamicCard() {
+            if (!currentDynamicCard) {
+                logDemoEvent('warning', '⚠️ No dynamic card to update');
+                return;
+            }
+            
+            const titles = ['Updated Dynamic Card', 'Modified Card', 'Enhanced Card'];
+            const bodies = ['Content updated successfully!', 'Dynamic modification complete.', 'Card enhanced with new data.'];
+            
+            const newTitle = titles[Math.floor(Math.random() * titles.length)];
+            const newBody = bodies[Math.floor(Math.random() * bodies.length)];
+            
+            currentDynamicCard.innerHTML = `
+                <h3>${newTitle}</h3>
+                <p>${newBody}</p>
+                <p><small>Updated: ${new Date().toLocaleTimeString()}</small></p>
+                <wb-button variant="primary" onclick="updateDynamicCard()">Update Again</wb-button>
+                <wb-button variant="danger" onclick="removeDynamicCard()">Remove</wb-button>
+            `;
+            
+            logDemoEvent('info', `🔄 Dynamic card updated: ${newTitle}`, {
+                cardId: currentDynamicCard.id,
+                newContent: { title: newTitle, body: newBody }
+            });
+        }
+        
+        function removeDynamicCard() {
+            if (!currentDynamicCard) {
+                logDemoEvent('warning', '⚠️ No dynamic card to remove');
+                return;
+            }
+            
+            const cardId = currentDynamicCard.id;
+            currentDynamicCard.remove();
+            currentDynamicCard = null;
+            
+            logDemoEvent('warning', `🗑️ Dynamic card removed: ${cardId}`, {
+                cardId: cardId,
+                action: 'remove'
+            });
+        }
+        
+        // Event log controls
+        function toggleEventLog() {
+            const logContainer = document.getElementById('floating-event-log');
+            const content = logContainer.querySelector('.floating-event-log-content');
+            const button = logContainer.querySelector('button');
+            
+            const isVisible = content.style.display !== 'none';
+            content.style.display = isVisible ? 'none' : 'block';
+            button.textContent = isVisible ? '+' : '−';
+            
+            logDemoEvent('info', `🔍 Event log ${isVisible ? 'collapsed' : 'expanded'}`);
+        }
+        
+        function testEventLog() {
+            logDemoEvent('info', '🧪 Testing event log functionality...');
+            
+            setTimeout(() => logDemoEvent('success', '✅ Success event test'), 500);
+            setTimeout(() => logDemoEvent('warning', '⚠️ Warning event test'), 1000);
+            setTimeout(() => logDemoEvent('error', '❌ Error event test'), 1500);
+            setTimeout(() => logDemoEvent('info', '📊 Event log test completed'), 2000);
+        }
+        
         // Initialize
-        console.log('WB Card Demo: Initialized');
+        logDemoEvent('info', '🎯 WB Card Demo: Initialization complete');
     </script>
 </body>
 </html>

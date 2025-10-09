@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Events API Test Client</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-accent: #667eea;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-white: #ffffff;
+            --border-color: #e0e0e0;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-accent: #4a5568;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --border-color: #404040;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--bg-accent) 0%, #764ba2 100%);
+            color: var(--text-white);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .theme-toggle {
+            background: rgba(255,255,255,0.2);
+            color: var(--text-white);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .api-section {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .api-section h2 {
+            margin-top: 0;
+            color: var(--bg-accent);
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .api-section p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: var(--info-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary {
+            background: var(--info-color);
+        }
+
+        .btn-danger {
+            background: var(--error-color);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: var(--info-color);
+        }
+
+        .response-area {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            max-height: 500px;
+            overflow-y: auto;
+            line-height: 1.4;
+        }
+
+        .status {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-weight: 600;
+            border-left: 4px solid;
+        }
+
+        .status.success {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+            border-left-color: var(--success-color);
+        }
+
+        .status.error {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--error-color);
+            border-left-color: var(--error-color);
+        }
+
+        .status.info {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info-color);
+            border-left-color: var(--info-color);
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .api-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            <h1>🤖 Claude Events API Test Client</h1>
+            <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">
+                🌙 Dark Mode
+            </button>
+        </div>
+        <p>Test API endpoints that AI assistants can use to access claude.md event logs</p>
+        <div id="apiStatus" class="status info">Checking API status...</div>
+    </div>
+
+    <div class="api-section">
+        <h2>🏥 Health Check</h2>
+        <p>Check if the API server is running and get available endpoints.</p>
+        <button class="btn btn-primary" onclick="testEndpoint('/api/health')">
+            GET /api/health
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📊 All Events</h2>
+        <p>Get all events from all claude.md files in the project.</p>
+        <button class="btn btn-primary" onclick="testEndpoint('/api/events')">
+            GET /api/events
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>🚨 Error Events Only</h2>
+        <p>Get only error-level events - what AI assistants need to fix.</p>
+        <button class="btn btn-danger" onclick="testEndpoint('/api/errors')">
+            GET /api/errors
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>⏰ Recent Events</h2>
+        <p>Get events from the last N hours.</p>
+        <div class="input-group">
+            <label>Hours back:</label>
+            <input type="number" id="hoursInput" value="24" min="1" max="168">
+        </div>
+        <button class="btn btn-primary" onclick="testRecentEvents()">
+            GET /api/recent/N
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📁 Directory-Specific Events</h2>
+        <p>Get events from a specific directory's claude.md file.</p>
+        <div class="input-group">
+            <label>Directory path:</label>
+            <input type="text" id="directoryInput" value="components/wb-color-picker" placeholder="components/wb-button">
+        </div>
+        <button class="btn btn-primary" onclick="testDirectoryEvents()">
+            GET /api/events/directory
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>💾 Save Event Log</h2>
+        <p>Save new content to a claude.md file (AI assistants can document fixes).</p>
+        <div class="input-group">
+            <label>Directory:</label>
+            <input type="text" id="saveDirectory" value="." placeholder="components/wb-button">
+        </div>
+        <div class="input-group">
+            <label>Content:</label>
+            <textarea id="saveContent" rows="6"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="testSaveEvent()">
+            POST /api/save-claude-log
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📋 API Response</h2>
+        <div id="responseArea" class="response-area">No requests made yet. Click an endpoint button above to test the API.
+
+🚀 Instructions for AI Assistants:
+- Use GET /api/errors to see what's currently broken
+- Use GET /api/events/dir?path=components/wb-tab to debug specific components  
+- Use GET /api/recent/1 to get the latest issues
+- Use POST /api/save-claude-log to document fixes</div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001';
+        
+        // Initialize theme and check API status on load
+        window.addEventListener('load', async () => {
+            initializeTheme();
+            initializeForm();
+            await checkApiStatus();
+        });
+        
+        function initializeForm() {
+            // Set default content with current timestamp
+            const defaultContent = `## API Test Event - ${new Date().toLocaleString()}
+
+**Type**: Test Entry
+**Source**: Claude Events API Test Client
+**Timestamp**: ${new Date().toISOString()}
+**Message**: Testing API save functionality
+
+This entry was created by the API test client to verify that events are properly prepended to the TOP of claude.md files, not appended to the bottom.
+
+**Expected Result**: This should appear at the beginning of the claude.md file.
+
+---
+
+`;
+            document.getElementById('saveContent').value = defaultContent;
+        }
+        
+        function initializeTheme() {
+            const isDark = localStorage.getItem('wb-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeToggle').innerHTML = '☀️ Light Mode';
+            }
+        }
+        
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            
+            if (isDark) {
+                html.removeAttribute('data-theme');
+                themeToggle.innerHTML = '🌙 Dark Mode';
+                localStorage.setItem('wb-theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '☀️ Light Mode';
+                localStorage.setItem('wb-theme', 'dark');
+            }
+        }
+        
+        async function checkApiStatus() {
+            const statusEl = document.getElementById('apiStatus');
+            try {
+                const response = await fetch(`${API_BASE}/api/health`);
+                if (response.ok) {
+                    const data = await response.json();
+                    statusEl.innerHTML = `✅ API Server is running (uptime: ${Math.round(data.uptime)}s)`;
+                    statusEl.className = 'status success';
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                statusEl.innerHTML = `❌ API Server not available: ${error.message}<br><small>Make sure to run: <code>node server/claude-events-api.js</code></small>`;
+                statusEl.className = 'status error';
+            }
+        }
+        
+        async function testEndpoint(endpoint, options = {}) {
+            const responseArea = document.getElementById('responseArea');
+            const body = document.body;
+            
+            // Show loading state
+            body.classList.add('loading');
+            responseArea.textContent = `⏳ Loading ${endpoint}...`;
+            
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                const data = await response.json();
+                
+                const formatted = JSON.stringify(data, null, 2);
+                responseArea.innerHTML = `<strong>Status:</strong> ${response.status}
+<strong>Endpoint:</strong> ${endpoint}
+<strong>Response:</strong>
+
+${formatted}`;
+                
+                // Highlight important data
+                if (data.totalErrors > 0) {
+                    responseArea.style.borderLeftColor = 'var(--error-color)';
+                } else if (data.status === 'healthy') {
+                    responseArea.style.borderLeftColor = 'var(--success-color)';
+                } else {
+                    responseArea.style.borderLeftColor = 'var(--info-color)';
+                }
+                
+            } catch (error) {
+                responseArea.innerHTML = `<strong>❌ Error:</strong> ${error.message}
+
+Make sure the API server is running:
+<code>node server/claude-events-api.js</code>`;
+                responseArea.style.borderLeftColor = 'var(--error-color)';
+            } finally {
+                body.classList.remove('loading');
+            }
+        }
+        
+        async function testRecentEvents() {
+            const hours = document.getElementById('hoursInput').value || 24;
+            await testEndpoint(`/api/recent/${hours}`);
+        }
+        
+        async function testDirectoryEvents() {
+            const directory = document.getElementById('directoryInput').value || 'components/wb-color-picker';
+            await testEndpoint(`/api/events/dir?path=${encodeURIComponent(directory)}`);
+        }
+        
+        async function testSaveEvent() {
+            const directory = document.getElementById('saveDirectory').value || '.';
+            const content = document.getElementById('saveContent').value;
+            
+            const payload = {
+                filename: 'claude.md',
+                content: content,
+                folder: directory,
+                referer: window.location.href
+            };
+            
+            await testEndpoint('/api/save-claude-log', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+        }
+    </script>
+</body>
+</html>

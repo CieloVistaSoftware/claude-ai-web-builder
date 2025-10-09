@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple wb-color-bar Test</title>
+    
+    <!-- WB System for Claude Issue Tracking -->
+    <script src="/config.js"></script>
+    <script src="/utils/auto-loader.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #fff;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        wb-color-bar {
+            margin: 20px 0;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>wb-color-bar Simple Test</h1>
+        
+        <h2>Hue Bar</h2>
+        <wb-color-bar type="hue" hue="240" saturation="70" lightness="50"></wb-color-bar>
+        
+        <h2>Saturation Bar</h2>
+        <wb-color-bar type="saturation" hue="240" saturation="70" lightness="50" value="70"></wb-color-bar>
+        
+        <h2>Lightness Bar</h2>
+        <wb-color-bar type="lightness" hue="240" saturation="70" lightness="50" value="50"></wb-color-bar>
+        
+        <div id="output">
+            <h3>Output:</h3>
+            <div id="console-output"></div>
+        </div>
+    </div>
+    
+    <!-- Configuration System -->
+    <script src="/config.js"></script>
+    <script src="/components/wb-color-bar/wb-color-bar.js"></script>
+    <script>
+        const output = document.getElementById('console-output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += '<div>' + message + '</div>';
+        }
+        
+        setTimeout(() => {
+            log('wb-color-bar defined: ' + (customElements.get('wb-color-bar') ? 'YES' : 'NO'));
+            
+            const bars = document.querySelectorAll('wb-color-bar');
+            log('Found ' + bars.length + ' wb-color-bar elements');
+            
+            bars.forEach((bar, index) => {
+                log('Bar ' + index + ' type: ' + bar.getAttribute('type'));
+                
+                bar.addEventListener('colorchange', (e) => {
+                    log('Color change from bar ' + index + ': ' + JSON.stringify(e.detail));
+                    WBEventLog.logUser('Color bar interaction', { 
+                        source: 'wb-color-bar-test', 
+                        barIndex: index, 
+                        color: e.detail,
+                        component: 'wb-color-bar'
+                    });
+                });
+            });
+            
+            // Claude issue tracking
+            WBEventLog.logInfo('wb-color-bar test initialized', { source: 'test-wb-color-bar' });
+            WBEventLog.logInfo(`Found ${bars.length} color bar components`, { source: 'component-detection' });
+        }, 1000);
+    </script>
+    
+    <!-- Claude Debug Event Log -->
+    <div style="position: fixed; bottom: 20px; right: 20px; width: 300px; height: 200px; z-index: 9999; background: rgba(30, 30, 30, 0.9); border: 1px solid #444; border-radius: 6px; overflow: hidden;">
+        <div style="background: #007acc; color: white; padding: 4px 8px; font-size: 10px; font-weight: bold;">🔍 Claude Issues</div>
+        <wb-event-log id="claudeColorBarLog"></wb-event-log>
+    </div>
+</body>
+</html>

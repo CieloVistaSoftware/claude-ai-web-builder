@@ -29,6 +29,21 @@
       "default": true,
       "description": "Whether events can be expanded to show details"
     },
+    "claude-save-enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show the Save to Claude.md button"
+    },
+    "claude-filename": {
+      "type": "string",
+      "default": "claude.md",
+      "description": "Target filename for claude.md saves"
+    },
+    "claude-auto-group": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to group events by type when saving to claude.md"
+    },
     "compact": {
       "type": "boolean",
       "default": false,

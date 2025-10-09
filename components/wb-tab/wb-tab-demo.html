@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Tab Component Demo</title>
+    
+    <!-- Central Styles Import -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <style>
+        body {
+            padding: var(--space-lg);
+            transition: background-color var(--transition-medium), color var(--transition-medium);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+        }
+        
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .demo-section {
+            margin: var(--space-xl) 0;
+            padding: var(--space-lg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-tertiary);
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .output {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-base);
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .controls button {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .controls button:hover {
+            background: var(--bg-secondary);
+        }
+        
+        /* Tab content styling */
+        wb-tab {
+            height: 300px;
+            display: block;
+        }
+        
+        .tab-content-example {
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .card-example {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-base);
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .feature-item {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: var(--radius-base);
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-item h4 {
+            margin: 0 0 8px 0;
+            color: var(--primary);
+        }
+        
+        .tabs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <button class="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
+    
+    <div class="container">
+        <h1>WB Tab Web Component Demo</h1>
+        <p>A comprehensive, accessible tab component with multiple variants and advanced features.</p>
+        
+        <!-- Basic Usage -->
+        <div class="demo-section">
+            <h3>🎯 Basic Tab Example</h3>
+            <p>Simple horizontal tabs with different content types:</p>
+            
+            <wb-tab id="basic-tabs" active-tab="home" variant="default" theme="dark">
+                <wb-tab-item tab-id="home" icon="🏠">Home</wb-tab-item>
+                <wb-tab-item tab-id="profile" icon="👤">Profile</wb-tab-item>
+                <wb-tab-item tab-id="settings" icon="⚙️">Settings</wb-tab-item>
+                <wb-tab-item tab-id="help" icon="❓">Help</wb-tab-item>
+                
+                <wb-tab-panel tab-for="home">
+                    <div class="tab-content-example">
+                        <h2>🏠 Home Dashboard</h2>
+                        <p>Welcome to your home dashboard! Here you can see an overview of your recent activity.</p>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <h4>Recent Activity</h4>
+                                <p>5 new notifications</p>
+                            </div>
+                            <div class="feature-item">
+                                <h4>Quick Actions</h4>
+                                <p>Create new project</p>
+                            </div>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="profile">
+                    <div class="tab-content-example">
+                        <h2>👤 User Profile</h2>
+                        <p>Manage your profile information and preferences.</p>
+                        <div class="card-example">
+                            <h4>Personal Information</h4>
+                            <p>Name: John Doe<br>Email: john@example.com<br>Role: Developer</p>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="settings">
+                    <div class="tab-content-example">
+                        <h2>⚙️ Application Settings</h2>
+                        <p>Configure your application preferences.</p>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <h4>Theme</h4>
+                                <p>Dark mode enabled</p>
+                            </div>
+                            <div class="feature-item">
+                                <h4>Notifications</h4>
+                                <p>Email alerts enabled</p>
+                            </div>
+                            <div class="feature-item">
+                                <h4>Language</h4>
+                                <p>English (US)</p>
+                            </div>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="help">
+                    <div class="tab-content-example">
+                        <h2>❓ Help & Support</h2>
+                        <p>Find answers to common questions and get support.</p>
+                        <div class="card-example">
+                            <h4>Documentation</h4>
+                            <p>Check out our comprehensive documentation for detailed guides.</p>
+                        </div>
+                        <div class="card-example">
+                            <h4>Contact Support</h4>
+                            <p>Need help? Contact our support team at support@example.com</p>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+            </wb-tab>
+            
+            <div class="controls">
+                <button onclick="addDynamicTab()">Add Dynamic Tab</button>
+                <button onclick="removeLastTab()">Remove Last Tab</button>
+                <button onclick="switchToTab('profile')">Switch to Profile</button>
+            </div>
+        </div>
+        
+        <!-- Variant Showcase -->
+        <div class="demo-section">
+            <h3>🎨 Tab Variants</h3>
+            <p>Different visual styles for various design needs:</p>
+            
+            <div class="tabs-grid">
+                <!-- Pills Variant -->
+                <div>
+                    <h4>Pills Variant</h4>
+                    <wb-tab id="pills-tabs" variant="pills" active-tab="0">
+                        <wb-tab-item tab-id="0">Dashboard</wb-tab-item>
+                        <wb-tab-item tab-id="1">Analytics</wb-tab-item>
+                        <wb-tab-item tab-id="2">Reports</wb-tab-item>
+                        
+                        <wb-tab-panel tab-for="0">
+                            <div class="tab-content-example">
+                                <h3>📊 Dashboard</h3>
+                                <p>Main dashboard with key metrics and charts.</p>
+                            </div>
+                        </wb-tab-panel>
+                        
+                        <wb-tab-panel tab-for="1">
+                            <div class="tab-content-example">
+                                <h3>📈 Analytics</h3>
+                                <p>Detailed analytics and performance metrics.</p>
+                            </div>
+                        </wb-tab-panel>
+                        
+                        <wb-tab-panel tab-for="2">
+                            <div class="tab-content-example">
+                                <h3>📋 Reports</h3>
+                                <p>Generate and view various reports.</p>
+                            </div>
+                        </wb-tab-panel>
+                    </wb-tab>
+                </div>
+                
+                <!-- Underline Variant -->
+                <div>
+                    <h4>Underline Variant</h4>
+                    <wb-tab id="underline-tabs" variant="underline" active-tab="0">
+                        <wb-tab-item tab-id="0">Overview</wb-tab-item>
+                        <wb-tab-item tab-id="1">Details</wb-tab-item>
+                        <wb-tab-item tab-id="2">History</wb-tab-item>
+                        
+                        <wb-tab-panel tab-for="0">
+                            <div class="tab-content-example">
+                                <h3>🔍 Overview</h3>
+                                <p>High-level overview of the project status.</p>
+                            </div>
+                        </wb-tab-panel>
+                        
+                        <wb-tab-panel tab-for="1">
+                            <div class="tab-content-example">
+                                <h3>📝 Details</h3>
+                                <p>Detailed information and configurations.</p>
+                            </div>
+                        </wb-tab-panel>
+                        
+                        <wb-tab-panel tab-for="2">
+                            <div class="tab-content-example">
+                                <h3>📚 History</h3>
+                                <p>Historical data and activity logs.</p>
+                            </div>
+                        </wb-tab-panel>
+                    </wb-tab>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Closable Tabs -->
+        <div class="demo-section">
+            <h3>❌ Closable Tabs</h3>
+            <p>Tabs that can be closed with close buttons:</p>
+            
+            <wb-tab id="closable-tabs" variant="card" closable active-tab="0">
+                <wb-tab-item tab-id="0" icon="📄">Document 1</wb-tab-item>
+                <wb-tab-item tab-id="1" icon="📄" closable>Document 2</wb-tab-item>
+                <wb-tab-item tab-id="2" icon="📄" closable>Document 3</wb-tab-item>
+                <wb-tab-item tab-id="3" icon="🔒">Protected Doc</wb-tab-item>
+                
+                <wb-tab-panel tab-for="0">
+                    <div class="tab-content-example">
+                        <h3>📄 Document 1</h3>
+                        <p>This is a protected document that cannot be closed.</p>
+                        <p>It serves as the main document in your workspace.</p>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="1">
+                    <div class="tab-content-example">
+                        <h3>📄 Document 2</h3>
+                        <p>This document can be closed using the × button.</p>
+                        <p>Try clicking the close button to remove this tab.</p>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="2">
+                    <div class="tab-content-example">
+                        <h3>📄 Document 3</h3>
+                        <p>Another closable document with sample content.</p>
+                        <p>You can close this tab when you're done reviewing.</p>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="3">
+                    <div class="tab-content-example">
+                        <h3>🔒 Protected Document</h3>
+                        <p>This document has special protection and cannot be closed.</p>
+                        <p>It's essential for the application workflow.</p>
+                    </div>
+                </wb-tab-panel>
+            </wb-tab>
+            
+            <div class="controls">
+                <button onclick="addClosableTab()">Add Closable Tab</button>
+            </div>
+        </div>
+        
+        <!-- Vertical Tabs -->
+        <div class="demo-section">
+            <h3>📐 Vertical Orientation</h3>
+            <p>Tabs arranged vertically for sidebar-style navigation:</p>
+            
+            <wb-tab id="vertical-tabs" orientation="vertical" variant="pills" active-tab="0">
+                <wb-tab-item tab-id="0" icon="🏢">Company</wb-tab-item>
+                <wb-tab-item tab-id="1" icon="👥">Team</wb-tab-item>
+                <wb-tab-item tab-id="2" icon="💼">Projects</wb-tab-item>
+                <wb-tab-item tab-id="3" icon="📊">Metrics</wb-tab-item>
+                <wb-tab-item tab-id="4" icon="🔧">Tools</wb-tab-item>
+                
+                <wb-tab-panel tab-for="0">
+                    <div class="tab-content-example">
+                        <h3>🏢 Company Information</h3>
+                        <p>Overview of company structure, mission, and values.</p>
+                        <div class="card-example">
+                            <h4>About Us</h4>
+                            <p>Founded in 2020, we're a technology company focused on innovation.</p>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="1">
+                    <div class="tab-content-example">
+                        <h3>👥 Team Directory</h3>
+                        <p>Meet our talented team members and their roles.</p>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <h4>Engineering</h4>
+                                <p>12 developers</p>
+                            </div>
+                            <div class="feature-item">
+                                <h4>Design</h4>
+                                <p>4 designers</p>
+                            </div>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="2">
+                    <div class="tab-content-example">
+                        <h3>💼 Active Projects</h3>
+                        <p>Current projects and their progress status.</p>
+                        <div class="card-example">
+                            <h4>Project Alpha</h4>
+                            <p>Status: In Progress (75% complete)</p>
+                        </div>
+                        <div class="card-example">
+                            <h4>Project Beta</h4>
+                            <p>Status: Planning Phase</p>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="3">
+                    <div class="tab-content-example">
+                        <h3>📊 Performance Metrics</h3>
+                        <p>Key performance indicators and analytics.</p>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <h4>Revenue</h4>
+                                <p>$1.2M this quarter</p>
+                            </div>
+                            <div class="feature-item">
+                                <h4>Users</h4>
+                                <p>50K active users</p>
+                            </div>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="4">
+                    <div class="tab-content-example">
+                        <h3>🔧 Development Tools</h3>
+                        <p>Tools and resources for development teams.</p>
+                        <div class="card-example">
+                            <h4>Code Repository</h4>
+                            <p>Access to GitHub repositories and CI/CD pipelines.</p>
+                        </div>
+                    </div>
+                </wb-tab-panel>
+            </wb-tab>
+        </div>
+        
+        <!-- Event Log -->
+        <div class="demo-section">
+            <h3>📝 Event Log</h3>
+            <p>All tab interactions are logged below:</p>
+            <div class="output" id="event-log">Tab events will appear here...</div>
+            <div class="controls">
+                <button onclick="clearEventLog()">Clear Log</button>
+            </div>
+        </div>
+        
+        <!-- Code Examples -->
+        <div class="demo-section">
+            <h3>💻 Code Examples</h3>
+            <p>Here's how to use the WB Tab component:</p>
+            
+            <h4>Basic Usage</h4>
+            <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px;">&lt;wb-tab active-tab="home" variant="default" theme="dark"&gt;
+  &lt;wb-tab-item tab-id="home" icon="🏠"&gt;Home&lt;/wb-tab-item&gt;
+  &lt;wb-tab-item tab-id="profile" icon="👤"&gt;Profile&lt;/wb-tab-item&gt;
+  &lt;wb-tab-item tab-id="settings" icon="⚙️"&gt;Settings&lt;/wb-tab-item&gt;
+  
+  &lt;wb-tab-panel tab-for="home"&gt;
+    &lt;h2&gt;Home Content&lt;/h2&gt;
+    &lt;p&gt;Welcome to the home tab!&lt;/p&gt;
+  &lt;/wb-tab-panel&gt;
+  
+  &lt;wb-tab-panel tab-for="profile"&gt;
+    &lt;h2&gt;Profile Content&lt;/h2&gt;
+    &lt;p&gt;User profile information...&lt;/p&gt;
+  &lt;/wb-tab-panel&gt;
+  
+  &lt;wb-tab-panel tab-for="settings"&gt;
+    &lt;h2&gt;Settings&lt;/h2&gt;
+    &lt;p&gt;Application settings...&lt;/p&gt;
+  &lt;/wb-tab-panel&gt;
+&lt;/wb-tab&gt;</pre>
+            
+            <h4>JavaScript API</h4>
+            <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px;">// Get tab component
+const tabComponent = document.getElementById('my-tabs');
+
+// Add new tab dynamically
+tabComponent.addTab({
+  id: 'new-tab',
+  label: 'New Tab',
+  content: '&lt;p&gt;Dynamic content&lt;/p&gt;',
+  icon: '✨',
+  closable: true
+});
+
+// Switch to specific tab
+tabComponent.setActiveTab('profile');
+
+// Listen for tab changes
+tabComponent.addEventListener('tab-change', (e) =&gt; {
+  console.log('Tab changed to:', e.detail.tabId);
+});
+
+// Listen for tab close events
+tabComponent.addEventListener('tab-close', (e) =&gt; {
+  console.log('Tab closed:', e.detail.tabId);
+});</pre>
+            
+            <h4>Component Import</h4>
+            <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px;">&lt;!-- Load the tab component --&gt;
+&lt;script src="wb-tab.js"&gt;&lt;/script&gt;</pre>
+        </div>
+    </div>
+
+    <!-- Load components -->
+    <script src="../../utils/wb/wb-component-utils.js"></script>
+    <script src="wb-tab.js"></script>
+    
+    <script>
+        let currentTheme = 'dark';
+        let dynamicTabCounter = 0;
+        
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+            const isLight = document.body.classList.contains('light');
+            currentTheme = isLight ? 'light' : 'dark';
+            
+            // Update theme toggle button
+            const button = document.querySelector('.theme-toggle');
+            button.textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
+            
+            // Update all tab components
+            document.querySelectorAll('wb-tab').forEach(tab => {
+                tab.setAttribute('theme', currentTheme);
+            });
+        }
+        
+        // Dynamic tab management
+        function addDynamicTab() {
+            dynamicTabCounter++;
+            const tabId = `dynamic-${dynamicTabCounter}`;
+            const basicTabs = document.getElementById('basic-tabs');
+            
+            basicTabs.addTab({
+                id: tabId,
+                label: `Dynamic ${dynamicTabCounter}`,
+                content: `
+                    <div class="tab-content-example">
+                        <h2>✨ Dynamic Tab ${dynamicTabCounter}</h2>
+                        <p>This tab was added dynamically using JavaScript!</p>
+                        <p>Created at: ${new Date().toLocaleTimeString()}</p>
+                        <div class="card-example">
+                            <h4>Dynamic Content</h4>
+                            <p>This content was generated programmatically.</p>
+                        </div>
+                    </div>
+                `,
+                icon: '✨',
+                closable: true
+            });
+            
+            logEvent('Dynamic tab added', tabId);
+        }
+        
+        function addClosableTab() {
+            dynamicTabCounter++;
+            const tabId = `closable-${dynamicTabCounter}`;
+            const closableTabs = document.getElementById('closable-tabs');
+            
+            closableTabs.addTab({
+                id: tabId,
+                label: `New Doc ${dynamicTabCounter}`,
+                content: `
+                    <div class="tab-content-example">
+                        <h3>📄 New Document ${dynamicTabCounter}</h3>
+                        <p>This is a newly created document that can be closed.</p>
+                        <p>Created at: ${new Date().toLocaleTimeString()}</p>
+                        <div class="card-example">
+                            <h4>Document Content</h4>
+                            <p>Add your content here...</p>
+                        </div>
+                    </div>
+                `,
+                icon: '📄',
+                closable: true
+            });
+            
+            logEvent('Closable tab added', tabId);
+        }
+        
+        function removeLastTab() {
+            const basicTabs = document.getElementById('basic-tabs');
+            const allTabs = basicTabs.getAllTabs();
+            if (allTabs.length > 1) {
+                const lastTab = allTabs[allTabs.length - 1];
+                basicTabs.removeTab(lastTab);
+                logEvent('Tab removed', lastTab);
+            }
+        }
+        
+        function switchToTab(tabId) {
+            const basicTabs = document.getElementById('basic-tabs');
+            basicTabs.setActiveTab(tabId);
+            logEvent('Programmatically switched to tab', tabId);
+        }
+        
+        // Event logging
+        function logEvent(action, details = '') {
+            const eventLog = document.getElementById('event-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `${timestamp}: ${action}${details ? ` - ${details}` : ''}`;
+            eventLog.innerHTML = logEntry + '\n' + eventLog.innerHTML;
+            
+            // Keep only last 20 entries
+            const lines = eventLog.innerHTML.split('\n');
+            if (lines.length > 20) {
+                eventLog.innerHTML = lines.slice(0, 20).join('\n');
+            }
+        }
+        
+        function clearEventLog() {
+            document.getElementById('event-log').innerHTML = 'Event log cleared...';
+        }
+        
+        // Setup event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Listen for all tab events
+            document.addEventListener('tab-change', (e) => {
+                logEvent('Tab changed', `Active: ${e.detail.tabId}`);
+            });
+            
+            document.addEventListener('tab-close', (e) => {
+                logEvent('Tab closed', e.detail.tabId);
+            });
+            
+            document.addEventListener('tab-add', (e) => {
+                logEvent('Tab added', e.detail.tabId);
+            });
+            
+            document.addEventListener('wb:ready', (e) => {
+                if (e.detail.component === 'wb-tab') {
+                    logEvent('Tab component ready', e.detail.element.id || 'unnamed');
+                }
+            });
+            
+            logEvent('Demo page initialized', 'All tab components loaded');
+        });
+    </script>
+</body>
+</html>

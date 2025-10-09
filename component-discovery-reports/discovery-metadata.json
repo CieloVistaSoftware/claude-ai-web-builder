@@ -1,0 +1,2690 @@
+{
+  "scanTime": "2025-10-06T03:12:06.789Z",
+  "totalComponents": 28,
+  "webComponents": 22,
+  "legacyComponents": 26,
+  "brokenComponents": 2,
+  "duplicateSymbols": [
+    {
+      "symbol": "originalContent",
+      "components": [
+        "change-text",
+        "wb-button"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-card"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-card"
+      ]
+    },
+    {
+      "symbol": "variant",
+      "components": [
+        "wb-button",
+        "wb-card"
+      ]
+    },
+    {
+      "symbol": "size",
+      "components": [
+        "wb-button",
+        "wb-card"
+      ]
+    },
+    {
+      "symbol": "img",
+      "components": [
+        "wb-button",
+        "wb-card"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "range",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "selection",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "originalContent",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "newContent",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "target",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "isTargetEditable",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "elementToEdit",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "originalContent",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "text",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "selection",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "style",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-change-text"
+      ]
+    },
+    {
+      "symbol": "hex",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "hex",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "hex",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "a",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "f",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "k",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "color",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "colorData",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "colorData",
+      "components": [
+        "wb-color-bar",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "size",
+      "components": [
+        "wb-button",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "variant",
+      "components": [
+        "wb-button",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "rgb",
+      "components": [
+        "wb-color-bars",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "eventLog",
+      "components": [
+        "wb-color-bar",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "result",
+      "components": [
+        "wb-color-bar",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "rgb",
+      "components": [
+        "wb-color-bars",
+        "wb-color-picker"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "existingStyles",
+      "components": [
+        "wb-card",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "variantClass",
+      "components": [
+        "wb-button",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "layout",
+      "components": [
+        "wb-card",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "header",
+      "components": [
+        "wb-card",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "footer",
+      "components": [
+        "wb-card",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "button",
+      "components": [
+        "wb-card",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "colorData",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "colorData",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "hexColor",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "hexColor",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "a",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "a",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "f",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "k",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "color",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "hue",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "saturation",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "lightness",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "hue",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "saturation",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "lightness",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "valueDisplay",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "url",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "options",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "result",
+      "components": [
+        "wb-color-bar",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "result",
+      "components": [
+        "wb-color-bar",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "img",
+      "components": [
+        "wb-button",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "observer",
+      "components": [
+        "wb-button",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "match",
+      "components": [
+        "wb-color-picker",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "target",
+      "components": [
+        "change-text",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "text",
+      "components": [
+        "change-text",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "match",
+      "components": [
+        "wb-color-picker",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "component",
+      "components": [
+        "wb-change-text",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "isActive",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "to",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "footer",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "content",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "textContent",
+      "components": [
+        "wb-button",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "textArea",
+      "components": [
+        "wb-color-bar",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "originalContent",
+      "components": [
+        "change-text",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "textArea",
+      "components": [
+        "wb-color-bar",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "content",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "blob",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "url",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "a",
+      "components": [
+        "wb-color-bar",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "content",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "content",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "footer",
+      "components": [
+        "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "class\n        if",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "class\n        this",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "existingStyles",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "layout",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "name",
+      "components": [
+        "wb-event-log",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "title",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "title",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "title",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "button",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "observer",
+      "components": [
+        "wb-button",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "button",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "originalText",
+      "components": [
+        "wb-color-bar",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "text",
+      "components": [
+        "change-text",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "footer",
+      "components": [
+        "wb-card",
+        "wb-footer"
+      ]
+    },
+    {
+      "symbol": "loadCSS",
+      "components": [
+        "wb-control-panel",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "setEditMode",
+      "components": [
+        "change-text",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "isEditModeEnabled",
+      "components": [
+        "change-text",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "style",
+      "components": [
+        "change-text",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "textContent",
+      "components": [
+        "wb-button",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "newContent",
+      "components": [
+        "change-text",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "reader",
+      "components": [
+        "wb-event-log",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "item",
+      "components": [
+        "wb-footer",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "image",
+      "components": [
+        "wb-button",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "k",
+      "components": [
+        "wb-color-bar",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "i",
+      "components": [
+        "wb-event-log",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "dragHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "editBtn",
+      "components": [
+        "wb-control-panel",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "editBtn",
+      "components": [
+        "wb-control-panel",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "class\n            const",
+      "components": [
+        "wb-button",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "fallbackConfig",
+      "components": [
+        "wb-button",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "variant",
+      "components": [
+        "wb-button",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "value",
+      "components": [
+        "wb-event-log",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "maxLength",
+      "components": [
+        "wb-event-log",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "maxLength",
+      "components": [
+        "wb-event-log",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "maxLength",
+      "components": [
+        "wb-event-log",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "current",
+      "components": [
+        "wb-event-log",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "size",
+      "components": [
+        "wb-button",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "sizeClass",
+      "components": [
+        "wb-button",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "maxLength",
+      "components": [
+        "wb-event-log",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "value",
+      "components": [
+        "wb-event-log",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "result",
+      "components": [
+        "wb-color-bar",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "errorMessage",
+      "components": [
+        "wb-event-log",
+        "wb-input"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "scripts",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "scriptSrc",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "existingLink",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "key",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "key",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "tagName",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "component",
+      "components": [
+        "wb-change-text",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "activeElement",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "tagName",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "context",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "formatted",
+      "components": [
+        "wb-event-log",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "existingContent",
+      "components": [
+        "wb-control-panel",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "body",
+      "components": [
+        "wb-card",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "root",
+      "components": [
+        "wb-control-panel",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "nav",
+      "components": [
+        "wb-control-panel",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "header",
+      "components": [
+        "wb-card",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "main",
+      "components": [
+        "wb-control-panel",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "footer",
+      "components": [
+        "wb-card",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "class\n            const",
+      "components": [
+        "wb-button",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "fallbackConfig",
+      "components": [
+        "wb-button",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "header",
+      "components": [
+        "wb-card",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "title",
+      "components": [
+        "wb-card",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "clearBtn",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "copyBtn",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "exportBtn",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "searchInput",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "clearBtn",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "x",
+      "components": [
+        "wb-color-bar",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "position",
+      "components": [
+        "wb-image-insert",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "copyBtn",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "originalTitle",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "headers",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "rows",
+      "components": [
+        "wb-event-log",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "blob",
+      "components": [
+        "wb-control-panel",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "url",
+      "components": [
+        "wb-control-panel",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "a",
+      "components": [
+        "wb-color-bar",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "initialize",
+      "components": [
+        "change-text",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "title",
+      "components": [
+        "wb-card",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "header",
+      "components": [
+        "wb-card",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "closeBtn",
+      "components": [
+        "wb-control-panel",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "body",
+      "components": [
+        "wb-card",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "container",
+      "components": [
+        "wb-footer",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "footer",
+      "components": [
+        "wb-card",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "button",
+      "components": [
+        "wb-card",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "inputId",
+      "components": [
+        "wb-input",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "value",
+      "components": [
+        "wb-event-log",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-modal"
+      ]
+    },
+    {
+      "symbol": "class\n        this",
+      "components": [
+        "wb-card",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "existingStyles",
+      "components": [
+        "wb-card",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "layout",
+      "components": [
+        "wb-card",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "variant",
+      "components": [
+        "wb-button",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "position",
+      "components": [
+        "wb-image-insert",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "container",
+      "components": [
+        "wb-footer",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "navList",
+      "components": [
+        "wb-control-panel",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "links",
+      "components": [
+        "wb-control-panel",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "navList",
+      "components": [
+        "wb-control-panel",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "nav",
+      "components": [
+        "wb-control-panel",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "variant",
+      "components": [
+        "wb-button",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "placeholder",
+      "components": [
+        "wb-input",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "searchInput",
+      "components": [
+        "wb-event-log",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "result",
+      "components": [
+        "wb-color-bar",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "modal",
+      "components": [
+        "wb-image-insert",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-search"
+      ]
+    },
+    {
+      "symbol": "class\n            const",
+      "components": [
+        "wb-button",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "fallbackConfig",
+      "components": [
+        "wb-button",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "icon",
+      "components": [
+        "wb-nav",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "size",
+      "components": [
+        "wb-button",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "value",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "index",
+      "components": [
+        "wb-nav",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "option",
+      "components": [
+        "wb-log-error",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "index",
+      "components": [
+        "wb-nav",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "sizeClass",
+      "components": [
+        "wb-button",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "placeholder",
+      "components": [
+        "wb-input",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "option",
+      "components": [
+        "wb-log-error",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "option",
+      "components": [
+        "wb-log-error",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "wrapper",
+      "components": [
+        "wb-input",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "classes",
+      "components": [
+        "wb-color-picker",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "range",
+      "components": [
+        "change-text",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "i",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "value",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "percentage",
+      "components": [
+        "wb-color-bar",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "valueDisplay",
+      "components": [
+        "wb-color-picker",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "isDragging",
+      "components": [
+        "wb-control-panel",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "percentage",
+      "components": [
+        "wb-color-bar",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "value",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "percentage",
+      "components": [
+        "wb-color-bar",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "value",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "percentage",
+      "components": [
+        "wb-color-bar",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "valueDisplay",
+      "components": [
+        "wb-color-picker",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-slider"
+      ]
+    },
+    {
+      "symbol": "class\n        const",
+      "components": [
+        "wb-footer",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "fallbackConfig",
+      "components": [
+        "wb-button",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "existingStyles",
+      "components": [
+        "wb-card",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "position",
+      "components": [
+        "wb-image-insert",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "classes",
+      "components": [
+        "wb-color-picker",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "defaults",
+      "components": [
+        "wb-slider",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "position",
+      "components": [
+        "wb-image-insert",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "existingEvents",
+      "components": [
+        "wb-event-log",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "eventElement",
+      "components": [
+        "wb-event-log",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "label",
+      "components": [
+        "wb-color-picker",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-tab"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-tab"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-tab"
+      ]
+    },
+    {
+      "symbol": "currentIndex",
+      "components": [
+        "wb-nav",
+        "wb-tab"
+      ]
+    },
+    {
+      "symbol": "nextIndex",
+      "components": [
+        "wb-nav",
+        "wb-tab"
+      ]
+    },
+    {
+      "symbol": "value",
+      "components": [
+        "wb-event-log",
+        "wb-tab"
+      ]
+    },
+    {
+      "symbol": "icon",
+      "components": [
+        "wb-nav",
+        "wb-tab"
+      ]
+    },
+    {
+      "symbol": "data",
+      "components": [
+        "wb-log-error",
+        "wb-table"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-table"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-table"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
+        "wb-table"
+      ]
+    },
+    {
+      "symbol": "div",
+      "components": [
+        "wb-event-log",
+        "wb-table"
+      ]
+    },
+    {
+      "symbol": "container",
+      "components": [
+        "wb-footer",
+        "wb-table"
+      ]
+    },
+    {
+      "symbol": "globally",
+      "components": [
+        "wb-keyboard-manager",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "existingLink",
+      "components": [
+        "wb-event-log",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "scripts",
+      "components": [
+        "wb-event-log",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "scriptSrc",
+      "components": [
+        "wb-event-log",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "savedTheme",
+      "components": [
+        "wb-control-panel",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "currentIndex",
+      "components": [
+        "wb-nav",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "nextIndex",
+      "components": [
+        "wb-nav",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "button",
+      "components": [
+        "wb-card",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "button",
+      "components": [
+        "wb-card",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "savedTheme",
+      "components": [
+        "wb-control-panel",
+        "wb-theme"
+      ]
+    },
+    {
+      "symbol": "class\n        if",
+      "components": [
+        "wb-card",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "class\n        if",
+      "components": [
+        "wb-card",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "class\n        if",
+      "components": [
+        "wb-card",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "fallbackConfig",
+      "components": [
+        "wb-button",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "existingStyles",
+      "components": [
+        "wb-card",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "disabled",
+      "components": [
+        "wb-tab",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "label",
+      "components": [
+        "wb-color-picker",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "size",
+      "components": [
+        "wb-button",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "variant",
+      "components": [
+        "wb-button",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "id",
+      "components": [
+        "wb-event-log",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "thumb",
+      "components": [
+        "wb-slider",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "root",
+      "components": [
+        "wb-control-panel",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "toggle",
+      "components": [
+        "wb-nav",
+        "wb-toggle"
+      ]
+    },
+    {
+      "symbol": "initialize",
+      "components": [
+        "change-text",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "existingStyles",
+      "components": [
+        "wb-card",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-card",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "controls",
+      "components": [
+        "wb-log-error",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "button",
+      "components": [
+        "wb-card",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "status",
+      "components": [
+        "wb-button",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "buttons",
+      "components": [
+        "wb-button",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "status",
+      "components": [
+        "wb-button",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "controls",
+      "components": [
+        "wb-log-error",
+        "wb-viewport"
+      ]
+    },
+    {
+      "symbol": "event",
+      "components": [
+        "change-text",
+        "wb-viewport"
+      ]
+    }
+  ]
+}

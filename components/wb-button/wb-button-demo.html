@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Button Web Component - Complete Demo</title>
     
+    <!-- WB System with Auto-loader and Claude Issue Tracking -->
+    <script src="/config.js"></script>
+    <script src="/utils/auto-loader.js"></script>
+    
     <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
     <link rel="stylesheet" href="../../styles/main.css">
-    <!-- Component-Specific Styles -->
-    <link rel="stylesheet" href="wb-button.css">
 </head>
 <body data-theme="dark">
+    <!-- Claude Debug Log -->
+    <div style="position: fixed; top: 20px; right: 20px; width: 300px; height: 200px; z-index: 10000; background: rgba(26, 26, 26, 0.95); border: 1px solid #444; border-radius: 6px; overflow: hidden;">
+        <div style="background: #007acc; color: white; padding: 4px 8px; font-size: 10px; font-weight: bold;">🔍 Claude Issues</div>
+        <wb-event-log id="claudeButtonLog"></wb-event-log>
+    </div>
+    
     <div class="demo-content">
         <h1>🔘 WB Button Web Component - Complete Demo</h1>
         <p>Modern, accessible button component with multiple variants and states - All demos merged into one comprehensive file</p>
@@ -712,6 +720,40 @@
             // Mark the correct tab button as active
             event.target.classList.add('active');
         }
+        
+        // Claude Issue Tracking
+        setTimeout(() => {
+            WBEventLog.logInfo('wb-button demo initialized', { 
+                source: 'wb-button-demo', 
+                component: 'wb-button',
+                location: window.location.pathname 
+            });
+            
+            // Check if wb-button component loaded properly
+            const buttons = document.querySelectorAll('wb-button');
+            if (buttons.length > 0) {
+                WBEventLog.logSuccess(`Found ${buttons.length} wb-button components`, { 
+                    source: 'component-detection', 
+                    component: 'wb-button' 
+                });
+            } else {
+                WBEventLog.logError('No wb-button components detected', { 
+                    source: 'component-detection', 
+                    component: 'wb-button' 
+                });
+            }
+            
+            // Log any button interactions
+            buttons.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    WBEventLog.logUser(`Button ${index} clicked`, { 
+                        source: 'user-interaction', 
+                        component: 'wb-button',
+                        variant: btn.getAttribute('variant') || 'default'
+                    });
+                });
+            });
+        }, 2000);
     </script>
 </body>
 </html>

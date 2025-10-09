@@ -2,6 +2,7 @@ export {};
 // @ts-nocheck
 // @ts-check
 import { test, expect } from '@playwright/test';
+import { BaseUnitTest } from './helpers/BaseUnitTestSimple.js';
 
 // Define constants for test configuration
 const WAIT_TIMEOUT = 500; // Consistent wait time across all tests
@@ -17,7 +18,7 @@ test.describe('Integrated Website Builder Tests', (): any => {
   test('Theme and color changes should persist after page reload', async ({ page }): any => {
     // Get the theme selector and change to a specific theme (second select from page snapshots)
     const themeSelect = page.locator('select').nth(1);
-    await themeSelect.selectOption('Ocean');
+    await themeSelect.selectOption('ocean');
     await page.waitForTimeout(WAIT_TIMEOUT);
 
     // Change the hue using the hue slider (from page snapshots, sliders are input[type="range"])

@@ -10,6 +10,10 @@
     --wb-nav-padding: 1rem 2rem;
     --wb-nav-item-padding: 0.5rem 1rem;
     --wb-nav-border-radius: 6px;
+    
+    /* Layout coordination variables */
+    --wb-nav-layout-type: standalone; /* standalone | horizontal | vertical */
+    --wb-nav-layout-managed: false;
 }
 
 /* Base Navigation Container */
@@ -154,21 +158,20 @@
     justify-content: center;
 }
 
-.wb-nav.wb-nav--horizontal.wb-nav--top,
-.wb-nav--horizontal.wb-nav--top {
-    position: sticky !important;
-    top: 0;
+/* Layout positioning is handled by wb-layout component */
+.wb-nav--horizontal {
     width: 100%;
+}
+
+/* Standalone top navigation (when not managed by wb-layout) */
+.wb-nav--horizontal.wb-nav--standalone {
+    position: sticky;
+    top: 0;
     z-index: var(--wb-nav-z-index);
     background: var(--bg-secondary, #ffffff);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color, #e2e8f0);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Ensure horizontal nav is always 100% width */
-.wb-nav--horizontal {
-    width: 100%;
 }
 
 /* Vertical Layout */
@@ -183,7 +186,6 @@
     height: 100%;
     padding: var(--space-lg, 1.5rem) var(--space-md, 1rem);
     border-bottom: none;
-    border-right: 1px solid var(--border-color, #e2e8f0);
 }
 
 .wb-nav--vertical .wb-nav-brand {
@@ -203,29 +205,27 @@
     width: 100%;
 }
 
-/* Left Navigation */
-.wb-nav--left {
+/* Standalone vertical navigation (when not managed by wb-layout) */
+.wb-nav--vertical.wb-nav--standalone.wb-nav--left {
     position: fixed;
     left: 0;
     top: 0;
 }
 
-.wb-nav--left.wb-nav--vertical .wb-nav-container {
-    border-right: 1px solid var(--border-color, #e2e8f0);
-    border-bottom: none;
-}
-
-/* Right Navigation */
-.wb-nav--right {
+.wb-nav--vertical.wb-nav--standalone.wb-nav--right {
     position: fixed;
     right: 0;
     top: 0;
 }
 
-.wb-nav--right.wb-nav--vertical .wb-nav-container {
+/* Border styling for vertical layouts */
+.wb-nav--vertical .wb-nav-container {
+    border-right: 1px solid var(--border-color, #e2e8f0);
+}
+
+.wb-nav--vertical.wb-nav--right .wb-nav-container {
     border-left: 1px solid var(--border-color, #e2e8f0);
     border-right: none;
-    border-bottom: none;
 }
 
 /* Style Variants */
@@ -363,6 +363,7 @@
         justify-content: center;
     }
     
+    /* Mobile menu for horizontal navigation */
     .wb-nav--horizontal .wb-nav-list {
         display: none;
         position: absolute;
@@ -387,8 +388,13 @@
         width: 100%;
     }
     
-    /* Keep vertical layouts unchanged on mobile */
-    .wb-nav--vertical .wb-nav-toggle {
+    /* Vertical navigation responsive behavior */
+    /* Only apply if NOT layout-managed (wb-layout handles mobile conversion) */
+    .wb-nav--vertical.wb-nav--standalone .wb-nav-toggle {
+        display: flex;
+    }
+    
+    .wb-nav--vertical:not(.wb-nav--standalone) .wb-nav-toggle {
         display: none;
     }
     
@@ -425,8 +431,10 @@
 }
 
 /* Focus Management */
-.wb-nav-menu:focus-within {
-    /* Maintain focus styles when navigating with keyboard */
+.wb-nav:focus-within .wb-nav-link {
+    /* Enhanced focus visibility when navigating with keyboard */
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: -2px;
 }
 
 /* High Contrast Mode Support */

@@ -9,7 +9,21 @@
 
 ## Overview
 
-The Website Builder Layout System provides a centralized, consistent approach to managing page layouts across all components and demo pages. This document establishes the single source of truth for layout implementation to eliminate duplication and confusion.
+The Website Builder Layout System provides a flexible, centralized approach to managing page layouts that works with both **semantic HTML elements** and **WB components**. Users can choose between:
+
+- **Semantic HTML**: Use standard HTML5 elements (`<header>`, `<nav>`, `<main>`, `<footer>`)
+- **WB Components**: Use enhanced WB components (`<wb-header>`, `<wb-nav>`, `<wb-main>`, `<wb-footer>`)
+- **Mixed Approach**: Combine semantic HTML with specific WB components as needed
+
+This document establishes the single source of truth for layout implementation to eliminate duplication and confusion while providing maximum flexibility.
+
+## Flexibility Philosophy
+
+**The layout system should empower users, not constrain them.** You can use:
+
+- **Pure Semantic HTML**: Perfect for standard websites, accessibility-first projects, or when you prefer familiar HTML5 elements
+- **Pure WB Components**: Ideal for complex applications needing enhanced functionality and consistent theming
+- **Hybrid Approach**: Mix semantic HTML with specific WB components where enhanced features are needed
 
 ## Core Principles
 
@@ -17,9 +31,9 @@ The Website Builder Layout System provides a centralized, consistent approach to
 2. **Use Global Styles First**: Always use `/styles/_variables.css`, `_base.css`, `_utilities.css` before adding component-specific styles
 3. **WBComponentUtils.loadCSS()**: Use centralized CSS loading, never manual `createElement('link')`
 4. **Single Source of Truth**: All layout styles defined in one central location
-5. **Consistent Selectors**: Standardized CSS selectors across all components
-6. **Component Agnostic**: Layout system works independently of specific components
-7. **Web Components API**: Use proper HTMLElement extension with customElements.define()
+5. **Consistent Selectors**: Standardized CSS selectors across all element types
+6. **Element Agnostic**: Layout system works with semantic HTML AND WB components
+7. **Progressive Enhancement**: Start with semantic HTML, enhance with WB components as needed
 
 ## Layout Types
 
@@ -40,6 +54,242 @@ The Website Builder Layout System provides a centralized, consistent approach to
 - **Use Case**: Alternative dashboard layout, RTL interfaces
 - **Structure**: (Header → Main → Footer) | Fixed Sidebar
 - **Content Width**: Full width minus 220px right margin
+
+### 4. Advertisement Layout (`ad-layout`)
+- **Description**: Enhanced layout with navigation and dedicated ad space
+- **Use Case**: Content sites with monetization, marketing pages
+- **Structure**: Header → Navigation → Main → Sidebar(Ads) → Footer
+- **Content Width**: Flexible with sidebar for advertisements
+
+## CSS Grid Layout Samples
+
+### Grid Areas Implementation
+
+Each layout type can be implemented using CSS Grid with named grid areas for better structure and maintainability:
+
+#### Top Navigation Grid Layout
+```css
+/* Top Navigation - Grid Areas (works with both approaches) */
+.layout-top-nav {
+    display: grid;
+    grid-template-areas: 
+        "header"
+        "nav"
+        "main"
+        "footer";
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    gap: 0;
+}
+
+/* Semantic HTML Support */
+.layout-top-nav header { grid-area: header; }
+.layout-top-nav nav { grid-area: nav; }
+.layout-top-nav main { grid-area: main; }
+.layout-top-nav footer { grid-area: footer; }
+
+/* WB Components Support */
+.layout-top-nav wb-header { grid-area: header; }
+.layout-top-nav wb-nav { grid-area: nav; }
+.layout-top-nav wb-main { grid-area: main; }
+.layout-top-nav wb-footer { grid-area: footer; }
+```
+
+#### Left Navigation Grid Layout
+```css
+/* Left Navigation - Grid Areas (works with both approaches) */
+.layout-left-nav {
+    display: grid;
+    grid-template-areas: 
+        "nav header"
+        "nav main"
+        "nav footer";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 200px 1fr;
+    min-height: 100vh;
+    gap: 0;
+}
+
+/* Semantic HTML Support */
+.layout-left-nav nav { grid-area: nav; }
+.layout-left-nav header { grid-area: header; }
+.layout-left-nav main { grid-area: main; }
+.layout-left-nav footer { grid-area: footer; }
+
+/* WB Components Support */
+.layout-left-nav wb-nav { grid-area: nav; }
+.layout-left-nav wb-header { grid-area: header; }
+.layout-left-nav wb-main { grid-area: main; }
+.layout-left-nav wb-footer { grid-area: footer; }
+```
+
+#### Right Navigation Grid Layout
+```css
+/* Right Navigation - Grid Areas (works with both approaches) */
+.layout-right-nav {
+    display: grid;
+    grid-template-areas: 
+        "header nav"
+        "main nav"
+        "footer nav";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr 200px;
+    min-height: 100vh;
+    gap: 0;
+}
+
+/* Semantic HTML Support */
+.layout-right-nav header { grid-area: header; }
+.layout-right-nav main { grid-area: main; }
+.layout-right-nav footer { grid-area: footer; }
+.layout-right-nav nav { grid-area: nav; }
+
+/* WB Components Support */
+.layout-right-nav wb-header { grid-area: header; }
+.layout-right-nav wb-main { grid-area: main; }
+.layout-right-nav wb-footer { grid-area: footer; }
+.layout-right-nav wb-nav { grid-area: nav; }
+```
+
+#### Advertisement Layout Grid Layout
+```css
+/* Advertisement Layout - Grid Areas (works with both approaches) */
+.layout-ad-layout {
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "nav main ads"
+        "footer footer footer";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 200px 1fr 180px;
+    min-height: 100vh;
+    gap: 10px;
+    padding: 10px;
+}
+
+/* Semantic HTML Support */
+.layout-ad-layout header { grid-area: header; }
+.layout-ad-layout nav { grid-area: nav; }
+.layout-ad-layout main { grid-area: main; }
+.layout-ad-layout footer { grid-area: footer; }
+.layout-ad-layout aside { grid-area: ads; }
+
+/* WB Components Support */
+.layout-ad-layout wb-header { grid-area: header; }
+.layout-ad-layout wb-nav { grid-area: nav; }
+.layout-ad-layout wb-main { grid-area: main; }
+.layout-ad-layout wb-footer { grid-area: footer; }
+.layout-ad-layout .wb-ad-sidebar { grid-area: ads; }
+```
+
+### Responsive Grid Areas
+
+```css
+/* Mobile-First Grid Areas */
+@media (max-width: 768px) {
+    /* Convert all layouts to single column on mobile */
+    .layout-left-nav,
+    .layout-right-nav,
+    .layout-ad-layout {
+        grid-template-areas: 
+            "header"
+            "nav"
+            "main"
+            "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+    }
+    
+    /* Hide ads on mobile for ad-layout */
+    .layout-ad-layout .ad-sidebar {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Tablet adjustments */
+    .layout-ad-layout {
+        grid-template-columns: 1fr 160px 140px;
+    }
+    
+    .layout-left-nav,
+    .layout-right-nav {
+        grid-template-columns: 180px 1fr;
+    }
+}
+```
+
+### Advanced Grid Layouts
+
+#### Dashboard Layout with Multiple Sidebars
+```css
+.layout-dashboard {
+    display: grid;
+    grid-template-areas: 
+        "left-nav header right-nav"
+        "left-nav main right-nav"
+        "left-nav footer right-nav";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 200px 1fr 200px;
+    min-height: 100vh;
+    gap: 0;
+}
+
+.layout-dashboard .left-nav { grid-area: left-nav; }
+.layout-dashboard .site-header { grid-area: header; }
+.layout-dashboard .main-content { grid-area: main; }
+.layout-dashboard .site-footer { grid-area: footer; }
+.layout-dashboard .right-nav { grid-area: right-nav; }
+```
+
+#### Content-Focused Layout
+```css
+.layout-content-focus {
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "sidebar main toc"
+        "footer footer footer";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 200px 1fr 180px;
+    min-height: 100vh;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.layout-content-focus .site-header { grid-area: header; }
+.layout-content-focus .sidebar { grid-area: sidebar; }
+.layout-content-focus .main-content { grid-area: main; }
+.layout-content-focus .table-of-contents { grid-area: toc; }
+.layout-content-focus .site-footer { grid-area: footer; }
+```
+
+#### Magazine Layout
+```css
+.layout-magazine {
+    display: grid;
+    grid-template-areas: 
+        "header header header header"
+        "featured featured featured sidebar"
+        "article1 article2 article3 sidebar"
+        "footer footer footer footer";
+    grid-template-rows: auto 300px 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr 250px;
+    min-height: 100vh;
+    gap: 20px;
+    padding: 20px;
+}
+
+.layout-magazine .site-header { grid-area: header; }
+.layout-magazine .featured-article { grid-area: featured; }
+.layout-magazine .article-1 { grid-area: article1; }
+.layout-magazine .article-2 { grid-area: article2; }
+.layout-magazine .article-3 { grid-area: article3; }
+.layout-magazine .sidebar { grid-area: sidebar; }
+.layout-magazine .site-footer { grid-area: footer; }
+```
 
 ## File Structure
 
@@ -218,6 +468,105 @@ body[data-layout="right-nav"] .main-content {
 }
 ```
 
+### Grid Layout Integration
+
+```css
+/* Add Grid Layout Support to Existing System */
+/* wb-core/layouts/layouts.css - Grid Areas Extension */
+
+/* Base Grid Container for WB Components */
+.wb-container.grid-layout,
+body.grid-layout {
+    display: grid;
+    min-height: 100vh;
+    gap: 0;
+}
+
+/* Top Navigation Grid */
+body[data-layout="top-nav"] {
+    grid-template-areas: 
+        "header"
+        "nav"
+        "main"
+        "footer";
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 1fr;
+}
+
+/* Left Navigation Grid */
+body[data-layout="left-nav"] {
+    grid-template-areas: 
+        "nav header"
+        "nav main"
+        "nav footer";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: var(--layout-sidebar-width) 1fr;
+}
+
+/* Right Navigation Grid */
+body[data-layout="right-nav"] {
+    grid-template-areas: 
+        "header nav"
+        "main nav"
+        "footer nav";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr var(--layout-sidebar-width);
+}
+
+/* Advertisement Layout Grid */
+body[data-layout="ad-layout"] {
+    grid-template-areas: 
+        "header header ads"
+        "nav main ads"
+        "footer footer ads";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 200px 1fr 180px;
+    gap: 10px;
+    padding: 10px;
+}
+
+/* Grid Area Assignments - Universal Support */
+/* Semantic HTML Elements */
+header { grid-area: header; }
+nav { grid-area: nav; }
+main { grid-area: main; }
+footer { grid-area: footer; }
+aside { grid-area: ads; }
+
+/* WB Components */
+wb-header { grid-area: header; }
+wb-nav { grid-area: nav; }
+wb-main { grid-area: main; }
+wb-footer { grid-area: footer; }
+.wb-ad-sidebar { grid-area: ads; }
+
+/* Fallback CSS Classes (for mixed approaches) */
+.wb-header { grid-area: header; }
+.wb-nav { grid-area: nav; }
+.wb-main { grid-area: main; }
+.wb-footer { grid-area: footer; }
+.wb-sidebar { grid-area: ads; }
+
+/* Responsive Grid Areas */
+@media (max-width: 768px) {
+    body[data-layout="left-nav"],
+    body[data-layout="right-nav"],
+    body[data-layout="ad-layout"] {
+        grid-template-areas: 
+            "header"
+            "nav"
+            "main"
+            "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+    }
+    
+    .wb-ad-sidebar {
+        display: none;
+    }
+}
+```
+
 ### 2. Layout Manager (`wb-core/layouts/layout-manager.js`)
 
 ```javascript
@@ -280,9 +629,10 @@ class WBLayoutManager {
     
     /**
      * Apply a specific layout
-     * @param {string} layout - Layout type (top-nav, left-nav, right-nav)
+     * @param {string} layout - Layout type (top-nav, left-nav, right-nav, ad-layout)
+     * @param {boolean} useGrid - Whether to use CSS Grid layout (default: false)
      */
-    static applyLayout(layout) {
+    static applyLayout(layout, useGrid = false) {
         if (!Object.values(this.LAYOUTS).includes(layout)) {
             console.error(`Invalid layout: ${layout}`);
             return false;
@@ -292,16 +642,27 @@ class WBLayoutManager {
         document.body.setAttribute('data-layout', layout);
         this.currentLayout = layout;
         
+        // Toggle grid layout on body for WB components
+        if (useGrid) {
+            document.body.classList.add('grid-layout');
+        } else {
+            document.body.classList.remove('grid-layout');
+        }
+        
         // Dispatch layout change event
         document.dispatchEvent(new CustomEvent('layoutChanged', {
-            detail: { layout: layout, previous: this.currentLayout }
+            detail: { 
+                layout: layout, 
+                previous: this.currentLayout,
+                useGrid: useGrid 
+            }
         }));
         
         // Log the change
         if (typeof document !== 'undefined') {
             document.dispatchEvent(new CustomEvent('wb:info', {
                 detail: { 
-                    message: `Layout changed to ${layout}`,
+                    message: `Layout changed to ${layout}${useGrid ? ' (Grid)' : ' (Flexbox)'}`,
                     source: 'layout-manager',
                     from: 'WBLayoutManager',
                     to: layout
@@ -310,6 +671,20 @@ class WBLayoutManager {
         }
         
         return true;
+    }
+    
+    /**
+     * Toggle between Flexbox and Grid layout systems
+     * @param {boolean} useGrid - Whether to use CSS Grid
+     */
+    static toggleLayoutSystem(useGrid) {
+        if (useGrid) {
+            document.body.classList.add('grid-layout');
+            console.log('🔧 Layout Manager: Switched to CSS Grid with WB Components');
+        } else {
+            document.body.classList.remove('grid-layout');
+            console.log('🔧 Layout Manager: Switched to Flexbox with WB Components');
+        }
     }
     
     /**
@@ -399,6 +774,7 @@ window.WBLayoutManager = WBLayoutManager;
 ### Required HTML Structure
 All pages must follow this exact structure:
 
+### Option 1: Pure Semantic HTML
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -412,56 +788,209 @@ All pages must follow this exact structure:
     <link rel="stylesheet" href="/styles/_utilities.css">
     <!-- Layout System CSS (FOURTH) -->
     <link rel="stylesheet" href="/wb-core/layouts/layouts.css">
-    <!-- Component-specific CSS (LAST) -->
 </head>
 <body data-theme="dark" data-layout="top-nav">
-    <!-- Control Panel (if needed) -->
-    <control-panel></control-panel>
+    <!-- Standard HTML5 Semantic Elements -->
+    <header>
+        <h1>My Website</h1>
+        <!-- Header content -->
+    </header>
     
-    <!-- Required Site Structure -->
-    <div class="site-container">
-        <!-- Header -->
-        <header class="site-header">
-            <h1>Page Title</h1>
-            <p>Page subtitle</p>
-        </header>
-        
-        <!-- Navigation -->
-        <nav class="site-nav" id="nav-container">
-            <!-- Navigation content populated by wb-nav-menu -->
-        </nav>
-        
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Page content -->
-        </main>
-        
-        <!-- Footer -->
-        <footer class="site-footer">
-            <!-- Footer content -->
-        </footer>
-    </div>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
     
-    <!-- Scripts: Load utilities first -->
+    <main>
+        <h1>Page Title</h1>
+        <p>Main content goes here...</p>
+    </main>
+    
+    <!-- For ad-layout only -->
+    <aside style="display: none;">
+        <!-- Advertisement content -->
+    </aside>
+    
+    <footer>
+        <p>&copy; 2025 My Company. All rights reserved.</p>
+    </footer>
+    
+    <!-- Layout Manager (optional) -->
+    <script src="/wb-core/layouts/layout-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            WBLayoutManager.applyLayout('top-nav', true); // Enable Grid
+        });
+    </script>
+</body>
+</html>
+```
+
+### Option 2: Pure WB Components
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same CSS loading as above -->
+    <link rel="stylesheet" href="/styles/_variables.css">
+    <link rel="stylesheet" href="/styles/_base.css">
+    <link rel="stylesheet" href="/styles/_utilities.css">
+    <link rel="stylesheet" href="/wb-core/layouts/layouts.css">
+</head>
+<body data-theme="dark" data-layout="top-nav">
+    <!-- Enhanced WB Components -->
+    <wb-header 
+        brand-text="My Website" 
+        layout="default" 
+        sticky="false">
+    </wb-header>
+    
+    <wb-nav 
+        items='[
+            {"text": "Home", "href": "/"},
+            {"text": "About", "href": "/about"},
+            {"text": "Contact", "href": "/contact"}
+        ]'
+        layout="horizontal">
+    </wb-nav>
+    
+    <wb-main>
+        <h1>Page Title</h1>
+        <p>Main content goes here...</p>
+    </wb-main>
+    
+    <aside class="wb-ad-sidebar" style="display: none;">
+        <!-- Advertisement content -->
+    </aside>
+    
+    <wb-footer 
+        layout="standard" 
+        columns="3"
+        company-name="My Company"
+        copyright="© 2025 My Company. All rights reserved.">
+    </wb-footer>
+    
+    <!-- Scripts for WB Components -->
+    <script src="/components/wb-component-utils.js"></script>
+    <script src="/wb-core/layouts/layout-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            WBLayoutManager.applyLayout('top-nav', true);
+        });
+    </script>
+</body>
+</html>
+```
+
+### Option 3: Mixed Approach
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same CSS loading -->
+    <link rel="stylesheet" href="/styles/_variables.css">
+    <link rel="stylesheet" href="/styles/_base.css">
+    <link rel="stylesheet" href="/styles/_utilities.css">
+    <link rel="stylesheet" href="/wb-core/layouts/layouts.css">
+</head>
+<body data-theme="dark" data-layout="top-nav">
+    <!-- Mix semantic HTML with WB components as needed -->
+    <header>
+        <h1>My Website</h1>
+    </header>
+    
+    <!-- Use WB nav for enhanced functionality -->
+    <wb-nav 
+        items='[{"text": "Home", "href": "/"}]'
+        layout="horizontal">
+    </wb-nav>
+    
+    <!-- Standard main element -->
+    <main>
+        <h1>Page Title</h1>
+        <p>Content goes here...</p>
+    </main>
+    
+    <aside style="display: none;">
+        <!-- Ads -->
+    </aside>
+    
+    <!-- Use WB footer for rich functionality -->
+    <wb-footer 
+        company-name="My Company">
+    </wb-footer>
+    
     <script src="/components/wb-component-utils.js"></script>
     <script src="/wb-core/layouts/layout-manager.js"></script>
 </body>
 </html>
 ```
 
-## CSS Class Standards
+## Usage Recommendations
 
-### Required CSS Classes
-- `.site-container` - Main page wrapper
-- `.site-header` - Page header section
-- `.site-nav` - Navigation container
-- `.main-content` - Main content area
-- `.site-footer` - Footer section
+### When to Use Semantic HTML
+- **Simple websites** with basic functionality
+- **Accessibility-first** projects requiring maximum screen reader compatibility
+- **Learning projects** or educational content
+- **Legacy system integration** where WB components aren't suitable
+- **Minimal JavaScript** environments
 
-### Layout-specific Classes
+### When to Use WB Components
+- **Complex applications** requiring enhanced functionality
+- **Consistent theming** across multiple pages/sites
+- **Dynamic content** that needs programmatic updates
+- **Advanced responsive behavior** beyond CSS media queries
+- **Integration with WB ecosystem** (control panels, theme systems)
+
+### When to Use Mixed Approach
+- **Progressive enhancement** - start semantic, enhance selectively
+- **Component migration** - gradually adopting WB components
+- **Specific feature needs** - use WB components only where enhanced functionality is needed
+- **Team preferences** - different developers comfortable with different approaches
+
+## WB Component Integration
+
+### Available WB Components (Optional)
+- `wb-header` - Enhanced website header with branding and navigation
+- `wb-nav` - Advanced navigation menu component  
+- `wb-main` - Content wrapper with enhanced spacing and theming
+- `wb-footer` - Rich website footer with links and structured information
+
+### Semantic HTML Elements (Always Available)
+- `<header>` - Standard HTML5 header element
+- `<nav>` - Standard HTML5 navigation element
+- `<main>` - Standard HTML5 main content element
+- `<footer>` - Standard HTML5 footer element
+- `<aside>` - Standard HTML5 sidebar element
+
+### Layout-specific Classes (Applied to `<body>`)
 - `[data-layout="top-nav"]` - Top navigation layout
 - `[data-layout="left-nav"]` - Left sidebar layout
 - `[data-layout="right-nav"]` - Right sidebar layout
+- `[data-layout="ad-layout"]` - Advertisement layout
+
+### Supported Element Types
+**Semantic HTML** (works automatically):
+- `<header>` - Page header section
+- `<nav>` - Navigation container
+- `<main>` - Main content area
+- `<footer>` - Footer section
+- `<aside>` - Sidebar/advertisement area
+
+**WB Components** (enhanced functionality):
+- `<wb-header>` - Enhanced header component
+- `<wb-nav>` - Advanced navigation component
+- `<wb-main>` - Content wrapper component
+- `<wb-footer>` - Rich footer component
+
+**CSS Classes** (for mixed approaches):
+- `.wb-header` - Fallback header class
+- `.wb-nav` - Fallback navigation class
+- `.wb-main` - Fallback main class
+- `.wb-footer` - Fallback footer class
 
 ## Component Integration
 
@@ -512,6 +1041,11 @@ Demo pages should NOT define their own layout CSS:
 <script>
     // ✅ CORRECT: Use centralized utility
     WBComponentUtils.loadCSS('my-styles', '/path/to/styles.css');
+    
+    // Enable Grid Layout (optional)
+    WBLayoutManager.applyLayout('top-nav', true); // true = use Grid
+    // OR
+    WBLayoutManager.toggleLayoutSystem(true); // Switch to Grid
 </script>
 ```
 

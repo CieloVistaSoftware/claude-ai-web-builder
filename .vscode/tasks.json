@@ -39,6 +39,24 @@
 			"group": "test",
 			"isBackground": true,
 			"problemMatcher": []
+		},
+		{
+			"label": "Start Claude Events API Server",
+			"type": "shell",
+			"command": "pwsh.exe",
+			"args": [
+				"-File",
+				"${workspaceFolder}/server/start-api.ps1"
+			],
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			}
 		}
 	]
 }

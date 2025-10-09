@@ -11,6 +11,7 @@ The `wb-event-log` component is a passive, event-driven logging system that auto
 - **Event Filtering**: Filter by event type (Info, Warning, Error, Success, Debug, User)
 - **Search Functionality**: Search through event history
 - **Export Capabilities**: Export events to JSON, CSV, or TXT formats
+- **Claude.md Integration**: Save filtered events directly to claude.md files with proper formatting
 
 ## Usage
 
@@ -110,6 +111,7 @@ WBEventLog.logInfo('Data processed', {
 - ⏸️ **Pause**: Pause/resume event logging
 - 📋 **Copy JSON**: Copy filtered events to clipboard as JSON
 - 📤 **Export**: Export events in various formats
+- 🪵 **Save to Claude.md**: Save filtered events to claude.md with proper formatting
 
 ## API Reference
 
@@ -141,6 +143,9 @@ eventLog.exportEvents('json')
 eventLog.exportEvents('csv')
 eventLog.exportEvents('txt')
 
+// Save to Claude.md
+eventLog.saveToClaudeFile()
+
 // Filtering
 eventLog.setFilter(['info', 'error'])
 eventLog.setSearchFilter('component')
@@ -155,6 +160,74 @@ eventLog.setWrapMode('wrap')
 - `wb-event-logged`: Fired when a new event is logged
 - `wb-events-cleared`: Fired when events are cleared
 - `wb-filter-changed`: Fired when filters are applied
+- `claude-log-saved`: Fired when events are successfully saved to claude.md
+
+## Claude.md Integration
+
+The wb-event-log component includes built-in functionality to save filtered events directly to `claude.md` files with proper formatting.
+
+### Features
+- **🪵 Save Button**: Click the wood log button in the toolbar to save filtered events
+- **Smart Formatting**: Events are grouped by type and formatted as markdown
+- **Multiple Save Methods**: 
+  - Direct file saving (Chrome/Edge via File System Access API)
+  - Server endpoint integration (`/api/save-claude-log`)
+  - Download fallback for all browsers
+- **Visual Feedback**: Green success or red error status notifications
+- **Filter Respect**: Only saves currently visible/filtered events
+
+### Save Format
+```markdown
+## Event Log Export - [timestamp]
+
+### Summary
+- Total events: X
+- Filters: error, info
+- Search: [search term]
+
+### Events
+#### ERROR Events (X)
+- **time**: message
+- **time**: message with stack trace
+
+#### INFO Events (X)  
+- **time**: message
+```
+
+### Configuration
+```html
+<!-- Enable/disable claude.md save feature -->
+<wb-event-log claude-save-enabled="true"></wb-event-log>
+
+<!-- Custom filename -->
+<wb-event-log claude-filename="issues.md"></wb-event-log>
+
+<!-- Disable event grouping -->
+<wb-event-log claude-auto-group="false"></wb-event-log>
+```
+
+### Programmatic Usage
+```javascript
+// Save filtered events to claude.md
+const eventLog = document.querySelector('wb-event-log');
+await eventLog.saveToClaudeFile();
+
+// Listen for save events
+eventLog.addEventListener('claude-log-saved', (event) => {
+    console.log('Saved to claude.md:', event.detail);
+});
+```
+
+### Server Integration (Optional)
+For seamless file saving, implement the server endpoint:
+```javascript
+// POST /api/save-claude-log
+{
+    "filename": "claude.md",
+    "content": "# Event log content...",
+    "folder": "current-folder-name"
+}
+```
 
 ## Styling
 

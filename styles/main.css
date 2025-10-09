@@ -8,6 +8,7 @@
  * 1. Variables - CSS custom properties and design tokens
  * 2. Base - Reset, typography, and foundational element styles  
  * 3. Utilities - Reusable utility classes and patterns
+ * 4. Layouts - Layout system styles and responsive design
  * 
  * Usage in HTML:
  * <link rel="stylesheet" href="../../styles/main.css">
@@ -22,6 +23,9 @@
 
 /* REQUIRED THIRD: Utility Classes and Patterns */
 @import url('./_utilities.css');
+
+/* REQUIRED FOURTH: Layout System */
+@import url('./layouts.css');
 
 /* 
  * Component-specific CSS should be loaded AFTER this file

@@ -1,0 +1,580 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configuration Schema",
+  "description": "Schema for validating Configuration objects",
+  "type": "object",
+  "properties": {
+    "system": {
+      "type": "object",
+      "description": "System information and metadata",
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Semantic version number"
+        },
+        "name": {
+          "type": "string",
+          "description": "System name identifier"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date",
+          "description": "Last update date in YYYY-MM-DD format"
+        }
+      },
+      "additionalProperties": false
+    },
+    "theme": {
+      "type": "object",
+      "description": "Theme and appearance configuration",
+      "properties": {
+        "default": {
+          "type": "string",
+          "enum": ["light", "dark", "auto"],
+          "description": "Default theme setting"
+        },
+        "available": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["light", "dark", "auto"]
+          },
+          "uniqueItems": true,
+          "description": "Available theme options"
+        },
+        "cssVariables": {
+          "type": "string",
+          "pattern": "^/.*\\.css$",
+          "description": "Path to CSS variables file"
+        },
+        "transitions": {
+          "type": "object",
+          "properties": {
+            "duration": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?(s|ms)$",
+              "description": "Transition duration (e.g., '0.3s', '300ms')"
+            },
+            "easing": {
+              "type": "string",
+              "enum": ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier"],
+              "description": "Transition easing function"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["default"],
+      "additionalProperties": false
+    },
+    "layout": {
+      "type": "object",
+      "description": "Layout system configuration",
+      "properties": {
+        "default": {
+          "type": "string",
+          "enum": ["top-nav", "left-nav", "right-nav", "ad-layout"],
+          "description": "Default layout configuration"
+        },
+        "available": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["top-nav", "left-nav", "right-nav", "ad-layout"]
+          },
+          "uniqueItems": true,
+          "description": "Available layout options"
+        },
+        "useGrid": {
+          "type": "boolean",
+          "description": "Enable CSS Grid layout system"
+        },
+        "responsive": {
+          "type": "boolean",
+          "description": "Enable responsive layout behavior"
+        },
+        "breakpoints": {
+          "type": "object",
+          "properties": {
+            "mobile": {
+              "type": "string",
+              "pattern": "^\\d+px$",
+              "description": "Mobile breakpoint (e.g., '768px')"
+            },
+            "tablet": {
+              "type": "string",
+              "pattern": "^\\d+px$",
+              "description": "Tablet breakpoint (e.g., '1024px')"
+            },
+            "desktop": {
+              "type": "string",
+              "pattern": "^\\d+px$",
+              "description": "Desktop breakpoint (e.g., '1200px')"
+            },
+            "wide": {
+              "type": "string",
+              "pattern": "^\\d+px$",
+              "description": "Wide screen breakpoint (e.g., '1400px')"
+            }
+          },
+          "additionalProperties": false
+        },
+        "containerMaxWidth": {
+          "type": "string",
+          "pattern": "^\\d+px$",
+          "description": "Maximum container width (e.g., '1200px')"
+        }
+      },
+      "required": ["default"],
+      "additionalProperties": false
+    },
+    "components": {
+      "type": "object",
+      "description": "Component default configurations",
+      "properties": {
+        "wb-header": {
+          "$ref": "#/definitions/wbHeaderConfig"
+        },
+        "wb-nav": {
+          "$ref": "#/definitions/wbNavConfig"
+        },
+        "wb-main": {
+          "$ref": "#/definitions/wbMainConfig"
+        },
+        "wb-footer": {
+          "$ref": "#/definitions/wbFooterConfig"
+        },
+        "wb-button": {
+          "$ref": "#/definitions/wbButtonConfig"
+        },
+        "wb-card": {
+          "$ref": "#/definitions/wbCardConfig"
+        },
+        "wb-input": {
+          "$ref": "#/definitions/wbInputConfig"
+        },
+        "wb-tab": {
+          "$ref": "#/definitions/wbTabConfig"
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "description": "Configuration for custom WB components"
+      }
+    },
+    "autoLoader": {
+      "type": "object",
+      "description": "Auto-loader system configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable automatic component loading"
+        },
+        "autoDetect": {
+          "type": "boolean",
+          "description": "Automatically detect required components"
+        },
+        "loadSequentially": {
+          "type": "boolean",
+          "description": "Load components in sequence rather than parallel"
+        },
+        "showProgress": {
+          "type": "boolean",
+          "description": "Show loading progress indicators"
+        },
+        "basePaths": {
+          "type": "object",
+          "properties": {
+            "components": {
+              "type": "string",
+              "pattern": "^/.*",
+              "description": "Base path for component files"
+            },
+            "styles": {
+              "type": "string",
+              "pattern": "^/.*",
+              "description": "Base path for style files"
+            },
+            "utils": {
+              "type": "string",
+              "pattern": "^/.*",
+              "description": "Base path for utility files"
+            },
+            "core": {
+              "type": "string",
+              "pattern": "^/.*",
+              "description": "Base path for core system files"
+            }
+          },
+          "additionalProperties": false
+        },
+        "globalFiles": {
+          "type": "object",
+          "properties": {
+            "css": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^/.*\\.css$"
+              },
+              "description": "Global CSS files to load"
+            },
+            "js": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^/.*\\.js$"
+              },
+              "description": "Global JavaScript files to load"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "development": {
+      "type": "object",
+      "description": "Development and debugging configuration",
+      "properties": {
+        "enableLogging": {
+          "type": "boolean",
+          "description": "Enable console logging"
+        },
+        "logLevel": {
+          "type": "string",
+          "enum": ["debug", "info", "warn", "error"],
+          "description": "Logging level"
+        },
+        "showLoadingInfo": {
+          "type": "boolean",
+          "description": "Show component loading information"
+        },
+        "enableEventLog": {
+          "type": "boolean",
+          "description": "Log component events"
+        },
+        "enableHotReload": {
+          "type": "boolean",
+          "description": "Enable hot reloading in development"
+        },
+        "debugMode": {
+          "type": "boolean",
+          "description": "Enable debug mode features"
+        }
+      },
+      "additionalProperties": false
+    },
+    "accessibility": {
+      "type": "object",
+      "description": "Accessibility configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable accessibility features"
+        },
+        "focusVisible": {
+          "type": "boolean",
+          "description": "Show focus indicators"
+        },
+        "reducedMotion": {
+          "type": "string",
+          "enum": ["respect", "ignore", "force"],
+          "description": "Reduced motion preference handling"
+        },
+        "announceChanges": {
+          "type": "boolean",
+          "description": "Announce dynamic changes to screen readers"
+        },
+        "keyboardNavigation": {
+          "type": "boolean",
+          "description": "Enable keyboard navigation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "performance": {
+      "type": "object",
+      "description": "Performance optimization settings",
+      "properties": {
+        "lazyLoadComponents": {
+          "type": "boolean",
+          "description": "Enable lazy loading of components"
+        },
+        "cacheConfigs": {
+          "type": "boolean",
+          "description": "Cache configuration objects"
+        },
+        "preloadAssets": {
+          "type": "boolean",
+          "description": "Preload component assets"
+        },
+        "debounceDelay": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5000,
+          "description": "Debounce delay in milliseconds"
+        },
+        "throttleDelay": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Throttle delay in milliseconds"
+        }
+      },
+      "additionalProperties": false
+    },
+    "storage": {
+      "type": "object",
+      "description": "Storage and persistence configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable local storage persistence"
+        },
+        "prefix": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9\\-_]+$",
+          "description": "Storage key prefix"
+        },
+        "cacheTimeout": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Cache timeout in milliseconds"
+        },
+        "syncAcrossTabs": {
+          "type": "boolean",
+          "description": "Synchronize configuration across browser tabs"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "wbHeaderConfig": {
+      "type": "object",
+      "description": "Configuration for wb-header components",
+      "properties": {
+        "layout": {
+          "type": "string",
+          "enum": ["default", "compact", "minimal"],
+          "description": "Header layout variant"
+        },
+        "sticky": {
+          "type": "boolean",
+          "description": "Make header sticky on scroll"
+        },
+        "theme": {
+          "type": "string",
+          "enum": ["inherit", "light", "dark"],
+          "description": "Header theme override"
+        },
+        "brandPosition": {
+          "type": "string",
+          "enum": ["left", "center", "right"],
+          "description": "Brand/logo position"
+        },
+        "showActions": {
+          "type": "boolean",
+          "description": "Show header action buttons"
+        }
+      },
+      "additionalProperties": false
+    },
+    "wbNavConfig": {
+      "type": "object",
+      "description": "Configuration for wb-nav components",
+      "properties": {
+        "layout": {
+          "type": "string",
+          "enum": ["horizontal", "vertical", "dropdown"],
+          "description": "Navigation layout"
+        },
+        "variant": {
+          "type": "string",
+          "enum": ["default", "pills", "tabs", "breadcrumb"],
+          "description": "Navigation style variant"
+        },
+        "responsive": {
+          "type": "boolean",
+          "description": "Enable responsive navigation"
+        },
+        "showIcons": {
+          "type": "boolean",
+          "description": "Show navigation icons"
+        },
+        "maxItems": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Maximum visible navigation items"
+        }
+      },
+      "additionalProperties": false
+    },
+    "wbMainConfig": {
+      "type": "object",
+      "description": "Configuration for wb-main components",
+      "properties": {
+        "padding": {
+          "type": "string",
+          "enum": ["none", "small", "standard", "large"],
+          "description": "Main content padding"
+        },
+        "maxWidth": {
+          "type": "string",
+          "enum": ["inherit", "small", "medium", "large", "full"],
+          "description": "Maximum content width"
+        },
+        "centerContent": {
+          "type": "boolean",
+          "description": "Center content horizontally"
+        },
+        "scrollBehavior": {
+          "type": "string",
+          "enum": ["auto", "smooth"],
+          "description": "Scroll behavior"
+        }
+      },
+      "additionalProperties": false
+    },
+    "wbFooterConfig": {
+      "type": "object",
+      "description": "Configuration for wb-footer components",
+      "properties": {
+        "layout": {
+          "type": "string",
+          "enum": ["standard", "minimal", "compact"],
+          "description": "Footer layout variant"
+        },
+        "columns": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 6,
+          "description": "Number of footer columns"
+        },
+        "showCopyright": {
+          "type": "boolean",
+          "description": "Show copyright information"
+        },
+        "showSocialLinks": {
+          "type": "boolean",
+          "description": "Show social media links"
+        },
+        "sticky": {
+          "type": "boolean",
+          "description": "Make footer sticky at bottom"
+        }
+      },
+      "additionalProperties": false
+    },
+    "wbButtonConfig": {
+      "type": "object",
+      "description": "Configuration for wb-button components",
+      "properties": {
+        "variant": {
+          "type": "string",
+          "enum": ["default", "primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+          "description": "Button style variant"
+        },
+        "size": {
+          "type": "string",
+          "enum": ["small", "standard", "large"],
+          "description": "Button size"
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "Default disabled state"
+        },
+        "loading": {
+          "type": "boolean",
+          "description": "Default loading state"
+        }
+      },
+      "additionalProperties": false
+    },
+    "wbCardConfig": {
+      "type": "object",
+      "description": "Configuration for wb-card components",
+      "properties": {
+        "variant": {
+          "type": "string",
+          "enum": ["default", "outlined", "filled", "elevated"],
+          "description": "Card style variant"
+        },
+        "size": {
+          "type": "string",
+          "enum": ["small", "standard", "large"],
+          "description": "Card size"
+        },
+        "layout": {
+          "type": "string",
+          "enum": ["vertical", "horizontal"],
+          "description": "Card content layout"
+        },
+        "clickable": {
+          "type": "boolean",
+          "description": "Make card clickable"
+        },
+        "showActions": {
+          "type": "boolean",
+          "description": "Show card action buttons"
+        }
+      },
+      "additionalProperties": false
+    },
+    "wbInputConfig": {
+      "type": "object",
+      "description": "Configuration for wb-input components",
+      "properties": {
+        "variant": {
+          "type": "string",
+          "enum": ["default", "outlined", "filled"],
+          "description": "Input style variant"
+        },
+        "size": {
+          "type": "string",
+          "enum": ["small", "standard", "large"],
+          "description": "Input size"
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Default required state"
+        },
+        "validateOnChange": {
+          "type": "boolean",
+          "description": "Validate input on every change"
+        }
+      },
+      "additionalProperties": false
+    },
+    "wbTabConfig": {
+      "type": "object",
+      "description": "Configuration for wb-tab components",
+      "properties": {
+        "variant": {
+          "type": "string",
+          "enum": ["default", "pills", "underline"],
+          "description": "Tab style variant"
+        },
+        "orientation": {
+          "type": "string",
+          "enum": ["horizontal", "vertical"],
+          "description": "Tab orientation"
+        },
+        "activeTab": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Default active tab index"
+        },
+        "lazy": {
+          "type": "boolean",
+          "description": "Lazy load tab content"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

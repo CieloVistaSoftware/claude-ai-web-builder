@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Color Picker - New Web Component Demo</title>
     
+    <!-- WB System with Auto-loader and Claude Issue Tracking -->
+    <script src="/config.js"></script>
+    <script src="/utils/auto-loader.js"></script>
+    
     <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
     <link rel="stylesheet" href="../../styles/main.css">    <style>
         body {
@@ -169,6 +173,12 @@
         <div class="floating-event-log-content">
             <wb-event-log id="color-picker-event-log"></wb-event-log>
         </div>
+    </div>
+    
+    <!-- Claude Debug Log for Testing Current Directory Saves -->
+    <div style="position: fixed; bottom: 20px; right: 20px; width: 300px; height: 200px; z-index: 10001; background: rgba(26, 26, 26, 0.95); border: 1px solid #444; border-radius: 6px; overflow: hidden;">
+        <div style="background: #007acc; color: white; padding: 4px 8px; font-size: 10px; font-weight: bold;">🔍 Claude Issues (Current Dir Test)</div>
+        <wb-event-log id="claudeColorPickerLog"></wb-event-log>
     </div>
 
     <div class="demo-container">
@@ -362,7 +372,7 @@ WBColorPicker.setDisabled(picker, true);</code></pre>
     <!-- Load components -->
     <script src="../wb-component-utils.js"></script>
     <script src="../wb-event-log/wb-event-log.js"></script>
-    <script src="wb-color-picker.js"></script>
+    <!-- Component loaded automatically by auto-loader -->
 
     <script>
         let eventCount = 0;
@@ -467,6 +477,83 @@ WBColorPicker.setDisabled(picker, true);</code></pre>
             document.getElementById('event-count').textContent = eventCount;
             document.getElementById('event-output').textContent = 'Last Event: cleared';
         }
+        
+        // Claude Issue Tracking - Test Current Directory Saves
+        setTimeout(() => {
+            WBEventLog.logInfo('wb-color-picker demo initialized', { 
+                source: 'wb-color-picker-demo', 
+                component: 'wb-color-picker',
+                location: window.location.pathname,
+                testNote: 'Testing current directory claude.md saves'
+            });
+            
+            // Check for actual component loading issues instead of test errors
+            
+            // Comprehensive component health check
+            const colorPickers = document.querySelectorAll('wb-color-picker');
+            
+            if (colorPickers.length > 0) {
+                WBEventLog.logSuccess(`Found ${colorPickers.length} wb-color-picker components`, { 
+                    source: 'component-detection', 
+                    component: 'wb-color-picker' 
+                });
+                
+                // Check if components are properly initialized
+                colorPickers.forEach((picker, index) => {
+                    if (picker.shadowRoot) {
+                        WBEventLog.logSuccess(`Color picker ${index} initialized with shadow DOM`, {
+                            source: 'component-health',
+                            component: 'wb-color-picker',
+                            index: index
+                        });
+                    } else {
+                        WBEventLog.logError(`Color picker ${index} missing shadow DOM - initialization failed`, {
+                            source: 'component-health',
+                            component: 'wb-color-picker',
+                            index: index,
+                            issue: 'shadow-dom-missing'
+                        });
+                    }
+                    
+                    // Check for component methods
+                    if (typeof picker.getValue === 'function') {
+                        WBEventLog.logSuccess(`Color picker ${index} API methods available`, {
+                            source: 'component-health',
+                            component: 'wb-color-picker',
+                            currentValue: picker.getValue?.()
+                        });
+                    } else {
+                        WBEventLog.logWarning(`Color picker ${index} API methods not ready yet`, {
+                            source: 'component-health',
+                            component: 'wb-color-picker',
+                            note: 'Methods may load after component initialization'
+                        });
+                    }
+                });
+            } else {
+                WBEventLog.logError('No wb-color-picker components detected on page', { 
+                    source: 'component-detection', 
+                    component: 'wb-color-picker',
+                    issue: 'components-missing',
+                    context: `Page has ${document.querySelectorAll('[class*="color-picker"]').length} color-picker related elements`
+                });
+            }
+            
+            // Check if auto-loader loaded the component files
+            const componentScript = document.querySelector('script[src*="wb-color-picker.js"]');
+            if (componentScript) {
+                WBEventLog.logSuccess('wb-color-picker.js loaded successfully by auto-loader', {
+                    source: 'auto-loader',
+                    component: 'wb-color-picker'
+                });
+            } else {
+                WBEventLog.logError('wb-color-picker.js not loaded by auto-loader', {
+                    source: 'auto-loader',
+                    component: 'wb-color-picker',
+                    issue: 'script-not-loaded'
+                });
+            }
+        }, 2000);
     </script>
 </body>
 </html>

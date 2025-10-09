@@ -67,10 +67,14 @@
     /**
      * Configuration Loading Utilities
      * Common functionality for loading component configurations from JSON
+     * 
+     * NOTE: fetch() uses HTTP protocol, not WebSocket. For real-time updates,
+     * components should subscribe to websocket events after initial load.
      */
     const ConfigLoader = {
         /**
          * Load configuration from JSON file with fallback
+         * Uses standard HTTP fetch - for real-time config updates, use websocket
          * @param {string} configPath - Path to the configuration JSON file
          * @param {Object} fallbackConfig - Fallback configuration object
          * @param {string} componentName - Name of the component for logging
@@ -115,11 +119,36 @@
          */
         getComponentPath: function(scriptFileName, fallbackPath = '../components/') {
             const scripts = document.getElementsByTagName('script');
+            
+            // First try exact match
             for (let script of scripts) {
                 if (script.src && script.src.includes(scriptFileName)) {
-                    return script.src.replace(scriptFileName, '');
+                    const path = script.src.replace(scriptFileName, '');
+                    console.log(`✅ Path Detector: Found exact match for ${scriptFileName} at: ${path}`);
+                    return path;
                 }
             }
+            
+            // Try without extension for more flexible matching
+            const baseFileName = scriptFileName.replace('.js', '');
+            for (let script of scripts) {
+                if (script.src && script.src.includes(baseFileName)) {
+                    const path = script.src.replace(/[^\/]*\.js.*$/, '');
+                    console.log(`✅ Path Detector: Found base match for ${scriptFileName} at: ${path}`);
+                    return path;
+                }
+            }
+            
+            // Try to infer from current document location
+            const currentPath = window.location.pathname;
+            if (currentPath.includes('/components/')) {
+                const componentsIndex = currentPath.lastIndexOf('/components/');
+                const basePath = currentPath.substring(0, componentsIndex + 12); // '/components/'.length = 12
+                const inferredPath = basePath + scriptFileName.replace('.js', '') + '/';
+                console.log(`🔍 Path Detector: Inferred path for ${scriptFileName}: ${inferredPath}`);
+                return inferredPath;
+            }
+            
             console.warn(`🔧 Path Detector: Could not detect path for ${scriptFileName}, using fallback: ${fallbackPath}`);
             return fallbackPath;
         },
@@ -198,6 +227,13 @@
     /**
      * DOM Manipulation Utilities
      * Common functionality for DOM operations
+     * 
+     * ELEMENT CREATION TIMING:
+     * - Web Components: Created automatically when browser parses custom element tags in HTML
+     * - Dynamic Elements: Created by JavaScript when needed (modals, notifications, etc.)
+     * - Template-based: Created when component connectedCallback() builds shadow DOM
+     * 
+     * Components should self-initialize from DOM - no manual createElement needed for web components
      */
     const DOMUtils = {
         /**
@@ -206,7 +242,7 @@
          * @returns {string} Unique ID
          */
         generateId: function(prefix = 'wb-element') {
-            return `${prefix}-${Math.random().toString(36).substr(2, 9)}`;
+            return `${prefix}-${Math.random().toString(36).substring(2, 11)}`;
         },
         
         /**
@@ -419,7 +455,7 @@
          */
         parseHsl: function(hsl) {
             const match = hsl.match(/hsla?\(([^)]+)\)/);
-            if (!match) return { r: 0, g, b: 0, a: 1 };
+            if (!match) return { r: 0, g: 0, b: 0, a: 1 };
             
             const values = match[1].split(',').map(v => parseFloat(v.trim()));
             const rgb = this.hslToRgb(values[0] / 360, values[1] / 100, values[2] / 100);
@@ -708,36 +744,36 @@
         },
         
         /**
-         * Initialize a component with standard error handling
-         * @param {string} componentName - Name of the component
-         * @param {Function} initFunction - Initialization function
-         * @param {Object} options - Initialization options
+         * Wait for a component to be ready in the DOM
+         * @param {string} componentId - ID of the component element
+         * @param {number} timeout - Timeout in milliseconds (default: 5000)
+         * @returns {Promise<Element>} Resolves with the component element
          */
-        initializeComponent: function(componentName, initFunction, options = {}) {
-            const { delay = 100, retries = 1 } = options;
-            
-            const tryInit = (attempt = 1) => {
-                try {
-                    console.log(`🔧 Init Utils: Initializing ${componentName}...`);
-                    initFunction();
-                    console.log(`🔧 Init Utils: ${componentName} initialized successfully`);
-                    
-                    // Dispatch component ready event
-                    EventDispatcher.dispatchReady(componentName);
-                } catch (error) {
-                    console.error(`🔧 Init Utils: ${componentName} initialization failed (attempt ${attempt}):`, error);
-                    
-                    if (attempt < retries) {
-                        console.log(`🔧 Init Utils: Retrying ${componentName} initialization...`);
-                        setTimeout(() => tryInit(attempt + 1), delay * attempt);
-                    } else {
-                        console.error(`🔧 Init Utils: ${componentName} initialization failed after ${retries} attempts`);
-                    }
+        waitForComponent: function(componentId, timeout = 5000) {
+            return new Promise((resolve, reject) => {
+                const element = document.getElementById(componentId);
+                if (element) {
+                    resolve(element);
+                    return;
                 }
-            };
-            
-            this.onDOMReady(() => {
-                setTimeout(() => tryInit(), delay);
+                
+                const observer = new MutationObserver((mutations, obs) => {
+                    const element = document.getElementById(componentId);
+                    if (element) {
+                        obs.disconnect();
+                        resolve(element);
+                    }
+                });
+                
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+                
+                setTimeout(() => {
+                    observer.disconnect();
+                    reject(new Error(`Component ${componentId} not found within ${timeout}ms`));
+                }, timeout);
             });
         }
     };
@@ -814,6 +850,112 @@
         }
     };
     
+    /**
+     * Symbol Registry - Compiler-like symbol resolution
+     * Maps logical symbols to their runtime locations
+     * Symbols are discovered at runtime from schema files and component registration
+     */
+    const SymbolRegistry = {
+        // Dynamic symbol storage - populated at runtime
+        symbols: {},
+        
+        /**
+         * Resolve a symbol to its actual path
+         * @param {string} symbol - The logical symbol name
+         * @returns {string} The resolved path
+         */
+        resolve: function(symbol) {
+            // Initialize cache and tracking if not exists
+            this._resolveCache = this._resolveCache || new Map();
+            this._loggedSymbols = this._loggedSymbols || new Set();
+            this._cacheHits = this._cacheHits || 0;
+            this._cacheRequests = this._cacheRequests || 0;
+            
+            this._cacheRequests++;
+            
+            // Check cache first
+            if (this._resolveCache.has(symbol)) {
+                this._cacheHits++;
+                return this._resolveCache.get(symbol);
+            }
+            
+            // Check if symbols object exists and is initialized
+            if (!this.symbols || typeof this.symbols !== 'object') {
+                console.error(`🔧 Symbol Registry: symbols object not initialized`);
+                this._resolveCache.set(symbol, symbol);
+                return symbol;
+            }
+            
+            let resolvedPath;
+            if (this.symbols[symbol]) {
+                // If it's an absolute path (starts with /), return as-is
+                if (this.symbols[symbol].startsWith('/')) {
+                    resolvedPath = this.symbols[symbol];
+                } else {
+                    // Otherwise, prepend the base URL (ensure no double slashes)
+                    resolvedPath = '/' + this.symbols[symbol];
+                }
+                
+                // Log only first resolution to prevent spam
+                if (!this._loggedSymbols.has(symbol)) {
+                    this._loggedSymbols.add(symbol);
+                    console.log(`🔧 Symbol Registry: Resolved '${symbol}' -> '${resolvedPath}'`);
+                }
+            } else {
+                resolvedPath = symbol;
+                console.warn(`🔧 Symbol Registry: Unknown symbol '${symbol}', returning as-is`);
+            }
+            
+            // Cache the result
+            this._resolveCache.set(symbol, resolvedPath);
+            return resolvedPath;
+        },
+        
+        /**
+         * Get cache statistics and performance info
+         */
+        getCacheStats: function() {
+            const cache = this._resolveCache || new Map();
+            return {
+                size: cache.size,
+                entries: Array.from(cache.entries()),
+                hitRatio: this._cacheHits && this._cacheRequests ? 
+                    (this._cacheHits / this._cacheRequests * 100).toFixed(1) + '%' : 'N/A'
+            };
+        },
+        
+        /**
+         * Clear the resolution cache (useful for testing/debugging)
+         */
+        clearCache: function() {
+            this._resolveCache = new Map();
+            this._loggedSymbols = new Set();
+            this._cacheHits = 0;
+            this._cacheRequests = 0;
+            console.log('🔧 Symbol Registry: Cache cleared');
+        },
+        
+        /**
+         * Register a new symbol
+         * @param {string} symbol - The symbol name
+         * @param {string} path - The path to register
+         */
+        register: function(symbol, path) {
+            console.log(`🔧 Symbol Registry: Registering ${symbol} -> ${path}`);
+            this.symbols[symbol] = path;
+        },
+        
+        /**
+         * Get the base path for a component from its symbol
+         * @param {string} componentSymbol - Component symbol like 'wb.color-bar.js'
+         * @returns {string} Base component path
+         */
+        getComponentBase: function(componentSymbol) {
+            const fullPath = this.resolve(componentSymbol);
+            return fullPath.substring(0, fullPath.lastIndexOf('/') + 1);
+        }
+    };
+    
     // Create global WBComponentUtils object
     window.WBComponentUtils = {
         CSSLoader,
@@ -825,15 +967,19 @@
         StorageUtils,
         InitUtils,
         ValidationUtils,
+        SymbolRegistry,
         
         // Convenience methods for common operations
         loadCSS: CSSLoader.loadComponentCSS,
         loadConfig: ConfigLoader.loadConfig,
         getPath: PathDetector.getComponentPath,
+        resolve: function(symbol) { return SymbolRegistry.resolve(symbol); },
+        register: function(symbol, path) { return SymbolRegistry.register(symbol, path); },
         dispatch: EventDispatcher.dispatch,
         createElement: DOMUtils.createElement,
         generateId: DOMUtils.generateId,
         onReady: InitUtils.onDOMReady,
+        waitForComponent: InitUtils.waitForComponent,
         validate: ValidationUtils.validate,
         
         // Version info

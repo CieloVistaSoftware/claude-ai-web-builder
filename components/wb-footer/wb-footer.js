@@ -144,15 +144,15 @@ class WBFooter extends HTMLElement {
                     {
                         title: 'Products',
                         links: [
-                            { text: 'Components', href: '/components' },
-                            { text: 'Templates', href: '/templates' }
+                            { text: 'Components', href: window.WBComponentUtils?.resolve('site.components') || '/components' },
+                            { text: 'Templates', href: window.WBComponentUtils?.resolve('site.templates') || '/templates' }
                         ]
                     },
                     {
                         title: 'Support',
                         links: [
-                            { text: 'Documentation', href: '/docs' },
-                            { text: 'Contact', href: '/contact' }
+                            { text: 'Documentation', href: window.WBComponentUtils?.resolve('site.docs') || '/docs' },
+                            { text: 'Contact', href: window.WBComponentUtils?.resolve('site.contact') || '/contact' }
                         ]
                     }
                 ],
@@ -167,8 +167,8 @@ class WBFooter extends HTMLElement {
                     buttonText: 'Subscribe'
                 },
                 legal: [
-                    { text: 'Privacy Policy', href: '/privacy' },
-                    { text: 'Terms of Service', href: '/terms' }
+                    { text: 'Privacy Policy', href: window.WBComponentUtils?.resolve('site.privacy') || '/privacy' },
+                    { text: 'Terms of Service', href: window.WBComponentUtils?.resolve('site.terms') || '/terms' }
                 ],
                 copyright: '© 2024 Website Builder. All rights reserved.'
             }
@@ -467,8 +467,8 @@ class WBFooter extends HTMLElement {
         
         const essentialLinks = [
             { text: 'Home', href: '/' },
-            { text: 'Contact', href: '/contact' },
-            { text: 'Privacy', href: '/privacy' }
+            { text: 'Contact', href: window.WBComponentUtils?.resolve('site.contact') || '/contact' },
+            { text: 'Privacy', href: window.WBComponentUtils?.resolve('site.privacy') || '/privacy' }
         ];
         
         essentialLinks.forEach(link => {
@@ -636,6 +636,23 @@ class WBFooter extends HTMLElement {
 
 // Register the Web Component
 customElements.define('wb-footer', WBFooter);
+
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-footer', WBFooter, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'layout',
+        role: 'structural',
+        description: 'Footer component with support for links, social media, and multiple layout configurations',
+        api: {
+            static: ['create'],
+            events: ['footer-link-clicked'],
+            attributes: ['layout', 'theme', 'social-links', 'copyright'],
+            methods: ['render', 'setSocialLinks', 'setCopyright', 'addLink']
+        },
+        priority: 3 // Structural component depends on infrastructure
+    });
+}
 
 // Backward compatibility - Global API
 window.WBFooter = {

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Events API Test Client</title>
+    
+    <!-- WB System with Auto-loader and Claude Issue Tracking -->
+    <script src="/config.js"></script>
+    <script src="/utils/auto-loader.js"></script>
+    
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../styles/main.css">
+    
+    <!-- Demo Styles -->
+    <link rel="stylesheet" href="api-test-client.css">
+</head>
+<body data-theme="dark">
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Claude Events API Test Client</h1>
+            <p>Test API endpoints that AI assistants can use to access claude.md event logs</p>
+        </div>
+        
+        <!-- API Status Banner -->
+        <div id="apiStatus" class="status-banner">Checking API status...</div>
+        
+        <!-- WB Tab Component -->
+        <wb-tab active-tab="endpoints" variant="default" theme="dark">
+            <wb-tab-item tab-id="endpoints" icon="🔗">API Endpoints</wb-tab-item>
+            <wb-tab-item tab-id="documentation" icon="📚">Documentation</wb-tab-item>
+            
+            <wb-tab-panel tab-for="endpoints">
+                <div class="tab-content">
+                    <div class="demo-section">
+                        <h2>🔗 Test API Endpoints</h2>
+                        <p>Click the buttons below to test different API endpoints. Results will appear in the response area.</p>
+                        
+                        <div class="api-grid">
+                            <!-- Health Check -->
+                            <wb-card>
+                                <h3>🏥 Health Check</h3>
+                                <p>Check if the API server is running and get available endpoints.</p>
+                                <wb-button variant="primary" id="btn-health">GET /api/health</wb-button>
+                            </wb-card>
+                            
+                            <!-- All Events -->
+                            <wb-card>
+                                <h3>📊 All Events</h3>
+                                <p>Get all events from all claude.md files in the project.</p>
+                                <wb-button variant="primary" id="btn-events">GET /api/events</wb-button>
+                            </wb-card>
+                            
+                            <!-- Error Events -->
+                            <wb-card>
+                                <h3>🚨 Error Events Only</h3>
+                                <p>Get only error-level events - what AI assistants need to fix.</p>
+                                <wb-button variant="danger" id="btn-errors">GET /api/errors</wb-button>
+                            </wb-card>
+                            
+                            <!-- Recent Events -->
+                            <wb-card>
+                                <h3>⏰ Recent Events</h3>
+                                <p>Get events from the last N hours.</p>
+                                <div class="input-group">
+                                    <wb-input type="number" id="hoursInput" value="24" min="1" max="168" label="Hours back:" placeholder="24"></wb-input>
+                                </div>
+                                <wb-button variant="primary" id="btn-recent">GET /api/recent/N</wb-button>
+                            </wb-card>
+                            
+                            <!-- Directory Events -->
+                            <wb-card>
+                                <h3>📁 Directory Events</h3>
+                                <p>Get events from a specific directory's claude.md file.</p>
+                                <div class="input-group">
+                                    <wb-input type="text" id="directoryInput" value="components/wb-color-picker" label="Directory path:" placeholder="components/wb-button"></wb-input>
+                                </div>
+                                <wb-button variant="primary" id="btn-directory">GET /api/events/directory</wb-button>
+                            </wb-card>
+                            
+                            <!-- Save Event Log -->
+                            <wb-card>
+                                <h3>💾 Save Event Log</h3>
+                                <p>Save new content to a claude.md file (AI assistants can document fixes).</p>
+                                <div class="input-group">
+                                    <wb-input type="text" id="saveDirectory" value="." label="Directory:" placeholder="components/wb-button"></wb-input>
+                                </div>
+                                <div class="input-group">
+                                    <wb-input type="textarea" id="saveContent" rows="6" label="Content:" placeholder="Enter claude.md content..."></wb-input>
+                                </div>
+                                <wb-button variant="success" id="btn-save">POST /api/save-claude-log</wb-button>
+                            </wb-card>
+                        </div>
+                        
+                        <!-- Response Area -->
+                        <div class="response-section">
+                            <h3>📋 API Response</h3>
+                            <div id="responseArea" class="response-area">No requests made yet. Click an endpoint button above to test the API.</div>
+                        </div>
+                    </div>
+                </div>
+            </wb-tab-panel>
+            
+            <wb-tab-panel tab-for="documentation">
+                <div class="tab-content">
+                    <div class="demo-section">
+                        <h2>📚 API Documentation</h2>
+                        
+                        <div class="doc-section">
+                            <h3>🎯 Purpose</h3>
+                            <p>This API test client provides AI assistants programmatic access to claude.md event logs throughout the WB project.</p>
+                            <p>Instead of manually copying claude.md content when asking for help, AI assistants can now:</p>
+                            <ul>
+                                <li>Automatically fetch current error logs</li>
+                                <li>See exactly what's broken and where</li>
+                                <li>Get full context including HTML state and component status</li>
+                                <li>Save fixes back to the appropriate claude.md files</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="doc-section">
+                            <h3>🚀 Quick Start</h3>
+                            <ol>
+                                <li>Start the API server: <code>node server/claude-events-api.js</code></li>
+                                <li>Server runs at <code>http://localhost:3001</code></li>
+                                <li>Use the API Endpoints tab to try different API calls</li>
+                                <li>Check responses in the response area</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="doc-section">
+                            <h3>🤖 AI Assistant Usage</h3>
+                            <div class="endpoint-docs">
+                                <div class="endpoint-item">
+                                    <code>GET /api/errors</code>
+                                    <p>See what's currently broken</p>
+                                </div>
+                                <div class="endpoint-item">
+                                    <code>GET /api/events/dir?path=components/wb-tab</code>
+                                    <p>Debug specific components</p>
+                                </div>
+                                <div class="endpoint-item">
+                                    <code>GET /api/recent/1</code>
+                                    <p>Get the latest issues</p>
+                                </div>
+                                <div class="endpoint-item">
+                                    <code>POST /api/save-claude-log</code>
+                                    <p>Document fixes</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="doc-section">
+                            <h3>📡 API Endpoints</h3>
+                            <p>All endpoints return JSON responses. The API automatically scans all claude.md files created by the wb-event-log system and provides structured access to:</p>
+                            <ul>
+                                <li>Error events with stack traces</li>
+                                <li>Component initialization issues</li>
+                                <li>Resource loading failures</li>
+                                <li>JavaScript errors and warnings</li>
+                                <li>Page context and HTML state</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </wb-tab-panel>
+        </wb-tab>
+        
+        <!-- Floating Event Log -->
+        <wb-event-log id="apiTestLog"></wb-event-log>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001';
+        
+        // Initialize on DOM load
+        document.addEventListener('DOMContentLoaded', async () => {
+            initializeForm();
+            await checkApiStatus();
+            setupEventListeners();
+        });
+        
+        function initializeForm() {
+            const defaultContent = `## Server API Test Event - ${new Date().toLocaleString()}
+
+**Type**: Test Entry
+**Source**: Claude Events API Test Client (Server)
+**Timestamp**: ${new Date().toISOString()}
+**Message**: Testing API save functionality from server directory
+
+This entry was created by the server API test client to verify that events are properly prepended to the TOP of claude.md files in the correct directory.
+
+**Expected Result**: This should appear at the beginning of the server/claude.md file.
+
+---
+
+`;
+            const saveContent = document.getElementById('saveContent');
+            if (saveContent) {
+                saveContent.value = defaultContent;
+            }
+        }
+        
+        async function checkApiStatus() {
+            const statusEl = document.getElementById('apiStatus');
+            if (!statusEl) return;
+            
+            statusEl.textContent = '⏳ Checking API server...';
+            statusEl.className = 'status-banner info';
+            
+            // Log to wb-event-log
+            document.dispatchEvent(new CustomEvent('wb:info', {
+                detail: { message: 'Checking API server status', source: 'api-test-client' }
+            }));
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/health`);
+                if (response.ok) {
+                    const data = await response.json();
+                    statusEl.textContent = `✅ API Server is running (uptime: ${Math.round(data.uptime)}s)`;
+                    statusEl.className = 'status-banner success';
+                    
+                    document.dispatchEvent(new CustomEvent('wb:success', {
+                        detail: { message: `API server healthy (uptime: ${Math.round(data.uptime)}s)`, source: 'api-test-client' }
+                    }));
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                statusEl.innerHTML = `❌ API Server not available: ${error.message}<br><small>Run: <code>node server/claude-events-api.js</code></small>`;
+                statusEl.className = 'status-banner error';
+                
+                document.dispatchEvent(new CustomEvent('wb:error', {
+                    detail: { message: `API server unavailable: ${error.message}`, source: 'api-test-client' }
+                }));
+            }
+        }
+        
+        function setupEventListeners() {
+            document.getElementById('btn-health')?.addEventListener('click', () => testEndpoint('/api/health'));
+            document.getElementById('btn-events')?.addEventListener('click', () => testEndpoint('/api/events'));
+            document.getElementById('btn-errors')?.addEventListener('click', () => testEndpoint('/api/errors'));
+            document.getElementById('btn-recent')?.addEventListener('click', testRecentEvents);
+            document.getElementById('btn-directory')?.addEventListener('click', testDirectoryEvents);
+            document.getElementById('btn-save')?.addEventListener('click', testSaveEvent);
+        }
+        
+        async function testEndpoint(endpoint, options = {}) {
+            const responseArea = document.getElementById('responseArea');
+            if (!responseArea) return;
+            
+            responseArea.textContent = `Loading ${endpoint}...`;
+            responseArea.className = 'response-area loading';
+            
+            document.dispatchEvent(new CustomEvent('wb:info', {
+                detail: { message: `Testing endpoint: ${endpoint}`, source: 'api-test-client' }
+            }));
+            
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                const data = await response.json();
+                
+                const formatted = JSON.stringify(data, null, 2);
+                responseArea.textContent = `Status: ${response.status}\nEndpoint: ${endpoint}\n\n${formatted}`;
+                responseArea.className = 'response-area success';
+                
+                document.dispatchEvent(new CustomEvent('wb:success', {
+                    detail: { message: `API call successful: ${endpoint} (${response.status})`, source: 'api-test-client' }
+                }));
+                
+                // Show success message for saves
+                if (data.success && endpoint.includes('save-claude-log')) {
+                    responseArea.textContent = `✅ SUCCESS! Saved to: ${data.actualPath}\n\n` + responseArea.textContent;
+                    document.dispatchEvent(new CustomEvent('wb:success', {
+                        detail: { message: `File saved successfully: ${data.actualPath}`, source: 'api-test-client' }
+                    }));
+                }
+                
+            } catch (error) {
+                responseArea.textContent = `❌ Error: ${error.message}\n\nMake sure the API server is running:\nnode server/claude-events-api.js`;
+                responseArea.className = 'response-area error';
+                
+                document.dispatchEvent(new CustomEvent('wb:error', {
+                    detail: { message: `API call failed: ${error.message}`, source: 'api-test-client' }
+                }));
+            }
+        }
+        
+        async function testRecentEvents() {
+            const hoursInput = document.getElementById('hoursInput');
+            const hours = hoursInput ? hoursInput.value || 24 : 24;
+            await testEndpoint(`/api/recent/${hours}`);
+        }
+        
+        async function testDirectoryEvents() {
+            const directoryInput = document.getElementById('directoryInput');
+            const directory = directoryInput ? directoryInput.value || 'components/wb-color-picker' : 'components/wb-color-picker';
+            await testEndpoint(`/api/events/dir?path=${encodeURIComponent(directory)}`);
+        }
+        
+        async function testSaveEvent() {
+            const saveDirectory = document.getElementById('saveDirectory');
+            const saveContent = document.getElementById('saveContent');
+            
+            const directory = saveDirectory ? saveDirectory.value || '.' : '.';
+            const content = saveContent ? saveContent.value : '';
+            
+            if (!content.trim()) {
+                alert('Please enter some content to save!');
+                document.dispatchEvent(new CustomEvent('wb:warning', {
+                    detail: { message: 'Save attempted with empty content', source: 'api-test-client' }
+                }));
+                return;
+            }
+            
+            const payload = {
+                filename: 'claude.md',
+                content: content,
+                folder: directory,
+                referer: window.location.href
+            };
+            
+            await testEndpoint('/api/save-claude-log', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+        }
+    </script>
+</body>
+</html>

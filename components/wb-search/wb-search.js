@@ -271,3 +271,20 @@ class WBSearch extends HTMLElement {
 
 // Register the component
 customElements.define('wb-search', WBSearch);
+
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-search', WBSearch, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'form',
+        role: 'ui-element',
+        description: 'Search input component with autocomplete, suggestions, and filtering capabilities',
+        api: {
+            static: [],
+            events: ['search', 'search-submit', 'search-clear', 'suggestion-selected'],
+            attributes: ['placeholder', 'suggestions', 'min-chars', 'auto-complete'],
+            methods: ['render', 'search', 'clearSearch', 'setSuggestions']
+        },
+        priority: 4 // UI component depends on infrastructure
+    });
+}

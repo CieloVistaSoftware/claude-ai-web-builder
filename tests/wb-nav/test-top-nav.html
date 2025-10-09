@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Nav Test</title>
+    
+    <!-- Configuration System -->
+    <script src="/config.js"></script>
+    
+    <!-- Load main CSS -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/components/wb-control-panel/wb-control-panel.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        .test-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .debug-info {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body data-layout="top-nav">
+    <div class="test-info">
+        <h2>🧪 Top Navigation Test</h2>
+        <p>Testing top navigation layout functionality. The nav should appear horizontally at the top.</p>
+        <p><strong>Expected:</strong> Horizontal navigation bar with centered links and 2rem gap</p>
+    </div>
+    
+    <header class="wb-header">
+        <h1>Website Title</h1>
+    </header>
+    
+    <main class="main-content wb-main">
+        <div class="debug-info" id="debug-info">
+            <h3>Debug Information:</h3>
+            <div id="nav-debug">Loading...</div>
+        </div>
+        
+        <div>
+            <h2>Main Content</h2>
+            <p>This is the main content area. The navigation should be above this content.</p>
+        </div>
+    </main>
+    
+    <footer class="wb-footer">
+        <p>&copy; 2025 Top Nav Test</p>
+    </footer>
+
+    <!-- Control Panel Component -->
+    <control-panel id="test-control-panel" 
+                   visible="true"
+                   theme="dark"
+                   layout="top-nav"
+                   show-themes="true"
+                   show-layout="true">
+    </control-panel>
+
+    <!-- Load Control Panel Script -->
+    <script type="module">
+        console.log('🚀 Loading Control Panel for Top Nav Test...');
+        
+        // Import control panel
+        await import('./components/wb-control-panel/wb-control-panel.js');
+        
+        console.log('✅ Control Panel loaded');
+        
+        // Debug function
+        function debugNavLayout() {
+            const nav = document.querySelector('nav, .site-nav, #site-nav');
+            const navList = document.querySelector('.nav-list, #nav-list');
+            const debugDiv = document.getElementById('nav-debug');
+            
+            let debugInfo = '';
+            
+            if (nav) {
+                debugInfo += `✅ Nav Element Found: ${nav.tagName}\n`;
+                debugInfo += `   Classes: ${nav.className}\n`;
+                debugInfo += `   ID: ${nav.id}\n`;
+                debugInfo += `   Data attributes: ${Array.from(nav.attributes).filter(attr => attr.name.startsWith('data-')).map(attr => `${attr.name}="${attr.value}"`).join(', ')}\n`;
+                
+                const computedStyle = getComputedStyle(nav);
+                debugInfo += `   Position: ${computedStyle.position}\n`;
+                debugInfo += `   Display: ${computedStyle.display}\n`;
+                debugInfo += `   Flex Direction: ${computedStyle.flexDirection}\n`;
+                
+                if (navList) {
+                    debugInfo += `✅ Nav List Found: ${navList.tagName}\n`;
+                    debugInfo += `   Classes: ${navList.className}\n`;
+                    debugInfo += `   ID: ${navList.id}\n`;
+                    
+                    const listStyle = getComputedStyle(navList);
+                    debugInfo += `   Display: ${listStyle.display}\n`;
+                    debugInfo += `   Flex Direction: ${listStyle.flexDirection}\n`;
+                    debugInfo += `   Justify Content: ${listStyle.justifyContent}\n`;
+                    debugInfo += `   Gap: ${listStyle.gap}\n`;
+                    
+                    const navItems = navList.querySelectorAll('li, .nav-item');
+                    debugInfo += `   Nav Items: ${navItems.length}\n`;
+                } else {
+                    debugInfo += `❌ Nav List NOT Found\n`;
+                }
+            } else {
+                debugInfo += `❌ Nav Element NOT Found\n`;
+            }
+            
+            debugInfo += `\nBody data-layout: ${document.body.getAttribute('data-layout')}\n`;
+            
+            debugDiv.textContent = debugInfo;
+        }
+        
+        // Debug after a moment to allow nav creation
+        setTimeout(debugNavLayout, 1000);
+        setTimeout(debugNavLayout, 3000); // Check again after longer delay
+        
+        // Listen for layout changes
+        document.addEventListener('layoutChanged', () => {
+            console.log('Layout changed, re-debugging...');
+            setTimeout(debugNavLayout, 500);
+        });
+    </script>
+</body>
+</html>

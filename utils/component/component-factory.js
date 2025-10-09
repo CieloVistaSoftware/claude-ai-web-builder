@@ -252,8 +252,8 @@
                     const pathsToTry = [
                         `../${dep}/${dep}.json`,                    // Standard relative
                         `../${dep}/${dep}-data-driven.json`,       // Data-driven relative
-                        `/components/${dep}/${dep}.json`,          // Absolute standard
-                        `/components/${dep}/${dep}-data-driven.json` // Absolute data-driven
+                        window.WBComponentUtils?.resolve(`wb.${dep}.config`) || `/components/${dep}/${dep}.json`,          // Symbol or absolute standard
+                        window.WBComponentUtils?.resolve(`wb.${dep}.data-config`) || `/components/${dep}/${dep}-data-driven.json` // Symbol or absolute data-driven
                     ];
                     
                     for (const path of pathsToTry) {

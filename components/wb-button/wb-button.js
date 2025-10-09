@@ -776,8 +776,23 @@
     } else {
         console.error('🔘 WB Button Web Component: Custom Elements not supported');
     }
-
+    
+    // Register with WBComponentRegistry if available
+    if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+        window.WBComponentRegistry.register('wb-button', WBButton, ['wb-event-log'], {
+            version: '1.0.0',
+            type: 'form',
+            role: 'ui-element',
+            description: 'Versatile button component with multiple styles, sizes, and interaction states',
+            api: {
+                static: ['createGroup'],
+                events: ['click', 'focus', 'blur', 'hover'],
+                attributes: ['label', 'variant', 'size', 'disabled', 'loading', 'icon', 'icon-position'],
+                methods: ['render', 'setLabel', 'setVariant', 'setSize', 'disable', 'enable']
+            },
+            priority: 4 // UI component depends on infrastructure
+        });
+    }
+    
     // Expose for backward compatibility
-    window.WBButton = WBButton;
-
-})();
+    window.WBButton = WBButton;})();

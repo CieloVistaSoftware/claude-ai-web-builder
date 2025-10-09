@@ -803,11 +803,26 @@
     } else {
         console.error('📝 WB Input Web Component: Custom Elements not supported');
     }
-
+    
+    // Register with WBComponentRegistry if available
+    if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+        window.WBComponentRegistry.register('wb-input', WBInput, ['wb-event-log'], {
+            version: '1.0.0',
+            type: 'form',
+            role: 'ui-element',
+            description: 'Enhanced input component with validation, theming, and accessibility features',
+            api: {
+                static: ['create', 'initializeExisting'],
+                events: ['input', 'change', 'focus', 'blur', 'validation-changed'],
+                attributes: ['type', 'placeholder', 'required', 'disabled', 'readonly', 'validation-pattern'],
+                methods: ['render', 'getValue', 'setValue', 'validate', 'focus', 'blur']
+            },
+            priority: 4 // UI component depends on infrastructure
+        });
+    }
+    
     // Expose for backward compatibility
-    window.WBInput = WBInput;
-
-    // Dispatch component loaded event
+    window.WBInput = WBInput;    // Dispatch component loaded event
     document.dispatchEvent(new CustomEvent('wbInputReady', {
         detail: { component: 'wb-input', version: '2.0.0' }
     }));

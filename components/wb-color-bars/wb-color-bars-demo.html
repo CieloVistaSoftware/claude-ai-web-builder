@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Color Bars Component Demo</title>
+    
+    <!-- LayoutSystem CSS Imports -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="wb-color-bars-demo.css">
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
+    
+    <div class="container">
+        <h1>🎨 WB Color Bars Component Demo</h1>
+        
+        <div class="demo-grid">
+            <!-- Main Color Picker Demo -->
+            <div class="demo-card full-width">
+                <h3>Interactive HSL Color Picker</h3>
+                <p>This wb-color-bars component contains three individual color bars for hue, saturation, and lightness control:</p>
+                <wb-color-bars id="main-color" label="Color Picker" hue="240" saturation="70" lightness="50" theme="dark"></wb-color-bars>
+                <div class="color-output">
+                    <h4>Selected Color:</h4>
+                    <div class="color-preview-box" id="main-preview"></div>
+                    <div class="color-values" id="main-values">
+                        HSL: hsl(240, 70%, 50%)<br>
+                        HEX: #6366f1<br>
+                        RGB: rgb(99, 102, 241)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Theme Selector Demo -->
+            <div class="demo-card">
+                <h3>Theme Preset Colors</h3>
+                <p>Select from predefined color themes:</p>
+                <select id="theme-selector" class="theme-select">
+                    <option value="custom" selected>Custom Theme</option>
+                    <option value="material">Material Design</option>
+                    <option value="ocean">Ocean Blue</option>
+                    <option value="forest">Forest Green</option>
+                    <option value="sunset">Sunset Orange</option>
+                    <option value="purple">Purple Theme</option>
+                </select>
+                <wb-color-bars id="theme-color" label="Theme Color" hue="240" saturation="70" lightness="50" theme="dark"></wb-color-bars>
+                <div class="color-output">
+                    <h4>Theme Preview:</h4>
+                    <div class="color-preview-box" id="theme-preview"></div>
+                    <div class="color-values" id="theme-values">
+                        HSL: hsl(240, 70%, 50%)<br>
+                        HEX: #6366f1<br>
+                        RGB: rgb(99, 102, 241)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Complementary Color Demo -->
+            <div class="demo-card">
+                <h3>Complementary Accent Color</h3>
+                <p>Automatically calculated complementary color:</p>
+                <div class="color-output">
+                    <h4>Accent Color:</h4>
+                    <div class="color-preview-box" id="accent-preview"></div>
+                    <div class="color-values" id="accent-values">
+                        HSL: hsl(60, 70%, 50%)<br>
+                        HEX: #e6e633<br>
+                        RGB: rgb(230, 230, 51)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- API Documentation -->
+        <div class="api-section">
+            <h2>🔧 API Reference</h2>
+            
+            <h3>Attributes</h3>
+            <ul class="feature-list">
+                <li><strong>hue</strong>: Initial hue value (0-360 degrees)</li>
+                <li><strong>saturation</strong>: Initial saturation percentage (0-100%)</li>
+                <li><strong>lightness</strong>: Initial lightness percentage (0-100%)</li>
+                <li><strong>label</strong>: Label text for the color picker</li>
+                <li><strong>theme</strong>: Theme variant ('light' or 'dark')</li>
+                <li><strong>disabled</strong>: Disables the color picker</li>
+            </ul>
+            
+            <h3>Events</h3>
+            <ul class="feature-list">
+                <li><strong>colorchange</strong>: Fired when color changes (real-time)</li>
+                <li><strong>colorselect</strong>: Fired when user finishes selecting</li>
+                <li><strong>colorcopied</strong>: Fired when hex value is copied</li>
+            </ul>
+            
+            <h3>Usage Example</h3>
+            <pre><code>&lt;wb-color-bars id="my-color" hue="240" saturation="70" lightness="50"&gt;&lt;/wb-color-bars&gt;
+
+&lt;script&gt;
+const colorPicker = document.getElementById('my-color');
+
+colorPicker.addEventListener('colorchange', (e) => {
+    WBSafeLogger.info('Color changed', { component: 'wb-color-bars-demo', event: 'colorchange', detail: e.detail, line: 103 });
+    // e.detail contains: { hue, saturation, lightness, hsl, hex, rgb }
+});
+
+colorPicker.addEventListener('colorselect', (e) => {
+    WBSafeLogger.info('Color selected: ' + e.detail.hex, { component: 'wb-color-bars-demo', event: 'colorselect', hex: e.detail.hex, line: 108 });
+});
+
+// Programmatic control
+colorPicker.setColor(180, 60, 40);
+WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: colorPicker.color, line: 113 });
+&lt;/script&gt;</code></pre>
+            
+            <h3>Features</h3>
+            <ul class="feature-list">
+                <li>Interactive HSL color selection with three bars</li>
+                <li>Real-time color preview and value display</li>
+                <li>Mouse, touch, and keyboard support</li>
+                <li>Copy to clipboard functionality</li>
+                <li>Accessibility features and ARIA support</li>
+                <li>Theme support (light/dark modes)</li>
+                <li>Material Design inspired interface</li>
+                <li>Responsive design for all screen sizes</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="../../styles/main.js"></script>
+    <script src="wb-color-bars-bundle.js"></script>
+    <script>
+        // Function to calculate complementary accent color
+        function calculateAccentColor(primaryHue, primarySaturation, primaryLightness) {
+            // Calculate complementary hue (opposite on color wheel)
+            const accentHue = (primaryHue + 180) % 360;
+            // Keep similar saturation and lightness for harmony
+            const accentSaturation = Math.max(60, primarySaturation - 10);
+            const accentLightness = primaryLightness > 50 ? primaryLightness - 15 : primaryLightness + 15;
+            
+            return { hue: accentHue, saturation: accentSaturation, lightness: accentLightness };
+        }
+        
+
+        // Function to update accent color display and apply to page elements
+        function updateAccentDisplay(accent) {
+            // Convert accent HSL to hex using component's logic
+            const h = accent.hue / 360;
+            const s = accent.saturation / 100;
+            const l = accent.lightness / 100;
+            const a = s * Math.min(l, 1 - l);
+            const f = n => {
+                const k = (n + h / (1/12)) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color);
+            };
+            const accentHex = `#${[f(0), f(8), f(4)].map(x => x.toString(16).padStart(2, '0')).join('')}`;
+            const accentHsl = \`hsl(\${accent.hue}, \${accent.saturation}%, \${accent.lightness}%)\`;
+            
+            // Apply accent color to borders and highlights
+            document.documentElement.style.setProperty('--accent-color', accentHsl);
+            document.querySelectorAll('.demo-card').forEach(el => {
+                el.style.borderColor = accentHex;
+            });
+            document.querySelectorAll('code, pre').forEach(el => {
+                el.style.borderLeft = \`4px solid \${accentHex}\`;
+            });
+            
+            const accentPreview = document.getElementById('accent-preview');
+            const accentValues = document.getElementById('accent-values');
+            
+            if (accentPreview) {
+                accentPreview.style.backgroundColor = accentHex;
+            }
+            
+            if (accentValues) {
+                accentValues.innerHTML = \`
+                    HSL: \${accentHsl}<br>
+                    HEX: \${accentHex}
+                \`;
+            }
+            
+            WBSafeLogger.info('Accent color applied to page elements', { 
+                component: 'wb-color-bars-demo', 
+                accent: accentHex, 
+                line: 175 
+            });
+        }
+        
+        // Main color picker - applies to page theme
+        const mainColorPicker = document.getElementById('main-color');
+        if (mainColorPicker) {
+            mainColorPicker.addEventListener('colorchange', (e) => {
+                const { text, background } = e.detail;
+                
+                // Apply text color to headings and body text
+                document.documentElement.style.setProperty('--primary-text', text.hsl);
+                document.querySelectorAll('h1, h2, h3, h4').forEach(el => {
+                    el.style.color = text.hsl;
+                });
+                
+                // Apply background color to body and cards
+                document.documentElement.style.setProperty('--primary-bg', background.hsl);
+                document.body.style.backgroundColor = background.hsl;
+                document.querySelectorAll('.demo-card').forEach(el => {
+                    el.style.backgroundColor = background.hsl;
+                });
+                
+                // Update preview
+                const preview = document.getElementById('main-preview');
+                const values = document.getElementById('main-values');
+                if (preview) {
+                    preview.style.backgroundColor = text.hex;
+                    preview.style.border = `2px solid ${background.hex}`;
+                }
+                if (values) {
+                    values.innerHTML = `
+                        Text HSL: ${text.hsl}<br>
+                        Text HEX: ${text.hex}<br>
+                        BG HSL: ${background.hsl}<br>
+                        BG HEX: ${background.hex}
+                    `;
+                }
+                
+                // Calculate and apply accent color
+                const accent = calculateAccentColor(text.hue, text.saturation, text.lightness);
+                updateAccentDisplay(accent);
+                
+                // Dispatch global color change event
+                document.dispatchEvent(new CustomEvent('wb:color-changed', {
+                    detail: { text, background, accent }
+                }));
+                
+                WBSafeLogger.info('Page colors applied', { 
+                    component: 'wb-color-bars-demo', 
+                    text: text.hex, 
+                    background: background.hex,
+                    line: 145 
+                });
+            });
+        }
+                
+        // Theme color picker - applies to theme elements
+        const themeColorPicker = document.getElementById('theme-color');
+        if (themeColorPicker) {
+            themeColorPicker.addEventListener('colorchange', (e) => {
+                const { text, background } = e.detail;
+                
+                // Apply theme colors to buttons and interactive elements
+                document.documentElement.style.setProperty('--theme-primary', text.hsl);
+                document.documentElement.style.setProperty('--theme-secondary', background.hsl);
+                
+                document.querySelectorAll('button, .theme-toggle').forEach(el => {
+                    el.style.backgroundColor = text.hsl;
+                    el.style.color = background.hsl;
+                });
+                
+                // Update preview
+                const preview = document.getElementById('theme-preview');
+                const values = document.getElementById('theme-values');
+                if (preview) {
+                    preview.style.backgroundColor = text.hex;
+                }
+                if (values) {
+                    values.innerHTML = `
+                        HSL: ${text.hsl}<br>
+                        HEX: ${text.hex}<br>
+                        RGB: rgb(${text.rgb.r}, ${text.rgb.g}, ${text.rgb.b})
+                    `;
+                }
+                
+                WBSafeLogger.info('Theme colors applied', { 
+                    component: 'wb-color-bars-demo', 
+                    primary: text.hex, 
+                    line: 200 
+                });
+            });
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const isDark = body.classList.contains('dark');
+            
+            if (isDark) {
+                body.classList.remove('dark');
+                // Update all wb-color-bars to light theme
+                document.querySelectorAll('wb-color-bars').forEach(picker => {
+                    picker.setAttribute('theme', 'light');
+                });
+            } else {
+                body.classList.add('dark');
+                // Update all wb-color-bars to dark theme
+                document.querySelectorAll('wb-color-bars').forEach(picker => {
+                    picker.setAttribute('theme', 'dark');
+                });
+            }
+        }
+        
+        // Demo console logging
+        WBSafeLogger.success('Color Bars Demo loaded', { component: 'wb-color-bars-demo', line: 290 });
+        WBSafeLogger.info('Try changing colors and check the event log!', { component: 'wb-color-bars-demo', line: 291 });
+        
+        // Debug: Check if wb-color-bars components are properly defined
+        setTimeout(() => {
+            const colorBarsElements = document.querySelectorAll('wb-color-bars');
+            WBSafeLogger.info(`Found ${colorBarsElements.length} wb-color-bars elements`, { component: 'wb-color-bars-demo', count: colorBarsElements.length, line: 296 });
+            
+            colorBarsElements.forEach((element, index) => {
+                WBSafeLogger.debug(`wb-color-bars ${index + 1}`, { 
+                    component: 'wb-color-bars-demo',
+                    index: index + 1,
+                    line: 299,
+                    tagName: element.tagName,
+                    attributes: Array.from(element.attributes).map(attr => `${attr.name}="${attr.value}"`),
+                    hasColorProperty: 'color' in element,
+                    hasSetColorMethod: 'setColor' in element,
+                    shadowRoot: element.shadowRoot ? 'exists' : 'missing'
+                });
+            });
+            
+            // Check if the individual wb-color-bar components are defined
+            WBSafeLogger.info('Web component definitions', { 
+                component: 'wb-color-bars-demo',
+                line: 309,
+                'wb-color-bars': customElements.get('wb-color-bars') ? 'YES' : 'NO',
+                'wb-color-bar': customElements.get('wb-color-bar') ? 'YES' : 'NO'
+            });
+        }, 2000);
+        
+        // Initialize theme and components after everything loads
+        function initializeDemo() {
+            WBSafeLogger.info('Initializing demo...', { component: 'wb-color-bars-demo', line: 316 });
+            
+            // Set dark theme
+            document.body.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            
+            // Update theme toggle button
+            const themeButton = document.querySelector('.theme-toggle');
+            if (themeButton) {
+                themeButton.textContent = '☀️ Light Mode';
+            }
+            
+            // Initialize all wb-color-bars components
+            const colorBars = document.querySelectorAll('wb-color-bars');
+            WBSafeLogger.info(`Found ${colorBars.length} wb-color-bars components`, { component: 'wb-color-bars-demo', count: colorBars.length, line: 330 });
+            
+            colorBars.forEach((picker, index) => {
+                WBSafeLogger.info(`Initializing wb-color-bars ${index + 1}...`, { component: 'wb-color-bars-demo', index: index + 1, line: 333 });
+                picker.setAttribute('theme', 'dark');
+                
+                // Force re-render if component has this method
+                if (typeof picker.render === 'function') {
+                    picker.render();
+                }
+            });
+            
+            WBSafeLogger.success('Demo initialization complete', { component: 'wb-color-bars-demo', line: 342 });
+        }
+        
+        // Initialize when DOM and components are ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(initializeDemo, 1000);
+            });
+        } else {
+            setTimeout(initializeDemo, 1000);
+        }
+        
+    </script>
+</body>
+</html>

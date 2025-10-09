@@ -381,6 +381,23 @@ class WBChangeText extends HTMLElement {
 // Register the component
 customElements.define('wb-change-text', WBChangeText);
 
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-change-text', WBChangeText, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'utility',
+        role: 'ui-element',
+        description: 'Interactive text editing component with edit mode and target selector support',
+        api: {
+            static: ['create'],
+            events: ['text-changed', 'edit-started', 'edit-completed'],
+            attributes: ['edit-mode', 'target-selectors'],
+            methods: ['startEdit', 'completeEdit', 'setTargets', 'render']
+        },
+        priority: 5 // Utility component depends on infrastructure
+    });
+}
+
 // Global API for backward compatibility
 window.WBChangeText = {
     create: function(options = {}) {

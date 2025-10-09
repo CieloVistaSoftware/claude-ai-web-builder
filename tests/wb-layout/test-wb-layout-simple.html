@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Layout Component - Simple Test</title>
+    
+    <!-- Configuration System -->
+    <script src="/config.js"></script>
+    
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="/components/wb-layout/wb-layout.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #1a1a1a;
+            color: #f1f5f9;
+        }
+        
+        main {
+            padding: 2rem;
+            transition: margin 0.3s ease;
+            background: #2a2a2a;
+            min-height: 50vh;
+        }
+        
+        .test-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #374151;
+            padding: 1rem;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+        
+        .test-button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.25rem;
+            display: block;
+            width: 100%;
+        }
+        
+        .test-button:hover {
+            background: #5855eb;
+        }
+        
+        .layout-indicator {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(99, 102, 241, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            z-index: 1000;
+        }
+        
+        .debug-info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #1e293b;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.875rem;
+            max-width: 400px;
+            border: 1px solid #404040;
+        }
+        
+        /* Simple nav simulation */
+        .fake-nav {
+            background: #374151;
+            padding: 1rem;
+            position: fixed;
+            transition: all 0.3s ease;
+        }
+        
+        .fake-nav.top {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+        }
+        
+        .fake-nav.left {
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100vh;
+        }
+        
+        .fake-nav.right {
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body data-layout="top-nav">
+    <!-- Layout indicator -->
+    <div class="layout-indicator" id="layout-indicator">Layout: top-nav</div>
+    
+    <!-- Test controls -->
+    <div class="test-controls">
+        <h3 style="margin-top: 0;">Layout Test</h3>
+        <button class="test-button" onclick="testLayout('top-nav')">Top Nav</button>
+        <button class="test-button" onclick="testLayout('left-nav')">Left Nav</button>
+        <button class="test-button" onclick="testLayout('right-nav')">Right Nav</button>
+        <button class="test-button" onclick="testLayout('ad-layout')">Ad Layout</button>
+    </div>
+    
+    <!-- WB Layout Component -->
+    <wb-layout layout="top-nav" show-control></wb-layout>
+    
+    <!-- Fake navigation for visual testing -->
+    <div class="fake-nav top" id="fake-nav">
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <strong>Navigation</strong>
+            <span>Home</span>
+            <span>About</span>
+            <span>Contact</span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main>
+        <h1>WB Layout Component Test</h1>
+        <p>This page tests the wb-layout component in isolation.</p>
+        
+        <h2>Current Status</h2>
+        <p>Check the debug info below to see component status.</p>
+        
+        <h2>Test Instructions</h2>
+        <ol>
+            <li>Use the buttons in the top-right to test different layouts</li>
+            <li>Watch how the main content margins change</li>
+            <li>Observe the layout indicator updates</li>
+            <li>Check browser console for events and errors</li>
+        </ol>
+        
+        <h2>Expected Behavior</h2>
+        <ul>
+            <li><strong>Top Nav:</strong> Content has top margin, nav at top</li>
+            <li><strong>Left Nav:</strong> Content has left margin, nav on left</li>
+            <li><strong>Right Nav:</strong> Content has right margin, nav on right</li>
+            <li><strong>Ad Layout:</strong> Content has larger top margin, enhanced nav</li>
+        </ul>
+    </main>
+    
+    <!-- Debug info -->
+    <div class="debug-info" id="debug-info">
+        Loading debug information...
+    </div>
+    
+    <!-- Component Scripts -->
+    <script src="components/wb-layout/wb-layout.js"></script>
+    
+    <script>
+        // Test functions
+        function testLayout(layoutType) {
+            console.log(`🎨 Testing layout: ${layoutType}`);
+            
+            if (window.WBLayout) {
+                WBLayout.setLayout(layoutType);
+                updateFakeNav(layoutType);
+            } else {
+                console.error('WBLayout global API not available');
+            }
+        }
+        
+        function updateFakeNav(layoutType) {
+            const nav = document.getElementById('fake-nav');
+            nav.className = `fake-nav ${layoutType === 'ad-layout' ? 'top' : layoutType.replace('-nav', '')}`;
+        }
+        
+        function updateDebugInfo() {
+            const debugDiv = document.getElementById('debug-info');
+            
+            let info = 'WB Layout Debug Info:\n\n';
+            
+            // Check component registration
+            const isRegistered = !!customElements.get('wb-layout');
+            info += `Custom Element: ${isRegistered ? '✅ Registered' : '❌ Not Registered'}\n`;
+            
+            // Check global API
+            const hasAPI = !!window.WBLayout;
+            info += `Global API: ${hasAPI ? '✅ Available' : '❌ Not Available'}\n`;
+            
+            // Current layout info
+            if (hasAPI) {
+                const layout = WBLayout.getLayout();
+                if (layout) {
+                    info += `\nCurrent Layout: ${layout.current}\n`;
+                    info += `Available: ${layout.available.join(', ')}\n`;
+                }
+            }
+            
+            // CSS variables
+            const root = document.documentElement;
+            const computedStyle = getComputedStyle(root);
+            info += '\nCSS Variables:\n';
+            info += `--nav-width: ${computedStyle.getPropertyValue('--nav-width') || 'not set'}\n`;
+            info += `--nav-height: ${computedStyle.getPropertyValue('--nav-height') || 'not set'}\n`;
+            info += `--content-margin-left: ${computedStyle.getPropertyValue('--content-margin-left') || 'not set'}\n`;
+            info += `--content-margin-top: ${computedStyle.getPropertyValue('--content-margin-top') || 'not set'}\n`;
+            
+            debugDiv.textContent = info;
+        }
+        
+        // Event listeners
+        document.addEventListener('wb-layout-ready', (e) => {
+            console.log('🎨 WB Layout component ready', e.detail);
+            updateDebugInfo();
+        });
+        
+        document.addEventListener('wb-layout-changed', (e) => {
+            console.log('🎨 Layout changed', e.detail);
+            
+            // Update layout indicator
+            const indicator = document.getElementById('layout-indicator');
+            indicator.textContent = `Layout: ${e.detail.layout}`;
+            
+            // Update fake nav
+            updateFakeNav(e.detail.layout);
+            
+            updateDebugInfo();
+        });
+        
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(updateDebugInfo, 100);
+        });
+        
+        // Update debug info every 2 seconds
+        setInterval(updateDebugInfo, 2000);
+        
+        // Log script loading
+        console.log('🎨 WB Layout test script loaded');
+    </script>
+</body>
+</html>

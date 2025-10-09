@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Layout Component Test</title>
+    
+    <!-- WB System with Auto-loader for Claude Issue Tracking -->
+    <script src="/config.js"></script>
+    <script src="/utils/auto-loader.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #1a1a1a;
+            color: #f1f5f9;
+        }
+        
+        main {
+            padding: 2rem;
+            transition: margin 0.3s ease;
+        }
+        
+        .test-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            background: #2a2a2a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #404040;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .test-button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background 0.2s;
+        }
+        
+        .test-button:hover {
+            background: #5855eb;
+        }
+        
+        .status-display {
+            background: #1e293b;
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 4px solid #6366f1;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+        
+        nav {
+            background: #374151;
+            padding: 1rem;
+        }
+        
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: #f1f5f9;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        nav a:hover {
+            background: #4b5563;
+        }
+        
+        /* Layout indicators */
+        .layout-indicator {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(99, 102, 241, 0.9);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body data-layout="top-nav">
+    <!-- Layout indicator -->
+    <div class="layout-indicator" id="layout-indicator">Layout: top-nav</div>
+    
+    <!-- WB Layout Component -->
+    <wb-layout layout="top-nav" show-control></wb-layout>
+    
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Main Content -->
+    <main>
+        <div class="test-content">
+            <div class="test-section">
+                <h1>WB Layout Component Test</h1>
+                <p>This page tests the wb-layout component functionality and its integration with other wb- components.</p>
+            </div>
+            
+            <div class="test-section">
+                <h2>Layout Controls</h2>
+                <p>Test different layout configurations:</p>
+                <div class="test-controls">
+                    <button class="test-button" onclick="testLayout('top-nav')">Top Navigation</button>
+                    <button class="test-button" onclick="testLayout('left-nav')">Left Sidebar</button>
+                    <button class="test-button" onclick="testLayout('right-nav')">Right Sidebar</button>
+                    <button class="test-button" onclick="testLayout('ad-layout')">Ad Layout</button>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h2>Component Status</h2>
+                <div class="status-display" id="status-display">
+                    Loading components...
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h2>Layout Information</h2>
+                <div class="status-display" id="layout-info">
+                    Current layout information will appear here...
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h2>Test Results</h2>
+                <ul id="test-results">
+                    <li>⏳ Testing wb-layout component registration...</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Component Scripts -->
+    <script src="components/wb-layout/wb-layout.js"></script>
+    
+    <script>
+        // Test functions
+        function testLayout(layoutType) {
+            console.log(`🎨 Testing layout: ${layoutType}`);
+            
+            if (window.WBLayout) {
+                WBLayout.setLayout(layoutType);
+            } else {
+                console.error('WBLayout global API not available');
+                addTestResult(`❌ WBLayout API not available`, 'error');
+            }
+        }
+        
+        function addTestResult(message, type = 'info') {
+            const results = document.getElementById('test-results');
+            const li = document.createElement('li');
+            li.textContent = message;
+            if (type === 'error') {
+                li.style.color = '#ef4444';
+            } else if (type === 'success') {
+                li.style.color = '#10b981';
+            }
+            results.appendChild(li);
+        }
+        
+        function updateStatus() {
+            const statusDisplay = document.getElementById('status-display');
+            const layoutInfo = document.getElementById('layout-info');
+            
+            const components = {
+                'wb-layout': !!customElements.get('wb-layout'),
+                'WBLayout API': !!window.WBLayout
+            };
+            
+            let status = 'Component Status:\n';
+            Object.entries(components).forEach(([name, available]) => {
+                status += `${available ? '✅' : '❌'} ${name}: ${available ? 'Available' : 'Not Available'}\n`;
+            });
+            
+            statusDisplay.textContent = status;
+            
+            // Update layout info
+            if (window.WBLayout) {
+                const currentLayout = WBLayout.getLayout();
+                const availableLayouts = WBLayout.getAvailableLayouts();
+                
+                let info = 'Layout Information:\n';
+                if (currentLayout) {
+                    info += `Current: ${currentLayout.current}\n`;
+                    info += `Description: ${currentLayout.config?.description || 'N/A'}\n`;
+                }
+                info += '\nAvailable Layouts:\n';
+                availableLayouts.forEach(layout => {
+                    info += `• ${layout.label} (${layout.value}): ${layout.description}\n`;
+                });
+                
+                layoutInfo.textContent = info;
+            } else {
+                layoutInfo.textContent = 'WBLayout API not available';
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('wb-layout-ready', (e) => {
+            console.log('🎨 WB Layout component ready', e.detail);
+            addTestResult('✅ wb-layout component initialized', 'success');
+            updateStatus();
+        });
+        
+        document.addEventListener('wb-layout-changed', (e) => {
+            console.log('🎨 Layout changed', e.detail);
+            addTestResult(`✅ Layout changed to: ${e.detail.layout}`, 'success');
+            
+            // Update layout indicator
+            const indicator = document.getElementById('layout-indicator');
+            indicator.textContent = `Layout: ${e.detail.layout}`;
+            
+            updateStatus();
+        });
+        
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                updateStatus();
+                
+                // Test component registration
+                if (customElements.get('wb-layout')) {
+                    addTestResult('✅ wb-layout custom element registered', 'success');
+                } else {
+                    addTestResult('❌ wb-layout custom element not registered', 'error');
+                }
+                
+                if (window.WBLayout) {
+                    addTestResult('✅ WBLayout global API available', 'success');
+                } else {
+                    addTestResult('❌ WBLayout global API not available', 'error');
+                }
+            }, 100);
+        });
+        
+        // Update status every 2 seconds
+        setInterval(updateStatus, 2000);
+        
+        // Claude issue tracking
+        setTimeout(() => {
+            WBEventLog.logInfo('WB Layout test initialized', { source: 'test-wb-layout', component: 'wb-layout' });
+            WBEventLog.logInfo('Auto-loader enabled for component detection', { source: 'claude-debug' });
+            
+            // Log layout changes
+            const layoutElement = document.querySelector('wb-layout');
+            if (layoutElement) {
+                WBEventLog.logSuccess('wb-layout component detected', { source: 'component-detection' });
+            } else {
+                WBEventLog.logError('wb-layout component not found', { source: 'component-detection' });
+            }
+        }, 2000);
+    </script>
+    
+    <!-- Claude Debug Event Log -->
+    <div style="position: fixed; bottom: 20px; right: 20px; width: 350px; height: 250px; z-index: 10000; background: rgba(26, 26, 26, 0.95); border: 1px solid #444; border-radius: 6px; overflow: hidden;">
+        <div style="background: #007acc; color: white; padding: 6px 10px; font-size: 11px; font-weight: 600;">
+            🔍 Claude Debug Log
+        </div>
+        <wb-event-log id="claudeDebugLog"></wb-event-log>
+    </div>
+</body>
+</html>

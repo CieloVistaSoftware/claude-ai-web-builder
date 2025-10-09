@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Hue Colors - wb-color-bars</title>
+    
+    <!-- Configuration System -->
+    <script src="/config.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🌈 Test Hue Colors - wb-color-bars Component</h1>
+        
+        <div class="test-section">
+            <h2>1. Basic wb-color-bars Component</h2>
+            <p>This should show hue color bars:</p>
+            <wb-color-bars id="test-color-bars" 
+                          text-hue="240" 
+                          text-saturation="70" 
+                          text-lightness="90">
+            </wb-color-bars>
+        </div>
+
+        <div class="test-section">
+            <h2>2. Control Panel with Color Controls</h2>
+            <p>This should show the full control panel with color controls:</p>
+            <control-panel id="test-control-panel"
+                          show-color-controls="true"
+                          initial-state="visible">
+            </control-panel>
+        </div>
+
+        <div class="test-section">
+            <h2>3. Debug Info</h2>
+            <div id="debug-info">Loading components...</div>
+        </div>
+    </div>
+
+    <script>
+        async function testComponents() {
+            const debugInfo = document.getElementById('debug-info');
+            
+            try {
+                debugInfo.innerHTML = '📦 Loading wb-color-bars component...';
+                
+                // Load wb-color-bars
+                await import('./components/wb-color-bars/wb-color-bars.js');
+                console.log('✅ wb-color-bars loaded');
+                
+                debugInfo.innerHTML += '<br>📦 Loading wb-control-panel component...';
+                
+                // Load control panel
+                await import('./components/wb-control-panel/wb-control-panel.js');
+                console.log('✅ wb-control-panel loaded');
+                
+                debugInfo.innerHTML += '<br>✅ All components loaded successfully!';
+                debugInfo.innerHTML += '<br>🎨 Hue colors should now be visible above.';
+                
+                // Check if elements are properly defined
+                setTimeout(() => {
+                    const colorBars = document.querySelector('wb-color-bars');
+                    const controlPanel = document.querySelector('control-panel');
+                    
+                    debugInfo.innerHTML += `<br><br>🔍 Component Status:`;
+                    debugInfo.innerHTML += `<br>wb-color-bars defined: ${customElements.get('wb-color-bars') ? '✅' : '❌'}`;
+                    debugInfo.innerHTML += `<br>control-panel defined: ${customElements.get('control-panel') ? '✅' : '❌'}`;
+                    debugInfo.innerHTML += `<br>wb-color-bars element found: ${colorBars ? '✅' : '❌'}`;
+                    debugInfo.innerHTML += `<br>control-panel element found: ${controlPanel ? '✅' : '❌'}`;
+                }, 1000);
+                
+            } catch (error) {
+                console.error('❌ Error loading components:', error);
+                debugInfo.innerHTML = `❌ Error: ${error.message}`;
+            }
+        }
+
+        // Start test when page loads
+        testComponents();
+    </script>
+</body>
+</html>

@@ -50,7 +50,7 @@
         
         async loadConfig() {
             try {
-                const configPath = this.getComponentPath() + '/wb-keyboard-manager.json';
+                const configPath = window.WBComponentUtils?.resolve('wb.keyboard-manager.config') || (this.getComponentPath() + '/wb-keyboard-manager.json');
                 const response = await fetch(configPath);
                 const config = await response.json();
                 
@@ -87,10 +87,10 @@
         
         loadCSS() {
             if (typeof WBComponentUtils !== 'undefined' && WBComponentUtils.loadComponentCSS) {
-                WBComponentUtils.loadComponentCSS('wb-keyboard-manager', this.getComponentPath() + '/wb-keyboard-manager.css');
+                WBComponentUtils.loadComponentCSS('wb-keyboard-manager', window.WBComponentUtils?.resolve('wb.keyboard-manager.css') || (this.getComponentPath() + '/wb-keyboard-manager.css'));
             } else {
                 // Fallback CSS loading
-                const cssPath = this.getComponentPath() + '/wb-keyboard-manager.css';
+                const cssPath = window.WBComponentUtils?.resolve('wb.keyboard-manager.css') || (this.getComponentPath() + '/wb-keyboard-manager.css');
                 const existingLink = document.querySelector(`link[href*="wb-keyboard-manager.css"]`);
                 
                 if (!existingLink) {
@@ -645,6 +645,23 @@
     if (!customElements.get('wb-keyboard-manager')) {
         customElements.define('wb-keyboard-manager', WBKeyboardManager);
         console.log('⌨️ WB Keyboard Manager: Component registered');
+    }
+    
+    // Register with WBComponentRegistry if available
+    if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+        window.WBComponentRegistry.register('wb-keyboard-manager', WBKeyboardManager, ['wb-event-log'], {
+            version: '1.0.0',
+            type: 'input',
+            role: 'infrastructure',
+            description: 'Global keyboard shortcut management system for WB components',
+            api: {
+                static: ['register', 'unregister', 'trigger', 'disable', 'enable'],
+                events: ['keydown', 'keyup', 'shortcut-triggered'],
+                attributes: ['data-shortcuts', 'data-global', 'data-scope'],
+                methods: ['registerShortcut', 'unregisterShortcut', 'getShortcuts', 'formatShortcut']
+            },
+            priority: 2 // High priority infrastructure component, depends on wb-event-log
+        });
     }
     
     // Make class globally available

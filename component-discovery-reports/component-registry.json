@@ -1,0 +1,566 @@
+[
+  {
+    "name": "change-text",
+    "type": "legacy",
+    "customElement": null,
+    "status": "unknown",
+    "files": [
+      "demo",
+      "legacy",
+      "css",
+      "docs"
+    ],
+    "symbols": 27,
+    "methods": 22,
+    "events": 4,
+    "attributes": 0,
+    "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-button",
+    "type": "web-component",
+    "customElement": "wb-button",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 49,
+    "methods": 74,
+    "events": 2,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-card",
+    "type": "web-component",
+    "customElement": "wb-card",
+    "status": "broken",
+    "files": [
+      "issues",
+      "demo",
+      "css",
+      "legacy",
+      "docs",
+      "config"
+    ],
+    "symbols": 29,
+    "methods": 55,
+    "events": 4,
+    "attributes": 8,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-change-text",
+    "type": "web-component",
+    "customElement": "wb-change-text",
+    "status": "unknown",
+    "files": [
+      "css",
+      "legacy",
+      "docs",
+      "config"
+    ],
+    "symbols": 22,
+    "methods": 42,
+    "events": 1,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-color-bar",
+    "type": "web-component",
+    "customElement": "wb-color-bar",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "legacy",
+      "demo",
+      "css",
+      "config"
+    ],
+    "symbols": 47,
+    "methods": 66,
+    "events": 3,
+    "attributes": 0,
+    "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-color-bars",
+    "type": "web-component",
+    "customElement": "wb-color-bars",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "legacy",
+      "css",
+      "demo",
+      "config"
+    ],
+    "symbols": 41,
+    "methods": 66,
+    "events": 3,
+    "attributes": 0,
+    "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-color-picker",
+    "type": "web-component",
+    "customElement": "wb-color-picker",
+    "status": "unknown",
+    "files": [
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 49,
+    "methods": 65,
+    "events": 4,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-control-panel",
+    "type": "web-component",
+    "customElement": "control-panel",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 124,
+    "methods": 116,
+    "events": 9,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-event-log",
+    "type": "web-component",
+    "customElement": "wb-event-log",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "css",
+      "demo",
+      "legacy",
+      "config"
+    ],
+    "symbols": 238,
+    "methods": 293,
+    "events": 7,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-footer",
+    "type": "web-component",
+    "customElement": "wb-footer",
+    "status": "unknown",
+    "files": [
+      "demo",
+      "css",
+      "docs",
+      "legacy",
+      "config"
+    ],
+    "symbols": 75,
+    "methods": 54,
+    "events": 3,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-header",
+    "type": "legacy",
+    "customElement": null,
+    "status": "unknown",
+    "files": [
+      "docs",
+      "config"
+    ],
+    "symbols": 0,
+    "methods": 0,
+    "events": 0,
+    "attributes": 6,
+    "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-hero",
+    "type": "legacy",
+    "customElement": null,
+    "status": "unknown",
+    "files": [
+      "config"
+    ],
+    "symbols": 0,
+    "methods": 0,
+    "events": 0,
+    "attributes": 8,
+    "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-image-insert",
+    "type": "legacy",
+    "customElement": null,
+    "status": "broken",
+    "files": [
+      "docs",
+      "css",
+      "demo",
+      "legacy",
+      "config",
+      "issues"
+    ],
+    "symbols": 75,
+    "methods": 74,
+    "events": 0,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-input",
+    "type": "web-component",
+    "customElement": "wb-input",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 48,
+    "methods": 98,
+    "events": 2,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-keyboard-manager",
+    "type": "web-component",
+    "customElement": "wb-keyboard-manager",
+    "status": "unknown",
+    "files": [
+      "legacy",
+      "docs",
+      "demo",
+      "css",
+      "config"
+    ],
+    "symbols": 41,
+    "methods": 61,
+    "events": 8,
+    "attributes": 4,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-layout",
+    "type": "web-component",
+    "customElement": "wb-layout",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 27,
+    "methods": 49,
+    "events": 4,
+    "attributes": 0,
+    "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-log-error",
+    "type": "web-component",
+    "customElement": "wb-log-error",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 62,
+    "methods": 73,
+    "events": 0,
+    "attributes": 5,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-modal",
+    "type": "web-component",
+    "customElement": "wb-modal",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 35,
+    "methods": 37,
+    "events": 0,
+    "attributes": 0,
+    "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-nav",
+    "type": "web-component",
+    "customElement": "wb-nav",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 44,
+    "methods": 67,
+    "events": 2,
+    "attributes": 8,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-search",
+    "type": "web-component",
+    "customElement": "wb-search",
+    "status": "unknown",
+    "files": [
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 26,
+    "methods": 31,
+    "events": 5,
+    "attributes": 6,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-select",
+    "type": "web-component",
+    "customElement": "wb-select",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 44,
+    "methods": 100,
+    "events": 1,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-slider",
+    "type": "legacy",
+    "customElement": null,
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 57,
+    "methods": 25,
+    "events": 9,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-status",
+    "type": "web-component",
+    "customElement": "wb-status",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 48,
+    "methods": 56,
+    "events": 1,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-tab",
+    "type": "web-component",
+    "customElement": "wb-tab",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 42,
+    "methods": 69,
+    "events": 4,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-table",
+    "type": "web-component",
+    "customElement": "wb-table",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 20,
+    "methods": 26,
+    "events": 2,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-theme",
+    "type": "web-component",
+    "customElement": "wb-theme-manager",
+    "status": "unknown",
+    "files": [
+      "css",
+      "legacy",
+      "docs",
+      "config"
+    ],
+    "symbols": 26,
+    "methods": 34,
+    "events": 2,
+    "attributes": 5,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-toggle",
+    "type": "web-component",
+    "customElement": "wb-toggle",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "css",
+      "demo",
+      "legacy",
+      "config"
+    ],
+    "symbols": 22,
+    "methods": 41,
+    "events": 1,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-viewport",
+    "type": "legacy",
+    "customElement": null,
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 27,
+    "methods": 30,
+    "events": 0,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  }
+]

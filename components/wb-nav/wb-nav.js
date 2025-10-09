@@ -43,78 +43,78 @@ class WBNav extends HTMLElement {
         }));
     }
 
+    getDefaultConfig() {
+        return {
+            classes: {
+                base: 'wb-nav',
+                container: 'wb-nav-container',
+                list: 'wb-nav-list',
+                item: 'wb-nav-item',
+                link: 'wb-nav-link',
+                brand: 'wb-nav-brand',
+                toggle: 'wb-nav-toggle',
+                active: 'active',
+                expanded: 'expanded',
+                collapsible: 'collapsible'
+            },
+            responsive: {
+                breakpoint: 768,
+                collapseOnMobile: true
+            },
+            defaults: {
+                layout: 'horizontal',
+                position: 'top',
+                theme: 'default'
+            }
+        };
+    }
+
     async loadConfig() {
         try {
             const configPath = (window.WBComponentUtils ? 
                 window.WBComponentUtils.getPath('wb-nav.js', '../components/wb-nav/') : 
-                '../components/wb-nav/') + 'wb-nav.json';
+                '../components/wb-nav/') + 'wb-nav.schema.json';
             const response = await fetch(configPath);
+            if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             this.config = await response.json();
             console.log('🧭 WB Nav: Configuration loaded', this.config);
         } catch (error) {
-            console.warn('🧭 WB Nav: Could not load wb-nav.json, using defaults', error);
-            // Fallback configuration
-            this.config = {
-                classes: {
-                    base: 'wb-nav',
-                    container: 'wb-nav-container',
-                    list: 'wb-nav-list',
-                    item: 'wb-nav-item',
-                    link: 'wb-nav-link',
-                    brand: 'wb-nav-brand',
-                    toggle: 'wb-nav-toggle',
-                    toggleIcon: 'wb-nav-toggle-icon',
-                    layouts: { 
-                        horizontal: 'wb-nav--horizontal', 
-                        vertical: 'wb-nav--vertical',
-                        top: 'wb-nav--top',
-                        left: 'wb-nav--left',
-                        right: 'wb-nav--right'
-                    },
-                    variants: {
-                        default: '',
-                        pills: 'wb-nav--pills',
-                        tabs: 'wb-nav--tabs',
-                        minimal: 'wb-nav--minimal',
-                        gradient: 'wb-nav--gradient'
-                    },
-                    states: { 
-                        active: 'wb-nav--active', 
-                        expanded: 'wb-nav--expanded',
-                        disabled: 'wb-nav--disabled'
-                    }
-                },
-                layouts: {
-                    'top-nav': { layout: 'horizontal', position: 'top' },
-                    'left-nav': { layout: 'vertical', position: 'left' },
-                    'right-nav': { layout: 'vertical', position: 'right' }
-                },
-                defaults: { layout: 'horizontal', variant: 'default' },
-                events: { ready: 'wbNavReady', itemClick: 'wbNavItemClick' }
-            };
+            console.warn('🧭 WB Nav: Could not load wb-nav.schema.json, using defaults', error);
+            this.config = this.getDefaultConfig();
         }
     }
 
     loadCSS() {
-        if (window.WBComponentUtils) {
-            const cssPath = window.WBComponentUtils.getPath('wb-nav.js', '../components/wb-nav/') + 'wb-nav.css';
-            window.WBComponentUtils.loadCSS('wb-nav', cssPath);
-        } else {
-            // Fallback for when WBComponentUtils is not available
-            const existingStyles = document.querySelector('link[href*="wb-nav.css"]');
-            if (document.getElementById('wb-nav-styles') || existingStyles) {
+        if (window.WBComponentUtils && typeof window.WBComponentUtils.getPath === 'function') {
+            try {
+                const cssPath = window.WBComponentUtils.getPath('wb-nav.js', '../components/wb-nav/') + 'wb-nav.css';
+                window.WBComponentUtils.loadCSS('wb-nav', cssPath);
                 return;
+            } catch (e) {
+                console.warn('WB Nav: Could not use WBComponentUtils, using fallback');
             }
-            
-            const link = document.createElement('link');
-            link.id = 'wb-nav-styles';
-            link.rel = 'stylesheet';
-            link.href = '../components/wb-nav/wb-nav.css';
-            document.head.appendChild(link);
         }
+        
+        // Fallback for when WBComponentUtils is not available
+        const existingStyles = document.querySelector('link[href*="wb-nav.css"]');
+        if (document.getElementById('wb-nav-styles') || existingStyles) {
+            return;
+        }
+        
+        const link = document.createElement('link');
+        link.id = 'wb-nav-styles';
+        link.rel = 'stylesheet';
+        link.href = '../components/wb-nav/wb-nav.css';
+        document.head.appendChild(link);
     }
 
     render() {
+        // Ensure config is loaded before rendering
+        if (!this.config) {
+            console.warn('🧭 WB Nav: Config not loaded yet, using defaults for render');
+            this.config = this.getDefaultConfig();
+        }
+        
         // Clear existing content
         this.innerHTML = '';
         
@@ -472,6 +472,23 @@ class WBNav extends HTMLElement {
 
 // Register the custom element
 customElements.define('wb-nav', WBNav);
+
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-nav', WBNav, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'navigation',
+        role: 'structural',
+        description: 'Navigation component with support for horizontal, vertical, and dropdown layouts',
+        api: {
+            static: ['create'],
+            events: ['nav-item-clicked', 'nav-layout-changed'],
+            attributes: ['items', 'layout', 'style-preset', 'mobile-breakpoint'],
+            methods: ['render', 'setItems', 'setLayout', 'handleItemClick']
+        },
+        priority: 3 // Navigation component depends on logging
+    });
+}
 
 // Maintain backward compatibility with the global API
 window.WBNav = {

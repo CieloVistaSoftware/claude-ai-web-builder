@@ -1,0 +1,267 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Component Auto-Loader Configuration Schema",
+  "description": "Configuration schema for the Component Auto-Loader system that automatically loads component dependencies",
+  "type": "object",
+  "properties": {
+    "autoLoader": {
+      "type": "object",
+      "description": "Auto-loader system configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the auto-loader system"
+        },
+        "autoDetect": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic detection of dynamically added components using MutationObserver"
+        },
+        "loadSequentially": {
+          "type": "boolean",
+          "default": false,
+          "description": "Load components one after another (true) or in parallel (false)"
+        },
+        "showProgress": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show loading progress and status messages in the console"
+        },
+        "basePaths": {
+          "type": "object",
+          "description": "Base paths for different types of files",
+          "properties": {
+            "components": {
+              "type": "string",
+              "default": "/components",
+              "description": "Base path for component files (CSS and JS)",
+              "examples": ["/components", "/assets/components", "/wb-components"]
+            },
+            "styles": {
+              "type": "string",
+              "default": "/styles",
+              "description": "Base path for global style files",
+              "examples": ["/styles", "/assets/css", "/theme"]
+            },
+            "utils": {
+              "type": "string",
+              "default": "/utils",
+              "description": "Base path for utility files",
+              "examples": ["/utils", "/lib", "/scripts"]
+            },
+            "core": {
+              "type": "string",
+              "default": "/wb-core",
+              "description": "Base path for core WB system files",
+              "examples": ["/wb-core", "/core", "/system"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "globalFiles": {
+          "type": "object",
+          "description": "Global files to load before any components",
+          "properties": {
+            "css": {
+              "type": "array",
+              "description": "Global CSS files to load first",
+              "items": {
+                "type": "string",
+                "description": "Path to a CSS file"
+              },
+              "examples": [
+                ["/styles/_variables.css", "/styles/_base.css"],
+                ["/theme/global.css"]
+              ]
+            },
+            "js": {
+              "type": "array",
+              "description": "Global JavaScript files to load first",
+              "items": {
+                "type": "string",
+                "description": "Path to a JavaScript file"
+              },
+              "examples": [
+                ["/utils/polyfills.js", "/utils/helpers.js"]
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "componentPatterns": {
+          "type": "object",
+          "description": "Patterns for detecting components",
+          "properties": {
+            "customElements": {
+              "type": "array",
+              "description": "Patterns for custom element names",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+              },
+              "default": ["wb-*"],
+              "examples": [["wb-*", "my-*"], ["app-*"]]
+            },
+            "classNames": {
+              "type": "array",
+              "description": "Patterns for CSS class names",
+              "items": {
+                "type": "string"
+              },
+              "default": ["wb-*"],
+              "examples": [["wb-*", "component-*"], ["ui-*"]]
+            }
+          },
+          "additionalProperties": false
+        },
+        "loadingStrategy": {
+          "type": "string",
+          "enum": ["immediate", "lazy", "onDemand"],
+          "default": "immediate",
+          "description": "Strategy for when to load components"
+        },
+        "caching": {
+          "type": "object",
+          "description": "Caching configuration for loaded components",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable caching of loaded component information"
+            },
+            "ttl": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 3600000,
+              "description": "Time to live for cached data in milliseconds (default: 1 hour)"
+            },
+            "storage": {
+              "type": "string",
+              "enum": ["memory", "localStorage", "sessionStorage"],
+              "default": "memory",
+              "description": "Storage method for cached data"
+            }
+          },
+          "additionalProperties": false
+        },
+        "errorHandling": {
+          "type": "object",
+          "description": "Error handling configuration",
+          "properties": {
+            "retryAttempts": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10,
+              "default": 2,
+              "description": "Number of retry attempts for failed component loads"
+            },
+            "retryDelay": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 1000,
+              "description": "Delay between retry attempts in milliseconds"
+            },
+            "fallbackStrategy": {
+              "type": "string",
+              "enum": ["skip", "placeholder", "error"],
+              "default": "skip",
+              "description": "What to do when a component fails to load"
+            },
+            "logErrors": {
+              "type": "boolean",
+              "default": true,
+              "description": "Log loading errors to the console"
+            }
+          },
+          "additionalProperties": false
+        },
+        "performance": {
+          "type": "object",
+          "description": "Performance optimization settings",
+          "properties": {
+            "maxConcurrentLoads": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "default": 6,
+              "description": "Maximum number of components to load simultaneously"
+            },
+            "debounceDelay": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 100,
+              "description": "Debounce delay for mutation observer in milliseconds"
+            },
+            "preloadCommonComponents": {
+              "type": "boolean",
+              "default": false,
+              "description": "Preload commonly used components"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "examples": [
+    {
+      "autoLoader": {
+        "enabled": true,
+        "autoDetect": true,
+        "loadSequentially": false,
+        "showProgress": true,
+        "basePaths": {
+          "components": "/components",
+          "styles": "/styles",
+          "utils": "/utils"
+        }
+      }
+    },
+    {
+      "autoLoader": {
+        "enabled": true,
+        "autoDetect": true,
+        "loadSequentially": true,
+        "showProgress": false,
+        "basePaths": {
+          "components": "/assets/wb-components",
+          "styles": "/assets/styles"
+        },
+        "globalFiles": {
+          "css": ["/assets/styles/variables.css", "/assets/styles/base.css"]
+        },
+        "errorHandling": {
+          "retryAttempts": 3,
+          "retryDelay": 500,
+          "fallbackStrategy": "placeholder"
+        },
+        "performance": {
+          "maxConcurrentLoads": 4,
+          "preloadCommonComponents": true
+        }
+      }
+    },
+    {
+      "autoLoader": {
+        "enabled": true,
+        "autoDetect": false,
+        "loadingStrategy": "lazy",
+        "basePaths": {
+          "components": "/custom-components"
+        },
+        "componentPatterns": {
+          "customElements": ["wb-*", "app-*"],
+          "classNames": ["wb-*", "ui-*"]
+        },
+        "caching": {
+          "enabled": true,
+          "storage": "localStorage",
+          "ttl": 7200000
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

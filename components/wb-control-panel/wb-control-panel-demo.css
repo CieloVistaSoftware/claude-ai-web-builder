@@ -1,0 +1,241 @@
+/**
+ * WB Control Panel Demo Styles
+ * Dedicated stylesheet for demo page - no inline styles
+ */
+
+/* Base Layout */
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary, #0f172a);
+    color: var(--text-primary, #f1f5f9);
+    transition: all 0.3s ease;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Header Section */
+.demo-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.demo-header h1 {
+    color: var(--primary, #6366f1);
+    margin-bottom: 10px;
+}
+
+/* Instructions Section */
+.demo-instructions {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+/* Demo Content Grid */
+.demo-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+/* wb-card component handles its own styling */
+
+/* Feature Lists */
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-color, #334155);
+}
+
+.feature-list li:last-child {
+    border-bottom: none;
+}
+
+.feature-list li::before {
+    content: "✓";
+    color: var(--success-color, #10b981);
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+/* Component Styling */
+wb-status {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.editable {
+    transition: all 0.2s ease;
+}
+
+wb-nav {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+/* Color Demo Section */
+.color-demo-section {
+    background: rgba(46, 160, 67, 0.1);
+    border: 1px solid rgba(46, 160, 67, 0.3);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* wb-event-log component handles its own container styling */
+wb-event-log {
+    display: block;
+    margin: 20px 0 40px 0;
+}
+
+/* Edit Mode Styling */
+body.edit-mode .editable {
+    outline: 2px dashed rgba(99, 102, 241, 0.5);
+    outline-offset: 2px;
+    cursor: text;
+}
+
+body.edit-mode .editable:hover {
+    outline-color: rgba(99, 102, 241, 0.8);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+/* Control Panel Demo Overrides */
+control-panel {
+    display: block;
+    animation: slideInRight 0.3s ease;
+    width: 50vw !important;
+    max-width: 50vw !important;
+    min-width: 400px !important;
+    height: 85vh !important;
+    min-height: 600px !important;
+    font-size: 13px !important;
+    position: fixed !important;
+    top: 5vh !important;
+    right: 10px !important;
+    z-index: 10000 !important;
+    background: var(--bg-secondary, #1e293b) !important;
+    border: 2px solid var(--border-color, #334155) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    overflow: visible !important;
+}
+
+/* Control Panel Content */
+control-panel .control-panel-body {
+    height: 100% !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 12px !important;
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+}
+
+control-panel .control-section {
+    margin-bottom: 12px !important;
+    display: block !important;
+    min-height: 60px !important;
+    background: var(--bg-primary, #0f172a) !important;
+    padding: 12px !important;
+    border: 1px solid var(--border-color, #334155) !important;
+    border-radius: 8px !important;
+}
+
+control-panel .control-panel-content {
+    height: calc(85vh - 60px);
+    min-height: 520px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--bg-secondary, #1e293b);
+}
+
+control-panel .control-panel-header {
+    height: 60px !important;
+    min-height: 60px !important;
+    flex-shrink: 0 !important;
+    background: var(--bg-tertiary, #0f172a) !important;
+    border-bottom: 1px solid var(--border-color, #334155) !important;
+}
+
+control-panel .section-title {
+    color: var(--primary, #6366f1) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+}
+
+control-panel .control-item {
+    display: block !important;
+    margin-bottom: 10px !important;
+}
+
+control-panel .control-label {
+    color: var(--text-primary, #f1f5f9) !important;
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+}
+
+control-panel select, 
+control-panel input, 
+control-panel button {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 6px !important;
+}
+
+control-panel .control-group {
+    padding: 10px !important;
+}
+
+/* Color Sliders Compact Mode */
+control-panel wb-color-bars {
+    transform: scale(0.9);
+    transform-origin: top left;
+    margin-bottom: 8px;
+}
+
+control-panel wb-color-bar {
+    margin-bottom: 4px !important;
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

@@ -1,0 +1,674 @@
+/**
+ * Control Panel Web Component CSS
+ * 
+ * IMPORTANT: This file depends on the shared styles foundation.
+ * The shared styles should be loaded BEFORE this file:
+ * 
+ * <link rel="stylesheet" href="../../styles/main.css">
+ * <link rel="stylesheet" href="control-panel.css">
+ * 
+ * This file contains ONLY control-panel-specific styles.
+ * All variables, base styles, and utilities come from /styles/
+ */
+
+/* Import shared foundation styles */
+@import url('../../styles/main.css');
+
+/* ===== CONTROL PANEL COMPONENT STYLES ===== */
+
+/* Control Panel Root Element - More Compact Version */
+control-panel {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--space-md, 1rem);
+    right: var(--space-md, 1rem);
+    z-index: 10000;
+    width: 280px; /* Reduced from 320px */
+    max-width: 280px;
+    min-width: 280px;
+    max-height: 85vh; /* More compact height */
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    font-size: 13px; /* Smaller font for compact layout */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    transition: var(--transition-medium);
+}
+
+/* Component-specific variables (only what's unique to control panel) */
+:root {
+    /* Control Panel specific spacing */
+    --control-panel-width: 320px;
+    --control-panel-min-width: 280px;
+    --control-panel-max-width: 400px;
+}
+
+/* ===== CONTROL PANEL COMPONENT STYLES ===== */
+
+/* Control Panel Header */
+.control-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.control-panel-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--text-lg);
+    font-weight: 600;
+}
+
+.control-panel-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+
+
+/* Control Panel Body */
+
+
+/* Control Sections - Compact Layout */
+.control-section {
+    margin-bottom: 12px; /* Reduced from var(--space-lg) */
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.section-title {
+    margin: 0;
+    padding: 8px 12px; /* Reduced padding */
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 11px; /* Smaller font */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-group {
+    padding: 10px; /* Reduced from var(--space-md) */
+}
+
+/* Control Items - Compact Layout */
+.control-item {
+    margin-bottom: 8px; /* Reduced from var(--space-md) */
+}
+
+.control-item:last-child {
+    margin-bottom: 0;
+}
+
+.control-label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    color: var(--text-primary);
+    font-size: var(--text-small);
+    font-weight: 500;
+}
+
+/* Select Controls */
+.control-select {
+    width: 100%;
+    padding: var(--space-sm);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--space-xs);
+    color: var(--text-primary);
+    font-size: var(--text-small);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right var(--space-sm) center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 32px;
+}
+
+.control-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary)20;
+}
+
+/* Toggle Controls */
+.wb-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: var(--space-sm);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--space-xs);
+    color: var(--text-primary);
+    font-size: var(--text-small);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.wb-toggle:hover {
+    background: var(--bg-secondary);
+    border-color: var(--primary);
+}
+
+.wb-toggle.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.toggle-indicator {
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.wb-toggle.active .toggle-indicator {
+    opacity: 1;
+}
+
+
+
+/* Color Bars Integration */
+color-bars {
+    width: 100%;
+    margin-top: var(--space-xs);
+}
+
+/* Control Panel Body - Compact with Proper Scrolling */
+.control-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px; /* Reduced from var(--space-md) */
+    max-height: calc(85vh - 60px); /* Compact height accounting for header */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+    /* Ensure smooth scrolling */
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for WebKit browsers */
+.control-panel-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.control-panel-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.control-panel-body::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.control-panel-body::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Two-column checkbox layout */
+.section-checkbox-group {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-sm) var(--space-md);
+    align-items: center;
+    margin-top: var(--space-sm);
+}
+
+.checkbox-wrapper {
+    display: contents;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.checkbox-wrapper label {
+    color: var(--text-primary);
+    font-size: var(--text-small);
+    cursor: pointer;
+    user-select: none;
+}
+
+control-panel.minimized {
+    width: auto;
+    height: auto;
+    max-height: 60px;
+    resize: none;
+    overflow: hidden;
+}
+
+control-panel.minimized .control-panel-body {
+    display: none !important;
+}
+
+control-panel.minimized .control-panel-content {
+    display: none !important;
+}
+
+control-panel.minimized #minimize-btn {
+    transform: rotate(180deg);
+}
+
+.control-panel.dragging {
+    opacity: 0.8;
+}
+
+
+
+
+
+.control-panel h3 {
+    color: var(--text-primary);
+    font-size: var(--text-large);
+    margin: 0;
+}
+
+
+
+.control-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: var(--space-xs);
+    border-radius: 4px;
+    transition: all var(--transition-fast);
+    font-size: var(--text-medium);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    background: var(--glass-bg);
+    color: var(--primary);
+}
+
+
+
+.control-group label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.control-group select,
+.control-group input {
+    width: 100%;
+    padding: var(--space-sm);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: var(--text-small);
+    transition: all var(--transition-fast);
+}
+
+.control-group select:focus,
+.control-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Dark mode option styling */
+.control-group select option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: var(--space-xs) var(--space-sm);
+}
+
+/* Fix for webkit browsers */
+.control-group select option:checked {
+    background: var(--primary);
+    color: white;
+}
+
+.control-group + .control-group {
+    margin-top: 15px;
+}
+
+/* Control Item Styles for new component structure */
+
+
+
+
+
+
+/* Color Bars Specific Styles */
+.control-item color-bars {
+    width: 100%;
+    margin-top: var(--space-xs);
+}
+
+/* Remove extra margins since color-bars has its own spacing */
+.control-item:has(color-bars) .control-label {
+    display: none; /* color-bars has its own label */
+}
+
+/* ===== EDIT MODE TOGGLE ===== */
+
+.edit-mode-toggle {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: var(--text-tiny);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+}
+
+.edit-mode-toggle:hover {
+    background: var(--accent-alt);
+}
+
+.edit-mode-toggle.active {
+    background: var(--primary);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== THEME SPECIFIC STYLES ===== */
+
+
+
+/* ===== CHECKBOX CONTROLS ===== */
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    margin: var(--space-sm) 0;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    margin-right: var(--space-sm);
+    accent-color: var(--primary);
+}
+
+.checkbox-wrapper label {
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.checkbox-wrapper.footer-toggle {
+    margin-top: var(--space-xs);
+    margin-left: 0;
+    font-size: var(--text-tiny);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.checkbox-wrapper.footer-toggle label {
+    color: var(--text-secondary);
+    margin-right: var(--space-sm);
+    min-width: 4rem;
+    width: 4rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+.hidden-input {
+    display: none !important;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.section-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
+}
+
+.ad-layout-controls {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.initially-hidden {
+    display: none;
+}
+
+/* ===== BUTTON SECTION STYLES ===== */
+
+.button-section {
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xs);
+    width: 100%;
+}
+
+.button-grid .edit-mode-toggle {
+    width: 100% !important;
+    height: 0.9rem !important;
+    min-height: 0.9rem !important;
+    max-height: 0.9rem !important;
+    padding: 0 0.25rem !important;
+    margin: 0 !important;
+    font-size: clamp(0.5rem, 2.5vw, 0.7rem) !important;
+    border-radius: 4px !important;
+    border: none !important;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    text-align: center !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box !important;
+    background: var(--accent);
+    color: white;
+}
+
+.button-grid .edit-mode-toggle:hover {
+    background: var(--accent-alt);
+}
+
+.button-grid .edit-mode-toggle.active {
+    background: var(--primary);
+}
+
+
+
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Firefox specific fixes */
+@supports (-moz-appearance:none) {
+    /* Firefox-specific adjustments can go here */
+}
+
+/* ===== CONTROL PANEL RESPONSIVE STYLES ===== */
+
+/* Compact Color Component Styles */
+control-panel wb-color-bars {
+    transform: scale(0.9);
+    transform-origin: top left;
+    margin-bottom: 8px;
+    display: block;
+}
+
+control-panel wb-color-bar {
+    margin-bottom: 4px !important;
+    font-size: 12px;
+}
+
+/* Make debug text smaller and less prominent */
+control-panel .control-item > div[style*="color: yellow"] {
+    font-size: 10px !important;
+    opacity: 0.7;
+    margin-top: 2px !important;
+}
+
+/* Compact button styles within control panel */
+control-panel .wb-button,
+control-panel button {
+    font-size: 12px;
+    padding: 6px 12px;
+    min-height: 28px;
+}
+
+/* Compact select and input styles */
+control-panel .control-select,
+control-panel select {
+    font-size: 12px;
+    padding: 4px 8px;
+    min-height: 28px;
+}
+
+/* Compact label styles */
+control-panel .control-label {
+    font-size: 12px;
+    margin-bottom: 4px;
+    display: block;
+    font-weight: 500;
+}
+
+/* Color Controls */
+.color-controls {
+    margin-top: 8px;
+}
+
+.color-preview {
+    width: 100%;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color, #334155);
+    margin-bottom: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.hsl-sliders {
+    margin-bottom: 8px;
+}
+
+.slider-group {
+    margin-bottom: 6px;
+}
+
+.slider-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-secondary, #94a3b8);
+    margin-bottom: 2px;
+}
+
+.slider-value {
+    font-weight: 600;
+    color: var(--text-primary, #f1f5f9);
+}
+
+.color-slider {
+    width: 100%;
+    height: 16px;
+    border-radius: 8px;
+    outline: none;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+}
+
+.color-slider:hover {
+    opacity: 1;
+}
+
+.color-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text-primary, #f1f5f9);
+    border: 2px solid var(--primary, #6366f1);
+    cursor: pointer;
+}
+
+.color-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text-primary, #f1f5f9);
+    border: 2px solid var(--primary, #6366f1);
+    cursor: pointer;
+    border: none;
+}
+
+.color-picker {
+    width: 100%;
+    height: 30px;
+    border: 1px solid var(--border-color, #334155);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Control panel specific responsive adjustments */
+@media (max-width: 768px) {
+    control-panel {
+        width: 90%;
+        max-width: none;
+        left: 5%;
+        right: 5%;
+        top: var(--space-sm);
+        bottom: var(--space-sm);
+    }
+}
+

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { test, expect } from '@playwright/test';
+import { BaseUnitTest } from './helpers/BaseUnitTestSimple.js';
 
 test.describe('Image Loading Tests', (): any => {
 

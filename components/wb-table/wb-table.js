@@ -232,6 +232,23 @@ class WBTable extends HTMLElement {
 // Register the web component
 customElements.define('wb-table', WBTable);
 
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-table', WBTable, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'data',
+        role: 'ui-element',
+        description: 'Data table component with sorting, filtering, pagination, and responsive design',
+        api: {
+            static: ['create'],
+            events: ['sort', 'filter', 'page-change', 'row-select', 'cell-edit'],
+            attributes: ['data', 'columns', 'sortable', 'filterable', 'paginated', 'selectable'],
+            methods: ['render', 'setData', 'addRow', 'removeRow', 'sort', 'filter', 'paginate']
+        },
+        priority: 5 // Data component depends on infrastructure
+    });
+}
+
 // Also provide a simple API for backward compatibility
 window.WBTable = {
     create: function(containerId) {

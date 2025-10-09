@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Control Panel Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #fff;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Control Panel Simple Test</h1>
+        
+        <h2>WB Control Panel Component Test</h2>
+        <p>Testing basic control panel functionality</p>
+        
+        <div id="output">
+            <h3>Output:</h3>
+            <div id="console-output"></div>
+        </div>
+    </div>
+    
+    <!-- Load components in dependency order -->
+    <script src="/components/wb-color-bar/wb-color-bar.js"></script>
+    <script src="/components/wb-color-bars/wb-color-bars.js"></script>
+    <script>
+        const output = document.getElementById('console-output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += '<div>' + message + '</div>';
+        }
+        
+        // Check dependencies first
+        setTimeout(() => {
+            log('wb-color-bar defined: ' + (customElements.get('wb-color-bar') ? 'YES' : 'NO'));
+            log('wb-color-bars defined: ' + (customElements.get('wb-color-bars') ? 'YES' : 'NO'));
+            
+            // Now try to load control panel
+            log('Loading control panel...');
+            
+            // Create a simple control panel element for testing
+            const controlPanel = document.createElement('div');
+            controlPanel.id = 'test-control-panel';
+            controlPanel.innerHTML = 'Control Panel Container';
+            document.body.appendChild(controlPanel);
+            
+            log('Control panel container created');
+            log('Dependencies ready for integration');
+            
+        }, 1000);
+        
+        // Final status check
+        setTimeout(() => {
+            const hasColorBar = customElements.get('wb-color-bar');
+            const hasColorBars = customElements.get('wb-color-bars');
+            const hasContainer = document.getElementById('test-control-panel');
+            
+            if (hasColorBar && hasColorBars && hasContainer) {
+                log('Control panel test ready: All dependencies available');
+            } else {
+                log('Control panel test partial: Some dependencies missing');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

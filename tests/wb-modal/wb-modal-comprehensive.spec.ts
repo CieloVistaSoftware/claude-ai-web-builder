@@ -5,20 +5,15 @@
  */
 
 import { test, expect } from '@playwright/test';
+import { BaseUnitTest } from '../helpers/BaseUnitTestSimple.js';
 
 test.describe('WB Modal - Comprehensive Property & Method Tests', () => {
+  const baseTest = new BaseUnitTest();
     
     test.beforeEach(async ({ page }) => {
-        // Navigate to modal demo page
-        await page.goto('file://' + process.cwd() + '/components/wb-modal/wb-modal-demo.html');
-        
-        // Wait for component to load
-        await page.waitForLoadState('domcontentloaded');
-        await page.waitForTimeout(1000); // Wait for component initialization
-        
-        // Wait for component ready event
-        await page.waitForFunction(() => window.WBModal !== undefined);
-    });
+    await baseTest.setupStandardBeforeEach(page);
+    await page.waitForTimeout(1000);
+  });
 
     test.describe('Web Component Creation and Registration', () => {
         

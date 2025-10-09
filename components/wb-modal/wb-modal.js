@@ -214,7 +214,24 @@
     // Register Web Component
     if (!customElements.get('wb-modal')) {
         customElements.define('wb-modal', WBModal);
-        console.log('🪟 WB Modal: Web Component registered successfully');
+        console.log('🔲 WB Modal Web Component: Custom element registered');
+        
+        // Register with WBComponentRegistry if available
+        if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+            window.WBComponentRegistry.register('wb-modal', WBModal, ['wb-event-log', 'wb-keyboard-manager'], {
+                version: '1.0.0',
+                type: 'overlay',
+                role: 'ui-element',
+                description: 'Modal dialog component with backdrop, keyboard navigation, and accessibility support',
+                api: {
+                    static: ['create', 'alert', 'confirm'],
+                    events: ['open', 'close', 'backdrop-click', 'escape-pressed'],
+                    attributes: ['title', 'size', 'closable', 'backdrop-closable', 'keyboard-closable'],
+                    methods: ['show', 'hide', 'setTitle', 'setContent', 'setSize']
+                },
+                priority: 5 // Overlay component depends on infrastructure and keyboard handling
+            });
+        }
     }
 
     // Modal utility functions for easy usage

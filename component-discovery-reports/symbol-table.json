@@ -1,0 +1,6410 @@
+[
+  {
+    "symbol": "makeEditable",
+    "name": "makeEditable",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "makeNonEditable",
+    "name": "makeNonEditable",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleClick",
+    "name": "handleClick",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleBlur",
+    "name": "handleBlur",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleKeydown",
+    "name": "handleKeydown",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handlePaste",
+    "name": "handlePaste",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "setEditMode",
+    "name": "setEditMode",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "addStyles",
+    "name": "addStyles",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "setupEventListeners",
+    "name": "setupEventListeners",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "dispatchEvent",
+    "name": "dispatchEvent",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "initialize",
+    "name": "initialize",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "isEditModeEnabled",
+    "name": "isEditModeEnabled",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "editingElements",
+    "name": "editingElements",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "targetSelectors",
+    "name": "targetSelectors",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "range",
+    "name": "range",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "selection",
+    "name": "selection",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "originalContent",
+    "name": "originalContent",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "newContent",
+    "name": "newContent",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "target",
+    "name": "target",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "isTargetEditable",
+    "name": "isTargetEditable",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "elementToEdit",
+    "name": "elementToEdit",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "text",
+    "name": "text",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "style",
+    "name": "style",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "event",
+    "name": "event",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "ChangeText",
+    "name": "ChangeText",
+    "type": "class",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "WBButton",
+    "name": "WBButton",
+    "type": "class",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "class\n            const",
+    "name": "class\n            const",
+    "type": "class",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "fallbackConfig",
+    "name": "fallbackConfig",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "script",
+    "name": "script",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "configPath",
+    "name": "configPath",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "cssPath",
+    "name": "cssPath",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "variant",
+    "name": "variant",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "size",
+    "name": "size",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "status",
+    "name": "status",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "textNodes",
+    "name": "textNodes",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "classList",
+    "name": "classList",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "textContent",
+    "name": "textContent",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "tempSpan",
+    "name": "tempSpan",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "maxWidth",
+    "name": "maxWidth",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "baseFontSize",
+    "name": "baseFontSize",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "fontSize",
+    "name": "fontSize",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "observer",
+    "name": "observer",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "parentObserver",
+    "name": "parentObserver",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "buttons",
+    "name": "buttons",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "allButtons",
+    "name": "allButtons",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "adjacentButtons",
+    "name": "adjacentButtons",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "requiredWidth",
+    "name": "requiredWidth",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "newActive",
+    "name": "newActive",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "variantClass",
+    "name": "variantClass",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "sizeClass",
+    "name": "sizeClass",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "statusElement",
+    "name": "statusElement",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "image",
+    "name": "image",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "imagePosition",
+    "name": "imagePosition",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "imageAlt",
+    "name": "imageAlt",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "imageElement",
+    "name": "imageElement",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "backgroundImage",
+    "name": "backgroundImage",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "checkmark",
+    "name": "checkmark",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "img",
+    "name": "img",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "span",
+    "name": "span",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "grid",
+    "name": "grid",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "config",
+    "name": "config",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "group",
+    "name": "group",
+    "type": "variable",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "wb-button",
+    "name": "wb-button",
+    "type": "custom-element",
+    "component": "wb-button",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-button"
+  },
+  {
+    "symbol": "WBCard",
+    "name": "WBCard",
+    "type": "class",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "class\n        this",
+    "name": "class\n        this",
+    "type": "class",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "class\n        if",
+    "name": "class\n        if",
+    "type": "class",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "response",
+    "name": "response",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "existingStyles",
+    "name": "existingStyles",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "link",
+    "name": "link",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "layout",
+    "name": "layout",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "mediaSrc",
+    "name": "mediaSrc",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "mediaAlt",
+    "name": "mediaAlt",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "mediaType",
+    "name": "mediaType",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "actionsData",
+    "name": "actionsData",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "media",
+    "name": "media",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "header",
+    "name": "header",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "title",
+    "name": "title",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "subtitle",
+    "name": "subtitle",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "body",
+    "name": "body",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "content",
+    "name": "content",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "actions",
+    "name": "actions",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "button",
+    "name": "button",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "footer",
+    "name": "footer",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "card",
+    "name": "card",
+    "type": "variable",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "wb-card",
+    "name": "wb-card",
+    "type": "custom-element",
+    "component": "wb-card",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-card"
+  },
+  {
+    "symbol": "WBChangeText",
+    "name": "WBChangeText",
+    "type": "class",
+    "component": "wb-change-text",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-change-text"
+  },
+  {
+    "symbol": "editMode",
+    "name": "editMode",
+    "type": "variable",
+    "component": "wb-change-text",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-change-text"
+  },
+  {
+    "symbol": "component",
+    "name": "component",
+    "type": "variable",
+    "component": "wb-change-text",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-change-text"
+  },
+  {
+    "symbol": "wb-change-text",
+    "name": "wb-change-text",
+    "type": "custom-element",
+    "component": "wb-change-text",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-change-text"
+  },
+  {
+    "symbol": "ColorBar",
+    "name": "ColorBar",
+    "type": "class",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "colorBar",
+    "name": "colorBar",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "colorPointer",
+    "name": "colorPointer",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "colorPreview",
+    "name": "colorPreview",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "rect",
+    "name": "rect",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "x",
+    "name": "x",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "percentage",
+    "name": "percentage",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "touch",
+    "name": "touch",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "step",
+    "name": "step",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "hueNumber",
+    "name": "hueNumber",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "valueLabel",
+    "name": "valueLabel",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "colorData",
+    "name": "colorData",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "hex",
+    "name": "hex",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "textArea",
+    "name": "textArea",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "originalText",
+    "name": "originalText",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "result",
+    "name": "result",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "eventLog",
+    "name": "eventLog",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "a",
+    "name": "a",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "f",
+    "name": "f",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "k",
+    "name": "k",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "color",
+    "name": "color",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "r",
+    "name": "r",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "g",
+    "name": "g",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "b",
+    "name": "b",
+    "type": "variable",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "wb-color-bar",
+    "name": "wb-color-bar",
+    "type": "custom-element",
+    "component": "wb-color-bar",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bar"
+  },
+  {
+    "symbol": "will",
+    "name": "will",
+    "type": "class",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "ColorBars",
+    "name": "ColorBars",
+    "type": "class",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "bodyTheme",
+    "name": "bodyTheme",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "htmlTheme",
+    "name": "htmlTheme",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "textHueBar",
+    "name": "textHueBar",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "textSaturationBar",
+    "name": "textSaturationBar",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "textLightnessBar",
+    "name": "textLightnessBar",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "bgHueBar",
+    "name": "bgHueBar",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "bgSaturationBar",
+    "name": "bgSaturationBar",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "bgLightnessBar",
+    "name": "bgLightnessBar",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "textPreview",
+    "name": "textPreview",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "bgPreview",
+    "name": "bgPreview",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "textColor",
+    "name": "textColor",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "bgColor",
+    "name": "bgColor",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "hslDisplay",
+    "name": "hslDisplay",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "rgbDisplay",
+    "name": "rgbDisplay",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "hexValue",
+    "name": "hexValue",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "rgb",
+    "name": "rgb",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "textRgb",
+    "name": "textRgb",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "bgRgb",
+    "name": "bgRgb",
+    "type": "variable",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "wb-color-bars",
+    "name": "wb-color-bars",
+    "type": "custom-element",
+    "component": "wb-color-bars",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-bars"
+  },
+  {
+    "symbol": "WBColorPicker",
+    "name": "WBColorPicker",
+    "type": "class",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "label",
+    "name": "label",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "classes",
+    "name": "classes",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "colorValue",
+    "name": "colorValue",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "displayValue",
+    "name": "displayValue",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "hsl",
+    "name": "hsl",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "presetColors",
+    "name": "presetColors",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "wheel",
+    "name": "wheel",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "presets",
+    "name": "presets",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "centerX",
+    "name": "centerX",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "centerY",
+    "name": "centerY",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "angle",
+    "name": "angle",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "distance",
+    "name": "distance",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "hue",
+    "name": "hue",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "saturation",
+    "name": "saturation",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "lightness",
+    "name": "lightness",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "hexColor",
+    "name": "hexColor",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "swatch",
+    "name": "swatch",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "valueDisplay",
+    "name": "valueDisplay",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "trigger",
+    "name": "trigger",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "picker",
+    "name": "picker",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "colorPicker",
+    "name": "colorPicker",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "match",
+    "name": "match",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "values",
+    "name": "values",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "hue2rgb",
+    "name": "hue2rgb",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "q",
+    "name": "q",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "p",
+    "name": "p",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "max",
+    "name": "max",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "min",
+    "name": "min",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "d",
+    "name": "d",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "currentFormat",
+    "name": "currentFormat",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "wb-color-picker",
+    "name": "wb-color-picker",
+    "type": "custom-element",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
+    "symbol": "ControlPanel",
+    "name": "ControlPanel",
+    "type": "class",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "to",
+    "name": "to",
+    "type": "function",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "logEvent",
+    "name": "logEvent",
+    "type": "function",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "loadCSS",
+    "name": "loadCSS",
+    "type": "function",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "utilsScript",
+    "name": "utilsScript",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "options",
+    "name": "options",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "currentTheme",
+    "name": "currentTheme",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "layoutSelect",
+    "name": "layoutSelect",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "themeSelect",
+    "name": "themeSelect",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "spaToggle",
+    "name": "spaToggle",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "editToggle",
+    "name": "editToggle",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "saveBtn",
+    "name": "saveBtn",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "resetBtn",
+    "name": "resetBtn",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "minimizeBtn",
+    "name": "minimizeBtn",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "closeBtn",
+    "name": "closeBtn",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "dragHandle",
+    "name": "dragHandle",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "nav",
+    "name": "nav",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "structureChanged",
+    "name": "structureChanged",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "currentLayout",
+    "name": "currentLayout",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "main",
+    "name": "main",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "existingContent",
+    "name": "existingContent",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "navContent",
+    "name": "navContent",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "navList",
+    "name": "navList",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "baseNavItems",
+    "name": "baseNavItems",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "schemaSpec",
+    "name": "schemaSpec",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "links",
+    "name": "links",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "genericTexts",
+    "name": "genericTexts",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "linkTexts",
+    "name": "linkTexts",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "violations",
+    "name": "violations",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "specs",
+    "name": "specs",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "elementsToOrder",
+    "name": "elementsToOrder",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "availableThemes",
+    "name": "availableThemes",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "missingImplementations",
+    "name": "missingImplementations",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "testElement",
+    "name": "testElement",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "computedStyle",
+    "name": "computedStyle",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "hasCustomPrimary",
+    "name": "hasCustomPrimary",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "theme",
+    "name": "theme",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "colorBarsElements",
+    "name": "colorBarsElements",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "isActive",
+    "name": "isActive",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "newState",
+    "name": "newState",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "footerMode",
+    "name": "footerMode",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "currentState",
+    "name": "currentState",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "editables",
+    "name": "editables",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "editBtn",
+    "name": "editBtn",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "primaryColorBars",
+    "name": "primaryColorBars",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "bgColorBars",
+    "name": "bgColorBars",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "root",
+    "name": "root",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "hslColor",
+    "name": "hslColor",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "html",
+    "name": "html",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "blob",
+    "name": "blob",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "url",
+    "name": "url",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "savedTheme",
+    "name": "savedTheme",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "savedLayout",
+    "name": "savedLayout",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "primaryData",
+    "name": "primaryData",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "bgData",
+    "name": "bgData",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "primaryHueSlider",
+    "name": "primaryHueSlider",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "primarySaturationSlider",
+    "name": "primarySaturationSlider",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "primaryLightnessSlider",
+    "name": "primaryLightnessSlider",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "bgHueSlider",
+    "name": "bgHueSlider",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "bgSaturationSlider",
+    "name": "bgSaturationSlider",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "bgLightnessSlider",
+    "name": "bgLightnessSlider",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "hueGradient",
+    "name": "hueGradient",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "saturationGradient",
+    "name": "saturationGradient",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "lightnessGradient",
+    "name": "lightnessGradient",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "satSlider",
+    "name": "satSlider",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "lightSlider",
+    "name": "lightSlider",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "colors",
+    "name": "colors",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "isDragging",
+    "name": "isDragging",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "deltaX",
+    "name": "deltaX",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "deltaY",
+    "name": "deltaY",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "control-panel",
+    "name": "control-panel",
+    "type": "custom-element",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "control-panel"
+  },
+  {
+    "symbol": "WBEventLog",
+    "name": "WBEventLog",
+    "type": "class",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "and",
+    "name": "and",
+    "type": "class",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "class\n                        eventElement",
+    "name": "class\n                        eventElement",
+    "type": "class",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "name",
+    "name": "name",
+    "type": "function",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "names",
+    "name": "names",
+    "type": "function",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "componentConfig",
+    "name": "componentConfig",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "scripts",
+    "name": "scripts",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "scriptSrc",
+    "name": "scriptSrc",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "existingLink",
+    "name": "existingLink",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "self",
+    "name": "self",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "originalFetch",
+    "name": "originalFetch",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "startTime",
+    "name": "startTime",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "stackTrace",
+    "name": "stackTrace",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "duration",
+    "name": "duration",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "errorMsg",
+    "name": "errorMsg",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "originalXHROpen",
+    "name": "originalXHROpen",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "originalXHRSend",
+    "name": "originalXHRSend",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "onError",
+    "name": "onError",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "newUrl",
+    "name": "newUrl",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "scrollY",
+    "name": "scrollY",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "oldUrl",
+    "name": "oldUrl",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "scrollDelta",
+    "name": "scrollDelta",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "originalPushState",
+    "name": "originalPushState",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "originalReplaceState",
+    "name": "originalReplaceState",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "urlObj",
+    "name": "urlObj",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "OriginalImage",
+    "name": "OriginalImage",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "originalSrc",
+    "name": "originalSrc",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "lines",
+    "name": "lines",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "i",
+    "name": "i",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "line",
+    "name": "line",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "fileName",
+    "name": "fileName",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "type",
+    "name": "type",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "message",
+    "name": "message",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "tagName",
+    "name": "tagName",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "id",
+    "name": "id",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "errorMessage",
+    "name": "errorMessage",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "recentSimilar",
+    "name": "recentSimilar",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "truncatedMessage",
+    "name": "truncatedMessage",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "cleanDetails",
+    "name": "cleanDetails",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "headerSize",
+    "name": "headerSize",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "reqHeaderSize",
+    "name": "reqHeaderSize",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "testKey",
+    "name": "testKey",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventLogKeys",
+    "name": "eventLogKeys",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "key",
+    "name": "key",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "totalSize",
+    "name": "totalSize",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "keysSizes",
+    "name": "keysSizes",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "value",
+    "name": "value",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "removedSize",
+    "name": "removedSize",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "targetRemoval",
+    "name": "targetRemoval",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "stack",
+    "name": "stack",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "activeElement",
+    "name": "activeElement",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "className",
+    "name": "className",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "current",
+    "name": "current",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "searchTerm",
+    "name": "searchTerm",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventTypes",
+    "name": "eventTypes",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "visibleEvents",
+    "name": "visibleEvents",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "typeConfig",
+    "name": "typeConfig",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "timestamp",
+    "name": "timestamp",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "fromTo",
+    "name": "fromTo",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "fullFromTo",
+    "name": "fullFromTo",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "expandedClass",
+    "name": "expandedClass",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventsContainer",
+    "name": "eventsContainer",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventHTML",
+    "name": "eventHTML",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "newEvent",
+    "name": "newEvent",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "copyBtn",
+    "name": "copyBtn",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "details",
+    "name": "details",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "isNetworkError",
+    "name": "isNetworkError",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "isResourceError",
+    "name": "isResourceError",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "isNavigationEvent",
+    "name": "isNavigationEvent",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "hasStackTrace",
+    "name": "hasStackTrace",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "hasCode",
+    "name": "hasCode",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "detailsHTML",
+    "name": "detailsHTML",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "formattedStack",
+    "name": "formattedStack",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "otherDetails",
+    "name": "otherDetails",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "div",
+    "name": "div",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "date",
+    "name": "date",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "from",
+    "name": "from",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "maxLength",
+    "name": "maxLength",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "fromDisplay",
+    "name": "fromDisplay",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "toDisplay",
+    "name": "toDisplay",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "searchInput",
+    "name": "searchInput",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "clearBtn",
+    "name": "clearBtn",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "pauseBtn",
+    "name": "pauseBtn",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "copyTextBtn",
+    "name": "copyTextBtn",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "exportBtn",
+    "name": "exportBtn",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "hideBtn",
+    "name": "hideBtn",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "loadClaudeBtn",
+    "name": "loadClaudeBtn",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "saveClaudeBtn",
+    "name": "saveClaudeBtn",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "filterButtons",
+    "name": "filterButtons",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventElements",
+    "name": "eventElements",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "copySingleButtons",
+    "name": "copySingleButtons",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "jsonContent",
+    "name": "jsonContent",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "originalTitle",
+    "name": "originalTitle",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventText",
+    "name": "eventText",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "copyButton",
+    "name": "copyButton",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "filename",
+    "name": "filename",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "mimeType",
+    "name": "mimeType",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "headers",
+    "name": "headers",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "rows",
+    "name": "rows",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "possiblePaths",
+    "name": "possiblePaths",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "claudeContent",
+    "name": "claudeContent",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "input",
+    "name": "input",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "file",
+    "name": "file",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "reader",
+    "name": "reader",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "existingEvents",
+    "name": "existingEvents",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "events",
+    "name": "events",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventMatch",
+    "name": "eventMatch",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "existingHashes",
+    "name": "existingHashes",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "hash",
+    "name": "hash",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "newEvents",
+    "name": "newEvents",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventSummary",
+    "name": "eventSummary",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "duplicateCount",
+    "name": "duplicateCount",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "claudeEntry",
+    "name": "claudeEntry",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "success",
+    "name": "success",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "currentDir",
+    "name": "currentDir",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "groupedEvents",
+    "name": "groupedEvents",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "formatted",
+    "name": "formatted",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "typeEvents",
+    "name": "typeEvents",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "time",
+    "name": "time",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "handle",
+    "name": "handle",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "writable",
+    "name": "writable",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "path",
+    "name": "path",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "segments",
+    "name": "segments",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "statusEl",
+    "name": "statusEl",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "eventElement",
+    "name": "eventElement",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "existingDetails",
+    "name": "existingDetails",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "filtersContainer",
+    "name": "filtersContainer",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "autoSaveEnabled",
+    "name": "autoSaveEnabled",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "pageUrl",
+    "name": "pageUrl",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "userAgent",
+    "name": "userAgent",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "initialContent",
+    "name": "initialContent",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "context",
+    "name": "context",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "wbComponents",
+    "name": "wbComponents",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "componentTypes",
+    "name": "componentTypes",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "customElements",
+    "name": "customElements",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "recentErrors",
+    "name": "recentErrors",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "siblings",
+    "name": "siblings",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "fetch",
+    "name": "fetch",
+    "type": "class",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "Image",
+    "name": "Image",
+    "type": "class",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "wb-event-log",
+    "name": "wb-event-log",
+    "type": "custom-element",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "WBFooter",
+    "name": "WBFooter",
+    "type": "class",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "class\n        const",
+    "name": "class\n        const",
+    "type": "class",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "class\n        Object",
+    "name": "class\n        Object",
+    "type": "class",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "positioning",
+    "name": "positioning",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "container",
+    "name": "container",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "copyright",
+    "name": "copyright",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "top",
+    "name": "top",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "navGroup",
+    "name": "navGroup",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "bottom",
+    "name": "bottom",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "companySection",
+    "name": "companySection",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "socialSection",
+    "name": "socialSection",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "newsletterSection",
+    "name": "newsletterSection",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "legal",
+    "name": "legal",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "essentialLinks",
+    "name": "essentialLinks",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "attr",
+    "name": "attr",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "section",
+    "name": "section",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "logo",
+    "name": "logo",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "desc",
+    "name": "desc",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "list",
+    "name": "list",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "item",
+    "name": "item",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "anchor",
+    "name": "anchor",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "socialList",
+    "name": "socialList",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "form",
+    "name": "form",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "newsletterForm",
+    "name": "newsletterForm",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "newPosition",
+    "name": "newPosition",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "email",
+    "name": "email",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "href",
+    "name": "href",
+    "type": "variable",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "wb-footer",
+    "name": "wb-footer",
+    "type": "custom-element",
+    "component": "wb-footer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-footer"
+  },
+  {
+    "symbol": "class\n        element",
+    "name": "class\n        element",
+    "type": "class",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "createModal",
+    "name": "createModal",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "setupModalEventListeners",
+    "name": "setupModalEventListeners",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "attachListeners",
+    "name": "attachListeners",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleDoubleClick",
+    "name": "handleDoubleClick",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "openEditMode",
+    "name": "openEditMode",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "closeModal",
+    "name": "closeModal",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "updateElementContent",
+    "name": "updateElementContent",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleImageSelect",
+    "name": "handleImageSelect",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "updateImagesGallery",
+    "name": "updateImagesGallery",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "selectImage",
+    "name": "selectImage",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "removeImageAtIndex",
+    "name": "removeImageAtIndex",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "removeSelectedImage",
+    "name": "removeSelectedImage",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "formatFileSize",
+    "name": "formatFileSize",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "setupDraggable",
+    "name": "setupDraggable",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "dragStart",
+    "name": "dragStart",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "dragEnd",
+    "name": "dragEnd",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "drag",
+    "name": "drag",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "addEditButtons",
+    "name": "addEditButtons",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "init",
+    "name": "init",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "setupEditModeListeners",
+    "name": "setupEditModeListeners",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleEditModeEnabled",
+    "name": "handleEditModeEnabled",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleEditModeDisabled",
+    "name": "handleEditModeDisabled",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleEditModeChanged",
+    "name": "handleEditModeChanged",
+    "type": "function",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "SEMANTIC_ELEMENTS",
+    "name": "SEMANTIC_ELEMENTS",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "currentElement",
+    "name": "currentElement",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "selectedImages",
+    "name": "selectedImages",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "modalElement",
+    "name": "modalElement",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "currentImageIndex",
+    "name": "currentImageIndex",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "dragState",
+    "name": "dragState",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "modal",
+    "name": "modal",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "elements",
+    "name": "elements",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "width",
+    "name": "width",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "height",
+    "name": "height",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "elementType",
+    "name": "elementType",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "existingImages",
+    "name": "existingImages",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "customWidth",
+    "name": "customWidth",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "customHeight",
+    "name": "customHeight",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "widthMatch",
+    "name": "widthMatch",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "heightMatch",
+    "name": "heightMatch",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "position",
+    "name": "position",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "parent",
+    "name": "parent",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "imageElements",
+    "name": "imageElements",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "imageStyle",
+    "name": "imageStyle",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "imageHTML",
+    "name": "imageHTML",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "files",
+    "name": "files",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "newImage",
+    "name": "newImage",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "gallery",
+    "name": "gallery",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "noImagesMessage",
+    "name": "noImagesMessage",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "existingItems",
+    "name": "existingItems",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "removeBtn",
+    "name": "removeBtn",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "sizes",
+    "name": "sizes",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "originalPosition",
+    "name": "originalPosition",
+    "type": "variable",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "ImageInsert",
+    "name": "ImageInsert",
+    "type": "class",
+    "component": "wb-image-insert",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "WBInput",
+    "name": "WBInput",
+    "type": "class",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "if",
+    "name": "if",
+    "type": "class",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "wrapper",
+    "name": "wrapper",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "labelText",
+    "name": "labelText",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "inputType",
+    "name": "inputType",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "isTextarea",
+    "name": "isTextarea",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "helpText",
+    "name": "helpText",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "helpElement",
+    "name": "helpElement",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "placeholder",
+    "name": "placeholder",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "minLength",
+    "name": "minLength",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "pattern",
+    "name": "pattern",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "inputId",
+    "name": "inputId",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "validationRules",
+    "name": "validationRules",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "rules",
+    "name": "rules",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "existingHelp",
+    "name": "existingHelp",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "isValid",
+    "name": "isValid",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "messageEl",
+    "name": "messageEl",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "wbInput",
+    "name": "wbInput",
+    "type": "variable",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "wb-input",
+    "name": "wb-input",
+    "type": "custom-element",
+    "component": "wb-input",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-input"
+  },
+  {
+    "symbol": "WBKeyboardManager",
+    "name": "WBKeyboardManager",
+    "type": "class",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "globally",
+    "name": "globally",
+    "type": "class",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "not",
+    "name": "not",
+    "type": "function",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "defaultShortcuts",
+    "name": "defaultShortcuts",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "fullKey",
+    "name": "fullKey",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "shortcut",
+    "name": "shortcut",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "beforeEvent",
+    "name": "beforeEvent",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "parts",
+    "name": "parts",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "keyMap",
+    "name": "keyMap",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "focusedElement",
+    "name": "focusedElement",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "normalizedKeys",
+    "name": "normalizedKeys",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "existing",
+    "name": "existing",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "fullShortcut",
+    "name": "fullShortcut",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "removed",
+    "name": "removed",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "existingModal",
+    "name": "existingModal",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "shortcutsByContext",
+    "name": "shortcutsByContext",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "groups",
+    "name": "groups",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "contextName",
+    "name": "contextName",
+    "type": "variable",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "wb-keyboard-manager",
+    "name": "wb-keyboard-manager",
+    "type": "custom-element",
+    "component": "wb-keyboard-manager",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-keyboard-manager"
+  },
+  {
+    "symbol": "WBLayout",
+    "name": "WBLayout",
+    "type": "class",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "class\r\n            body",
+    "name": "class\r\n            body",
+    "type": "class",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "initialLayout",
+    "name": "initialLayout",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "autoApply",
+    "name": "autoApply",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "select",
+    "name": "select",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "oldLayout",
+    "name": "oldLayout",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "aside",
+    "name": "aside",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "existingColumn",
+    "name": "existingColumn",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "contentColumn",
+    "name": "contentColumn",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "navElement",
+    "name": "navElement",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "control",
+    "name": "control",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "layoutComponent",
+    "name": "layoutComponent",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "wb-layout",
+    "name": "wb-layout",
+    "type": "custom-element",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "WBLogError",
+    "name": "WBLogError",
+    "type": "class",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "utilsPath",
+    "name": "utilsPath",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "controls",
+    "name": "controls",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "filters",
+    "name": "filters",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "toggleBtn",
+    "name": "toggleBtn",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "levelLabel",
+    "name": "levelLabel",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "levelSelect",
+    "name": "levelSelect",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "sourceLabel",
+    "name": "sourceLabel",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "sourceSelect",
+    "name": "sourceSelect",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "searchLabel",
+    "name": "searchLabel",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "y",
+    "name": "y",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "maxX",
+    "name": "maxX",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "maxY",
+    "name": "maxY",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "clampedX",
+    "name": "clampedX",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "clampedY",
+    "name": "clampedY",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "originalError",
+    "name": "originalError",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "originalWarn",
+    "name": "originalWarn",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "error",
+    "name": "error",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "maxEntries",
+    "name": "maxEntries",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "sources",
+    "name": "sources",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "currentValue",
+    "name": "currentValue",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "option",
+    "name": "option",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "entry",
+    "name": "entry",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "total",
+    "name": "total",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "visible",
+    "name": "visible",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "positionClass",
+    "name": "positionClass",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "errors",
+    "name": "errors",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "logText",
+    "name": "logText",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "originalHTML",
+    "name": "originalHTML",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "data",
+    "name": "data",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "md",
+    "name": "md",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "stored",
+    "name": "stored",
+    "type": "variable",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "wb-log-error",
+    "name": "wb-log-error",
+    "type": "custom-element",
+    "component": "wb-log-error",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-error"
+  },
+  {
+    "symbol": "WBModal",
+    "name": "WBModal",
+    "type": "class",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "dialog",
+    "name": "dialog",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "titleElement",
+    "name": "titleElement",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "slot",
+    "name": "slot",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "footerSlot",
+    "name": "footerSlot",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "backdrop",
+    "name": "backdrop",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "modalWidth",
+    "name": "modalWidth",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "modalHeight",
+    "name": "modalHeight",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "containerRect",
+    "name": "containerRect",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "scrollTop",
+    "name": "scrollTop",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "startTop",
+    "name": "startTop",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "modals",
+    "name": "modals",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "backdrops",
+    "name": "backdrops",
+    "type": "variable",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "wb-modal",
+    "name": "wb-modal",
+    "type": "custom-element",
+    "component": "wb-modal",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-modal"
+  },
+  {
+    "symbol": "WBNav",
+    "name": "WBNav",
+    "type": "class",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "brandText",
+    "name": "brandText",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "brandHref",
+    "name": "brandHref",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "brand",
+    "name": "brand",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "itemsData",
+    "name": "itemsData",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "navItem",
+    "name": "navItem",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "responsive",
+    "name": "responsive",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "toggle",
+    "name": "toggle",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "navLink",
+    "name": "navLink",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "icon",
+    "name": "icon",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "isDisabled",
+    "name": "isDisabled",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "currentIndex",
+    "name": "currentIndex",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "nextIndex",
+    "name": "nextIndex",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "prevIndex",
+    "name": "prevIndex",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "currentLink",
+    "name": "currentLink",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "newLink",
+    "name": "newLink",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "layoutConfig",
+    "name": "layoutConfig",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "index",
+    "name": "index",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "WBNavMenu",
+    "name": "WBNavMenu",
+    "type": "class",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "wb-nav",
+    "name": "wb-nav",
+    "type": "custom-element",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "WBSearch",
+    "name": "WBSearch",
+    "type": "class",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "buttonText",
+    "name": "buttonText",
+    "type": "variable",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "buttonIcon",
+    "name": "buttonIcon",
+    "type": "variable",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "results",
+    "name": "results",
+    "type": "variable",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "resultsContainer",
+    "name": "resultsContainer",
+    "type": "variable",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "searchData",
+    "name": "searchData",
+    "type": "variable",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "dataAttr",
+    "name": "dataAttr",
+    "type": "variable",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "normalizedQuery",
+    "name": "normalizedQuery",
+    "type": "variable",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "regex",
+    "name": "regex",
+    "type": "variable",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "wb-search",
+    "name": "wb-search",
+    "type": "custom-element",
+    "component": "wb-search",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-search"
+  },
+  {
+    "symbol": "WBSelect",
+    "name": "WBSelect",
+    "type": "class",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "optionElements",
+    "name": "optionElements",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "optgroups",
+    "name": "optgroups",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "groupOptions",
+    "name": "groupOptions",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "existingOption",
+    "name": "existingOption",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "currentGroup",
+    "name": "currentGroup",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "groupContainer",
+    "name": "groupContainer",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "groupLabel",
+    "name": "groupLabel",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "optionElement",
+    "name": "optionElement",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "isMultiple",
+    "name": "isMultiple",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "tags",
+    "name": "tags",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "isSearchable",
+    "name": "isSearchable",
+    "type": "variable",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "wb-select",
+    "name": "wb-select",
+    "type": "custom-element",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "WBSlider",
+    "name": "WBSlider",
+    "type": "class",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "defaults",
+    "name": "defaults",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "sliderElement",
+    "name": "sliderElement",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "labelHTML",
+    "name": "labelHTML",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "valueHTML",
+    "name": "valueHTML",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "ticksHTML",
+    "name": "ticksHTML",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "stepCount",
+    "name": "stepCount",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "maxTicks",
+    "name": "maxTicks",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "tickInterval",
+    "name": "tickInterval",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "ticks",
+    "name": "ticks",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "fill",
+    "name": "fill",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "thumb",
+    "name": "thumb",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "sliderConfig",
+    "name": "sliderConfig",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "track",
+    "name": "track",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "startDrag",
+    "name": "startDrag",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "handleDrag",
+    "name": "handleDrag",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "clientX",
+    "name": "clientX",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "steppedValue",
+    "name": "steppedValue",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "endDrag",
+    "name": "endDrag",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "newValue",
+    "name": "newValue",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "wbSlider",
+    "name": "wbSlider",
+    "type": "variable",
+    "component": "wb-slider",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "WBStatus",
+    "name": "WBStatus",
+    "type": "class",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "function\nwindow",
+    "name": "function\nwindow",
+    "type": "function",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "leftSection",
+    "name": "leftSection",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "divider",
+    "name": "divider",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "rightSection",
+    "name": "rightSection",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "opts",
+    "name": "opts",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "eventKey",
+    "name": "eventKey",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "alreadyQueued",
+    "name": "alreadyQueued",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "eventData",
+    "name": "eventData",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "hiddenEvent",
+    "name": "hiddenEvent",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "settingElement",
+    "name": "settingElement",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "valueEl",
+    "name": "valueEl",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "isHueEvent",
+    "name": "isHueEvent",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "isPrimaryColorEvent",
+    "name": "isPrimaryColorEvent",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "isSecondaryEvent",
+    "name": "isSecondaryEvent",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "eventsArray",
+    "name": "eventsArray",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "currentStatus",
+    "name": "currentStatus",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "statusBar",
+    "name": "statusBar",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "colorKeywords",
+    "name": "colorKeywords",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "isColorEvent",
+    "name": "isColorEvent",
+    "type": "variable",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "_currentWBStatus",
+    "name": "_currentWBStatus",
+    "type": "class",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "updateStatus",
+    "name": "updateStatus",
+    "type": "class",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "wb-status",
+    "name": "wb-status",
+    "type": "custom-element",
+    "component": "wb-status",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-status"
+  },
+  {
+    "symbol": "WBTab",
+    "name": "WBTab",
+    "type": "class",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "WBTabItem",
+    "name": "WBTabItem",
+    "type": "class",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "WBTabPanel",
+    "name": "WBTabPanel",
+    "type": "class",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabsSlot",
+    "name": "tabsSlot",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "panelsSlot",
+    "name": "panelsSlot",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabList",
+    "name": "tabList",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabItems",
+    "name": "tabItems",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabPanels",
+    "name": "tabPanels",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabId",
+    "name": "tabId",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabFor",
+    "name": "tabFor",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "closeButton",
+    "name": "closeButton",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tab",
+    "name": "tab",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabs",
+    "name": "tabs",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "panel",
+    "name": "panel",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "closeEvent",
+    "name": "closeEvent",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "remainingTabs",
+    "name": "remainingTabs",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "activeTab",
+    "name": "activeTab",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "activePanel",
+    "name": "activePanel",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabRect",
+    "name": "tabRect",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "listRect",
+    "name": "listRect",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "attrName",
+    "name": "attrName",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabItem",
+    "name": "tabItem",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "tabPanel",
+    "name": "tabPanel",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "disabled",
+    "name": "disabled",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "closable",
+    "name": "closable",
+    "type": "variable",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "wb-tab",
+    "name": "wb-tab",
+    "type": "custom-element",
+    "component": "wb-tab",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-tab"
+  },
+  {
+    "symbol": "WBTable",
+    "name": "WBTable",
+    "type": "class",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "jsonData",
+    "name": "jsonData",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "dataSource",
+    "name": "dataSource",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "rowArray",
+    "name": "rowArray",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "checkData",
+    "name": "checkData",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "source",
+    "name": "source",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "striped",
+    "name": "striped",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "hover",
+    "name": "hover",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "bordered",
+    "name": "bordered",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "tableClass",
+    "name": "tableClass",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "colSpan",
+    "name": "colSpan",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "table",
+    "name": "table",
+    "type": "variable",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "wb-table",
+    "name": "wb-table",
+    "type": "custom-element",
+    "component": "wb-table",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-table"
+  },
+  {
+    "symbol": "WBThemeManager",
+    "name": "WBThemeManager",
+    "type": "class",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "keyboardManager",
+    "name": "keyboardManager",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "effectiveTheme",
+    "name": "effectiveTheme",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "metaThemeColor",
+    "name": "metaThemeColor",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "newTheme",
+    "name": "newTheme",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "icons",
+    "name": "icons",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "labels",
+    "name": "labels",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "autoInit",
+    "name": "autoInit",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "createFallbackThemeManager",
+    "name": "createFallbackThemeManager",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "themeManager",
+    "name": "themeManager",
+    "type": "variable",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "wb-theme-manager",
+    "name": "wb-theme-manager",
+    "type": "custom-element",
+    "component": "wb-theme",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-theme-manager"
+  },
+  {
+    "symbol": "WBToggle",
+    "name": "WBToggle",
+    "type": "class",
+    "component": "wb-toggle",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-toggle"
+  },
+  {
+    "symbol": "checked",
+    "name": "checked",
+    "type": "variable",
+    "component": "wb-toggle",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-toggle"
+  },
+  {
+    "symbol": "labelPosition",
+    "name": "labelPosition",
+    "type": "variable",
+    "component": "wb-toggle",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-toggle"
+  },
+  {
+    "symbol": "changeEvent",
+    "name": "changeEvent",
+    "type": "variable",
+    "component": "wb-toggle",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-toggle"
+  },
+  {
+    "symbol": "wb-toggle",
+    "name": "wb-toggle",
+    "type": "custom-element",
+    "component": "wb-toggle",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-toggle"
+  },
+  {
+    "symbol": "loadConfig",
+    "name": "loadConfig",
+    "type": "function",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "loadViewportCSS",
+    "name": "loadViewportCSS",
+    "type": "function",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "createControls",
+    "name": "createControls",
+    "type": "function",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "updateActiveButton",
+    "name": "updateActiveButton",
+    "type": "function",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "setViewport",
+    "name": "setViewport",
+    "type": "function",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "setupKeyboardShortcuts",
+    "name": "setupKeyboardShortcuts",
+    "type": "function",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "currentViewport",
+    "name": "currentViewport",
+    "type": "variable",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "controlsVisible",
+    "name": "controlsVisible",
+    "type": "variable",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "autoButton",
+    "name": "autoButton",
+    "type": "variable",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "vp",
+    "name": "vp",
+    "type": "variable",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "eventName",
+    "name": "eventName",
+    "type": "variable",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "WBViewport",
+    "name": "WBViewport",
+    "type": "class",
+    "component": "wb-viewport",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  }
+]

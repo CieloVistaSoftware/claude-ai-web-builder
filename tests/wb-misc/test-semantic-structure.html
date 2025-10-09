@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Semantic Structure Validation</title>
+    
+    <!-- Configuration System -->
+    <script src="/config.js"></script>
+    
+    <!-- Load main CSS -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/components/wb-control-panel/wb-control-panel.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        .test-content {
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .instructions {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Initial content - no semantic structure -->
+    <div class="instructions">
+        <h2>🧪 Semantic Structure Test</h2>
+        <p>This page initially has NO semantic HTML structure (no nav, header, main, footer).</p>
+        <p>When the control panel loads, it should automatically create these elements:</p>
+        <ul>
+            <li><strong>nav</strong> - Navigation with Home, About, Services, Contact links</li>
+            <li><strong>header</strong> - Site header with title</li>
+            <li><strong>main</strong> - Main content area (this content will be wrapped)</li>
+            <li><strong>footer</strong> - Copyright footer</li>
+        </ul>
+        <p><strong>Test:</strong> Open the control panel and try changing layouts. The semantic structure should be created automatically.</p>
+    </div>
+    
+    <div class="test-content">
+        <h2>🎯 Test Content</h2>
+        <p>This is existing page content that should be automatically wrapped in a main element.</p>
+        <p>The control panel will ensure proper semantic structure for accessibility and layout functionality.</p>
+    </div>
+    
+    <div class="test-content">
+        <h3>📝 Expected Results</h3>
+        <ol>
+            <li>Control panel should detect missing semantic elements</li>
+            <li>Automatically create nav, header, main, footer elements</li>
+            <li>Wrap existing content in the main element</li>
+            <li>Apply proper CSS ordering for layout functionality</li>
+            <li>Log semantic structure creation to console</li>
+        </ol>
+    </div>
+
+    <!-- Control Panel Component -->
+    <control-panel id="test-control-panel" 
+                   visible="true"
+                   theme="dark"
+                   show-themes="true"
+                   show-colors="true"
+                   show-layout="true">
+    </control-panel>
+
+    <!-- Load Control Panel Script -->
+    <script type="module">
+        console.log('🚀 Loading Control Panel for Semantic Structure Test...');
+        
+        // Import control panel
+        await import('./components/wb-control-panel/wb-control-panel.js');
+        
+        console.log('✅ Control Panel loaded - Check if semantic structure was created');
+        
+        // Debug: Log current page structure after a moment
+        setTimeout(() => {
+            console.log('📋 Current page structure:');
+            console.log('- nav elements:', document.querySelectorAll('nav').length);
+            console.log('- header elements:', document.querySelectorAll('header').length);
+            console.log('- main elements:', document.querySelectorAll('main').length);
+            console.log('- footer elements:', document.querySelectorAll('footer').length);
+            
+            const body = document.body;
+            console.log('- body display:', getComputedStyle(body).display);
+            console.log('- body flex-direction:', getComputedStyle(body).flexDirection);
+        }, 1000);
+    </script>
+</body>
+</html>

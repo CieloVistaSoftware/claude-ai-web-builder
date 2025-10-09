@@ -1,0 +1,167 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Tab Web Component",
+  "description": "Schema for wb-tab custom element - tabbed interface component with accessible navigation",
+  "type": "object",
+  "properties": {
+    "active-tab": {
+      "type": "string",
+      "default": "0",
+      "description": "Index or ID of the initially active tab"
+    },
+    "theme": {
+      "type": "string",
+      "enum": ["light", "dark", "auto"],
+      "default": "auto",
+      "description": "Theme setting for the tab component"
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "horizontal",
+      "description": "Layout orientation of the tabs"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["default", "pills", "underline", "card"],
+      "default": "default",
+      "description": "Visual variant of the tab component"
+    },
+    "closable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Allow tabs to be closed with close buttons"
+    },
+    "lazy-load": {
+      "type": "boolean",
+      "default": false,
+      "description": "Only render tab content when the tab becomes active"
+    },
+    "scrollable": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable horizontal scrolling for overflow tabs"
+    },
+    "animated": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable smooth transitions between tabs"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Disable the entire tab component"
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-tab",
+      "description": "Main tab container component with accessible keyboard navigation",
+      "attributes": [
+        {
+          "name": "active-tab",
+          "description": "Index or ID of the initially active tab"
+        },
+        {
+          "name": "theme",
+          "description": "Theme setting",
+          "valueSet": "wb-tab-theme"
+        },
+        {
+          "name": "orientation",
+          "description": "Layout orientation",
+          "valueSet": "wb-tab-orientation"
+        },
+        {
+          "name": "variant",
+          "description": "Visual variant",
+          "valueSet": "wb-tab-variant"
+        },
+        {
+          "name": "closable",
+          "description": "Allow tabs to be closed"
+        },
+        {
+          "name": "lazy-load",
+          "description": "Lazy load tab content"
+        },
+        {
+          "name": "scrollable",
+          "description": "Enable scrolling for overflow"
+        },
+        {
+          "name": "animated",
+          "description": "Enable smooth transitions"
+        },
+        {
+          "name": "disabled",
+          "description": "Disable component"
+        }
+      ]
+    },
+    {
+      "name": "wb-tab-item",
+      "description": "Individual tab header item",
+      "attributes": [
+        {
+          "name": "tab-id",
+          "description": "Unique identifier for the tab"
+        },
+        {
+          "name": "disabled",
+          "description": "Disable this specific tab"
+        },
+        {
+          "name": "closable",
+          "description": "Allow this tab to be closed"
+        },
+        {
+          "name": "icon",
+          "description": "Icon to display in the tab header"
+        }
+      ]
+    },
+    {
+      "name": "wb-tab-panel",
+      "description": "Tab content panel",
+      "attributes": [
+        {
+          "name": "tab-for",
+          "description": "ID of the tab this panel belongs to"
+        },
+        {
+          "name": "lazy",
+          "description": "Lazy load this panel's content"
+        }
+      ]
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "wb-tab-theme",
+      "values": [
+        { "name": "light", "description": "Light theme" },
+        { "name": "dark", "description": "Dark theme" },
+        { "name": "auto", "description": "Auto-detect theme" }
+      ]
+    },
+    {
+      "name": "wb-tab-orientation",
+      "values": [
+        { "name": "horizontal", "description": "Horizontal tab layout" },
+        { "name": "vertical", "description": "Vertical tab layout" }
+      ]
+    },
+    {
+      "name": "wb-tab-variant",
+      "values": [
+        { "name": "default", "description": "Default tab style" },
+        { "name": "pills", "description": "Pill-shaped tabs" },
+        { "name": "underline", "description": "Underlined tabs" },
+        { "name": "card", "description": "Card-style tabs" }
+      ]
+    }
+  ],
+  "version": "1.0.0",
+  "schema": "wb-tab.schema.json"
+}

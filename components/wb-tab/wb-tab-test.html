@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Tab Component Test</title>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: system-ui, sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+        
+        .test-section {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid #334155;
+        }
+        
+        .test-section h2 {
+            color: #e2e8f0;
+            margin-top: 0;
+            border-bottom: 2px solid #6366f1;
+            padding-bottom: 0.5rem;
+        }
+        
+        .test-results {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+        
+        .status-good { color: #10b981; }
+        .status-bad { color: #ef4444; }
+        .status-warning { color: #f59e0b; }
+        
+        .example-tab {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #334155;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 WB Tab Component Test</h1>
+    
+    <div class="test-section">
+        <h2>Component Loading Test</h2>
+        <div class="test-results" id="loading-test">Testing component registration...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Basic Tab Functionality Test</h2>
+        <div class="example-tab">
+            <wb-tab id="basic-test" theme="dark" variant="default" active-tab="tab1">
+                <wb-tab-item tab-id="tab1">Tab 1</wb-tab-item>
+                <wb-tab-item tab-id="tab2">Tab 2</wb-tab-item>
+                <wb-tab-item tab-id="tab3">Tab 3</wb-tab-item>
+                
+                <wb-tab-panel tab-for="tab1">
+                    <p>This is Tab 1 content. If you can see this, the basic tab functionality is working.</p>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="tab2">
+                    <p>This is Tab 2 content. Click between tabs to test switching functionality.</p>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="tab3">
+                    <p>This is Tab 3 content. Tab switching should be smooth and accessible.</p>
+                </wb-tab-panel>
+            </wb-tab>
+        </div>
+        <div class="test-results" id="basic-test-results">Testing basic functionality...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Variant Test</h2>
+        <div class="example-tab">
+            <wb-tab id="variant-test" theme="dark" variant="pills" active-tab="pill1">
+                <wb-tab-item tab-id="pill1">Pill 1</wb-tab-item>
+                <wb-tab-item tab-id="pill2">Pill 2</wb-tab-item>
+                
+                <wb-tab-panel tab-for="pill1">
+                    <p>Pills variant test - Tab 1</p>
+                </wb-tab-panel>
+                
+                <wb-tab-panel tab-for="pill2">
+                    <p>Pills variant test - Tab 2</p>
+                </wb-tab-panel>
+            </wb-tab>
+        </div>
+        <div class="test-results" id="variant-test-results">Testing variant functionality...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Event Test</h2>
+        <div class="test-results" id="event-test-results">Waiting for tab interactions...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>API Test</h2>
+        <button onclick="testAPI()" style="background: #6366f1; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Test JavaScript API</button>
+        <div class="test-results" id="api-test-results">Click button to test API...</div>
+    </div>
+    
+    <!-- Load wb-tab component -->
+    <script src="wb-tab.js"></script>
+    
+    <script>
+        let testResults = {
+            componentRegistered: false,
+            basicFunctionality: false,
+            variantFunctionality: false,
+            eventSystem: false,
+            apiAccess: false
+        };
+        
+        // Test 1: Component Registration
+        function testComponentRegistration() {
+            const isRegistered = !!customElements.get('wb-tab');
+            const hasTabItem = !!customElements.get('wb-tab-item');
+            const hasTabPanel = !!customElements.get('wb-tab-panel');
+            
+            testResults.componentRegistered = isRegistered && hasTabItem && hasTabPanel;
+            
+            const resultEl = document.getElementById('loading-test');
+            if (testResults.componentRegistered) {
+                resultEl.innerHTML = '<span class="status-good">✅ wb-tab components registered successfully</span>';
+            } else {
+                resultEl.innerHTML = `
+                    <span class="status-bad">❌ Component registration failed</span><br>
+                    wb-tab: ${isRegistered ? '✅' : '❌'}<br>
+                    wb-tab-item: ${hasTabItem ? '✅' : '❌'}<br>
+                    wb-tab-panel: ${hasTabPanel ? '✅' : '❌'}
+                `;
+            }
+        }
+        
+        // Test 2: Basic Functionality
+        function testBasicFunctionality() {
+            const basicTab = document.getElementById('basic-test');
+            const resultEl = document.getElementById('basic-test-results');
+            
+            if (basicTab) {
+                const tabItems = basicTab.querySelectorAll('wb-tab-item');
+                const tabPanels = basicTab.querySelectorAll('wb-tab-panel');
+                
+                testResults.basicFunctionality = tabItems.length === 3 && tabPanels.length === 3;
+                
+                if (testResults.basicFunctionality) {
+                    resultEl.innerHTML = `
+                        <span class="status-good">✅ Basic structure correct</span><br>
+                        Tab items: ${tabItems.length}<br>
+                        Tab panels: ${tabPanels.length}
+                    `;
+                } else {
+                    resultEl.innerHTML = '<span class="status-bad">❌ Basic structure incorrect</span>';
+                }
+            } else {
+                resultEl.innerHTML = '<span class="status-bad">❌ Basic tab element not found</span>';
+            }
+        }
+        
+        // Test 3: Variant Functionality
+        function testVariantFunctionality() {
+            const variantTab = document.getElementById('variant-test');
+            const resultEl = document.getElementById('variant-test-results');
+            
+            if (variantTab) {
+                const variant = variantTab.getAttribute('variant');
+                testResults.variantFunctionality = variant === 'pills';
+                
+                if (testResults.variantFunctionality) {
+                    resultEl.innerHTML = `<span class="status-good">✅ Variant attribute set correctly: ${variant}</span>`;
+                } else {
+                    resultEl.innerHTML = `<span class="status-bad">❌ Variant attribute incorrect: ${variant}</span>`;
+                }
+            } else {
+                resultEl.innerHTML = '<span class="status-bad">❌ Variant tab element not found</span>';
+            }
+        }
+        
+        // Test 4: API Access
+        function testAPI() {
+            const resultEl = document.getElementById('api-test-results');
+            const basicTab = document.getElementById('basic-test');
+            
+            try {
+                if (basicTab && typeof basicTab.switchTo === 'function') {
+                    // Test switching tabs programmatically
+                    basicTab.switchTo('tab2');
+                    testResults.apiAccess = true;
+                    resultEl.innerHTML = '<span class="status-good">✅ JavaScript API working - switched to tab2</span>';
+                } else {
+                    testResults.apiAccess = false;
+                    resultEl.innerHTML = '<span class="status-bad">❌ JavaScript API not available</span>';
+                }
+            } catch (error) {
+                testResults.apiAccess = false;
+                resultEl.innerHTML = `<span class="status-bad">❌ API Error: ${error.message}</span>`;
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('wb-tab-change', (e) => {
+            testResults.eventSystem = true;
+            const resultEl = document.getElementById('event-test-results');
+            resultEl.innerHTML = `
+                <span class="status-good">✅ Tab change event received</span><br>
+                Active: ${e.detail.activeTab}<br>
+                Previous: ${e.detail.previousTab}<br>
+                Component: ${e.target.id}
+            `;
+        });
+        
+        // Run tests
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧪 Starting wb-tab component tests...');
+            
+            // Delay tests to allow component registration
+            setTimeout(() => {
+                testComponentRegistration();
+                testBasicFunctionality();
+                testVariantFunctionality();
+                
+                // Show overall results
+                setTimeout(() => {
+                    const passed = Object.values(testResults).filter(Boolean).length;
+                    const total = Object.keys(testResults).length - 1; // Exclude API test
+                    
+                    console.log('🧪 Test Results:', testResults);
+                    console.log(`📊 Tests Passed: ${passed}/${total}`);
+                    
+                    if (passed === total) {
+                        console.log('✅ All tests passed!');
+                    } else {
+                        console.log('❌ Some tests failed. Check the page for details.');
+                    }
+                }, 1000);
+            }, 500);
+        });
+    </script>
+</body>
+</html>

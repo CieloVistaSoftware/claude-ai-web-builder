@@ -1,567 +1,710 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Event Log Component Demo</title>
-    
-    <!-- Component Dependencies -->
-    <script src="../wb-component-utils.js"></script>
-    
-    <!-- Component Files -->
+<!DOCTYPE html><!DOCTYPE html>
+
+<html lang="en" data-theme="dark"><html lang="en" data-theme="dark">
+
+<head><head>
+
+    <meta charset="UTF-8">    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WB Event Log - Interactive Demo</title>    <title>WB Event Log Component Demo</title>
+
+        
+
+    <!-- Core Styles (Correct Path) -->    <!-- Component System - Auto-loads all components used on the page -->
+
+    <link rel="stylesheet" href="../../styles/_variables.css">    <script src="/config.js"></script>
+
+    <link rel="stylesheet" href="../../styles/_base.css">    <script src="/utils/auto-loader.js"></script>
+
+    <link rel="stylesheet" href="../../styles/main.css">    
+
+    <link rel="stylesheet" href="../../styles/wb-event-log-demo.css">    <!-- Demo Styles -->
+
+        <link rel="stylesheet" href="/components/wb-event-log/wb-event-log-demo.css">
+
+    <!-- Component Style -->    
+
     <link rel="stylesheet" href="wb-event-log.css">
-    <script src="wb-event-log.js"></script>
-    
-    <!-- Demo Styles -->
-    <style>
-        :root {
-            /* Dark theme colors */
-            --background-color-dark: #1a1a1a;
-            --background-color-darker: #1a1a2e;
-            --text-color-dark: #ffffff;
-            --text-color-light: #ffffff;
-            --text-muted-dark: #b0b0b0;
-            --border-color-dark: #404040;
-            --border-color-darker: #555555;
-            --surface-color-dark: #2d2d2d;
-            --surface-color-darker: #3a3a3a;
-            
-            /* Theme colors */
-            --primary-color: #007BFF;
-            --secondary-color: #6C757D;
-            --success-color: #28A745;
-            --danger-color: #DC3545;
-            --warning-color: #FFA500;
-            --info-color: #6F42C1;
-            --cyan-color: #17a2b8;
-            --orange-color: #fd7e14;
-            
-            /* Code colors */
-            --code-background: #1e1e1e;
-            --code-color: #e2e8f0;
-            
-            /* Gradients */
-            --gradient-start: #667eea;
-            --gradient-end: #764ba2;
-            
-            /* Shadows */
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --shadow-hover: rgba(0, 0, 0, 0.2);
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: var(--background-color-dark, #1a1a1a);
-            color: var(--text-color-dark, #ffffff);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            color: var(--text-color-dark, #ffffff);
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            color: var(--text-muted-dark, #b0b0b0);
-            font-size: 18px;
-        }
-        
-        .demo-section {
-            background: var(--surface-color-dark, #2d2d2d);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px var(--shadow-color, rgba(0,0,0,0.3));
-            border: 1px solid var(--border-color-dark, #404040);
-        }
-        
-        .demo-section h2 {
-            margin-top: 0;
-            color: var(--text-color-dark, #ffffff);
-            border-bottom: 2px solid var(--primary-color, #007BFF);
-            padding-bottom: 10px;
-        }
-        
-        .demo-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .demo-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            color: var(--text-color-light, white);
-        }
-        
-        .demo-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px var(--shadow-hover, rgba(0,0,0,0.2));
-        }
-        
-        .demo-btn.info { background: var(--primary-color, #007BFF); }
-        .demo-btn.warning { background: var(--warning-color, #FFA500); }
-        .demo-btn.error { background: var(--danger-color, #DC3545); }
-        .demo-btn.success { background: var(--success-color, #28A745); }
-        .demo-btn.debug { background: var(--secondary-color, #6C757D); }
-        .demo-btn.user { background: var(--info-color, #6F42C1); }
-        .demo-btn.console { background: var(--cyan-color, #17a2b8); }
-        .demo-btn.interaction { background: var(--orange-color, #fd7e14); }
-        
-        .demo-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .event-log-container {
-            border: 2px dashed var(--primary-color, #007BFF);
-            border-radius: 8px;
-            padding: 20px;
-            background: var(--background-color-darker, #1a1a2e);
-        }
-        
-        .config-section {
-            background: var(--surface-color-darker, #3a3a3a);
-            border: 1px solid var(--border-color-darker, #555555);
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .config-section h3 {
-            margin-top: 0;
-            color: var(--text-color-dark, #ffffff);
-        }
-        
-        .config-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .config-controls label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 14px;
-        }
-        
-        .config-controls input,
-        .config-controls select {
-            padding: 4px 8px;
-            border: 1px solid var(--border-color-darker, #555555);
-            border-radius: 4px;
-            background: var(--surface-color-dark, #2d2d2d);
-            color: var(--text-color-dark, #ffffff);
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, var(--gradient-start, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
-            color: var(--text-color-light, white);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-        
-        .code-example {
-            background: var(--code-background, #1e1e1e);
-            color: var(--code-color, #e2e8f0);
-            padding: 15px;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            overflow-x: auto;
-            margin: 10px 0;
-            border: 1px solid var(--border-color-dark, #404040);
-        }
-        
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid var(--border-color-dark, #404040);
-            margin-bottom: 20px;
-        }
-        
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s ease;
-            color: var(--text-muted-dark, #b0b0b0);
-        }
-        
-        .tab.active {
-            border-bottom-color: var(--primary-color, #007BFF);
-            color: var(--primary-color, #007BFF);
-            font-weight: 600;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @media (max-width: 768px) {
-            .demo-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .demo-controls {
-                justify-content: center;
-            }
-            
-            .config-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-        }
-    </style>
-</head>
+
+</head></head>
+
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🔧 WB Event Log Component</h1>
-            <p>Passive event-driven logging system for Website Builder applications</p>
-        </div>
-        
-        <!-- Tabs -->
-        <div id="tabs-container" class="tabs">
-            <div id="demo-tab-button" class="tab active" data-tab="demo">Live Demo</div>
-            <div id="docs-tab-button" class="tab" data-tab="docs">Documentation</div>
-            <div id="examples-tab-button" class="tab" data-tab="examples">Code Examples</div>
-        </div>
-        
-        <!-- Demo Tab -->
-        <div class="tab-content active" id="demo">
-            <div class="demo-section">
-                <h2>🎯 Interactive Demo</h2>
-                <p>Test the event log component with various event types and configurations. The component automatically captures console messages, errors, and user interactions.</p>
-                
-                <div class="demo-grid">
-                    <div>
-                        <h3>Manual Event Generation</h3>
-                        <div class="demo-controls">
-                            <button class="demo-btn info" onclick="generateInfoEvent()">📝 Info Event</button>
-                            <button class="demo-btn warning" onclick="generateWarningEvent()">⚠️ Warning Event</button>
-                            <button class="demo-btn error" onclick="generateErrorEvent()">❌ Error Event</button>
-                            <button class="demo-btn success" onclick="generateSuccessEvent()">✅ Success Event</button>
-                            <button class="demo-btn debug" onclick="generateDebugEvent()">🐛 Debug Event</button>
-                            <button class="demo-btn user" onclick="generateUserEvent()">👤 User Event</button>
-                        </div>
-                        
-                        <h3>Console & System Events</h3>
-                        <div class="demo-controls">
-                            <button class="demo-btn console" onclick="generateConsoleEvents()">💬 Console Messages</button>
-                            <button class="demo-btn error" onclick="generateJSError()">💥 JavaScript Error</button>
-                            <button class="demo-btn error" onclick="generatePromiseError()">🚫 Promise Rejection</button>
-                            <button class="demo-btn interaction" onclick="simulateUserInteractions()">🖱️ User Interactions</button>
-                        </div>
-                        
-                        <h3>Bulk Event Generation</h3>
-                        <div class="demo-controls">
-                            <button class="demo-btn info" onclick="generateBulkEvents(10)">Generate 10 Events</button>
-                            <button class="demo-btn warning" onclick="generateBulkEvents(50)">Generate 50 Events</button>
-                            <button class="demo-btn error" onclick="generateBulkEvents(100)">Generate 100 Events</button>
-                            <button class="demo-btn console" onclick="generateStressTest()">🔥 Stress Test</button>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h3>Configuration Controls</h3>
-                        
-                        <div class="config-section">
-                            <h4>Display Settings</h4>
-                            <div class="config-controls">
-                                <label>
-                                    <input type="checkbox" id="autoScroll" checked> Auto-scroll
-                                </label>
-                                <label>
+
+<body class="event-log-demo">    <div class="container">
+
+    <div class="demo-container">        <div class="header">
+
+        <!-- Header -->            <h1>🔧 WB Event Log Component</h1>
+
+        <header class="demo-header">            <p>Passive event-driven logging system for Website Builder applications</p>
+
+            <h1 class="demo-title">WB Event Log Component</h1>        </div>
+
+            <p class="demo-subtitle">        
+
+                Zero-configuration event logging with real-time display, filtering, and export capabilities.        <!-- WB Tab Component -->
+
+            </p>        <wb-tab active-tab="live-demo" variant="default" theme="dark">
+
+        </header>            <wb-tab-item tab-id="live-demo" icon="🎯">Live Demo</wb-tab-item>
+
+            <wb-tab-item tab-id="documentation" icon="📚">Documentation</wb-tab-item>
+
+        <!-- Configuration Panel -->            <wb-tab-item tab-id="code-examples" icon="💻">Code Examples</wb-tab-item>
+
+        <section class="demo-section">            
+
+            <h2 class="section-title">Configuration</h2>            <wb-tab-panel tab-for="live-demo">
+
+            <div class="demo-controls">                <div class="tab-content">
+
+                <div class="control-group">            <div class="demo-section">
+
+                    <label class="control-label" for="maxEvents">Max Events</label>                <h2>🎯 Interactive Demo</h2>
+
+                    <input type="number" id="maxEvents" class="control-input" value="1000" min="10" max="10000">                <p>Test the event log component with various event types and configurations. The component automatically captures console messages, errors, and user interactions.</p>
+
+                </div>                
+
+                <div class="control-group">                <div class="demo-grid">
+
+                    <label class="control-label" for="autoScroll">Auto Scroll</label>                    <div>
+
+                    <select id="autoScroll" class="control-select">                        <h3>Manual Event Generation</h3>
+
+                        <option value="true" selected>Enabled</option>                        <div class="demo-controls">
+
+                        <option value="false">Disabled</option>                            <wb-button variant="primary" id="btn-info-event">📝 Info Event</wb-button>
+
+                    </select>                            <wb-button variant="warning" id="btn-warning-event">⚠️ Warning Event</wb-button>
+
+                </div>                            <wb-button variant="danger" id="btn-error-event">❌ Error Event</wb-button>
+
+                <div class="control-group">                            <wb-button variant="success" id="btn-success-event">✅ Success Event</wb-button>
+
+                    <label class="control-label" for="wrapMode">Wrap Mode</label>                            <wb-button variant="secondary" id="btn-debug-event">🐛 Debug Event</wb-button>
+
+                    <select id="wrapMode" class="control-select">                            <wb-button variant="info" id="btn-user-event">👤 User Event</wb-button>
+
+                        <option value="truncate" selected>Truncate</option>                        </div>
+
+                        <option value="wrap">Wrap</option>                        
+
+                        <option value="nowrap">No Wrap</option>                        <h3>Console & System Events</h3>
+
+                    </select>                        <div class="demo-controls">
+
+                </div>                            <wb-button variant="info" id="btn-console-events">💬 Console Messages</wb-button>
+
+                <div class="control-group">                            <wb-button variant="danger" id="btn-js-error">💥 JavaScript Error</wb-button>
+
+                    <label class="control-label" for="showTimestamps">Show Timestamps</label>                            <wb-button variant="danger" id="btn-promise-error">🚫 Promise Rejection</wb-button>
+
+                    <select id="showTimestamps" class="control-select">                            <wb-button variant="secondary" id="btn-user-interactions">🖱️ User Interactions</wb-button>
+
+                        <option value="true" selected>Yes</option>                        </div>
+
+                        <option value="false">No</option>                        
+
+                    </select>                        <h3>Bulk Event Generation</h3>
+
+                </div>                        <div class="demo-controls">
+
+                <div class="control-group">                            <wb-button variant="primary" id="btn-bulk-10">Generate 10 Events</wb-button>
+
+                    <label class="control-label" for="darkMode">Theme</label>                            <wb-button variant="warning" id="btn-bulk-50">Generate 50 Events</wb-button>
+
+                    <select id="darkMode" class="control-select">                            <wb-button variant="danger" id="btn-bulk-100">Generate 100 Events</wb-button>
+
+                        <option value="auto" selected>Auto</option>                            <wb-button variant="info" id="btn-stress-test">🔥 Stress Test</wb-button>
+
+                        <option value="true">Dark</option>                        </div>
+
+                        <option value="false">Light</option>                    </div>
+
+                    </select>                    
+
+                </div>                    <div>
+
+                <div class="control-group">                        <h3>Configuration Controls</h3>
+
+                    <label class="control-label" for="compact">Display Mode</label>                        
+
+                    <select id="compact" class="control-select">                        <div class="config-section">
+
+                        <option value="false" selected>Normal</option>                            <h4>Display Settings</h4>
+
+                        <option value="true">Compact</option>                            <div class="config-controls">
+
+                    </select>                                <label>
+
+                </div>                                    <wb-input type="checkbox" id="autoScroll" checked> Auto-scroll
+
+            </div>                                </label>
+
+        </section>                                <label>
+
                                     Wrap Mode:
-                                    <select id="wrapMode">
-                                        <option value="truncate">Truncate</option>
-                                        <option value="wrap">Wrap</option>
-                                    </select>
-                                </label>
-                                <label>
-                                    Max Events:
-                                    <input type="number" id="maxEvents" value="1000" min="10" max="5000">
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="config-section">
-                            <h4>Filter Controls</h4>
-                            <div class="config-controls">
-                                <label><input type="checkbox" class="filter-checkbox" value="info" checked> Info</label>
-                                <label><input type="checkbox" class="filter-checkbox" value="warning" checked> Warning</label>
-                                <label><input type="checkbox" class="filter-checkbox" value="error" checked> Error</label>
-                                <label><input type="checkbox" class="filter-checkbox" value="success" checked> Success</label>
-                                <label><input type="checkbox" class="filter-checkbox" value="debug"> Debug</label>
-                                <label><input type="checkbox" class="filter-checkbox" value="user" checked> User</label>
-                            </div>
-                        </div>
-                        
-                        <div class="config-section">
-                            <h4>Export & Actions</h4>
-                            <div class="config-controls">
-                                <button class="demo-btn info" onclick="copyEventsJSON()">📋 Copy JSON</button>
-                                <button class="demo-btn info" onclick="exportEvents('json')">📄 Export JSON</button>
-                                <button class="demo-btn info" onclick="exportEvents('csv')">📊 Export CSV</button>
-                                <button class="demo-btn info" onclick="exportEvents('txt')">📝 Export TXT</button>
-                                <button class="demo-btn warning" onclick="togglePause()">⏸️ Pause/Resume</button>
-                                <button class="demo-btn error" onclick="clearEvents()">🗑️ Clear All</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
+
+        <!-- Demo Actions -->                                    <wb-select id="wrapMode">
+
+        <section class="demo-section">                                        <option value="truncate">Truncate</option>
+
+            <h2 class="section-title">Demo Actions</h2>                                        <option value="wrap">Wrap</option>
+
+            <div class="action-buttons">                                    </wb-select>
+
+                <button class="demo-button primary" onclick="generateEvent('info')">Generate Info</button>                                </label>
+
+                <button class="demo-button secondary" onclick="generateEvent('warning')">Generate Warning</button>                                <label>
+
+                <button class="demo-button danger" onclick="generateEvent('error')">Generate Error</button>                                    Max Events:
+
+                <button class="demo-button success" onclick="generateEvent('success')">Generate Success</button>                                    <wb-input type="number" id="maxEvents" value="1000" min="10" max="5000"></wb-input>
+
+                <button class="demo-button secondary" onclick="clearAllEvents()">Clear Events</button>                                </label>
+
+                <button class="demo-button secondary" onclick="pauseLogging()">Pause Logging</button>                            </div>
+
+                <button class="demo-button secondary" onclick="resumeLogging()">Resume Logging</button>                        </div>
+
+                <button class="demo-button primary" onclick="exportEvents('json')">Export JSON</button>                        
+
+                <button class="demo-button primary" onclick="exportEvents('csv')">Export CSV</button>                        <div class="config-section">
+
+            </div>                            <h4>Filter Controls</h4>
+
+        </section>                            <div class="config-controls">
+
+                                <label><wb-input type="checkbox" class="filter-checkbox" value="info" checked> Info</label>
+
+        <!-- Event Log Component -->                                <label><wb-input type="checkbox" class="filter-checkbox" value="warning" checked> Warning</label>
+
+        <section class="demo-section">                                <label><wb-input type="checkbox" class="filter-checkbox" value="error" checked> Error</label>
+
+            <h2 class="section-title">Live Event Log</h2>                                <label><wb-input type="checkbox" class="filter-checkbox" value="success" checked> Success</label>
+
+            <div class="event-log-container">                                <label><wb-input type="checkbox" class="filter-checkbox" value="debug"> Debug</label>
+
+                <wb-event-log                                 <label><wb-input type="checkbox" class="filter-checkbox" value="user" checked> User</label>
+
+                    id="demoEventLog"                            </div>
+
+                    max-events="1000"                        </div>
+
+                    auto-scroll="true"                        
+
+                    show-timestamps="true"                        <div class="config-section">
+
+                    show-source="true"                            <h4>Export & Actions</h4>
+
+                    expandable-details="true"                            <div class="config-controls">
+
+                    wrap-mode="truncate"                                <wb-button variant="primary" id="btn-copy-json">📋 Copy JSON</wb-button>
+
+                    dark-mode="auto"                                <wb-button variant="primary" id="btn-export-json">📄 Export JSON</wb-button>
+
+                    compact="false"                                <wb-button variant="primary" id="btn-export-csv">📊 Export CSV</wb-button>
+
+                    toolbar="true"                                <wb-button variant="primary" id="btn-export-txt">📝 Export TXT</wb-button>
+
+                    search="true"                                <wb-button variant="warning" id="btn-toggle-pause">⏸️ Pause/Resume</wb-button>
+
+                    filters="true"                                <wb-button variant="danger" id="btn-clear-events">🗑️ Clear All</wb-button>
+
+                    export="true"                            </div>
+
+                    intercept-console="true"                        </div>
+
+                    capture-errors="true">                    </div>
+
+                </wb-event-log>                </div>
+
+            </div>            </div>
+
+        </section>            
+
             <div class="demo-section">
-                <h2>📊 Live Event Log</h2>
-                <div class="event-log-container">
-                    <wb-event-log id="mainEventLog"></wb-event-log>
+
+        <!-- Statistics -->                <h2>📊 Live Event Log</h2>
+
+        <section class="demo-section">                <div class="event-log-container">
+
+            <h2 class="section-title">Statistics</h2>                    <wb-event-log id="mainEventLog"></wb-event-log>
+
+            <div class="stats-grid">                </div>
+
+                <div class="stat-card">                
+
+                    <span class="stat-value" id="totalEvents">0</span>                <div class="stats">
+
+                    <span class="stat-label">Total Events</span>                    <wb-card variant="filled">
+
+                </div>                        <div class="stat-number" id="totalEvents">0</div>
+
+                <div class="stat-card">                        <div class="stat-label">Total Events</div>
+
+                    <span class="stat-value" id="errorCount">0</span>                    </wb-card>
+
+                    <span class="stat-label">Errors</span>                    <wb-card variant="filled">
+
+                </div>                        <div class="stat-number" id="visibleEvents">0</div>
+
+                <div class="stat-card">                        <div class="stat-label">Visible Events</div>
+
+                    <span class="stat-value" id="warningCount">0</span>                    </wb-card>
+
+                    <span class="stat-label">Warnings</span>                    <wb-card variant="filled">
+
+                </div>                        <div class="stat-number" id="errorCount">0</div>
+
+                <div class="stat-card">                        <div class="stat-label">Errors</div>
+
+                    <span class="stat-value" id="loggingStatus">Active</span>                    </wb-card>
+
+                    <span class="stat-label">Status</span>                    <wb-card variant="filled">
+
+                </div>                        <div class="stat-number" id="eventRate">0</div>
+
+            </div>                        <div class="stat-label">Events/sec</div>
+
+        </section>                    </wb-card>
+
                 </div>
-                
-                <div class="stats">
-                    <div class="stat-card">
-                        <div class="stat-number" id="totalEvents">0</div>
-                        <div class="stat-label">Total Events</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="visibleEvents">0</div>
-                        <div class="stat-label">Visible Events</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="errorCount">0</div>
-                        <div class="stat-label">Errors</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="eventRate">0</div>
-                        <div class="stat-label">Events/sec</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Documentation Tab -->
-        <div class="tab-content" id="docs">
-            <div class="demo-section">
-                <h2>📚 Documentation</h2>
-                
-                <h3>Features</h3>
+
+        <!-- Code Examples -->                </div>
+
+        <section class="demo-section">            </wb-tab-panel>
+
+            <h2 class="section-title">Usage Examples</h2>            
+
+                        <wb-tab-panel tab-for="documentation">
+
+            <div class="doc-section">                <div class="tab-content">
+
+                <h3>Basic Usage</h3>            <div class="demo-section">
+
+                <div class="code-example">&lt;!-- Simple Setup --&gt;                <h2>📚 Documentation</h2>
+
+&lt;link rel="stylesheet" href="wb-event-log.css"&gt;                
+
+&lt;script src="wb-event-log.js"&gt;&lt;/script&gt;                <h3>🚀 Auto-Loading System</h3>
+
                 <ul>
-                    <li><strong>Zero Integration Required:</strong> Just include the component and it starts working</li>
-                    <li><strong>Passive Event Monitoring:</strong> Automatically captures console, errors, and interactions</li>
-                    <li><strong>Configurable Display:</strong> Choose between truncate or wrap modes for long messages</li>
+
+&lt;!-- Zero Configuration --&gt;                    <li><strong>Smart Component Detection:</strong> Automatically detects WB components on the page</li>
+
+&lt;wb-event-log&gt;&lt;/wb-event-log&gt;                    <li><strong>Dependency Auto-Loading:</strong> Loads CSS and JS files only for components you use</li>
+
+                    <li><strong>Dynamic Component Support:</strong> Detects and loads components added after page load</li>
+
+&lt;!-- With Configuration --&gt;                    <li><strong>Simplified Setup:</strong> Just 2 script tags instead of manual component imports</li>
+
+&lt;wb-event-log                     <li><strong>Performance Optimized:</strong> Parallel loading with duplicate prevention</li>
+
+    max-events="500"                </ul>
+
+    auto-scroll="true"                
+
+    show-timestamps="true"                <h3>Component Features</h3>
+
+    wrap-mode="truncate"                <ul>
+
+    dark-mode="auto"&gt;                    <li><strong>Zero Integration Required:</strong> Just include the component and it starts working</li>
+
+&lt;/wb-event-log&gt;</div>                    <li><strong>Passive Event Monitoring:</strong> Automatically captures console, errors, and interactions</li>
+
+            </div>                    <li><strong>Configurable Display:</strong> Choose between truncate or wrap modes for long messages</li>
+
                     <li><strong>Real-time Filtering:</strong> Filter by event type and search text</li>
-                    <li><strong>Export Capabilities:</strong> Export events to JSON, CSV, or TXT formats</li>
-                    <li><strong>Performance Optimized:</strong> Virtual scrolling and event limits</li>
-                </ul>
-                
+
+            <div class="doc-section">                    <li><strong>Export Capabilities:</strong> Export events to JSON, CSV, or TXT formats</li>
+
+                <h3>JavaScript API</h3>                    <li><strong>Performance Optimized:</strong> Virtual scrolling and event limits</li>
+
+                <div class="code-example">// Get component reference                </ul>
+
+const eventLog = document.querySelector('wb-event-log');                
+
                 <h3>Event Types</h3>
-                <ul>
-                    <li>📝 <strong>Info:</strong> General information messages</li>
-                    <li>⚠️ <strong>Warning:</strong> Non-critical warnings</li>
-                    <li>❌ <strong>Error:</strong> Critical errors and failures</li>
-                    <li>✅ <strong>Success:</strong> Successful operations</li>
-                    <li>🐛 <strong>Debug:</strong> Development/debugging messages</li>
-                    <li>👤 <strong>User:</strong> User actions and interactions</li>
-                </ul>
-                
-                <h3>Configuration Options</h3>
-                <ul>
-                    <li><strong>maxEvents:</strong> Maximum number of events to keep (default: 1000)</li>
-                    <li><strong>autoScroll:</strong> Automatically scroll to new events (default: true)</li>
-                    <li><strong>wrapMode:</strong> "truncate" or "wrap" for long messages (default: "truncate")</li>
-                    <li><strong>filters:</strong> Array of event types to display</li>
-                    <li><strong>searchFilter:</strong> Text filter for events</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Examples Tab -->
-        <div class="tab-content" id="examples">
-            <div class="demo-section">
-                <h2>💻 Code Examples</h2>
-                
-                <h3>Basic Usage</h3>
-                <div class="code-example">
-&lt;!-- Zero configuration usage --&gt;
-&lt;wb-event-log&gt;&lt;/wb-event-log&gt;
 
-&lt;!-- With configuration --&gt;
-&lt;wb-event-log 
-    data-max-events="500"
-    data-auto-scroll="true"
-    data-wrap-mode="wrap"&gt;
-&lt;/wb-event-log&gt;</div>
-                
-                <h3>Manual Event Logging</h3>
-                <div class="code-example">
-// Static helper methods
-WBEventLog.logInfo('Component initialized');
-WBEventLog.logWarning('API response slow');
-WBEventLog.logError('Failed to load data');
-WBEventLog.logSuccess('File saved successfully');
+// Generate custom events                <ul>
 
-// Custom events (components can emit these)
-document.dispatchEvent(new CustomEvent('wb:info', {
-    detail: { message: 'Component loaded', source: 'wb-button' }
-}));
+document.dispatchEvent(new CustomEvent('wb:info', {                    <li>📝 <strong>Info:</strong> General information messages</li>
 
-document.dispatchEvent(new CustomEvent('wb:error', {
-    detail: { message: 'API call failed', source: 'api-service', error: errorObj }
-}));</div>
+    detail: {                     <li>⚠️ <strong>Warning:</strong> Non-critical warnings</li>
+
+        message: 'Operation completed',                     <li>❌ <strong>Error:</strong> Critical errors and failures</li>
+
+        source: 'my-app',                    <li>✅ <strong>Success:</strong> Successful operations</li>
+
+        data: { userId: 123, action: 'login' }                    <li>🐛 <strong>Debug:</strong> Development/debugging messages</li>
+
+    }                    <li>👤 <strong>User:</strong> User actions and interactions</li>
+
+}));                </ul>
+
                 
-                <h3>Component API</h3>
-                <div class="code-example">
-const eventLog = document.querySelector('wb-event-log');
+
+// Control component                <h3>Configuration Options</h3>
+
+eventLog.clearEvents();                <ul>
+
+eventLog.pauseLogging();                    <li><strong>maxEvents:</strong> Maximum number of events to keep (default: 1000)</li>
+
+eventLog.resumeLogging();                    <li><strong>autoScroll:</strong> Automatically scroll to new events (default: true)</li>
+
+eventLog.exportEvents('json');</div>                    <li><strong>wrapMode:</strong> "truncate" or "wrap" for long messages (default: "truncate")</li>
+
+            </div>                    <li><strong>filters:</strong> Array of event types to display</li>
+
+        </section>                    <li><strong>searchFilter:</strong> Text filter for events</li>
+
+    </div>                </ul>
+
+                </div>
+
+    <!-- Component Script -->            </wb-tab-panel>
+
+    <script src="wb-event-log.js"></script>            
+
+                <wb-tab-panel tab-for="code-examples">
+
+    <!-- Demo Script -->                <div class="tab-content">
+
+    <script>            <div class="demo-section">
+
+        // Demo state                <h2>💻 Code Examples</h2>
+
+        let eventCounter = 0;                
+
+        let stats = { total: 0, errors: 0, warnings: 0, info: 0, success: 0 };                <h3>Basic Usage</h3>
+
+        let isPaused = false;                <div class="code-example">
+
+&lt;!-- Simple HTML head setup (auto-loads all components) --&gt;
+
+        // Get component reference&lt;script src="/config.js"&gt;&lt;/script&gt;
+
+        const eventLog = document.getElementById('demoEventLog');&lt;script src="/utils/auto-loader.js"&gt;&lt;/script&gt;
+
+
+
+        // Sample event messages&lt;!-- Zero configuration usage --&gt;
+
+        const eventMessages = {&lt;wb-event-log&gt;&lt;/wb-event-log&gt;
+
+            info: [
+
+                'User logged in successfully',&lt;!-- With configuration --&gt;
+
+                'Component initialized',&lt;wb-event-log 
+
+                'Data loaded from cache',    data-max-events="500"
+
+                'Navigation updated',    data-auto-scroll="true"
+
+                'Theme changed to dark mode'    data-wrap-mode="wrap"&gt;
+
+            ],&lt;/wb-event-log&gt;</div>
+
+            warning: [                
+
+                'API response time exceeded 2s',                <h3>Manual Event Logging</h3>
+
+                'Cache miss for user data',                <div class="code-example">
+
+                'Deprecated method used',// Static helper methods
+
+                'Memory usage above 80%',WBEventLog.logInfo('Component initialized');
+
+                'Connection unstable'WBEventLog.logWarning('API response slow');
+
+            ],WBEventLog.logError('Failed to load data');
+
+            error: [WBEventLog.logSuccess('File saved successfully');
+
+                'Database connection failed',
+
+                'Authentication token expired',// Custom events (components can emit these)
+
+                'Invalid user input',document.dispatchEvent(new CustomEvent('wb:info', {
+
+                'Component render failed',    detail: { message: 'Component loaded', source: 'wb-button' }
+
+                'Network timeout'}));
+
+            ],
+
+            success: [document.dispatchEvent(new CustomEvent('wb:error', {
+
+                'Data saved successfully',    detail: { message: 'API call failed', source: 'api-service', error: errorObj }
+
+                'File upload completed',}));</div>
+
+                'User profile updated',                
+
+                'Configuration applied',                <h3>Component API</h3>
+
+                'Backup created'                <div class="code-example">
+
+            ]const eventLog = document.querySelector('wb-event-log');
+
+        };
 
 // Control logging
-eventLog.clearEvents();
-eventLog.pauseLogging();
-eventLog.resumeLogging();
+
+        // Configuration change handlerseventLog.clearEvents();
+
+        document.getElementById('maxEvents').addEventListener('change', (e) => {eventLog.pauseLogging();
+
+            eventLog.setAttribute('max-events', e.target.value);eventLog.resumeLogging();
+
+        });
 
 // Export events
-eventLog.exportEvents('json');
-eventLog.exportEvents('csv');
-eventLog.exportEvents('txt');
 
-// Configure display
-eventLog.setFilter(['info', 'error']);
-eventLog.setSearchFilter('component');
+        document.getElementById('autoScroll').addEventListener('change', (e) => {eventLog.exportEvents('json');
+
+            eventLog.setAttribute('auto-scroll', e.target.value);eventLog.exportEvents('csv');
+
+        });eventLog.exportEvents('txt');
+
+
+
+        document.getElementById('wrapMode').addEventListener('change', (e) => {// Configure display
+
+            eventLog.setAttribute('wrap-mode', e.target.value);eventLog.setFilter(['info', 'error']);
+
+        });eventLog.setSearchFilter('component');
+
 eventLog.setMaxEvents(500);
-eventLog.setAutoScroll(false);
-eventLog.setWrapMode('wrap');</div>
-                
+
+        document.getElementById('showTimestamps').addEventListener('change', (e) => {eventLog.setAutoScroll(false);
+
+            eventLog.setAttribute('show-timestamps', e.target.value);eventLog.setWrapMode('wrap');</div>
+
+        });                
+
                 <h3>Event Listening</h3>
-                <div class="code-example">
-// Listen for component events
-eventLog.addEventListener('wb-event-logged', (e) => {
+
+        document.getElementById('darkMode').addEventListener('change', (e) => {                <div class="code-example">
+
+            eventLog.setAttribute('dark-mode', e.target.value);// Listen for component events
+
+        });eventLog.addEventListener('wb-event-logged', (e) => {
+
     console.log('New event:', e.detail);
-});
 
-eventLog.addEventListener('wb-events-cleared', () => {
+        document.getElementById('compact').addEventListener('change', (e) => {});
+
+            eventLog.setAttribute('compact', e.target.value);
+
+        });eventLog.addEventListener('wb-events-cleared', () => {
+
     console.log('Events cleared');
-});
 
-eventLog.addEventListener('wb-filter-changed', (e) => {
+        // Event generation});
+
+        function generateEvent(type) {
+
+            if (isPaused) return;eventLog.addEventListener('wb-filter-changed', (e) => {
+
     console.log('Filters changed:', e.detail.filters);
-});</div>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Demo functionality
-        let eventCount = 0;
-        let errorCount = 0;
-        let lastEventTime = Date.now();
-        let eventTimes = [];
-        
-        // Tab switching
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetTab = tab.dataset.tab;
-                
-                // Update tab states
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById(targetTab).classList.add('active');
-            });
-        });
-        
+
+            const messages = eventMessages[type] || eventMessages.info;});</div>
+
+            const message = messages[Math.floor(Math.random() * messages.length)];                </div>
+
+                        </wb-tab-panel>
+
+            document.dispatchEvent(new CustomEvent(`wb:${type}`, {        </wb-tab>
+
+                detail: {    </div>
+
+                    message: message,    
+
+                    source: 'demo-component',    <script>
+
+                    timestamp: new Date().toISOString(),        // Demo functionality
+
+                    eventId: ++eventCounter,        let eventCount = 0;
+
+                    data: {        let errorCount = 0;
+
+                        demoEvent: true,        let lastEventTime = Date.now();
+
+                        randomId: Math.random().toString(36).substr(2, 9)        let eventTimes = [];
+
+                    }        
+
+                }        // wb-tab component handles tab switching automatically
+
+            }));        
+
         // Get event log instance
-        const eventLog = document.getElementById('mainEventLog');
-        
+
+            updateStats(type);        const eventLog = document.getElementById('mainEventLog');
+
+        }        
+
+        // Add event listeners for buttons (replacing inline onclick)
+
+        // Control functions        function attachEventListeners() {
+
+        function clearAllEvents() {            // Manual event generation buttons
+
+            if (eventLog.clearEvents) {            document.getElementById('btn-info-event')?.addEventListener('click', generateInfoEvent);
+
+                eventLog.clearEvents();            document.getElementById('btn-warning-event')?.addEventListener('click', generateWarningEvent);
+
+            }            document.getElementById('btn-error-event')?.addEventListener('click', generateErrorEvent);
+
+            stats = { total: 0, errors: 0, warnings: 0, info: 0, success: 0 };            document.getElementById('btn-success-event')?.addEventListener('click', generateSuccessEvent);
+
+            updateStatsDisplay();            document.getElementById('btn-debug-event')?.addEventListener('click', generateDebugEvent);
+
+        }            document.getElementById('btn-user-event')?.addEventListener('click', generateUserEvent);
+
+            
+
+        function pauseLogging() {            // Console & system event buttons
+
+            isPaused = true;            document.getElementById('btn-console-events')?.addEventListener('click', generateConsoleEvents);
+
+            if (eventLog.pauseLogging) {            document.getElementById('btn-js-error')?.addEventListener('click', generateJSError);
+
+                eventLog.pauseLogging();            document.getElementById('btn-promise-error')?.addEventListener('click', generatePromiseError);
+
+            }            document.getElementById('btn-user-interactions')?.addEventListener('click', simulateUserInteractions);
+
+            document.getElementById('loggingStatus').textContent = 'Paused';            
+
+        }            // Bulk event generation buttons
+
+            document.getElementById('btn-bulk-10')?.addEventListener('click', () => generateBulkEvents(10));
+
+        function resumeLogging() {            document.getElementById('btn-bulk-50')?.addEventListener('click', () => generateBulkEvents(50));
+
+            isPaused = false;            document.getElementById('btn-bulk-100')?.addEventListener('click', () => generateBulkEvents(100));
+
+            if (eventLog.resumeLogging) {            document.getElementById('btn-stress-test')?.addEventListener('click', generateStressTest);
+
+                eventLog.resumeLogging();            
+
+            }            // Export & action buttons
+
+            document.getElementById('loggingStatus').textContent = 'Active';            document.getElementById('btn-copy-json')?.addEventListener('click', copyEventsJSON);
+
+        }            document.getElementById('btn-export-json')?.addEventListener('click', () => exportEvents('json'));
+
+            document.getElementById('btn-export-csv')?.addEventListener('click', () => exportEvents('csv'));
+
+        function exportEvents(format) {            document.getElementById('btn-export-txt')?.addEventListener('click', () => exportEvents('txt'));
+
+            if (eventLog.exportEvents) {            document.getElementById('btn-toggle-pause')?.addEventListener('click', togglePause);
+
+                eventLog.exportEvents(format);            document.getElementById('btn-clear-events')?.addEventListener('click', clearEvents);
+
+            }        }
+
+        }        
+
         // Event generation functions
-        function generateInfoEvent() {
-            WBEventLog.logInfo(`Info message #${++eventCount}`, { 
-                source: 'demo', 
-                timestamp: Date.now(),
-                details: { action: 'manual', type: 'info' }
-            });
-            updateStats();
-        }
+
+        // Statistics management        function generateInfoEvent() {
+
+        function updateStats(type) {            WBEventLog.logInfo(`Info message #${++eventCount}`, { 
+
+            stats.total++;                source: 'demo', 
+
+            if (stats[type] !== undefined) {                timestamp: Date.now(),
+
+                stats[type]++;                details: { action: 'manual', type: 'info' }
+
+            }            });
+
+            updateStatsDisplay();            updateStats();
+
+        }        }
+
         
-        function generateWarningEvent() {
-            const warnings = [
-                'API response time exceeded threshold',
-                'Deprecated function usage detected',
-                'Memory usage approaching limit',
+
+        function updateStatsDisplay() {        function generateWarningEvent() {
+
+            document.getElementById('totalEvents').textContent = stats.total;            const warnings = [
+
+            document.getElementById('errorCount').textContent = stats.errors;                'API response time exceeded threshold',
+
+            document.getElementById('warningCount').textContent = stats.warnings;                'Deprecated function usage detected',
+
+        }                'Memory usage approaching limit',
+
                 'Cache miss rate high',
-                'Network latency increased'
-            ];
-            WBEventLog.logWarning(warnings[Math.floor(Math.random() * warnings.length)], { 
-                source: 'demo',
+
+        // Listen for component events                'Network latency increased'
+
+        eventLog.addEventListener('wb-event-log:event-added', (e) => {            ];
+
+            console.log('Event added:', e.detail);            WBEventLog.logWarning(warnings[Math.floor(Math.random() * warnings.length)], { 
+
+        });                source: 'demo',
+
                 severity: 'medium'
-            });
-            updateStats();
-        }
+
+        eventLog.addEventListener('wb-event-log:cleared', () => {            });
+
+            console.log('Events cleared');            updateStats();
+
+        });        }
+
         
-        function generateErrorEvent() {
-            const errors = [
-                'Failed to connect to database',
+
+        eventLog.addEventListener('wb-event-log:exported', (e) => {        function generateErrorEvent() {
+
+            console.log('Events exported:', e.detail.format);            const errors = [
+
+        });                'Failed to connect to database',
+
                 'Authentication token expired',
-                'File not found: config.json',
-                'Network request timeout',
-                'Invalid JSON response'
-            ];
-            WBEventLog.logError(errors[Math.floor(Math.random() * errors.length)], { 
-                source: 'demo',
+
+        // Auto-generate some sample events on load                'File not found: config.json',
+
+        setTimeout(() => {                'Network request timeout',
+
+            generateEvent('info');                'Invalid JSON response'
+
+            setTimeout(() => generateEvent('success'), 500);            ];
+
+            setTimeout(() => generateEvent('warning'), 1000);            WBEventLog.logError(errors[Math.floor(Math.random() * errors.length)], { 
+
+        }, 1000);                source: 'demo',
+
                 severity: 'high',
-                stack: 'Error at demo.js:123'
-            });
-            errorCount++;
-            updateStats();
-        }
-        
-        function generateSuccessEvent() {
-            const successes = [
-                'User authentication successful',
-                'Data saved to database',
-                'File upload completed',
+
+        // Generate random events periodically (for demo purposes)                stack: 'Error at demo.js:123'
+
+        setInterval(() => {            });
+
+            if (!isPaused && Math.random() < 0.3) {            errorCount++;
+
+                const types = ['info', 'warning', 'error', 'success'];            updateStats();
+
+                const randomType = types[Math.floor(Math.random() * types.length)];        }
+
+                generateEvent(randomType);        
+
+            }        function generateSuccessEvent() {
+
+        }, 5000);            const successes = [
+
+    </script>                'User authentication successful',
+
+</body>                'Data saved to database',
+
+</html>                'File upload completed',
                 'Cache refreshed successfully',
                 'Settings updated'
             ];
@@ -738,7 +881,11 @@ eventLog.addEventListener('wb-filter-changed', (e) => {
         eventLog.addEventListener('wb-event-logged', updateStats);
         eventLog.addEventListener('wb-events-cleared', updateStats);
         
-        // Initialize with some sample events
+        // Initialize event listeners and sample events
+        document.addEventListener('DOMContentLoaded', () => {
+            attachEventListeners();
+        });
+        
         setTimeout(() => {
             WBEventLog.logInfo('Event log demo initialized', { source: 'demo-page' });
             WBEventLog.logSuccess('All components loaded successfully', { source: 'demo-page' });

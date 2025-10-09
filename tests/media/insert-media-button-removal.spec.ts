@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { test, expect } from '@playwright/test';
+import { BaseUnitTest } from './helpers/BaseUnitTestSimple.js';
 
 test.describe('Insert Media Button Removal Tests', (): any => {
 

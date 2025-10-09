@@ -1,0 +1,394 @@
+{
+  "name": "WB Component Demo Template",
+  "version": "1.0.0",
+  "description": "Reusable template formula for creating professional component demos",
+  "author": "Website Builder Team",
+  "template": {
+    "structure": {
+      "html": {
+        "doctype": "html",
+        "lang": "en",
+        "theme": "data-theme=\"dark\"",
+        "head": {
+          "meta": [
+            {
+              "charset": "UTF-8"
+            },
+            {
+              "name": "viewport",
+              "content": "width=device-width, initial-scale=1.0"
+            }
+          ],
+          "title": "{{component.name}} - Interactive Demo",
+          "stylesheets": [
+            "../../styles/_variables.css",
+            "../../styles/wb-event-log-demo.css",
+            "{{component.cssPath}}",
+            "{{dependencies.css}}"
+          ]
+        },
+        "body": {
+          "class": "event-log-demo",
+          "structure": [
+            {
+              "type": "header",
+              "class": "demo-header",
+              "content": [
+                {
+                  "type": "h1",
+                  "class": "demo-title",
+                  "text": "{{component.displayName}}"
+                },
+                {
+                  "type": "p",
+                  "class": "demo-subtitle",
+                  "text": "{{component.description}}"
+                }
+              ]
+            },
+            {
+              "type": "wb-tab",
+              "class": "demo-tabs",
+              "attributes": {
+                "data-initial-tab": "demo"
+              },
+              "tabs": "{{tabs}}"
+            }
+          ]
+        }
+      }
+    },
+    "tabs": {
+      "demo": {
+        "title": "Live Demo",
+        "icon": "🎯",
+        "sections": [
+          {
+            "type": "wb-card",
+            "class": "demo-section",
+            "content": [
+              {
+                "type": "title",
+                "text": "Interactive Demo"
+              },
+              {
+                "type": "description",
+                "text": "{{component.demoDescription}}"
+              },
+              {
+                "type": "controls",
+                "properties": "{{component.configurableProperties}}"
+              },
+              {
+                "type": "actions",
+                "buttons": "{{component.demoActions}}"
+              },
+              {
+                "type": "component-container",
+                "component": "{{component.tag}}",
+                "attributes": "{{component.defaultAttributes}}"
+              },
+              {
+                "type": "stats",
+                "metrics": "{{component.metrics}}"
+              }
+            ]
+          }
+        ]
+      },
+      "api": {
+        "title": "API Reference",
+        "icon": "📚",
+        "sections": [
+          {
+            "type": "documentation",
+            "subsections": [
+              {
+                "title": "Attributes",
+                "type": "attribute-list",
+                "source": "{{component.attributes}}"
+              },
+              {
+                "title": "Methods",
+                "type": "method-list",
+                "source": "{{component.methods}}"
+              },
+              {
+                "title": "Events",
+                "type": "event-list",
+                "source": "{{component.events}}"
+              }
+            ]
+          }
+        ]
+      },
+      "examples": {
+        "title": "Code Examples",
+        "icon": "💻",
+        "sections": [
+          {
+            "type": "code-examples",
+            "examples": [
+              {
+                "title": "Basic Usage",
+                "code": "{{component.examples.basic}}",
+                "language": "html"
+              },
+              {
+                "title": "Advanced Configuration",
+                "code": "{{component.examples.advanced}}",
+                "language": "html"
+              },
+              {
+                "title": "JavaScript API",
+                "code": "{{component.examples.javascript}}",
+                "language": "javascript"
+              },
+              {
+                "title": "Event Handling",
+                "code": "{{component.examples.events}}",
+                "language": "javascript"
+              }
+            ]
+          }
+        ]
+      },
+      "features": {
+        "title": "Features",
+        "icon": "⭐",
+        "sections": [
+          {
+            "type": "feature-grid",
+            "features": "{{component.features}}"
+          }
+        ]
+      }
+    },
+    "components": {
+      "wb-button": {
+        "variants": ["primary", "secondary", "success", "warning", "danger"],
+        "attributes": ["variant", "size", "disabled"],
+        "events": ["click"]
+      },
+      "wb-card": {
+        "variants": ["default", "elevated", "outlined"],
+        "attributes": ["variant", "elevation"],
+        "slots": ["header", "content", "footer"]
+      },
+      "wb-tab": {
+        "attributes": ["data-initial-tab"],
+        "slots": ["tabs", "content"],
+        "events": ["tab-changed"]
+      }
+    },
+    "styling": {
+      "variables": {
+        "colors": {
+          "primary": "var(--primary)",
+          "secondary": "var(--secondary)",
+          "success": "var(--success-color)",
+          "warning": "var(--warning-color)",
+          "error": "var(--error-color)",
+          "text": {
+            "primary": "var(--text-primary)",
+            "secondary": "var(--text-secondary)",
+            "muted": "var(--text-muted)"
+          },
+          "background": {
+            "primary": "var(--bg-primary)",
+            "secondary": "var(--bg-secondary)",
+            "tertiary": "var(--bg-tertiary)"
+          }
+        },
+        "spacing": {
+          "xs": "var(--space-xs)",
+          "sm": "var(--space-sm)",
+          "md": "var(--space-md)",
+          "lg": "var(--space-lg)",
+          "xl": "var(--space-xl)"
+        },
+        "typography": {
+          "sizes": {
+            "xs": "var(--text-xs)",
+            "sm": "var(--text-sm)",
+            "base": "var(--text-base)",
+            "lg": "var(--text-lg)",
+            "xl": "var(--text-xl)",
+            "2xl": "var(--text-2xl)",
+            "3xl": "var(--text-3xl)",
+            "4xl": "var(--text-4xl)"
+          },
+          "weights": {
+            "light": "var(--font-light)",
+            "normal": "var(--font-normal)",
+            "medium": "var(--font-medium)",
+            "semibold": "var(--font-semibold)",
+            "bold": "var(--font-bold)"
+          }
+        }
+      },
+      "classes": {
+        "layout": {
+          "demo-container": "max-width: 1200px; margin: 0 auto;",
+          "demo-section": "background: var(--bg-secondary); border-radius: var(--radius-lg); padding: var(--space-xl); margin-bottom: var(--space-xl); border: 1px solid var(--border-color);",
+          "section-title": "font-size: var(--text-2xl); font-weight: var(--font-semibold); color: var(--primary); margin-bottom: var(--space-lg);",
+          "section-description": "color: var(--text-secondary); margin-bottom: var(--space-lg); line-height: var(--leading-normal);"
+        },
+        "controls": {
+          "demo-controls": "display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); margin-bottom: var(--space-lg); padding: var(--space-lg); background: var(--bg-tertiary); border-radius: var(--radius-md); border: 1px solid var(--border-light);",
+          "control-group": "display: flex; flex-direction: column; gap: var(--space-sm);",
+          "control-label": "font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-primary);",
+          "control-input": "padding: var(--space-sm); border: 1px solid var(--border-color); border-radius: var(--radius-base); background: var(--bg-primary); color: var(--text-primary); font-size: var(--text-sm); transition: var(--transition-colors);"
+        },
+        "actions": {
+          "action-buttons": "display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-lg);"
+        },
+        "stats": {
+          "stats-grid": "display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-md); margin: var(--space-lg) 0;",
+          "stat-card": "background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: var(--space-md); text-align: center;",
+          "stat-value": "font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--primary); display: block;",
+          "stat-label": "font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-xs);"
+        },
+        "code": {
+          "code-example": "background: var(--neutral-800); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: var(--space-lg); font-family: var(--font-mono); font-size: var(--text-sm); line-height: var(--leading-normal); overflow-x: auto; margin: var(--space-md) 0; white-space: pre-wrap; word-wrap: break-word;"
+        }
+      }
+    },
+    "scripts": {
+      "dependencies": [
+        "../wb-button/wb-button.js",
+        "../wb-tab/wb-tab.js",
+        "../wb-card/wb-card.js"
+      ],
+      "initialization": "{{component.initScript}}",
+      "demoFunctions": {
+        "updateComponentConfig": "function updateComponentConfig(property, value) { const component = document.querySelector('{{component.tag}}'); if (component && component[property] !== undefined) { component[property] = value; } }",
+        "copyToClipboard": "function copyToClipboard(elementId) { const element = document.getElementById(elementId); const text = element.textContent; navigator.clipboard.writeText(text).then(() => { const button = event.target; const originalText = button.textContent; button.textContent = 'Copied!'; setTimeout(() => { button.textContent = originalText; }, 2000); }); }",
+        "generateRandomData": "function generateRandomData(type) { /* Generate demo data based on type */ }",
+        "updateStats": "function updateStats(stats) { Object.entries(stats).forEach(([key, value]) => { const element = document.getElementById(key); if (element) element.textContent = value; }); }"
+      }
+    }
+  },
+  "generator": {
+    "description": "Template generator for creating component demos",
+    "placeholders": {
+      "component.name": "Component internal name (kebab-case)",
+      "component.displayName": "Component display name for UI",
+      "component.description": "Brief component description",
+      "component.demoDescription": "Description for the demo section",
+      "component.tag": "HTML tag name for the component",
+      "component.cssPath": "Path to component CSS file",
+      "component.jsPath": "Path to component JavaScript file",
+      "component.configurableProperties": "Array of properties that can be configured",
+      "component.demoActions": "Array of demo action buttons",
+      "component.defaultAttributes": "Default attributes for the component",
+      "component.metrics": "Metrics to display in stats section",
+      "component.attributes": "Component attributes documentation",
+      "component.methods": "Component methods documentation",
+      "component.events": "Component events documentation",
+      "component.examples": "Code examples object",
+      "component.features": "Feature list for the features tab",
+      "component.initScript": "Initialization script for the component"
+    },
+    "usage": {
+      "command": "wb-demo-generator",
+      "syntax": "wb-demo-generator --component <name> --template demo-template.json --output <path>",
+      "examples": [
+        "wb-demo-generator --component wb-modal --template demo-template.json --output components/wb-modal/",
+        "wb-demo-generator --component wb-slider --template demo-template.json --output components/wb-slider/ --theme light"
+      ]
+    }
+  },
+  "examples": {
+    "wb-event-log": {
+      "component": {
+        "name": "wb-event-log",
+        "displayName": "WB Event Log Component",
+        "description": "A powerful, zero-configuration web component for capturing, displaying, and exporting application events.",
+        "demoDescription": "Use the controls below to interact with the event log component and see it in action.",
+        "tag": "wb-event-log",
+        "cssPath": "wb-event-log.css",
+        "jsPath": "wb-event-log.js",
+        "configurableProperties": [
+          {
+            "name": "maxEvents",
+            "type": "number",
+            "default": 100,
+            "min": 10,
+            "max": 1000,
+            "label": "Max Events"
+          },
+          {
+            "name": "autoScroll",
+            "type": "boolean",
+            "default": true,
+            "label": "Auto Scroll"
+          },
+          {
+            "name": "wrapMode",
+            "type": "select",
+            "options": ["wrap", "nowrap", "break"],
+            "default": "wrap",
+            "label": "Text Wrapping"
+          }
+        ],
+        "demoActions": [
+          {
+            "text": "Generate Info",
+            "variant": "primary",
+            "onclick": "generateInfoEvent()"
+          },
+          {
+            "text": "Generate Warning",
+            "variant": "warning",
+            "onclick": "generateWarningEvent()"
+          },
+          {
+            "text": "Generate Error",
+            "variant": "danger",
+            "onclick": "generateErrorEvent()"
+          },
+          {
+            "text": "Clear Events",
+            "variant": "secondary",
+            "onclick": "clearEvents()"
+          }
+        ],
+        "metrics": [
+          {
+            "id": "totalEvents",
+            "label": "Total Events",
+            "value": 0
+          },
+          {
+            "id": "errorCount",
+            "label": "Errors",
+            "value": 0
+          },
+          {
+            "id": "isLogging",
+            "label": "Status",
+            "value": "Active"
+          }
+        ],
+        "features": [
+          {
+            "icon": "⚡",
+            "title": "Zero Configuration",
+            "description": "Works out of the box with sensible defaults. Just add the component to your HTML and start logging events."
+          },
+          {
+            "icon": "🎯",
+            "title": "Event Filtering",
+            "description": "Filter events by type, search through messages, and customize what information is displayed."
+          },
+          {
+            "icon": "📁",
+            "title": "Multiple Export Formats",
+            "description": "Export captured events as JSON, CSV, or plain text for analysis in external tools."
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2E7CE6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1A5BB8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Blue Star -->
+  <path d="M16 2 L19.6 12.4 L31 12.4 L22.2 19.2 L25.8 29.6 L16 22.8 L6.2 29.6 L9.8 19.2 L1 12.4 L12.4 12.4 Z" 
+        fill="url(#starGradient)" 
+        stroke="#0F3F7A" 
+        stroke-width="1"/>
+  
+  <!-- Inner highlight -->
+  <path d="M16 6 L18.2 13.6 L26.2 13.6 L19.9 18.4 L22.1 26 L16 21.2 L9.9 26 L12.1 18.4 L5.8 13.6 L13.8 13.6 Z" 
+        fill="#87CEEB" 
+        fill-opacity="0.3"/>
+</svg>

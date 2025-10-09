@@ -1,0 +1,137 @@
+/**
+ * WB Color Bar Component Styles
+ * External CSS file following CSS-first approach
+ */
+
+:host {
+  display: block;
+  width: 100%;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --color-bar-height: 1.4rem;
+  --pointer-size: 1.3rem;
+  --border-radius: 0.7rem;
+  --transition-speed: 0.2s;
+}
+
+:host([disabled]) {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.color-bar-container {
+  position: relative;
+  margin: 16px 0;
+}
+
+.color-bar-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--text-primary, #333);
+}
+
+.color-bar {
+  position: relative;
+  height: var(--color-bar-height);
+  border-radius: calc(var(--color-bar-height) / 2);
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
+  transition: box-shadow var(--transition-speed) ease;
+}
+
+.color-bar:focus {
+  box-shadow: inset 0 2px 8px rgba(var(--neutral-900-rgb, 0, 0, 0), 0.1), 0 0 0 2px var(--focus-color, var(--primary, #007bff));
+}
+
+.color-pointer {
+  position: absolute;
+  top: 50%;
+  left: var(--pointer-position, 50%);
+  width: var(--pointer-size);
+  height: var(--pointer-size);
+  background: var(--bg-primary, white);
+  border: 3px solid var(--pointer-border, #333);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-speed) ease;
+  z-index: 2;
+}
+
+.color-pointer:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.color-pointer:active,
+.color-pointer.dragging {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.color-pointer::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--current-color, #6750a4);
+  border: 1px solid rgba(var(--neutral-900-rgb, 0, 0, 0), 0.2);
+}
+
+.color-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.hue-value {
+  font-weight: 500;
+  color: var(--text-secondary, #666);
+}
+
+.color-preview {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--text-primary-inverse, white);
+  background: var(--current-color, #6750a4);
+  text-shadow: 0 1px 2px rgba(var(--neutral-900-rgb, 0, 0, 0), 0.5);
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.color-preview:hover {
+  transform: scale(1.05);
+}
+
+/* Dark theme support */
+:host([theme="dark"]) {
+  --text-primary: var(--neutral-100, #e6e1e5);
+  --text-secondary: var(--neutral-300, #cac4d0);
+  --pointer-border: var(--neutral-100, #e6e1e5);
+  --focus-color: var(--primary-light, #d0bcff);
+}
+
+/* Utility classes for inline style replacements */
+body.color-bar-no-select {
+  user-select: none;
+}
+
+.color-pointer.positioned {
+  left: var(--pointer-position);
+}
+
+.color-preview.preview-color {
+  background-color: var(--preview-color);
+}

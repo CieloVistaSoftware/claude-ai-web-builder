@@ -98,7 +98,7 @@ class WBStatus extends HTMLElement {
         };
         
         if (window.WBComponentUtils) {
-            const configPath = window.WBComponentUtils.getPath('wb-status.js', '../components/wb-status/') + 'wb-status.json';
+            const configPath = window.WBComponentUtils.getPath('wb-status.js', '../components/wb-status/') + 'wb-status.schema.json';
             this.config = await window.WBComponentUtils.loadConfig(configPath, fallbackConfig, 'WB Status');
         } else {
             console.warn('📊 WB Status: Component utils not available, using fallback config');
@@ -470,6 +470,23 @@ class WBStatus extends HTMLElement {
 
 // Register the Web Component
 customElements.define('wb-status', WBStatus);
+
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-status', WBStatus, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'display',
+        role: 'ui-element',
+        description: 'Status indicator component with various states and styling options',
+        api: {
+            static: ['getConfig', 'setConfig', 'create'],
+            events: ['status-changed'],
+            attributes: ['status', 'variant', 'size', 'animated'],
+            methods: ['setStatus', 'getStatus', 'render']
+        },
+        priority: 4 // UI component depends on infrastructure
+    });
+}
 
 // Global Status API
 window.WBStatus = {

@@ -9,7 +9,57 @@ This guide provides step-by-step instructions for creating new web components in
 - Basic understanding of HTML, CSS, and JavaScript
 - Familiarity with Web Components API (Custom Elements)
 - Understanding of the WB component architecture
+- Understanding of the WB naming convention (see below)
 - Access to the WB codebase and component utilities
+
+## 🎯 WB Naming Convention: Singular vs Plural Components
+
+**🚨 CRITICAL: Understanding Component Hierarchy**
+
+WB follows a strict naming convention that indicates component relationships:
+
+### **Singular Names = Foundational Components**
+- **Examples**: `wb-color-bar`, `wb-tab-item`, `wb-button`
+- **Purpose**: Core, reusable building blocks
+- **Usage**: Standalone components that provide fundamental functionality
+- **Code Reuse**: These are the components others build upon
+
+### **Plural Names = Compositional Components**  
+- **Examples**: `wb-color-bars`, `wb-tabs`, `wb-buttons`
+- **Purpose**: Composed of multiple singular components AND/OR HTML elements
+- **Usage**: Container/orchestrator components that manage multiple instances
+- **Composition**: Can include predefined web components + standard HTML elements
+- **Code Reuse**: These components USE the singular components internally
+
+### **Naming Convention Examples**:
+```
+wb-color-bar     → Single HSL color slider (foundational)
+wb-color-bars    → Multiple wb-color-bar components + container HTML (compositional)
+
+wb-tab-item      → Single tab content panel (foundational)  
+wb-tabs          → Multiple wb-tab-item components + nav HTML (compositional)
+
+wb-button        → Single interactive button (foundational)
+wb-buttons       → Group of wb-button components + wrapper HTML (compositional)
+```
+
+### **Compositional Component Structure**:
+```html
+<!-- Example: wb-color-bars composition -->
+<wb-color-bars>
+  <div class="color-bars-container">     <!-- HTML element -->
+    <label>Hue:</label>                   <!-- HTML element -->
+    <wb-color-bar type="hue"></wb-color-bar>        <!-- Web component -->
+    <label>Saturation:</label>            <!-- HTML element -->
+    <wb-color-bar type="saturation"></wb-color-bar> <!-- Web component -->
+    <div class="controls">                <!-- HTML element -->
+      <button>Reset</button>               <!-- HTML element -->
+    </div>
+  </div>
+</wb-color-bars>
+```
+
+**💡 This convention enables maximum code reuse through composition over inheritance.**
 
 ## Component Architecture Overview
 
@@ -18,33 +68,83 @@ This guide provides step-by-step instructions for creating new web components in
 components/
 ├── wb-component-utils.js     # Shared utilities (DO NOT MODIFY)
 ├── wb-component-base.js      # Base class for inheritance
-├── your-component/           # Your new component folder
-│   ├── your-component.js     # Component logic
+├── wb-color-bar/             # Foundational component (singular)
+│   ├── wb-color-bar.js       # Single HSL color slider
+│   ├── wb-color-bar.css      # Component styles
+│   └── wb-color-bar.schema.json # Configuration
+├── wb-color-bars/            # Compositional component (plural)
+│   ├── wb-color-bars.js      # Uses multiple wb-color-bar components
+│   ├── wb-color-bars.css     # Container styles
+│   └── wb-color-bars.schema.json # Configuration
+├── your-component/           # Your new foundational component
+│   ├── your-component.js     # Component logic (singular = foundational)
 │   ├── your-component.css    # Component styles
-│   ├── your-component.json   # Configuration & metadata
+│   ├── your-component.schema.json   # Configuration & metadata
 │   ├── your-component.md     # Documentation
 │   ├── your-component-demo.html # Demo page
 │   └── claude.md             # Component-specific issues/notes
+└── your-components/          # Your new compositional component
+    ├── your-components.js    # Uses multiple your-component instances
+    ├── your-components.css   # Container/orchestration styles
+    └── your-components.schema.json # Configuration
 ```
 
 ## Step-by-Step Component Creation
 
-### Step 1: Create Component Directory
+### Step 1: Determine Component Type & Create Directory
+
+**🎯 FIRST: Decide Component Type**
+
+1. **Creating a Foundational Component?**
+   - Use **singular name**: `wb-color-bar`, `wb-button`, `wb-tab-item`
+   - This will be a reusable building block
+   - Other components will use this one internally
+
+2. **Creating a Compositional Component?**
+   - Use **plural name**: `wb-color-bars`, `wb-buttons`, `wb-tabs`
+   - This will compose multiple elements: web components + HTML elements
+   - **MUST check**: Does the foundational component already exist?
+   - **Example**: Before creating `wb-color-bars`, ensure `wb-color-bar` exists
+   - **Composition**: Combines foundational components with HTML structure
+
+**📁 Create Directory:**
 
 1. Navigate to the `/components` folder
-2. Create a new directory following the naming convention: `wb-[component-name]`
+2. Create directory: `wb-[component-name]` (singular or plural as determined above)
 3. Use kebab-case for multi-word names (e.g., `wb-color-picker`, `wb-data-table`)
 
 ```bash
+# For foundational component
 mkdir components/wb-your-component
-cd components/wb-your-component
+
+# For compositional component (ensure wb-your-component exists first!)
+mkdir components/wb-your-components
+
+cd components/wb-your-component[s]
 ```
+
+### 🚨 CRITICAL WB Standards
+
+**Before creating any component, you MUST:**
+
+1. **Follow naming convention**: Singular = foundational, Plural = compositional
+2. **Check existing components**: Reuse foundational components first
+3. **External files only**: All code in separate `.js`/`.css`/`.schema.json` files
+4. **NO inline code**: No embedded styles, scripts, or innerHTML code
+5. **Schema-driven**: Components FAIL without valid `.schema.json` file
+6. **Composition over inheritance**: Build complex from simple components
+7. **Two-tab demo structure**: Documentation + Examples tabs
+8. **Dark mode by default**: `data-theme="dark"`
 
 ### Step 2: Create Component Files
 
 Create the following files in your component directory:
 
 #### 2.1 Component JavaScript (`wb-your-component.js`)
+
+**🚨 CRITICAL: External Files Only**
+- All code MUST be in separate files (no inline code)
+- JavaScript in `.js` files, CSS in `.css` files, config in `.schema.json`
 
 ```javascript
 /**
@@ -65,52 +165,14 @@ Create the following files in your component directory:
  * @author Website Builder Team
  */
 
-(function() {
-    'use strict';
+'use strict';
 
-    // Configuration fallback - used if JSON loading fails
-    const fallbackConfig = {
-        component: {
-            name: 'wb-your-component',
-            version: '1.0.0',
-            description: 'Component description'
-        },
-        classes: {
-            base: 'wb-your-component',
-            variants: {
-                primary: 'wb-your-component--primary',
-                secondary: 'wb-your-component--secondary'
-            },
-            sizes: {
-                small: 'wb-your-component--small',
-                medium: 'wb-your-component--medium',
-                large: 'wb-your-component--large'
-            },
-            states: {
-                active: 'wb-your-component--active',
-                disabled: 'wb-your-component--disabled',
-                loading: 'wb-your-component--loading'
-            }
-        },
-        defaults: {
-            variant: 'primary',
-            size: 'medium',
-            disabled: false
-        },
-        attributes: {
-            variant: 'variant',
-            size: 'size',
-            disabled: 'disabled',
-            value: 'value'
-        }
-    };
-
-    class WBYourComponent extends HTMLElement {
+class WBYourComponent extends HTMLElement {
         constructor() {
             super();
             
             // Component state
-            this.config = fallbackConfig;
+            this.config = null;
             this.initialized = false;
             this.utils = null;
             
@@ -173,14 +235,15 @@ Create the following files in your component directory:
         }
 
         async loadConfig() {
-            if (this.utils) {
-                try {
-                    const configPath = this.getComponentPath() + 'wb-your-component.json';
-                    this.config = await this.utils.loadConfig(configPath, fallbackConfig);
-                } catch (error) {
-                    console.warn('Using fallback config:', error.message);
-                    this.config = fallbackConfig;
-                }
+            if (!this.utils) {
+                throw new Error('WBComponentUtils not available');
+            }
+            
+            const configPath = this.getComponentPath() + 'wb-your-component.schema.json';
+            this.config = await this.utils.loadConfig(configPath);
+            
+            if (!this.config) {
+                throw new Error(`Failed to load required schema: ${configPath}`);
             }
         }
 
@@ -211,9 +274,13 @@ Create the following files in your component directory:
         }
 
         initializeFallback() {
-            console.warn('WB Your Component: Initializing with basic functionality');
-            this.classList.add('wb-your-component');
-            this.setupEventListeners();
+            console.error('WB Your Component: Cannot initialize without valid schema configuration');
+            this.innerHTML = `
+                <div class="wb-component-error">
+                    <p>⚠️ Component failed to load: Missing schema configuration</p>
+                </div>
+            `;
+            this.setAttribute('data-error', 'schema-missing');
         }
 
         applyAttributes() {
@@ -239,11 +306,27 @@ Create the following files in your component directory:
 
         initializeContent() {
             // Create default content structure
+            // For foundational components (singular names):
             this.innerHTML = `
                 <div class="wb-your-component__content">
                     <slot></slot>
                 </div>
             `;
+            
+            // For compositional components (plural names), combine web components + HTML:
+            // Example: wb-color-bars uses wb-color-bar components + HTML structure
+            // this.innerHTML = `
+            //     <div class="wb-your-components__container">   <!-- HTML element -->
+            //         <h3>Color Controls</h3>                   <!-- HTML element -->
+            //         <div class="controls-group">             <!-- HTML element -->
+            //             <label>Primary:</label>               <!-- HTML element -->
+            //             <wb-your-component type="primary"></wb-your-component>  <!-- Web component -->
+            //             <label>Secondary:</label>             <!-- HTML element -->
+            //             <wb-your-component type="secondary"></wb-your-component> <!-- Web component -->
+            //         </div>
+            //         <button class="reset-btn">Reset All</button> <!-- HTML element -->
+            //     </div>
+            // `;
         }
 
         processContent() {
@@ -364,25 +447,23 @@ Create the following files in your component directory:
         }
     }
 
-    // Register the custom element
-    if (!customElements.get('wb-your-component')) {
-        customElements.define('wb-your-component', WBYourComponent);
-    }
+// Register the custom element
+if (!customElements.get('wb-your-component')) {
+    customElements.define('wb-your-component', WBYourComponent);
+}
 
-    // Export for module systems
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = WBYourComponent;
-    }
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = WBYourComponent;
+}
 
-    // Global registration
-    window.WBYourComponent = WBYourComponent;
-
-})();
+// Global registration
+window.WBYourComponent = WBYourComponent;
 ```
 
 #### 2.2 Component Styles (`wb-your-component.css`)
 
-**🚨 CRITICAL: NO DUPLICATE CSS RULE**
+**🚨 CRITICAL: External .css Files & No Duplicates**
 
 **ALWAYS use existing `/styles` files first:**
 1. `/styles/_variables.css` - Global CSS variables
@@ -629,7 +710,12 @@ Create the following files in your component directory:
 }
 ```
 
-#### 2.3 Component Configuration (`wb-your-component.json`)
+#### 2.3 Component Schema Configuration (`wb-your-component.schema.json`)
+
+**🚨 CRITICAL: Schema-Driven Configuration**
+- All configuration in `.schema.json` files (no embedded config)
+- Components FAIL without valid schema file
+- Enables VS Code IntelliSense and runtime validation
 
 ```json
 {
@@ -1006,17 +1092,24 @@ When contributing to this component:
 
 #### 2.5 Demo Page (`wb-your-component-demo.html`)
 
+**🚨 MANDATORY: Two-Tab Structure**
+
+All WB component demos MUST follow the standardized two-tab structure:
+- **Tab 1**: 📚 Documentation (shows component .md file)
+- **Tab 2**: 🎮 Examples (interactive demos)
+
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Your Component - Demo</title>
     
-    <!-- Base styles -->
-    <link rel="stylesheet" href="../../styles/_variables.css">
-    <link rel="stylesheet" href="../../styles/_base.css">
+    <!-- Central Styles Import -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="wb-your-component.css">
+    <link rel="stylesheet" href="../wb-tab/wb-tab.css">
     
     <style>
         body {
@@ -1103,9 +1196,27 @@ When contributing to this component:
     </header>
 
     <main>
-        <!-- Basic Examples -->
-        <section class="demo-section">
-            <h2>Basic Examples</h2>
+        <div class="demo-container">
+            <h1>WB Your Component Demo</h1>
+            <p>Interactive demonstration of the wb-your-component web component.</p>
+            
+            <div class="status" id="status">
+                Component loading...
+            </div>
+            
+            <!-- Two-Tab Structure (MANDATORY) -->
+            <wb-tab variant="underline" active-tab="0">
+                <wb-tab-item label="📚 Documentation">
+                    <div class="demo-section">
+                        <h2>📖 Component Documentation</h2>
+                        <md-to-html theme="dark" src="./wb-your-component.md"></md-to-html>
+                    </div>
+                </wb-tab-item>
+                
+                <wb-tab-item label="🎮 Examples">
+                    <!-- Basic Examples -->
+                    <div class="demo-section">
+                        <h2>Basic Examples</h2>
             
             <div class="demo-grid">
                 <div class="demo-example">
@@ -1231,13 +1342,23 @@ document.body.appendChild(component);</code>
     console.log('Value changed:', event.detail.value);
 });</code>
             </div>
-        </section>
+                    </div>
+                </wb-tab-item>
+            </wb-tab>
+        </div>
     </main>
 
-    <!-- Load the component -->
+    <!-- Load components -->
+    <script src="../md-to-html/md-to-html.js"></script>
+    <script src="../wb-tab/wb-tab.js"></script>
     <script src="wb-your-component.js"></script>
     
     <script>
+        // Component event handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('status').textContent = '✅ WB Your Component loaded successfully!';
+        });
+        
         // Demo functionality
         const interactiveDemo = document.getElementById('interactive-demo');
         const eventLog = document.getElementById('event-log');
@@ -1367,11 +1488,53 @@ document.body.appendChild(component);</code>
 *Document any integration considerations with other WB components*
 ```
 
-### Step 3: Register Component
+### Step 3: Component Testing & Quality Assurance
 
-Add your component to the component registry:
+**🚨 CRITICAL: Component Must Work Before Registration**
 
-#### 3.1 Update Component Registry (`components/component-registry.json`)
+1. **Test Component Functionality**:
+   ```bash
+   # Start local server
+   npx http-server . -p 8080
+   
+   # Open demo in browser
+   http://localhost:8080/components/wb-your-component/wb-your-component-demo.html
+   ```
+
+2. **Verify Standards Compliance**:
+   - ✅ Two-tab demo structure working
+   - ✅ Dark mode styling applied
+   - ✅ External CSS only (no embedded styles)
+   - ✅ Component loads without errors
+   - ✅ All interactive examples functional
+   - ✅ Documentation displays correctly
+
+3. **Create Development Log** (`claude.md`):
+   ```markdown
+   # WB Your Component - Development Log
+   
+   ## FIXES IMPLEMENTED (October 2025)
+   
+   ### ✅ Component Creation - COMPLETED
+   - **Issue**: New component needed for [specific purpose]
+   - **Fix**: Created following WB standards
+   - **Status**: ✅ COMPLETED - Component fully functional
+   
+   ## COMPLETION REPORT (October 2025)
+   ### Issues Addressed:
+   1. ✅ **Component Functionality**: All features working correctly
+   2. ✅ **Demo Structure**: Two-tab layout implemented
+   3. ✅ **Standards Compliance**: Follows WB conventions
+   
+   ### Status: 🟢 ALL ISSUES RESOLVED
+   - Component ready for production use
+   ```
+
+### Step 4: Register Component (After Testing)
+
+Only register components that are fully tested and working:
+
+#### 4.1 Update Component Registry (`components/component-registry.json`)
 
 ```json
 {
@@ -1382,7 +1545,7 @@ Add your component to the component registry:
       "version": "1.0.0",
       "path": "./wb-your-component/wb-your-component.js",
       "css": "./wb-your-component/wb-your-component.css",
-      "config": "./wb-your-component/wb-your-component.json",
+      "config": "./wb-your-component/wb-your-component.schema.json",
       "demo": "./wb-your-component/wb-your-component-demo.html",
       "docs": "./wb-your-component/wb-your-component.md",
       "category": "ui", // or "layout", "form", "data", "utility"
@@ -1393,9 +1556,9 @@ Add your component to the component registry:
 }
 ```
 
-### Step 4: Testing
+### Step 5: Advanced Testing (Optional)
 
-#### 4.1 Create Basic Tests
+#### 5.1 Create Playwright Tests
 
 Create tests in `/tests/` directory following existing patterns:
 
@@ -1430,7 +1593,7 @@ test.describe('WB Your Component', () => {
 });
 ```
 
-### Step 5: Documentation
+### Step 6: Documentation Updates
 
 Update relevant documentation:
 
@@ -1445,7 +1608,7 @@ Add your component to:
 
 Include your component in integration examples and documentation.
 
-### Step 6: Integration
+### Step 7: Integration & Deployment
 
 #### 6.1 Test Integration
 
@@ -1463,7 +1626,7 @@ Include your component in integration examples and documentation.
 
 ## WB CSS Architecture & No-Duplication Principle
 
-### 🚨 CRITICAL RULE: NO DUPLICATE CSS
+### 🚨 CSS Architecture & No Duplication
 
 **The Website Builder follows a strict CSS hierarchy to eliminate duplication:**
 
@@ -1682,11 +1845,12 @@ WB components strategically use `!important` for:
 
 ## Best Practices
 
-### 1. Naming Conventions
-- Use `wb-` prefix for all components and CSS variables
-- Use kebab-case for component names
-- Use consistent class naming (BEM methodology)
-- Follow semantic versioning
+### 1. Component Architecture & Standards
+- **Naming**: Singular = foundational, Plural = compositional 
+- **External files**: All code in separate `.js`/`.css`/`.schema.json` files
+- **Schema-driven**: Configuration externalized, no embedded config
+- **Composition**: Reuse foundational components + HTML elements
+- **Conventions**: `wb-` prefix, kebab-case, BEM CSS, semantic versioning
 
 ### 2. Code Standards
 - Follow existing code patterns
@@ -1759,8 +1923,11 @@ mediaQuery.addListener(this.handleResponsiveChange.bind(this));
 ### Component Not Loading
 1. Check file paths in script src
 2. Verify wb-component-utils.js is available
-3. Check browser console for errors
-4. Ensure custom element name is unique
+3. **Check schema file exists**: Ensure `.schema.json` file is present and valid
+4. **Verify schema loading**: Component will fail completely if schema missing
+5. Check browser console for errors
+6. Ensure custom element name is unique
+7. **For compositional components**: Verify foundational components are loaded first
 
 ### Styles Not Applying
 1. Verify CSS file loads correctly
@@ -1791,60 +1958,55 @@ mediaQuery.addListener(this.handleResponsiveChange.bind(this));
 
 ## 📋 Documentation Maintenance
 
-**🚨 CRITICAL: Keep This Guide Updated**
+**Update this guide when:**
+- CSS architecture changes
+- Component base class updates  
+- New WB conventions established
+- API or build process changes
 
-As noted in `/docs/claude.md`: *"They should all be kept up to date as specs change often."*
+**Always update:**
+- Version number for significant changes
+- Last updated date
+- Examples to reflect latest patterns
 
-### 📅 Recommended: Add Last Updated Dates to ALL Documentation
-
-**All WB documentation files should include:**
-```markdown
 ---
-*Last Updated: 2025-09-29*
-*Version: 1.0.0*
-*Author: [Name/Team]*
----
-```
 
-**Benefits:**
-- ✅ **Quick freshness check** - See if docs are current at a glance
-- ✅ **Maintenance tracking** - Know which docs need attention
-- ✅ **Version correlation** - Match docs to system version
-- ✅ **Accountability** - Track who last updated documentation
-- ✅ **Change frequency** - Understand how often specs change
+## 🎯 Component Success Checklist
 
-**Recommended for:**
-- All `/docs/*.md` files
-- Component documentation (`*.md` files)
-- API documentation
-- Architecture guides
-- Setup instructions
+**Before considering component complete:**
 
-### Update This Guide When:
-- **CSS Architecture Changes** - New variables added to `/styles/_variables.css`
-- **Component Base Class Updates** - Changes to `wb-component-base.js` or `wb-component-utils.js`
-- **New WB Conventions** - Updated naming patterns, file structures, or best practices
-- **API Changes** - Modifications to component loading, event system, or configuration
-- **Build Process Updates** - Changes to testing, bundling, or deployment processes
+### ✅ Structure & Standards
+- [ ] Component follows wb-[name] naming convention
+- [ ] All files present: .js, .css, .json, .md, -demo.html, claude.md
+- [ ] External CSS only (no embedded styles)
+- [ ] Uses composition over inheritance
+- [ ] Two-tab demo structure implemented
 
-### Maintenance Checklist:
-- [ ] Review CSS template for new global variables
-- [ ] Update JavaScript template for base class changes
-- [ ] Verify JSON configuration schema is current
-- [ ] Check that examples use latest WB patterns
-- [ ] Update browser support requirements
-- [ ] Refresh performance guidelines
-- [ ] Validate accessibility requirements
-- [ ] **Update last modified date** at bottom of document
-- [ ] **Update version number** if changes are significant
+### ✅ Functionality
+- [ ] Component loads without errors
+- [ ] All interactive features work
+- [ ] Event system functional
+- [ ] Responsive design works
+- [ ] Dark mode styling applied
 
-### Version History:
-- **1.0.0** (2025-09-29) - Initial creation with no-duplicate CSS principle
-- **Next Update** - [Add changes here when updating]
+### ✅ Quality Assurance
+- [ ] Local testing completed
+- [ ] Browser compatibility verified
+- [ ] Accessibility tested
+- [ ] Performance acceptable
+- [ ] Integration with other components tested
+
+### ✅ Documentation
+- [ ] README.md comprehensive
+- [ ] claude.md development log complete
+- [ ] API documentation current
+- [ ] Examples working and clear
+- [ ] Troubleshooting guide included
+
+**Only components meeting ALL criteria should be registered and deployed.**
 
 ---
 
 *This guide is part of the Website Builder component system documentation.*  
-*Keep synchronized with system evolution per /docs/claude.md requirements.*  
-*Version: 1.0.0*  
-*Last Updated: 2025-09-29*
+*Version: 2.1.0 - Cleaned up duplications and consolidated content*  
+*Last Updated: October 4, 2025*

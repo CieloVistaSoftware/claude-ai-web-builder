@@ -219,7 +219,7 @@
         async loadConfig() {
             if (this.utils) {
                 try {
-                    const configPath = WBComponentUtils.getPath('wb-select-webcomponent.js', '../components/wb-select/') + 'wb-select.json';
+                    const configPath = WBComponentUtils.getPath('wb-select-webcomponent.js', '../components/wb-select/') + 'wb-select.schema.json';
                     this.config = await this.utils.loadConfig(configPath, fallbackConfig, 'WB Select');
                 } catch (error) {
                     console.warn('📋 WB Select: Using fallback config:', error.message);
@@ -972,7 +972,24 @@
     // Register the custom element
     if (customElements && !customElements.get('wb-select')) {
         customElements.define('wb-select', WBSelect);
-        console.log('📋 WB Select Web Component: Custom element registered');
+        console.log('� WB Select Web Component: Custom element registered');
+        
+        // Register with WBComponentRegistry if available
+        if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+            window.WBComponentRegistry.register('wb-select', WBSelect, ['wb-event-log'], {
+                version: '1.0.0',
+                type: 'form',
+                role: 'ui-element',
+                description: 'Advanced select dropdown component with search, multi-select, and custom styling',
+                api: {
+                    static: ['create'],
+                    events: ['change', 'select', 'open', 'close', 'search'],
+                    attributes: ['options', 'selected', 'multiple', 'searchable', 'placeholder', 'disabled'],
+                    methods: ['render', 'setOptions', 'getSelected', 'setSelected', 'open', 'close']
+                },
+                priority: 4 // UI component depends on infrastructure
+            });
+        }
     } else if (customElements.get('wb-select')) {
         console.log('📋 WB Select Web Component: Already registered');
     } else {

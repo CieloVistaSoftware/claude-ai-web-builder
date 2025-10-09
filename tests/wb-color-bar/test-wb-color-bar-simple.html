@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple wb-color-bar Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #fff;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        wb-color-bar {
+            margin: 20px 0;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>wb-color-bar Simple Test</h1>
+        
+        <h2>Hue Bar</h2>
+        <wb-color-bar type="hue" hue="240" saturation="70" lightness="50"></wb-color-bar>
+        
+        <h2>Saturation Bar</h2>
+        <wb-color-bar type="saturation" hue="240" saturation="70" lightness="50" value="70"></wb-color-bar>
+        
+        <h2>Lightness Bar</h2>
+        <wb-color-bar type="lightness" hue="240" saturation="70" lightness="50" value="50"></wb-color-bar>
+        
+        <div id="output">
+            <h3>Output:</h3>
+            <div id="console-output"></div>
+        </div>
+    </div>
+    
+    <!-- Load wb-color-bar component directly -->
+    <script src="/components/wb-color-bar/wb-color-bar.js"></script>
+    <script>
+        const output = document.getElementById('console-output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += '<div>' + message + '</div>';
+        }
+        
+        // Wait for component to be defined
+        customElements.whenDefined('wb-color-bar').then(() => {
+            log('wb-color-bar is now defined!');
+            
+            const bars = document.querySelectorAll('wb-color-bar');
+            log('Found ' + bars.length + ' wb-color-bar elements');
+            
+            bars.forEach((bar, index) => {
+                log('Bar ' + index + ' type: ' + bar.getAttribute('type'));
+                
+                bar.addEventListener('colorchange', (e) => {
+                    log('Color change from bar ' + index + ': ' + JSON.stringify(e.detail));
+                });
+            });
+        }).catch(err => {
+            log('Error defining wb-color-bar: ' + err.message);
+        });
+        
+        // Fallback check
+        setTimeout(() => {
+            log('wb-color-bar defined (fallback check): ' + (customElements.get('wb-color-bar') ? 'YES' : 'NO'));
+        }, 2000);
+    </script>
+</body>
+</html>

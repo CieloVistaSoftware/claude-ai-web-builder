@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Component Ecosystem Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #0f1419;
+            color: #f8f8f2;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .test-result {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .test-pass {
+            background: #2d5a27;
+            color: #7fb069;
+        }
+        
+        .test-fail {
+            background: #5a2727;
+            color: #f07178;
+        }
+        
+        .test-pending {
+            background: #5a5327;
+            color: #ffcc66;
+        }
+        
+        .component-test {
+            margin: 10px 0;
+            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        
+        .component-test h4 {
+            margin: 0 0 10px 0;
+            color: #66d9ef;
+        }
+        
+        .log-output {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .control-panel-test {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 WB Component Ecosystem Integration Test</h1>
+        <div id="test-status">Starting comprehensive component tests...</div>
+        
+        <div class="test-section">
+            <h2>📋 Test Plan</h2>
+            <ul>
+                <li>✅ WBComponentRegistry initialization</li>
+                <li>✅ Component dependency resolution</li>
+                <li>✅ wb-nav custom element integration</li>
+                <li>✅ wb-color-bars and wb-color-bar loading</li>
+                <li>✅ Control panel dynamic component loading</li>
+                <li>✅ Event system integration</li>
+                <li>✅ Schema validation</li>
+                <li>✅ Theme and layout switching</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 Component Loading Tests</h2>
+            <div id="component-tests"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🚀 Integration Tests</h2>
+            <div id="integration-tests"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Component Registry Health</h2>
+            <div id="registry-health"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📝 Test Log</h2>
+            <div class="log-output" id="test-log"></div>
+        </div>
+    </div>
+
+    <!-- Test control panel instance -->
+    <control-panel id="test-control-panel" class="control-panel-test"></control-panel>
+
+    <!-- Load dependencies in correct order -->
+    <script src="utils/wb/wb-component-registry.js"></script>
+    <script src="utils/wb/wb-component-utils.js"></script>
+
+    <script type="module">
+        class ComponentEcosystemTest {
+            constructor() {
+                this.results = {};
+                this.testLog = [];
+                this.testStatus = document.getElementById('test-status');
+                this.logOutput = document.getElementById('test-log');
+                this.startTime = Date.now();
+            }
+
+            log(message, type = 'info') {
+                const timestamp = new Date().toISOString().substring(11, 23);
+                const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+                this.testLog.push(logEntry);
+                
+                console.log(logEntry);
+                this.logOutput.innerHTML = this.testLog.slice(-50).join('\n');
+                this.logOutput.scrollTop = this.logOutput.scrollHeight;
+            }
+
+            updateStatus(message) {
+                this.testStatus.innerHTML = `🔄 ${message}`;
+            }
+
+            setResult(testName, status, details = '') {
+                this.results[testName] = { status, details, timestamp: Date.now() };
+                this.updateResultDisplay();
+            }
+
+            updateResultDisplay() {
+                const componentTests = document.getElementById('component-tests');
+                const integrationTests = document.getElementById('integration-tests');
+                const registryHealth = document.getElementById('registry-health');
+
+                // Component loading results
+                const componentResults = Object.entries(this.results)
+                    .filter(([key]) => key.includes('component-') || key.includes('registry-'))
+                    .map(([key, result]) => this.renderTestResult(key, result))
+                    .join('');
+
+                componentTests.innerHTML = componentResults;
+
+                // Integration results
+                const integrationResults = Object.entries(this.results)
+                    .filter(([key]) => key.includes('integration-') || key.includes('event-'))
+                    .map(([key, result]) => this.renderTestResult(key, result))
+                    .join('');
+
+                integrationTests.innerHTML = integrationResults;
+
+                // Registry health
+                if (this.results['registry-health']) {
+                    registryHealth.innerHTML = this.renderTestResult('registry-health', this.results['registry-health']);
+                }
+            }
+
+            renderTestResult(testName, result) {
+                const statusClass = result.status === 'pass' ? 'test-pass' : 
+                                  result.status === 'fail' ? 'test-fail' : 'test-pending';
+                const statusIcon = result.status === 'pass' ? '✅' : 
+                                 result.status === 'fail' ? '❌' : '⏳';
+
+                return `
+                    <div class="component-test">
+                        <h4>${statusIcon} ${testName.replace(/-/g, ' ').toUpperCase()}</h4>
+                        <div class="test-result ${statusClass}">${result.status.toUpperCase()}</div>
+                        <div>${result.details}</div>
+                    </div>
+                `;
+            }
+
+            async runTests() {
+                this.log('Starting WB Component Ecosystem Tests', 'info');
+                
+                try {
+                    // Test 1: Registry Initialization
+                    await this.testRegistryInitialization();
+                    
+                    // Test 2: Component Loading
+                    await this.testComponentLoading();
+                    
+                    // Test 3: Component Dependencies
+                    await this.testComponentDependencies();
+                    
+                    // Test 4: Control Panel Integration
+                    await this.testControlPanelIntegration();
+                    
+                    // Test 5: Event System
+                    await this.testEventSystem();
+                    
+                    // Test 6: wb-nav Integration
+                    await this.testWBNavIntegration();
+                    
+                    // Test 7: Color Components
+                    await this.testColorComponents();
+                    
+                    // Test 8: Registry Health
+                    await this.testRegistryHealth();
+                    
+                    this.completeTests();
+                    
+                } catch (error) {
+                    this.log(`Test suite failed: ${error.message}`, 'error');
+                    this.setResult('test-suite', 'fail', error.message);
+                }
+            }
+
+            async testRegistryInitialization() {
+                this.updateStatus('Testing WBComponentRegistry initialization...');
+                
+                try {
+                    if (typeof window.WBComponentRegistry === 'undefined') {
+                        throw new Error('WBComponentRegistry not available');
+                    }
+                    
+                    const registryMethods = ['register', 'get', 'loadComponent', 'generateHealthReport'];
+                    const missingMethods = registryMethods.filter(method => 
+                        typeof window.WBComponentRegistry[method] !== 'function'
+                    );
+                    
+                    if (missingMethods.length > 0) {
+                        throw new Error(`Missing registry methods: ${missingMethods.join(', ')}`);
+                    }
+                    
+                    this.setResult('registry-initialization', 'pass', 'Registry initialized with all required methods');
+                    this.log('WBComponentRegistry initialization: PASS');
+                    
+                } catch (error) {
+                    this.setResult('registry-initialization', 'fail', error.message);
+                    this.log(`Registry initialization failed: ${error.message}`, 'error');
+                }
+            }
+
+            async testComponentLoading() {
+                this.updateStatus('Testing component loading...');
+                
+                const componentsToTest = [
+                    { name: 'wb-color-bar', path: 'components/wb-color-bar/wb-color-bar.js' },
+                    { name: 'wb-color-bars', path: 'components/wb-color-bars/wb-color-bars.js' },
+                    { name: 'wb-nav', path: 'components/wb-nav/wb-nav.js' },
+                    { name: 'control-panel', path: 'components/wb-control-panel/wb-control-panel.js' }
+                ];
+
+                for (const component of componentsToTest) {
+                    try {
+                        await import(`./${component.path}`);
+                        
+                        // Wait for custom element registration
+                        await this.waitForCustomElement(component.name, 3000);
+                        
+                        this.setResult(`component-${component.name}`, 'pass', 'Component loaded and registered');
+                        this.log(`Component ${component.name}: LOADED`);
+                        
+                    } catch (error) {
+                        this.setResult(`component-${component.name}`, 'fail', error.message);
+                        this.log(`Component ${component.name} failed: ${error.message}`, 'error');
+                    }
+                }
+            }
+
+            async testComponentDependencies() {
+                this.updateStatus('Testing component dependencies...');
+                
+                try {
+                    if (!window.WBComponentRegistry) {
+                        throw new Error('Registry not available');
+                    }
+                    
+                    // Test wb-color-bars depends on wb-color-bar
+                    const colorBarsDeps = window.WBComponentRegistry.getDependencies?.('wb-color-bars') || [];
+                    const hasColorBarDep = colorBarsDeps.includes('wb-color-bar');
+                    
+                    // Test control-panel dependencies
+                    const controlPanelDeps = window.WBComponentRegistry.getDependencies?.('control-panel') || [];
+                    const hasNavDep = controlPanelDeps.includes('wb-nav');
+                    
+                    if (hasColorBarDep && hasNavDep) {
+                        this.setResult('component-dependencies', 'pass', 
+                            `Dependencies found: wb-color-bars→wb-color-bar, control-panel→wb-nav`);
+                    } else {
+                        this.setResult('component-dependencies', 'fail', 
+                            `Missing dependencies: colorBar(${hasColorBarDep}), nav(${hasNavDep})`);
+                    }
+                    
+                    this.log(`Dependency test: color-bars→color-bar(${hasColorBarDep}), control-panel→nav(${hasNavDep})`);
+                    
+                } catch (error) {
+                    this.setResult('component-dependencies', 'fail', error.message);
+                    this.log(`Dependency test failed: ${error.message}`, 'error');
+                }
+            }
+
+            async testControlPanelIntegration() {
+                this.updateStatus('Testing control panel integration...');
+                
+                try {
+                    const controlPanel = document.getElementById('test-control-panel');
+                    if (!controlPanel) {
+                        throw new Error('Control panel element not found');
+                    }
+                    
+                    // Test if control panel has required methods
+                    const requiredMethods = ['loadComponents', 'loadSingleComponent', 'findNavigationElement'];
+                    const missingMethods = requiredMethods.filter(method => 
+                        typeof controlPanel[method] !== 'function'
+                    );
+                    
+                    if (missingMethods.length === 0) {
+                        this.setResult('integration-control-panel', 'pass', 'Control panel has all required methods');
+                    } else {
+                        this.setResult('integration-control-panel', 'fail', 
+                            `Missing methods: ${missingMethods.join(', ')}`);
+                    }
+                    
+                    this.log(`Control panel integration: missing methods(${missingMethods.length})`);
+                    
+                } catch (error) {
+                    this.setResult('integration-control-panel', 'fail', error.message);
+                    this.log(`Control panel integration failed: ${error.message}`, 'error');
+                }
+            }
+
+            async testEventSystem() {
+                this.updateStatus('Testing event system...');
+                
+                try {
+                    let eventReceived = false;
+                    
+                    // Test custom event dispatch
+                    const testHandler = (e) => {
+                        eventReceived = true;
+                        this.log(`Event received: ${e.type} with detail: ${JSON.stringify(e.detail)}`);
+                    };
+                    
+                    document.addEventListener('wb:test-event', testHandler);
+                    
+                    // Dispatch test event
+                    document.dispatchEvent(new CustomEvent('wb:test-event', {
+                        detail: { test: 'ecosystem-integration', timestamp: Date.now() }
+                    }));
+                    
+                    // Clean up
+                    document.removeEventListener('wb:test-event', testHandler);
+                    
+                    if (eventReceived) {
+                        this.setResult('event-system', 'pass', 'Custom events working correctly');
+                    } else {
+                        this.setResult('event-system', 'fail', 'Custom events not working');
+                    }
+                    
+                    this.log(`Event system test: ${eventReceived ? 'PASS' : 'FAIL'}`);
+                    
+                } catch (error) {
+                    this.setResult('event-system', 'fail', error.message);
+                    this.log(`Event system test failed: ${error.message}`, 'error');
+                }
+            }
+
+            async testWBNavIntegration() {
+                this.updateStatus('Testing wb-nav integration...');
+                
+                try {
+                    // Create a test wb-nav element
+                    const nav = document.createElement('wb-nav');
+                    nav.setAttribute('layout', 'horizontal');
+                    nav.setAttribute('items', JSON.stringify([
+                        { id: 'test', text: 'Test', href: '#test' }
+                    ]));
+                    
+                    document.body.appendChild(nav);
+                    
+                    // Wait for component to initialize
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // Check if nav has proper structure
+                    const hasContainer = nav.querySelector('.wb-nav-container') !== null;
+                    const hasNavList = nav.querySelector('.wb-nav-list') !== null;
+                    
+                    // Clean up
+                    document.body.removeChild(nav);
+                    
+                    if (hasContainer && hasNavList) {
+                        this.setResult('integration-wb-nav', 'pass', 'wb-nav creates proper structure');
+                    } else {
+                        this.setResult('integration-wb-nav', 'fail', 
+                            `Missing elements: container(${hasContainer}), list(${hasNavList})`);
+                    }
+                    
+                    this.log(`wb-nav integration: container(${hasContainer}), list(${hasNavList})`);
+                    
+                } catch (error) {
+                    this.setResult('integration-wb-nav', 'fail', error.message);
+                    this.log(`wb-nav integration failed: ${error.message}`, 'error');
+                }
+            }
+
+            async testColorComponents() {
+                this.updateStatus('Testing color components...');
+                
+                try {
+                    // Test wb-color-bars
+                    const colorBars = document.createElement('wb-color-bars');
+                    colorBars.setAttribute('text-hue', '240');
+                    colorBars.setAttribute('text-saturation', '70');
+                    colorBars.setAttribute('text-lightness', '50');
+                    
+                    document.body.appendChild(colorBars);
+                    
+                    // Wait for component to initialize
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Check if color bars created wb-color-bar elements
+                    const colorBarElements = colorBars.querySelectorAll('wb-color-bar');
+                    const expectedBars = 6; // 3 for text + 3 for background
+                    
+                    // Clean up
+                    document.body.removeChild(colorBars);
+                    
+                    if (colorBarElements.length >= expectedBars) {
+                        this.setResult('integration-color-components', 'pass', 
+                            `Created ${colorBarElements.length} color bars (expected ${expectedBars})`);
+                    } else {
+                        this.setResult('integration-color-components', 'fail', 
+                            `Only ${colorBarElements.length} color bars created, expected ${expectedBars}`);
+                    }
+                    
+                    this.log(`Color components: created ${colorBarElements.length}/${expectedBars} bars`);
+                    
+                } catch (error) {
+                    this.setResult('integration-color-components', 'fail', error.message);
+                    this.log(`Color components test failed: ${error.message}`, 'error');
+                }
+            }
+
+            async testRegistryHealth() {
+                this.updateStatus('Testing registry health...');
+                
+                try {
+                    if (!window.WBComponentRegistry?.generateHealthReport) {
+                        throw new Error('Health report method not available');
+                    }
+                    
+                    const healthReport = window.WBComponentRegistry.generateHealthReport();
+                    const stats = healthReport.stats;
+                    
+                    const healthDetails = `
+                        Total: ${stats.totalComponents}, 
+                        Loaded: ${stats.loadedComponents}, 
+                        Healthy: ${stats.healthyComponents}
+                    `;
+                    
+                    if (stats.healthyComponents > 0 && stats.loadedComponents > 0) {
+                        this.setResult('registry-health', 'pass', healthDetails);
+                    } else {
+                        this.setResult('registry-health', 'fail', 
+                            `No healthy components found. ${healthDetails}`);
+                    }
+                    
+                    this.log(`Registry health: ${JSON.stringify(stats)}`);
+                    
+                } catch (error) {
+                    this.setResult('registry-health', 'fail', error.message);
+                    this.log(`Registry health test failed: ${error.message}`, 'error');
+                }
+            }
+
+            async waitForCustomElement(tagName, timeout = 5000) {
+                const startTime = Date.now();
+                
+                while (Date.now() - startTime < timeout) {
+                    if (customElements.get(tagName)) {
+                        return true;
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+                
+                throw new Error(`Custom element ${tagName} not registered within ${timeout}ms`);
+            }
+
+            completeTests() {
+                const duration = Date.now() - this.startTime;
+                const totalTests = Object.keys(this.results).length;
+                const passedTests = Object.values(this.results).filter(r => r.status === 'pass').length;
+                const failedTests = Object.values(this.results).filter(r => r.status === 'fail').length;
+                
+                this.updateStatus(`Tests completed in ${duration}ms: ${passedTests}/${totalTests} passed, ${failedTests} failed`);
+                
+                const overallStatus = failedTests === 0 ? 'ALL TESTS PASS' : `${failedTests} TESTS FAILED`;
+                this.log(`🏁 Test suite completed: ${overallStatus} (${duration}ms)`, 
+                         failedTests === 0 ? 'info' : 'error');
+                
+                // Generate summary report
+                this.generateSummaryReport(passedTests, totalTests, failedTests, duration);
+            }
+
+            generateSummaryReport(passed, total, failed, duration) {
+                const summaryDiv = document.createElement('div');
+                summaryDiv.className = 'test-section';
+                summaryDiv.innerHTML = `
+                    <h2>📊 Test Summary</h2>
+                    <div style="font-size: 18px; margin-bottom: 20px;">
+                        <div style="color: ${failed === 0 ? '#7fb069' : '#f07178'}; font-weight: bold;">
+                            ${failed === 0 ? '✅ ALL TESTS PASSED' : `❌ ${failed} TESTS FAILED`}
+                        </div>
+                        <div style="margin-top: 10px;">
+                            Results: ${passed}/${total} passed • Duration: ${duration}ms
+                        </div>
+                    </div>
+                    <div style="background: #2a2a2a; padding: 15px; border-radius: 8px;">
+                        <h3>Component Status:</h3>
+                        <ul>
+                            <li>WBComponentRegistry: ${this.results['registry-initialization']?.status || 'unknown'}</li>
+                            <li>wb-color-bar: ${this.results['component-wb-color-bar']?.status || 'unknown'}</li>
+                            <li>wb-color-bars: ${this.results['component-wb-color-bars']?.status || 'unknown'}</li>
+                            <li>wb-nav: ${this.results['component-wb-nav']?.status || 'unknown'}</li>
+                            <li>control-panel: ${this.results['component-control-panel']?.status || 'unknown'}</li>
+                        </ul>
+                        <h3>Integration Status:</h3>
+                        <ul>
+                            <li>Control Panel: ${this.results['integration-control-panel']?.status || 'unknown'}</li>
+                            <li>wb-nav: ${this.results['integration-wb-nav']?.status || 'unknown'}</li>
+                            <li>Color Components: ${this.results['integration-color-components']?.status || 'unknown'}</li>
+                            <li>Event System: ${this.results['event-system']?.status || 'unknown'}</li>
+                        </ul>
+                    </div>
+                `;
+                
+                document.querySelector('.test-container').appendChild(summaryDiv);
+            }
+        }
+
+        // Initialize and run tests
+        const testSuite = new ComponentEcosystemTest();
+        
+        // Start tests after a short delay to ensure page is ready
+        setTimeout(() => {
+            testSuite.runTests();
+        }, 1000);
+
+        // Expose for debugging
+        window.testSuite = testSuite;
+    </script>
+</body>
+</html>

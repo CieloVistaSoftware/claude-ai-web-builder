@@ -56,15 +56,26 @@ class ColorBars extends HTMLElement {
   }
   
   initializeFromAttributes() {
-    // Only update if attribute is actually present
-    if (this.hasAttribute('hue')) {
-      this._hue = Math.max(0, Math.min(360, parseInt(this.getAttribute('hue')) || 240));
+    // Initialize text color attributes
+    if (this.hasAttribute('text-hue')) {
+      this._textHue = Math.max(0, Math.min(360, parseInt(this.getAttribute('text-hue')) || 240));
     }
-    if (this.hasAttribute('saturation')) {
-      this._saturation = Math.max(0, Math.min(100, parseInt(this.getAttribute('saturation')) || 70));
+    if (this.hasAttribute('text-saturation')) {
+      this._textSaturation = Math.max(0, Math.min(100, parseInt(this.getAttribute('text-saturation')) || 70));
     }
-    if (this.hasAttribute('lightness')) {
-      this._lightness = Math.max(0, Math.min(100, parseInt(this.getAttribute('lightness')) || 50));
+    if (this.hasAttribute('text-lightness')) {
+      this._textLightness = Math.max(0, Math.min(100, parseInt(this.getAttribute('text-lightness')) || 90));
+    }
+    
+    // Initialize background color attributes
+    if (this.hasAttribute('bg-hue')) {
+      this._bgHue = Math.max(0, Math.min(360, parseInt(this.getAttribute('bg-hue')) || 240));
+    }
+    if (this.hasAttribute('bg-saturation')) {
+      this._bgSaturation = Math.max(0, Math.min(100, parseInt(this.getAttribute('bg-saturation')) || 40));
+    }
+    if (this.hasAttribute('bg-lightness')) {
+      this._bgLightness = Math.max(0, Math.min(100, parseInt(this.getAttribute('bg-lightness')) || 20));
     }
   }
   
@@ -492,10 +503,11 @@ class ColorBars extends HTMLElement {
     const rgbDisplay = this.shadowRoot.querySelector('.rgb-display');
     const hexValue = this.shadowRoot.querySelector('.hex-value');
     
-    const rgb = this.hslToRgb(this._hue, this._saturation, this._lightness);
+    // Use text color for display values
+    const rgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
     const hex = this.rgbToHex(rgb.r, rgb.g, rgb.b);
     
-    if (hslDisplay) hslDisplay.textContent = `HSL(${this._hue}, ${this._saturation}%, ${this._lightness}%)`;
+    if (hslDisplay) hslDisplay.textContent = `HSL(${this._textHue}, ${this._textSaturation}%, ${this._textLightness}%)`;
     if (rgbDisplay) rgbDisplay.textContent = `RGB(${rgb.r}, ${rgb.g}, ${rgb.b})`;
     if (hexValue) hexValue.textContent = hex;
   }
@@ -592,50 +604,111 @@ class ColorBars extends HTMLElement {
     // Theme is handled via CSS custom properties
   }
   
-  // Getters and setters
-  get hue() { return this._hue; }
-  set hue(value) {
-    this._hue = Math.max(0, Math.min(360, parseInt(value) || 0));
+  // Getters and setters for text color
+  get textHue() { return this._textHue; }
+  set textHue(value) {
+    this._textHue = Math.max(0, Math.min(360, parseInt(value) || 0));
     this.updateDisplay();
   }
   
-  get saturation() { return this._saturation; }
-  set saturation(value) {
-    this._saturation = Math.max(0, Math.min(100, parseInt(value) || 0));
+  get textSaturation() { return this._textSaturation; }
+  set textSaturation(value) {
+    this._textSaturation = Math.max(0, Math.min(100, parseInt(value) || 0));
     this.updateDisplay();
   }
   
-  get lightness() { return this._lightness; }
-  set lightness(value) {
-    this._lightness = Math.max(0, Math.min(100, parseInt(value) || 0));
+  get textLightness() { return this._textLightness; }
+  set textLightness(value) {
+    this._textLightness = Math.max(0, Math.min(100, parseInt(value) || 0));
     this.updateDisplay();
   }
   
-  get color() {
-    const rgb = this.hslToRgb(this._hue, this._saturation, this._lightness);
+  // Getters and setters for background color
+  get bgHue() { return this._bgHue; }
+  set bgHue(value) {
+    this._bgHue = Math.max(0, Math.min(360, parseInt(value) || 0));
+    this.updateDisplay();
+  }
+  
+  get bgSaturation() { return this._bgSaturation; }
+  set bgSaturation(value) {
+    this._bgSaturation = Math.max(0, Math.min(100, parseInt(value) || 0));
+    this.updateDisplay();
+  }
+  
+  get bgLightness() { return this._bgLightness; }
+  set bgLightness(value) {
+    this._bgLightness = Math.max(0, Math.min(100, parseInt(value) || 0));
+    this.updateDisplay();
+  }
+  
+  get textColor() {
+    const rgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
     return {
-      hue: this._hue,
-      saturation: this._saturation,
-      lightness: this._lightness,
-      hsl: `hsl(${this._hue}, ${this._saturation}%, ${this._lightness}%)`,
+      hue: this._textHue,
+      saturation: this._textSaturation,
+      lightness: this._textLightness,
+      hsl: `hsl(${this._textHue}, ${this._textSaturation}%, ${this._textLightness}%)`,
       hex: this.rgbToHex(rgb.r, rgb.g, rgb.b),
       rgb: rgb
     };
   }
   
-  setColor(hue, saturation, lightness) {
-    if (hue !== undefined) this._hue = Math.max(0, Math.min(360, parseInt(hue) || 0));
-    if (saturation !== undefined) this._saturation = Math.max(0, Math.min(100, parseInt(saturation) || 0));
-    if (lightness !== undefined) this._lightness = Math.max(0, Math.min(100, parseInt(lightness) || 0));
+  get bgColor() {
+    const rgb = this.hslToRgb(this._bgHue, this._bgSaturation, this._bgLightness);
+    return {
+      hue: this._bgHue,
+      saturation: this._bgSaturation,
+      lightness: this._bgLightness,
+      hsl: `hsl(${this._bgHue}, ${this._bgSaturation}%, ${this._bgLightness}%)`,
+      hex: this.rgbToHex(rgb.r, rgb.g, rgb.b),
+      rgb: rgb
+    };
+  }
+  
+  setTextColor(hue, saturation, lightness) {
+    if (hue !== undefined) this._textHue = Math.max(0, Math.min(360, parseInt(hue) || 0));
+    if (saturation !== undefined) this._textSaturation = Math.max(0, Math.min(100, parseInt(saturation) || 0));
+    if (lightness !== undefined) this._textLightness = Math.max(0, Math.min(100, parseInt(lightness) || 0));
+    this.updateColorBars();
+    this.updateDisplay();
+  }
+  
+  setBgColor(hue, saturation, lightness) {
+    if (hue !== undefined) this._bgHue = Math.max(0, Math.min(360, parseInt(hue) || 0));
+    if (saturation !== undefined) this._bgSaturation = Math.max(0, Math.min(100, parseInt(saturation) || 0));
+    if (lightness !== undefined) this._bgLightness = Math.max(0, Math.min(100, parseInt(lightness) || 0));
     this.updateColorBars();
     this.updateDisplay();
   }
 }
 
 // Register the custom element
-customElements.define('wb-color-bars', ColorBars);
+if (!customElements.get('wb-color-bars')) {
+    customElements.define('wb-color-bars', ColorBars);
+    console.log('✅ wb-color-bars: Registered successfully');
+} else {
+    console.log('⚠️ wb-color-bars: Already registered, skipping');
+}
+
+// Register with WBComponentRegistry if available (legacy version)
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-color-bars-legacy', ColorBars, ['wb-color-bar'], {
+        version: '1.0.0',
+        type: 'form',
+        role: 'ui-element',
+        description: 'Legacy color bars component (multi-slider HSL color picker)',
+        api: {
+            static: [],
+            events: ['color-changed', 'hsl-updated'],
+            attributes: ['h', 's', 'l', 'color'],
+            methods: ['setColor', 'getColor', 'updateDisplay']
+        },
+        priority: 5 // Legacy component depends on wb-color-bar
+    });
+}
 
 // Expose for external access
 window.ColorBars = ColorBars;
 
-console.log('🎨 Color Bars component loaded successfully');
+console.log('✅ Color Bars component loaded successfully');

@@ -1,0 +1,253 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Color Bar Component Schema",
+  "description": "Schema for wb-color-bar Web Component - HSL color manipulation slider with WBComponentRegistry integration",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-color-bar",
+      "description": "Web Component for HSL color manipulation with visual slider interface. Foundational component used by wb-color-bars.",
+      "attributes": [
+        {
+          "name": "hue",
+          "description": "Hue value (0-360 degrees)",
+          "valueSet": "number",
+          "values": [
+            {
+              "name": "0",
+              "description": "Red (0°)"
+            },
+            {
+              "name": "60",
+              "description": "Yellow (60°)"
+            },
+            {
+              "name": "120",
+              "description": "Green (120°)"
+            },
+            {
+              "name": "180",
+              "description": "Cyan (180°)"
+            },
+            {
+              "name": "240",
+              "description": "Blue (240°)"
+            },
+            {
+              "name": "300",
+              "description": "Magenta (300°)"
+            }
+          ]
+        },
+        {
+          "name": "saturation",
+          "description": "Saturation value (0-100 percent)",
+          "valueSet": "percentage",
+          "values": [
+            {
+              "name": "0",
+              "description": "Grayscale (0%)"
+            },
+            {
+              "name": "25",
+              "description": "Low saturation (25%)"
+            },
+            {
+              "name": "50",
+              "description": "Medium saturation (50%)"
+            },
+            {
+              "name": "75",
+              "description": "High saturation (75%)"
+            },
+            {
+              "name": "100",
+              "description": "Full saturation (100%)"
+            }
+          ]
+        },
+        {
+          "name": "lightness",
+          "description": "Lightness value (0-100 percent)",
+          "valueSet": "percentage",
+          "values": [
+            {
+              "name": "0",
+              "description": "Black (0%)"
+            },
+            {
+              "name": "25",
+              "description": "Dark (25%)"
+            },
+            {
+              "name": "50",
+              "description": "Medium (50%)"
+            },
+            {
+              "name": "75",
+              "description": "Light (75%)"
+            },
+            {
+              "name": "100",
+              "description": "White (100%)"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disable color bar interactions",
+          "valueSet": "boolean",
+          "values": [
+            {
+              "name": "true",
+              "description": "Disable interactions"
+            },
+            {
+              "name": "false",
+              "description": "Enable interactions (default)"
+            },
+            {
+              "name": "",
+              "description": "Disable interactions (boolean attribute)"
+            }
+          ]
+        },
+        {
+          "name": "theme",
+          "description": "Visual theme for the color bar",
+          "valueSet": "theme",
+          "values": [
+            {
+              "name": "light",
+              "description": "Light theme (default)"
+            },
+            {
+              "name": "dark",
+              "description": "Dark theme"
+            }
+          ]
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the component instance"
+        },
+        {
+          "name": "class",
+          "description": "CSS classes to apply to the component"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for accessibility",
+          "valueSet": "aria-role"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this component"
+        }
+      ],
+      "references": [
+        {
+          "name": "WB Color Bar Documentation",
+          "url": "components/wb-color-bar/wb-color-bar.md"
+        }
+      ],
+      "dependencies": [],
+      "wbComponentRegistry": {
+        "registered": true,
+        "type": "foundational",
+        "role": "ui-element",
+        "usedBy": ["wb-color-bars", "wb-control-panel"]
+      }
+    }
+  ],
+  "globalAttributes": [
+    {
+      "name": "data-*",
+      "description": "Custom data attributes for component configuration"
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "boolean",
+      "values": [
+        {
+          "name": "true",
+          "description": "Boolean true value"
+        },
+        {
+          "name": "false",
+          "description": "Boolean false value"
+        },
+        {
+          "name": "",
+          "description": "Empty string evaluates to true for boolean attributes"
+        }
+      ]
+    },
+    {
+      "name": "number",
+      "values": [
+        {
+          "name": "0",
+          "description": "Minimum value"
+        },
+        {
+          "name": "180",
+          "description": "Middle value"
+        },
+        {
+          "name": "360",
+          "description": "Maximum value"
+        }
+      ]
+    },
+    {
+      "name": "percentage",
+      "values": [
+        {
+          "name": "0",
+          "description": "0%"
+        },
+        {
+          "name": "25",
+          "description": "25%"
+        },
+        {
+          "name": "50",
+          "description": "50%"
+        },
+        {
+          "name": "75",
+          "description": "75%"
+        },
+        {
+          "name": "100",
+          "description": "100%"
+        }
+      ]
+    },
+    {
+      "name": "theme",
+      "values": [
+        {
+          "name": "light",
+          "description": "Light color scheme"
+        },
+        {
+          "name": "dark",
+          "description": "Dark color scheme"
+        }
+      ]
+    }
+  ]
+}

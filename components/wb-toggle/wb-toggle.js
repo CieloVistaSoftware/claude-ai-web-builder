@@ -10,7 +10,7 @@ class WBToggle extends HTMLElement {
         this._slider = null;
         this._labelElement = null;
         
-        console.log('🔘 WB Toggle: Web Component constructed');
+        WBSafeLogger.debug('WB Toggle: Web Component constructed', { component: 'wb-toggle', method: 'constructor', line: 13 });
     }
     
     static get observedAttributes() {
@@ -37,12 +37,12 @@ class WBToggle extends HTMLElement {
             
             console.log('🔘 WB Toggle: Web Component initialized successfully');
         } catch (error) {
-            console.error('🔘 WB Toggle: Initialization failed', error);
+            WBSafeLogger.error('WB Toggle: Initialization failed - ' + error.message, { component: 'wb-toggle', method: 'connectedCallback', line: 40, error });
         }
     }
     
     disconnectedCallback() {
-        console.log('🔘 WB Toggle: Disconnected from DOM');
+        WBSafeLogger.debug('WB Toggle: Disconnected from DOM', { component: 'wb-toggle', method: 'disconnectedCallback', line: 45 });
     }
     
     attributeChangedCallback(name, oldValue, newValue) {
@@ -97,7 +97,7 @@ class WBToggle extends HTMLElement {
         };
         
         if (window.WBComponentUtils) {
-            const configPath = window.WBComponentUtils.getPath('wb-toggle.js', '../components/wb-toggle/') + 'wb-toggle.json';
+            const configPath = window.WBComponentUtils.getPath('wb-toggle.js', '../components/wb-toggle/') + 'wb-toggle.schema.json';
             this.config = await window.WBComponentUtils.loadConfig(configPath, fallbackConfig, 'WB Toggle');
         } else {
             console.warn('🔘 WB Toggle: Component utils not available, using fallback config');
@@ -321,6 +321,23 @@ class WBToggle extends HTMLElement {
 
 // Register the Web Component
 customElements.define('wb-toggle', WBToggle);
+
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-toggle', WBToggle, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'form',
+        role: 'ui-element',
+        description: 'Toggle switch component with customizable styling and accessibility support',
+        api: {
+            static: ['create'],
+            events: ['change', 'toggle'],
+            attributes: ['checked', 'disabled', 'label', 'size', 'variant'],
+            methods: ['toggle', 'setChecked', 'isChecked', 'render']
+        },
+        priority: 4 // UI component depends on infrastructure
+    });
+}
 
 // Backward compatibility - Global API
 window.WBToggle = {

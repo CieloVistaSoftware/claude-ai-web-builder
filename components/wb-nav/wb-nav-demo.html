@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../styles/main.css">    <!-- Load component CSS -->
     <link rel="stylesheet" href="wb-nav.css">
     <link rel="stylesheet" href="../wb-button/wb-button.css">
+    <link rel="stylesheet" href="../wb-tab/wb-tab.css">
     
     <!-- Demo-specific popup styles only -->
     <style>
@@ -20,42 +21,9 @@
             color: var(--text-primary);
         }
         
-        /* Tab Styles */
-        .tabs {
-            display: flex;
-            gap: var(--space-sm);
+        /* wb-tab component margin */
+        wb-tab {
             margin-bottom: var(--space-lg);
-            border-bottom: 2px solid var(--border-color);
-        }
-        
-        .tab {
-            padding: var(--space-sm) var(--space-lg);
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            color: var(--text-secondary);
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .tab:hover {
-            color: var(--text-primary);
-            background: var(--bg-secondary);
-        }
-        
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
         }
         
         /* Navigation Popup Styles - Demo specific */
@@ -184,22 +152,36 @@
             Component loading...
         </div>
         
-        <!-- Tab Navigation -->
-        <div id="tabs-container" class="tabs">
-            <button id="documentation-tab-button" class="tab active" onclick="showTab('documentation')">📚 Documentation</button>
-            <button id="examples-tab-button" class="tab" onclick="showTab('examples')">🎮 Examples</button>
-        </div>
-        
-        <!-- Documentation Tab -->
-        <div id="documentation-tab" class="tab-content active">
-            <div class="demo-section">
-                <h2>📖 Component Documentation</h2>
-                <md-to-html theme="dark" src="./wb-nav.md"></md-to-html>
-            </div>
-        </div>
-        
-        <!-- Examples Tab -->
-        <div id="examples-tab" class="tab-content">
+        <!-- Navigation Demo Tabs -->
+        <wb-tab variant="underline" active-tab="0">
+            <wb-tab-item label="📚 Documentation">
+                <div class="demo-section">
+                    <h2>📖 Component Documentation</h2>
+                    <md-to-html theme="dark" src="./wb-nav.md"></md-to-html>
+                </div>
+            </wb-tab-item>
+            
+            <wb-tab-item label="🎮 Examples">
+                <div class="demo-section">
+                    <h3>Navigation Menu Popups</h3>
+                    <p>Click the buttons below to open navigation menus in popup overlays:</p>
+                    
+                    <div class="demo-buttons">
+                        <button class="wb-btn wb-btn--primary" onclick="openNavPopup('basic')">
+                            🧭 Basic
+                        </button>
+                        
+                        <button class="wb-btn wb-btn--primary" onclick="openNavPopup('dropdown')">
+                            � Drops
+                        </button>
+                        
+                        <button class="wb-btn wb-btn--success" onclick="openNavPopup('admin')">
+                            ⚙️ Admin
+                        </button>
+                    </div>
+                </div>
+            </wb-tab-item>
+        </wb-tab>
         
         <div class="demo-section">
             <h3>Navigation Menu Popups</h3>
@@ -219,8 +201,6 @@
                 </button>
             </div>
         </div>
-        
-        </div> <!-- Close examples tab -->
     </div>
     
     <!-- Navigation Popup Overlays -->
@@ -323,6 +303,7 @@
     
     <!-- Load components -->
     <script src="../md-to-html/md-to-html.js"></script>
+    <script src="../wb-tab/wb-tab.js"></script>
     <script src="wb-nav.js"></script>
     
     <script>
@@ -404,25 +385,6 @@
                 });
             }
         });
-        
-        // Tab switching functionality
-        function showTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Remove active class from all tab buttons
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected tab
-            document.getElementById(tabName + '-tab').classList.add('active');
-            
-            // Mark the correct tab button as active
-            event.target.classList.add('active');
-        }
     </script>
 </body>
 </html>

@@ -281,6 +281,124 @@
   --neutral-900-rgb: 15, 23, 42;
 }
 
+/* ===== CUSTOM THEME VARIANTS ===== */
+
+[data-theme="cyberpunk"] {
+  /* === CYBERPUNK THEME === */
+  /* High contrast neon colors with dark backgrounds */
+  --primary: hsl(300, 100%, 60%);        /* Neon magenta */
+  --primary-dark: hsl(300, 100%, 45%);
+  --primary-light: hsl(300, 100%, 75%);
+  
+  --secondary: hsl(180, 100%, 50%);      /* Neon cyan */
+  --secondary-dark: hsl(180, 100%, 35%);
+  --secondary-light: hsl(180, 100%, 65%);
+  
+  --accent: hsl(60, 100%, 50%);          /* Neon yellow */
+  --accent-dark: hsl(60, 100%, 35%);
+  --accent-light: hsl(60, 100%, 65%);
+  
+  --bg-primary: hsl(260, 20%, 8%);       /* Very dark purple-black */
+  --bg-secondary: hsl(260, 15%, 12%);    /* Dark purple-gray */
+  --bg-tertiary: hsl(260, 10%, 16%);     /* Medium dark purple-gray */
+  
+  --text-primary: hsl(300, 100%, 85%);   /* Bright neon text */
+  --text-secondary: hsl(180, 80%, 70%);  /* Cyan secondary text */
+  --text-tertiary: hsl(60, 60%, 60%);    /* Yellow tertiary text */
+  
+  --border-color: hsl(300, 60%, 30%);    /* Magenta borders */
+  --success-color: hsl(120, 100%, 50%);  /* Neon green */
+  --error-color: hsl(0, 100%, 60%);      /* Neon red */
+  --warning-color: hsl(30, 100%, 60%);   /* Neon orange */
+}
+
+[data-theme="ocean"] {
+  /* === OCEAN BLUE THEME === */
+  /* Cool blues and teals inspired by ocean depths */
+  --primary: hsl(200, 85%, 55%);         /* Ocean blue */
+  --primary-dark: hsl(200, 85%, 40%);
+  --primary-light: hsl(200, 85%, 70%);
+  
+  --secondary: hsl(180, 70%, 45%);       /* Teal */
+  --secondary-dark: hsl(180, 70%, 30%);
+  --secondary-light: hsl(180, 70%, 60%);
+  
+  --accent: hsl(220, 100%, 60%);         /* Bright blue accent */
+  --accent-dark: hsl(220, 100%, 45%);
+  --accent-light: hsl(220, 100%, 75%);
+  
+  --bg-primary: hsl(210, 25%, 12%);      /* Deep ocean dark */
+  --bg-secondary: hsl(210, 20%, 16%);    /* Ocean depths */
+  --bg-tertiary: hsl(210, 15%, 20%);     /* Ocean medium */
+  
+  --text-primary: hsl(200, 30%, 85%);    /* Light ocean text */
+  --text-secondary: hsl(180, 25%, 70%);  /* Teal text */
+  --text-tertiary: hsl(200, 20%, 60%);   /* Ocean gray text */
+  
+  --border-color: hsl(200, 40%, 25%);    /* Ocean borders */
+  --success-color: hsl(160, 70%, 50%);   /* Sea green */
+  --error-color: hsl(350, 80%, 60%);     /* Coral red */
+  --warning-color: hsl(40, 90%, 60%);    /* Sandy yellow */
+}
+
+[data-theme="sunset"] {
+  /* === SUNSET ORANGE THEME === */
+  /* Warm oranges, reds, and yellows like a sunset */
+  --primary: hsl(25, 90%, 55%);          /* Sunset orange */
+  --primary-dark: hsl(25, 90%, 40%);
+  --primary-light: hsl(25, 90%, 70%);
+  
+  --secondary: hsl(10, 85%, 50%);        /* Sunset red */
+  --secondary-dark: hsl(10, 85%, 35%);
+  --secondary-light: hsl(10, 85%, 65%);
+  
+  --accent: hsl(45, 100%, 60%);          /* Golden yellow */
+  --accent-dark: hsl(45, 100%, 45%);
+  --accent-light: hsl(45, 100%, 75%);
+  
+  --bg-primary: hsl(15, 30%, 10%);       /* Dark burnt orange */
+  --bg-secondary: hsl(15, 25%, 14%);     /* Darker warm brown */
+  --bg-tertiary: hsl(15, 20%, 18%);      /* Medium warm brown */
+  
+  --text-primary: hsl(40, 40%, 85%);     /* Warm light text */
+  --text-secondary: hsl(30, 30%, 70%);   /* Warm secondary text */
+  --text-tertiary: hsl(25, 25%, 60%);    /* Warm tertiary text */
+  
+  --border-color: hsl(25, 50%, 25%);     /* Warm borders */
+  --success-color: hsl(80, 60%, 50%);    /* Warm green */
+  --error-color: hsl(0, 90%, 60%);       /* Bright red */
+  --warning-color: hsl(50, 100%, 55%);   /* Bright yellow */
+}
+
+[data-theme="forest"] {
+  /* === FOREST GREEN THEME === */
+  /* Deep greens and earth tones like a forest */
+  --primary: hsl(140, 60%, 45%);         /* Forest green */
+  --primary-dark: hsl(140, 60%, 30%);
+  --primary-light: hsl(140, 60%, 60%);
+  
+  --secondary: hsl(80, 50%, 40%);        /* Moss green */
+  --secondary-dark: hsl(80, 50%, 25%);
+  --secondary-light: hsl(80, 50%, 55%);
+  
+  --accent: hsl(30, 70%, 50%);           /* Earth brown accent */
+  --accent-dark: hsl(30, 70%, 35%);
+  --accent-light: hsl(30, 70%, 65%);
+  
+  --bg-primary: hsl(120, 20%, 8%);       /* Deep forest dark */
+  --bg-secondary: hsl(120, 15%, 12%);    /* Forest depths */
+  --bg-tertiary: hsl(120, 10%, 16%);     /* Forest medium */
+  
+  --text-primary: hsl(140, 20%, 85%);    /* Light forest text */
+  --text-secondary: hsl(120, 15%, 70%);  /* Forest secondary text */
+  --text-tertiary: hsl(100, 10%, 60%);   /* Forest tertiary text */
+  
+  --border-color: hsl(140, 30%, 20%);    /* Forest borders */
+  --success-color: hsl(120, 70%, 50%);   /* Bright green */
+  --error-color: hsl(0, 70%, 55%);       /* Forest red */
+  --warning-color: hsl(45, 80%, 55%);    /* Golden warning */
+}
+
 /* ===== HARMONIC SEMANTIC TOKENS ===== */
 /* Component-specific tokens leveraging color theory relationships */
 

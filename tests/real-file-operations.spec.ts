@@ -1,6 +1,7 @@
 // @ts-nocheck
 // @ts-check
 import { test, expect } from '@playwright/test';
+import { BaseUnitTest } from './helpers/BaseUnitTestSimple.js';
 
 // Define constants for test configuration
 const WAIT_TIMEOUT = 500; // Consistent wait time across all tests
@@ -38,17 +39,11 @@ test.describe('File Operations Tests', (): any => {
       await dialog.dismiss(); // Cancel the reset
     });
 
-    await page.click('button:has-text("Reset Settings")');
-    await page.waitForTimeout(WAIT_TIMEOUT);
-
     // Now accept the confirmation
     await page.on('dialog', async dialog => {
       expect(dialog.type()).toBe('confirm');
       await dialog.accept(); // Accept the reset
     });
-
-    await page.click('button:has-text("Reset Settings")');
-    await page.waitForTimeout(WAIT_TIMEOUT);
 
     // After reset, we should be on a fresh page
     const bodyClasses = await page.evaluate(() => document.body.classList.toString());

@@ -469,6 +469,23 @@ class WBCard extends HTMLElement {
 // Register the custom element
 customElements.define('wb-card', WBCard);
 
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-card', WBCard, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'layout',
+        role: 'ui-element',
+        description: 'Flexible card component with header, body, footer sections and various styling options',
+        api: {
+            static: ['create'],
+            events: ['card-clicked', 'card-expanded', 'card-collapsed'],
+            attributes: ['title', 'subtitle', 'image', 'variant', 'size', 'expandable'],
+            methods: ['render', 'setTitle', 'setContent', 'expand', 'collapse']
+        },
+        priority: 4 // UI component depends on infrastructure
+    });
+}
+
 // Backward compatibility with the global API
 window.WBCard = {
     create: function(content = {}, options = {}) {

@@ -160,25 +160,9 @@ class WBColorPicker extends HTMLElement {
     const colorValue = this.parseColor(this._value);
     const displayValue = this.formatColor(colorValue, this._format);
 
+    // CSS-first approach - external stylesheet
     this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: inline-block;
-          position: relative;
-        }
-        
-        :host([disabled]) {
-          opacity: 0.6;
-          pointer-events: none;
-        }
-        
-        .wb-color-picker-label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: var(--text-primary, #1a1a1a);
-        }
+      <link rel="stylesheet" href="./wb-color-picker.css">
         
         .wb-color-picker {
           position: relative;
@@ -665,6 +649,23 @@ class WBColorPicker extends HTMLElement {
 
 // Register the Web Component
 customElements.define('wb-color-picker', WBColorPicker);
+
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-color-picker', WBColorPicker, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'form',
+        role: 'ui-element',
+        description: 'Color picker component with HSL, RGB, and hex value support',
+        api: {
+            static: ['create'],
+            events: ['color-changed', 'picker-opened', 'picker-closed'],
+            attributes: ['value', 'format', 'presets', 'alpha'],
+            methods: ['setValue', 'getValue', 'open', 'close', 'addPreset']
+        },
+        priority: 5 // Color picker component depends on infrastructure
+    });
+}
 
 // Backward compatibility API - maintain old API while using new Web Component
 window.WBColorPicker = {

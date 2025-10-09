@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-layout="top-nav">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Control Panel - Complete Demo</title>
+    
+    <!-- ✅ CRITICAL: Load wb-component-utils FIRST -->
+    <script src="../../utils/wb/wb-component-utils.js"></script>
+    
+    <!-- Load Component Registry System -->
+    <script src="../../utils/wb/wb-component-registry.js"></script>
+    
+    <!-- Load Web Components - they auto-initialize when DOM finds their tags -->
+    <script src="../wb-event-log/wb-event-log.js"></script>
+    <script src="../wb-status/wb-status.js"></script>
+    <script src="../wb-nav/wb-nav.js"></script>
+    <script src="../wb-card/wb-card.js"></script>
+    <script src="./wb-control-panel.js"></script>
+    
+    <!-- ✅ CORRECT: Load main.css (includes all foundational styles) -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <!-- Component-specific CSS -->
+    <link rel="stylesheet" href="wb-control-panel.css">
+    <!-- Demo-specific CSS (no inline styles) -->
+    <link rel="stylesheet" href="wb-control-panel-demo.css">
+</head>
+<body>
+    <!-- Navigation using wb-nav component (uses defaults: horizontal, top, default variant) -->
+    <wb-nav id="site-nav"></wb-nav>
+
+    <!-- Main Content -->
+    <div class="demo-container">
+        <header class="demo-header">
+            <h1 class="editable">WB Website Builder Control Panel</h1>
+            <p class="editable">Complete theme, color, and layout control system</p>
+        </header>
+
+        <div class="demo-instructions">
+            <h3>🎯 Demo Instructions</h3>
+            <p>The Control Panel is visible by default and provides access to all schema-documented features:</p>
+            <ul>
+                <li><strong>Theme Control:</strong> Dark, Light, Auto, Cyberpunk, Ocean, Sunset, Forest themes</li>
+                <li><strong>Layout Options:</strong> Top Nav, Left Sidebar, Right Sidebar, Ad Layout</li>
+                <li><strong>Visual HSL Color System:</strong> Six interactive sliders with color ranges:
+                    <ul class="nested-list">
+                        <li>Primary: Hue (spectrum), Saturation (gray→color), Lightness (black→white)</li>
+                        <li>Background: Hue (spectrum), Saturation (gray→color), Lightness (black→white)</li>
+                    </ul>
+                </li>
+                <li><strong>Editor Features:</strong> Gradient Mode, Dark Mode, Edit Mode toggles</li>
+                <li><strong>File Operations:</strong> Clone Template, Save, Import, Reset functionality</li>
+                <li><strong>Advanced:</strong> Draggable panel, keyboard shortcuts, schema-based config</li>
+            </ul>
+        </div>
+
+        <div class="color-demo-section">
+            <h3>🎨 Visual Slider Demo</h3>
+            <p>The HSL sliders show visual color ranges to make color selection intuitive:</p>
+            <div class="demo-grid">
+                <wb-card>
+                    <strong>🌈 Hue Sliders</strong>
+                    <p>Display full spectrum from red (0°) through orange, yellow, green, cyan, blue, magenta, back to red (360°)</p>
+                </wb-card>
+                <wb-card>
+                    <strong>🎭 Saturation Sliders</strong>
+                    <p>Show transition from grayscale (0%) to full color intensity (100%) for current hue</p>
+                </wb-card>
+                <wb-card>
+                    <strong>💡 Lightness Sliders</strong>
+                    <p>Display range from black (0%) through current color (50%) to white (100%)</p>
+                </wb-card>
+            </div>
+        </div>
+
+        <div class="demo-content">
+            <wb-card>
+                <h3 class="editable">🎨 Theme System</h3>
+                <p class="editable">Advanced theming with real-time preview and multiple built-in options.</p>
+                <ul class="feature-list">
+                    <li>Dark/Light theme toggle</li>
+                    <li>Custom theme variants (Cyberpunk, Ocean, Sunset, Forest)</li>
+                    <li>System preference detection</li>
+                    <li>CSS variable integration</li>
+                </ul>
+            </wb-card>
+
+            <wb-card>
+                <h3 class="editable">🎯 Layout Control</h3>
+                <p class="editable">Flexible layout system with multiple navigation and content arrangements.</p>
+                <ul class="feature-list">
+                    <li>Top navigation layout</li>
+                    <li>Left/Right sidebar options</li>
+                    <li>Ad-optimized layouts</li>
+                    <li>Responsive breakpoints</li>
+                </ul>
+            </wb-card>
+
+            <wb-card>
+                <h3 class="editable">🌈 Visual HSL Color System</h3>
+                <p class="editable">Interactive color sliders with visual color range indicators for precise color control.</p>
+                <ul class="feature-list">
+                    <li><strong>Hue Sliders:</strong> Show full color spectrum from red to violet (0-360°)</li>
+                    <li><strong>Saturation Sliders:</strong> Show grayscale to full color saturation (0-100%)</li>
+                    <li><strong>Lightness Sliders:</strong> Show black to white brightness range (0-100%)</li>
+                    <li><strong>Two Complete Sets:</strong> Primary colors and background colors</li>
+                    <li>Real-time CSS custom property updates with live preview</li>
+                </ul>
+            </wb-card>
+
+            <wb-card>
+                <h3 class="editable">✏️ Edit Mode & Features</h3>
+                <p class="editable">Click-to-edit functionality with advanced editor features.</p>
+                <ul class="feature-list">
+                    <li>Gradient Mode toggle</li>
+                    <li>Dark Mode toggle</li>
+                    <li>Edit Mode button activation</li>
+                    <li>Visual edit indicators</li>
+                </ul>
+            </wb-card>
+
+            <wb-card>
+                <h3 class="editable">💾 File Operations</h3>
+                <p class="editable">Complete file management with template cloning system.</p>
+                <ul class="feature-list">
+                    <li>📋 Clone Template functionality</li>
+                    <li>Save Website with all customizations</li>
+                    <li>Import Website from file</li>
+                    <li>Reset Settings to defaults</li>
+                </ul>
+            </wb-card>
+
+            <wb-card>
+                <h3 class="editable">🔧 Advanced Features</h3>
+                <p class="editable">Schema-based configuration and developer tools.</p>
+                <ul class="feature-list">
+                    <li>Draggable panel with bottom-left handle</li>
+                    <li>Keyboard shortcuts (Ctrl+P, Escape)</li>
+                    <li>Collapsible/Minimizable interface</li>
+                    <li>Attribute-based configuration</li>
+                </ul>
+            </wb-card>
+        </div>
+        
+        <!-- Event Log Component - Has its own header and container -->
+        <wb-event-log></wb-event-log>
+    </div>
+
+    <!-- Control Panel Component - Using defaults from schema -->
+    <control-panel id="main-control-panel"></control-panel>
+
+    <!-- Status Bar using wb-status component (message set after initialization) -->
+    <wb-status id="status-bar"></wb-status>
+    
+    <script type="module">
+        // Component References - components auto-initialize from DOM
+        const components = {
+            controlPanel: document.getElementById('main-control-panel'),
+            statusBar: document.getElementById('status-bar'),
+            eventLog: document.querySelector('wb-event-log'),
+            nav: document.getElementById('site-nav')
+        };
+
+        // Wait for DOM and components to be ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Configure navigation items
+            if (components.nav?.setItems) {
+                components.nav.setItems([
+                    { id: 'home', text: '🏠 Home', href: '#home', active: true },
+                    { id: 'themes', text: '🎨 Themes', href: '#themes' },
+                    { id: 'layouts', text: '📐 Layouts', href: '#layouts' },
+                    { id: 'colors', text: '🌈 Colors', href: '#colors' },
+                    { id: 'demo', text: '🚀 Demo', href: '#demo' }
+                ]);
+            }
+            
+            // Configure control panel keyboard shortcuts
+            if (components.controlPanel) {
+                components.controlPanel.keyboardShortcuts = {
+                    toggle: 'ctrl+p',
+                    close: 'escape',
+                    debug: 'ctrl+d'
+                };
+            }
+            
+            // Wait for control panel to be fully initialized
+            await new Promise(resolve => {
+                if (components.controlPanel?.initialized) {
+                    resolve();
+                } else {
+                    const checkInit = setInterval(() => {
+                        if (components.controlPanel?.initialized) {
+                            clearInterval(checkInit);
+                            resolve();
+                        }
+                    }, 100);
+                }
+            });
+            
+            // Mark editable elements
+            markEditableElements();
+            
+            // Send status message after successful initialization
+            if (components.statusBar) {
+                components.statusBar.setAttribute('message', '🚀 WB Control Panel Demo Ready - Use the control panel to start customizing');
+                components.statusBar.setAttribute('type', 'success');
+            }
+            
+            WBEventLog.logSuccess('Demo ready - all components initialized from DOM');
+        });
+
+
+
+
+
+        function markEditableElements() {
+            const editableSelectors = [
+                'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                'p', '.editable'
+            ];
+
+            editableSelectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(el => {
+                    el.classList.add('editable');
+                    el.setAttribute('data-editable', 'true');
+                });
+            });
+
+            WBEventLog.logInfo('Marked editable elements', { count: document.querySelectorAll('.editable').length });
+        }
+
+        // Expose for debugging
+        window.demoControls = components;
+
+        WBEventLog.logInfo('Debug commands available', { commands: 'window.demoControls' });
+    </script>
+    
+
+
+    <!-- Scripts: Load utilities first -->
+    <script src="../../utils/wb/wb-component-utils.js"></script>
+    <script src="../../styles/layout-manager.js"></script>
+    
+
+</body>
+</html>

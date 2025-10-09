@@ -210,8 +210,8 @@
 
         async loadConfig() {
             try {
-                const configPath = this.utils?.getPath?.() || './wb-log-error.json';
-                const response = await fetch(configPath.replace('.js', '.json'));
+                const configPath = this.utils?.getPath?.() || './wb-log-error.schema.json';
+                const response = await fetch(configPath.replace('.js', '.schema.json'));
                 if (response.ok) {
                     const config = await response.json();
                     this.config = { ...this.config, ...config };
@@ -856,8 +856,23 @@
         customElements.define('wb-log-error', WBLogError);
         console.log('📋 WB Log Error: Web component registered successfully');
     }
-
+    
+    // Register with WBComponentRegistry if available
+    if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+        window.WBComponentRegistry.register('wb-log-error', WBLogError, ['wb-event-log'], {
+            version: '1.0.0',
+            type: 'logging',
+            role: 'infrastructure',
+            description: 'Error logging and display component with detailed stack traces and error categorization',
+            api: {
+                static: ['logError', 'clearErrors', 'getErrors'],
+                events: ['error-logged', 'error-cleared'],
+                attributes: ['max-errors', 'auto-clear', 'show-stack'],
+                methods: ['addError', 'clearAll', 'exportErrors', 'setMaxErrors']
+            },
+            priority: 1 // High priority infrastructure component
+        });
+    }
+    
     // Make it globally available for legacy compatibility
-    window.WBLogError = WBLogError;
-
-})();
+    window.WBLogError = WBLogError;})();

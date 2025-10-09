@@ -1,0 +1,177 @@
+{
+  "name": "claude-api-test-client",
+  "version": "1.0.0",
+  "description": "Test client for Claude Events API endpoints - allows AI assistants to programmatically access claude.md event logs",
+  "category": "tools",
+  "tags": ["api", "testing", "claude", "events", "debugging", "ai-assistant"],
+  "author": "WB Components",
+  "license": "MIT",
+  "dependencies": {
+    "wb-button": true,
+    "wb-card": true,
+    "wb-input": true,
+    "wb-tab": true,
+    "wb-event-log": true
+  },
+  
+  "demo": {
+    "title": "🤖 Claude Events API Test Client",
+    "description": "Test API endpoints that AI assistants can use to access claude.md event logs",
+    "layout": "two-tab",
+    "defaultTheme": "dark",
+    "tabs": [
+      {
+        "id": "documentation",
+        "title": "📚 Documentation",
+        "icon": "📚",
+        "content": "documentation"
+      },
+      {
+        "id": "examples", 
+        "title": "🧪 Test Endpoints",
+        "icon": "🧪",
+        "content": "interactive-examples"
+      }
+    ]
+  },
+
+  "apiConfig": {
+    "baseUrl": "http://localhost:3001",
+    "endpoints": [
+      {
+        "id": "health",
+        "method": "GET",
+        "path": "/api/health",
+        "title": "🏥 Health Check",
+        "description": "Check if the API server is running and get available endpoints",
+        "variant": "primary",
+        "category": "system"
+      },
+      {
+        "id": "events",
+        "method": "GET", 
+        "path": "/api/events",
+        "title": "📊 All Events",
+        "description": "Get all events from all claude.md files in the project",
+        "variant": "primary",
+        "category": "read"
+      },
+      {
+        "id": "errors",
+        "method": "GET",
+        "path": "/api/errors", 
+        "title": "🚨 Error Events Only",
+        "description": "Get only error-level events - what AI assistants need to fix",
+        "variant": "danger",
+        "category": "read"
+      },
+      {
+        "id": "recent",
+        "method": "GET",
+        "path": "/api/recent/{hours}",
+        "title": "⏰ Recent Events", 
+        "description": "Get events from the last N hours",
+        "variant": "primary",
+        "category": "read",
+        "inputs": [
+          {
+            "id": "hoursInput",
+            "type": "number",
+            "label": "Hours back:",
+            "value": "24",
+            "min": "1",
+            "max": "168"
+          }
+        ]
+      },
+      {
+        "id": "directory",
+        "method": "GET",
+        "path": "/api/events/dir",
+        "title": "📁 Directory Events",
+        "description": "Get events from a specific directory's claude.md file", 
+        "variant": "primary",
+        "category": "read",
+        "inputs": [
+          {
+            "id": "directoryInput",
+            "type": "text",
+            "label": "Directory path:",
+            "value": "components/wb-color-picker",
+            "placeholder": "components/wb-button"
+          }
+        ]
+      },
+      {
+        "id": "save",
+        "method": "POST",
+        "path": "/api/save-claude-log",
+        "title": "💾 Save Event Log",
+        "description": "Save new content to a claude.md file (AI assistants can document fixes)",
+        "variant": "success", 
+        "category": "write",
+        "inputs": [
+          {
+            "id": "saveDirectory",
+            "type": "text",
+            "label": "Directory:",
+            "value": ".",
+            "placeholder": "components/wb-button"
+          },
+          {
+            "id": "saveContent",
+            "type": "textarea",
+            "label": "Content:",
+            "rows": "6",
+            "value": ""
+          }
+        ]
+      }
+    ]
+  },
+
+  "eventLog": {
+    "enabled": true,
+    "title": "🔍 API Test Events",
+    "position": "floating",
+    "autoLog": [
+      "api-call",
+      "api-success", 
+      "api-error",
+      "file-saved"
+    ]
+  },
+
+  "documentation": {
+    "overview": "This API test client provides AI assistants programmatic access to claude.md event logs throughout the WB project.",
+    "sections": [
+      {
+        "title": "🎯 Purpose",
+        "content": "Instead of manually copying claude.md content when asking for help, AI assistants can now automatically fetch current error logs, see exactly what's broken and where, get full context including HTML state and component status, and save fixes back to the appropriate claude.md files."
+      },
+      {
+        "title": "🚀 Quick Start", 
+        "content": "1. Start the API server: `node server/claude-events-api.js`\n2. Server runs at http://localhost:3001\n3. Use the Test Endpoints tab to try different API calls\n4. Check the floating event log for real-time monitoring"
+      },
+      {
+        "title": "🤖 AI Assistant Usage",
+        "content": "- `GET /api/errors` - See what's currently broken\n- `GET /api/events/dir?path=components/wb-tab` - Debug specific components\n- `GET /api/recent/1` - Get the latest issues\n- `POST /api/save-claude-log` - Document fixes"
+      },
+      {
+        "title": "📡 API Endpoints",
+        "content": "All endpoints return JSON responses. The API automatically scans all claude.md files created by the wb-event-log system and provides structured access to error events with stack traces, component initialization issues, resource loading failures, JavaScript errors and warnings, and page context and HTML state."
+      }
+    ]
+  },
+
+  "defaultContent": {
+    "saveContent": "## Server API Test Event - ${timestamp}\n\n**Type**: Test Entry\n**Source**: Claude Events API Test Client (Server)\n**Timestamp**: ${isoTimestamp}\n**Message**: Testing API save functionality from server directory\n\nThis entry was created by the server API test client to verify that events are properly prepended to the TOP of claude.md files in the correct directory.\n\n**Expected Result**: This should appear at the beginning of the server/claude.md file.\n\n---\n\n"
+  },
+
+  "files": {
+    "html": "server/api-test-client.html",
+    "css": "server/api-test-client.css", 
+    "js": "server/api-test-client.js",
+    "schema": "server/api-test-client.schema.json"
+  }
+}

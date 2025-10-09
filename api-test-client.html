@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Events API Test Client</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .api-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .endpoint-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .endpoint-button:hover {
+            background: #45a049;
+        }
+        
+        .error-button {
+            background: #f44336;
+        }
+        
+        .error-button:hover {
+            background: #da190b;
+        }
+        
+        .response-area {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f1b0b7;
+        }
+        
+        .endpoint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .input-group {
+            margin: 10px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 Claude Events API Test Client</h1>
+        <p>Test API endpoints that AI assistants can use to access claude.md event logs</p>
+        <div id="apiStatus" class="status">Checking API status...</div>
+    </div>
+
+    <div class="api-section">
+        <h2>🏥 Health Check</h2>
+        <p>Check if the API server is running and get available endpoints.</p>
+        <button class="endpoint-button" onclick="testEndpoint('/api/health')">
+            GET /api/health
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📊 All Events</h2>
+        <p>Get all events from all claude.md files in the project.</p>
+        <button class="endpoint-button" onclick="testEndpoint('/api/events')">
+            GET /api/events
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>🚨 Error Events Only</h2>
+        <p>Get only error-level events - what AI assistants need to fix.</p>
+        <button class="endpoint-button error-button" onclick="testEndpoint('/api/errors')">
+            GET /api/errors
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>⏰ Recent Events</h2>
+        <p>Get events from the last N hours.</p>
+        <div class="input-group">
+            <label>Hours back:</label>
+            <input type="number" id="hoursInput" value="24" min="1" max="168">
+        </div>
+        <button class="endpoint-button" onclick="testRecentEvents()">
+            GET /api/recent/N
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📁 Directory-Specific Events</h2>
+        <p>Get events from a specific directory's claude.md file.</p>
+        <div class="input-group">
+            <label>Directory path:</label>
+            <input type="text" id="directoryInput" value="components/wb-color-picker" placeholder="components/wb-button">
+        </div>
+        <button class="endpoint-button" onclick="testDirectoryEvents()">
+            GET /api/events/directory
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>💾 Save Event Log</h2>
+        <p>Save new content to a claude.md file (AI assistants can document fixes).</p>
+        <div class="input-group">
+            <label>Directory:</label>
+            <input type="text" id="saveDirectory" value="." placeholder="components/wb-button">
+        </div>
+        <div class="input-group">
+            <label>Content:</label>
+            <textarea id="saveContent" rows="4" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">## Test Event Log Entry
+**Time**: ${new Date().toISOString()}
+**Type**: Test
+**Message**: API test save from client
+
+This is a test entry to verify the save functionality works.
+
+---</textarea>
+        </div>
+        <button class="endpoint-button" onclick="testSaveEvent()">
+            POST /api/save-claude-log
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📋 API Response</h2>
+        <div id="responseArea" class="response-area">No requests made yet. Click an endpoint button above to test the API.</div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001';
+        
+        // Check API status on load
+        window.addEventListener('load', async () => {
+            await checkApiStatus();
+        });
+        
+        async function checkApiStatus() {
+            const statusEl = document.getElementById('apiStatus');
+            try {
+                const response = await fetch(`${API_BASE}/api/health`);
+                if (response.ok) {
+                    statusEl.textContent = '✅ API Server is running';
+                    statusEl.className = 'status success';
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                statusEl.textContent = `❌ API Server not available: ${error.message}`;
+                statusEl.className = 'status error';
+            }
+        }
+        
+        async function testEndpoint(endpoint, options = {}) {
+            const responseArea = document.getElementById('responseArea');
+            responseArea.textContent = `Loading ${endpoint}...`;
+            
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                const data = await response.json();
+                
+                const formatted = JSON.stringify(data, null, 2);
+                responseArea.textContent = `Status: ${response.status}\nEndpoint: ${endpoint}\n\n${formatted}`;
+                
+                // Highlight important data
+                if (data.totalErrors > 0) {
+                    responseArea.style.borderLeft = '4px solid #f44336';
+                } else if (data.status === 'healthy') {
+                    responseArea.style.borderLeft = '4px solid #4CAF50';
+                } else {
+                    responseArea.style.borderLeft = '4px solid #2196F3';
+                }
+                
+            } catch (error) {
+                responseArea.textContent = `Error: ${error.message}`;
+                responseArea.style.borderLeft = '4px solid #f44336';
+            }
+        }
+        
+        async function testRecentEvents() {
+            const hours = document.getElementById('hoursInput').value || 24;
+            await testEndpoint(`/api/recent/${hours}`);
+        }
+        
+        async function testDirectoryEvents() {
+            const directory = document.getElementById('directoryInput').value || 'components/wb-color-picker';
+            await testEndpoint(`/api/events/${directory}`);
+        }
+        
+        async function testSaveEvent() {
+            const directory = document.getElementById('saveDirectory').value || '.';
+            const content = document.getElementById('saveContent').value;
+            
+            const payload = {
+                filename: 'claude.md',
+                content: content,
+                folder: directory
+            };
+            
+            await testEndpoint('/api/save-claude-log', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+        }
+    </script>
+</body>
+</html>

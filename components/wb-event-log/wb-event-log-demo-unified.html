@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Event Log - Interactive Demo</title>
+    
+    <!-- Foundation Styles -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="wb-event-log.css">
+</head>
+
+<body class="event-log-demo">
+    <div class="demo-container">
+        <header class="demo-header">
+            <h1 class="demo-title">WB Event Log Component</h1>
+            <p class="demo-subtitle">
+                A powerful, zero-configuration web component for capturing, displaying, and exporting application events.
+                Perfect for debugging, monitoring, and development workflows.
+            </p>
+        </header>
+
+        <!-- Tab Navigation using wb-tab component -->
+        <wb-tab class="demo-tabs" data-initial-tab="demo">
+            <div slot="tabs">
+                <button data-tab="demo">Live Demo</button>
+                <button data-tab="api">API Reference</button>
+                <button data-tab="examples">Code Examples</button>
+                <button data-tab="features">Features</button>
+            </div>
+
+            <!-- Live Demo Tab -->
+            <div slot="content" data-tab="demo">
+                <wb-card class="demo-section">
+                    <h2 class="section-title">Interactive Demo</h2>
+                    <p class="section-description">
+                        Use the controls below to interact with the event log component and see it in action.
+                    </p>
+
+                    <!-- Configuration Controls -->
+                    <div class="demo-controls">
+                        <div class="control-group">
+                            <label class="control-label" for="maxEvents">Max Events</label>
+                            <input type="number" id="maxEvents" class="control-input" value="100" min="10" max="1000">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="autoScroll">Auto Scroll</label>
+                            <select id="autoScroll" class="control-select">
+                                <option value="true">Enabled</option>
+                                <option value="false">Disabled</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="wrapMode">Text Wrapping</label>
+                            <select id="wrapMode" class="control-select">
+                                <option value="wrap">Wrap</option>
+                                <option value="nowrap">No Wrap</option>
+                                <option value="break">Break Words</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="filterType">Event Filter</label>
+                            <select id="filterType" class="control-select" multiple>
+                                <option value="info" selected>Info</option>
+                                <option value="warning" selected>Warning</option>
+                                <option value="error" selected>Error</option>
+                                <option value="success" selected>Success</option>
+                                <option value="debug">Debug</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons using wb-button -->
+                    <div class="action-buttons">
+                        <wb-button variant="primary" onclick="generateInfoEvent()">Generate Info</wb-button>
+                        <wb-button variant="warning" onclick="generateWarningEvent()">Generate Warning</wb-button>
+                        <wb-button variant="danger" onclick="generateErrorEvent()">Generate Error</wb-button>
+                        <wb-button variant="success" onclick="generateSuccessEvent()">Generate Success</wb-button>
+                        <wb-button variant="secondary" onclick="clearEvents()">Clear Events</wb-button>
+                        <wb-button variant="secondary" onclick="pauseLogging()">Pause Logging</wb-button>
+                        <wb-button variant="secondary" onclick="resumeLogging()">Resume Logging</wb-button>
+                        <wb-button variant="primary" onclick="exportEvents('json')">Export JSON</wb-button>
+                        <wb-button variant="primary" onclick="exportEvents('csv')">Export CSV</wb-button>
+                        <wb-button variant="primary" onclick="exportEvents('txt')">Export TXT</wb-button>
+                    </div>
+
+                    <!-- Event Log Component -->
+                    <div class="event-log-container">
+                        <wb-event-log 
+                            id="demoEventLog"
+                            data-max-events="100"
+                            data-auto-scroll="true"
+                            data-wrap-mode="wrap"
+                            data-filters="info,warning,error,success"
+                            data-theme="dark">
+                        </wb-event-log>
+                    </div>
+
+                    <!-- Statistics Display -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-value" id="totalEvents">0</span>
+                            <span class="stat-label">Total Events</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="errorCount">0</span>
+                            <span class="stat-label">Errors</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="warningCount">0</span>
+                            <span class="stat-label">Warnings</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="isLogging">Active</span>
+                            <span class="stat-label">Status</span>
+                        </div>
+                    </div>
+                </wb-card>
+            </div>
+
+            <!-- API Reference Tab -->
+            <div slot="content" data-tab="api">
+                <wb-card class="demo-section">
+                    <h2 class="section-title">Component API</h2>
+                    <div class="documentation">
+                        <div class="doc-section">
+                            <h3>Attributes</h3>
+                            <p>Configure the component behavior using HTML data attributes:</p>
+                            <ul>
+                                <li><code>data-max-events</code> - Maximum number of events to store (default: 1000)</li>
+                                <li><code>data-auto-scroll</code> - Auto-scroll to newest events (default: true)</li>
+                                <li><code>data-wrap-mode</code> - Text wrapping mode: 'wrap' | 'nowrap' | 'break' (default: 'wrap')</li>
+                                <li><code>data-filters</code> - Comma-separated list of event types to show (default: all)</li>
+                                <li><code>data-theme</code> - Theme: 'light' | 'dark' | 'auto' (default: 'auto')</li>
+                                <li><code>data-search-placeholder</code> - Custom search placeholder text</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-section">
+                            <h3>Methods</h3>
+                            <p>Control the component programmatically:</p>
+                            <ul>
+                                <li><code>clearEvents()</code> - Clear all captured events</li>
+                                <li><code>pauseLogging()</code> - Pause event capture</li>
+                                <li><code>resumeLogging()</code> - Resume event capture</li>
+                                <li><code>exportEvents(format)</code> - Export events in 'json', 'csv', or 'txt' format</li>
+                                <li><code>setFilter(types)</code> - Set visible event types</li>
+                                <li><code>setSearchFilter(query)</code> - Filter events by search query</li>
+                                <li><code>setMaxEvents(count)</code> - Set maximum event count</li>
+                                <li><code>setAutoScroll(enabled)</code> - Enable/disable auto-scroll</li>
+                                <li><code>setWrapMode(mode)</code> - Set text wrapping mode</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-section">
+                            <h3>Events</h3>
+                            <p>Listen for component events:</p>
+                            <ul>
+                                <li><code>wb-event-logged</code> - Fired when a new event is captured</li>
+                                <li><code>wb-events-cleared</code> - Fired when events are cleared</li>
+                                <li><code>wb-filter-changed</code> - Fired when filters are modified</li>
+                                <li><code>wb-export-completed</code> - Fired when export is finished</li>
+                                <li><code>wb-logging-paused</code> - Fired when logging is paused</li>
+                                <li><code>wb-logging-resumed</code> - Fired when logging is resumed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </wb-card>
+            </div>
+
+            <!-- Code Examples Tab -->
+            <div slot="content" data-tab="examples">
+                <wb-card class="demo-section">
+                    <div class="documentation">
+                        <div class="doc-section">
+                            <h3>Basic Usage</h3>
+                            <div class="code-example"><span class="code-comment">&lt;!-- Simple HTML setup --&gt;</span>
+<span class="code-tag">&lt;link</span> <span class="code-attr">rel</span>=<span class="code-string">"stylesheet"</span> <span class="code-attr">href</span>=<span class="code-string">"wb-event-log.css"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;script</span> <span class="code-attr">src</span>=<span class="code-string">"wb-event-log.js"</span><span class="code-tag">&gt;&lt;/script&gt;</span>
+
+<span class="code-comment">&lt;!-- Zero configuration usage --&gt;</span>
+<span class="code-tag">&lt;wb-event-log&gt;&lt;/wb-event-log&gt;</span>
+
+<span class="code-comment">&lt;!-- With configuration --&gt;</span>
+<span class="code-tag">&lt;wb-event-log</span> 
+    <span class="code-attr">data-max-events</span>=<span class="code-string">"500"</span>
+    <span class="code-attr">data-auto-scroll</span>=<span class="code-string">"true"</span>
+    <span class="code-attr">data-wrap-mode</span>=<span class="code-string">"wrap"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/wb-event-log&gt;</span></div>
+                        </div>
+
+                        <div class="doc-section">
+                            <h3>Manual Event Logging</h3>
+                            <div class="code-example"><span class="code-comment">// Custom events (components can emit these)</span>
+<span class="code-object">document</span>.<span class="code-method">dispatchEvent</span>(<span class="code-keyword">new</span> <span class="code-class">CustomEvent</span>(<span class="code-string">'wb:info'</span>, {
+    <span class="code-property">detail</span>: { <span class="code-property">message</span>: <span class="code-string">'Component loaded'</span>, <span class="code-property">source</span>: <span class="code-string">'wb-button'</span> }
+}));
+
+<span class="code-object">document</span>.<span class="code-method">dispatchEvent</span>(<span class="code-keyword">new</span> <span class="code-class">CustomEvent</span>(<span class="code-string">'wb:error'</span>, {
+    <span class="code-property">detail</span>: { <span class="code-property">message</span>: <span class="code-string">'API call failed'</span>, <span class="code-property">source</span>: <span class="code-string">'api-service'</span>, <span class="code-property">error</span>: <span class="code-variable">errorObj</span> }
+}));</div>
+                        </div>
+
+                        <div class="doc-section">
+                            <h3>Component API Usage</h3>
+                            <div class="code-example"><span class="code-keyword">const</span> <span class="code-variable">eventLog</span> = <span class="code-object">document</span>.<span class="code-method">querySelector</span>(<span class="code-string">'wb-event-log'</span>);
+
+<span class="code-comment">// Control logging</span>
+<span class="code-variable">eventLog</span>.<span class="code-method">clearEvents</span>();
+<span class="code-variable">eventLog</span>.<span class="code-method">pauseLogging</span>();
+<span class="code-variable">eventLog</span>.<span class="code-method">resumeLogging</span>();
+
+<span class="code-comment">// Export events</span>
+<span class="code-variable">eventLog</span>.<span class="code-method">exportEvents</span>(<span class="code-string">'json'</span>);
+<span class="code-variable">eventLog</span>.<span class="code-method">exportEvents</span>(<span class="code-string">'csv'</span>);
+<span class="code-variable">eventLog</span>.<span class="code-method">exportEvents</span>(<span class="code-string">'txt'</span>);
+
+<span class="code-comment">// Configure display</span>
+<span class="code-variable">eventLog</span>.<span class="code-method">setFilter</span>([<span class="code-string">'info'</span>, <span class="code-string">'error'</span>]);
+<span class="code-variable">eventLog</span>.<span class="code-method">setSearchFilter</span>(<span class="code-string">'component'</span>);
+<span class="code-variable">eventLog</span>.<span class="code-method">setMaxEvents</span>(<span class="code-number">500</span>);
+<span class="code-variable">eventLog</span>.<span class="code-method">setAutoScroll</span>(<span class="code-boolean">false</span>);
+<span class="code-variable">eventLog</span>.<span class="code-method">setWrapMode</span>(<span class="code-string">'wrap'</span>);</div>
+                        </div>
+
+                        <div class="doc-section">
+                            <h3>Event Listening</h3>
+                            <div class="code-example"><span class="code-comment">// Listen for component events</span>
+<span class="code-variable">eventLog</span>.<span class="code-method">addEventListener</span>(<span class="code-string">'wb-event-logged'</span>, (<span class="code-parameter">e</span>) <span class="code-operator">=&gt;</span> {
+    <span class="code-object">console</span>.<span class="code-method">log</span>(<span class="code-string">'New event:'</span>, <span class="code-parameter">e</span>.<span class="code-property">detail</span>);
+});
+
+<span class="code-variable">eventLog</span>.<span class="code-method">addEventListener</span>(<span class="code-string">'wb-events-cleared'</span>, () <span class="code-operator">=&gt;</span> {
+    <span class="code-object">console</span>.<span class="code-method">log</span>(<span class="code-string">'Events cleared'</span>);
+});
+
+<span class="code-variable">eventLog</span>.<span class="code-method">addEventListener</span>(<span class="code-string">'wb-filter-changed'</span>, (<span class="code-parameter">e</span>) <span class="code-operator">=&gt;</span> {
+    <span class="code-object">console</span>.<span class="code-method">log</span>(<span class="code-string">'Filters changed:'</span>, <span class="code-parameter">e</span>.<span class="code-property">detail</span>.<span class="code-property">filters</span>);
+});</div>
+                        </div>
+                    </div>
+                </wb-card>
+            </div>
+
+            <!-- Features Tab -->
+            <div slot="content" data-tab="features">
+                <wb-card class="demo-section">
+                    <h2 class="section-title">Key Features</h2>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <span class="feature-icon">⚡</span>
+                            <h3 class="feature-title">Zero Configuration</h3>
+                            <p class="feature-description">
+                                Works out of the box with sensible defaults. Just add the component to your HTML and start logging events.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <span class="feature-icon">🎯</span>
+                            <h3 class="feature-title">Event Filtering</h3>
+                            <p class="feature-description">
+                                Filter events by type, search through messages, and customize what information is displayed.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <span class="feature-icon">📁</span>
+                            <h3 class="feature-title">Multiple Export Formats</h3>
+                            <p class="feature-description">
+                                Export captured events as JSON, CSV, or plain text for analysis in external tools.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <span class="feature-icon">🎨</span>
+                            <h3 class="feature-title">Theme Support</h3>
+                            <p class="feature-description">
+                                Built-in dark and light themes that automatically adapt to your application's design system.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <span class="feature-icon">🔄</span>
+                            <h3 class="feature-title">Real-time Updates</h3>
+                            <p class="feature-description">
+                                Events appear instantly with smooth animations and auto-scrolling to the latest entries.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <span class="feature-icon">⚙️</span>
+                            <h3 class="feature-title">Highly Configurable</h3>
+                            <p class="feature-description">
+                                Customize behavior through HTML attributes or JavaScript API calls to fit your specific needs.
+                            </p>
+                        </div>
+                    </div>
+                </wb-card>
+            </div>
+        </wb-tab>
+    </div>
+
+    <!-- Component Script -->
+    <script src="wb-event-log.js"></script>
+    
+    <script>
+        // Demo functionality
+        let eventCounter = 0;
+        let stats = {
+            total: 0,
+            errors: 0,
+            warnings: 0,
+            info: 0,
+            success: 0
+        };
+
+        // Get references to components
+        const eventLog = document.getElementById('demoEventLog');
+        const maxEventsInput = document.getElementById('maxEvents');
+        const autoScrollSelect = document.getElementById('autoScroll');
+        const wrapModeSelect = document.getElementById('wrapMode');
+        const filterSelect = document.getElementById('filterType');
+
+        // Update component configuration when controls change
+        maxEventsInput.addEventListener('change', () => {
+            eventLog.setMaxEvents(parseInt(maxEventsInput.value));
+        });
+
+        autoScrollSelect.addEventListener('change', () => {
+            eventLog.setAutoScroll(autoScrollSelect.value === 'true');
+        });
+
+        wrapModeSelect.addEventListener('change', () => {
+            eventLog.setWrapMode(wrapModeSelect.value);
+        });
+
+        filterSelect.addEventListener('change', () => {
+            const selectedFilters = Array.from(filterSelect.selectedOptions).map(opt => opt.value);
+            eventLog.setFilter(selectedFilters);
+        });
+
+        // Event generation functions
+        function generateInfoEvent() {
+            const messages = [
+                'User clicked navigation button',
+                'Component initialized successfully',
+                'Data loaded from cache',
+                'Theme switched to dark mode',
+                'Session started for user #' + Math.floor(Math.random() * 1000)
+            ];
+            
+            document.dispatchEvent(new CustomEvent('wb:info', {
+                detail: {
+                    message: messages[Math.floor(Math.random() * messages.length)],
+                    source: 'demo-component',
+                    timestamp: new Date().toISOString(),
+                    eventId: ++eventCounter
+                }
+            }));
+            updateStats('info');
+        }
+
+        function generateWarningEvent() {
+            const messages = [
+                'API response time exceeded threshold',
+                'Cache miss for requested resource',
+                'Deprecated method called',
+                'Memory usage above 80%',
+                'Network connection unstable'
+            ];
+            
+            document.dispatchEvent(new CustomEvent('wb:warning', {
+                detail: {
+                    message: messages[Math.floor(Math.random() * messages.length)],
+                    source: 'system-monitor',
+                    timestamp: new Date().toISOString(),
+                    eventId: ++eventCounter
+                }
+            }));
+            updateStats('warning');
+        }
+
+        function generateErrorEvent() {
+            const messages = [
+                'Failed to connect to database',
+                'Authentication token expired',
+                'Invalid user input detected',
+                'Component render failed',
+                'Network request timeout'
+            ];
+            
+            document.dispatchEvent(new CustomEvent('wb:error', {
+                detail: {
+                    message: messages[Math.floor(Math.random() * messages.length)],
+                    source: 'error-handler',
+                    timestamp: new Date().toISOString(),
+                    eventId: ++eventCounter,
+                    error: {
+                        code: 'ERR_' + Math.floor(Math.random() * 9999),
+                        stack: 'Error stack trace would appear here...'
+                    }
+                }
+            }));
+            updateStats('error');
+        }
+
+        function generateSuccessEvent() {
+            const messages = [
+                'Data saved successfully',
+                'User profile updated',
+                'File upload completed',
+                'Configuration applied',
+                'Backup created successfully'
+            ];
+            
+            document.dispatchEvent(new CustomEvent('wb:success', {
+                detail: {
+                    message: messages[Math.floor(Math.random() * messages.length)],
+                    source: 'operation-manager',
+                    timestamp: new Date().toISOString(),
+                    eventId: ++eventCounter
+                }
+            }));
+            updateStats('success');
+        }
+
+        // Control functions
+        function clearEvents() {
+            eventLog.clearEvents();
+            stats = { total: 0, errors: 0, warnings: 0, info: 0, success: 0 };
+            updateStatsDisplay();
+        }
+
+        function pauseLogging() {
+            eventLog.pauseLogging();
+            document.getElementById('isLogging').textContent = 'Paused';
+        }
+
+        function resumeLogging() {
+            eventLog.resumeLogging();
+            document.getElementById('isLogging').textContent = 'Active';
+        }
+
+        function exportEvents(format) {
+            eventLog.exportEvents(format);
+        }
+
+        // Statistics management
+        function updateStats(type) {
+            stats.total++;
+            if (stats[type]) {
+                stats[type]++;
+            }
+            updateStatsDisplay();
+        }
+
+        function updateStatsDisplay() {
+            document.getElementById('totalEvents').textContent = stats.total;
+            document.getElementById('errorCount').textContent = stats.errors;
+            document.getElementById('warningCount').textContent = stats.warnings;
+        }
+
+        // Listen for component events
+        eventLog.addEventListener('wb-event-logged', (e) => {
+            console.log('Event logged:', e.detail);
+        });
+
+        eventLog.addEventListener('wb-events-cleared', () => {
+            console.log('Events cleared');
+        });
+
+        eventLog.addEventListener('wb-export-completed', (e) => {
+            console.log('Export completed:', e.detail.format);
+        });
+
+        // Auto-generate some sample events on load
+        setTimeout(() => {
+            generateInfoEvent();
+            setTimeout(() => generateWarningEvent(), 500);
+            setTimeout(() => generateSuccessEvent(), 1000);
+        }, 1000);
+    </script>
+</body>
+</html>

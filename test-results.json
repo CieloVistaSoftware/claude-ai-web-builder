@@ -1,0 +1,1831 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\playwright.config.js",
+    "rootDir": "C:/Users/jwpmi/Downloads/AI/wb/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 5,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/jwpmi/Downloads/AI/wb/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "wb-components-chromium",
+        "name": "wb-components-chromium",
+        "testDir": "C:/Users/jwpmi/Downloads/AI/wb/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.52.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "wb-control-panel\\control-panel-demo.spec.ts",
+      "file": "wb-control-panel/control-panel-demo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Control Panel Demo Tests",
+          "file": "wb-control-panel/control-panel-demo.spec.ts",
+          "line": 7,
+          "column": 6,
+          "specs": [
+            {
+              "title": "demo page should load with proper title and content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2498,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Γ£à Demo page loaded with proper content\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:11:09.216Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-a97cc6ddf82b0a08f674",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 16,
+              "column": 3
+            },
+            {
+              "title": "control panel should be visible by default",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1333,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: locator('#main-control-panel').locator('wb-color-bars') resolved to 2 elements:\n    1) <wb-color-bars theme=\"dark\" tabindex=\"0\" text-hue=\"240\" text-lightness=\"50\" text-saturation=\"70\" id=\"primary-color-bar\">Γå╡                    </wb-color-bars> aka locator('#primary-color-bar')\n    2) <wb-color-bars theme=\"dark\" tabindex=\"0\" text-hue=\"220\" id=\"bg-color-bar\" text-lightness=\"15\" text-saturation=\"25\">Γå╡                    </wb-color-bars> aka locator('#bg-color-bar')\n\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#main-control-panel').locator('wb-color-bars')\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: locator('#main-control-panel').locator('wb-color-bars') resolved to 2 elements:\n    1) <wb-color-bars theme=\"dark\" tabindex=\"0\" text-hue=\"240\" text-lightness=\"50\" text-saturation=\"70\" id=\"primary-color-bar\">Γå╡                    </wb-color-bars> aka locator('#primary-color-bar')\n    2) <wb-color-bars theme=\"dark\" tabindex=\"0\" text-hue=\"220\" id=\"bg-color-bar\" text-lightness=\"15\" text-saturation=\"25\">Γå╡                    </wb-color-bars> aka locator('#bg-color-bar')\n\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#main-control-panel').locator('wb-color-bars')\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts:44:29",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                          "column": 29,
+                          "line": 44
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 42 |\u001b[39m     \u001b[90m// Should contain color controls (wb-color-bars components)\u001b[39m\n \u001b[90m 43 |\u001b[39m     \u001b[36mconst\u001b[39m colorBars \u001b[33m=\u001b[39m controlPanel\u001b[33m.\u001b[39mlocator(\u001b[32m'wb-color-bars'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m     \u001b[36mawait\u001b[39m expect(colorBars)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 45 |\u001b[39m     \n \u001b[90m 46 |\u001b[39m     console\u001b[33m.\u001b[39mlog(\u001b[32m'Γ£à Control panel visibility test passed'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 47 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                            "column": 29,
+                            "line": 44
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: locator('#main-control-panel').locator('wb-color-bars') resolved to 2 elements:\n    1) <wb-color-bars theme=\"dark\" tabindex=\"0\" text-hue=\"240\" text-lightness=\"50\" text-saturation=\"70\" id=\"primary-color-bar\">Γå╡                    </wb-color-bars> aka locator('#primary-color-bar')\n    2) <wb-color-bars theme=\"dark\" tabindex=\"0\" text-hue=\"220\" id=\"bg-color-bar\" text-lightness=\"15\" text-saturation=\"25\">Γå╡                    </wb-color-bars> aka locator('#bg-color-bar')\n\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#main-control-panel').locator('wb-color-bars')\u001b[22m\n\n\n  42 |     // Should contain color controls (wb-color-bars components)\n  43 |     const colorBars = controlPanel.locator('wb-color-bars');\n> 44 |     await expect(colorBars).toBeVisible();\n     |                             ^\n  45 |     \n  46 |     console.log('Γ£à Control panel visibility test passed');\n  47 |   });\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts:44:29"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "Γ£à Testing control panel default visibility\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:11:11.984Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-2929f-hould-be-visible-by-default-wb-components-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-2929f-hould-be-visible-by-default-wb-components-chromium\\video.webm"
+                        },
+                        {
+                          "name": "_error-context-0",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-2929f-hould-be-visible-by-default-wb-components-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                        "column": 29,
+                        "line": 44
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-5df0016f5bd9b137000c",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "control panel should be functional within demo",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 13149,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 10000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=\"Website Builder Controls\"')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=\"Website Builder Controls\"')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 10000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=\"Website Builder Controls\"')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=\"Website Builder Controls\"')\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts:58:67",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                          "column": 67,
+                          "line": 58
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 56 |\u001b[39m\n \u001b[90m 57 |\u001b[39m     \u001b[90m// Test that control panel elements are present\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 58 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=\"Website Builder Controls\"'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 59 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#theme-select'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 60 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#layout-select'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 61 |\u001b[39m     \u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                            "column": 67,
+                            "line": 58
+                          },
+                          "message": "Error: \u001b[31mTimed out 10000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=\"Website Builder Controls\"')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=\"Website Builder Controls\"')\u001b[22m\n\n\n  56 |\n  57 |     // Test that control panel elements are present\n> 58 |     await expect(page.locator('text=\"Website Builder Controls\"')).toBeVisible();\n     |                                                                   ^\n  59 |     await expect(page.locator('#theme-select')).toBeVisible();\n  60 |     await expect(page.locator('#layout-select')).toBeVisible();\n  61 |     \n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts:58:67"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "Γ£à Testing control panel functionality\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:11:16.440Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-36d04-d-be-functional-within-demo-wb-components-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-36d04-d-be-functional-within-demo-wb-components-chromium\\video.webm"
+                        },
+                        {
+                          "name": "_error-context-0",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-36d04-d-be-functional-within-demo-wb-components-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                        "column": 67,
+                        "line": 58
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-62d0e428c10b3d6845a6",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 50,
+              "column": 3
+            },
+            {
+              "title": "demo feature cards should be present and editable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1996,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Γ£à Demo feature cards are present\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:11:32.619Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-8d5c0923f388eb4e2337",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 74,
+              "column": 3
+            },
+            {
+              "title": "status bar should show updates",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1700,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Γ£à Status bar functionality works\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:11:34.779Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-0a6014b967f95cc036f5",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 90,
+              "column": 3
+            },
+            {
+              "title": "keyboard shortcuts should work",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 12882,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 10000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('#main-control-panel')\nExpected pattern: \u001b[32m/visible/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nCall log:\n\u001b[2m  - expect.toHaveClass with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#main-control-panel')\u001b[22m\n\u001b[2m    13 ├ù locator resolved to <control-panel theme=\"auto\" visible=\"false\" position=\"fixed\" draggable=\"true\" primary-hue=\"240\" show-themes=\"true\" show-colors=\"true\" show-layout=\"true\" background-hue=\"220\" show-edit-mode=\"true\" primary-lightness=\"50\" id=\"main-control-panel\" primary-saturation=\"70\" show-color-sliders=\"true\" background-lightness=\"15\" background-saturation=\"25\">ΓÇª</control-panel>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 10000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('#main-control-panel')\nExpected pattern: \u001b[32m/visible/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nCall log:\n\u001b[2m  - expect.toHaveClass with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#main-control-panel')\u001b[22m\n\u001b[2m    13 ├ù locator resolved to <control-panel theme=\"auto\" visible=\"false\" position=\"fixed\" draggable=\"true\" primary-hue=\"240\" show-themes=\"true\" show-colors=\"true\" show-layout=\"true\" background-hue=\"220\" show-edit-mode=\"true\" primary-lightness=\"50\" id=\"main-control-panel\" primary-saturation=\"70\" show-color-sliders=\"true\" background-lightness=\"15\" background-saturation=\"25\">ΓÇª</control-panel>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts:113:32",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                          "column": 32,
+                          "line": 113
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 111 |\u001b[39m     \n \u001b[90m 112 |\u001b[39m     \u001b[36mconst\u001b[39m controlPanel \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'#main-control-panel'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 113 |\u001b[39m     \u001b[36mawait\u001b[39m expect(controlPanel)\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/visible/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 114 |\u001b[39m     \n \u001b[90m 115 |\u001b[39m     \u001b[90m// Test Escape to close\u001b[39m\n \u001b[90m 116 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Escape'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                            "column": 32,
+                            "line": 113
+                          },
+                          "message": "Error: \u001b[31mTimed out 10000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('#main-control-panel')\nExpected pattern: \u001b[32m/visible/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nCall log:\n\u001b[2m  - expect.toHaveClass with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#main-control-panel')\u001b[22m\n\u001b[2m    13 ├ù locator resolved to <control-panel theme=\"auto\" visible=\"false\" position=\"fixed\" draggable=\"true\" primary-hue=\"240\" show-themes=\"true\" show-colors=\"true\" show-layout=\"true\" background-hue=\"220\" show-edit-mode=\"true\" primary-lightness=\"50\" id=\"main-control-panel\" primary-saturation=\"70\" show-color-sliders=\"true\" background-lightness=\"15\" background-saturation=\"25\">ΓÇª</control-panel>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n  111 |     \n  112 |     const controlPanel = page.locator('#main-control-panel');\n> 113 |     await expect(controlPanel).toHaveClass(/visible/);\n      |                                ^\n  114 |     \n  115 |     // Test Escape to close\n  116 |     await page.keyboard.press('Escape');\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts:113:32"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:11:36.488Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-e2773-board-shortcuts-should-work-wb-components-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-e2773-board-shortcuts-should-work-wb-components-chromium\\video.webm"
+                        },
+                        {
+                          "name": "_error-context-0",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-e2773-board-shortcuts-should-work-wb-components-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                        "column": 32,
+                        "line": 113
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-da5c2bc7500f70d29cb3",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "demo should work on mobile viewport",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2620,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Γ£à Demo works on mobile viewport\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:11:52.618Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-83f6701e9150b53096f7",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 125,
+              "column": 3
+            },
+            {
+              "title": "edit mode should work in demo context",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 12182,
+                      "error": {
+                        "message": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#toggle-control-panel')\u001b[22m\n",
+                        "stack": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#toggle-control-panel')\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts:144:49",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                          "column": 49,
+                          "line": 144
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 142 |\u001b[39m   test(\u001b[32m'edit mode should work in demo context'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page })\u001b[33m:\u001b[39m any \u001b[33m=>\u001b[39m {\n \u001b[90m 143 |\u001b[39m     \u001b[90m// Open control panel\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 144 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'#toggle-control-panel'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 145 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 146 |\u001b[39m     \n \u001b[90m 147 |\u001b[39m     \u001b[90m// Enable edit mode\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                            "column": 49,
+                            "line": 144
+                          },
+                          "message": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#toggle-control-panel')\u001b[22m\n\n\n  142 |   test('edit mode should work in demo context', async ({ page }): any => {\n  143 |     // Open control panel\n> 144 |     await page.locator('#toggle-control-panel').click();\n      |                                                 ^\n  145 |     await page.waitForTimeout(500);\n  146 |     \n  147 |     // Enable edit mode\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts:144:49"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:11:55.498Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-4d6d3-should-work-in-demo-context-wb-components-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-4d6d3-should-work-in-demo-context-wb-components-chromium\\video.webm"
+                        },
+                        {
+                          "name": "_error-context-0",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-4d6d3-should-work-in-demo-context-wb-components-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-demo.spec.ts",
+                        "column": 49,
+                        "line": 144
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-1f83fa462f5f1b637b54",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 142,
+              "column": 3
+            },
+            {
+              "title": "demo should initialize properly with debug info",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3995,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Γ£à Demo initialization works with proper logging\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:12:11.121Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "6acfc39918414ebc19d5-8dd6baba847393994f5f",
+              "file": "wb-control-panel/control-panel-demo.spec.ts",
+              "line": 165,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wb-control-panel\\control-panel-functionality.spec.ts",
+      "file": "wb-control-panel/control-panel-functionality.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "WB Control Panel - Implementation-Based Tests",
+          "file": "wb-control-panel/control-panel-functionality.spec.ts",
+          "line": 11,
+          "column": 6,
+          "specs": [
+            {
+              "title": "control panel should register and initialize correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3169,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Control Panel Initialization Test: {\n  isRegistered: \u001b[33mtrue\u001b[39m,\n  elementExists: \u001b[33mtrue\u001b[39m,\n  hasInitialized: \u001b[33mtrue\u001b[39m,\n  hasConfig: \u001b[33mtrue\u001b[39m,\n  hasCurrentColors: \u001b[33mtrue\u001b[39m,\n  constructorName: \u001b[32m'ControlPanel'\u001b[39m,\n  hasObservedAttributes: \u001b[33mtrue\u001b[39m,\n  observedAttributesCount: \u001b[33m13\u001b[39m\n}\n"
+                        },
+                        {
+                          "text": "Γ£à Control panel registered and initialized correctly\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:12:15.326Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23c3e7fa85f9ecf8e97-06e845eea781da11802e",
+              "file": "wb-control-panel/control-panel-functionality.spec.ts",
+              "line": 25,
+              "column": 3
+            },
+            {
+              "title": "control panel should have complete shadow DOM structure",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6364,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Control Panel Structure Test: { valid: \u001b[33mfalse\u001b[39m, reason: \u001b[32m'No panel or shadow root'\u001b[39m }\n"
+                        },
+                        {
+                          "text": "ΓÜá∩╕Å Control panel structure test failed: No panel or shadow root\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:12:18.501Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23c3e7fa85f9ecf8e97-feb5ff1bce7054ab7032",
+              "file": "wb-control-panel/control-panel-functionality.spec.ts",
+              "line": 61,
+              "column": 3
+            },
+            {
+              "title": "control panel should handle all control interactions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5333,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Control Panel Interaction Test: { success: \u001b[33mfalse\u001b[39m, reason: \u001b[32m'No shadow root'\u001b[39m }\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:12:24.872Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23c3e7fa85f9ecf8e97-3589f1f5ef5d2fa47ab7",
+              "file": "wb-control-panel/control-panel-functionality.spec.ts",
+              "line": 118,
+              "column": 3
+            },
+            {
+              "title": "control panel should save and restore state correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5765,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Control Panel State Test: {\n  success: \u001b[33mtrue\u001b[39m,\n  hasGetData: \u001b[33mfalse\u001b[39m,\n  hasSetData: \u001b[33mfalse\u001b[39m,\n  hasReset: \u001b[33mfalse\u001b[39m,\n  hasSave: \u001b[33mfalse\u001b[39m,\n  hasLoad: \u001b[33mfalse\u001b[39m\n}\n"
+                        },
+                        {
+                          "text": "ΓÜá∩╕Å No standard state management methods found - may use different API\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:12:30.212Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23c3e7fa85f9ecf8e97-b3f31a59359ef96fee08",
+              "file": "wb-control-panel/control-panel-functionality.spec.ts",
+              "line": 243,
+              "column": 3
+            },
+            {
+              "title": "control panel should handle theme and layout changes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5487,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Control Panel Theme/Layout Test: { success: \u001b[33mfalse\u001b[39m, reason: \u001b[32m'No shadow root'\u001b[39m }\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:12:35.985Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23c3e7fa85f9ecf8e97-59840633eceaf63ef068",
+              "file": "wb-control-panel/control-panel-functionality.spec.ts",
+              "line": 331,
+              "column": 3
+            },
+            {
+              "title": "control panel should be performant and responsive",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4301,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Control Panel Performance Test: {\n  success: \u001b[33mtrue\u001b[39m,\n  elementCount: \u001b[33m0\u001b[39m,\n  totalTime: \u001b[33m0\u001b[39m,\n  interactionTime: \u001b[33m0\u001b[39m,\n  avgInteractionTime: \u001b[33m0\u001b[39m\n}\n"
+                        },
+                        {
+                          "text": "Γ£à Control panel rendered 0 elements in 0ms\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:12:41.481Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23c3e7fa85f9ecf8e97-3efdc8533c361a6b1168",
+              "file": "wb-control-panel/control-panel-functionality.spec.ts",
+              "line": 401,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wb-control-panel\\control-panel-insert-media.spec.ts",
+      "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Control Panel and Insert Media Tests",
+          "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+          "line": 32,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Control panel should be visible and properly loaded",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 12877,
+                      "error": {
+                        "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:has-text(\"Edit Mode\")') to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:has-text(\"Edit Mode\")') to be visible\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-insert-media.spec.ts:42:16",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-insert-media.spec.ts",
+                          "column": 16,
+                          "line": 42
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 40 |\u001b[39m\n \u001b[90m 41 |\u001b[39m     \u001b[90m// Wait for control panel elements to load - look for edit mode button\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 42 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'button:has-text(\"Edit Mode\")'\u001b[39m\u001b[33m,\u001b[39m { state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 43 |\u001b[39m\n \u001b[90m 44 |\u001b[39m     \u001b[90m// Minimize Claude AI panel to prevent interference\u001b[39m\n \u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m minimizeClaudePanel(page)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-insert-media.spec.ts",
+                            "column": 16,
+                            "line": 42
+                          },
+                          "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:has-text(\"Edit Mode\")') to be visible\u001b[22m\n\n\n  40 |\n  41 |     // Wait for control panel elements to load - look for edit mode button\n> 42 |     await page.waitForSelector('button:has-text(\"Edit Mode\")', { state: 'visible', timeout: 10000 });\n     |                ^\n  43 |\n  44 |     // Minimize Claude AI panel to prevent interference\n  45 |     await minimizeClaudePanel(page);\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-insert-media.spec.ts:42:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T00:12:45.803Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-13105-visible-and-properly-loaded-wb-components-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-13105-visible-and-properly-loaded-wb-components-chromium\\video.webm"
+                        },
+                        {
+                          "name": "_error-context-0",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-control-panel-control-p-13105-visible-and-properly-loaded-wb-components-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-control-panel\\control-panel-insert-media.spec.ts",
+                        "column": 16,
+                        "line": 42
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "664608e34afecf4544c9-5c063edd39848b94d3e0",
+              "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+              "line": 51,
+              "column": 3
+            },
+            {
+              "title": "Edit mode should toggle when button is clicked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "664608e34afecf4544c9-4133e54b8025f2361dc3",
+              "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+              "line": 69,
+              "column": 3
+            },
+            {
+              "title": "File upload functionality should be available",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "664608e34afecf4544c9-475249690bf87960e06b",
+              "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+              "line": 85,
+              "column": 3
+            },
+            {
+              "title": "Control panel should not have main insert media button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "664608e34afecf4544c9-42997a5f55b7870fed7c",
+              "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+              "line": 98,
+              "column": 3
+            },
+            {
+              "title": "Edit mode functionality should work correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "664608e34afecf4544c9-19d05f2cf9144458d5ed",
+              "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "Theme selector should be functional",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "664608e34afecf4544c9-7c5d22429860655ca8ec",
+              "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+              "line": 124,
+              "column": 3
+            },
+            {
+              "title": "Layout selector should be functional",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "664608e34afecf4544c9-3a2326598869d44fc7bb",
+              "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+              "line": 138,
+              "column": 3
+            },
+            {
+              "title": "Basic control panel functionality should work",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "664608e34afecf4544c9-a79fb799d6c7bd586348",
+              "file": "wb-control-panel/control-panel-insert-media.spec.ts",
+              "line": 151,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wb-control-panel\\control-panel-integration.spec.ts",
+      "file": "wb-control-panel/control-panel-integration.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "WB Control Panel - TEXT VALIDATION Tests",
+          "file": "wb-control-panel/control-panel-integration.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should show correct page text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a00c667ad66e5e60f432-cd69ceafae7dcd44609b",
+              "file": "wb-control-panel/control-panel-integration.spec.ts",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "should show dependency status in output",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a00c667ad66e5e60f432-2913f2e7238248ace4a7",
+              "file": "wb-control-panel/control-panel-integration.spec.ts",
+              "line": 19,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wb-control-panel\\control-panel-real-functionality.spec.ts",
+      "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "WB Control Panel - REAL FUNCTIONALITY Tests",
+          "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "theme selector should change themes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8479fd72dc5b55272abd-c9ce21eebd7bb2fa41e4",
+              "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "layout selector should change layouts",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8479fd72dc5b55272abd-fd3505eb7ca97300ffde",
+              "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "color bars should be present and interactive",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8479fd72dc5b55272abd-deac851421c9a5ba4a20",
+              "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+              "line": 52,
+              "column": 3
+            },
+            {
+              "title": "toggle switches should work",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8479fd72dc5b55272abd-8a33add9876d2e45d3f5",
+              "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+              "line": 69,
+              "column": 3
+            },
+            {
+              "title": "edit mode button should be clickable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8479fd72dc5b55272abd-27853931e2e5f0bb4b7e",
+              "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+              "line": 93,
+              "column": 3
+            },
+            {
+              "title": "file operation buttons should be functional",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8479fd72dc5b55272abd-0fb2b54e0cd23fbf92bc",
+              "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "drag handle should be present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8479fd72dc5b55272abd-c2fed7e4e60ec42ec81c",
+              "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+              "line": 136,
+              "column": 3
+            },
+            {
+              "title": "control panel should be fully visible and functional",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8479fd72dc5b55272abd-3d6ad73bac090c58567f",
+              "file": "wb-control-panel/control-panel-real-functionality.spec.ts",
+              "line": 146,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wb-control-panel\\control-panel-simple.spec.ts",
+      "file": "wb-control-panel/control-panel-simple.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "WB Control Panel - TEXT VALIDATION Tests",
+          "file": "wb-control-panel/control-panel-simple.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should show correct page text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "4f8455bfeeae1f59d9ea-00a8a1dad65cfcf45a2b",
+              "file": "wb-control-panel/control-panel-simple.spec.ts",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "should show dependency status in output",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "4f8455bfeeae1f59d9ea-638ac8875fb872d6b362",
+              "file": "wb-control-panel/control-panel-simple.spec.ts",
+              "line": 19,
+              "column": 3
+            },
+            {
+              "title": "should not show JavaScript errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "4f8455bfeeae1f59d9ea-cb8bd35016aa4b3e375a",
+              "file": "wb-control-panel/control-panel-simple.spec.ts",
+              "line": 35,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wb-control-panel\\control-panel.spec.ts",
+      "file": "wb-control-panel/control-panel.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Website Builder Control Panel Tests",
+          "file": "wb-control-panel/control-panel.spec.ts",
+          "line": 37,
+          "column": 6,
+          "specs": [
+            {
+              "title": "control panel should show correct page text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-e0cdea490bebc67c00fa",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 45,
+              "column": 3
+            },
+            {
+              "title": "should show all dependencies loaded",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-409471dba018a900f080",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 65,
+              "column": 3
+            },
+            {
+              "title": "layout selector should change the layout",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-b9b07ad8ec3388533cd3",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 80,
+              "column": 3
+            },
+            {
+              "title": "gradient toggle should add/remove gradient mode class",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-7080cb13d8733c353e45",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 99,
+              "column": 3
+            },
+            {
+              "title": "theme selector should change the theme",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-46ec25af9ab9d6af5f43",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 119,
+              "column": 3
+            },
+            {
+              "title": "dark mode toggle should switch between light and dark mode",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-ec6a3a908e4876a9accb",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 138,
+              "column": 3
+            },
+            {
+              "title": "color explorer sliders should update colors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-ded0de19482ae29f81b7",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 157,
+              "column": 3
+            },
+            {
+              "title": "minimize button should hide and show panel content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-3e1e73fe71be69d814c5",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 187,
+              "column": 3
+            },
+            {
+              "title": "save button click should trigger status updates",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-5a681d71b7c8c44bb8ba",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 201,
+              "column": 3
+            },
+            {
+              "title": "combination of theme, layout, and dark mode",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-7849afea611fe9bb2771",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 215,
+              "column": 3
+            },
+            {
+              "title": "reset button should show confirmation dialog",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-1d3fd6abeece4b04d365",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 242,
+              "column": 3
+            },
+            {
+              "title": "control panel shadow DOM structure should be complete",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-8f2122019bbffc7219e2",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 252,
+              "column": 3
+            },
+            {
+              "title": "control panel should show output confirming functionality",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-f69ff71fa8e4ed4fe9bb",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 292,
+              "column": 3
+            },
+            {
+              "title": "control panel should respond to attribute changes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-9e982a466ccde15e5088",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 307,
+              "column": 3
+            },
+            {
+              "title": "control panel should handle events properly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-529e0a0e49f0f0993326",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 361,
+              "column": 3
+            },
+            {
+              "title": "control panel should be accessible and keyboard navigable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-d66ba9a6139d6ce0362f",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 436,
+              "column": 3
+            },
+            {
+              "title": "clone template button should be functional",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-3d39b84b470c35334702",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 489,
+              "column": 3
+            },
+            {
+              "title": "import website button should be functional",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-d85f3b78f68a0b1834af",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 508,
+              "column": 3
+            },
+            {
+              "title": "drag handle should be active",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "67a500e3ec4a88e5b4be-6bb81eaf3f5a82c7b5f2",
+              "file": "wb-control-panel/control-panel.spec.ts",
+              "line": 522,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wb-control-panel\\ui-controls.spec.ts",
+      "file": "wb-control-panel/ui-controls.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Website Builder UI Controls",
+          "file": "wb-control-panel/ui-controls.spec.ts",
+          "line": 26,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Basic UI controls are present and working",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "07cf51a217e810f5e6e4-d26a0216f1c9b89346da",
+              "file": "wb-control-panel/ui-controls.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "Import and file stacking buttons are working",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "wb-components-chromium",
+                  "projectName": "wb-components-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "07cf51a217e810f5e6e4-2043dabd9e8d5fd27530",
+              "file": "wb-control-panel/ui-controls.spec.ts",
+              "line": 113,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "message": "\u001b[31mTesting stopped early after 5 maximum allowed failures.\u001b[39m"
+    }
+  ],
+  "stats": {
+    "startTime": "2025-10-07T00:11:06.672Z",
+    "duration": 113206.847,
+    "expected": 11,
+    "skipped": 41,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

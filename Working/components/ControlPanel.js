@@ -274,4 +274,22 @@ class ControlPanel extends HTMLElement {
     }
 }
 customElements.define('control-panel', ControlPanel);
+
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('control-panel-working', ControlPanel, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'composite',
+        role: 'infrastructure',
+        description: 'Working version of control panel component (legacy)',
+        api: {
+            static: [],
+            events: ['panel-opened', 'panel-closed'],
+            attributes: [],
+            methods: []
+        },
+        priority: 6 // Composite component depends on infrastructure
+    });
+}
+
 export default ControlPanel;
