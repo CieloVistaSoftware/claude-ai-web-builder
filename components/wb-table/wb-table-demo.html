@@ -151,75 +151,6 @@
         <p>Demonstration of the reusable table component for Website Builder.</p>
 
         <!-- Basic Table Demo -->
-        <div class="demo-section">
-            <h2 class="demo-title">Basic Table</h2>
-            <p class="demo-description">Simple table with user data.</p>
-            
-            <div class="demo-controls">
-                <button class="demo-button" onclick="loadUsers()">Load Users</button>
-                <button class="demo-button" onclick="addUser()">Add User</button>
-                <button class="demo-button" onclick="clearUsers()">Clear</button>
-            </div>
-            
-            <div class="json-section">
-                <label for="users-json">JSON Data:</label>
-                <textarea id="users-json" class="json-input" placeholder="Edit JSON data here..."></textarea>
-            </div>
-            
-            <div id="users-table" class="table-container"></div>
-            <div id="users-stats" class="stats">0 rows</div>
-        </div>
-
-        <!-- Error Log Demo -->
-        <div class="demo-section">
-            <h2 class="demo-title">Error Log Table</h2>
-            <p class="demo-description">Table formatted for error logging with custom formatters.</p>
-            
-            <div class="demo-controls">
-                <button class="demo-button" onclick="logError()">Log Error</button>
-                <button class="demo-button" onclick="logWarning()">Log Warning</button>
-                <button class="demo-button" onclick="logInfo()">Log Info</button>
-                <button class="demo-button" onclick="clearErrors()">Clear</button>
-            </div>
-            
-            <div class="json-section">
-                <label for="errors-json">JSON Data:</label>
-                <textarea id="errors-json" class="json-input" placeholder="Edit JSON data here..."></textarea>
-            </div>
-            
-            <div id="errors-table" class="table-container"></div>
-            <div id="errors-stats" class="stats">0 rows</div>
-        </div>
-
-        <!-- Advanced Demo -->
-        <div class="demo-section">
-            <h2 class="demo-title">Advanced Features</h2>
-            <p class="demo-description">Table with custom formatters, badges, and styling.</p>
-            
-            <div class="demo-controls">
-                <button class="demo-button" onclick="loadTasks()">Load Tasks</button>
-                <button class="demo-button" onclick="addTask()">Add Task</button>
-                <button class="demo-button" onclick="clearTasks()">Clear</button>
-            </div>
-            
-            <div class="json-section">
-                <label for="tasks-json">JSON Data:</label>
-                <textarea id="tasks-json" class="json-input" placeholder="Edit JSON data here..."></textarea>
-            </div>
-            
-            <div id="tasks-table" class="table-container"></div>
-            <div id="tasks-stats" class="stats">0 rows</div>
-        </div>
-
-        <!-- Code Example -->
-        <div class="demo-section">
-            <h2 class="demo-title">Usage Example</h2>
-            <pre><code>// Create table
-const table = WBTable.create('my-container');
-
-// Define columns with percentage-based widths (should total 100%)
-table.setColumns([
-    { key: 'id', title: 'ID', width: '10%' },
     { key: 'name', title: 'Name', width: '25%' },
     { key: 'status', title: 'Status', width: '20%' },
     { key: 'message', title: 'Message', width: '45%' }
@@ -239,8 +170,75 @@ table.addRow({ id: 3, name: 'Bob', status: 'pending', message: 'Hi' });</code></
 
     <script src="wb-table.js"></script>
     <script>
-        let usersTable, errorsTable, tasksTable;
-        let userCounter = 1;
+
+        <wb-demo title="WB Table Component Demo: Basic Table">
+            <div slot="example">
+                <h2>Basic Table Example</h2>
+                <div>
+                    <button onclick="loadUsers()">Load Users</button>
+                    <button onclick="addUser()">Add User</button>
+                    <button onclick="clearUsers()">Clear</button>
+                </div>
+                <div>
+                    <label for="users-json">JSON Data:</label>
+                    <textarea id="users-json" placeholder="Edit JSON data here..."></textarea>
+                </div>
+                <div id="users-table"></div>
+                <div id="users-stats">0 rows</div>
+            </div>
+            <div slot="documentation">
+                <h2>Basic Table Documentation</h2>
+                <p>Simple table with user data. Use the controls to load, add, or clear users. Edit the JSON data directly to update the table.</p>
+            </div>
+        </wb-demo>
+
+        <wb-demo title="WB Table Component Demo: Error Log Table">
+            <div slot="example">
+                <h2>Error Log Table Example</h2>
+                <div>
+                    <button onclick="logError()">Log Error</button>
+                    <button onclick="logWarning()">Log Warning</button>
+                    <button onclick="logInfo()">Log Info</button>
+                    <button onclick="clearErrors()">Clear</button>
+                </div>
+                <div>
+                    <label for="errors-json">JSON Data:</label>
+                    <textarea id="errors-json" placeholder="Edit JSON data here..."></textarea>
+                </div>
+                <div id="errors-table"></div>
+                <div id="errors-stats">0 rows</div>
+            </div>
+            <div slot="documentation">
+                <h2>Error Log Table Documentation</h2>
+                <p>Table formatted for error logging with custom formatters. Use the controls to log errors, warnings, or info messages. Edit the JSON data directly to update the table.</p>
+            </div>
+        </wb-demo>
+
+        <wb-demo title="WB Table Component Demo: Advanced Features">
+            <div slot="example">
+                <h2>Advanced Table Example</h2>
+                <div>
+                    <button onclick="loadTasks()">Load Tasks</button>
+                    <button onclick="addTask()">Add Task</button>
+                    <button onclick="clearTasks()">Clear</button>
+                </div>
+                <div>
+                    <label for="tasks-json">JSON Data:</label>
+                    <textarea id="tasks-json" placeholder="Edit JSON data here..."></textarea>
+                </div>
+                <div id="tasks-table"></div>
+                <div id="tasks-stats">0 rows</div>
+            </div>
+            <div slot="documentation">
+                <h2>Advanced Table Documentation</h2>
+                <p>Table with custom formatters, badges, and styling. Use the controls to load, add, or clear tasks. Edit the JSON data directly to update the table.</p>
+            </div>
+        </wb-demo>
+
+        <wb-demo title="WB Table Component Demo: Usage Example">
+            <div slot="example">
+                <h2>Usage Example</h2>
+                <pre><code>// Create table
         let errorCounter = 1;
         let taskCounter = 1;
 
@@ -260,6 +258,12 @@ table.addRow({ id: 3, name: 'Bob', status: 'pending', message: 'Hi' });</code></
         if (document.readyState === 'loading') {
             // DOMContentLoaded will fire
         } else {
+            </div>
+            <div slot="documentation">
+                <h2>Usage Example Documentation</h2>
+                <p>Example code for creating and using <code>WBTable</code> programmatically.</p>
+            </div>
+        </wb-demo>
             // DOM is already ready
             console.log('📊 DOM already ready, initializing tables immediately...');
             try {

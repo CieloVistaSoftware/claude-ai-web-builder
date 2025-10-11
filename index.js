@@ -89,7 +89,14 @@
         // Main components
         if (manifest.components) {
             manifest.components.forEach(component => {
-                scripts.push(`${config.componentsPath}/${component}/${component}.js`);
+                // Handle special cases where JS filename doesn't match folder name
+                let jsFile;
+                if (component === 'wb-theme') {
+                    jsFile = 'wb-theme-manager.js';
+                } else {
+                    jsFile = `${component}.js`;
+                }
+                scripts.push(`${config.componentsPath}/${component}/${jsFile}`);
             });
         }
         

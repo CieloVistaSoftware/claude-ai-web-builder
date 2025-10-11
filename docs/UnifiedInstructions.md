@@ -7,9 +7,9 @@ Coding standards, domain knowledge, and preferences that AI should follow.
 ## Core Rules
 
 1. **All suggestions must include the full file path** in the "Apply to Editor" functionality
-2. **All suggestions must be tested first. use playwright were possible**
+2. **All suggestions must be tested first. USE PLAYWRIGHT FOR ALL TESTING AND ALWAYS USE ES MODULES, DO NOT USE REQUIRE**
 
-3.**We have a file named Issues.md in the docs folder, which contains all current issues** Each time you awake from a question or finish a task, Look in  that file to start another code fix. When you find a fix, you must update the fixes.md file and remove the issue in issues.md. 
+3.**We have claude.md files in every folder documenting component specifications and current issues** Each time you awake from a question or finish a task, scan claude.md files to identify priority issues. When you find a fix, you must update the fixes.md file and mark the issue as resolved in the relevant claude.md file. 
 4.**Keep a log of all fixes in docs folder named fixes.md by putting new fixes with the date and eplaintion on the top of the list**
 5. **Always read the file first** before making any suggestion
 6. **Do not show a suggestion with no changes**
@@ -358,39 +358,58 @@ When "Tips vscode" is used, follow this structure:
 - Terminal integration
 - Debugging capabilities
 
-## Web Components Standards
+## WB Component Architecture Standards
+
+### Component System Overview
+This project uses **WB Components** - a hybrid approach combining Web Components API with project-specific conventions:
+
+#### WB Component Requirements:
+1. **Naming Convention**: All components use `wb-` prefix (wb-layout, wb-nav, wb-card)
+2. **File Structure**: Each component has `.js`, `.css`, `.md`, and `-demo.html` files
+3. **claude.md Documentation**: Every component folder contains claude.md with specifications and issues
+4. **CSS-First Architecture**: No inline styles, external CSS files only
+5. **Two-Tab Demo Structure**: Documentation tab and Examples tab
+
+#### Shadow DOM Usage Policy:
+- **OPTIONAL**: Components MAY use Shadow DOM for style encapsulation
+- **NOT REQUIRED**: Many WB components work without Shadow DOM
+- **CURRENT STATE**: Only 8 of 29+ components use Shadow DOM (see analysis below)
+
+### Web Components Standards (When Using Shadow DOM)
 
 ### Single Responsibility Principle
 Each component should have ONE focused purpose.
 
-#### Basic Component Structure
+#### WB Component Structure (Standard Pattern)
 ```javascript
-class MyComponent extends HTMLElement {
+class WBMyComponent extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
+    // Shadow DOM is OPTIONAL - many WB components work without it
+    // this.attachShadow({ mode: 'open' }); // Only if style encapsulation needed
   }
   
   connectedCallback() {
     this.render();
+    this.setupEventListeners();
   }
   
   render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          /* Component-specific styles */
-        }
-      </style>
-      <div class="content">
+    // CSS-First Architecture: Use external CSS files
+    this.innerHTML = `
+      <div class="wb-my-component">
         <slot></slot>
       </div>
     `;
   }
+  
+  setupEventListeners() {
+    // WB Components use event-driven architecture
+    this.addEventListener('wb:update', this.handleUpdate.bind(this));
+  }
 }
 
-customElements.define('my-component', MyComponent);
+customElements.define('wb-my-component', WBMyComponent);
 ```
 
 #### Lifecycle Callbacks
@@ -435,40 +454,66 @@ document.addEventListener('notification', (event) => {
 });
 ```
 
-#### Shadow DOM Best Practices
+#### WB Component Shadow DOM Guidelines
+
+**IMPORTANT**: Only 8 of 29+ WB components use Shadow DOM. This is intentional.
+
 ```javascript
-class EncapsulatedComponent extends HTMLElement {
+class WBEncapsulatedComponent extends HTMLElement {
   constructor() {
     super();
     
-    // Create shadow root for style encapsulation
-    const shadow = this.attachShadow({ mode: 'open' });
-    
-    shadow.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          /* Host styles */
-        }
-        
-        :host([disabled]) {
-          opacity: 0.5;
-          pointer-events: none;
-        }
-        
-        .container {
-          padding: var(--space-md);
-          border: 1px solid var(--border);
-          border-radius: calc(var(--space-xs) * 2);
-        }
-      </style>
-      <div class="container">
+    // Use Shadow DOM ONLY for components that need style isolation
+    // Examples: wb-color-picker, wb-tab, visual widgets
+    if (this.requiresStyleEncapsulation()) {
+      this.attachShadow({ mode: 'open' });
+    }
+  }
+  
+  requiresStyleEncapsulation() {
+    // Override this method to determine Shadow DOM usage
+    // Return true for complex styling components
+    // Return false for layout/content components
+    return false; // Default: CSS-First Architecture
+  }
+  
+  render() {
+    const content = `
+      <div class="wb-component-container">
         <slot></slot>
       </div>
     `;
+    
+    if (this.shadowRoot) {
+      // Shadow DOM components can include internal styles
+      this.shadowRoot.innerHTML = `
+        <style>
+          :host {
+            display: block;
+            /* CSS variables pass through Shadow DOM */
+            --wb-padding: var(--space-md);
+          }
+          .wb-component-container {
+            padding: var(--wb-padding);
+          }
+        </style>
+        ${content}
+      `;
+    } else {
+      // CSS-First: Use external stylesheets
+      this.innerHTML = content;
+    }
   }
 }
 ```
+
+**Current WB Components using Shadow DOM:**
+- wb-tab (complex tab interface)
+- wb-color-picker (style isolation needed)  
+- wb-color-bar (visual widget)
+- wb-color-bars (visual widget)
+
+**Most WB Components use CSS-First Architecture** (no Shadow DOM).
 
 #### Performance Optimization
 ```javascript
@@ -575,20 +620,28 @@ class OptimizedComponent extends HTMLElement {
 - Event-driven architecture
 - Progressive enhancement
 
-### File Organization Best Practices
+### WB Component File Organization
 ```
-src/
-├── components/           # Single-purpose components
-│   ├── Button/
-│   │   ├── Button.ts
-│   │   ├── Button.css
-│   │   └── Button.test.ts
-│   └── Card/
-├── utils/               # Utility functions
-├── types/               # TypeScript type definitions
-├── styles/              # Global styles
-└── assets/              # Static assets
+components/
+├── wb-component-name/          # Each WB component has its own folder
+│   ├── wb-component-name.js    # Component logic (ES6 modules)
+│   ├── wb-component-name.css   # Component styles (CSS-First)
+│   ├── wb-component-name.md    # API documentation  
+│   ├── wb-component-name-demo.html # Two-tab demo (Documentation/Examples)
+│   ├── claude.md              # Development log and current issues
+│   └── wb-component-name.schema.json # (Optional) Data validation
+├── utils/                     # Shared utility functions
+├── styles/                    # Global theme variables
+└── tests/                     # Playwright test suites
+    └── wb-component-name/     # Component-specific tests
 ```
+
+**Key WB Component Rules:**
+1. **All components start with `wb-`** (wb-layout, wb-nav, wb-card)
+2. **claude.md required** in every component folder
+3. **CSS-First Architecture** - external CSS files only
+4. **Two-tab demo structure** - Documentation and Examples tabs
+5. **ES6 modules only** - no CommonJS
 
 ### Documentation Standards
 ```typescript

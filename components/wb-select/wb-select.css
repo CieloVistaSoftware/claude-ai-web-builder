@@ -284,6 +284,11 @@
     color: var(--neutral-100, #f1f5f9);
 }
 
+[data-theme="dark"] .wb-select-option:not(.wb-select-option--selected) {
+    color: var(--neutral-100, #f1f5f9);
+    background: transparent;
+}
+
 [data-theme="dark"] .wb-select-group-label {
     background: var(--neutral-700, #334155);
     color: var(--neutral-300, #cbd5e1);

@@ -27,11 +27,27 @@
         
         async init() {
             if (this.isInitialized) {
-                console.log('⌨️ WB Keyboard Manager: Already initialized, skipping');
+                if (window.WBEventLog) {
+                    WBEventLog.logInfo('WB Keyboard Manager: Already initialized, skipping', { 
+                        component: 'wb-keyboard-manager', 
+                        method: 'init', 
+                        line: 30 
+                    });
+                } else {
+                    console.log('⌨️ WB Keyboard Manager: Already initialized, skipping');
+                }
                 return;
             }
             
-            console.log('⌨️ WB Keyboard Manager: Initializing...');
+            if (window.WBEventLog) {
+                WBEventLog.logInfo('WB Keyboard Manager: Initializing...', { 
+                    component: 'wb-keyboard-manager', 
+                    method: 'init', 
+                    line: 34 
+                });
+            } else {
+                console.log('⌨️ WB Keyboard Manager: Initializing...');
+            }
             
             // Load configuration
             await this.loadConfig();
@@ -45,7 +61,15 @@
             this.setupEventListeners();
             
             this.isInitialized = true;
-            console.log('⌨️ WB Keyboard Manager: Ready');
+            if (window.WBEventLog) {
+                WBEventLog.logSuccess('WB Keyboard Manager: Ready', { 
+                    component: 'wb-keyboard-manager', 
+                    method: 'init', 
+                    line: 48 
+                });
+            } else {
+                console.log('⌨️ WB Keyboard Manager: Ready');
+            }
         }
         
         async loadConfig() {
@@ -64,9 +88,27 @@
                     });
                 }
                 
-                console.log('⌨️ WB Keyboard Manager: Configuration loaded', config);
+                if (window.WBEventLog) {
+                    WBEventLog.logSuccess('WB Keyboard Manager: Configuration loaded', { 
+                        component: 'wb-keyboard-manager', 
+                        method: 'loadConfig', 
+                        line: 67, 
+                        config: config 
+                    });
+                } else {
+                    console.log('⌨️ WB Keyboard Manager: Configuration loaded', config);
+                }
             } catch (error) {
-                console.warn('⌨️ WB Keyboard Manager: Failed to load configuration, using defaults', error);
+                if (window.WBEventLog) {
+                    WBEventLog.logWarning('WB Keyboard Manager: Failed to load configuration, using defaults', { 
+                        component: 'wb-keyboard-manager', 
+                        method: 'loadConfig', 
+                        line: 69, 
+                        error: error.message 
+                    });
+                } else {
+                    console.warn('⌨️ WB Keyboard Manager: Failed to load configuration, using defaults', error);
+                }
             }
         }
         
@@ -115,11 +157,27 @@
                     description: 'Hide Website Builder Interface',
                     context: 'global',
                     handler: () => {
-                        console.log('⌨️ Hide components triggered');
+                        if (window.WBEventLog) {
+                            WBEventLog.logUser('Hide components triggered', { 
+                                component: 'wb-keyboard-manager', 
+                                method: 'hideComponentsHandler', 
+                                line: 118 
+                            });
+                        } else {
+                            console.log('⌨️ Hide components triggered');
+                        }
                         if (typeof hideComponents === 'function') {
                             hideComponents();
                         } else {
-                            console.warn('hideComponents function not found');
+                            if (window.WBEventLog) {
+                                WBEventLog.logWarning('hideComponents function not found', { 
+                                    component: 'wb-keyboard-manager', 
+                                    method: 'hideComponentsHandler', 
+                                    line: 122 
+                                });
+                            } else {
+                                console.warn('hideComponents function not found');
+                            }
                             alert('Hide components shortcut triggered!');
                         }
                     }
@@ -130,11 +188,27 @@
                     description: 'Show Website Builder Interface', 
                     context: 'global',
                     handler: () => {
-                        console.log('⌨️ Show components triggered');
+                        if (window.WBEventLog) {
+                            WBEventLog.logUser('Show components triggered', { 
+                                component: 'wb-keyboard-manager', 
+                                method: 'showComponentsHandler', 
+                                line: 133 
+                            });
+                        } else {
+                            console.log('⌨️ Show components triggered');
+                        }
                         if (typeof showComponents === 'function') {
                             showComponents();
                         } else {
-                            console.warn('showComponents function not found');
+                            if (window.WBEventLog) {
+                                WBEventLog.logWarning('showComponents function not found', { 
+                                    component: 'wb-keyboard-manager', 
+                                    method: 'showComponentsHandler', 
+                                    line: 137 
+                                });
+                            } else {
+                                console.warn('showComponents function not found');
+                            }
                             alert('Show components shortcut triggered!');
                         }
                     }
@@ -145,7 +219,15 @@
                     description: 'Show Keyboard Shortcuts Help',
                     context: 'global',
                     handler: () => {
-                        console.log('⌨️ Show help (ctrl+k+?) triggered');
+                        if (window.WBEventLog) {
+                            WBEventLog.logUser('Show help (ctrl+k+?) triggered', { 
+                                component: 'wb-keyboard-manager', 
+                                method: 'showHelpHandler', 
+                                line: 148 
+                            });
+                        } else {
+                            console.log('⌨️ Show help (ctrl+k+?) triggered');
+                        }
                         this.showHelp();
                     }
                 },
@@ -155,7 +237,16 @@
                     description: 'Show Keyboard Shortcuts Help',
                     context: 'global',
                     handler: (e) => {
-                        console.log('⌨️ Show help (?) triggered, input focused:', this.isInputFocused());
+                        if (window.WBEventLog) {
+                            WBEventLog.logUser('Show help (?) triggered', { 
+                                component: 'wb-keyboard-manager', 
+                                method: 'questionMarkHandler', 
+                                line: 158, 
+                                inputFocused: this.isInputFocused() 
+                            });
+                        } else {
+                            console.log('⌨️ Show help (?) triggered, input focused:', this.isInputFocused());
+                        }
                         // Only show help if not in an input field
                         if (!this.isInputFocused()) {
                             this.showHelp();
@@ -168,7 +259,16 @@
                     description: 'Close open modals and help',
                     context: 'global',
                     handler: () => {
-                        console.log('⌨️ Escape triggered, help visible:', this.helpModalVisible);
+                        if (window.WBEventLog) {
+                            WBEventLog.logUser('Escape triggered', { 
+                                component: 'wb-keyboard-manager', 
+                                method: 'escapeHandler', 
+                                line: 171, 
+                                helpVisible: this.helpModalVisible 
+                            });
+                        } else {
+                            console.log('⌨️ Escape triggered, help visible:', this.helpModalVisible);
+                        }
                         if (this.helpModalVisible) {
                             this.hideHelp();
                         } else {
@@ -186,7 +286,16 @@
             });
             
             // Debug: log all registered shortcuts
-            console.log('⌨️ Registered shortcuts:', Array.from(this.shortcuts.keys()));
+            if (window.WBEventLog) {
+                WBEventLog.logDebug('Registered shortcuts', { 
+                    component: 'wb-keyboard-manager', 
+                    method: 'registerDefaultShortcuts', 
+                    line: 189, 
+                    shortcuts: Array.from(this.shortcuts.keys()) 
+                });
+            } else {
+                console.log('⌨️ Registered shortcuts:', Array.from(this.shortcuts.keys()));
+            }
         }
         
         setupEventListeners() {
@@ -212,18 +321,46 @@
             // Build key combination string
             const key = this.buildKeyString(e);
             
-            console.log('⌨️ Key pressed:', key, 'Current sequence:', this.keySequence);
+            if (window.WBEventLog) {
+                WBEventLog.logDebug('Key pressed', { 
+                    component: 'wb-keyboard-manager', 
+                    method: 'handleKeyDown', 
+                    line: 215, 
+                    key: key, 
+                    sequence: this.keySequence 
+                });
+            } else {
+                console.log('⌨️ Key pressed:', key, 'Current sequence:', this.keySequence);
+            }
             
             // Handle multi-key sequences (like Ctrl+K+H)
             if (this.isSequenceStart(key)) {
-                console.log('⌨️ Starting sequence with:', key);
+                if (window.WBEventLog) {
+                    WBEventLog.logDebug('Starting sequence', { 
+                        component: 'wb-keyboard-manager', 
+                        method: 'handleKeyDown', 
+                        line: 219, 
+                        key: key 
+                    });
+                } else {
+                    console.log('⌨️ Starting sequence with:', key);
+                }
                 e.preventDefault();
                 this.keySequence = [key];
                 
                 // Clear sequence after timeout
                 setTimeout(() => {
                     if (this.keySequence.length > 0) {
-                        console.log('⌨️ Sequence timeout, clearing:', this.keySequence);
+                        if (window.WBEventLog) {
+                            WBEventLog.logDebug('Sequence timeout, clearing', { 
+                                component: 'wb-keyboard-manager', 
+                                method: 'sequenceTimeoutHandler', 
+                                line: 226, 
+                                sequence: this.keySequence 
+                            });
+                        } else {
+                            console.log('⌨️ Sequence timeout, clearing:', this.keySequence);
+                        }
                         this.keySequence = [];
                     }
                 }, this.sequenceTimeout);
@@ -235,16 +372,45 @@
             let fullKey = key;
             if (this.keySequence.length > 0) {
                 fullKey = [...this.keySequence, key].join('+');
-                console.log('⌨️ Built sequence:', fullKey);
+                if (window.WBEventLog) {
+                    WBEventLog.logDebug('Built sequence', { 
+                        component: 'wb-keyboard-manager', 
+                        method: 'handleKeyDown', 
+                        line: 238, 
+                        fullKey: fullKey 
+                    });
+                } else {
+                    console.log('⌨️ Built sequence:', fullKey);
+                }
                 this.keySequence = []; // Clear sequence
             }
             
             // Find matching shortcut
             const shortcut = this.findShortcut(fullKey);
-            console.log('⌨️ Looking for shortcut:', fullKey, 'Found:', !!shortcut);
+            if (window.WBEventLog) {
+                WBEventLog.logDebug('Looking for shortcut', { 
+                    component: 'wb-keyboard-manager', 
+                    method: 'handleKeyDown', 
+                    line: 244, 
+                    fullKey: fullKey, 
+                    found: !!shortcut 
+                });
+            } else {
+                console.log('⌨️ Looking for shortcut:', fullKey, 'Found:', !!shortcut);
+            }
             
             if (shortcut && this.isShortcutActive(shortcut)) {
-                console.log('⌨️ Executing shortcut:', shortcut.action);
+                if (window.WBEventLog) {
+                    WBEventLog.logUser('Executing shortcut', { 
+                        component: 'wb-keyboard-manager', 
+                        method: 'handleKeyDown', 
+                        line: 247, 
+                        action: shortcut.action, 
+                        keys: shortcut.keys 
+                    });
+                } else {
+                    console.log('⌨️ Executing shortcut:', shortcut.action);
+                }
                 
                 // Dispatch before event
                 const beforeEvent = new CustomEvent('wb:keyboard-shortcut-before', {
@@ -282,7 +448,17 @@
                     this.logShortcutExecution(shortcut);
                     
                 } catch (error) {
-                    console.error('⌨️ Error executing keyboard shortcut:', error);
+                    if (window.WBEventLog) {
+                        WBEventLog.logError('Error executing keyboard shortcut', { 
+                            component: 'wb-keyboard-manager', 
+                            method: 'handleKeyDown', 
+                            line: 285, 
+                            error: error.message, 
+                            stack: error.stack 
+                        });
+                    } else {
+                        console.error('⌨️ Error executing keyboard shortcut:', error);
+                    }
                     
                     // Dispatch error event
                     document.dispatchEvent(new CustomEvent('wb:keyboard-shortcut-error', {
@@ -441,7 +617,16 @@
         // Public API Methods
         registerShortcut(shortcut) {
             if (!shortcut.keys || !shortcut.action) {
-                console.warn('⌨️ Invalid shortcut registration:', shortcut);
+                if (window.WBEventLog) {
+                    WBEventLog.logWarning('Invalid shortcut registration', { 
+                        component: 'wb-keyboard-manager', 
+                        method: 'registerShortcut', 
+                        line: 444, 
+                        shortcut: shortcut 
+                    });
+                } else {
+                    console.warn('⌨️ Invalid shortcut registration:', shortcut);
+                }
                 return false;
             }
             
@@ -454,11 +639,22 @@
                 
                 // Only warn if it's actually a different shortcut
                 if (existing.action !== shortcut.action) {
-                    console.warn('⌨️ Keyboard shortcut conflict detected:', {
-                        keys: normalizedKeys,
-                        existing: { action: existing.action, context: existing.context },
-                        new: { action: shortcut.action, context: shortcut.context }
-                    });
+                    if (window.WBEventLog) {
+                        WBEventLog.logWarning('Keyboard shortcut conflict detected', { 
+                            component: 'wb-keyboard-manager', 
+                            method: 'registerShortcut', 
+                            line: 457, 
+                            keys: normalizedKeys,
+                            existing: { action: existing.action, context: existing.context },
+                            new: { action: shortcut.action, context: shortcut.context }
+                        });
+                    } else {
+                        console.warn('⌨️ Keyboard shortcut conflict detected:', {
+                            keys: normalizedKeys,
+                            existing: { action: existing.action, context: existing.context },
+                            new: { action: shortcut.action, context: shortcut.context }
+                        });
+                    }
                     
                     // Dispatch conflict event
                     document.dispatchEvent(new CustomEvent('wb:keyboard-conflict', {
@@ -471,7 +667,16 @@
                     }));
                 } else {
                     // Same shortcut being re-registered, just update it silently
-                    console.log('⌨️ Re-registering existing shortcut:', normalizedKeys);
+                    if (window.WBEventLog) {
+                        WBEventLog.logInfo('Re-registering existing shortcut', { 
+                            component: 'wb-keyboard-manager', 
+                            method: 'registerShortcut', 
+                            line: 474, 
+                            keys: normalizedKeys 
+                        });
+                    } else {
+                        console.log('⌨️ Re-registering existing shortcut:', normalizedKeys);
+                    }
                 }
             }
             
@@ -487,7 +692,16 @@
             
             this.shortcuts.set(normalizedKeys, fullShortcut);
             
-            console.log('⌨️ Registered shortcut:', fullShortcut);
+            if (window.WBEventLog) {
+                WBEventLog.logSuccess('Registered shortcut', { 
+                    component: 'wb-keyboard-manager', 
+                    method: 'registerShortcut', 
+                    line: 490, 
+                    shortcut: fullShortcut 
+                });
+            } else {
+                console.log('⌨️ Registered shortcut:', fullShortcut);
+            }
             return true;
         }
         
@@ -496,7 +710,16 @@
             const removed = this.shortcuts.delete(normalizedKeys);
             
             if (removed) {
-                console.log('⌨️ Unregistered shortcut:', normalizedKeys);
+                if (window.WBEventLog) {
+                    WBEventLog.logInfo('Unregistered shortcut', { 
+                        component: 'wb-keyboard-manager', 
+                        method: 'unregisterShortcut', 
+                        line: 499, 
+                        keys: normalizedKeys 
+                    });
+                } else {
+                    console.log('⌨️ Unregistered shortcut:', normalizedKeys);
+                }
             }
             
             return removed;
@@ -521,12 +744,28 @@
         
         enable() {
             this.enabled = true;
-            console.log('⌨️ Keyboard manager enabled');
+            if (window.WBEventLog) {
+                WBEventLog.logSuccess('Keyboard manager enabled', { 
+                    component: 'wb-keyboard-manager', 
+                    method: 'enable', 
+                    line: 524 
+                });
+            } else {
+                console.log('⌨️ Keyboard manager enabled');
+            }
         }
         
         disable() {
             this.enabled = false;
-            console.log('⌨️ Keyboard manager disabled');
+            if (window.WBEventLog) {
+                WBEventLog.logInfo('Keyboard manager disabled', { 
+                    component: 'wb-keyboard-manager', 
+                    method: 'disable', 
+                    line: 529 
+                });
+            } else {
+                console.log('⌨️ Keyboard manager disabled');
+            }
         }
         
         showHelp() {
@@ -644,7 +883,15 @@
     // Register the custom element
     if (!customElements.get('wb-keyboard-manager')) {
         customElements.define('wb-keyboard-manager', WBKeyboardManager);
-        console.log('⌨️ WB Keyboard Manager: Component registered');
+        if (window.WBEventLog) {
+            WBEventLog.logSuccess('WB Keyboard Manager: Component registered', { 
+                component: 'wb-keyboard-manager', 
+                method: 'componentRegistration', 
+                line: 647 
+            });
+        } else {
+            console.log('⌨️ WB Keyboard Manager: Component registered');
+        }
     }
     
     // Register with WBComponentRegistry if available

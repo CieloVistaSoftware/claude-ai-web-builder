@@ -4,295 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Slider Component Demo</title>
-    
     <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
     <link rel="stylesheet" href="../../styles/main.css">
     <link rel="stylesheet" href="wb-slider.css">
-    
-    <style>
-        body {
-            margin: 0;
-            padding: var(--space-xl);
-        }
-
-        .demo-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .demo-section {
-            margin: var(--space-2xl) 0;
-            padding: var(--space-xl);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            background: var(--bg-secondary);
-        }
-
-        .demo-section h2 {
-            margin-top: 0;
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: var(--space-sm);
-        }
-
-        .demo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-xl);
-            margin: var(--space-lg) 0;
-        }
-
-        .demo-item {
-            padding: var(--space-lg);
-            background: var(--bg-primary);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-        }
-
-        .demo-item h3 {
-            margin-top: 0;
-            font-size: var(--text-base);
-            font-weight: var(--font-semibold);
-            color: var(--text-primary);
-        }
-
-        .demo-item p {
-            margin: var(--space-sm) 0;
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-        }
-
-        .demo-output {
-            margin-top: var(--space-md);
-            padding: var(--space-md);
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-base);
-            font-family: var(--font-mono);
-            font-size: var(--text-sm);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        .vertical-demo {
-            display: flex;
-            gap: var(--space-xl);
-            align-items: center;
-            height: 200px;
-        }
-
-        pre {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            padding: var(--space-md);
-            border-radius: var(--radius-md);
-            overflow-x: auto;
-            font-size: var(--text-sm);
-            border: 1px solid var(--border-color);
-        }
-
-        .api-section {
-            background: var(--bg-secondary);
-            border-color: var(--warning-color);
-        }
-        
-        /* Tab Styles */
-        .tabs {
-            display: flex;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-lg);
-            border-bottom: 2px solid var(--border-color);
-        }
-        
-        .tab {
-            padding: var(--space-sm) var(--space-lg);
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            color: var(--text-secondary);
-            font-size: var(--text-base);
-            font-weight: var(--font-medium);
-            cursor: pointer;
-            transition: var(--transition-colors);
-        }
-        
-        .tab:hover {
-            color: var(--text-primary);
-            background: var(--bg-secondary);
-        }
-        
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-    </style>
-    
-    <!-- Load md-to-html component for documentation -->
-    <script src="../md-to-html/md-to-html.js"></script>
+    <script type="module" src="../../components/wb-demo/wb-demo.js"></script>
+    <script src="../../components/md-to-html/md-to-html.js">    </script>
+    <script src="wb-slider.js"></script>
 </head>
-<body data-theme="dark">
-    <div class="demo-container">
-        <h1>WB Slider Component Demo</h1>
-        <p>Interactive range slider component with accessibility and theming support.</p>
-        
-        <!-- Tab Navigation -->
-        <div id="tabs-container" class="tabs">
-            <button id="documentation-tab-button" class="tab active" onclick="showTab('documentation')">📚 Documentation</button>
-            <button id="examples-tab-button" class="tab" onclick="showTab('examples')">🎮 Examples</button>
-        </div>
-        
-        <!-- Documentation Tab -->
-        <div id="documentation-tab" class="tab-content active">
-            <div class="demo-section">
-                <h2>📖 Component Documentation</h2>
+<body>
+        <wb-demo>
+            <span slot="title">WB Slider Component Demo</span>
+            <div slot="documentation">
+                <h2>Component Documentation</h2>
+                <!--
+                  md-to-html.js is missing from components/md-to-html/.
+                  Documentation will not render until this file is restored.
+                  To fix: add md-to-html.js and load it with
+                  <script src="../../components/md-to-html/md-to-html.js"></script>
+                -->
                 <md-to-html src="./wb-slider.md" theme="dark"></md-to-html>
             </div>
-        </div>
-        
-        <!-- Examples Tab -->
-        <div id="examples-tab" class="tab-content">
-
-        <!-- Basic Usage -->
-        <div class="demo-section">
-            <h2>Basic Usage</h2>
-            <div class="demo-grid">
-                <div class="demo-item">
-                    <h3>Simple Slider</h3>
-                    <p>Basic slider with default settings</p>
-                    <div id="basic-slider"></div>
-                    <div class="demo-output" id="basic-output">Value: 50</div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>With Unit</h3>
-                    <p>Slider with unit display (pixels)</p>
-                    <div id="pixel-slider"></div>
-                    <div class="demo-output" id="pixel-output">Value: 16px</div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>Custom Range</h3>
-                    <p>Slider with custom min/max values</p>
-                    <div id="range-slider"></div>
-                    <div class="demo-output" id="range-output">Value: 0.5</div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>With Ticks</h3>
-                    <p>Slider showing tick marks</p>
-                    <div id="ticks-slider"></div>
-                    <div class="demo-output" id="ticks-output">Value: 3</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Size Variations -->
-        <div class="demo-section">
-            <h2>Size Variations</h2>
-            <div class="demo-grid">
-                <div class="demo-item">
-                    <h3>Small Size</h3>
-                    <div id="small-slider"></div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>Standard Size (Default)</h3>
-                    <div id="standard-slider"></div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>Large Size</h3>
-                    <div id="large-slider"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Color Variants -->
-        <div class="demo-section">
-            <h2>Color Variants</h2>
-            <div class="demo-grid">
-                <div class="demo-item">
-                    <h3>Primary (Default)</h3>
-                    <div id="primary-slider"></div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>Success</h3>
-                    <div id="success-slider"></div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>Warning</h3>
-                    <div id="warning-slider"></div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>Error</h3>
-                    <div id="error-slider"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- States -->
-        <div class="demo-section">
-            <h2>States</h2>
-            <div class="demo-grid">
-                <div class="demo-item">
-                    <h3>Normal State</h3>
-                    <div id="normal-slider"></div>
-                </div>
-
-                <div class="demo-item">
-                    <h3>Disabled State</h3>
-                    <div id="disabled-slider"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Vertical Orientation -->
-        <div class="demo-section">
-            <h2>Vertical Orientation</h2>
-            <div class="vertical-demo">
-                <div id="vertical-slider"></div>
-                <div>
-                    <h3>Vertical Slider</h3>
-                    <p>Useful for controls like volume or height</p>
-                    <div class="demo-output" id="vertical-output">Value: 75</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- JavaScript API -->
-        <div class="demo-section api-section">
-            <h2>JavaScript API</h2>
-            <div class="demo-item">
-                <h3>Programmatic Control</h3>
-                <div id="api-slider"></div>
-                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button onclick="setSliderValue(25)">Set to 25</button>
-                    <button onclick="setSliderValue(50)">Set to 50</button>
-                    <button onclick="setSliderValue(75)">Set to 75</button>
-                    <button onclick="toggleDisabled()">Toggle Disabled</button>
-                    <button onclick="changeRange()">Change Range (0-200)</button>
-                </div>
-                <div class="demo-output" id="api-output">Value: 60</div>
-            </div>
-        </div>
-
-        <!-- Usage Examples -->
-        <div class="demo-section">
-            <h2>Usage Examples</h2>
-            
-            <h3>HTML Usage</h3>
-            <pre><code>&lt;!-- Basic slider --&gt;
+            <div slot="examples">
+                <wb-demo-section>
+                    <h2>Basic Usage</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Simple Slider</h3>
+                            <p>Basic slider with default settings</p>
+                            <wb-slider id="basic-slider" label="Basic" min="0" max="100" value="50"></wb-slider>
+                            <wb-demo-output id="basic-output">Value: 50</wb-demo-output>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>With Unit</h3>
+                            <p>Slider with unit display (pixels)</p>
+                            <wb-slider id="pixel-slider" label="Pixels" min="0" max="50" value="16" unit="px"></wb-slider>
+                            <wb-demo-output id="pixel-output">Value: 16px</wb-demo-output>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Custom Range</h3>
+                            <p>Slider with custom min/max values</p>
+                            <wb-slider id="range-slider" label="Custom Range" min="0" max="1" value="0.5" step="0.01"></wb-slider>
+                            <wb-demo-output id="range-output">Value: 0.5</wb-demo-output>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>With Ticks</h3>
+                            <p>Slider showing tick marks</p>
+                            <wb-slider id="ticks-slider" label="With Ticks" min="0" max="10" value="3" show-ticks="true"></wb-slider>
+                            <wb-demo-output id="ticks-output">Value: 3</wb-demo-output>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Size Variations</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Small Size</h3>
+                            <wb-slider id="small-slider" label="Small" min="0" max="100" value="25" size="small"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Standard Size (Default)</h3>
+                            <wb-slider id="standard-slider" label="Standard" min="0" max="100" value="50"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Large Size</h3>
+                            <wb-slider id="large-slider" label="Large" min="0" max="100" value="75" size="large"></wb-slider>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Color Variants</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Primary (Default)</h3>
+                            <wb-slider id="primary-slider" label="Primary" min="0" max="100" value="50" variant="primary"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Success</h3>
+                            <wb-slider id="success-slider" label="Success" min="0" max="100" value="80" variant="success"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Warning</h3>
+                            <wb-slider id="warning-slider" label="Warning" min="0" max="100" value="20" variant="warning"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Error</h3>
+                            <wb-slider id="error-slider" label="Error" min="0" max="100" value="10" variant="error"></wb-slider>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>States</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Normal State</h3>
+                            <wb-slider id="normal-slider" label="Normal" min="0" max="100" value="60"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Disabled State</h3>
+                            <wb-slider id="disabled-slider" label="Disabled" min="0" max="100" value="40" disabled></wb-slider>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Vertical Orientation</h2>
+                    <div class="vertical-demo">
+                        <wb-slider id="vertical-slider" label="Vertical" min="0" max="150" value="75" orientation="vertical"></wb-slider>
+                        <div>
+                            <h3>Vertical Slider</h3>
+                            <p>Useful for controls like volume or height</p>
+                            <wb-demo-output id="vertical-output">Value: 75</wb-demo-output>
+                        </div>
+                    </div>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>JavaScript API</h2>
+                    <wb-demo-item>
+                        <h3>Programmatic Control</h3>
+                        <wb-slider id="api-slider" label="API Demo" min="0" max="100" value="60"></wb-slider>
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button onclick="setSliderValue(25)">Set to 25</button>
+                            <button onclick="setSliderValue(50)">Set to 50</button>
+                            <button onclick="setSliderValue(75)">Set to 75</button>
+                            <button onclick="toggleDisabled()">Toggle Disabled</button>
+                            <button onclick="changeRange()">Change Range (0-200)</button>
+                        </div>
+                        <wb-demo-output id="api-output">Value: 60</wb-demo-output>
+                    </wb-demo-item>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Usage Examples</h2>
+                    <h3>HTML Usage</h3>
+                    <pre><code>&lt;!-- Basic slider --&gt;
 &lt;wb-slider id="volume" label="Volume" min="0" max="100" value="50"&gt;&lt;/wb-slider&gt;
 
 &lt;!-- With unit and custom range --&gt;
@@ -302,9 +144,8 @@
 &lt;!-- Vertical orientation --&gt;
 &lt;wb-slider orientation="vertical" label="Height" 
            min="0" max="200" value="100"&gt;&lt;/wb-slider&gt;</code></pre>
-
-            <h3>JavaScript Usage</h3>
-            <pre><code>// Create slider programmatically
+                    <h3>JavaScript Usage</h3>
+                    <pre><code>// Create slider programmatically
 const slider = WBSlider.create({
     label: 'Opacity',
     min: 0,
@@ -320,159 +161,32 @@ WBSlider.setValue(slider, 0.5);
 const currentValue = WBSlider.getValue(slider);
 WBSlider.setDisabled(slider, true);
 WBSlider.setRange(slider, 0, 2);</code></pre>
-        </div>
-    </div>
-
-    <script src="wb-slider.js"></script>
-    <script>
-        // Initialize demo sliders
-        document.addEventListener('DOMContentLoaded', function() {
-            // Basic sliders
-            const basicSlider = WBSlider.create({
-                label: 'Volume',
-                min: 0,
-                max: 100,
-                value: 50,
-                onchange: (value) => {
-                    document.getElementById('basic-output').textContent = `Value: ${value}`;
-                }
-            });
-            document.getElementById('basic-slider').appendChild(basicSlider);
-
-            const pixelSlider = WBSlider.create({
-                label: 'Spacing',
-                min: 0,
-                max: 50,
-                value: 16,
-                unit: 'px',
-                onchange: (value) => {
-                    document.getElementById('pixel-output').textContent = `Value: ${value}px`;
-                }
-            });
-            document.getElementById('pixel-slider').appendChild(pixelSlider);
-
-            const rangeSlider = WBSlider.create({
-                label: 'Opacity',
-                min: 0,
-                max: 1,
-                step: 0.1,
-                value: 0.5,
-                onchange: (value) => {
-                    document.getElementById('range-output').textContent = `Value: ${value}`;
-                }
-            });
-            document.getElementById('range-slider').appendChild(rangeSlider);
-
-            const ticksSlider = WBSlider.create({
-                label: 'Rating',
-                min: 1,
-                max: 5,
-                value: 3,
-                showTicks: true,
-                onchange: (value) => {
-                    document.getElementById('ticks-output').textContent = `Value: ${value}`;
-                }
-            });
-            document.getElementById('ticks-slider').appendChild(ticksSlider);
-
-            // Size variations
-            document.getElementById('small-slider').appendChild(
-                WBSlider.create({ label: 'Small', size: 'small', value: 30 })
-            );
-            document.getElementById('standard-slider').appendChild(
-                WBSlider.create({ label: 'Standard', value: 50 })
-            );
-            document.getElementById('large-slider').appendChild(
-                WBSlider.create({ label: 'Large', size: 'large', value: 70 })
-            );
-
-            // Color variants
-            document.getElementById('primary-slider').appendChild(
-                WBSlider.create({ label: 'Primary', variant: 'primary', value: 40 })
-            );
-            document.getElementById('success-slider').appendChild(
-                WBSlider.create({ label: 'Success', variant: 'success', value: 60 })
-            );
-            document.getElementById('warning-slider').appendChild(
-                WBSlider.create({ label: 'Warning', variant: 'warning', value: 80 })
-            );
-            document.getElementById('error-slider').appendChild(
-                WBSlider.create({ label: 'Error', variant: 'error', value: 20 })
-            );
-
-            // States
-            document.getElementById('normal-slider').appendChild(
-                WBSlider.create({ label: 'Normal', value: 45 })
-            );
-            document.getElementById('disabled-slider').appendChild(
-                WBSlider.create({ label: 'Disabled', value: 65, disabled: true })
-            );
-
-            // Vertical
-            const verticalSlider = WBSlider.create({
-                label: 'Height',
-                orientation: 'vertical',
-                min: 0,
-                max: 100,
-                value: 75,
-                onchange: (value) => {
-                    document.getElementById('vertical-output').textContent = `Value: ${value}`;
-                }
-            });
-            document.getElementById('vertical-slider').appendChild(verticalSlider);
-
-            // API demo
-            window.apiSlider = WBSlider.create({
-                label: 'API Demo',
-                min: 0,
-                max: 100,
-                value: 60,
-                onchange: (value) => {
-                    document.getElementById('api-output').textContent = `Value: ${value}`;
-                }
-            });
-            document.getElementById('api-slider').appendChild(window.apiSlider);
-        });
-
-        // API demo functions
-        function setSliderValue(value) {
-            WBSlider.setValue(window.apiSlider.querySelector('.wb-slider'), value);
-            document.getElementById('api-output').textContent = `Value: ${value}`;
-        }
-
-        function toggleDisabled() {
-            const slider = window.apiSlider.querySelector('.wb-slider');
-            const isDisabled = slider.classList.contains('wb-slider--disabled');
-            WBSlider.setDisabled(slider, !isDisabled);
-        }
-
-        function changeRange() {
-            const slider = window.apiSlider.querySelector('.wb-slider');
-            WBSlider.setRange(slider, 0, 200);
-            setSliderValue(100);
-        }
-        
-        // Tab switching functionality
-        function showTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Remove active class from all tab buttons
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected tab
-            document.getElementById(tabName + '-tab').classList.add('active');
-            
-            // Mark the correct tab button as active
-            event.target.classList.add('active');
-        }
-    </script>
-        
-        </div> <!-- Close examples tab -->
-    </div> <!-- Close demo-container -->
+                </wb-demo-section>
+            </div>
+        </wb-demo>
+<script>
+// Output value binding for all demo sliders
+function bindSliderOutput(sliderId, outputId, unit = '') {
+    const slider = document.getElementById(sliderId);
+    const output = document.getElementById(outputId);
+    if (!slider || !output) return;
+    function update() {
+        let val = slider.value;
+        if (unit) val += unit;
+        output.textContent = 'Value: ' + val;
+    }
+    slider.addEventListener('input', update);
+    slider.addEventListener('change', update);
+    update();
+}
+document.addEventListener('DOMContentLoaded', () => {
+    bindSliderOutput('basic-slider', 'basic-output');
+    bindSliderOutput('pixel-slider', 'pixel-output', 'px');
+    bindSliderOutput('range-slider', 'range-output');
+    bindSliderOutput('ticks-slider', 'ticks-output');
+    bindSliderOutput('vertical-slider', 'vertical-output');
+    bindSliderOutput('api-slider', 'api-output');
+});
+</script>
 </body>
 </html>

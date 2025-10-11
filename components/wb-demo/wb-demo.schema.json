@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "wb-demo",
+  "description": "Schema for the wb-demo web component, which displays documentation and live examples for a component. Documentation is loaded from a Markdown file and rendered to HTML using the base class logic.",
+  "type": "object",
+  "properties": {
+    "markdown": {
+      "type": "string",
+      "description": "Path to the Markdown (.md) file containing documentation to be loaded and rendered."
+    },
+    "examples": {
+      "type": "string",
+      "description": "Slot for live example HTML content."
+    },
+    "documentation": {
+      "type": "string",
+      "description": "Slot for rendered documentation HTML (auto-generated from the .md file by the base class)."
+    }
+  },
+  "required": ["markdown"],
+  "slots": {
+    "examples": {
+      "description": "Slot for live example HTML content."
+    },
+    "documentation": {
+      "description": "Slot for rendered documentation HTML (auto-generated from the .md file by the base class)."
+    }
+  },
+  "examples": [
+    {
+      "markdown": "./wb-button.md",
+      "examples": "<wb-button variant=\"primary\">Primary</wb-button>",
+      "documentation": "<h1>WB Button Component</h1>..."
+    }
+  ]
+}

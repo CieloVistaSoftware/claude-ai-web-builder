@@ -581,7 +581,7 @@
     flex-shrink: 0;
 }
 
-/* Resize handle */
+/* Resize handles */
 .wb-event-log-resize-handle {
     position: absolute;
     bottom: 0;
@@ -606,6 +606,34 @@
 }
 
 .wb-event-log-resize-handle:hover::before {
+    background: var(--wb-event-log-muted);
+}
+
+/* Horizontal resize handle */
+.wb-event-log-resize-handle-horizontal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 8px;
+    cursor: ew-resize;
+    background: transparent;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wb-event-log-resize-handle-horizontal::before {
+    content: '';
+    width: 3px;
+    height: 40px;
+    background: var(--wb-event-log-border);
+    border-radius: 2px;
+    transition: background 0.2s ease;
+}
+
+.wb-event-log-resize-handle-horizontal:hover::before {
     background: var(--wb-event-log-muted);
 }
 

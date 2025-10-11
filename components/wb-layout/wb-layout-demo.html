@@ -1,344 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Layout Component Demo</title>
-    
-    <!-- ✅ CSS-FIRST ARCHITECTURE: No inline styles, all styling via external CSS files -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Layout Component Demo</title>
+  <link rel="stylesheet" href="../../styles/main.css">
 </head>
-
-<!-- Demo uses WB components exclusively -->
-<body data-theme="dark" data-layout="top-nav" class="grid-layout">
-    
-    <!-- WB Header -->
-    <wb-header brand-text="🏗️ WB Layout Component Demo" layout="default">
-    </wb-header>
-    
-    <!-- WB Navigation -->
-    <wb-nav layout="horizontal" 
-            items='[
-              {"text": "📖 Documentation", "href": "#documentation", "active": true},  
-              {"text": "🎯 Working Examples", "href": "#examples"}
-            ]'>
-    </wb-nav>
-    
-    <!-- WB Main Content -->
-    <wb-main>
-        <!-- Documentation Tab -->
-        <div id="documentation-tab" class="tab-content active">
-            <section class="docs-section">
-                <h2>WB Layout Component</h2>
-                <p>A flexible layout system for organizing page structure using WB components with CSS Grid and responsive design.</p>
-                
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <h3>🎯 Layout Types</h3>
-                        <ul>
-                            <li><strong>Top Navigation:</strong> Horizontal nav bar at page top</li>
-                            <li><strong>Left Navigation:</strong> Fixed sidebar on left</li>
-                            <li><strong>Right Navigation:</strong> Fixed sidebar on right</li>
-                            <li><strong>Advertisement Layout:</strong> Three-column with nav, content, and ad space</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <h3>🧩 WB Components</h3>
-                        <ul>
-                            <li><strong>wb-header:</strong> Enhanced header with branding</li>
-                            <li><strong>wb-nav:</strong> Advanced navigation component</li>
-                            <li><strong>wb-main:</strong> Content wrapper with theming</li>
-                            <li><strong>wb-footer:</strong> Rich footer with structured info</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <h3>📱 Responsive Design</h3>
-                        <ul>
-                            <li>Mobile-first CSS Grid implementation</li>
-                            <li>Automatic sidebar stacking on mobile</li>
-                            <li>Flexible content areas</li>
-                            <li>Touch-friendly navigation</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <h3>⚙️ Configuration</h3>
-                        <ul>
-                            <li>CSS Grid named areas</li>
-                            <li>Layout switching via data attributes</li>
-                            <li>Theme integration</li>
-                            <li>Event-driven updates</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="code-section">
-                    <h3>Basic Usage</h3>
-                    <pre><code>&lt;body data-layout="top-nav" class="grid-layout"&gt;
-  &lt;wb-header brand-text="My Site"&gt;&lt;/wb-header&gt;
-  &lt;wb-nav layout="horizontal" 
-          items='[{"text": "Home", "href": "#"}]'&gt;
-  &lt;/wb-nav&gt;
-  &lt;wb-main&gt;
-    &lt;h1&gt;Page Content&lt;/h1&gt;
-  &lt;/wb-main&gt;
-  &lt;wb-footer company-name="My Company"&gt;
-  &lt;/wb-footer&gt;
-&lt;/body&gt;</code></pre>
-                </div>
-                
-                <div class="api-section">
-                    <h3>Layout Configuration</h3>
-                    <div class="config-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Layout Type</th>
-                                    <th>Data Attribute</th>
-                                    <th>Grid Areas</th>
-                                    <th>Use Case</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Top Navigation</td>
-                                    <td><code>data-layout="top-nav"</code></td>
-                                    <td>header → nav → main → footer</td>
-                                    <td>Content sites, blogs</td>
-                                </tr>
-                                <tr>
-                                    <td>Left Navigation</td>
-                                    <td><code>data-layout="left-nav"</code></td>
-                                    <td>nav | (header → main → footer)</td>
-                                    <td>Dashboards, admin panels</td>
-                                </tr>
-                                <tr>
-                                    <td>Right Navigation</td>
-                                    <td><code>data-layout="right-nav"</code></td>
-                                    <td>(header → main → footer) | nav</td>
-                                    <td>Alternative layouts</td>
-                                </tr>
-                                <tr>
-                                    <td>Advertisement</td>
-                                    <td><code>data-layout="ad-layout"</code></td>
-                                    <td>header → nav | main | ads → footer</td>
-                                    <td>Content sites with monetization</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-        </div>
-        
-        <!-- Working Examples Tab -->
-        <div id="examples-tab" class="tab-content">
-            <section class="examples-section">
-                <h2>Working Layout Examples</h2>
-                <p>Use the dropdown below to see all layout configurations in action with WB components.</p>
-                
-                <!-- Layout Controls -->
-                <div class="layout-controls">
-                    <div class="control-group">
-                        <label for="layout-selector">
-                            <strong>Choose Layout Configuration:</strong>
-                        </label>
-                        <select id="layout-selector" class="layout-dropdown">
-                            <option value="top-nav">Top Navigation Layout</option>
-                            <option value="left-nav">Left Navigation Layout</option>
-                            <option value="right-nav">Right Navigation Layout</option>
-                            <option value="ad-layout">Advertisement Layout</option>
-                        </select>
-                    </div>
-                    
-                    <div class="layout-status">
-                        <div><strong>Current Layout:</strong> <span id="current-layout-name">Top Navigation</span></div>
-                        <div><strong>Grid Areas:</strong> <span id="current-grid-areas">header → nav → main → footer</span></div>
-                        <div><strong>Status:</strong> <span id="layout-status" class="status-ready">Ready</span></div>
-                    </div>
-                </div>
-                
-                <!-- Live Layout Preview -->
-                <div class="layout-preview">
-                    <h3>Live Layout Preview</h3>
-                    <div id="preview-container" class="preview-frame">
-                        <!-- Dynamic layout preview will be rendered here -->
-                        <div class="preview-layout" data-layout="top-nav">
-                            <div class="preview-header">wb-header: Site Header</div>
-                            <div class="preview-nav">wb-nav: Navigation Menu</div>
-                            <div class="preview-main">wb-main: Content Area</div>
-                            <div class="preview-aside" style="display: none;">aside: Advertisement</div>
-                            <div class="preview-footer">wb-footer: Site Footer</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Code Display -->
-                <div class="code-display">
-                    <h3>Current Layout Code</h3>
-                    <pre id="layout-code"><code><!-- Current layout code will display here --></code></pre>
-                </div>
-                
-                <!-- Layout Features -->
-                <div class="layout-features">
-                    <div class="feature-demo">
-                        <h3>🔄 Dynamic Layout Switching</h3>
-                        <p>Watch how the layout changes in real-time as you select different configurations. The CSS Grid system automatically reorganizes all WB components.</p>
-                    </div>
-                    
-                    <div class="feature-demo">
-                        <h3>📱 Responsive Behavior</h3>
-                        <p>Resize your browser window to see how sidebar layouts automatically convert to stacked navigation on mobile devices.</p>
-                    </div>
-                    
-                    <div class="feature-demo">
-                        <h3>🎨 Component Integration</h3>
-                        <p>All WB components automatically adapt to their assigned grid areas and maintain consistent theming across layout changes.</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </wb-main>
-    
-    <!-- Advertisement sidebar (hidden by default, shown in ad-layout) -->
-    <aside id="demo-aside" style="display: none;">
-        <div class="ad-content">
-            <h3>Advertisement Space</h3>
-            <p>This sidebar appears in advertisement layout mode.</p>
-            <div class="ad-placeholder">
-                <p>🎯 Your Ad Here</p>
-                <p>300x600 Banner</p>
-            </div>
-        </div>
-    </aside>
-    
-    <!-- WB Footer -->
-    <wb-footer company-name="WB Layout System" 
-               copyright="© 2025 WB Layout Component Demo. Built with WB Components.">
-    </wb-footer>
-
-    <!-- ✅ AUTO-LOADING: System automatically determines required JS and CSS files -->
-    <script>
-        // WB Auto-Loader: Automatically detect and load required files based on HTML content
-        (function() {
-            console.log('🚀 WB Auto-Loader: Starting...');
-            
-            // Component detection patterns
-            const componentPatterns = {
-                'wb-header': {
-                    js: ['/components/wb-component-utils.js', '/components/wb-header/wb-header.js'],
-                    css: ['/styles/_variables.css', '/styles/_base.css', '/components/wb-header/wb-header.css']
-                },
-                'wb-nav': {
-                    js: ['/components/wb-component-utils.js', '/components/wb-nav/wb-nav.js'],
-                    css: ['/styles/_variables.css', '/styles/_base.css', '/components/wb-nav/wb-nav.css']
-                },
-                'wb-main': {
-                    js: ['/components/wb-component-utils.js', '/components/wb-main/wb-main.js'],
-                    css: ['/styles/_variables.css', '/styles/_base.css', '/components/wb-main/wb-main.css']
-                },
-                'wb-footer': {
-                    js: ['/components/wb-component-utils.js', '/components/wb-footer/wb-footer.js'],
-                    css: ['/styles/_variables.css', '/styles/_base.css', '/components/wb-footer/wb-footer.css']
-                },
-                'data-layout': {
-                    js: ['/wb-core/layouts/layout-manager.js'],
-                    css: ['/wb-core/layouts/layouts.css']
-                }
-            };
-            
-            // Detect components and layout system usage
-            function detectRequiredComponents() {
-                const requiredFiles = { js: new Set(), css: new Set() };
-                const htmlContent = document.documentElement.outerHTML;
-                
-                // Always load component utils first
-                requiredFiles.js.add('/components/wb-component-utils.js');
-                
-                // Check for each component pattern
-                Object.entries(componentPatterns).forEach(([pattern, files]) => {
-                    if (htmlContent.includes(pattern)) {
-                        console.log(`🔍 Detected: ${pattern}`);
-                        files.js?.forEach(js => requiredFiles.js.add(js));
-                        files.css?.forEach(css => requiredFiles.css.add(css));
-                    }
-                });
-                
-                // Add demo-specific files
-                const demoPath = window.location.pathname;
-                if (demoPath.includes('wb-layout')) {
-                    requiredFiles.js.add('/components/wb-layout/wb-layout-demo.js');
-                    requiredFiles.css.add('/components/wb-layout/wb-layout-demo.css');
-                }
-                
-                return {
-                    js: Array.from(requiredFiles.js),
-                    css: Array.from(requiredFiles.css)
-                };
-            }
-            
-            // Load CSS files
-            function loadCSS(files) {
-                files.forEach(file => {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = file;
-                    link.onload = () => console.log(`✅ CSS loaded: ${file}`);
-                    link.onerror = () => console.warn(`❌ CSS failed: ${file}`);
-                    document.head.appendChild(link);
-                });
-            }
-            
-            // Load JS files sequentially
-            async function loadJS(files) {
-                for (const file of files) {
-                    try {
-                        await new Promise((resolve, reject) => {
-                            const script = document.createElement('script');
-                            script.src = file;
-                            script.onload = () => {
-                                console.log(`✅ JS loaded: ${file}`);
-                                resolve();
-                            };
-                            script.onerror = () => {
-                                console.warn(`❌ JS failed: ${file}`);
-                                resolve(); // Continue loading even if one fails
-                            };
-                            document.head.appendChild(script);
-                        });
-                    } catch (error) {
-                        console.warn(`❌ Error loading ${file}:`, error);
-                    }
-                }
-            }
-            
-            // Initialize auto-loading
-            function init() {
-                const required = detectRequiredComponents();
-                console.log('🎯 Required files:', required);
-                
-                // Load CSS first (can be parallel)
-                loadCSS(required.css);
-                
-                // Load JS files sequentially
-                loadJS(required.js).then(() => {
-                    console.log('🚀 WB Auto-Loader: All files loaded');
-                    
-                    // Dispatch auto-loader complete event
-                    document.dispatchEvent(new CustomEvent('wbAutoLoaderComplete', {
-                        detail: { loadedFiles: required }
-                    }));
-                });
-            }
-            
-            // Start loading when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
-            }
-        })();
-    </script>
+<body data-theme="dark">
+  <wb-demo>
+    <span slot="title">WB Layout Component Demo</span>
+    <div slot="documentation">
+      <md-to-html src="./wb-layout.md" theme="dark"></md-to-html>
+    </div>
+    <div slot="examples">
+      <wb-demo-section>
+        <h2>Top Navigation Example</h2>
+        <wb-demo-grid>
+          <wb-demo-item>
+            <wb-layout layout="top-nav" style="min-height:120px;background:#1e293b;">
+              <wb-nav items='[{"id":"home","text":"Home","href":"#home","icon":"🏠","active":true},{"id":"about","text":"About","href":"#about","icon":"ℹ️"},{"id":"services","text":"Services","href":"#services","icon":"⚙️"},{"id":"contact","text":"Contact","href":"#contact","icon":"📧"}]'></wb-nav>
+              <header class="demo-content">Header</header>
+              <main class="demo-content">Main Content</main>
+              <footer class="demo-content">Footer</footer>
+            </wb-layout>
+          </wb-demo-item>
+        </wb-demo-grid>
+      </wb-demo-section>
+      <wb-demo-section>
+        <h2>Left Sidebar Example</h2>
+        <wb-demo-grid>
+          <wb-demo-item>
+            <wb-layout layout="left-nav" style="min-height:120px;background:#1e293b;">
+              <wb-nav items='[{"id":"home","text":"Home","href":"#home","icon":"🏠","active":true},{"id":"about","text":"About","href":"#about","icon":"ℹ️"},{"id":"services","text":"Services","href":"#services","icon":"⚙️"},{"id":"contact","text":"Contact","href":"#contact","icon":"📧"}]'></wb-nav>
+              <header class="demo-content">Header</header>
+              <main class="demo-content">Main Content</main>
+              <footer class="demo-content">Footer</footer>
+            </wb-layout>
+          </wb-demo-item>
+        </wb-demo-grid>
+      </wb-demo-section>
+    </div>
+  </wb-demo>
 </body>
 </html>

@@ -1,0 +1,20 @@
+{
+  "defaultTarget": "#layout-select",
+  "testScripts": {
+    "layoutDropdownDebug": {
+      "name": "Debug Layout Dropdown",
+      "description": "Inspect why layout dropdown only shows 1 option instead of 4",
+      "code": "// Test Script: Inspect wb-select dropdown options\nconsole.log('=== WB-SELECT DROPDOWN DEBUG ===');\n\n// 1. Check the element\nconsole.log('Element:', element);\nconsole.log('Tag:', element.tagName);\nconsole.log('ID:', element.id);\n\n// 2. Check wb-select internal state\nconsole.log('\\n--- Internal State ---');\nconsole.log('_options:', element._options);\nconsole.log('_filteredOptions:', element._filteredOptions);\nconsole.log('_selectedValues:', element._selectedValues);\n\n// 3. Check DOM structure\nconsole.log('\\n--- DOM Structure ---');\nconst dropdown = element.querySelector('.wb-select-dropdown');\nconsole.log('Dropdown element:', dropdown);\nconsole.log('Dropdown display:', dropdown ? getComputedStyle(dropdown).display : 'not found');\n\nconst optionsContainer = element.querySelector('.wb-select-options');\nconsole.log('Options container:', optionsContainer);\nconsole.log('Options count:', optionsContainer ? optionsContainer.children.length : 0);\n\n// 4. Check each option's visibility\nif (optionsContainer) {\n    console.log('\\n--- Individual Options ---');\n    Array.from(optionsContainer.children).forEach((opt, i) => {\n        const computed = getComputedStyle(opt);\n        console.log(`Option ${i}:`, {\n            text: opt.textContent,\n            display: computed.display,\n            visibility: computed.visibility,\n            height: computed.height,\n            overflow: computed.overflow\n        });\n    });\n}\n\n// 5. Check container dimensions and overflow\nconsole.log('\\n--- Container Styles ---');\nif (optionsContainer) {\n    const computed = getComputedStyle(optionsContainer);\n    console.log('Options container:', {\n        display: computed.display,\n        overflow: computed.overflow,\n        overflowY: computed.overflowY,\n        maxHeight: computed.maxHeight,\n        height: computed.height\n    });\n}\n\n// 6. Force show all options (test fix)\nconsole.log('\\n--- Testing Fix ---');\nif (optionsContainer) {\n    Array.from(optionsContainer.children).forEach((opt) => {\n        opt.style.display = 'block';\n        opt.style.visibility = 'visible';\n    });\n    console.log('✅ Forced all options to display:block, visibility:visible');\n}\n\nreturn 'Debug complete - check console';"
+    },
+    "inspectElement": {
+      "name": "Inspect Element",
+      "description": "Basic element inspection",
+      "code": "console.log('Tag:', element.tagName);\nconsole.log('ID:', element.id);\nconsole.log('Classes:', element.className);\nconsole.log('Children:', element.children.length);\nreturn 'Inspection complete';"
+    },
+    "checkOptions": {
+      "name": "Check Select Options",
+      "description": "Quick check of select options count",
+      "code": "const optionsContainer = element.querySelector('.wb-select-options');\nif (optionsContainer) {\n    console.log('Total options:', optionsContainer.children.length);\n    Array.from(optionsContainer.children).forEach((opt, i) => {\n        console.log(`Option ${i}: ${opt.textContent}`);\n    });\n    return `Found ${optionsContainer.children.length} options`;\n}\nreturn 'Options container not found';"
+    }
+  }
+}

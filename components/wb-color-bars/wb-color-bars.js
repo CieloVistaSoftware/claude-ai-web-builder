@@ -223,7 +223,7 @@ class ColorBars extends HTMLElement {
     // Try to use WBComponentUtils if available
     if (window.WBComponentUtils && typeof window.WBComponentUtils.resolve === 'function') {
       try {
-        cssPath = window.WBComponentUtils.resolve('wb.color-bars.css') || cssPath;
+        cssPath = '/components/wb-color-bars/wb-color-bars.css';
       } catch (e) {
         WBSafeLogger.warning('Could not resolve CSS path, using fallback', { component: 'wb-color-bars', method: 'render', line: 243, error: e });
       }
@@ -666,8 +666,11 @@ class ColorBars extends HTMLElement {
 // Register the custom element
 if (!customElements.get('wb-color-bars')) {
   customElements.define('wb-color-bars', ColorBars);
-  WBSafeLogger.success('wb-color-bars: Registered successfully', { component: 'wb-color-bars', line: 684 });
-  
+  if (window.WBEventLog) {
+    WBEventLog.logSuccess('wb-color-bars: Registered successfully', { component: 'wb-color-bars', line: 684 });
+  } else {
+    document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'wb-color-bars: Registered successfully', component: 'wb-color-bars', line: 684 } }));
+  }
   // Register with WBComponentRegistry if available
   if (window.WBComponentRegistry) {
     window.WBComponentRegistry.register('wb-color-bars', ColorBars, ['wb-color-bar'], {
@@ -678,10 +681,18 @@ if (!customElements.get('wb-color-bars')) {
     });
   }
 } else {
-  WBSafeLogger.info('wb-color-bars: Already registered, skipping', { component: 'wb-color-bars', line: 698 });
+  if (window.WBEventLog) {
+    WBEventLog.logInfo('wb-color-bars: Already registered, skipping', { component: 'wb-color-bars', line: 698 });
+  } else {
+    document.dispatchEvent(new CustomEvent('wb:info', { detail: { message: 'wb-color-bars: Already registered, skipping', component: 'wb-color-bars', line: 698 } }));
+  }
 }
 
 // Expose for external access
 window.ColorBars = ColorBars;
 
-WBSafeLogger.success('Color Bars component loaded successfully', { component: 'wb-color-bars', line: 702 });
+if (window.WBEventLog) {
+  WBEventLog.logSuccess('Color Bars component loaded successfully', { component: 'wb-color-bars', line: 702 });
+} else {
+  document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'Color Bars component loaded successfully', component: 'wb-color-bars', line: 702 } }));
+}

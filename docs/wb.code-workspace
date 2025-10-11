@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../.."
+		}
+	],
+	"settings": {
+		"emmet.includeLanguages": {
+			"html": "html"
+		},
+		"files.associations": {
+			"*.html": "html"
+		},
+		"liveServer.settings.port": 8083,
+		"liveServer.settings.multiRootWorkspaceName": "wb"
+	}
+}

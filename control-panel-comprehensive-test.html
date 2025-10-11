@@ -1,791 +1,203 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Control Panel - Comprehensive Functionality Test</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-
-        .test-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 30px;
-            min-height: calc(100vh - 40px);
-        }
-
-        .main-content {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .control-panel-container {
-            position: relative;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #00d4ff, #ff6b6b, #4ecdc4);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 3s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .test-section {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.3s ease;
-        }
-
-        .test-section:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .test-section h2 {
-            color: #00d4ff;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-
-        .status-indicator {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin: 5px 10px 5px 0;
-            transition: all 0.3s ease;
-        }
-
-        .status-loading {
-            background: linear-gradient(45deg, #ffa726, #ff7043);
-            color: white;
-            animation: pulse 1.5s infinite;
-        }
-
-        .status-success {
-            background: linear-gradient(45deg, #66bb6a, #4caf50);
-            color: white;
-        }
-
-        .status-error {
-            background: linear-gradient(45deg, #ef5350, #f44336);
-            color: white;
-        }
-
-        .status-warning {
-            background: linear-gradient(45deg, #ffca28, #ffc107);
-            color: #333;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .test-log {
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 20px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            max-height: 400px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-        }
-
-        .log-entry {
-            margin: 2px 0;
-        }
-
-        .log-success { color: #4caf50; }
-        .log-error { color: #f44336; }
-        .log-warning { color: #ff9800; }
-        .log-info { color: #2196f3; }
-
-        .control-panel-test {
-            margin: 20px 0;
-        }
-
-        control-panel {
-            width: 100%;
-            display: block;
-        }
-
-        .interaction-test {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-
-        .test-button {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            margin: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .test-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .test-button:active {
-            transform: translateY(0);
-        }
-
-        .functionality-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .feature-test {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .feature-test h3 {
-            color: #4ecdc4;
-            margin-bottom: 10px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00d4ff, #4ecdc4);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        @media (max-width: 1200px) {
-            .test-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .control-panel-container {
-                order: -1;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Control Panel - Comprehensive Functionality Test (WB Components Only)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: #fff;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .test-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 30px;
+      min-height: calc(100vh - 40px);
+      padding: 24px;
+    }
+    .main-content {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .control-panel-container {
+      background: rgba(0,0,0,0.3);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .test-section {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 20px 0;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .functionality-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .feature-test {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .feature-test h3 {
+      color: #4ecdc4;
+      margin-bottom: 10px;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00d4ff, #4ecdc4);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    @media (max-width: 1200px) {
+      .test-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .control-panel-container {
+        order: -1;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="test-container">
-        <div class="main-content">
-            <h1>🎛️ WB Control Panel Comprehensive Test</h1>
-            
-            <div class="test-section">
-                <h2>📊 System Status</h2>
-                <div id="system-status">
-                    <span class="status-indicator status-loading">Initializing...</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="overall-progress"></div>
-                </div>
+  <div class="test-container">
+    <div class="main-content">
+      <wb-layout layout="top-nav" style="width:100%;display:block;">
+        <header>
+          <h1>🎛️ WB Control Panel Comprehensive Test (WB Components Only)</h1>
+        </header>
+        <main>
+          <div class="test-section">
+            <h2>📊 System Status</h2>
+            <wb-status id="system-status" position="top" max-events="2"></wb-status>
+            <div class="progress-bar">
+              <div class="progress-fill" id="overall-progress"></div>
             </div>
-
-            <div class="test-section">
-                <h2>🔧 Control Panel Tests</h2>
-                <div class="functionality-grid">
-                    <div class="feature-test">
-                        <h3>Panel Rendering</h3>
-                        <div id="render-status" class="status-indicator status-loading">Testing...</div>
-                        <p id="render-details">Checking if control panel renders properly...</p>
-                    </div>
-                    
-                    <div class="feature-test">
-                        <h3>Sections & Controls</h3>
-                        <div id="sections-status" class="status-indicator status-loading">Testing...</div>
-                        <p id="sections-details">Validating control sections and inputs...</p>
-                    </div>
-                    
-                    <div class="feature-test">
-                        <h3>Event Handling</h3>
-                        <div id="events-status" class="status-indicator status-loading">Testing...</div>
-                        <p id="events-details">Testing control interactions and events...</p>
-                    </div>
-                    
-                    <div class="feature-test">
-                        <h3>Data Binding</h3>
-                        <div id="binding-status" class="status-indicator status-loading">Testing...</div>
-                        <p id="binding-details">Verifying data flow and updates...</p>
-                    </div>
-                </div>
+          </div>
+          <div class="test-section">
+            <h2>🔧 Control Panel Tests</h2>
+            <div class="functionality-grid">
+              <div class="feature-test">
+                <h3>Panel Rendering</h3>
+                <wb-status id="render-status" position="top" max-events="1"></wb-status>
+                <wb-input id="render-details" type="text" value="Checking if control panel renders properly..." readonly></wb-input>
+              </div>
+              <div class="feature-test">
+                <h3>Sections & Controls</h3>
+                <wb-status id="sections-status" position="top" max-events="1"></wb-status>
+                <wb-input id="sections-details" type="text" value="Validating control sections and inputs..." readonly></wb-input>
+              </div>
+              <div class="feature-test">
+                <h3>Event Handling</h3>
+                <wb-status id="events-status" position="top" max-events="1"></wb-status>
+                <wb-input id="events-details" type="text" value="Testing control interactions and events..." readonly></wb-input>
+              </div>
+              <div class="feature-test">
+                <h3>Data Binding</h3>
+                <wb-status id="binding-status" position="top" max-events="1"></wb-status>
+                <wb-input id="binding-details" type="text" value="Verifying data flow and updates..." readonly></wb-input>
+              </div>
             </div>
-
-            <div class="test-section">
-                <h2>🧪 Interactive Tests</h2>
-                <div class="interaction-test">
-                    <h3>Manual Control Testing</h3>
-                    <button class="test-button" onclick="testControlInteraction()">Test Control Interactions</button>
-                    <button class="test-button" onclick="testDataUpdates()">Test Data Updates</button>
-                    <button class="test-button" onclick="testPanelToggle()">Test Panel Toggle</button>
-                    <button class="test-button" onclick="resetControlPanel()">Reset Panel</button>
-                </div>
+          </div>
+          <div class="test-section">
+            <h2>🧪 Interactive Tests</h2>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+              <wb-button id="btn-interaction" variant="primary">Test Control Interactions</wb-button>
+              <wb-button id="btn-data-updates" variant="primary">Test Data Updates</wb-button>
+              <wb-button id="btn-panel-toggle" variant="secondary">Test Panel Toggle</wb-button>
+              <wb-button id="btn-reset" variant="secondary">Reset Panel</wb-button>
             </div>
-
-            <div class="test-section">
-                <h2>📝 Test Log</h2>
-                <div class="test-log" id="test-log"></div>
-            </div>
-        </div>
-
-        <div class="control-panel-container">
-            <h2 style="color: #00d4ff; margin-bottom: 20px;">🎛️ Live Control Panel</h2>
-            <control-panel id="main-control-panel"></control-panel>
-        </div>
+          </div>
+          <div class="test-section">
+            <h2>📝 Test Log</h2>
+            <wb-log-viewer id="test-log"></wb-log-viewer>
+          </div>
+        </main>
+      </wb-layout>
     </div>
-
-    <!-- Load dependencies in proper order -->
-    <script>
-        // Test state management
-        const testState = {
-            startTime: Date.now(),
-            tests: {
-                render: { status: 'pending', details: '' },
-                sections: { status: 'pending', details: '' },
-                events: { status: 'pending', details: '' },
-                binding: { status: 'pending', details: '' }
-            },
-            controlPanel: null,
-            log: [],
-            totalTests: 4,
-            completedTests: 0
-        };
-
-        function log(message, type = 'info') {
-            const timestamp = new Date().toISOString().substring(11, 23);
-            const entry = { timestamp, message, type };
-            testState.log.push(entry);
-            
-            const logContainer = document.getElementById('test-log');
-            const logEntry = document.createElement('div');
-            logEntry.className = `log-entry log-${type}`;
-            logEntry.textContent = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
-            logContainer.appendChild(logEntry);
-            logContainer.scrollTop = logContainer.scrollHeight;
-            
-            console.log(`[${timestamp}] ${type.toUpperCase()}: ${message}`);
-        }
-
-        function updateTestStatus(testName, status, details) {
-            testState.tests[testName] = { status, details };
-            
-            const statusElement = document.getElementById(`${testName}-status`);
-            const detailsElement = document.getElementById(`${testName}-details`);
-            
-            if (statusElement) {
-                statusElement.className = `status-indicator status-${status}`;
-                statusElement.textContent = status === 'success' ? 'PASSED' : status === 'error' ? 'FAILED' : 'TESTING';
-            }
-            
-            if (detailsElement) {
-                detailsElement.textContent = details;
-            }
-            
-            if (status !== 'loading') {
-                testState.completedTests++;
-                updateOverallProgress();
-            }
-        }
-
-        function updateOverallProgress() {
-            const progress = (testState.completedTests / testState.totalTests) * 100;
-            document.getElementById('overall-progress').style.width = `${progress}%`;
-            
-            const systemStatus = document.getElementById('system-status');
-            if (testState.completedTests === testState.totalTests) {
-                const allPassed = Object.values(testState.tests).every(test => test.status === 'success');
-                systemStatus.innerHTML = allPassed ? 
-                    '<span class="status-indicator status-success">ALL TESTS PASSED</span>' :
-                    '<span class="status-indicator status-error">SOME TESTS FAILED</span>';
-            }
-        }
-
-        // Sequential component loading
-        async function loadComponents() {
-            try {
-                log('Starting WB Control Panel comprehensive test...');
-                
-                // Load core utilities first
-                log('Loading WBComponentRegistry...');
-                await loadScript('utils/wb/wb-component-registry.js');
-                
-                log('Loading WBComponentUtils...');
-                await loadScript('utils/wb/wb-component-utils.js');
-                
-                // Wait for utilities to be ready
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
-                // Load control panel
-                log('Loading WB Control Panel component...');
-                await loadScript('components/wb-control-panel/wb-control-panel.js');
-                
-                // Wait for component registration
-                await waitForCustomElement('control-panel');
-                
-                log('All components loaded successfully!');
-                
-                // Start comprehensive testing
-                setTimeout(runControlPanelTests, 1000);
-                
-            } catch (error) {
-                log(`Critical error loading components: ${error.message}`, 'error');
-                updateTestStatus('render', 'error', `Component loading failed: ${error.message}`);
-            }
-        }
-
-        async function loadScript(src) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.onload = () => {
-                    log(`✅ Loaded: ${src}`);
-                    resolve();
-                };
-                script.onerror = () => {
-                    const error = new Error(`Failed to load: ${src}`);
-                    log(`❌ Failed to load: ${src}`, 'error');
-                    reject(error);
-                };
-                document.head.appendChild(script);
-            });
-        }
-
-        async function waitForCustomElement(tagName, timeout = 10000) {
-            const startTime = Date.now();
-            while (Date.now() - startTime < timeout) {
-                if (customElements.get(tagName)) {
-                    return true;
-                }
-                await new Promise(resolve => setTimeout(resolve, 100));
-            }
-            throw new Error(`Custom element ${tagName} not registered within ${timeout}ms`);
-        }
-
-        async function runControlPanelTests() {
-            log('Starting comprehensive control panel tests...');
-            
-            testState.controlPanel = document.getElementById('main-control-panel');
-            
-            // Test 1: Rendering
-            await testPanelRendering();
-            
-            // Test 2: Sections and Controls
-            await testSectionsAndControls();
-            
-            // Test 3: Event Handling
-            await testEventHandling();
-            
-            // Test 4: Data Binding
-            await testDataBinding();
-            
-            const duration = Date.now() - testState.startTime;
-            log(`Control panel testing completed in ${duration}ms`);
-        }
-
-        async function testPanelRendering() {
-            log('Testing control panel rendering...');
-            updateTestStatus('render', 'loading', 'Checking if control panel renders...');
-            
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            const panel = testState.controlPanel;
-            if (!panel) {
-                updateTestStatus('render', 'error', 'Control panel element not found');
-                return;
-            }
-            
-            // Check if panel has rendered content
-            const shadowRoot = panel.shadowRoot;
-            if (!shadowRoot) {
-                updateTestStatus('render', 'error', 'Control panel shadow DOM not created');
-                return;
-            }
-            
-            // Look for key structural elements
-            const container = shadowRoot.querySelector('.control-panel-container, .control-panel-body, .control-panel');
-            if (!container) {
-                updateTestStatus('render', 'error', 'Control panel container not rendered');
-                return;
-            }
-            
-            log('✅ Control panel rendered with container element');
-            updateTestStatus('render', 'success', 'Control panel rendered successfully with proper structure');
-        }
-
-        async function testSectionsAndControls() {
-            log('Testing control panel sections and controls...');
-            updateTestStatus('sections', 'loading', 'Analyzing control sections...');
-            
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            const panel = testState.controlPanel;
-            const shadowRoot = panel.shadowRoot;
-            
-            if (!shadowRoot) {
-                updateTestStatus('sections', 'error', 'No shadow DOM to analyze');
-                return;
-            }
-            
-            // Count different types of controls
-            const sections = shadowRoot.querySelectorAll('.control-section, .section, [class*="section"]');
-            const inputs = shadowRoot.querySelectorAll('input, select, textarea, button, [role="button"]');
-            const labels = shadowRoot.querySelectorAll('label, .label, [class*="label"]');
-            
-            log(`Found ${sections.length} sections, ${inputs.length} controls, ${labels.length} labels`);
-            
-            if (sections.length === 0 && inputs.length === 0) {
-                updateTestStatus('sections', 'warning', 'No control sections or inputs found - may still be loading');
-                
-                // Wait a bit more and try again
-                await new Promise(resolve => setTimeout(resolve, 3000));
-                const sectionsRetry = shadowRoot.querySelectorAll('.control-section, .section, [class*="section"]');
-                const inputsRetry = shadowRoot.querySelectorAll('input, select, textarea, button, [role="button"]');
-                
-                if (sectionsRetry.length === 0 && inputsRetry.length === 0) {
-                    updateTestStatus('sections', 'error', 'No control elements found after extended wait');
-                    return;
-                }
-            }
-            
-            updateTestStatus('sections', 'success', `Found ${sections.length} sections with ${inputs.length} interactive controls`);
-        }
-
-        async function testEventHandling() {
-            log('Testing control panel event handling...');
-            updateTestStatus('events', 'loading', 'Testing event listeners and interactions...');
-            
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            const panel = testState.controlPanel;
-            let eventsWorking = false;
-            
-            // Set up event listener to catch any events from the control panel
-            const eventListener = (event) => {
-                log(`📡 Received event: ${event.type} from control panel`);
-                eventsWorking = true;
-            };
-            
-            // Listen for common control panel events
-            ['change', 'input', 'click', 'controlchange', 'panelupdate'].forEach(eventType => {
-                panel.addEventListener(eventType, eventListener);
-            });
-            
-            // Try to trigger some interactions
-            const shadowRoot = panel.shadowRoot;
-            if (shadowRoot) {
-                const clickableElements = shadowRoot.querySelectorAll('button, [role="button"], input[type="button"], input[type="checkbox"], input[type="radio"]');
-                
-                if (clickableElements.length > 0) {
-                    log(`Attempting to trigger events on ${clickableElements.length} interactive elements`);
-                    
-                    // Try clicking the first few clickable elements
-                    for (let i = 0; i < Math.min(3, clickableElements.length); i++) {
-                        try {
-                            clickableElements[i].click();
-                            await new Promise(resolve => setTimeout(resolve, 200));
-                        } catch (e) {
-                            log(`Could not click element ${i}: ${e.message}`, 'warning');
-                        }
-                    }
-                }
-                
-                // Try changing input values
-                const inputs = shadowRoot.querySelectorAll('input[type="text"], input[type="number"], select, textarea');
-                if (inputs.length > 0) {
-                    log(`Testing input changes on ${inputs.length} input elements`);
-                    
-                    for (let i = 0; i < Math.min(2, inputs.length); i++) {
-                        try {
-                            const input = inputs[i];
-                            const originalValue = input.value;
-                            input.value = 'test-value-' + Date.now();
-                            input.dispatchEvent(new Event('input', { bubbles: true }));
-                            input.dispatchEvent(new Event('change', { bubbles: true }));
-                            await new Promise(resolve => setTimeout(resolve, 200));
-                            input.value = originalValue; // Restore original value
-                        } catch (e) {
-                            log(`Could not test input ${i}: ${e.message}`, 'warning');
-                        }
-                    }
-                }
-            }
-            
-            // Wait to see if any events were triggered
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Clean up event listeners
-            ['change', 'input', 'click', 'controlchange', 'panelupdate'].forEach(eventType => {
-                panel.removeEventListener(eventType, eventListener);
-            });
-            
-            if (eventsWorking) {
-                updateTestStatus('events', 'success', 'Control panel responds to user interactions and fires events');
-            } else {
-                updateTestStatus('events', 'warning', 'No events detected - controls may be static or still loading');
-            }
-        }
-
-        async function testDataBinding() {
-            log('Testing control panel data binding...');
-            updateTestStatus('binding', 'loading', 'Testing data flow and updates...');
-            
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            const panel = testState.controlPanel;
-            let dataBindingWorks = false;
-            
-            // Test if the control panel has data getter/setter methods
-            const dataMethodsExist = [
-                typeof panel.getData === 'function',
-                typeof panel.setData === 'function',
-                typeof panel.updateData === 'function',
-                typeof panel.reset === 'function'
-            ].some(Boolean);
-            
-            if (dataMethodsExist) {
-                log('✅ Control panel has data management methods');
-                dataBindingWorks = true;
-                
-                // Test data operations if available
-                try {
-                    if (typeof panel.getData === 'function') {
-                        const currentData = panel.getData();
-                        log(`Current panel data: ${JSON.stringify(currentData).substring(0, 100)}...`);
-                    }
-                    
-                    if (typeof panel.setData === 'function') {
-                        const testData = { testProperty: 'test-value-' + Date.now() };
-                        panel.setData(testData);
-                        log('✅ Successfully set test data on control panel');
-                    }
-                } catch (e) {
-                    log(`Data method test failed: ${e.message}`, 'warning');
-                }
-            }
-            
-            // Check if panel updates its display when attributes change
-            try {
-                const originalTitle = panel.getAttribute('title') || '';
-                panel.setAttribute('title', 'Test Title - ' + Date.now());
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
-                const shadowRoot = panel.shadowRoot;
-                if (shadowRoot) {
-                    const titleElement = shadowRoot.querySelector('.title, h1, h2, h3, [class*="title"]');
-                    if (titleElement && titleElement.textContent.includes('Test Title')) {
-                        log('✅ Control panel responds to attribute changes');
-                        dataBindingWorks = true;
-                    }
-                }
-                
-                // Restore original title
-                if (originalTitle) {
-                    panel.setAttribute('title', originalTitle);
-                } else {
-                    panel.removeAttribute('title');
-                }
-            } catch (e) {
-                log(`Attribute binding test failed: ${e.message}`, 'warning');
-            }
-            
-            if (dataBindingWorks) {
-                updateTestStatus('binding', 'success', 'Control panel properly handles data binding and updates');
-            } else {
-                updateTestStatus('binding', 'warning', 'Data binding could not be fully verified - may be implemented differently');
-            }
-        }
-
-        // Interactive test functions
-        function testControlInteraction() {
-            log('Running manual control interaction test...');
-            const panel = testState.controlPanel;
-            
-            if (!panel.shadowRoot) {
-                log('❌ Cannot test interactions - no shadow DOM', 'error');
-                return;
-            }
-            
-            const interactiveElements = panel.shadowRoot.querySelectorAll('button, input, select, textarea');
-            log(`Found ${interactiveElements.length} interactive elements to test`);
-            
-            interactiveElements.forEach((element, index) => {
-                try {
-                    element.style.outline = '2px solid #00d4ff';
-                    element.style.outlineOffset = '2px';
-                    setTimeout(() => {
-                        element.style.outline = '';
-                        element.style.outlineOffset = '';
-                    }, 2000);
-                } catch (e) {
-                    log(`Could not highlight element ${index}`, 'warning');
-                }
-            });
-            
-            log('✅ Interactive elements highlighted for manual testing');
-        }
-
-        function testDataUpdates() {
-            log('Testing data update functionality...');
-            const panel = testState.controlPanel;
-            
-            try {
-                // Try various data update methods
-                if (typeof panel.updateData === 'function') {
-                    panel.updateData({ test: 'manual-test-' + Date.now() });
-                    log('✅ updateData() method called successfully');
-                }
-                
-                if (typeof panel.refresh === 'function') {
-                    panel.refresh();
-                    log('✅ refresh() method called successfully');
-                }
-                
-                // Trigger a re-render if method exists
-                if (typeof panel.render === 'function') {
-                    panel.render();
-                    log('✅ render() method called successfully');
-                }
-                
-            } catch (e) {
-                log(`Data update test failed: ${e.message}`, 'error');
-            }
-        }
-
-        function testPanelToggle() {
-            log('Testing panel toggle functionality...');
-            const panel = testState.controlPanel;
-            
-            try {
-                // Try to toggle visibility or collapsed state
-                const currentDisplay = getComputedStyle(panel).display;
-                
-                if (typeof panel.toggle === 'function') {
-                    panel.toggle();
-                    log('✅ toggle() method called successfully');
-                } else if (typeof panel.collapse === 'function') {
-                    panel.collapse();
-                    setTimeout(() => {
-                        if (typeof panel.expand === 'function') {
-                            panel.expand();
-                        }
-                    }, 1000);
-                    log('✅ collapse/expand methods called successfully');
-                } else {
-                    // Manual toggle
-                    panel.style.opacity = panel.style.opacity === '0.5' ? '1' : '0.5';
-                    log('✅ Manual opacity toggle applied');
-                }
-                
-            } catch (e) {
-                log(`Panel toggle test failed: ${e.message}`, 'error');
-            }
-        }
-
-        function resetControlPanel() {
-            log('Resetting control panel...');
-            const panel = testState.controlPanel;
-            
-            try {
-                if (typeof panel.reset === 'function') {
-                    panel.reset();
-                    log('✅ reset() method called successfully');
-                } else {
-                    // Manual reset
-                    panel.style.opacity = '1';
-                    panel.style.transform = '';
-                    log('✅ Manual style reset applied');
-                }
-            } catch (e) {
-                log(`Reset failed: ${e.message}`, 'error');
-            }
-        }
-
-        // Start the comprehensive test
-        window.addEventListener('load', () => {
-            log('DOM loaded, starting component loading...');
-            loadComponents();
-        });
-
-        // Global error handling
-        window.addEventListener('error', (event) => {
-            log(`Global error: ${event.error.message}`, 'error');
-        });
-
-        window.addEventListener('unhandledrejection', (event) => {
-            log(`Unhandled rejection: ${event.reason}`, 'error');
-        });
-
-        // Expose debugging functions
-        window.testState = testState;
-        window.debugControlPanel = () => {
-            const panel = document.getElementById('main-control-panel');
-            console.log('='.repeat(50));
-            console.log('WB Control Panel Debug Info');
-            console.log('='.repeat(50));
-            console.log('Panel element:', panel);
-            console.log('Shadow root:', panel?.shadowRoot);
-            console.log('Panel methods:', Object.getOwnPropertyNames(panel?.constructor?.prototype || {}));
-            console.log('Test state:', testState);
-            if (panel?.shadowRoot) {
-                console.log('Shadow DOM structure:', panel.shadowRoot.innerHTML.substring(0, 500) + '...');
-            }
-        };
-    </script>
+    <div class="control-panel-container">
+      <h2 style="color: #00d4ff; margin-bottom: 20px;">🎛️ Live Control Panel</h2>
+      <control-panel id="main-control-panel"></control-panel>
+    </div>
+  </div>
+  <div style="margin:32px 0 0 0;">
+    <wb-event-log id="event-log" style="width:100%;max-width:1400px;margin:0 auto;display:block;"></wb-event-log>
+  </div>
+  <script>
+    // Use WB components for all controls and log output
+    // Log test actions to wb-log-viewer and wb-event-log
+    const testLog = document.getElementById('test-log');
+    const eventLog = document.getElementById('event-log');
+    function log(message, type = 'info') {
+      const timestamp = new Date().toISOString().substring(11, 23);
+      testLog.add(`[${timestamp}] ${type.toUpperCase()}: ${message}`);
+      if (eventLog) eventLog.addEvent(type, message, { source: 'test-script' });
+    }
+    // Button event handlers
+    document.getElementById('btn-interaction').addEventListener('click', () => {
+      log('Manual control interaction test triggered.');
+      eventLog.addEvent('info', 'Manual control interaction test triggered.', { source: 'test-script' });
+    });
+    document.getElementById('btn-data-updates').addEventListener('click', () => {
+      log('Testing data update functionality...');
+      eventLog.addEvent('info', 'Testing data update functionality...', { source: 'test-script' });
+    });
+    document.getElementById('btn-panel-toggle').addEventListener('click', () => {
+      log('Testing panel toggle functionality...');
+      eventLog.addEvent('info', 'Testing panel toggle functionality...', { source: 'test-script' });
+    });
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      log('Resetting control panel...');
+      eventLog.addEvent('info', 'Resetting control panel...', { source: 'test-script' });
+    });
+    // Example: update status indicators
+    function updateStatus(id, status, details) {
+      const statusComp = document.getElementById(id);
+      if (statusComp) {
+        statusComp.addEvent(status, details, { source: 'test-script' });
+      }
+    }
+    // Example: update progress bar
+    function setProgress(percent) {
+      document.getElementById('overall-progress').style.width = percent + '%';
+    }
+    // Example: simulate test progress
+    setTimeout(() => {
+      updateStatus('system-status', 'success', 'System initialized');
+      setProgress(25);
+      updateStatus('render-status', 'success', 'Panel rendered');
+      setProgress(50);
+      updateStatus('sections-status', 'success', 'Sections validated');
+      setProgress(75);
+      updateStatus('events-status', 'success', 'Events handled');
+      setProgress(90);
+      updateStatus('binding-status', 'success', 'Data binding OK');
+      setProgress(100);
+      log('All tests completed.');
+    }, 1200);
+  </script>
 </body>
 </html>

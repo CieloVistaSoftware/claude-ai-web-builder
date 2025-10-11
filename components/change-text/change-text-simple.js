@@ -168,17 +168,34 @@
         
         isEditModeEnabled = enabled;
         
-        // Update cursor style for all elements
+        // REACTIVE: Dispatch edit mode event instead of direct body manipulation
         if (enabled) {
-            document.body.classList.add('change-text-enabled');
             addStyles();
             
-            // Dispatch enable event
+            // REACTIVE: Dispatch edit mode change event
+            document.dispatchEvent(new CustomEvent('wb:edit-mode-changed', {
+                detail: {
+                    enabled: true,
+                    source: 'change-text-simple-component',
+                    component: 'change-text-simple'
+                },
+                bubbles: true
+            }));
+            
+            // Dispatch enable event for backward compatibility
             dispatchEvent('changeTextModeEnabled', {
                 enabled: true
             });
         } else {
-            document.body.classList.remove('change-text-enabled');
+            // REACTIVE: Dispatch edit mode change event
+            document.dispatchEvent(new CustomEvent('wb:edit-mode-changed', {
+                detail: {
+                    enabled: false,
+                    source: 'change-text-simple-component',
+                    component: 'change-text-simple'
+                },
+                bubbles: true
+            }));
             
             // End any active editing first
             document.querySelectorAll('[contenteditable="true"]').forEach(el => {
@@ -215,7 +232,7 @@
                 enabled: false
             });
             
-            console.log('✏️ Change Text: Edit mode disabled completely');
+            WBEventLog.logInfo('Change Text: Edit mode disabled completely', { component: 'change-text-simple', method: 'setEditMode', line: 235 });
         }
     }
     
@@ -226,20 +243,21 @@
         const style = document.createElement('style');
         style.id = 'change-text-simple-styles';
         style.textContent = `
-            .change-text-enabled ${targetSelectors.join(', .change-text-enabled ')} {
+            /* REACTIVE: Use data attributes instead of body classes */
+            [data-wb-edit-mode="true"] ${targetSelectors.join(', [data-wb-edit-mode="true"] ')} {
                 cursor: pointer !important;
                 transition: all 0.2s ease;
                 position: relative;
             }
             
-            .change-text-enabled ${targetSelectors.join(':hover, .change-text-enabled ')}:hover {
+            [data-wb-edit-mode="true"] ${targetSelectors.join(':hover, [data-wb-edit-mode="true"] ')}:hover {
                 outline: 2px dashed #6366f1 !important;
                 outline-offset: 2px !important;
                 background: rgba(99, 102, 241, 0.05) !important;
                 border-radius: 4px !important;
             }
             
-            .change-text-enabled ${targetSelectors.join(':hover::before, .change-text-enabled ')}:hover::before {
+            [data-wb-edit-mode="true"] ${targetSelectors.join(':hover::before, [data-wb-edit-mode="true"] ')}:hover::before {
                 content: '✏️ Click to edit';
                 position: absolute;
                 top: -25px;
@@ -307,6 +325,9 @@
             }
         `;
         document.head.appendChild(style);
+        
+        // REACTIVE: Set data attribute for styling instead of body class
+        document.documentElement.setAttribute('data-wb-edit-mode', 'true');
     }
     
     // Remove CSS styles
@@ -315,6 +336,9 @@
         if (existingStyle) {
             existingStyle.remove();
         }
+        
+        // REACTIVE: Remove data attribute
+        document.documentElement.removeAttribute('data-wb-edit-mode');
     }
     
     // Setup event listeners

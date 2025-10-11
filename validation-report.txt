@@ -1,0 +1,498 @@
+🔨 Starting WB Component Build...
+🔍 Starting WB Component Discovery...
+📁 Scanning: C:\Users\jwpmi\Downloads\AI\wb\components
+📊 Found 34 component directories
+🔍 Analyzing: change-text
+🔍 Analyzing: wb-base
+🔍 Analyzing: wb-button
+🔍 Analyzing: wb-card
+🔍 Analyzing: wb-change-text
+🔍 Analyzing: wb-color-bar
+🔍 Analyzing: wb-color-bars
+🔍 Analyzing: wb-color-picker
+🔍 Analyzing: wb-control-panel
+🔍 Analyzing: wb-demo
+🔍 Analyzing: wb-dev-toolbox
+🔍 Analyzing: wb-event-log
+🔍 Analyzing: wb-footer
+🔍 Analyzing: wb-header
+🔍 Analyzing: wb-hero
+🔍 Analyzing: wb-image-insert
+🔍 Analyzing: wb-inject-test
+🔍 Analyzing: wb-input
+🔍 Analyzing: wb-keyboard-manager
+🔍 Analyzing: wb-layout
+🔍 Analyzing: wb-log-error
+🔍 Analyzing: wb-log-viewer
+🔍 Analyzing: wb-modal
+🔍 Analyzing: wb-nav
+🔍 Analyzing: wb-resize
+🔍 Analyzing: wb-search
+🔍 Analyzing: wb-select
+🔍 Analyzing: wb-slider
+🔍 Analyzing: wb-status
+🔍 Analyzing: wb-tab
+🔍 Analyzing: wb-table
+🔍 Analyzing: wb-theme
+🔍 Analyzing: wb-toggle
+🔍 Analyzing: wb-viewport
+🔧 Building symbol table...
+📊 Symbol table built: 813 symbols
+📄 Reports generated in: C:\Users\jwpmi\Downloads\AI\wb\component-discovery-reports
+✅ Component discovery complete!
+🔍 Validating component usage...
+📊 Validation complete: 374 errors, 73 warnings
+📦 Generating build artifacts...
+📄 Generated build artifacts in: ./dist/symbols
+✅ Build completed successfully!
+
+❌ Validation Errors:
+  archive\wb-website-builder\dist\complete-demo.html:46 - Unknown web component: wb-website-builder
+  archive\wb-website-builder\dist\wb-website-builder-demo.html:210 - Unknown web component: wb-website-builder
+  archive\wb-website-builder\dist\wb-website-builder-demo.html:210 - Unknown web component: wb-website-builder
+  archive\wb-website-builder\dist\wb-website-builder-demo.html:210 - Unknown web component: wb-website-builder
+  components\wb-base\wb-base-demo.html:30 - Unknown web component: wb-demo
+  components\wb-base\wb-base-demo.html:88 - Unknown web component: wb-demo-base
+  components\wb-control-panel\wb-control-panel-demo.html:154 - Unknown web component: wb-demo
+  components\wb-demo\wb-demo-demo.html:19 - Unknown web component: wb-demo
+  components\wb-demo\wb-demo-demo.html:19 - Unknown web component: wb-demo
+  components\wb-dev-toolbox\wb-dev-toolbox-demo2.html:12 - Unknown web component: wb-demo
+  components\wb-dev-toolbox\wb-dev-toolbox-demo2.html:19 - Unknown web component: wb-demo-section
+  components\wb-dev-toolbox\wb-dev-toolbox-diagnostics.html:32 - Unknown web component: wb-dev-toolbox-log
+  components\wb-event-log\wb-event-log-demo.html:51 - Unknown web component: wb-tab-item
+  components\wb-event-log\wb-event-log-demo.html:51 - Unknown web component: wb-tab-item
+  components\wb-event-log\wb-event-log-demo.html:51 - Unknown web component: wb-tab-item
+  components\wb-event-log\wb-event-log-demo.html:59 - Unknown web component: wb-tab-panel
+  components\wb-event-log\wb-event-log-demo.html:59 - Unknown web component: wb-tab-panel
+  components\wb-event-log\wb-event-log-demo.html:59 - Unknown web component: wb-tab-panel
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-event-log\wb-event-log-schema-viewer.html:82 - Unknown web component: wb-btn
+  components\wb-nav\wb-nav-demo.html:157 - Unknown web component: wb-tab-item
+  components\wb-nav\wb-nav-demo.html:157 - Unknown web component: wb-tab-item
+  components\wb-slider\wb-slider-demo.html:15 - Unknown web component: wb-demo
+  components\wb-slider\wb-slider-demo.html:28 - Unknown web component: wb-demo-section
+  components\wb-slider\wb-slider-demo.html:30 - Unknown web component: wb-demo-grid
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:35 - Unknown web component: wb-demo-output
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:35 - Unknown web component: wb-demo-output
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:35 - Unknown web component: wb-demo-output
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:35 - Unknown web component: wb-demo-output
+  components\wb-slider\wb-slider-demo.html:28 - Unknown web component: wb-demo-section
+  components\wb-slider\wb-slider-demo.html:30 - Unknown web component: wb-demo-grid
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:28 - Unknown web component: wb-demo-section
+  components\wb-slider\wb-slider-demo.html:30 - Unknown web component: wb-demo-grid
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:28 - Unknown web component: wb-demo-section
+  components\wb-slider\wb-slider-demo.html:30 - Unknown web component: wb-demo-grid
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:28 - Unknown web component: wb-demo-section
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:35 - Unknown web component: wb-demo-output
+  components\wb-slider\wb-slider-demo.html:28 - Unknown web component: wb-demo-section
+  components\wb-slider\wb-slider-demo.html:31 - Unknown web component: wb-demo-item
+  components\wb-slider\wb-slider-demo.html:34 - Unknown web component: wb-slider
+  components\wb-slider\wb-slider-demo.html:35 - Unknown web component: wb-demo-output
+  components\wb-slider\wb-slider-demo.html:28 - Unknown web component: wb-demo-section
+  components\wb-status\wb-status-demo.html:293 - Unknown web component: wb-demo
+  components\wb-tab\wb-tab-demo-clean.html:219 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo-clean.html:219 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo-clean.html:223 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo-clean.html:223 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo-clean.html:219 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo-clean.html:219 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo-clean.html:219 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo-clean.html:223 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo-clean.html:223 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo-clean.html:223 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo-clean.html:219 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo-clean.html:219 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo-clean.html:223 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo-clean.html:223 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:181 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-demo.html:186 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-test.html:65 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-test.html:65 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-test.html:65 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-test.html:69 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-test.html:69 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-test.html:69 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-test.html:65 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-test.html:65 - Unknown web component: wb-tab-item
+  components\wb-tab\wb-tab-test.html:69 - Unknown web component: wb-tab-panel
+  components\wb-tab\wb-tab-test.html:69 - Unknown web component: wb-tab-panel
+  components\wb-table\wb-table-demo.html:174 - Unknown web component: wb-demo
+  components\wb-table\wb-table-demo.html:174 - Unknown web component: wb-demo
+  components\wb-table\wb-table-demo.html:174 - Unknown web component: wb-demo
+  components\wb-table\wb-table-demo.html:174 - Unknown web component: wb-demo
+  server\api-test-client.html:30 - Unknown web component: wb-tab-item
+  server\api-test-client.html:30 - Unknown web component: wb-tab-item
+  server\api-test-client.html:33 - Unknown web component: wb-tab-panel
+  server\api-test-client.html:33 - Unknown web component: wb-tab-panel
+  tests\intellisense\intellisense-test.html:63 - Unknown web component: wb-slider
+  tests\intellisense\intellisense-test.html:85 - Unknown web component: wb-viewport
+  tools\component-ide.html:315 - Unknown web component: wb-'
+  tools\component-ide.html:520 - Unknown web component: wb-')
+  archive\wb-website-builder\dist\wb-component-loader.js:191 - Unknown class: WBComponentUtils
+  archive\wb-website-builder\dist\wb-website-builder.js:53 - Unknown class: WBComponentUtils
+  archive\wb-website-builder\dist\wb-website-builder.js:53 - Unknown class: WBComponentUtils
+  archive\wb-website-builder\dist\wb-website-builder.js:53 - Unknown class: WBComponentUtils
+  archive\wb-website-builder\dist\wb-website-builder.js:53 - Unknown class: WBComponentUtils
+  components\wb-button\wb-button.js:217 - Unknown class: WBComponentUtils
+  components\wb-button\wb-button.js:217 - Unknown class: WBComponentUtils
+  components\wb-button\wb-button.js:781 - Unknown class: WBComponentRegistry
+  components\wb-button\wb-button.js:781 - Unknown class: WBComponentRegistry
+  components\wb-card\wb-card.js:114 - Unknown class: WBComponentUtils
+  components\wb-card\wb-card.js:115 - Unknown class: WBComponentUtils
+  components\wb-card\wb-card.js:471 - Unknown class: WBComponentRegistry
+  components\wb-card\wb-card.js:471 - Unknown class: WBComponentRegistry
+  components\wb-change-text\wb-change-text.js:84 - Unknown class: WBComponentUtils
+  components\wb-change-text\wb-change-text.js:85 - Unknown class: WBComponentUtils
+  components\wb-change-text\wb-change-text.js:385 - Unknown class: WBComponentRegistry
+  components\wb-change-text\wb-change-text.js:385 - Unknown class: WBComponentRegistry
+  components\wb-color-bar\wb-color-bar-bundle.js:26 - Unknown class: WBMainJS
+  components\wb-color-bar\wb-color-bar.js:937 - Unknown class: WBComponentRegistry
+  components\wb-color-bars\wb-color-bars-bundle.js:30 - Unknown class: WBMainJS
+  components\wb-color-bars\wb-color-bars-bundle.js:30 - Unknown class: WBMainJS
+  components\wb-color-bars\wb-color-bars-bundle.js:30 - Unknown class: WBMainJS
+  components\wb-color-bars\wb-color-bars-semantic-bundle.js:14 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-bundle.js:23 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-bundle.js:27 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-bundle.js:14 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-bundle.js:23 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-bundle.js:23 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-bundle.js:23 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-bundle.js:27 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:43 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:51 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:75 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:95 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:51 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:51 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:166 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:225 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:75 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:75 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:51 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:95 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars-semantic-demo.js:95 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:72 - Unknown class: WBComponentRegistry
+  components\wb-color-bars\wb-color-bars.js:73 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:76 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:73 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:93 - Unknown class: WBComponentUtils
+  components\wb-color-bars\wb-color-bars.js:73 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:110 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:76 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:73 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:76 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:73 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:110 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:137 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:93 - Unknown class: WBComponentUtils
+  components\wb-color-bars\wb-color-bars.js:76 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:76 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:76 - Unknown class: WBSafeLogger
+  components\wb-color-bars\wb-color-bars.js:676 - Unknown class: WBComponentRegistry
+  components\wb-color-picker\wb-color-picker.js:50 - Unknown class: WBComponentUtils
+  components\wb-color-picker\wb-color-picker.js:51 - Unknown class: WBComponentUtils
+  components\wb-color-picker\wb-color-picker.js:654 - Unknown class: WBComponentRegistry
+  components\wb-color-picker\wb-color-picker.js:654 - Unknown class: WBComponentRegistry
+  components\wb-control-panel\wb-control-panel.js:25 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:25 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:29 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:35 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:35 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:29 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:35 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:35 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:1372 - Unknown class: WBComponentRegistry
+  components\wb-control-panel\wb-control-panel.js:1498 - Unknown class: WBComponentRegistry
+  components\wb-control-panel\wb-control-panel.js:1659 - Unknown class: WBComponentUtils
+  components\wb-control-panel\wb-control-panel.js:1941 - Unknown class: WBComponentRegistry
+  components\wb-control-panel\wb-control-panel.js:1941 - Unknown class: WBComponentRegistry
+  components\wb-event-log\wb-event-log.js:84 - Unknown class: WBComponentUtils
+  components\wb-event-log\wb-event-log.js:84 - Unknown class: WBComponentUtils
+  components\wb-event-log\wb-event-log.js:101 - Unknown class: WBComponentUtils
+  components\wb-event-log\wb-event-log.js:101 - Unknown class: WBComponentUtils
+  components\wb-event-log\wb-event-log.js:1002 - Unknown class: WBComponentUtils
+  components\wb-event-log\wb-event-log.js:1002 - Unknown class: WBComponentUtils
+  components\wb-event-log\wb-event-log.js:2666 - Unknown class: WBComponentRegistry
+  components\wb-event-log\wb-event-log.js:2666 - Unknown class: WBComponentRegistry
+  components\wb-footer\wb-footer.js:108 - Unknown class: WBComponentUtils
+  components\wb-footer\wb-footer.js:108 - Unknown class: WBComponentUtils
+  components\wb-footer\wb-footer.js:140 - Unknown class: WBComponentUtils
+  components\wb-footer\wb-footer.js:728 - Unknown class: WBComponentRegistry
+  components\wb-footer\wb-footer.js:728 - Unknown class: WBComponentRegistry
+  components\wb-image-insert\image-insert.js:17 - Unknown class: WBComponentUtils
+  components\wb-image-insert\image-insert.js:18 - Unknown class: WBComponentUtils
+  components\wb-image-insert\image-insert.js:835 - Unknown class: WBComponentUtils
+  components\wb-image-insert\image-insert.js:835 - Unknown class: WBComponentUtils
+  components\wb-inject-test\wb-inject-test.js:98 - Unknown class: WBComponentUtils
+  components\wb-inject-test\wb-inject-test.js:100 - Unknown class: WBComponentUtils
+  components\wb-inject-test\wb-inject-test.js:98 - Unknown class: WBComponentUtils
+  components\wb-input\wb-input.js:413 - Unknown class: WBComponentUtils
+  components\wb-input\wb-input.js:900 - Unknown class: WBComponentRegistry
+  components\wb-input\wb-input.js:900 - Unknown class: WBComponentRegistry
+  components\wb-keyboard-manager\component-integration-example.js:82 - Unknown class: WBComponentUtils
+  components\wb-keyboard-manager\wb-keyboard-manager.js:116 - Unknown class: WBComponentUtils
+  components\wb-keyboard-manager\wb-keyboard-manager.js:116 - Unknown class: WBComponentUtils
+  components\wb-keyboard-manager\wb-keyboard-manager.js:131 - Unknown class: WBComponentUtils
+  components\wb-keyboard-manager\wb-keyboard-manager.js:131 - Unknown class: WBComponentUtils
+  components\wb-keyboard-manager\wb-keyboard-manager.js:898 - Unknown class: WBComponentRegistry
+  components\wb-keyboard-manager\wb-keyboard-manager.js:898 - Unknown class: WBComponentRegistry
+  components\wb-layout\wb-layout-reactive.js:531 - Unknown class: WBComponentRegistry
+  components\wb-layout\wb-layout-reactive.js:531 - Unknown class: WBComponentRegistry
+  components\wb-layout\wb-layout.js:534 - Unknown class: WBComponentRegistry
+  components\wb-layout\wb-layout.js:534 - Unknown class: WBComponentRegistry
+  components\wb-log-error\wb-log-error.js:226 - Unknown class: WBComponentUtils
+  components\wb-log-error\wb-log-error.js:227 - Unknown class: WBComponentUtils
+  components\wb-log-error\wb-log-error.js:861 - Unknown class: WBComponentRegistry
+  components\wb-log-error\wb-log-error.js:861 - Unknown class: WBComponentRegistry
+  components\wb-modal\wb-modal.js:220 - Unknown class: WBComponentRegistry
+  components\wb-modal\wb-modal.js:220 - Unknown class: WBComponentRegistry
+  components\wb-modal\wb-modal.js:426 - Unknown class: WBComponentUtils
+  components\wb-modal\wb-modal.js:426 - Unknown class: WBComponentUtils
+  components\wb-nav\wb-nav.js:101 - Unknown class: WBComponentUtils
+  components\wb-nav\wb-nav.js:101 - Unknown class: WBComponentUtils
+  components\wb-nav\wb-nav.js:104 - Unknown class: WBComponentUtils
+  components\wb-nav\wb-nav.js:499 - Unknown class: WBComponentRegistry
+  components\wb-nav\wb-nav.js:499 - Unknown class: WBComponentRegistry
+  components\wb-search\wb-search.js:34 - Unknown class: WBComponentUtils
+  components\wb-search\wb-search.js:35 - Unknown class: WBComponentUtils
+  components\wb-search\wb-search.js:276 - Unknown class: WBComponentRegistry
+  components\wb-search\wb-search.js:276 - Unknown class: WBComponentRegistry
+  components\wb-select\wb-select.js:254 - Unknown class: WBComponentUtils
+  components\wb-select\wb-select.js:1111 - Unknown class: WBComponentRegistry
+  components\wb-select\wb-select.js:1111 - Unknown class: WBComponentRegistry
+  components\wb-slider\wb-slider.js:19 - Unknown class: WBComponentUtils
+  components\wb-slider\wb-slider.js:20 - Unknown class: WBComponentUtils
+  components\wb-status\wb-status.js:101 - Unknown class: WBComponentUtils
+  components\wb-status\wb-status.js:102 - Unknown class: WBComponentUtils
+  components\wb-status\wb-status.js:101 - Unknown class: WBComponentUtils
+  components\wb-status\wb-status.js:113 - Unknown class: WBComponentUtils
+  components\wb-status\wb-status.js:490 - Unknown class: WBComponentRegistry
+  components\wb-status\wb-status.js:490 - Unknown class: WBComponentRegistry
+  components\wb-tab\wb-tab.js:908 - Unknown class: WBComponentRegistry
+  components\wb-tab\wb-tab.js:908 - Unknown class: WBComponentRegistry
+  components\wb-tab\wb-tab.js:908 - Unknown class: WBComponentRegistry
+  components\wb-tab\wb-tab.js:908 - Unknown class: WBComponentRegistry
+  components\wb-table\wb-table.js:45 - Unknown class: WBComponentUtils
+  components\wb-table\wb-table.js:46 - Unknown class: WBComponentUtils
+  components\wb-table\wb-table.js:236 - Unknown class: WBComponentRegistry
+  components\wb-table\wb-table.js:236 - Unknown class: WBComponentRegistry
+  components\wb-theme\wb-theme-manager.js:49 - Unknown class: WBComponentUtils
+  components\wb-theme\wb-theme-manager.js:50 - Unknown class: WBComponentUtils
+  components\wb-theme\wb-theme-manager.js:65 - Unknown class: WBComponentUtils
+  components\wb-theme\wb-theme-manager.js:65 - Unknown class: WBComponentUtils
+  components\wb-theme\wb-theme-manager.js:321 - Unknown class: WBComponentRegistry
+  components\wb-theme\wb-theme-manager.js:321 - Unknown class: WBComponentRegistry
+  components\wb-theme\wb-theme-manager.js:394 - Unknown class: WBComponentUtils
+  components\wb-theme\wb-theme-manager.js:394 - Unknown class: WBComponentUtils
+  components\wb-toggle\wb-toggle.js:13 - Unknown class: WBSafeLogger
+  components\wb-toggle\wb-toggle.js:40 - Unknown class: WBSafeLogger
+  components\wb-toggle\wb-toggle.js:13 - Unknown class: WBSafeLogger
+  components\wb-toggle\wb-toggle.js:100 - Unknown class: WBComponentUtils
+  components\wb-toggle\wb-toggle.js:101 - Unknown class: WBComponentUtils
+  components\wb-toggle\wb-toggle.js:100 - Unknown class: WBComponentUtils
+  components\wb-toggle\wb-toggle.js:112 - Unknown class: WBComponentUtils
+  components\wb-toggle\wb-toggle.js:139 - Unknown class: WBComponentUtils
+  components\wb-toggle\wb-toggle.js:326 - Unknown class: WBComponentRegistry
+  components\wb-toggle\wb-toggle.js:326 - Unknown class: WBComponentRegistry
+  components\wb-viewport\wb-viewport.js:18 - Unknown class: WBComponentUtils
+  components\wb-viewport\wb-viewport.js:18 - Unknown class: WBComponentUtils
+  components\wb-viewport\wb-viewport.js:61 - Unknown class: WBComponentUtils
+  components\wb-viewport\wb-viewport.js:300 - Unknown class: WBComponentUtils
+  components\wb-viewport\wb-viewport.js:300 - Unknown class: WBComponentUtils
+  material-design.colorpicker\script.js:194 - Unknown class: WBComponentUtils
+  material-design.colorpicker\script.js:194 - Unknown class: WBComponentUtils
+  material-design.colorpicker\script.js:194 - Unknown class: WBComponentUtils
+  material-design.colorpicker\script.js:194 - Unknown class: WBComponentUtils
+  material-design.colorpicker\script.js:194 - Unknown class: WBComponentUtils
+  material-design.colorpicker\script.js:194 - Unknown class: WBComponentUtils
+  material-design.colorpicker\script.js:194 - Unknown class: WBComponentUtils
+  scripts\build-manifest.js:92 - Unknown class: WBComponentRegistry
+  styles\layout-manager.js:35 - Unknown class: WBComponentUtils
+  styles\layout-manager.js:162 - Unknown class: WBLayoutManager
+  styles\layout-manager.js:162 - Unknown class: WBLayoutManager
+  styles\main.js:23 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:79 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:86 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:79 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:86 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:86 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:128 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:79 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:86 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:86 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:86 - Unknown class: WBSafeLogger
+  tests\wb-layout.test.js:128 - Unknown class: WBSafeLogger
+  tools\component-data.js:71 - Unknown class: WB_DISCOVERY_DATA
+  utils\auto-loader.js:43 - Unknown class: WBConfig
+  utils\color\color-analysis.js:384 - Unknown class: WBComponentUtils
+  utils\color\color-transformer.js:20 - Unknown class: WBComponentUtils
+  utils\color\color-transformer.js:21 - Unknown class: WBComponentUtils
+  utils\color\color-transformer.js:342 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-base.js:150 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-base.js:162 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-base.js:179 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-base.js:162 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-base.js:212 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-base.js:240 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-base.js:287 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-base.js:287 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-registry.js:201 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-registry.js:451 - Unknown class: WBComponentUtils
+  utils\wb\wb-component-registry.js:458 - Unknown class: WBComponentRegistry
+  utils\wb\wb-component-registry.js:462 - Unknown class: WBComponentRegistry
+  utils\wb\wb-component-utils.js:1006 - Unknown class: WBComponentUtils
+  utils\wb\wb-safe-logger.js:13 - Unknown class: WBSafeLogger
+  utils\wb\wb-safe-logger.js:14 - Unknown class: WBSafeLogger
+  utils\wb\wb-safe-logger.js:15 - Unknown class: WBSafeLogger
+  utils\wb\wb-safe-logger.js:142 - Unknown class: WBSafeLogger
+  utils\wb\wb-safe-logger.js:144 - Unknown class: WBSafeLogger
+  utils\wb\wb-safe-logger.js:145 - Unknown class: WBSafeLogger
+
+⚠️ Warnings:
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-card\wb-card-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-control-panel\wb-control-panel-demo.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-demo-unified.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-demo-unified.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-demo-unified.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-demo-unified.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-demo.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-demo.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-demo.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-demo.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-schema-viewer.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-schema-viewer.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-schema-viewer.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-schema-viewer.html - Using broken component: wb-card
+  components\wb-event-log\wb-event-log-schema-viewer.html - Using broken component: wb-card
+  server\api-test-client.html - Using broken component: wb-card
+  server\api-test-client.html - Using broken component: wb-card
+  server\api-test-client.html - Using broken component: wb-card
+  server\api-test-client.html - Using broken component: wb-card
+  server\api-test-client.html - Using broken component: wb-card
+  server\api-test-client.html - Using broken component: wb-card
+  components\wb-button\wb-button.js - Duplicate custom element definition: wb-button
+  components\wb-card\wb-card.js - Duplicate custom element definition: wb-card
+  components\wb-change-text\wb-change-text.js - Duplicate custom element definition: wb-change-text
+  components\wb-color-bar\wb-color-bar.js - Duplicate custom element definition: wb-color-bar
+  components\wb-color-bars\wb-color-bars.js - Duplicate custom element definition: wb-color-bars
+  components\wb-color-picker\wb-color-picker.js - Duplicate custom element definition: wb-color-picker
+  components\wb-control-panel\wb-control-panel.js - Duplicate custom element definition: wb-control-panel
+  components\wb-control-panel\wb-control-panel.js - Duplicate custom element definition: wb-control-panel
+  components\wb-demo\wb-demo.js - Duplicate custom element definition: wb-example
+  components\wb-dev-toolbox\wb-dev-toolbox.js - Duplicate custom element definition: wb-dev-toolbox
+  components\wb-event-log\wb-event-log.js - Duplicate custom element definition: wb-event-log
+  components\wb-footer\wb-footer.js - Duplicate custom element definition: wb-footer
+  components\wb-inject-test\wb-inject-test.js - Duplicate custom element definition: wb-inject-test
+  components\wb-input\wb-input.js - Duplicate custom element definition: wb-input
+  components\wb-keyboard-manager\wb-keyboard-manager.js - Duplicate custom element definition: wb-keyboard-manager
+  components\wb-layout\wb-layout-reactive.js - Duplicate custom element definition: wb-layout
+  components\wb-layout\wb-layout.js - Duplicate custom element definition: wb-layout
+  components\wb-log-error\wb-log-error.js - Duplicate custom element definition: wb-log-error
+  components\wb-log-viewer\wb-log-viewer.js - Duplicate custom element definition: wb-log-viewer
+  components\wb-modal\wb-modal.js - Duplicate custom element definition: wb-modal
+  components\wb-nav\wb-nav.js - Duplicate custom element definition: wb-nav
+  components\wb-resize\wb-resize.js - Duplicate custom element definition: wb-resize
+  components\wb-search\wb-search.js - Duplicate custom element definition: wb-search
+  components\wb-select\wb-select.js - Duplicate custom element definition: wb-select
+  components\wb-status\wb-status.js - Duplicate custom element definition: wb-status
+  components\wb-tab\wb-tab.js - Duplicate custom element definition: wb-tab
+  components\wb-table\wb-table.js - Duplicate custom element definition: wb-table
+  components\wb-theme\wb-theme-manager.js - Duplicate custom element definition: wb-theme-manager
+  components\wb-toggle\wb-toggle.js - Duplicate custom element definition: wb-toggle

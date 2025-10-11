@@ -136,7 +136,7 @@ class ColorBar extends HTMLElement {
   
   render() {
     // CSS-first approach - external stylesheet with dynamic path resolution
-    const cssPath = window.WBComponentUtils?.resolve('wb.color-bar.css') || '/components/wb-color-bar/wb-color-bar.css';
+    const cssPath = '/components/wb-color-bar/wb-color-bar.css';
     
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="${cssPath}">
@@ -730,7 +730,20 @@ class ColorBar extends HTMLElement {
       document.execCommand('copy');
       this.showCopyFeedback();
     } catch (err) {
-      WBSafeLogger.warning('Failed to copy color to clipboard: ' + err.message, { component: 'wb-color-bar', method: 'copyToClipboard', line: 733, error: err });
+      // Log error to WBEventLog or dispatch event
+      if (window.WBEventLog) {
+        WBEventLog.logError('Failed to copy color to clipboard: ' + err.message, { component: 'wb-color-bar', method: 'copyToClipboard', line: 733, error: err });
+      } else {
+        document.dispatchEvent(new CustomEvent('wb:error', {
+          detail: {
+            message: 'Failed to copy color to clipboard: ' + err.message,
+            component: 'wb-color-bar',
+            method: 'copyToClipboard',
+            line: 733,
+            error: err
+          }
+        }));
+      }
     } finally {
       document.body.removeChild(textArea);
     }
@@ -769,14 +782,31 @@ class ColorBar extends HTMLElement {
   
   // Event logging utility using wb-event-log
   logEvent(type, message) {
-    // Use wb-event-log component if available
-    const eventLog = document.querySelector('wb-event-log');
-    if (eventLog) {
-      eventLog.addEvent(type, `Color Bar: ${message}`, { 
+    // Use WBEventLog static methods if available
+    if (window.WBEventLog) {
+      const logData = { 
+        component: 'wb-color-bar',
         source: 'color-bar',
-        component: this.tagName.toLowerCase(),
-        hue: this._hue
-      });
+        hue: this._hue,
+        type: this.getAttribute('type')
+      };
+      
+      switch(type) {
+        case 'info':
+          WBEventLog.logInfo(`Color Bar: ${message}`, logData);
+          break;
+        case 'success':
+          WBEventLog.logSuccess(`Color Bar: ${message}`, logData);
+          break;
+        case 'warning':
+          WBEventLog.logWarning(`Color Bar: ${message}`, logData);
+          break;
+        case 'error':
+          WBEventLog.logError(`Color Bar: ${message}`, logData);
+          break;
+        default:
+          WBEventLog.logInfo(`Color Bar: ${message}`, logData);
+      }
     } else {
       // Fallback: dispatch wb: events that wb-event-log listens for
       document.dispatchEvent(new CustomEvent(`wb:${type}`, {
@@ -887,9 +917,20 @@ class ColorBar extends HTMLElement {
 }
 
 // Register the custom element
+
 customElements.define('wb-color-bar', ColorBar);
 
-WBSafeLogger.success('wb-color-bar: Registered successfully', { component: 'wb-color-bar', line: 891 });
+if (window.WBEventLog) {
+  WBEventLog.logSuccess('wb-color-bar: Registered successfully', { component: 'wb-color-bar', line: 891 });
+} else {
+  document.dispatchEvent(new CustomEvent('wb:success', {
+    detail: {
+      message: 'wb-color-bar: Registered successfully',
+      component: 'wb-color-bar',
+      line: 891
+    }
+  }));
+}
 
 // Register with WBComponentRegistry if available
 if (window.WBComponentRegistry) {

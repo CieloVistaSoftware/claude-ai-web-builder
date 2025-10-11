@@ -175,22 +175,17 @@
     </style>
 </head>
 <body>
-    <div class="demo-container">
-        <div class="demo-section">
-            <h1>Change Text Component - Simple ContentEditable Demo</h1>
-            <p>Direct inline text editing using contenteditable. No modals, just click and edit!</p>
-            
+    <wb-demo title="Change Text Component - Simple ContentEditable Demo">
+        <div slot="example">
             <div class="status-indicator" id="status">
                 <div class="edit-mode-indicator" id="editModeLight"></div>
                 <span id="statusText">Component loading...</span>
             </div>
-            
             <div class="demo-controls">
                 <button class="demo-btn demo-btn--success" id="enableEditMode">Enable Edit Mode</button>
                 <button class="demo-btn" id="disableEditMode">Disable Edit Mode</button>
                 <button class="demo-btn" id="saveAll">Save All Edits</button>
             </div>
-            
             <div class="instructions">
                 <h3>How to Use:</h3>
                 <ol>
@@ -201,94 +196,70 @@
                     <li>Ctrl+S also saves the current edit</li>
                 </ol>
             </div>
-        </div>
-        
-        <div class="demo-section example-content">
-            <h2>Example Content to Edit</h2>
-            <p>This is a paragraph of text that you can edit. Just enable edit mode and click on any text to start editing directly inline!</p>
-            
-            <h3>Shopping List</h3>
-            <ul class="example-list">
-                <li>Milk</li>
-                <li>Bread</li>
-                <li>Eggs</li>
-                <li>Cheese</li>
-            </ul>
-            
-            <h3>Project Status</h3>
-            <table class="example-table">
-                <thead>
-                    <tr>
-                        <th>Task</th>
-                        <th>Status</th>
-                        <th>Due Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Design Review</td>
-                        <td>In Progress</td>
-                        <td>Dec 25, 2024</td>
-                    </tr>
-                    <tr>
-                        <td>Development</td>
-                        <td>Not Started</td>
-                        <td>Jan 10, 2025</td>
-                    </tr>
-                    <tr>
-                        <td>Testing</td>
-                        <td>Pending</td>
-                        <td>Jan 20, 2025</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-                <h4>Note:</h4>
-                <p>This component makes text editing as simple as possible. No popups, no modals - just click and type!</p>
+            <div class="example-content">
+                <h2>Example Content to Edit</h2>
+                <p>This is a paragraph of text that you can edit. Just enable edit mode and click on any text to start editing directly inline!</p>
+                <h3>Shopping List</h3>
+                <ul class="example-list">
+                    <li>Milk</li>
+                    <li>Bread</li>
+                    <li>Eggs</li>
+                    <li>Cheese</li>
+                </ul>
+                <h3>Project Status</h3>
+                <table class="example-table">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Design Review</td>
+                            <td>In Progress</td>
+                            <td>Dec 25, 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Development</td>
+                            <td>Not Started</td>
+                            <td>Jan 10, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>Testing</td>
+                            <td>Pending</td>
+                            <td>Jan 20, 2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <h4>Note:</h4>
+                    <p>This component makes text editing as simple as possible. No popups, no modals - just click and type!</p>
+                </div>
+            </div>
+            <div class="demo-section">
+                <h3>Event Log</h3>
+                <div class="log-container" id="eventLog">
+                    <div class="log-item">Waiting for events...</div>
+                </div>
             </div>
         </div>
-        
-        <div class="demo-section">
-            <h3>Component Documentation</h3>
+        <div slot="documentation">
             <div id="change-text-docs">Loading documentation...</div>
         </div>
-        
-        <div class="demo-section">
-            <h3>Event Log</h3>
-            <div class="log-container" id="eventLog">
-                <div class="log-item">Waiting for events...</div>
-            </div>
-        </div>
-    </div>
+    </wb-demo>
     
-    <!-- Load marked library -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Documentation will be loaded using WBBaseComponent -->
     
     <!-- Load the simple change-text component -->
     <script src="change-text-simple.js"></script>
     
-    <script>
-        // Load and render markdown documentation
-        async function loadDocumentation() {
-            try {
-                const response = await fetch('change-text.md');
-                if (!response.ok) throw new Error('Failed to load markdown');
-                
-                const markdown = await response.text();
-                const html = marked.parse(markdown);
-                document.getElementById('change-text-docs').innerHTML = html;
-            } catch (error) {
-                document.getElementById('change-text-docs').innerHTML = '<p>Error loading documentation: ' + error.message + '</p>';
-            }
-        }
-        
-        // Load docs when marked is ready
-        if (window.marked) {
-            loadDocumentation();
-        } else {
-            window.addEventListener('load', loadDocumentation);
-        }
+    <script type="module">
+        import { WBBaseComponent } from '../wb-base/wb-base.js';
+        window.addEventListener('DOMContentLoaded', () => {
+            WBBaseComponent.renderMarkdownDoc('change-text.md', document.getElementById('change-text-docs'));
+        });
     </script>
     
     <script>

@@ -10,11 +10,31 @@
       "css",
       "docs"
     ],
-    "symbols": 27,
-    "methods": 22,
-    "events": 4,
+    "symbols": 30,
+    "methods": 24,
+    "events": 5,
     "attributes": 0,
     "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-base",
+    "type": "web-component",
+    "customElement": null,
+    "status": "unknown",
+    "files": [
+      "docs",
+      "css",
+      "demo",
+      "legacy"
+    ],
+    "symbols": 9,
+    "methods": 26,
+    "events": 0,
+    "attributes": 0,
+    "dependencies": [
+      "./wb-base/wb-base.js"
+    ],
     "issues": []
   },
   {
@@ -30,7 +50,7 @@
       "config"
     ],
     "symbols": 49,
-    "methods": 74,
+    "methods": 75,
     "events": 2,
     "attributes": 0,
     "dependencies": [
@@ -44,15 +64,15 @@
     "customElement": "wb-card",
     "status": "broken",
     "files": [
+      "docs",
       "issues",
       "demo",
       "css",
       "legacy",
-      "docs",
       "config"
     ],
-    "symbols": 29,
-    "methods": 55,
+    "symbols": 27,
+    "methods": 45,
     "events": 4,
     "attributes": 8,
     "dependencies": [
@@ -66,13 +86,13 @@
     "customElement": "wb-change-text",
     "status": "unknown",
     "files": [
+      "docs",
       "css",
       "legacy",
-      "docs",
       "config"
     ],
-    "symbols": 22,
-    "methods": 42,
+    "symbols": 17,
+    "methods": 38,
     "events": 1,
     "attributes": 0,
     "dependencies": [
@@ -92,9 +112,9 @@
       "css",
       "config"
     ],
-    "symbols": 47,
-    "methods": 66,
-    "events": 3,
+    "symbols": 48,
+    "methods": 73,
+    "events": 6,
     "attributes": 0,
     "dependencies": [],
     "issues": []
@@ -111,11 +131,13 @@
       "demo",
       "config"
     ],
-    "symbols": 41,
-    "methods": 66,
-    "events": 3,
+    "symbols": 43,
+    "methods": 85,
+    "events": 6,
     "attributes": 0,
-    "dependencies": [],
+    "dependencies": [
+      "wb-component-utils"
+    ],
     "issues": []
   },
   {
@@ -124,13 +146,14 @@
     "customElement": "wb-color-picker",
     "status": "unknown",
     "files": [
+      "docs",
       "demo",
       "css",
       "legacy",
       "config"
     ],
-    "symbols": 49,
-    "methods": 65,
+    "symbols": 46,
+    "methods": 60,
     "events": 4,
     "attributes": 0,
     "dependencies": [
@@ -141,22 +164,57 @@
   {
     "name": "wb-control-panel",
     "type": "web-component",
-    "customElement": "control-panel",
+    "customElement": "wb-control-panel",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "legacy",
+      "css",
+      "demo",
+      "config"
+    ],
+    "symbols": 137,
+    "methods": 155,
+    "events": 12,
+    "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-demo",
+    "type": "web-component",
+    "customElement": "wb-example",
     "status": "unknown",
     "files": [
       "docs",
       "demo",
       "css",
-      "legacy",
-      "config"
+      "legacy"
     ],
-    "symbols": 124,
-    "methods": 116,
-    "events": 9,
+    "symbols": 43,
+    "methods": 21,
+    "events": 0,
     "attributes": 0,
-    "dependencies": [
-      "wb-component-utils"
+    "dependencies": [],
+    "issues": []
+  },
+  {
+    "name": "wb-dev-toolbox",
+    "type": "web-component",
+    "customElement": "wb-dev-toolbox",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "legacy"
     ],
+    "symbols": 5,
+    "methods": 4,
+    "events": 1,
+    "attributes": 0,
+    "dependencies": [],
     "issues": []
   },
   {
@@ -166,13 +224,13 @@
     "status": "unknown",
     "files": [
       "docs",
-      "css",
       "demo",
-      "legacy",
-      "config"
+      "css",
+      "config",
+      "legacy"
     ],
-    "symbols": 238,
-    "methods": 293,
+    "symbols": 274,
+    "methods": 310,
     "events": 7,
     "attributes": 0,
     "dependencies": [
@@ -186,14 +244,14 @@
     "customElement": "wb-footer",
     "status": "unknown",
     "files": [
+      "docs",
       "demo",
       "css",
-      "docs",
       "legacy",
       "config"
     ],
-    "symbols": 75,
-    "methods": 54,
+    "symbols": 73,
+    "methods": 59,
     "events": 3,
     "attributes": 0,
     "dependencies": [
@@ -246,9 +304,30 @@
       "issues"
     ],
     "symbols": 75,
-    "methods": 74,
+    "methods": 75,
     "events": 0,
     "attributes": 0,
+    "dependencies": [
+      "wb-component-utils"
+    ],
+    "issues": []
+  },
+  {
+    "name": "wb-inject-test",
+    "type": "web-component",
+    "customElement": "wb-inject-test",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "css",
+      "demo",
+      "config",
+      "legacy"
+    ],
+    "symbols": 53,
+    "methods": 56,
+    "events": 4,
+    "attributes": 1,
     "dependencies": [
       "wb-component-utils"
     ],
@@ -267,7 +346,7 @@
       "config"
     ],
     "symbols": 48,
-    "methods": 98,
+    "methods": 110,
     "events": 2,
     "attributes": 0,
     "dependencies": [
@@ -281,14 +360,14 @@
     "customElement": "wb-keyboard-manager",
     "status": "unknown",
     "files": [
-      "legacy",
       "docs",
+      "legacy",
       "demo",
       "css",
       "config"
     ],
-    "symbols": 41,
-    "methods": 61,
+    "symbols": 43,
+    "methods": 90,
     "events": 8,
     "attributes": 4,
     "dependencies": [
@@ -308,9 +387,9 @@
       "legacy",
       "config"
     ],
-    "symbols": 27,
-    "methods": 49,
-    "events": 4,
+    "symbols": 33,
+    "methods": 65,
+    "events": 5,
     "attributes": 0,
     "dependencies": [],
     "issues": []
@@ -328,12 +407,27 @@
       "config"
     ],
     "symbols": 62,
-    "methods": 73,
+    "methods": 74,
     "events": 0,
     "attributes": 5,
     "dependencies": [
       "wb-component-utils"
     ],
+    "issues": []
+  },
+  {
+    "name": "wb-log-viewer",
+    "type": "web-component",
+    "customElement": "wb-log-viewer",
+    "status": "unknown",
+    "files": [
+      "legacy"
+    ],
+    "symbols": 2,
+    "methods": 3,
+    "events": 0,
+    "attributes": 0,
+    "dependencies": [],
     "issues": []
   },
   {
@@ -349,10 +443,12 @@
       "config"
     ],
     "symbols": 35,
-    "methods": 37,
+    "methods": 39,
     "events": 0,
     "attributes": 0,
-    "dependencies": [],
+    "dependencies": [
+      "wb-component-utils"
+    ],
     "issues": []
   },
   {
@@ -367,13 +463,32 @@
       "legacy",
       "config"
     ],
-    "symbols": 44,
-    "methods": 67,
+    "symbols": 41,
+    "methods": 56,
     "events": 2,
     "attributes": 8,
     "dependencies": [
       "wb-component-utils"
     ],
+    "issues": []
+  },
+  {
+    "name": "wb-resize",
+    "type": "web-component",
+    "customElement": "wb-resize",
+    "status": "unknown",
+    "files": [
+      "docs",
+      "demo",
+      "css",
+      "legacy",
+      "config"
+    ],
+    "symbols": 24,
+    "methods": 18,
+    "events": 2,
+    "attributes": 1,
+    "dependencies": [],
     "issues": []
   },
   {
@@ -388,7 +503,7 @@
       "config"
     ],
     "symbols": 26,
-    "methods": 31,
+    "methods": 32,
     "events": 5,
     "attributes": 6,
     "dependencies": [
@@ -408,8 +523,8 @@
       "legacy",
       "config"
     ],
-    "symbols": 44,
-    "methods": 100,
+    "symbols": 47,
+    "methods": 117,
     "events": 1,
     "attributes": 0,
     "dependencies": [
@@ -429,7 +544,7 @@
       "legacy",
       "config"
     ],
-    "symbols": 57,
+    "symbols": 58,
     "methods": 25,
     "events": 9,
     "attributes": 0,
@@ -450,8 +565,8 @@
       "legacy",
       "config"
     ],
-    "symbols": 48,
-    "methods": 56,
+    "symbols": 36,
+    "methods": 43,
     "events": 1,
     "attributes": 0,
     "dependencies": [
@@ -467,17 +582,15 @@
     "files": [
       "docs",
       "demo",
-      "css",
       "legacy",
+      "css",
       "config"
     ],
     "symbols": 42,
-    "methods": 69,
+    "methods": 70,
     "events": 4,
     "attributes": 0,
-    "dependencies": [
-      "wb-component-utils"
-    ],
+    "dependencies": [],
     "issues": []
   },
   {
@@ -492,8 +605,8 @@
       "legacy",
       "config"
     ],
-    "symbols": 20,
-    "methods": 26,
+    "symbols": 17,
+    "methods": 25,
     "events": 2,
     "attributes": 0,
     "dependencies": [
@@ -507,13 +620,13 @@
     "customElement": "wb-theme-manager",
     "status": "unknown",
     "files": [
+      "docs",
       "css",
       "legacy",
-      "docs",
       "config"
     ],
     "symbols": 26,
-    "methods": 34,
+    "methods": 37,
     "events": 2,
     "attributes": 5,
     "dependencies": [
@@ -533,8 +646,8 @@
       "legacy",
       "config"
     ],
-    "symbols": 22,
-    "methods": 41,
+    "symbols": 20,
+    "methods": 33,
     "events": 1,
     "attributes": 0,
     "dependencies": [
@@ -555,7 +668,7 @@
       "config"
     ],
     "symbols": 27,
-    "methods": 30,
+    "methods": 31,
     "events": 0,
     "attributes": 0,
     "dependencies": [

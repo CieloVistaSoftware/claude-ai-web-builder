@@ -831,10 +831,15 @@
         console.log(`🖼️ Image Insert: Edit mode ${enabled ? 'enabled' : 'disabled'}`);
     }
     
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+    // Use WBComponentUtils if available, otherwise fallback
+    if (window.WBComponentUtils && window.WBComponentUtils.onReady) {
+        window.WBComponentUtils.onReady(init);
     } else {
-        init();
+        // Fallback DOM ready check
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     }
 })();

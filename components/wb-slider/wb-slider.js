@@ -358,8 +358,16 @@ class WBSlider {
   }
 }
 
-// Initialize global instance
+// Initialize global instance and expose for demo compatibility
 const wbSlider = new WBSlider();
+window.wbSlider = wbSlider;
+window.WBSlider = {
+  create: (...args) => wbSlider.create(...args),
+  setValue: (...args) => wbSlider.setValue(...args),
+  getValue: (...args) => wbSlider.getValue(...args),
+  setDisabled: (...args) => wbSlider.setDisabled(...args),
+  setRange: (...args) => wbSlider.setRange(...args)
+};
 
 // Auto-initialize on DOM ready
 if (document.readyState === 'loading') {

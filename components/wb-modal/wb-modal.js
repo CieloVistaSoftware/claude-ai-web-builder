@@ -422,11 +422,16 @@
         document.dispatchEvent(event);
     }
 
-    // Initialize immediately if DOM is ready, otherwise wait
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initialize);
+    // Use WBComponentUtils if available, otherwise fallback
+    if (window.WBComponentUtils && window.WBComponentUtils.onReady) {
+        window.WBComponentUtils.onReady(initialize);
     } else {
-        initialize();
+        // Fallback DOM ready check
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            initialize();
+        }
     }
 
 })();

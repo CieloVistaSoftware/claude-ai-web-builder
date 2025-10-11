@@ -4,7 +4,7 @@
 (function() {
     'use strict';
     
-    console.log('✏️ Change Text: Starting initialization...');
+    WBEventLog.logInfo('Change Text: Starting initialization', { component: 'change-text', method: 'IIFE', line: 7 });
     
     // Component state
     let isEditModeEnabled = false;
@@ -149,19 +149,28 @@
     
     // Set edit mode
     function setEditMode(enabled) {
-        console.log('✏️ Change Text: Setting edit mode to:', enabled);
+        WBEventLog.logInfo('Change Text: Setting edit mode', { component: 'change-text', method: 'setEditMode', enabled: enabled, line: 152 });
         isEditModeEnabled = enabled;
         
-        // Update cursor style for all elements
+        // REACTIVE: Dispatch edit mode change event instead of direct body manipulation
+        document.dispatchEvent(new CustomEvent('wb:edit-mode-changed', {
+            detail: { 
+                enabled: enabled, 
+                source: 'change-text-component',
+                component: 'change-text'
+            },
+            bubbles: true
+        }));
+        
+        // Update styles through CSS classes and manage editing state
         if (enabled) {
-            document.body.classList.add('change-text-enabled');
             addStyles();
         } else {
-            document.body.classList.remove('change-text-enabled');
             // End any active editing
             document.querySelectorAll('[contenteditable="true"]').forEach(el => {
                 makeNonEditable(el);
             });
+            removeStyles();
         }
     }
     
@@ -172,12 +181,13 @@
         const style = document.createElement('style');
         style.id = 'change-text-styles';
         style.textContent = `
-            .change-text-enabled ${targetSelectors.join(', .change-text-enabled ')} {
+            /* REACTIVE: Use data attributes instead of body classes */
+            [data-wb-edit-mode="true"] ${targetSelectors.join(', [data-wb-edit-mode="true"] ')} {
                 cursor: pointer !important;
                 transition: all 0.2s ease;
             }
             
-            .change-text-enabled ${targetSelectors.join(':hover, .change-text-enabled ')}:hover {
+            [data-wb-edit-mode="true"] ${targetSelectors.join(':hover, [data-wb-edit-mode="true"] ')}:hover {
                 outline: 2px dashed #6366f1;
                 outline-offset: 2px;
             }
@@ -205,6 +215,20 @@
             }
         `;
         document.head.appendChild(style);
+        
+        // REACTIVE: Set data attribute for styling instead of body class
+        document.documentElement.setAttribute('data-wb-edit-mode', 'true');
+    }
+    
+    // Remove CSS styles
+    function removeStyles() {
+        const existingStyle = document.getElementById('change-text-styles');
+        if (existingStyle) {
+            existingStyle.remove();
+        }
+        
+        // REACTIVE: Remove data attribute
+        document.documentElement.removeAttribute('data-wb-edit-mode');
     }
     
     // Setup event listeners
@@ -242,7 +266,7 @@
     
     // Initialize
     function initialize() {
-        console.log('✏️ Change Text: Initializing...');
+        WBEventLog.logInfo('Change Text: Initializing', { component: 'change-text', method: 'initialize', line: 269 });
         
         addStyles();
         setupEventListeners();
@@ -252,7 +276,7 @@
             dispatchEvent('changeTextReady', {
                 isEditModeEnabled: isEditModeEnabled
             });
-            console.log('✏️ Change Text: Ready!');
+            WBEventLog.logSuccess('Change Text: Ready!', { component: 'change-text', method: 'initialize', line: 279 });
         }, 100);
     }
     

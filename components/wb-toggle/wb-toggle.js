@@ -1,7 +1,8 @@
 // WB Toggle Component - Pure Web Component
 // Toggle switch component with accessibility and theming support
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 
-class WBToggle extends HTMLElement {
+class WBToggle extends WBBaseComponent {
     constructor() {
         super();
         this.config = null;
@@ -10,7 +11,7 @@ class WBToggle extends HTMLElement {
         this._slider = null;
         this._labelElement = null;
         
-        WBSafeLogger.debug('WB Toggle: Web Component constructed', { component: 'wb-toggle', method: 'constructor', line: 13 });
+    // ...removed WBSafeLogger.debug...
     }
     
     static get observedAttributes() {
@@ -37,12 +38,12 @@ class WBToggle extends HTMLElement {
             
             console.log('🔘 WB Toggle: Web Component initialized successfully');
         } catch (error) {
-            WBSafeLogger.error('WB Toggle: Initialization failed - ' + error.message, { component: 'wb-toggle', method: 'connectedCallback', line: 40, error });
+            // ...removed WBSafeLogger.error...
         }
     }
     
     disconnectedCallback() {
-        WBSafeLogger.debug('WB Toggle: Disconnected from DOM', { component: 'wb-toggle', method: 'disconnectedCallback', line: 45 });
+    // ...removed WBSafeLogger.debug...
     }
     
     attributeChangedCallback(name, oldValue, newValue) {

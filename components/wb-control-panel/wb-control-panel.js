@@ -89,6 +89,9 @@
             this.navigationConfig = null;
             this.themeConfig = null;
             
+            // REACTIVE: Internal state instead of reading DOM
+            this._editModeEnabled = false;
+            
             // Keyboard shortcut configuration - overridable via property setter
             this._keyboardShortcuts = {
                 toggle: 'ctrl+p',
@@ -374,7 +377,8 @@
                 <div class="control-panel-body">
                     ${this.createSectionsHTML(this.config.sections)}
                 </div>
-                <div class="drag-handle" id="drag-handle" title="Drag to move" style="position: absolute; bottom: 8px; left: 8px; width: 16px; height: 16px; cursor: grab; background: var(--border-color, #334155); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 12px; opacity: 0.7; transition: opacity 0.2s;">⋮⋮</div>
+                <div class="drag-handle" id="drag-handle" title="Drag to move panel" style="position: absolute; bottom: 8px; left: 1rem; width: 32px; height: 32px; cursor: grab; background: linear-gradient(135deg, var(--primary, #6366f1), var(--primary-light, #818cf8)); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; opacity: 0.85; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-weight: bold;">⊕</div>
+                <div class="resize-handle" id="resize-handle" title="Drag to resize width" style="position: absolute; bottom: 8px; right: 1rem; width: 32px; height: 32px; cursor: ew-resize; background: linear-gradient(135deg, var(--success, #10b981), var(--success-light, #34d399)); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; opacity: 0.85; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-weight: bold;">↔</div>
             `;
             
             console.log('Control Panel: HTML structure created');
@@ -532,7 +536,7 @@
             // Layout selector
             const layoutSelect = this.querySelector('#layout-select');
             if (layoutSelect) {
-                layoutSelect.addEventListener('change', (e) => this.handleLayoutChange(e));
+                layoutSelect.addEventListener('wb-select:change', (e) => this.handleLayoutChange(e));
                 console.log('✅ Layout selector event listener attached');
             } else {
                 console.warn('⚠️ Layout selector (#layout-select) not found in DOM');
@@ -541,7 +545,7 @@
             // Theme selector
             const themeSelect = this.querySelector('#theme-select');
             if (themeSelect) {
-                themeSelect.addEventListener('change', (e) => this.handleThemeChange(e));
+                themeSelect.addEventListener('wb-select:change', (e) => this.handleThemeChange(e));
                 console.log('✅ Theme selector event listener attached');
             } else {
                 console.warn('⚠️ Theme selector (#theme-select) not found in DOM');
@@ -590,6 +594,13 @@
                 this.setupDragFunctionality(dragHandle);
                 console.log('Control Panel: Drag functionality enabled');
             }
+
+            // Resize handle functionality
+            const resizeHandle = this.querySelector('#resize-handle');
+            if (resizeHandle) {
+                this.setupResizeFunctionality(resizeHandle);
+                console.log('Control Panel: Resize functionality enabled');
+            }
             
             // Color slider functionality
             this.setupColorSliders();
@@ -597,66 +608,39 @@
             console.log('Control Panel: Event listeners setup complete');
         }
         
-        // Event Handlers
+        // Event Handlers - REACTIVE APPROACH
         async handleLayoutChange(e) {
-            const layout = e.target.value;
-            const hostElement = this.getHostElement();
+            const layout = e.detail ? e.detail.value : e.target.value;
             
-            // Ensure semantic structure exists before applying layout
-            await this.ensureSemanticStructure();
+            // 🎯 REACTIVE APPROACH: Just fire the layout change event
+            // wb-layout component (if present) will handle all DOM manipulation
+            // Other components listening will react accordingly
             
-            // Update navigation to match new layout specifications
-            const nav = this.findNavigationElement();
-            if (nav) {
-                this.updateNavForLayout(nav, layout);
-            }
+            const layoutChangeEvent = new CustomEvent('wb:layout-changed', {
+                detail: { 
+                    layout: layout,
+                    source: 'control-panel',
+                    timestamp: Date.now()
+                },
+                bubbles: true,
+                composed: true
+            });
             
-            // Apply layout to document elements with more coverage
-            document.documentElement.setAttribute('data-layout', layout);
-            document.body.setAttribute('data-layout', layout);
+            document.dispatchEvent(layoutChangeEvent);
             
-            // Apply layout classes to body for immediate effect
-            const layouts = ['top-nav', 'left-nav', 'right-nav', 'ad-layout'];
-            layouts.forEach(l => document.body.classList.remove(l));
-            document.body.classList.add(layout);
-            
-            // Apply layout to host element
-            if (hostElement && hostElement !== document.body) {
-                hostElement.setAttribute('data-layout', layout);
-                layouts.forEach(l => hostElement.classList.remove(l));
-                hostElement.classList.add(layout);
-            }
-            
-            // Try to access parent window if in iframe
-            try {
-                if (window.parent && window.parent !== window) {
-                    const parentDoc = window.parent.document;
-                    parentDoc.documentElement.setAttribute('data-layout', layout);
-                    parentDoc.body.setAttribute('data-layout', layout);
-                    layouts.forEach(l => parentDoc.body.classList.remove(l));
-                    parentDoc.body.classList.add(layout);
-                }
-            } catch (e) {
-                // Cross-origin restriction, ignore
-            }
-            
-            console.log(`🎯 Layout applied: ${layout} to document, body, and host elements`);
-            
+            // Save to localStorage - this is control panel's responsibility
             localStorage.setItem('wb-layout', layout);
             
-            // Dispatch event to document so main page receives it
+            // Log the change
+            logEvent('info', `Layout changed to: ${layout} - Event dispatched`);
+            console.log(`🎯 Fired layout change event: ${layout}`);
+            console.log('📡 wb-layout component will handle all DOM updates reactively');
+            
+            // Legacy support: Also dispatch old event name for backward compatibility
             document.dispatchEvent(new CustomEvent('layoutChanged', {
-                detail: { layout, source: 'controlPanel', hostElement },
+                detail: { layout, source: 'controlPanel' },
                 bubbles: true
             }));
-            
-            // Also dispatch generic layout change event
-            document.dispatchEvent(new CustomEvent('wb:layout-changed', {
-                detail: { layout, source: 'controlPanel', hostElement },
-                bubbles: true
-            }));
-            
-            logEvent('info', `Layout changed to: ${layout} (applied to control panel, host element, and page) with nav structure updated`);
         }
         
         async ensureSemanticStructure() {
@@ -1137,24 +1121,31 @@
                 element.style.order = index.toString();
             });
             
-            // Ensure body uses flex layout for proper ordering
-            if (!document.body.style.display || document.body.style.display === 'block') {
-                document.body.style.display = 'flex';
-                document.body.style.flexDirection = 'column';
-                document.body.style.minHeight = '100vh';
-            }
+            // REACTIVE: Dispatch layout structure event instead of direct body manipulation
+            document.dispatchEvent(new CustomEvent('wb:layout-structure-changed', {
+                detail: {
+                    layout: 'semantic',
+                    elements: { nav: !!nav, header: !!header, main: !!main, footer: !!footer },
+                    source: 'wb-control-panel-semantic-structure',
+                    requiresFlexLayout: true,
+                    elementOrder: ['nav', 'header', 'main', 'footer']
+                },
+                bubbles: true
+            }));
             
-            // Make main flexible to fill available space
-            if (main) {
-                main.style.flex = '1';
-            }
+            WBEventLog.logInfo('Semantic structure organized', {
+                component: 'wb-control-panel',
+                method: 'organizeSemanticStructure',
+                elements: { nav: !!nav, header: !!header, main: !!main, footer: !!footer },
+                line: 1121
+            });
         }
         
         // Theme validation is delegated to wb-theme component
         // Control panel just fires events, doesn't validate implementations
         
         handleThemeChange(e) {
-            const theme = e.target.value;
+            const theme = e.detail.value;
             
             // 🎯 REACTIVE APPROACH: Just fire the theme change event
             // wb-theme component (if present) will handle validation and application
@@ -1218,23 +1209,42 @@
             button.dataset.checked = newState;
             
             const footerMode = newState ? 'bottom' : 'same-page';
-            document.body.setAttribute('data-footer', footerMode);
             
-            logEvent('info', `Fixed footer: ${newState ? 'enabled' : 'disabled'}`);
+            // REACTIVE: Dispatch footer mode event instead of direct body manipulation
+            document.dispatchEvent(new CustomEvent('wb:footer-mode-changed', {
+                detail: {
+                    footerMode: footerMode,
+                    enabled: newState,
+                    source: 'wb-control-panel-footer-toggle'
+                },
+                bubbles: true
+            }));
+            
+            WBEventLog.logInfo(`Fixed footer: ${newState ? 'enabled' : 'disabled'}`, {
+                component: 'wb-control-panel',
+                method: 'toggleFixedFooter',
+                footerMode: footerMode,
+                line: 1201
+            });
         }
         
         toggleEditMode() {
-            const currentState = document.body.classList.contains('edit-mode');
+            // REACTIVE: Get current state from event system instead of body classes
+            const currentState = this.isEditModeEnabled();
             const newState = !currentState;
             
-            document.body.classList.toggle('edit-mode', newState);
+            // REACTIVE: Dispatch edit mode event instead of direct body manipulation
+            document.dispatchEvent(new CustomEvent('wb:edit-mode-changed', {
+                detail: {
+                    enabled: newState,
+                    source: 'wb-control-panel-edit-toggle',
+                    previousState: currentState
+                },
+                bubbles: true
+            }));
             
-            // Toggle contentEditable on all editable elements
-            const editables = document.querySelectorAll('.editable');
-            editables.forEach(el => {
-                el.contentEditable = newState;
-                el.classList.toggle('editing', newState);
-            });
+            // Store state internally for next check
+            this._editModeEnabled = newState;
             
             // Update button state
             const editBtn = this.querySelector('#edit-mode-toggle');
@@ -1708,44 +1718,133 @@
         setupDragFunctionality(dragHandle) {
             let isDragging = false;
             let startX, startY, initialX, initialY;
-            
+
             dragHandle.style.cursor = 'grab';
-            
+
+            // Hover effect for drag handle
+            dragHandle.addEventListener('mouseenter', () => {
+                dragHandle.style.opacity = '1';
+                dragHandle.style.transform = 'scale(1.1)';
+            });
+
+            dragHandle.addEventListener('mouseleave', () => {
+                if (!isDragging) {
+                    dragHandle.style.opacity = '0.85';
+                    dragHandle.style.transform = 'scale(1)';
+                }
+            });
+
             dragHandle.addEventListener('mousedown', (e) => {
                 isDragging = true;
                 dragHandle.style.cursor = 'grabbing';
-                
+                dragHandle.style.transform = 'scale(0.95)';
+
                 startX = e.clientX;
                 startY = e.clientY;
-                
+
                 const rect = this.getBoundingClientRect();
                 initialX = rect.left;
                 initialY = rect.top;
-                
+
                 this.style.position = 'fixed';
                 this.style.zIndex = '9999';
-                
+
                 e.preventDefault();
                 console.log('🎛️ Control Panel: Drag started');
             });
-            
+
             document.addEventListener('mousemove', (e) => {
                 if (!isDragging) return;
-                
+
                 const deltaX = e.clientX - startX;
                 const deltaY = e.clientY - startY;
-                
+
                 this.style.left = (initialX + deltaX) + 'px';
                 this.style.top = (initialY + deltaY) + 'px';
             });
-            
+
             document.addEventListener('mouseup', () => {
                 if (isDragging) {
                     isDragging = false;
                     dragHandle.style.cursor = 'grab';
+                    dragHandle.style.transform = 'scale(1)';
                     console.log('🎛️ Control Panel: Drag completed');
                 }
             });
+        }
+
+        setupResizeFunctionality(resizeHandle) {
+            let isResizing = false;
+            let startX, initialWidth, initialRight;
+
+            // Hover effect for resize handle
+            resizeHandle.addEventListener('mouseenter', () => {
+                resizeHandle.style.opacity = '1';
+                resizeHandle.style.transform = 'scale(1.1)';
+            });
+
+            resizeHandle.addEventListener('mouseleave', () => {
+                if (!isResizing) {
+                    resizeHandle.style.opacity = '0.85';
+                    resizeHandle.style.transform = 'scale(1)';
+                }
+            });
+
+            resizeHandle.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                startX = e.clientX;
+                resizeHandle.style.transform = 'scale(0.95)';
+
+                const rect = this.getBoundingClientRect();
+                initialWidth = rect.width;
+                initialRight = rect.right;
+
+                this.style.position = 'fixed';
+                this.style.transition = 'none'; // Disable transitions during resize
+
+                e.preventDefault();
+                e.stopPropagation(); // Prevent drag from triggering
+                console.log('🎛️ Control Panel: Resize started');
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+
+                // Calculate delta (negative because dragging left increases width)
+                const deltaX = startX - e.clientX;
+                const newWidth = Math.max(280, Math.min(600, initialWidth + deltaX));
+
+                this.style.width = newWidth + 'px';
+                this.style.minWidth = newWidth + 'px';
+                this.style.maxWidth = newWidth + 'px';
+
+                // Control panel is positioned with 'right', not 'left'
+                // No need to adjust position - right edge stays fixed automatically
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isResizing) {
+                    isResizing = false;
+                    this.style.transition = ''; // Re-enable transitions
+                    resizeHandle.style.transform = 'scale(1)';
+                    console.log('🎛️ Control Panel: Resize completed');
+
+                    // Save width to localStorage
+                    const newWidth = this.getBoundingClientRect().width;
+                    localStorage.setItem('wb-control-panel-width', newWidth);
+                    logEvent('info', `Control panel width saved: ${newWidth}px`);
+                }
+            });
+
+            // Apply saved width on init
+            const savedWidth = localStorage.getItem('wb-control-panel-width');
+            if (savedWidth) {
+                const width = parseInt(savedWidth);
+                this.style.width = width + 'px';
+                this.style.minWidth = width + 'px';
+                this.style.maxWidth = width + 'px';
+                console.log(`🎛️ Control Panel: Applied saved width: ${width}px`);
+            }
         }
         
         /**
@@ -1784,7 +1883,8 @@
         }
         
         isEditModeEnabled() {
-            return document.body.classList.contains('edit-mode');
+            // REACTIVE: Use internal state instead of reading body classes
+            return this._editModeEnabled || false;
         }
     }
     

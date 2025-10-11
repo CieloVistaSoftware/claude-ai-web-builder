@@ -31,7 +31,15 @@
 (function() {
     'use strict';
 
-    console.log('📋 WB Select Web Component: Starting initialization...');
+    if (window.WBEventLog) {
+        WBEventLog.logInfo('WB Select Web Component: Starting initialization...', { 
+            component: 'wb-select', 
+            method: 'moduleLoad', 
+            line: 34 
+        });
+    } else {
+        console.log('📋 WB Select Web Component: Starting initialization...');
+    }
 
     // Configuration fallback - used if JSON loading fails
     const fallbackConfig = {
@@ -139,7 +147,17 @@
             try {
                 await this.initialize();
             } catch (error) {
-                console.error('📋 WB Select initialization failed:', error);
+                if (window.WBEventLog) {
+                    WBEventLog.logError('WB Select initialization failed', { 
+                        component: 'wb-select', 
+                        method: 'connectedCallback', 
+                        line: 142, 
+                        error: error.message, 
+                        stack: error.stack 
+                    });
+                } else {
+                    console.error('📋 WB Select initialization failed:', error);
+                }
                 this.initializeFallback();
             }
         }
@@ -151,7 +169,7 @@
         // Observed attributes for reactivity
         static get observedAttributes() {
             return ['placeholder', 'multiple', 'searchable', 'clearable', 'disabled', 
-                   'size', 'value', 'name'];
+                   'size', 'value', 'name', 'options'];
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
@@ -175,6 +193,9 @@
                     break;
                 case 'value':
                     this.setValue(newValue);
+                    break;
+                case 'options':
+                    this.setOptions(newValue);
                     break;
             }
         }
@@ -201,51 +222,60 @@
 
         async loadUtils() {
             if (!window.WBComponentUtils) {
-                return new Promise((resolve, reject) => {
-                    const script = document.createElement('script');
-                    script.src = '../wb-component-utils.js';
-                    script.onload = () => {
-                        this.utils = window.WBComponentUtils;
-                        resolve();
-                    };
-                    script.onerror = () => reject(new Error('Failed to load WBComponentUtils'));
-                    document.head.appendChild(script);
-                });
+                // WBComponentUtils is not available, continue without it
+                this.utils = null;
+                if (window.WBEventLog) {
+                    WBEventLog.logWarning('WB Select: WBComponentUtils not available, using basic functionality', { 
+                        component: 'wb-select', 
+                        method: 'loadUtils' 
+                    });
+                }
             } else {
                 this.utils = window.WBComponentUtils;
             }
         }
 
         async loadConfig() {
-            try {
-                if (this.utils) {
-                    const configPath = WBComponentUtils.getPath('wb-select-webcomponent.js', '../components/wb-select/') + 'wb-select.schema.json';
-                    this.config = await this.utils.loadConfig(configPath, fallbackConfig, 'WB Select');
-                } else {
-                    this.config = fallbackConfig;
-                }
-            } catch (error) {
-                console.warn('📋 WB Select: Using fallback config:', error.message);
-                this.config = fallbackConfig;
-            }
+            // Always use fallback config - it has all necessary structure
+            this.config = fallbackConfig;
             
-            // Ensure config is never undefined
-            if (!this.config) {
-                console.error('📋 WB Select: Config is undefined, using fallback');
-                this.config = fallbackConfig;
+            // Don't attempt to load external config - just use fallback
+            // This prevents path resolution issues and errors
+            if (window.WBEventLog) {
+                WBEventLog.logInfo('WB Select: Using built-in fallback config', { 
+                    component: 'wb-select', 
+                    method: 'loadConfig'
+                });
             }
         }
 
         async loadCSS() {
             if (this.utils) {
-                const cssPath = WBComponentUtils.getPath('wb-select-webcomponent.js', '../components/wb-select/') + 'wb-select.css';
+                const cssPath = WBComponentUtils.getPath('wb-select.js', '../components/wb-select/') + 'wb-select.css';
                 await this.utils.loadCSS('wb-select', cssPath);
+            } else {
+                // Fallback CSS loading without WBComponentUtils
+                const cssPath = '/components/wb-select/wb-select.css';
+                const existingLink = document.querySelector(`link[href="${cssPath}"]`);
+                if (!existingLink) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = cssPath;
+                    document.head.appendChild(link);
+                }
             }
         }
 
         initializeComponent() {
-            // Parse existing options from HTML
-            this.parseExistingOptions();
+            // Check for options attribute first (schema-driven)
+            const optionsAttr = this.getAttribute('options');
+            if (optionsAttr) {
+                // Schema-driven: options from JSON attribute
+                this.setOptions(optionsAttr);
+            } else {
+                // Legacy: parse existing option elements from HTML
+                this.parseExistingOptions();
+            }
             
             // Create component structure
             this.createComponentStructure();
@@ -264,7 +294,15 @@
         }
 
         initializeFallback() {
-            console.warn('📋 WB Select: Initializing with basic functionality');
+            if (window.WBEventLog) {
+                WBEventLog.logWarning('WB Select: Initializing with basic functionality', { 
+                    component: 'wb-select', 
+                    method: 'initializeFallback', 
+                    line: 267 
+                });
+            } else {
+                console.warn('📋 WB Select: Initializing with basic functionality');
+            }
             this.classList.add('wb-select');
             this.createBasicStructure();
             this.setupEventListeners();
@@ -310,7 +348,15 @@
         createComponentStructure() {
             // Ensure config exists
             if (!this.config || !this.config.classes) {
-                console.error('📋 WB Select: Config missing, cannot create structure');
+                if (window.WBEventLog) {
+                    WBEventLog.logError('WB Select: Config missing, cannot create structure', { 
+                        component: 'wb-select', 
+                        method: 'createSelectStructure', 
+                        line: 356 
+                    });
+                } else {
+                    console.error('📋 WB Select: Config missing, cannot create structure');
+                }
                 return;
             }
             
@@ -767,6 +813,63 @@
             this.setAttribute('value', '');
         }
 
+        setOptions(optionsData) {
+            if (!optionsData) return;
+            
+            try {
+                // Handle both JSON string and array - schema-driven approach
+                const options = typeof optionsData === 'string' ? 
+                    JSON.parse(optionsData) : optionsData;
+                
+                if (Array.isArray(options)) {
+                    // Convert schema format to internal format
+                    this._options = options.map(opt => ({
+                        value: opt.value,
+                        text: opt.label || opt.text || opt.value,
+                        disabled: opt.disabled || false,
+                        selected: opt.selected || false,
+                        group: opt.group || null
+                    }));
+                    
+                    // Update filtered options and re-render
+                    this.filterOptions();
+                    this.renderOptions();
+                    this.updateDisplay();
+                    
+                    if (window.WBEventLog) {
+                        WBEventLog.logInfo(`WB Select: Options loaded from schema - ${this._options.length} options`, { 
+                            component: 'wb-select', 
+                            method: 'setOptions', 
+                            optionsCount: this._options.length 
+                        });
+                    } else {
+                        console.log(`📋 WB Select: Options loaded from schema - ${this._options.length} options`);
+                    }
+                } else {
+                    if (window.WBEventLog) {
+                        WBEventLog.logWarning('WB Select: Options data is not an array', { 
+                            component: 'wb-select', 
+                            method: 'setOptions', 
+                            dataType: typeof options 
+                        });
+                    } else {
+                        console.warn('📋 WB Select: Options data is not an array');
+                    }
+                }
+            } catch (error) {
+                if (window.WBEventLog) {
+                    WBEventLog.logError('WB Select: Failed to parse options JSON', { 
+                        component: 'wb-select', 
+                        method: 'setOptions', 
+                        error: error.message,
+                        data: optionsData 
+                    });
+                } else {
+                    console.error('📋 WB Select: Failed to parse options JSON:', error);
+                }
+            }
+        }
+
         // Helper methods
         filterOptions() {
             if (!this._searchTerm) {
@@ -979,14 +1082,30 @@
                 }));
             }
             
-            console.log('📋 WB Select Web Component: Initialized successfully');
+            if (window.WBEventLog) {
+                WBEventLog.logSuccess('WB Select Web Component: Initialized successfully', { 
+                    component: 'wb-select', 
+                    method: 'dispatchReady', 
+                    line: 1025 
+                });
+            } else {
+                console.log('📋 WB Select Web Component: Initialized successfully');
+            }
         }
     }
 
     // Register the custom element
     if (customElements && !customElements.get('wb-select')) {
         customElements.define('wb-select', WBSelect);
-        console.log('� WB Select Web Component: Custom element registered');
+        if (window.WBEventLog) {
+            WBEventLog.logSuccess('WB Select Web Component: Custom element registered', { 
+                component: 'wb-select', 
+                method: 'componentRegistration', 
+                line: 1032 
+            });
+        } else {
+            console.log('📋 WB Select Web Component: Custom element registered');
+        }
         
         // Register with WBComponentRegistry if available
         if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
@@ -1005,9 +1124,25 @@
             });
         }
     } else if (customElements.get('wb-select')) {
-        console.log('📋 WB Select Web Component: Already registered');
+        if (window.WBEventLog) {
+            WBEventLog.logInfo('WB Select Web Component: Already registered', { 
+                component: 'wb-select', 
+                method: 'componentRegistration', 
+                line: 1051 
+            });
+        } else {
+            console.log('📋 WB Select Web Component: Already registered');
+        }
     } else {
-        console.error('📋 WB Select Web Component: Custom Elements not supported');
+        if (window.WBEventLog) {
+            WBEventLog.logError('WB Select Web Component: Custom Elements not supported', { 
+                component: 'wb-select', 
+                method: 'componentRegistration', 
+                line: 1053 
+            });
+        } else {
+            console.error('📋 WB Select Web Component: Custom Elements not supported');
+        }
     }
 
     // Expose for backward compatibility

@@ -1,7 +1,8 @@
 // WB Status Component - Pure Web Component
 // Website Builder status bar component for displaying events and settings
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 
-class WBStatus extends HTMLElement {
+class WBStatus extends WBBaseComponent {
     constructor() {
         super();
         this.config = null;
@@ -127,6 +128,21 @@ class WBStatus extends HTMLElement {
     
     render() {
         console.log('📊 WB Status: Rendering status bar');
+        
+        // Safety check for config
+        if (!this.config || !this.config.classes) {
+            console.warn('📊 WB Status: Config not available in render, using fallback');
+            this.config = this.config || {};
+            this.config.classes = this.config.classes || {
+                container: 'wb-status-bar',
+                left: 'wb-status-left',
+                right: 'wb-status-right',
+                events: 'wb-status-events',
+                event: 'wb-status-event',
+                settings: 'wb-status-settings',
+                setting: 'wb-status-setting'
+            };
+        }
         
         this.className = this.config.classes.container;
         this.setAttribute('role', 'status');

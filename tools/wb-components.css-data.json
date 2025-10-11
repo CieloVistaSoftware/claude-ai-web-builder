@@ -57,6 +57,17 @@
       ]
     },
     {
+      "name": "--accent-alt",
+      "description": "Custom property: --accent-alt",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--accent-dark",
       "description": "Custom property: --accent-dark",
       "relevance": 90,
@@ -156,8 +167,30 @@
       ]
     },
     {
+      "name": "--bg-color-preview",
+      "description": "Color property: --bg-color-preview",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--bg-dark",
       "description": "Color property: --bg-dark",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--bg-hover",
+      "description": "Color property: --bg-hover",
       "relevance": 90,
       "references": [
         {
@@ -246,6 +279,17 @@
     {
       "name": "--bg-tertiary",
       "description": "Color property: --bg-tertiary",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--border",
+      "description": "Border property: --border",
       "relevance": 90,
       "references": [
         {
@@ -673,6 +717,17 @@
       ]
     },
     {
+      "name": "--color-bar-height",
+      "description": "Color property: --color-bar-height",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--color-picker-border-radius",
       "description": "Color property: --color-picker-border-radius",
       "relevance": 90,
@@ -719,6 +774,83 @@
     {
       "name": "--complex",
       "description": "Custom property: --complex",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--content-margin-left",
+      "description": "Size/spacing property: --content-margin-left",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--content-margin-right",
+      "description": "Size/spacing property: --content-margin-right",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--content-margin-top",
+      "description": "Size/spacing property: --content-margin-top",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--control-panel-max-width",
+      "description": "Size/spacing property: --control-panel-max-width",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--control-panel-min-width",
+      "description": "Size/spacing property: --control-panel-min-width",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--control-panel-width",
+      "description": "Size/spacing property: --control-panel-width",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--current-color",
+      "description": "Color property: --current-color",
       "relevance": 90,
       "references": [
         {
@@ -1190,6 +1322,28 @@
       ]
     },
     {
+      "name": "--glass-bg",
+      "description": "Color property: --glass-bg",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--glass-border",
+      "description": "Border property: --glass-border",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--gradient",
       "description": "Custom property: --gradient",
       "relevance": 90,
@@ -1619,6 +1773,50 @@
       ]
     },
     {
+      "name": "--layout-mobile-breakpoint",
+      "description": "Custom property: --layout-mobile-breakpoint",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--layout-sidebar-margin",
+      "description": "Size/spacing property: --layout-sidebar-margin",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--layout-sidebar-width",
+      "description": "Size/spacing property: --layout-sidebar-width",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--layout-transition",
+      "description": "Animation property: --layout-transition",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--leading-normal",
       "description": "Custom property: --leading-normal",
       "relevance": 90,
@@ -1938,8 +2136,41 @@
       ]
     },
     {
+      "name": "--nav-height",
+      "description": "Size/spacing property: --nav-height",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--nav-width",
+      "description": "Size/spacing property: --nav-width",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--neutral",
       "description": "Custom property: --neutral",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--neutral-0",
+      "description": "Custom property: --neutral-0",
       "relevance": 90,
       "references": [
         {
@@ -2279,8 +2510,107 @@
       ]
     },
     {
+      "name": "--pointer-border",
+      "description": "Border property: --pointer-border",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--pointer-position",
+      "description": "Custom property: --pointer-position",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--pointer-size",
+      "description": "Size/spacing property: --pointer-size",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--preview-color",
+      "description": "Color property: --preview-color",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--preview-size",
+      "description": "Size/spacing property: --preview-size",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--primary",
       "description": "Custom property: --primary",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--primary-200",
+      "description": "Custom property: --primary-200",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--primary-300",
+      "description": "Custom property: --primary-300",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--primary-600",
+      "description": "Custom property: --primary-600",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--primary-alpha",
+      "description": "Custom property: --primary-alpha",
       "relevance": 90,
       "references": [
         {
@@ -2807,6 +3137,17 @@
       ]
     },
     {
+      "name": "--standalone",
+      "description": "Custom property: --standalone",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--standard",
       "description": "Custom property: --standard",
       "relevance": 90,
@@ -3038,6 +3379,28 @@
       ]
     },
     {
+      "name": "--success-light",
+      "description": "Custom property: --success-light",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--surface",
+      "description": "Custom property: --surface",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--surface-base",
       "description": "Custom property: --surface-base",
       "relevance": 90,
@@ -3051,6 +3414,28 @@
     {
       "name": "--surface-color",
       "description": "Color property: --surface-color",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--surface-color-darker",
+      "description": "Color property: --surface-color-darker",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--surface-elevated",
+      "description": "Custom property: --surface-elevated",
       "relevance": 90,
       "references": [
         {
@@ -3095,6 +3480,105 @@
     {
       "name": "--surface-secondary",
       "description": "Custom property: --surface-secondary",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-bg",
+      "description": "Color property: --tab-bg",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-bg-active",
+      "description": "Color property: --tab-bg-active",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-bg-hover",
+      "description": "Color property: --tab-bg-hover",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-border",
+      "description": "Border property: --tab-border",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-focus",
+      "description": "Custom property: --tab-focus",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-radius",
+      "description": "Border property: --tab-radius",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-spacing",
+      "description": "Custom property: --tab-spacing",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-text",
+      "description": "Color property: --tab-text",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--tab-text-active",
+      "description": "Color property: --tab-text-active",
       "relevance": 90,
       "references": [
         {
@@ -3203,8 +3687,30 @@
       ]
     },
     {
+      "name": "--text-color-preview",
+      "description": "Color property: --text-color-preview",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
       "name": "--text-dark",
       "description": "Color property: --text-dark",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--text-large",
+      "description": "Color property: --text-large",
       "relevance": 90,
       "references": [
         {
@@ -3238,6 +3744,17 @@
     {
       "name": "--text-md",
       "description": "Color property: --text-md",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--text-medium",
+      "description": "Color property: --text-medium",
       "relevance": 90,
       "references": [
         {
@@ -3348,6 +3865,17 @@
     {
       "name": "--text-sm",
       "description": "Color property: --text-sm",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--text-small",
+      "description": "Color property: --text-small",
       "relevance": 90,
       "references": [
         {
@@ -3579,6 +4107,17 @@
     {
       "name": "--transition-slow",
       "description": "Animation property: --transition-slow",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--transition-speed",
+      "description": "Animation property: --transition-speed",
       "relevance": 90,
       "references": [
         {
@@ -3953,6 +4492,61 @@
     {
       "name": "--wb-card-transition",
       "description": "Animation property: --wb-card-transition",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--wb-change-text-backdrop",
+      "description": "Color property: --wb-change-text-backdrop",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--wb-change-text-border-radius",
+      "description": "Color property: --wb-change-text-border-radius",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--wb-change-text-shadow",
+      "description": "Color property: --wb-change-text-shadow",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--wb-change-text-transition",
+      "description": "Color property: --wb-change-text-transition",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--wb-change-text-z-index",
+      "description": "Color property: --wb-change-text-z-index",
       "relevance": 90,
       "references": [
         {
@@ -5163,6 +5757,28 @@
     {
       "name": "--wb-nav-item-padding",
       "description": "Size/spacing property: --wb-nav-item-padding",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--wb-nav-layout-managed",
+      "description": "WB component property: --wb-nav-layout-managed",
+      "relevance": 90,
+      "references": [
+        {
+          "name": "WB Components Documentation",
+          "url": "https://your-docs-url.com/css-variables"
+        }
+      ]
+    },
+    {
+      "name": "--wb-nav-layout-type",
+      "description": "WB component property: --wb-nav-layout-type",
       "relevance": 90,
       "references": [
         {

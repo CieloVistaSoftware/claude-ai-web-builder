@@ -44,9 +44,7 @@
 let config = {};
 (async () => {
     try {
-        const configPath = window.WBComponentUtils ? 
-            window.WBComponentUtils.getPath('wb-tab.js', '../components/wb-tab/') + 'wb-tab.schema.json' :
-            './wb-tab.schema.json';
+        const configPath = './wb-tab.schema.json';
         const response = await fetch(configPath);
         if (response.ok) {
             config = await response.json();
@@ -158,9 +156,21 @@ class WBTab extends HTMLElement {
     }
     
     render() {
-        // CSS-first approach - external stylesheet
+        // CSS-first approach - inline styles in Shadow DOM
         this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="./wb-tab.css">
+            <style>
+                :host {
+                    /* CSS Variables for theming */
+                    --tab-bg: var(--neutral-900, #111827);
+                    --tab-border: var(--neutral-700, #374151);
+                    --tab-text: var(--neutral-300, #d1d5db);
+                    --tab-text-active: var(--primary-400, #60a5fa);
+                    --tab-bg-active: var(--neutral-800, #1f2937);
+                    --tab-bg-hover: var(--neutral-800, #1f2937);
+                    --tab-focus: var(--primary-500, #3b82f6);
+                    --tab-radius: 6px;
+                    --transition-speed: 0.2s;
+                }
                 
                 :host([disabled]) {
                     opacity: 0.6;

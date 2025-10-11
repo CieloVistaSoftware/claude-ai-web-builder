@@ -27,7 +27,15 @@ class WBEventLogExample extends HTMLElement {
         
         const keyboardManager = document.querySelector('wb-keyboard-manager');
         if (!keyboardManager) {
-            console.warn('⚠️ WB Keyboard Manager not found');
+            if (window.WBEventLog) {
+                WBEventLog.logWarning('WB Keyboard Manager not found', { 
+                    component: 'component-integration-example', 
+                    method: 'registerKeyboardShortcuts', 
+                    line: 30 
+                });
+            } else {
+                console.warn('⚠️ WB Keyboard Manager not found');
+            }
             return;
         }
         
@@ -78,7 +86,16 @@ class WBEventLogExample extends HTMLElement {
         });
         
         this._keyboardShortcutsRegistered = true;
-        console.log('✅ Keyboard shortcuts registered for', this.tagName);
+        if (window.WBEventLog) {
+            WBEventLog.logSuccess('Keyboard shortcuts registered', { 
+                component: 'component-integration-example', 
+                method: 'registerKeyboardShortcuts', 
+                line: 81, 
+                tagName: this.tagName 
+            });
+        } else {
+            console.log('✅ Keyboard shortcuts registered for', this.tagName);
+        }
     }
     
     unregisterKeyboardShortcuts() {
@@ -95,7 +112,16 @@ class WBEventLogExample extends HTMLElement {
         
         this._shortcutHandlers.clear();
         this._keyboardShortcutsRegistered = false;
-        console.log('✅ Keyboard shortcuts unregistered for', this.tagName);
+        if (window.WBEventLog) {
+            WBEventLog.logInfo('Keyboard shortcuts unregistered', { 
+                component: 'component-integration-example', 
+                method: 'unregisterKeyboardShortcuts', 
+                line: 115, 
+                tagName: this.tagName 
+            });
+        } else {
+            console.log('✅ Keyboard shortcuts unregistered for', this.tagName);
+        }
     }
     
     // Ensure focus management for context
@@ -109,19 +135,51 @@ class WBEventLogExample extends HTMLElement {
     
     // Component methods
     toggle() {
-        console.log('Toggle event log');
+        if (window.WBEventLog) {
+            WBEventLog.logUser('Toggle event log', { 
+                component: 'component-integration-example', 
+                method: 'toggle', 
+                line: 129 
+            });
+        } else {
+            console.log('Toggle event log');
+        }
     }
     
     clearEvents() {
-        console.log('Clear events');
+        if (window.WBEventLog) {
+            WBEventLog.logUser('Clear events', { 
+                component: 'component-integration-example', 
+                method: 'clearEvents', 
+                line: 133 
+            });
+        } else {
+            console.log('Clear events');
+        }
     }
     
     copySelectedEvents() {
-        console.log('Copy selected events');
+        if (window.WBEventLog) {
+            WBEventLog.logUser('Copy selected events', { 
+                component: 'component-integration-example', 
+                method: 'copySelectedEvents', 
+                line: 137 
+            });
+        } else {
+            console.log('Copy selected events');
+        }
     }
     
     hideComponent() {
-        console.log('Hide component');
+        if (window.WBEventLog) {
+            WBEventLog.logUser('Hide component', { 
+                component: 'component-integration-example', 
+                method: 'hideComponent', 
+                line: 141 
+            });
+        } else {
+            console.log('Hide component');
+        }
     }
     
 }
@@ -199,7 +257,15 @@ class WBModalExample extends HTMLElement {
     }
     
     confirm() {
-        console.log('Modal confirmed');
+        if (window.WBEventLog) {
+            WBEventLog.logUser('Modal confirmed', { 
+                component: 'component-integration-example', 
+                method: 'confirm', 
+                line: 219 
+            });
+        } else {
+            console.log('Modal confirmed');
+        }
         this.close();
     }
 }
@@ -266,7 +332,16 @@ class WBColorPickerExample extends HTMLElement {
     }
     
     adjustColor(delta) {
-        console.log('Adjusting color:', delta);
+        if (window.WBEventLog) {
+            WBEventLog.logUser('Adjusting color', { 
+                component: 'component-integration-example', 
+                method: 'adjustColor', 
+                line: 286, 
+                delta: delta 
+            });
+        } else {
+            console.log('Adjusting color:', delta);
+        }
         // Implement color adjustment logic
     }
 }

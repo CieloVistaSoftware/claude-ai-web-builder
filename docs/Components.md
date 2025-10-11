@@ -1,8 +1,38 @@
-# Website Builder Components Documentation
+# WB Component Rules & Standards
 
-## Overview
+**Official WB Component Development Standards and Guidelines**
 
-The Website Builder component library demonstrates a sophisticated approach to modular UI development. **As of January 2025, 65% of components (15+ components) have been converted to modern Web Components** that extend HTMLElement, with remaining components using legacy IIFE patterns. The project utilizes a shared `WBComponentUtils` system to eliminate code duplication.
+*Last Updated: October 9, 2025*
+
+---
+
+## 🎯 **CORE NAMING RULES**
+
+### 1. Component Naming Convention
+- **All components start with `wb-` prefix** (wb-layout, wb-nav, wb-card, wb-demo)
+- **Support `<complex-name>` format** (e.g., `<wb-color-bars>`, `<wb-control-panel>`)
+- **Use kebab-case for multi-word components** (wb-color-picker, wb-image-insert)
+
+### 2. File Naming Standards
+- **Main component file**: `wb-component-name.js`
+- **External stylesheet**: `wb-component-name.css`
+- **Demo file**: `wb-component-name-demo.html`
+- **Development log**: `claude.md` (REQUIRED in every component folder)
+- **Schema validation**: `wb-component-name.schema.json` (optional)
+
+**Example file structure:**
+```
+components/wb-example/
+├── wb-example.js              # Main component (ES6 class)
+├── wb-example.css             # External styles (CSS-first)
+├── wb-example-demo.html       # Two-tab demo
+├── claude.md                  # Development log (REQUIRED)
+└── wb-example.schema.json     # Optional data validation
+```
+
+---
+
+## 🏛️ **ARCHITECTURE RULES**
 
 ## Current Component Architecture
 

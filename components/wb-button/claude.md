@@ -1,6 +1,59 @@
-# ./components/wb-button/claude.md - WB Button Component Development Log
 
-## 🕒 RECENT ACTIVITY (October 6, 2025 - Most Recent First)
+**See [CONTRIBUTING.md](../../CONTRIBUTING.md) for project rules and review checklist.**
+
+[Documentation is found here](../wb-button.md)
+
+# WB Button Component (`wb-button`)
+
+---
+
+**See [CONTRIBUTING.md](../../CONTRIBUTING.md) for project rules and review checklist.**
+
+## 🟢 CURRENT STATUS (October 11, 2025)
+- The wb-button demo now fully displays both Documentation and Examples tabs using the wb-demo component.
+- Documentation is dynamically loaded from the markdown file and rendered in the Documentation tab.
+- All previous issues with tab visibility and documentation loading are resolved.
+- Demo is fully standardized and matches the dynamic markdown loading pattern.
+
+---
+
+## 🕒 RECENT ACTIVITY (October 10, 2025 - Most Recent First)
+
+### 🛠️ FIXED: Documentation not showing in wb-demo (October 10, 2025)
+- **Problem:** The documentation tab was empty in the wb-demo two-tab UI.
+- **Cause:** The wb-demo.js component did not contain logic to dynamically load and render the markdown file into the documentation slot.
+- **Fix:** Added logic to wb-demo.js to detect the markdown attribute and render the .md file into the <div slot="documentation"> using WBBaseComponent.renderMarkdownDoc if available, or fallback to marked.js.
+- **Result:** The documentation now loads and displays in the Documentation tab as expected.
+
+---
+
+### 🛠️ FIXED: Two tabs not showing in demo (October 10, 2025)
+- **Problem:** The demo did not show the two tabs (Documentation/Examples) using wb-demo.
+- **Cause:** The <wb-demo> custom element was not registered because the required JavaScript module was not imported.
+- **Fix:** Added <script type="module" src="../wb-demo/wb-demo.js"></script> to wb-button-demo.html before the <script type="module" src="wb-button.js"></script> line.
+- **Result:** The two-tab UI now appears as expected in the demo.
+
+---
+
+### ❗ User Statement: Demo does not have two tabs (October 10, 2025)
+- User directly reports: This demo does not have two tabs using the wb-demo component, despite previous assumptions or code review.
+- This is a factual observation from live usage, not a question or request for explanation.
+
+---
+
+### ❓ Why aren't the two tabs showing? (October 10, 2025)
+- The <wb-demo> component is designed to always show both "Documentation" and "Examples" tabs.
+- If you do not see both tabs, possible causes are:
+  1. **Shadow DOM Encapsulation**: Tabs are rendered inside the shadow DOM. External CSS/scripts won't affect them.
+  2. **Component Not Upgraded**: If <wb-demo> is not registered or loaded as a custom element (e.g., missing or incorrect import of wb-demo.js), the shadow DOM and tab logic will not be initialized, and you may only see fallback slot content.
+  3. **HTML Structure**: <wb-demo> must be present in your HTML, and the browser must support custom elements and shadow DOM.
+  4. **No Visible Content in Slots**: If the documentation or examples slots are empty, the tabs will still show, but the panels may appear blank.
+- **How to Fix:**
+  - Make sure <script type="module" src="../wb-demo/wb-demo.js"></script> (or correct path) is included before using <wb-demo>.
+  - Do not open the HTML file directly from the filesystem in a way that blocks module imports (use a local server).
+  - Check the browser console for errors about custom elements or module loading.
+- **Summary:**
+  - The <wb-demo> component is designed to always show both tabs. If you do not see them, it is likely a loading or registration issue with the custom element or its JavaScript module. Double-check that wb-demo.js is loaded as a module and that your browser supports web components.
 
 ### ✅ Component Status Confirmed (October 6, 2025)
 - **Status**: Listed as FULLY FUNCTIONAL in main project status

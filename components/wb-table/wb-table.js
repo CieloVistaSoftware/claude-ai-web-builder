@@ -1,7 +1,8 @@
 // WB Table Web Component
 // True web component that binds to data and uses first row as headers
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 
-class WBTable extends HTMLElement {
+class WBTable extends WBBaseComponent {
     constructor() {
         super();
         this.data = [];

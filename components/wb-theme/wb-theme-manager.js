@@ -38,6 +38,9 @@
             // Setup keyboard shortcuts
             this.setupKeyboardShortcuts();
             
+            // Setup reactive event listeners
+            this.setupReactiveListeners();
+            
             WBEventLog.logSuccess('WB Theme Manager: Ready', { component: 'wb-theme-manager', method: 'init', line: 41 });
         }
         
@@ -54,7 +57,6 @@
                     link.href = cssPath;
                     document.head.appendChild(link);
                     WBEventLog.logSuccess('Global theme CSS loaded', { component: 'wb-theme-manager', method: 'loadGlobalTheme', line: 56 });
-                }
                 }
             }
         }
@@ -121,6 +123,38 @@
                     });
                 }
             }, 100);
+        }
+        
+        setupReactiveListeners() {
+            // Listen to wb:theme-changed events from control panel and other components
+            document.addEventListener('wb:theme-changed', (event) => {
+                const { theme, source } = event.detail;
+                WBEventLog.logInfo(`Received theme change request: ${theme}`, {
+                    component: 'wb-theme-manager',
+                    method: 'setupReactiveListeners',
+                    source: source,
+                    theme: theme,
+                    line: 131
+                });
+                
+                // Apply the theme (don't save if it came from external source to avoid loops)
+                this.setTheme(theme, true);
+            });
+            
+            // Listen to wb:theme-change-request events (alternative event name)
+            document.addEventListener('wb:theme-change-request', (event) => {
+                const { theme, source } = event.detail;
+                WBEventLog.logInfo(`Received theme change request: ${theme}`, {
+                    component: 'wb-theme-manager',
+                    method: 'setupReactiveListeners',
+                    source: source,
+                    theme: theme,
+                    line: 144
+                });
+                
+                // Apply the theme
+                this.setTheme(theme, true);
+            });
         }
         
         applyTheme(theme, save = true) {
@@ -303,8 +337,6 @@
     // Auto-initialize if added to document
     const autoInit = () => {
         if (!document.querySelector('wb-theme-manager') && !document.querySelector('#wb-theme-manager-fallback')) {
-                    const existingThemeManager = document.querySelector('wb-theme-manager');
-        if (!existingThemeManager) {
             WBEventLog.logInfo('Creating fallback theme manager to avoid createElement issues', { component: 'wb-theme-manager', line: 307 });
             
             // Create minimal theme manager
@@ -358,11 +390,16 @@
         console.log('🎨 WB Theme Manager: Fallback created with full functionality');
     };
     
-    // Initialize on DOM ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', autoInit);
+    // Use WBComponentUtils if available, otherwise fallback
+    if (window.WBComponentUtils && window.WBComponentUtils.onReady) {
+        window.WBComponentUtils.onReady(autoInit);
     } else {
-        autoInit();
+        // Fallback DOM ready check
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', autoInit);
+        } else {
+            autoInit();
+        }
     }
     
     // Make class globally available

@@ -1,4 +1,5 @@
 {
+  "$id": "wb-layout.schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "WB Layout Component Schema",
   "description": "Schema for wb-layout web component - manages website layout configurations supporting both semantic HTML elements (<header>, <nav>, <main>, <footer>) and WB components (<wb-header>, <wb-nav>, <wb-main>, <wb-footer>)",

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Dropdown Issue</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debugging Dropdown Options Issue</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Direct wb-select with options attribute</h2>
+        <wb-select id="test-select-1" 
+                   options='[{"value":"dark","label":"Dark Mode"},{"value":"light","label":"Light Mode"},{"value":"auto","label":"Auto Mode"}]'
+                   value="dark">
+        </wb-select>
+        <div class="test-result" id="result-1">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: wb-select with HTML option elements</h2>
+        <wb-select id="test-select-2" value="dark">
+            <option value="dark">Dark Mode</option>
+            <option value="light">Light Mode</option>
+            <option value="auto">Auto Mode</option>
+        </wb-select>
+        <div class="test-result" id="result-2">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: wb-select dynamically set options</h2>
+        <wb-select id="test-select-3" value="dark"></wb-select>
+        <div class="test-result" id="result-3">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 4: Check if wb-select is registered</h2>
+        <div class="test-result" id="result-4">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 5: Load wb-control-panel and check dropdowns</h2>
+        <wb-control-panel id="test-control-panel"></wb-control-panel>
+        <div class="test-result" id="result-5">Loading...</div>
+    </div>
+
+    <!-- Load core infrastructure -->
+    <script src="utils/wb/wb-safe-logger.js"></script>
+    <script src="utils/wb/wb-component-utils.js"></script>
+    <script src="utils/wb/wb-component-registry.js"></script>
+    <script src="components/wb-event-log/wb-event-log.js"></script>
+    
+    <!-- Load wb-select component -->
+    <script src="components/wb-select/wb-select.js"></script>
+    
+    <!-- Load control panel for comparison -->
+    <script src="components/wb-control-panel/wb-control-panel.js"></script>
+    
+    <script>
+        // Debug script to test wb-select functionality
+        (async () => {
+            console.log('🔍 Starting wb-select debug tests...');
+            
+            // Wait for components to load
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Test 1: Check if wb-select with options attribute works
+            const testSelect1 = document.getElementById('test-select-1');
+            const result1 = document.getElementById('result-1');
+            if (testSelect1) {
+                const dropdown = testSelect1.querySelector('.wb-select-dropdown');
+                const options = testSelect1.querySelectorAll('.wb-select-option');
+                result1.innerHTML = `
+                    <strong>Component exists:</strong> ${!!testSelect1}<br>
+                    <strong>Dropdown exists:</strong> ${!!dropdown}<br>
+                    <strong>Options count:</strong> ${options.length}<br>
+                    <strong>Options attribute:</strong> ${testSelect1.getAttribute('options')}<br>
+                    <strong>Component initialized:</strong> ${testSelect1.initialized || 'undefined'}
+                `;
+            } else {
+                result1.innerHTML = '<strong style="color: red;">wb-select not found!</strong>';
+            }
+            
+            // Test 2: Check if wb-select with HTML options works
+            const testSelect2 = document.getElementById('test-select-2');
+            const result2 = document.getElementById('result-2');
+            if (testSelect2) {
+                const dropdown = testSelect2.querySelector('.wb-select-dropdown');
+                const options = testSelect2.querySelectorAll('.wb-select-option');
+                const htmlOptions = testSelect2.querySelectorAll('option');
+                result2.innerHTML = `
+                    <strong>Component exists:</strong> ${!!testSelect2}<br>
+                    <strong>HTML options count:</strong> ${htmlOptions.length}<br>
+                    <strong>Rendered options count:</strong> ${options.length}<br>
+                    <strong>Dropdown exists:</strong> ${!!dropdown}
+                `;
+            } else {
+                result2.innerHTML = '<strong style="color: red;">wb-select not found!</strong>';
+            }
+            
+            // Test 3: Dynamically set options
+            const testSelect3 = document.getElementById('test-select-3');
+            const result3 = document.getElementById('result-3');
+            if (testSelect3 && testSelect3.setOptions) {
+                testSelect3.setOptions([
+                    {value: 'option1', label: 'Option 1'},
+                    {value: 'option2', label: 'Option 2'},
+                    {value: 'option3', label: 'Option 3'}
+                ]);
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                const options = testSelect3.querySelectorAll('.wb-select-option');
+                result3.innerHTML = `
+                    <strong>setOptions method exists:</strong> ${!!testSelect3.setOptions}<br>
+                    <strong>Options set successfully:</strong> ${options.length > 0}<br>
+                    <strong>Options count:</strong> ${options.length}
+                `;
+            } else {
+                result3.innerHTML = '<strong style="color: red;">setOptions method not available!</strong>';
+            }
+            
+            // Test 4: Check if wb-select is registered
+            const result4 = document.getElementById('result-4');
+            const isRegistered = customElements.get('wb-select');
+            const wbSelectClass = window.WBSelect;
+            result4.innerHTML = `
+                <strong>customElements.get('wb-select'):</strong> ${!!isRegistered}<br>
+                <strong>window.WBSelect exists:</strong> ${!!wbSelectClass}<br>
+                <strong>All wb-select elements:</strong> ${document.querySelectorAll('wb-select').length}
+            `;
+            
+            // Test 5: Check control panel dropdowns
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            const controlPanel = document.getElementById('test-control-panel');
+            const result5 = document.getElementById('result-5');
+            if (controlPanel) {
+                const themeSelect = controlPanel.querySelector('#theme-select');
+                const layoutSelect = controlPanel.querySelector('#layout-select');
+                
+                let themeInfo = 'Not found';
+                let layoutInfo = 'Not found';
+                
+                if (themeSelect) {
+                    const themeOptions = themeSelect.querySelectorAll('.wb-select-option');
+                    const themeAttr = themeSelect.getAttribute('options');
+                    themeInfo = `Options: ${themeOptions.length}, Attr: ${themeAttr ? 'Yes' : 'No'}`;
+                }
+                
+                if (layoutSelect) {
+                    const layoutOptions = layoutSelect.querySelectorAll('.wb-select-option');
+                    const layoutAttr = layoutSelect.getAttribute('options');
+                    layoutInfo = `Options: ${layoutOptions.length}, Attr: ${layoutAttr ? 'Yes' : 'No'}`;
+                }
+                
+                result5.innerHTML = `
+                    <strong>Control panel exists:</strong> ${!!controlPanel}<br>
+                    <strong>Theme select:</strong> ${themeInfo}<br>
+                    <strong>Layout select:</strong> ${layoutInfo}<br>
+                    <strong>Control panel initialized:</strong> ${controlPanel.initialized || 'undefined'}
+                `;
+            } else {
+                result5.innerHTML = '<strong style="color: red;">Control panel not found!</strong>';
+            }
+            
+            // Add click events to test dropdowns
+            document.querySelectorAll('wb-select').forEach((select, index) => {
+                select.addEventListener('click', () => {
+                    console.log(`🔍 wb-select ${index + 1} clicked`, {
+                        component: select,
+                        options: select.getAttribute('options'),
+                        _options: select._options || 'undefined'
+                    });
+                });
+                
+                select.addEventListener('wb-select:change', (e) => {
+                    console.log(`🔍 wb-select ${index + 1} changed`, e.detail);
+                });
+            });
+            
+            console.log('🔍 Debug tests completed');
+        })();
+    </script>
+</body>
+</html>

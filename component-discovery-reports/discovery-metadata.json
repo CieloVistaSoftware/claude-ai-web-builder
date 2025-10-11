@@ -1,8 +1,8 @@
 {
-  "scanTime": "2025-10-06T03:12:06.789Z",
-  "totalComponents": 28,
-  "webComponents": 22,
-  "legacyComponents": 26,
+  "scanTime": "2025-10-11T01:53:29.703Z",
+  "totalComponents": 34,
+  "webComponents": 28,
+  "legacyComponents": 32,
   "brokenComponents": 2,
   "duplicateSymbols": [
     {
@@ -23,6 +23,13 @@
       "symbol": "cssPath",
       "components": [
         "wb-button",
+        "wb-card"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-base",
         "wb-card"
       ]
     },
@@ -57,7 +64,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-change-text"
       ]
     },
@@ -146,6 +153,34 @@
       ]
     },
     {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-color-bar"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
+        "wb-color-bars"
+      ]
+    },
+    {
+      "symbol": "cssPath",
+      "components": [
+        "wb-button",
+        "wb-color-bars"
+      ]
+    },
+    {
       "symbol": "hex",
       "components": [
         "wb-color-bar",
@@ -218,7 +253,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-color-picker"
       ]
     },
@@ -247,13 +282,6 @@
       "symbol": "rgb",
       "components": [
         "wb-color-bars",
-        "wb-color-picker"
-      ]
-    },
-    {
-      "symbol": "eventLog",
-      "components": [
-        "wb-color-bar",
         "wb-color-picker"
       ]
     },
@@ -295,14 +323,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "variantClass",
-      "components": [
-        "wb-button",
+        "wb-base",
         "wb-control-panel"
       ]
     },
@@ -328,6 +349,55 @@
       ]
     },
     {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "config",
+      "components": [
+        "wb-button",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "theme",
+      "components": [
+        "wb-base",
+        "wb-control-panel"
+      ]
+    },
+    {
       "symbol": "button",
       "components": [
         "wb-card",
@@ -335,13 +405,6 @@
       ]
     },
     {
-      "symbol": "script",
-      "components": [
-        "wb-button",
-        "wb-control-panel"
-      ]
-    },
-    {
       "symbol": "colorData",
       "components": [
         "wb-color-bar",
@@ -352,20 +415,6 @@
       "symbol": "colorData",
       "components": [
         "wb-color-bar",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "hexColor",
-      "components": [
-        "wb-color-picker",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "hexColor",
-      "components": [
-        "wb-color-picker",
         "wb-control-panel"
       ]
     },
@@ -373,6 +422,34 @@
       "symbol": "a",
       "components": [
         "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "eventLog",
+      "components": [
+        "wb-color-picker",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "colorData",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "colorData",
+      "components": [
+        "wb-color-bar",
+        "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
         "wb-control-panel"
       ]
     },
@@ -405,51 +482,9 @@
       ]
     },
     {
-      "symbol": "hue",
+      "symbol": "rect",
       "components": [
-        "wb-color-picker",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "saturation",
-      "components": [
-        "wb-color-picker",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "lightness",
-      "components": [
-        "wb-color-picker",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "hue",
-      "components": [
-        "wb-color-picker",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "saturation",
-      "components": [
-        "wb-color-picker",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "lightness",
-      "components": [
-        "wb-color-picker",
-        "wb-control-panel"
-      ]
-    },
-    {
-      "symbol": "valueDisplay",
-      "components": [
-        "wb-color-picker",
+        "wb-color-bar",
         "wb-control-panel"
       ]
     },
@@ -458,6 +493,76 @@
       "components": [
         "wb-color-bar",
         "wb-control-panel"
+      ]
+    },
+    {
+      "symbol": "eventLog",
+      "components": [
+        "wb-color-picker",
+        "wb-demo"
+      ]
+    },
+    {
+      "symbol": "eventLog",
+      "components": [
+        "wb-color-picker",
+        "wb-demo"
+      ]
+    },
+    {
+      "symbol": "button",
+      "components": [
+        "wb-card",
+        "wb-demo"
+      ]
+    },
+    {
+      "symbol": "eventLog",
+      "components": [
+        "wb-color-picker",
+        "wb-demo"
+      ]
+    },
+    {
+      "symbol": "blob",
+      "components": [
+        "wb-control-panel",
+        "wb-demo"
+      ]
+    },
+    {
+      "symbol": "url",
+      "components": [
+        "wb-control-panel",
+        "wb-demo"
+      ]
+    },
+    {
+      "symbol": "a",
+      "components": [
+        "wb-color-bar",
+        "wb-demo"
+      ]
+    },
+    {
+      "symbol": "and",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "and",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "names",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
       ]
     },
     {
@@ -491,19 +596,12 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-event-log"
       ]
     },
     {
       "symbol": "url",
-      "components": [
-        "wb-control-panel",
-        "wb-event-log"
-      ]
-    },
-    {
-      "symbol": "options",
       "components": [
         "wb-control-panel",
         "wb-event-log"
@@ -538,6 +636,13 @@
       ]
     },
     {
+      "symbol": "i",
+      "components": [
+        "wb-demo",
+        "wb-event-log"
+      ]
+    },
+    {
       "symbol": "match",
       "components": [
         "wb-color-picker",
@@ -545,9 +650,23 @@
       ]
     },
     {
+      "symbol": "tagName",
+      "components": [
+        "wb-demo",
+        "wb-event-log"
+      ]
+    },
+    {
       "symbol": "target",
       "components": [
         "change-text",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "tagName",
+      "components": [
+        "wb-demo",
         "wb-event-log"
       ]
     },
@@ -566,6 +685,41 @@
       ]
     },
     {
+      "symbol": "i",
+      "components": [
+        "wb-demo",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "key",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "i",
+      "components": [
+        "wb-demo",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "key",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "i",
+      "components": [
+        "wb-demo",
+        "wb-event-log"
+      ]
+    },
+    {
       "symbol": "match",
       "components": [
         "wb-color-picker",
@@ -573,9 +727,9 @@
       ]
     },
     {
-      "symbol": "component",
+      "symbol": "tagName",
       "components": [
-        "wb-change-text",
+        "wb-demo",
         "wb-event-log"
       ]
     },
@@ -587,7 +741,105 @@
       ]
     },
     {
+      "symbol": "timestamp",
+      "components": [
+        "wb-demo",
+        "wb-event-log"
+      ]
+    },
+    {
       "symbol": "to",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "resizeHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "isResizing",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "deltaY",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "resizeHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "isResizing",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "deltaX",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "newWidth",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "maxWidth",
+      "components": [
+        "wb-button",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "dragHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "isDragging",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "deltaX",
+      "components": [
+        "wb-control-panel",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "deltaY",
       "components": [
         "wb-control-panel",
         "wb-event-log"
@@ -636,6 +888,13 @@
       ]
     },
     {
+      "symbol": "timestamp",
+      "components": [
+        "wb-demo",
+        "wb-event-log"
+      ]
+    },
+    {
       "symbol": "textArea",
       "components": [
         "wb-color-bar",
@@ -646,6 +905,13 @@
       "symbol": "content",
       "components": [
         "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "timestamp",
+      "components": [
+        "wb-demo",
         "wb-event-log"
       ]
     },
@@ -671,9 +937,23 @@
       ]
     },
     {
+      "symbol": "possiblePaths",
+      "components": [
+        "wb-color-bars",
+        "wb-event-log"
+      ]
+    },
+    {
       "symbol": "response",
       "components": [
         "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "timestamp",
+      "components": [
+        "wb-demo",
         "wb-event-log"
       ]
     },
@@ -709,6 +989,13 @@
       "symbol": "footer",
       "components": [
         "wb-card",
+        "wb-event-log"
+      ]
+    },
+    {
+      "symbol": "timestamp",
+      "components": [
+        "wb-demo",
         "wb-event-log"
       ]
     },
@@ -757,7 +1044,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-footer"
       ]
     },
@@ -792,7 +1079,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-footer"
       ]
     },
@@ -848,7 +1135,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-footer"
       ]
     },
@@ -856,13 +1143,6 @@
       "symbol": "text",
       "components": [
         "change-text",
-        "wb-footer"
-      ]
-    },
-    {
-      "symbol": "footer",
-      "components": [
-        "wb-card",
         "wb-footer"
       ]
     },
@@ -890,7 +1170,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-image-insert"
       ]
     },
@@ -902,9 +1182,23 @@
       ]
     },
     {
+      "symbol": "width",
+      "components": [
+        "wb-control-panel",
+        "wb-image-insert"
+      ]
+    },
+    {
       "symbol": "style",
       "components": [
         "change-text",
+        "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "parent",
+      "components": [
+        "wb-demo",
         "wb-image-insert"
       ]
     },
@@ -953,7 +1247,7 @@
     {
       "symbol": "i",
       "components": [
-        "wb-event-log",
+        "wb-demo",
         "wb-image-insert"
       ]
     },
@@ -983,6 +1277,153 @@
       "components": [
         "change-text",
         "wb-image-insert"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "configPath",
+      "components": [
+        "wb-button",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "response",
+      "components": [
+        "wb-card",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "basePath",
+      "components": [
+        "wb-control-panel",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "existingLink",
+      "components": [
+        "wb-event-log",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-base",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "clearBtn",
+      "components": [
+        "wb-event-log",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "section",
+      "components": [
+        "wb-footer",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "script",
+      "components": [
+        "wb-button",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "indicator",
+      "components": [
+        "wb-event-log",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "text",
+      "components": [
+        "change-text",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "classes",
+      "components": [
+        "wb-color-picker",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "classes",
+      "components": [
+        "wb-color-picker",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "input",
+      "components": [
+        "wb-event-log",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "result",
+      "components": [
+        "wb-color-bar",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "html",
+      "components": [
+        "wb-control-panel",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "originalText",
+      "components": [
+        "wb-color-bar",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "eventType",
+      "components": [
+        "wb-dev-toolbox",
+        "wb-inject-test"
+      ]
+    },
+    {
+      "symbol": "if",
+      "components": [
+        "wb-base",
+        "wb-input"
       ]
     },
     {
@@ -1156,35 +1597,49 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-keyboard-manager"
       ]
     },
     {
       "symbol": "key",
       "components": [
-        "wb-event-log",
+        "wb-control-panel",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "parts",
+      "components": [
+        "wb-control-panel",
         "wb-keyboard-manager"
       ]
     },
     {
       "symbol": "key",
       "components": [
-        "wb-event-log",
+        "wb-control-panel",
+        "wb-keyboard-manager"
+      ]
+    },
+    {
+      "symbol": "parts",
+      "components": [
+        "wb-control-panel",
         "wb-keyboard-manager"
       ]
     },
     {
       "symbol": "tagName",
       "components": [
-        "wb-event-log",
+        "wb-demo",
         "wb-keyboard-manager"
       ]
     },
     {
       "symbol": "component",
       "components": [
-        "wb-change-text",
+        "wb-event-log",
         "wb-keyboard-manager"
       ]
     },
@@ -1198,7 +1653,7 @@
     {
       "symbol": "tagName",
       "components": [
-        "wb-event-log",
+        "wb-demo",
         "wb-keyboard-manager"
       ]
     },
@@ -1231,9 +1686,9 @@
       ]
     },
     {
-      "symbol": "existingContent",
+      "symbol": "layout",
       "components": [
-        "wb-control-panel",
+        "wb-card",
         "wb-layout"
       ]
     },
@@ -1245,16 +1700,16 @@
       ]
     },
     {
-      "symbol": "body",
+      "symbol": "existingContent",
       "components": [
-        "wb-card",
+        "wb-control-panel",
         "wb-layout"
       ]
     },
     {
-      "symbol": "root",
+      "symbol": "body",
       "components": [
-        "wb-control-panel",
+        "wb-card",
         "wb-layout"
       ]
     },
@@ -1283,6 +1738,13 @@
       "symbol": "footer",
       "components": [
         "wb-card",
+        "wb-layout"
+      ]
+    },
+    {
+      "symbol": "width",
+      "components": [
+        "wb-control-panel",
         "wb-layout"
       ]
     },
@@ -1338,7 +1800,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-log-error"
       ]
     },
@@ -1409,6 +1871,34 @@
       "symbol": "rect",
       "components": [
         "wb-color-bar",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "originalError",
+      "components": [
+        "wb-inject-test",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "originalWarn",
+      "components": [
+        "wb-inject-test",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "option",
+      "components": [
+        "wb-inject-test",
+        "wb-log-error"
+      ]
+    },
+    {
+      "symbol": "entry",
+      "components": [
+        "wb-dev-toolbox",
         "wb-log-error"
       ]
     },
@@ -1504,6 +1994,13 @@
       ]
     },
     {
+      "symbol": "slot",
+      "components": [
+        "wb-base",
+        "wb-modal"
+      ]
+    },
+    {
       "symbol": "container",
       "components": [
         "wb-footer",
@@ -1588,13 +2085,6 @@
       ]
     },
     {
-      "symbol": "class\n        this",
-      "components": [
-        "wb-card",
-        "wb-nav"
-      ]
-    },
-    {
       "symbol": "configPath",
       "components": [
         "wb-button",
@@ -1625,7 +2115,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-nav"
       ]
     },
@@ -1658,9 +2148,9 @@
       ]
     },
     {
-      "symbol": "navList",
+      "symbol": "icon",
       "components": [
-        "wb-control-panel",
+        "wb-demo",
         "wb-nav"
       ]
     },
@@ -1679,17 +2169,143 @@
       ]
     },
     {
-      "symbol": "navList",
+      "symbol": "layoutConfig",
       "components": [
         "wb-control-panel",
         "wb-nav"
       ]
     },
     {
-      "symbol": "nav",
+      "symbol": "index",
+      "components": [
+        "wb-demo",
+        "wb-nav"
+      ]
+    },
+    {
+      "symbol": "dragHandle",
       "components": [
         "wb-control-panel",
-        "wb-nav"
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "resizeHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "dragHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "resizeHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "deltaX",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "deltaY",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "deltaX",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "deltaY",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "newWidth",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "newHeight",
+      "components": [
+        "wb-event-log",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "dragHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "resizeHandle",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "rect",
+      "components": [
+        "wb-color-bar",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "elementId",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
+      ]
+    },
+    {
+      "symbol": "savedWidth",
+      "components": [
+        "wb-control-panel",
+        "wb-resize"
       ]
     },
     {
@@ -1709,7 +2325,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-search"
       ]
     },
@@ -1805,14 +2421,7 @@
       ]
     },
     {
-      "symbol": "script",
-      "components": [
-        "wb-button",
-        "wb-select"
-      ]
-    },
-    {
-      "symbol": "configPath",
+      "symbol": "cssPath",
       "components": [
         "wb-button",
         "wb-select"
@@ -1826,9 +2435,23 @@
       ]
     },
     {
+      "symbol": "existingLink",
+      "components": [
+        "wb-event-log",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "link",
+      "components": [
+        "wb-base",
+        "wb-select"
+      ]
+    },
+    {
       "symbol": "icon",
       "components": [
-        "wb-nav",
+        "wb-demo",
         "wb-select"
       ]
     },
@@ -1849,21 +2472,21 @@
     {
       "symbol": "index",
       "components": [
-        "wb-nav",
+        "wb-demo",
         "wb-select"
       ]
     },
     {
       "symbol": "option",
       "components": [
-        "wb-log-error",
+        "wb-inject-test",
         "wb-select"
       ]
     },
     {
       "symbol": "index",
       "components": [
-        "wb-nav",
+        "wb-demo",
         "wb-select"
       ]
     },
@@ -1871,6 +2494,13 @@
       "symbol": "sizeClass",
       "components": [
         "wb-button",
+        "wb-select"
+      ]
+    },
+    {
+      "symbol": "options",
+      "components": [
+        "wb-event-log",
         "wb-select"
       ]
     },
@@ -1884,14 +2514,14 @@
     {
       "symbol": "option",
       "components": [
-        "wb-log-error",
+        "wb-inject-test",
         "wb-select"
       ]
     },
     {
       "symbol": "option",
       "components": [
-        "wb-log-error",
+        "wb-inject-test",
         "wb-select"
       ]
     },
@@ -1975,7 +2605,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-slider"
       ]
     },
@@ -2010,7 +2640,7 @@
     {
       "symbol": "i",
       "components": [
-        "wb-event-log",
+        "wb-demo",
         "wb-slider"
       ]
     },
@@ -2220,7 +2850,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-status"
       ]
     },
@@ -2256,6 +2886,13 @@
       "symbol": "event",
       "components": [
         "change-text",
+        "wb-status"
+      ]
+    },
+    {
+      "symbol": "eventData",
+      "components": [
+        "wb-demo",
         "wb-status"
       ]
     },
@@ -2316,6 +2953,13 @@
       ]
     },
     {
+      "symbol": "tabPanels",
+      "components": [
+        "wb-demo",
+        "wb-tab"
+      ]
+    },
+    {
       "symbol": "currentIndex",
       "components": [
         "wb-nav",
@@ -2339,7 +2983,7 @@
     {
       "symbol": "icon",
       "components": [
-        "wb-nav",
+        "wb-demo",
         "wb-tab"
       ]
     },
@@ -2360,7 +3004,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-table"
       ]
     },
@@ -2375,13 +3019,6 @@
       "symbol": "div",
       "components": [
         "wb-event-log",
-        "wb-table"
-      ]
-    },
-    {
-      "symbol": "container",
-      "components": [
-        "wb-footer",
         "wb-table"
       ]
     },
@@ -2409,7 +3046,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-theme"
       ]
     },
@@ -2521,7 +3158,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-toggle"
       ]
     },
@@ -2570,14 +3207,7 @@
     {
       "symbol": "root",
       "components": [
-        "wb-control-panel",
-        "wb-toggle"
-      ]
-    },
-    {
-      "symbol": "toggle",
-      "components": [
-        "wb-nav",
+        "wb-layout",
         "wb-toggle"
       ]
     },
@@ -2626,7 +3256,7 @@
     {
       "symbol": "link",
       "components": [
-        "wb-card",
+        "wb-base",
         "wb-viewport"
       ]
     },

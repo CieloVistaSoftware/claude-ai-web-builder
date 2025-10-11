@@ -53,9 +53,24 @@ class WBNav extends HTMLElement {
                 link: 'wb-nav-link',
                 brand: 'wb-nav-brand',
                 toggle: 'wb-nav-toggle',
-                active: 'active',
-                expanded: 'expanded',
-                collapsible: 'collapsible'
+                toggleIcon: 'wb-nav-toggle-icon',
+                states: {
+                    active: 'active',
+                    disabled: 'disabled',
+                    expanded: 'expanded'
+                },
+                layouts: {
+                    horizontal: 'wb-nav--horizontal',
+                    vertical: 'wb-nav--vertical',
+                    top: 'wb-nav--top',
+                    left: 'wb-nav--left',
+                    right: 'wb-nav--right'
+                },
+                variants: {
+                    default: 'wb-nav--default',
+                    minimal: 'wb-nav--minimal',
+                    pills: 'wb-nav--pills'
+                }
             },
             responsive: {
                 breakpoint: 768,
@@ -71,9 +86,7 @@ class WBNav extends HTMLElement {
 
     async loadConfig() {
         try {
-            const configPath = (window.WBComponentUtils ? 
-                window.WBComponentUtils.getPath('wb-nav.js', '../components/wb-nav/') : 
-                '../components/wb-nav/') + 'wb-nav.schema.json';
+            const configPath = './wb-nav.schema.json';
             const response = await fetch(configPath);
             if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             this.config = await response.json();
@@ -402,7 +415,7 @@ class WBNav extends HTMLElement {
             this.config = this.getDefaultConfig();
         }
         
-        const layoutConfig = this.config.layouts[layoutName];
+        const layoutConfig = this.config.classes?.layouts?.[layoutName];
         if (!layoutConfig) return;
         
         // Remove existing layout classes (with safety check)

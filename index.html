@@ -1,269 +1,569 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark" data-layout="top-nav">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Website Builder</title>
+    <title>WB Semantic HTML Demo - Interactive Control Panel</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Create professional websites with advanced layouts, themes, and animations">
-    <meta name="keywords" content="website, template, professional, glassmorphism, animation">
+    <meta name="description" content="Complete semantic HTML5 demo with interactive control panel for theme, layout, and color control">
+    <meta name="keywords" content="semantic html, html5, accessibility, control panel, web components">
+    <meta name="author" content="WB Website Builder">
     
-    <!-- Single CSS import -->
-    <link rel="stylesheet" href="index.css">
+    <!-- Use main WB styles -->
+    <link rel="stylesheet" href="styles/main.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzY2NjZmMSIvPgo8cGF0aCBkPSJNMTIgOGg4djJoLTh6IiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNOCAxMmgxNnYySDh6IiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTAgMTZoMTJ2MkgxMHoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMiAyMGg4djJoLTh6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body data-footer="same-page">
-    <!-- WB Event Log for diagnostics - DRAGGABLE & RESIZABLE -->
-    <wb-event-log></wb-event-log>
-    
-    <!-- WB Control Panel - Main UI for website building -->
+    <!-- WB Theme Manager - Handles theme switching -->
+    <wb-theme-manager></wb-theme-manager>
+
+    <!-- WB Control Panel - Controls entire page -->
     <wb-control-panel></wb-control-panel>
 
-    <!-- Main demo content with semantic HTML -->
-    <main style="margin-top: 220px; padding: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto;">
-        <!-- Header Section -->
+    <!-- WB Inject Test - JavaScript injection and testing tool -->
+    <wb-resize target="wb-inject-test">
+        <wb-inject-test target="#layout-select"></wb-inject-test>
+    </wb-resize>
+
+    <!-- WB Layout Manager - Handles layout changes and wraps content -->
+    <wb-layout>
+        <!-- Primary Navigation -->
+        <wb-nav
+            role="navigation"
+            aria-label="Main navigation"
+            layout="horizontal"
+            position="top"
+            brand-text="WB Builder"
+            brand-href="#"
+            items='[
+                {"id":"home","text":"Home","href":"#","active":true},
+                {"id":"content","text":"Content","href":"#content"},
+                {"id":"forms","text":"Forms","href":"#forms"},
+                {"id":"media","text":"Media","href":"#media"},
+                {"id":"data","text":"Data","href":"#data"},
+                {"id":"interactive","text":"Interactive","href":"#interactive"}
+            ]'>
+        </wb-nav>
+
+        <!-- Complete Semantic HTML5 Document Structure -->
         <header>
-            <h1>WB Website Builder - Semantic HTML Demo</h1>
-            <p>This page demonstrates all semantic HTML elements with the Website Builder styling system.</p>
+            <h1>🌐 Complete Semantic HTML5 Demo</h1>
+            <p>Interactive demonstration of all semantic HTML elements with live control panel</p>
         </header>
 
-        <!-- Navigation Section -->
-        <nav aria-label="Demo navigation">
-            <h2>Navigation Example</h2>
+        <main>
+        <!-- Hero Section with Figure -->
+        <section id="hero">
+            <h2>🎛️ Live Control Panel Demo</h2>
+            <p>Use the control panel in the top-right corner to modify this entire page's theme, layout, and colors in real-time.</p>
+            
+            <figure>
+                <svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="hero-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary-color, #6366f1);stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:var(--secondary-color, #8b5cf6);stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="800" height="400" fill="url(#hero-gradient)" rx="10"/>
+                    <text x="400" y="200" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="48" font-weight="bold">Semantic HTML Demo</text>
+                    <text x="400" y="250" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="24">Interactive Elements & Control Panel</text>
+                </svg>
+                <figcaption>
+                    <strong>Interactive Demo:</strong> This image and all page elements respond to control panel changes.
+                    <cite>Generated for WB Website Builder demonstration.</cite>
+                </figcaption>
+            </figure>
+        </section>
+
+        <!-- Content Elements Section -->
+        <section id="content">
+            <header>
+                <h2>📝 Content & Typography Elements</h2>
+                <p>Semantic elements for structured content presentation</p>
+            </header>
+
+            <article>
+                <header>
+                    <h3>Article: Understanding Semantic HTML</h3>
+                    <p>
+                        <time datetime="2025-10-10">Published: October 10, 2025</time> by 
+                        <address>
+                            <a rel="author" href="mailto:developer@wb-builder.com">WB Development Team</a>
+                        </address>
+                    </p>
+                </header>
+
+                <p>Semantic HTML provides <strong>meaning</strong> and <em>structure</em> to web content. 
+                   The <mark>control panel</mark> demonstrates how themes and layouts affect these elements.</p>
+
+                <blockquote cite="https://developer.mozilla.org/en-US/docs/Web/HTML">
+                    <p>"HTML should be used to describe the structure and meaning of content, not its appearance."</p>
+                    <footer>— <cite>MDN Web Docs</cite></footer>
+                </blockquote>
+
+                <details>
+                    <summary>🔍 Click to reveal more semantic elements</summary>
+                    <div>
+                        <p>Hidden content revealed! This demonstrates the <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> elements.</p>
+                        
+                        <dl>
+                            <dt>Semantic HTML</dt>
+                            <dd>HTML that introduces meaning to the web page rather than just presentation</dd>
+                            
+                            <dt>Control Panel</dt>
+                            <dd>Interactive widget for modifying page appearance and behavior</dd>
+                            
+                            <dt>Web Components</dt>
+                            <dd>Custom HTML elements with encapsulated functionality</dd>
+                        </dl>
+                    </div>
+                </details>
+
+                <aside>
+                    <h4>💡 Pro Tip</h4>
+                    <p>Try changing the theme in the control panel to see how semantic elements adapt to different color schemes!</p>
+                </aside>
+            </article>
+        </section>
+
+        <!-- Forms and Input Section -->
+        <section id="forms">
+            <header>
+                <h2>📋 Forms & Interactive Input</h2>
+                <p>Complete form controls that respond to control panel theming</p>
+            </header>
+
+            <form method="post" action="#" novalidate>
+                <fieldset>
+                    <legend>Personal Information</legend>
+                    
+                    <div>
+                        <label for="full-name">Full Name:</label>
+                        <input type="text" id="full-name" name="fullName" required 
+                               placeholder="Enter your full name" autocomplete="name">
+                    </div>
+
+                    <div>
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required 
+                               placeholder="your@email.com" autocomplete="email">
+                    </div>
+
+                    <div>
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone" 
+                               placeholder="+1 (555) 123-4567" autocomplete="tel">
+                    </div>
+
+                    <div>
+                        <label for="birth-date">Birth Date:</label>
+                        <input type="date" id="birth-date" name="birthDate" autocomplete="bday">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Preferences</legend>
+                    
+                    <div>
+                        <label for="country">Country:</label>
+                        <select id="country" name="country" autocomplete="country">
+                            <option value="">Select a country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="bio">Biography:</label>
+                        <textarea id="bio" name="bio" rows="4" cols="50" 
+                                  placeholder="Tell us about yourself..." maxlength="500"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="experience">Experience Level:</label>
+                        <input type="range" id="experience" name="experience" 
+                               min="0" max="10" value="5" step="1">
+                        <output for="experience">5 years</output>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Interests</legend>
+                    
+                    <div>
+                        <input type="checkbox" id="web-dev" name="interests" value="web-development">
+                        <label for="web-dev">Web Development</label>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" id="design" name="interests" value="design">
+                        <label for="design">UI/UX Design</label>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" id="backend" name="interests" value="backend">
+                        <label for="backend">Backend Development</label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Contact Method</legend>
+                    
+                    <div>
+                        <input type="radio" id="contact-email" name="contact-method" value="email" checked>
+                        <label for="contact-email">Email</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="contact-phone" name="contact-method" value="phone">
+                        <label for="contact-phone">Phone</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="contact-both" name="contact-method" value="both">
+                        <label for="contact-both">Both Email and Phone</label>
+                    </div>
+                </fieldset>
+
+                <div>
+                    <button type="submit">Submit Form</button>
+                    <button type="reset">Reset Form</button>
+                    <button type="button" onclick="alert('Additional action triggered!')">Custom Action</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Media and Graphics Section -->
+        <section id="media">
+            <header>
+                <h2>🎨 Media & Graphics Elements</h2>
+                <p>Visual content that adapts to control panel settings</p>
+            </header>
+
+            <figure>
+                <picture>
+                    <source media="(min-width: 800px)" 
+                            srcset="https://via.placeholder.com/800x300/6366f1/ffffff?text=Large+Screen">
+                    <source media="(min-width: 400px)" 
+                            srcset="https://via.placeholder.com/400x200/6366f1/ffffff?text=Medium+Screen">
+                    <img src="https://via.placeholder.com/300x150/6366f1/ffffff?text=Small+Screen" 
+                         alt="Responsive image that changes based on screen size">
+                </picture>
+                <figcaption>Responsive image using <code>&lt;picture&gt;</code> element</figcaption>
+            </figure>
+
+            <figure>
+                <video controls width="400" height="225" poster="https://via.placeholder.com/400x225/6366f1/ffffff?text=Video+Poster">
+                    <source src="sample-video.mp4" type="video/mp4">
+                    <source src="sample-video.webm" type="video/webm">
+                    <track kind="captions" src="captions.vtt" srclang="en" label="English captions">
+                    <p>Your browser doesn't support HTML video. <a href="sample-video.mp4">Download the video</a> instead.</p>
+                </video>
+                <figcaption>HTML5 video with multiple sources and captions</figcaption>
+            </figure>
+
+            <figure>
+                <audio controls>
+                    <source src="sample-audio.mp3" type="audio/mpeg">
+                    <source src="sample-audio.ogg" type="audio/ogg">
+                    <p>Your browser doesn't support HTML audio. <a href="sample-audio.mp3">Download the audio</a> instead.</p>
+                </audio>
+                <figcaption>HTML5 audio with fallback options</figcaption>
+            </figure>
+
+            <!-- SVG Graphics -->
+            <figure>
+                <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary-color, #6366f1);stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:var(--secondary-color, #8b5cf6);stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="300" height="200" fill="url(#gradient)" rx="10"/>
+                    <circle cx="150" cy="100" r="50" fill="white" opacity="0.8"/>
+                    <text x="150" y="110" text-anchor="middle" fill="var(--text-color, #333)" font-family="Arial" font-size="16">SVG Demo</text>
+                </svg>
+                <figcaption>Inline SVG that responds to CSS custom properties</figcaption>
+            </figure>
+        </section>
+
+        <!-- Data and Tables Section -->
+        <section id="data">
+            <header>
+                <h2>📊 Data Tables & Lists</h2>
+                <p>Structured data presentation with semantic markup</p>
+            </header>
+
+            <table>
+                <caption>Employee Performance Data</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Performance Score</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Alice Johnson</th>
+                        <td>Engineering</td>
+                        <td>95%</td>
+                        <td><span class="status success">Excellent</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Bob Smith</th>
+                        <td>Design</td>
+                        <td>87%</td>
+                        <td><span class="status good">Good</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Carol Davis</th>
+                        <td>Marketing</td>
+                        <td>92%</td>
+                        <td><span class="status excellent">Excellent</span></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="row">Average</th>
+                        <td colspan="2">91.3%</td>
+                        <td><span class="status excellent">Excellent</span></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <!-- Ordered and Unordered Lists -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                <div>
+                    <h3>🎯 Project Priorities (Ordered)</h3>
+                    <ol>
+                        <li>Fix critical bugs
+                            <ol>
+                                <li>Security vulnerabilities</li>
+                                <li>Performance issues</li>
+                                <li>Accessibility problems</li>
+                            </ol>
+                        </li>
+                        <li>Implement new features
+                            <ol>
+                                <li>User dashboard</li>
+                                <li>Reporting system</li>
+                                <li>Mobile optimization</li>
+                            </ol>
+                        </li>
+                        <li>Code optimization</li>
+                        <li>Documentation updates</li>
+                    </ol>
+                </div>
+
+                <div>
+                    <h3>🛠️ Available Tools (Unordered)</h3>
+                    <ul>
+                        <li>Development Tools
+                            <ul>
+                                <li>Code editors</li>
+                                <li>Version control</li>
+                                <li>Testing frameworks</li>
+                            </ul>
+                        </li>
+                        <li>Design Tools
+                            <ul>
+                                <li>Graphics software</li>
+                                <li>Prototyping tools</li>
+                                <li>Color palettes</li>
+                            </ul>
+                        </li>
+                        <li>Project Management</li>
+                        <li>Communication Platforms</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Elements Section -->
+        <section id="interactive">
+            <header>
+                <h2>⚡ Interactive Elements</h2>
+                <p>Dynamic content and user interaction components</p>
+            </header>
+
+            <!-- Progress and Meter -->
+            <div style="margin-bottom: 2rem;">
+                <h3>📈 Progress Indicators</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label for="project-progress">Project Completion:</label>
+                    <progress id="project-progress" value="75" max="100">75%</progress>
+                    <span>75% Complete</span>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label for="disk-usage">Disk Usage:</label>
+                    <meter id="disk-usage" value="0.6" min="0" max="1" low="0.3" high="0.8" optimum="0.5">60%</meter>
+                    <span>60% of capacity</span>
+                </div>
+
+                <div>
+                    <label for="battery">Battery Level:</label>
+                    <meter id="battery" value="85" min="0" max="100" low="20" high="80" optimum="90">85%</meter>
+                    <span>85% charged</span>
+                </div>
+            </div>
+
+            <!-- Interactive Disclosure -->
+            <details open>
+                <summary>🔧 Advanced Configuration Options</summary>
+                <div style="padding: 1rem; border-left: 3px solid var(--primary-color, #6366f1); margin-left: 1rem;">
+                    <p>These advanced options allow fine-tuning of the application behavior:</p>
+                    
+                    <div style="margin: 1rem 0;">
+                        <label>
+                            <input type="checkbox" checked> Enable advanced logging
+                        </label>
+                    </div>
+                    
+                    <div style="margin: 1rem 0;">
+                        <label>
+                            <input type="checkbox"> Use experimental features
+                        </label>
+                    </div>
+                    
+                    <div style="margin: 1rem 0;">
+                        <label for="cache-size">Cache Size (MB):</label>
+                        <input type="number" id="cache-size" value="256" min="64" max="1024" step="64">
+                    </div>
+                </div>
+            </details>
+
+            <!-- Dialog Demo Button -->
+            <div style="margin: 2rem 0;">
+                <button onclick="showDemoDialog()">🗨️ Open Dialog Demo</button>
+                
+                <dialog id="demo-dialog">
+                    <form method="dialog">
+                        <h3>📱 Demo Dialog</h3>
+                        <p>This is a native HTML dialog element that demonstrates semantic modal behavior.</p>
+                        <p>The control panel's theme changes apply to this dialog as well!</p>
+                        <div>
+                            <button value="cancel" type="button" onclick="document.getElementById('demo-dialog').close()">Cancel</button>
+                            <button value="default" type="submit" autofocus>OK</button>
+                        </div>
+                    </form>
+                </dialog>
+            </div>
+        </section>
+    </main>
+
+        <!-- Sidebar with Additional Information -->
+        <aside>
+            <h2>ℹ️ Control Panel Instructions</h2>
+            <p>Use the control panel in the top-right corner to:</p>
             <ul>
-                <li><a href="#typography">Typography</a></li>
+                <li><strong>Change Theme:</strong> Dark, Light, Cyberpunk, Ocean, Sunset, Forest</li>
+                <li><strong>Modify Layout:</strong> Top nav, Left sidebar, Right sidebar, Ad layout</li>
+                <li><strong>Adjust Colors:</strong> Primary and background color sliders</li>
+                <li><strong>Toggle Features:</strong> Gradient mode, dark mode override</li>
+                <li><strong>File Operations:</strong> Save, import, clone, reset</li>
+            </ul>
+
+            <h3>🎨 Live Color Demo</h3>
+            <p>Watch these elements change as you adjust colors:</p>
+            <div style="padding: 1rem; background: var(--primary-color, #6366f1); color: white; border-radius: 8px; margin: 1rem 0;">
+                Primary color background
+            </div>
+            <div style="padding: 1rem; background: var(--bg-secondary, #1f2937); border: 2px solid var(--primary-color, #6366f1); border-radius: 8px; margin: 1rem 0;">
+                Secondary background with primary border
+            </div>
+        </aside>
+
+        <!-- Footer with Complete Contact Information -->
+        <footer>
+        <h2>📞 Contact & Information</h2>
+        
+        <address>
+            <h3>Contact Details</h3>
+            <p>
+                <strong>WB Website Builder</strong><br>
+                123 Developer Street<br>
+                Tech City, TC 12345<br>
+                <a href="tel:+15551234567">📞 +1 (555) 123-4567</a><br>
+                <a href="mailto:info@wb-builder.com">✉️ info@wb-builder.com</a>
+            </p>
+        </address>
+
+        <nav aria-label="Footer navigation">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#content">Content Elements</a></li>
                 <li><a href="#forms">Forms</a></li>
                 <li><a href="#media">Media</a></li>
-                <li><a href="#tables">Tables</a></li>
+                <li><a href="#data">Data</a></li>
+                <li><a href="#interactive">Interactive</a></li>
             </ul>
         </nav>
 
-        <!-- Typography Section -->
-        <section id="typography">
-            <h2>Typography</h2>
-            <article>
-                <h3>Headings</h3>
-                <h1>Heading 1</h1>
-                <h2>Heading 2</h2>
-                <h3>Heading 3</h3>
-                <h4>Heading 4</h4>
-                <h5>Heading 5</h5>
-                <h6>Heading 6</h6>
-                
-                <h3>Paragraphs &amp; Text</h3>
-                <p>This is a regular paragraph with <strong>bold text</strong>, <em>italic text</em>, and <mark>highlighted text</mark>.</p>
-                <p>Here's a paragraph with <a href="#">a link</a>, <code>inline code</code>, and <kbd>Ctrl+C</kbd> keyboard shortcut.</p>
-                <blockquote>
-                    <p>This is a blockquote. It's used for longer quotations or emphasizing important text.</p>
-                    <footer>— <cite>Citation Source</cite></footer>
-                </blockquote>
-                
-                <h3>Lists</h3>
-                <h4>Unordered List</h4>
-                <ul>
-                    <li>First item</li>
-                    <li>Second item</li>
-                    <li>Third item with nested list:
-                        <ul>
-                            <li>Nested item 1</li>
-                            <li>Nested item 2</li>
-                        </ul>
-                    </li>
-                </ul>
-                
-                <h4>Ordered List</h4>
-                <ol>
-                    <li>First step</li>
-                    <li>Second step</li>
-                    <li>Third step</li>
-                </ol>
-                
-                <h4>Description List</h4>
-                <dl>
-                    <dt>Term 1</dt>
-                    <dd>Definition for term 1</dd>
-                    <dt>Term 2</dt>
-                    <dd>Definition for term 2</dd>
-                </dl>
-            </article>
-        </section>
-
-        <!-- Forms Section -->
-        <section id="forms">
-            <h2>Forms</h2>
-            <article>
-                <form>
-                    <fieldset>
-                        <legend>Personal Information</legend>
-                        
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name">
-                        
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" placeholder="your@email.com">
-                        
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password">
-                        
-                        <label for="bio">Bio:</label>
-                        <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself"></textarea>
-                        
-                        <label for="country">Country:</label>
-                        <select id="country" name="country">
-                            <option value="">Select a country</option>
-                            <option value="us">United States</option>
-                            <option value="uk">United Kingdom</option>
-                            <option value="ca">Canada</option>
-                        </select>
-                        
-                        <fieldset>
-                            <legend>Preferences</legend>
-                            <label>
-                                <input type="checkbox" name="newsletter" checked>
-                                Subscribe to newsletter
-                            </label>
-                            <label>
-                                <input type="checkbox" name="terms">
-                                I agree to terms and conditions
-                            </label>
-                        </fieldset>
-                        
-                        <fieldset>
-                            <legend>Gender</legend>
-                            <label>
-                                <input type="radio" name="gender" value="male">
-                                Male
-                            </label>
-                            <label>
-                                <input type="radio" name="gender" value="female">
-                                Female
-                            </label>
-                            <label>
-                                <input type="radio" name="gender" value="other">
-                                Other
-                            </label>
-                        </fieldset>
-                        
-                        <button type="submit">Submit</button>
-                        <button type="reset">Reset</button>
-                    </fieldset>
-                </form>
-            </article>
-        </section>
-
-        <!-- Media Section -->
-        <section id="media">
-            <h2>Media Elements</h2>
-            <article>
-                <h3>Figure with Image</h3>
-                <figure>
-                    <img src="https://via.placeholder.com/600x400/6366f1/ffffff?text=Demo+Image" alt="Demo image" style="max-width: 100%; height: auto;">
-                    <figcaption>Figure caption describing the image above</figcaption>
-                </figure>
-                
-                <h3>Audio</h3>
-                <audio controls>
-                    <source src="audio.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                
-                <h3>Video</h3>
-                <video controls style="max-width: 100%;">
-                    <source src="video.mp4" type="video/mp4">
-                    Your browser does not support the video element.
-                </video>
-            </article>
-        </section>
-
-        <!-- Tables Section -->
-        <section id="tables">
-            <h2>Tables</h2>
-            <article>
-                <table>
-                    <caption>Sample Data Table</caption>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>28</td>
-                            <td>Developer</td>
-                            <td>Active</td>
-                        </tr>
-                        <tr>
-                            <td>Jane Smith</td>
-                            <td>32</td>
-                            <td>Designer</td>
-                            <td>Active</td>
-                        </tr>
-                        <tr>
-                            <td>Bob Johnson</td>
-                            <td>45</td>
-                            <td>Manager</td>
-                            <td>Away</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4">Total: 3 employees</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </article>
-        </section>
-
-        <!-- Code Section -->
-        <section>
-            <h2>Code Examples</h2>
-            <article>
-                <h3>Inline Code</h3>
-                <p>Use the <code>console.log()</code> function to debug your code.</p>
-                
-                <h3>Code Block</h3>
-                <pre><code>function greet(name) {
-    return `Hello, ${name}!`;
-}
-
-console.log(greet('World'));</code></pre>
-            </article>
-        </section>
-
-        <!-- Details/Summary -->
-        <section>
-            <h2>Interactive Elements</h2>
-            <article>
-                <details>
-                    <summary>Click to expand details</summary>
-                    <p>This is hidden content that appears when you click the summary.</p>
-                </details>
-                
-                <details open>
-                    <summary>This one is open by default</summary>
-                    <p>More detailed information here.</p>
-                </details>
-            </article>
-        </section>
-
-        <!-- Footer -->
-        <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color, #334155);">
-            <p>&copy; 2025 WB Website Builder. All rights reserved.</p>
-            <address>
-                Contact: <a href="mailto:info@wb-builder.com">info@wb-builder.com</a>
-            </address>
+        <div>
+            <p>
+                <small>
+                    &copy; 2025 WB Website Builder. All rights reserved. |
+                    <a href="#privacy">Privacy Policy</a> |
+                    <a href="#terms">Terms of Service</a> |
+                    <a href="#accessibility">Accessibility Statement</a>
+                </small>
+            </p>
+            
+            <p>
+                <time datetime="2025-10-10">Last updated: October 10, 2025</time>
+            </p>
+        </div>
         </footer>
-    </main>
+    </wb-layout>
 
     <!-- Load all components via single loader -->
     <script src="index.js"></script>
+    
+    <!-- Make entire page reactive to control panel changes -->
+    <script src="page-reactive-listener.js"></script>
+    
+    <!-- Additional interactivity for demo -->
+    <script>
+        function showDemoDialog() {
+            document.getElementById('demo-dialog').showModal();
+        }
+
+        // Update range output
+        document.getElementById('experience').addEventListener('input', function(e) {
+            document.querySelector('output[for="experience"]').textContent = e.target.value + ' years';
+        });
+
+        // Log control panel events for demonstration
+        document.addEventListener('wb:theme-changed', function(e) {
+            console.log('🎨 Theme changed to:', e.detail.theme);
+        });
+
+        document.addEventListener('wb:layout-changed', function(e) {
+            console.log('📐 Layout changed to:', e.detail.layout);
+        });
+
+        document.addEventListener('wb:color-changed', function(e) {
+            console.log('🌈 Color changed:', e.detail);
+        });
+
+        // Form submission demo
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Form submitted! (Demo only - no data sent)');
+        });
+    </script>
 </body>
 </html>

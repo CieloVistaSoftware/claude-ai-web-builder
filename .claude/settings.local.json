@@ -47,7 +47,9 @@
       "Bash(rg:*)",
       "Bash(start test-color-bars.html)",
       "Bash(powershell:*)",
-      "Bash(start wb-button-demo.html)"
+      "Bash(start wb-button-demo.html)",
+      "Bash(start debug-dropdown-issue.html)",
+      "Bash(start:*)"
     ],
     "deny": []
   }

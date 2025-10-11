@@ -20,13 +20,20 @@ class ColorBarsSemanticDemo {
     }
 
     initializeTheme() {
-        document.body.classList.add('dark');
-        document.documentElement.setAttribute('data-theme', 'dark');
+        // REACTIVE: Dispatch theme change request instead of direct DOM manipulation
+        document.dispatchEvent(new CustomEvent('wb:theme-change-request', {
+            detail: { theme: 'dark', source: 'wb-color-bars-semantic-demo' },
+            bubbles: true
+        }));
         
-        const themeButton = document.querySelector('.theme-toggle');
-        if (themeButton) {
-            themeButton.textContent = '☀️ Light Mode';
-        }
+        // Listen for theme changes instead of manipulating theme button directly
+        document.addEventListener('wb:theme-changed', (e) => {
+            const themeButton = document.querySelector('.theme-toggle');
+            if (themeButton) {
+                const isDark = e.detail.theme === 'dark';
+                themeButton.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+            }
+        });
     }
 
     setupColorBarsComponent() {
@@ -142,26 +149,27 @@ class ColorBarsSemanticDemo {
 
     setupThemeToggle() {
         window.toggleTheme = () => {
-            const body = document.body;
-            const isDark = body.classList.contains('dark');
+            // REACTIVE: Get current theme from document instead of body classes
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            if (isDark) {
-                body.classList.remove('dark');
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else {
-                body.classList.add('dark');
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
+            // REACTIVE: Dispatch theme change request instead of direct DOM manipulation
+            document.dispatchEvent(new CustomEvent('wb:theme-change-request', {
+                detail: { 
+                    theme: newTheme, 
+                    source: 'wb-color-bars-semantic-demo-toggle',
+                    previousTheme: currentTheme
+                },
+                bubbles: true
+            }));
             
-            const themeButton = document.querySelector('.theme-toggle');
-            if (themeButton) {
-                themeButton.textContent = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
-            }
-            
-            // Update color bars theme
-            if (this.colorBars) {
-                this.colorBars.setAttribute('theme', isDark ? 'light' : 'dark');
-            }
+            WBSafeLogger.logUser('Theme toggle requested', {
+                component: 'ColorBarsSemanticDemo',
+                method: 'toggleTheme',
+                line: 155,
+                newTheme: newTheme,
+                previousTheme: currentTheme
+            });
         };
     }
 
@@ -265,18 +273,22 @@ class ColorBarsSemanticDemo {
         style.textContent = css;
         document.head.appendChild(style);
 
-        // Also apply directly to some key elements for immediate feedback
-        const directElements = contentPreview.querySelectorAll('h1, h2, h3, p');
-        directElements.forEach(element => {
-            if (this.targetElements.has('h1,h2,h3') && (element.tagName === 'H1' || element.tagName === 'H2' || element.tagName === 'H3')) {
-                element.style.color = textColor;
-                element.style.backgroundColor = bgColor;
-            }
-            if (this.targetElements.has('p') && element.tagName === 'P') {
-                element.style.color = textColor;
-                element.style.backgroundColor = bgColor;
-            }
-        });
+        // REACTIVE: Set CSS custom properties and dispatch event instead of direct element manipulation
+        contentPreview.style.setProperty('--demo-text-color', textColor);
+        contentPreview.style.setProperty('--demo-bg-color', bgColor);
+        
+        // REACTIVE: Dispatch color application event for other components to react
+        document.dispatchEvent(new CustomEvent('wb:demo-colors-applied', {
+            detail: {
+                textColor: textColor,
+                bgColor: bgColor,
+                textColorHsl: this.currentTextColor,
+                bgColorHsl: this.currentBgColor,
+                targetElements: Array.from(this.targetElements),
+                source: 'wb-color-bars-semantic-demo'
+            },
+            bubbles: true
+        }));
 
         WBSafeLogger.success('Applied colors to elements', { 
             component: 'ColorBarsSemanticDemo',

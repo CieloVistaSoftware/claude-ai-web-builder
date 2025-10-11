@@ -7,6 +7,7 @@ The `wb-event-log` component is a passive, event-driven logging system that auto
 - **Zero Integration Required**: Just include the component and it starts working
 - **Passive Event Monitoring**: Automatically listens for events, errors, and user interactions
 - **Real-time Display**: Shows events as they happen with timestamps
+- **One Message Per Line**: All events must issue exactly one message per line for clean readability
 - **Configurable Display**: Choose between truncate or wrap modes for long messages
 - **Event Filtering**: Filter by event type (Info, Warning, Error, Success, Debug, User)
 - **Search Functionality**: Search through event history
@@ -95,6 +96,28 @@ WBEventLog.logInfo('Data processed', {
 ### Display Modes
 - **Truncate Mode** (default): Long messages truncated at 80 characters with ellipsis
 - **Wrap Mode**: Long messages wrap to multiple lines while maintaining event separation
+
+### Message Line Requirements (ENFORCED)
+**CRITICAL RULE: One Message Per Line**
+- Every event must issue exactly **one message per line** for clean readability
+- Multi-line messages are automatically flattened to single lines with spaces
+- Line breaks (`\n`, `\r\n`) are converted to spaces
+- Excessive whitespace is normalized to single spaces
+- This ensures consistent formatting and prevents event log cluttering
+
+**Implementation:**
+```javascript
+// ✅ Correct: Single line message
+WBEventLog.logInfo('Component initialized successfully');
+
+// ❌ Incorrect: Multi-line message
+WBEventLog.logInfo(`Component initialized
+    with configuration loaded
+    from config.json`);
+
+// ✅ Correct: Flattened message
+WBEventLog.logInfo('Component initialized with configuration loaded from config.json');
+```
 
 ### Event Types
 - 📝 **Info**: General information (blue)

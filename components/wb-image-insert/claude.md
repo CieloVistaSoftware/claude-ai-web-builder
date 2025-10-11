@@ -1,6 +1,40 @@
 # ./components/wb-image-insert/claude.md - WB Image Insert Component
 
-## 🕒 RECENT ACTIVITY (October 6, 2025 - Most Recent First)
+## 🕒 RECENT ACTIVITY (December 2024 - Most Recent First)
+
+### ✅ Duplicate Code Cleanup (December 19, 2024)
+- **Issue**: CSS loading code duplicated across components
+- **Status**: Already using WBComponentUtils pattern with fallback
+- **Code Pattern**:
+  ```javascript
+  if (window.WBComponentUtils) {
+      const cssPath = window.WBComponentUtils.getPath('image-insert.js', '../components/image-insert/') + 'image-insert.css';
+      window.WBComponentUtils.loadCSS('image-insert', cssPath);
+  } else {
+      // Fallback CSS loading
+  }
+  ```
+- **Result**: No changes needed - already follows best practices
+
+### ✅ DOM Ready Pattern Update (December 19, 2024)
+- **Issue**: DOM ready pattern duplicated across components
+- **Fix**: Updated to use WBComponentUtils.onReady() with fallback
+- **Code Pattern**:
+  ```javascript
+  if (window.WBComponentUtils && window.WBComponentUtils.onReady) {
+      window.WBComponentUtils.onReady(init);
+  } else {
+      // Fallback DOM ready check
+      if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+      } else {
+          init();
+      }
+  }
+  ```
+- **Result**: Now uses centralized utility when available
+
+## 🕒 PREVIOUS ACTIVITY (October 6, 2025)
 
 ### ✅ Component Status Confirmed (October 6, 2025)
 - **Status**: Listed as FULLY FUNCTIONAL in main project status

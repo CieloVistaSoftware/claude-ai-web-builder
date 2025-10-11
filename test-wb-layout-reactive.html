@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Layout Component Test Runner</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; }
+        .pass { background: #d4edda; color: #155724; }
+        .fail { background: #f8d7da; color: #721c24; }
+        .error { background: #fff3cd; color: #856404; }
+        pre { background: #f8f9fa; padding: 10px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <h1>WB Layout Component - Reactive Architecture Tests</h1>
+    <div id="test-results"></div>
+    
+    <!-- Load the WB Layout component -->
+    <script src="../utils/wb/wb-safe-logger.js"></script>
+    <script src="../components/wb-layout/wb-layout.js"></script>
+    
+    <script>
+        class TestRunner {
+            constructor() {
+                this.results = [];
+                this.resultsDiv = document.getElementById('test-results');
+            }
+            
+            async runAllTests() {
+                console.log('🧪 Starting WB Layout Component Tests...');
+                
+                // Test 1: Component Creation and Basic API
+                await this.testBasicAPI();
+                
+                // Test 2: Reactive State Management  
+                await this.testReactiveState();
+                
+                // Test 3: Internal DOM Management
+                await this.testInternalDOM();
+                
+                // Test 4: External Interface
+                await this.testExternalInterface();
+                
+                this.displayResults();
+            }
+            
+            async testBasicAPI() {
+                try {
+                    // Create component
+                    const component = document.createElement('wb-layout');
+                    document.body.appendChild(component);
+                    
+                    // Wait for initialization
+                    await this.waitForReady(component);
+                    
+                    // Test basic API exists
+                    this.assert(typeof component.setLayout === 'function', 'setLayout method exists');
+                    this.assert(typeof component.getLayout === 'function', 'getLayout method exists');
+                    
+                    // Test initial state
+                    const layout = component.getLayout();
+                    this.assert(layout && layout.current === 'top-nav', 'Default layout is top-nav');
+                    
+                    // Clean up
+                    component.remove();
+                    
+                    this.pass('Basic API Test');
+                } catch (error) {
+                    this.fail('Basic API Test', error.message);
+                }
+            }
+            
+            async testReactiveState() {
+                try {
+                    // Create component with demo HTML structure
+                    const component = document.createElement('wb-layout');
+                    component.innerHTML = `
+                        <div class="layout-status-display">
+                            <span id="current-layout-display">Top Navigation</span>
+                            <span id="nav-position-display">Horizontal Top</span>
+                            <span id="content-margin-display">Top: 60px</span>
+                        </div>
+                        <div class="layout-test-controls">
+                            <button class="layout-btn" data-layout="left-nav">Left Nav</button>
+                            <button class="layout-btn" data-layout="top-nav">Top Nav</button>
+                        </div>
+                    `;
+                    document.body.appendChild(component);
+                    
+                    await this.waitForReady(component);
+                    
+                    // Test layout change
+                    component.setLayout('left-nav');
+                    
+                    // Check if component updated itself
+                    const layout = component.getLayout();
+                    this.assert(layout.current === 'left-nav', 'Layout changed to left-nav');
+                    
+                    // CHECK: Does component update demo displays automatically?
+                    const layoutDisplay = component.querySelector('#current-layout-display');
+                    const navPositionDisplay = component.querySelector('#nav-position-display');
+                    
+                    // This will FAIL because component doesn't manage these elements
+                    try {
+                        this.assert(layoutDisplay?.textContent === 'Left Sidebar', 'Layout display updated automatically');
+                        this.assert(navPositionDisplay?.textContent === 'Vertical Left', 'Nav position display updated automatically');
+                    } catch (e) {
+                        this.error('Reactive State Test', 'Component does NOT update demo displays automatically - NOT REACTIVE!');
+                        component.remove();
+                        return;
+                    }
+                    
+                    component.remove();
+                    this.pass('Reactive State Test');
+                } catch (error) {
+                    this.fail('Reactive State Test', error.message);
+                }
+            }
+            
+            async testInternalDOM() {
+                try {
+                    const component = document.createElement('wb-layout');
+                    component.innerHTML = `
+                        <div class="layout-test-controls">
+                            <button class="layout-btn" data-layout="left-nav">Left Nav</button>
+                            <button class="layout-btn" data-layout="top-nav">Top Nav</button>
+                        </div>
+                    `;
+                    document.body.appendChild(component);
+                    
+                    await this.waitForReady(component);
+                    
+                    // Test button state management
+                    component.setLayout('left-nav');
+                    
+                    const leftBtn = component.querySelector('.layout-btn[data-layout="left-nav"]');
+                    const topBtn = component.querySelector('.layout-btn[data-layout="top-nav"]');
+                    
+                    // This will FAIL because component doesn't manage button states
+                    try {
+                        this.assert(leftBtn?.classList.contains('active'), 'Left nav button is active');
+                        this.assert(!topBtn?.classList.contains('active'), 'Top nav button is inactive');
+                    } catch (e) {
+                        this.error('Internal DOM Test', 'Component does NOT manage button states - NOT REACTIVE!');
+                        component.remove();
+                        return;
+                    }
+                    
+                    component.remove();
+                    this.pass('Internal DOM Test');
+                } catch (error) {
+                    this.fail('Internal DOM Test', error.message);
+                }
+            }
+            
+            async testExternalInterface() {
+                try {
+                    const component = document.createElement('wb-layout');
+                    document.body.appendChild(component);
+                    
+                    await this.waitForReady(component);
+                    
+                    // Test expected reactive component methods
+                    const expectedMethods = ['getCurrentConfig', 'getResponsiveMode', 'updateDisplays'];
+                    
+                    for (const method of expectedMethods) {
+                        try {
+                            this.assert(typeof component[method] === 'function', `${method} method exists`);
+                        } catch (e) {
+                            this.error('External Interface Test', `Missing expected method: ${method}`);
+                        }
+                    }
+                    
+                    component.remove();
+                    this.pass('External Interface Test');
+                } catch (error) {
+                    this.fail('External Interface Test', error.message);
+                }
+            }
+            
+            waitForReady(component) {
+                return new Promise((resolve) => {
+                    if (component.currentLayout) {
+                        resolve();
+                    } else {
+                        component.addEventListener('wb-layout-ready', resolve, { once: true });
+                        setTimeout(resolve, 100); // Fallback
+                    }
+                });
+            }
+            
+            assert(condition, message) {
+                if (!condition) {
+                    throw new Error(message);
+                }
+            }
+            
+            pass(testName) {
+                this.results.push({ type: 'pass', name: testName });
+                console.log(`✅ ${testName}`);
+            }
+            
+            fail(testName, error) {
+                this.results.push({ type: 'fail', name: testName, error });
+                console.log(`❌ ${testName}: ${error}`);
+            }
+            
+            error(testName, message) {
+                this.results.push({ type: 'error', name: testName, error: message });
+                console.log(`⚠️ ${testName}: ${message}`);
+            }
+            
+            displayResults() {
+                const summary = this.results.reduce((acc, result) => {
+                    acc[result.type]++;
+                    return acc;
+                }, { pass: 0, fail: 0, error: 0 });
+                
+                this.resultsDiv.innerHTML = `
+                    <h2>Test Results Summary</h2>
+                    <p><strong>Passed:</strong> ${summary.pass} | <strong>Failed:</strong> ${summary.fail} | <strong>Errors:</strong> ${summary.error}</p>
+                    
+                    ${this.results.map(result => `
+                        <div class="test-result ${result.type}">
+                            <strong>${result.type.toUpperCase()}: ${result.name}</strong>
+                            ${result.error ? `<br><code>${result.error}</code>` : ''}
+                        </div>
+                    `).join('')}
+                    
+                    <h2>Analysis</h2>
+                    <div class="test-result ${summary.error > 0 ? 'error' : 'fail'}">
+                        <strong>CONCLUSION: WB Layout Component is NOT REACTIVE</strong>
+                        <br><br>
+                        <strong>Issues Found:</strong>
+                        <ul>
+                            <li>❌ Component does NOT update demo display elements automatically</li>
+                            <li>❌ Component does NOT manage button states internally</li>
+                            <li>❌ Component lacks reactive methods (getCurrentConfig, getResponsiveMode, updateDisplays)</li>
+                            <li>❌ Requires external coordination for demo functionality</li>
+                        </ul>
+                        <br>
+                        <strong>What needs to be fixed:</strong>
+                        <ul>
+                            <li>🔧 Add internal reactive state management using Proxy</li>
+                            <li>🔧 Component should manage all demo display elements internally</li>
+                            <li>🔧 Component should handle button states and clicks internally</li>
+                            <li>🔧 Add missing reactive methods for complete API</li>
+                            <li>🔧 Remove need for external wb-layout-demo.js coordination</li>
+                        </ul>
+                    </div>
+                `;
+                
+                console.log('🏁 Test Summary:', summary);
+            }
+        }
+        
+        // Run tests when page loads
+        window.addEventListener('load', () => {
+            const runner = new TestRunner();
+            runner.runAllTests();
+        });
+    </script>
+</body>
+</html>

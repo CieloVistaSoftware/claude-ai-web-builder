@@ -81,6 +81,11 @@
       "default": "truncate",
       "description": "How to handle long text content"
     },
+    "enforce-single-line": {
+      "type": "boolean",
+      "default": true,
+      "description": "ENFORCED: All events must issue exactly one message per line. Multi-line messages are automatically flattened to single lines with normalized whitespace."
+    },
     "default-filters": {
       "type": "string",
       "description": "JSON string containing array of default enabled filters",

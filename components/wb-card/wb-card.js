@@ -44,9 +44,7 @@ class WBCard extends HTMLElement {
 
     async loadConfig() {
         try {
-            const configPath = (window.WBComponentUtils ? 
-                window.WBComponentUtils.getPath('wb-card.js', '../components/wb-card/') : 
-                '../components/wb-card/') + 'wb-card.json';
+            const configPath = './wb-card.json';
             const response = await fetch(configPath);
             this.config = await response.json();
             console.log('🃏 WB Card: Configuration loaded', this.config);

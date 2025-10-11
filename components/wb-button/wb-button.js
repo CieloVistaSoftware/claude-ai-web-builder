@@ -17,13 +17,12 @@
  * @author Website Builder Team
  */
 
-(function() {
-    'use strict';
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 
-    console.log('🔘 WB Button Web Component: Starting initialization...');
+console.log('🔘 WB Button Web Component: Starting initialization...');
 
-    // Configuration fallback - used if JSON loading fails
-    const fallbackConfig = {
+// Configuration fallback - used if JSON loading fails
+const fallbackConfig = {
         component: {
             name: 'wb-button',
             version: '2.0.0',
@@ -87,7 +86,7 @@
         }
     };
 
-    class WBButton extends HTMLElement {
+class WBButton extends WBBaseComponent {
         constructor() {
             super();
             
@@ -767,32 +766,29 @@
         return group;
     };
 
-    // Register the custom element
-    if (customElements && !customElements.get('wb-button')) {
-        customElements.define('wb-button', WBButton);
-        console.log('🔘 WB Button Web Component: Custom element registered');
-    } else if (customElements.get('wb-button')) {
-        console.log('🔘 WB Button Web Component: Already registered');
-    } else {
-        console.error('🔘 WB Button Web Component: Custom Elements not supported');
-    }
-    
-    // Register with WBComponentRegistry if available
-    if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
-        window.WBComponentRegistry.register('wb-button', WBButton, ['wb-event-log'], {
-            version: '1.0.0',
-            type: 'form',
-            role: 'ui-element',
-            description: 'Versatile button component with multiple styles, sizes, and interaction states',
-            api: {
-                static: ['createGroup'],
-                events: ['click', 'focus', 'blur', 'hover'],
-                attributes: ['label', 'variant', 'size', 'disabled', 'loading', 'icon', 'icon-position'],
-                methods: ['render', 'setLabel', 'setVariant', 'setSize', 'disable', 'enable']
-            },
-            priority: 4 // UI component depends on infrastructure
-        });
-    }
-    
-    // Expose for backward compatibility
-    window.WBButton = WBButton;})();
+// Register the custom element
+if (customElements && !customElements.get('wb-button')) {
+    customElements.define('wb-button', WBButton);
+    console.log('🔘 WB Button Web Component: Custom element registered');
+} else if (customElements.get('wb-button')) {
+    console.log('🔘 WB Button Web Component: Already registered');
+} else {
+    console.error('🔘 WB Button Web Component: Custom Elements not supported');
+}
+
+// Register with WBComponentRegistry if available
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-button', WBButton, ['wb-event-log'], {
+        version: '1.0.0',
+        type: 'form',
+        role: 'ui-element',
+        description: 'Versatile button component with multiple styles, sizes, and interaction states',
+        api: {
+            static: ['createGroup'],
+            events: ['click', 'focus', 'blur', 'hover'],
+            attributes: ['label', 'variant', 'size', 'disabled', 'loading', 'icon', 'icon-position'],
+            methods: ['render', 'setLabel', 'setVariant', 'setSize', 'disable', 'enable']
+        },
+        priority: 4 // UI component depends on infrastructure
+    });
+}

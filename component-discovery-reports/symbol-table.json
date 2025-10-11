@@ -1,5 +1,14 @@
 [
   {
+    "symbol": "class\n        document",
+    "name": "class\n        document",
+    "type": "class",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
     "symbol": "makeEditable",
     "name": "makeEditable",
     "type": "function",
@@ -65,6 +74,15 @@
   {
     "symbol": "addStyles",
     "name": "addStyles",
+    "type": "function",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "removeStyles",
+    "name": "removeStyles",
     "type": "function",
     "component": "change-text",
     "source": "legacy",
@@ -207,6 +225,15 @@
     "customElement": null
   },
   {
+    "symbol": "existingStyle",
+    "name": "existingStyle",
+    "type": "variable",
+    "component": "change-text",
+    "source": "legacy",
+    "webComponent": false,
+    "customElement": null
+  },
+  {
     "symbol": "event",
     "name": "event",
     "type": "variable",
@@ -222,6 +249,87 @@
     "component": "change-text",
     "source": "legacy",
     "webComponent": false,
+    "customElement": null
+  },
+  {
+    "symbol": "for",
+    "name": "for",
+    "type": "class",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": null
+  },
+  {
+    "symbol": "WBBaseComponent",
+    "name": "WBBaseComponent",
+    "type": "class",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": null
+  },
+  {
+    "symbol": "if",
+    "name": "if",
+    "type": "class",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": null
+  },
+  {
+    "symbol": "MyComponent",
+    "name": "MyComponent",
+    "type": "class",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": null
+  },
+  {
+    "symbol": "link",
+    "name": "link",
+    "type": "variable",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": null
+  },
+  {
+    "symbol": "slot",
+    "name": "slot",
+    "type": "variable",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": null
+  },
+  {
+    "symbol": "nodes",
+    "name": "nodes",
+    "type": "variable",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": null
+  },
+  {
+    "symbol": "theme",
+    "name": "theme",
+    "type": "variable",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": null
+  },
+  {
+    "symbol": "resp",
+    "name": "resp",
+    "type": "variable",
+    "component": "wb-base",
+    "source": "legacy",
+    "webComponent": true,
     "customElement": null
   },
   {
@@ -612,15 +720,6 @@
     "customElement": "wb-card"
   },
   {
-    "symbol": "link",
-    "name": "link",
-    "type": "variable",
-    "component": "wb-card",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-card"
-  },
-  {
     "symbol": "layout",
     "name": "layout",
     "type": "variable",
@@ -747,15 +846,6 @@
     "customElement": "wb-card"
   },
   {
-    "symbol": "card",
-    "name": "card",
-    "type": "variable",
-    "component": "wb-card",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-card"
-  },
-  {
     "symbol": "wb-card",
     "name": "wb-card",
     "type": "custom-element",
@@ -776,15 +866,6 @@
   {
     "symbol": "editMode",
     "name": "editMode",
-    "type": "variable",
-    "component": "wb-change-text",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-change-text"
-  },
-  {
-    "symbol": "component",
-    "name": "component",
     "type": "variable",
     "component": "wb-change-text",
     "source": "legacy",
@@ -945,8 +1026,8 @@
     "customElement": "wb-color-bar"
   },
   {
-    "symbol": "eventLog",
-    "name": "eventLog",
+    "symbol": "logData",
+    "name": "logData",
     "type": "variable",
     "component": "wb-color-bar",
     "source": "legacy",
@@ -1044,17 +1125,8 @@
     "customElement": "wb-color-bars"
   },
   {
-    "symbol": "bodyTheme",
-    "name": "bodyTheme",
-    "type": "variable",
-    "component": "wb-color-bars",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-color-bars"
-  },
-  {
-    "symbol": "htmlTheme",
-    "name": "htmlTheme",
+    "symbol": "possiblePaths",
+    "name": "possiblePaths",
     "type": "variable",
     "component": "wb-color-bars",
     "source": "legacy",
@@ -1404,6 +1476,15 @@
     "customElement": "wb-color-picker"
   },
   {
+    "symbol": "eventLog",
+    "name": "eventLog",
+    "type": "variable",
+    "component": "wb-color-picker",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-color-picker"
+  },
+  {
     "symbol": "colorPicker",
     "name": "colorPicker",
     "type": "variable",
@@ -1485,15 +1566,6 @@
     "customElement": "wb-color-picker"
   },
   {
-    "symbol": "currentFormat",
-    "name": "currentFormat",
-    "type": "variable",
-    "component": "wb-color-picker",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-color-picker"
-  },
-  {
     "symbol": "wb-color-picker",
     "name": "wb-color-picker",
     "type": "custom-element",
@@ -1509,7 +1581,16 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "and",
+    "name": "and",
+    "type": "class",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "to",
@@ -1518,7 +1599,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "logEvent",
@@ -1527,7 +1608,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "loadCSS",
@@ -1536,25 +1617,34 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "utilsScript",
-    "name": "utilsScript",
+    "symbol": "loadCSSManually",
+    "name": "loadCSSManually",
+    "type": "function",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "basePath",
+    "name": "basePath",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "options",
-    "name": "options",
+    "symbol": "optionsJson",
+    "name": "optionsJson",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "currentTheme",
@@ -1563,7 +1653,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "layoutSelect",
@@ -1572,7 +1662,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "themeSelect",
@@ -1581,7 +1671,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "spaToggle",
@@ -1590,7 +1680,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "editToggle",
@@ -1599,7 +1689,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "saveBtn",
@@ -1608,7 +1698,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "resetBtn",
@@ -1617,7 +1707,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "minimizeBtn",
@@ -1626,7 +1716,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "closeBtn",
@@ -1635,7 +1725,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "dragHandle",
@@ -1644,16 +1734,25 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "nav",
-    "name": "nav",
+    "symbol": "resizeHandle",
+    "name": "resizeHandle",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "layoutChangeEvent",
+    "name": "layoutChangeEvent",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "structureChanged",
@@ -1662,7 +1761,16 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "nav",
+    "name": "nav",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "currentLayout",
@@ -1671,7 +1779,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "main",
@@ -1680,7 +1788,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "existingContent",
@@ -1689,34 +1797,52 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "navContent",
-    "name": "navContent",
+    "symbol": "scriptPath",
+    "name": "scriptPath",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "navList",
-    "name": "navList",
+    "symbol": "componentDir",
+    "name": "componentDir",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "baseNavItems",
-    "name": "baseNavItems",
+    "symbol": "layoutConfig",
+    "name": "layoutConfig",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "navItems",
+    "name": "navItems",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "layoutSpecs",
+    "name": "layoutSpecs",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "schemaSpec",
@@ -1725,16 +1851,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "links",
-    "name": "links",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "genericTexts",
@@ -1743,7 +1860,34 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "itemsAttr",
+    "name": "itemsAttr",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "items",
+    "name": "items",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "links",
+    "name": "links",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "linkTexts",
@@ -1752,7 +1896,16 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "wbNavSpec",
+    "name": "wbNavSpec",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "violations",
@@ -1761,7 +1914,25 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "actualValue",
+    "name": "actualValue",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "currentVariant",
+    "name": "currentVariant",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "specs",
@@ -1770,7 +1941,34 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "hasContainer",
+    "name": "hasContainer",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "hasNavList",
+    "name": "hasNavList",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "hasBrand",
+    "name": "hasBrand",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "elementsToOrder",
@@ -1779,70 +1977,25 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "availableThemes",
-    "name": "availableThemes",
+    "symbol": "themeChangeEvent",
+    "name": "themeChangeEvent",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "missingImplementations",
-    "name": "missingImplementations",
+    "symbol": "hostElement",
+    "name": "hostElement",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "testElement",
-    "name": "testElement",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "computedStyle",
-    "name": "computedStyle",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "hasCustomPrimary",
-    "name": "hasCustomPrimary",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "theme",
-    "name": "theme",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "colorBarsElements",
-    "name": "colorBarsElements",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "isActive",
@@ -1851,7 +2004,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "newState",
@@ -1860,7 +2013,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "footerMode",
@@ -1869,7 +2022,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "currentState",
@@ -1878,16 +2031,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "editables",
-    "name": "editables",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "editBtn",
@@ -1896,43 +2040,43 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "primaryColorBars",
-    "name": "primaryColorBars",
+    "symbol": "colorType",
+    "name": "colorType",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "bgColorBars",
-    "name": "bgColorBars",
+    "symbol": "element",
+    "name": "element",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "root",
-    "name": "root",
+    "symbol": "elementId",
+    "name": "elementId",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "hslColor",
-    "name": "hslColor",
+    "symbol": "names",
+    "name": "names",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "html",
@@ -1941,7 +2085,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "blob",
@@ -1950,7 +2094,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "url",
@@ -1959,7 +2103,97 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "isMinimized",
+    "name": "isMinimized",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "shortcuts",
+    "name": "shortcuts",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "report",
+    "name": "report",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "parts",
+    "name": "parts",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "key",
+    "name": "key",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "needsCtrl",
+    "name": "needsCtrl",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "needsShift",
+    "name": "needsShift",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "needsAlt",
+    "name": "needsAlt",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "needsMeta",
+    "name": "needsMeta",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "debugInfo",
+    "name": "debugInfo",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "savedTheme",
@@ -1968,7 +2202,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "savedLayout",
@@ -1977,133 +2211,52 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "primaryData",
-    "name": "primaryData",
+    "symbol": "savedPrimary",
+    "name": "savedPrimary",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "bgData",
-    "name": "bgData",
+    "symbol": "savedBg",
+    "name": "savedBg",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "primaryHueSlider",
-    "name": "primaryHueSlider",
+    "symbol": "primaryColorBar",
+    "name": "primaryColorBar",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "primarySaturationSlider",
-    "name": "primarySaturationSlider",
+    "symbol": "bgColorBar",
+    "name": "bgColorBar",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "primaryLightnessSlider",
-    "name": "primaryLightnessSlider",
+    "symbol": "symbolKey",
+    "name": "symbolKey",
     "type": "variable",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "bgHueSlider",
-    "name": "bgHueSlider",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "bgSaturationSlider",
-    "name": "bgSaturationSlider",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "bgLightnessSlider",
-    "name": "bgLightnessSlider",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "hueGradient",
-    "name": "hueGradient",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "saturationGradient",
-    "name": "saturationGradient",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "lightnessGradient",
-    "name": "lightnessGradient",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "satSlider",
-    "name": "satSlider",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "lightSlider",
-    "name": "lightSlider",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
-  },
-  {
-    "symbol": "colors",
-    "name": "colors",
-    "type": "variable",
-    "component": "wb-control-panel",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "isDragging",
@@ -2112,7 +2265,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "deltaX",
@@ -2121,7 +2274,7 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
     "symbol": "deltaY",
@@ -2130,29 +2283,434 @@
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
   },
   {
-    "symbol": "control-panel",
-    "name": "control-panel",
+    "symbol": "isResizing",
+    "name": "isResizing",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "newWidth",
+    "name": "newWidth",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "savedWidth",
+    "name": "savedWidth",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "width",
+    "name": "width",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "navCandidates",
+    "name": "navCandidates",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "dependencies",
+    "name": "dependencies",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "metadata",
+    "name": "metadata",
+    "type": "variable",
+    "component": "wb-control-panel",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "wb-control-panel",
+    "name": "wb-control-panel",
     "type": "custom-element",
     "component": "wb-control-panel",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "control-panel"
+    "customElement": "wb-control-panel"
+  },
+  {
+    "symbol": "WBExample",
+    "name": "WBExample",
+    "type": "class",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "WBDemoSection",
+    "name": "WBDemoSection",
+    "type": "class",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "WBDemoGrid",
+    "name": "WBDemoGrid",
+    "type": "class",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "WBDemoItem",
+    "name": "WBDemoItem",
+    "type": "class",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "WBDemoOutput",
+    "name": "WBDemoOutput",
+    "type": "class",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "WBDemo",
+    "name": "WBDemo",
+    "type": "class",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "linkElem",
+    "name": "linkElem",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "styleElem",
+    "name": "styleElem",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "tabButtons",
+    "name": "tabButtons",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "tabPanels",
+    "name": "tabPanels",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "tabIndex",
+    "name": "tabIndex",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "flattenedMessage",
+    "name": "flattenedMessage",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "timestamp",
+    "name": "timestamp",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "typeIcons",
+    "name": "typeIcons",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "icon",
+    "name": "icon",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "logEntry",
+    "name": "logEntry",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "eventData",
+    "name": "eventData",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "eventDiv",
+    "name": "eventDiv",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "eventDivs",
+    "name": "eventDivs",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "i",
+    "name": "i",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "index",
+    "name": "index",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "typeColors",
+    "name": "typeColors",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "filteredEvents",
+    "name": "filteredEvents",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "displayEvents",
+    "name": "displayEvents",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "borderColor",
+    "name": "borderColor",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "exportData",
+    "name": "exportData",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "jsonString",
+    "name": "jsonString",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "examplesSlot",
+    "name": "examplesSlot",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "slottedElements",
+    "name": "slottedElements",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "tagName",
+    "name": "tagName",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "resizableComponents",
+    "name": "resizableComponents",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "resizeWrapper",
+    "name": "resizeWrapper",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "parent",
+    "name": "parent",
+    "type": "variable",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "wb-example",
+    "name": "wb-example",
+    "type": "custom-element",
+    "component": "wb-demo",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-example"
+  },
+  {
+    "symbol": "WBDevToolbox",
+    "name": "WBDevToolbox",
+    "type": "class",
+    "component": "wb-dev-toolbox",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-dev-toolbox"
+  },
+  {
+    "symbol": "showLocalLogBox",
+    "name": "showLocalLogBox",
+    "type": "variable",
+    "component": "wb-dev-toolbox",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-dev-toolbox"
+  },
+  {
+    "symbol": "entry",
+    "name": "entry",
+    "type": "variable",
+    "component": "wb-dev-toolbox",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-dev-toolbox"
+  },
+  {
+    "symbol": "eventType",
+    "name": "eventType",
+    "type": "variable",
+    "component": "wb-dev-toolbox",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-dev-toolbox"
+  },
+  {
+    "symbol": "wb-dev-toolbox",
+    "name": "wb-dev-toolbox",
+    "type": "custom-element",
+    "component": "wb-dev-toolbox",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-dev-toolbox"
   },
   {
     "symbol": "WBEventLog",
     "name": "WBEventLog",
-    "type": "class",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "and",
-    "name": "and",
     "type": "class",
     "component": "wb-event-log",
     "source": "legacy",
@@ -2171,15 +2729,6 @@
   {
     "symbol": "name",
     "name": "name",
-    "type": "function",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "names",
-    "name": "names",
     "type": "function",
     "component": "wb-event-log",
     "source": "legacy",
@@ -2232,6 +2781,51 @@
     "customElement": "wb-event-log"
   },
   {
+    "symbol": "logMessage",
+    "name": "logMessage",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "warnMessage",
+    "name": "warnMessage",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "errorMessage",
+    "name": "errorMessage",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "infoMessage",
+    "name": "infoMessage",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "debugMessage",
+    "name": "debugMessage",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
     "symbol": "originalFetch",
     "name": "originalFetch",
     "type": "variable",
@@ -2243,6 +2837,15 @@
   {
     "symbol": "startTime",
     "name": "startTime",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "options",
+    "name": "options",
     "type": "variable",
     "component": "wb-event-log",
     "source": "legacy",
@@ -2394,15 +2997,6 @@
     "customElement": "wb-event-log"
   },
   {
-    "symbol": "i",
-    "name": "i",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
     "symbol": "line",
     "name": "line",
     "type": "variable",
@@ -2439,26 +3033,8 @@
     "customElement": "wb-event-log"
   },
   {
-    "symbol": "tagName",
-    "name": "tagName",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
     "symbol": "id",
     "name": "id",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "errorMessage",
-    "name": "errorMessage",
     "type": "variable",
     "component": "wb-event-log",
     "source": "legacy",
@@ -2522,15 +3098,6 @@
   {
     "symbol": "eventLogKeys",
     "name": "eventLogKeys",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "key",
-    "name": "key",
     "type": "variable",
     "component": "wb-event-log",
     "source": "legacy",
@@ -2610,6 +3177,15 @@
     "customElement": "wb-event-log"
   },
   {
+    "symbol": "component",
+    "name": "component",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
     "symbol": "current",
     "name": "current",
     "type": "variable",
@@ -2639,42 +3215,6 @@
   {
     "symbol": "visibleEvents",
     "name": "visibleEvents",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "typeConfig",
-    "name": "typeConfig",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "timestamp",
-    "name": "timestamp",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "fromTo",
-    "name": "fromTo",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "fullFromTo",
-    "name": "fullFromTo",
     "type": "variable",
     "component": "wb-event-log",
     "source": "legacy",
@@ -2810,6 +3350,15 @@
   {
     "symbol": "div",
     "name": "div",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "indicator",
+    "name": "indicator",
     "type": "variable",
     "component": "wb-event-log",
     "source": "legacy",
@@ -2961,6 +3510,168 @@
     "customElement": "wb-event-log"
   },
   {
+    "symbol": "startY",
+    "name": "startY",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "startHeight",
+    "name": "startHeight",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "newHeight",
+    "name": "newHeight",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "minHeight",
+    "name": "minHeight",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "maxHeight",
+    "name": "maxHeight",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "clampedHeight",
+    "name": "clampedHeight",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "startX",
+    "name": "startX",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "startWidth",
+    "name": "startWidth",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "minWidth",
+    "name": "minWidth",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "clampedWidth",
+    "name": "clampedWidth",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "initialLeft",
+    "name": "initialLeft",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "initialTop",
+    "name": "initialTop",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "newLeft",
+    "name": "newLeft",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "newTop",
+    "name": "newTop",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "maxLeft",
+    "name": "maxLeft",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "maxTop",
+    "name": "maxTop",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "clampedLeft",
+    "name": "clampedLeft",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
+    "symbol": "clampedTop",
+    "name": "clampedTop",
+    "type": "variable",
+    "component": "wb-event-log",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-event-log"
+  },
+  {
     "symbol": "jsonContent",
     "name": "jsonContent",
     "type": "variable",
@@ -3026,15 +3737,6 @@
   {
     "symbol": "rows",
     "name": "rows",
-    "type": "variable",
-    "component": "wb-event-log",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-event-log"
-  },
-  {
-    "symbol": "possiblePaths",
-    "name": "possiblePaths",
     "type": "variable",
     "component": "wb-event-log",
     "source": "legacy",
@@ -3942,15 +4644,6 @@
     "customElement": null
   },
   {
-    "symbol": "width",
-    "name": "width",
-    "type": "variable",
-    "component": "wb-image-insert",
-    "source": "legacy",
-    "webComponent": false,
-    "customElement": null
-  },
-  {
     "symbol": "height",
     "name": "height",
     "type": "variable",
@@ -4016,15 +4709,6 @@
   {
     "symbol": "position",
     "name": "position",
-    "type": "variable",
-    "component": "wb-image-insert",
-    "source": "legacy",
-    "webComponent": false,
-    "customElement": null
-  },
-  {
-    "symbol": "parent",
-    "name": "parent",
     "type": "variable",
     "component": "wb-image-insert",
     "source": "legacy",
@@ -4140,17 +4824,251 @@
     "customElement": null
   },
   {
-    "symbol": "WBInput",
-    "name": "WBInput",
+    "symbol": "WBInjectTest",
+    "name": "WBInjectTest",
     "type": "class",
-    "component": "wb-input",
+    "component": "wb-inject-test",
     "source": "legacy",
     "webComponent": true,
-    "customElement": "wb-input"
+    "customElement": "wb-inject-test"
   },
   {
-    "symbol": "if",
-    "name": "if",
+    "symbol": "with",
+    "name": "with",
+    "type": "function",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "targetAttr",
+    "name": "targetAttr",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "selectTargetBtn",
+    "name": "selectTargetBtn",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "runTestBtn",
+    "name": "runTestBtn",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "clearScriptBtn",
+    "name": "clearScriptBtn",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "copyCodeBtn",
+    "name": "copyCodeBtn",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "loadScriptBtn",
+    "name": "loadScriptBtn",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "targetInput",
+    "name": "targetInput",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "select",
+    "name": "select",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "option",
+    "name": "option",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "scriptKey",
+    "name": "scriptKey",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "editor",
+    "name": "editor",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "dot",
+    "name": "dot",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "btn",
+    "name": "btn",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "selector",
+    "name": "selector",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "code",
+    "name": "code",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "executedCodeDisplay",
+    "name": "executedCodeDisplay",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "logs",
+    "name": "logs",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "originalLog",
+    "name": "originalLog",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "originalWarn",
+    "name": "originalWarn",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "originalError",
+    "name": "originalError",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "testFunction",
+    "name": "testFunction",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "resultsDisplay",
+    "name": "resultsDisplay",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "logClass",
+    "name": "logClass",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "formattedArgs",
+    "name": "formattedArgs",
+    "type": "variable",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "wb-inject-test",
+    "name": "wb-inject-test",
+    "type": "custom-element",
+    "component": "wb-inject-test",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-inject-test"
+  },
+  {
+    "symbol": "WBInput",
+    "name": "WBInput",
     "type": "class",
     "component": "wb-input",
     "source": "legacy",
@@ -4374,15 +5292,6 @@
     "customElement": "wb-keyboard-manager"
   },
   {
-    "symbol": "parts",
-    "name": "parts",
-    "type": "variable",
-    "component": "wb-keyboard-manager",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-keyboard-manager"
-  },
-  {
     "symbol": "keyMap",
     "name": "keyMap",
     "type": "variable",
@@ -4491,9 +5400,45 @@
     "customElement": "wb-layout"
   },
   {
+    "symbol": "class\r\n            if",
+    "name": "class\r\n            if",
+    "type": "class",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "class\r\n            document",
+    "name": "class\r\n            document",
+    "type": "class",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
     "symbol": "class\r\n            body",
     "name": "class\r\n            body",
     "type": "class",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "oldValue",
+    "name": "oldValue",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "oldLayout",
+    "name": "oldLayout",
+    "type": "variable",
     "component": "wb-layout",
     "source": "legacy",
     "webComponent": true,
@@ -4518,8 +5463,8 @@
     "customElement": "wb-layout"
   },
   {
-    "symbol": "select",
-    "name": "select",
+    "symbol": "showControls",
+    "name": "showControls",
     "type": "variable",
     "component": "wb-layout",
     "source": "legacy",
@@ -4527,8 +5472,35 @@
     "customElement": "wb-layout"
   },
   {
-    "symbol": "oldLayout",
-    "name": "oldLayout",
+    "symbol": "mobileQuery",
+    "name": "mobileQuery",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "tabletQuery",
+    "name": "tabletQuery",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "updateResponsiveMode",
+    "name": "updateResponsiveMode",
+    "type": "variable",
+    "component": "wb-layout",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-layout"
+  },
+  {
+    "symbol": "root",
+    "name": "root",
     "type": "variable",
     "component": "wb-layout",
     "source": "legacy",
@@ -4565,15 +5537,6 @@
   {
     "symbol": "navElement",
     "name": "navElement",
-    "type": "variable",
-    "component": "wb-layout",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-layout"
-  },
-  {
-    "symbol": "control",
-    "name": "control",
     "type": "variable",
     "component": "wb-layout",
     "source": "legacy",
@@ -4734,24 +5697,6 @@
     "customElement": "wb-log-error"
   },
   {
-    "symbol": "originalError",
-    "name": "originalError",
-    "type": "variable",
-    "component": "wb-log-error",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-log-error"
-  },
-  {
-    "symbol": "originalWarn",
-    "name": "originalWarn",
-    "type": "variable",
-    "component": "wb-log-error",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-log-error"
-  },
-  {
     "symbol": "error",
     "name": "error",
     "type": "variable",
@@ -4781,24 +5726,6 @@
   {
     "symbol": "currentValue",
     "name": "currentValue",
-    "type": "variable",
-    "component": "wb-log-error",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-log-error"
-  },
-  {
-    "symbol": "option",
-    "name": "option",
-    "type": "variable",
-    "component": "wb-log-error",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-log-error"
-  },
-  {
-    "symbol": "entry",
-    "name": "entry",
     "type": "variable",
     "component": "wb-log-error",
     "source": "legacy",
@@ -4896,6 +5823,24 @@
     "customElement": "wb-log-error"
   },
   {
+    "symbol": "WBLogViewer",
+    "name": "WBLogViewer",
+    "type": "class",
+    "component": "wb-log-viewer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-viewer"
+  },
+  {
+    "symbol": "wb-log-viewer",
+    "name": "wb-log-viewer",
+    "type": "custom-element",
+    "component": "wb-log-viewer",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-log-viewer"
+  },
+  {
     "symbol": "WBModal",
     "name": "WBModal",
     "type": "class",
@@ -4916,15 +5861,6 @@
   {
     "symbol": "titleElement",
     "name": "titleElement",
-    "type": "variable",
-    "component": "wb-modal",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-modal"
-  },
-  {
-    "symbol": "slot",
-    "name": "slot",
     "type": "variable",
     "component": "wb-modal",
     "source": "legacy",
@@ -5031,6 +5967,15 @@
     "customElement": "wb-nav"
   },
   {
+    "symbol": "baseClass",
+    "name": "baseClass",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
     "symbol": "brandText",
     "name": "brandText",
     "type": "variable",
@@ -5051,6 +5996,15 @@
   {
     "symbol": "brand",
     "name": "brand",
+    "type": "variable",
+    "component": "wb-nav",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-nav"
+  },
+  {
+    "symbol": "navList",
+    "name": "navList",
     "type": "variable",
     "component": "wb-nav",
     "source": "legacy",
@@ -5096,15 +6050,6 @@
   {
     "symbol": "navLink",
     "name": "navLink",
-    "type": "variable",
-    "component": "wb-nav",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-nav"
-  },
-  {
-    "symbol": "icon",
-    "name": "icon",
     "type": "variable",
     "component": "wb-nav",
     "source": "legacy",
@@ -5166,27 +6111,9 @@
     "customElement": "wb-nav"
   },
   {
-    "symbol": "layoutConfig",
-    "name": "layoutConfig",
+    "symbol": "layoutClasses",
+    "name": "layoutClasses",
     "type": "variable",
-    "component": "wb-nav",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-nav"
-  },
-  {
-    "symbol": "index",
-    "name": "index",
-    "type": "variable",
-    "component": "wb-nav",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-nav"
-  },
-  {
-    "symbol": "WBNavMenu",
-    "name": "WBNavMenu",
-    "type": "class",
     "component": "wb-nav",
     "source": "legacy",
     "webComponent": true,
@@ -5200,6 +6127,60 @@
     "source": "legacy",
     "webComponent": true,
     "customElement": "wb-nav"
+  },
+  {
+    "symbol": "WBResize",
+    "name": "WBResize",
+    "type": "class",
+    "component": "wb-resize",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-resize"
+  },
+  {
+    "symbol": "targetSelector",
+    "name": "targetSelector",
+    "type": "variable",
+    "component": "wb-resize",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-resize"
+  },
+  {
+    "symbol": "savedX",
+    "name": "savedX",
+    "type": "variable",
+    "component": "wb-resize",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-resize"
+  },
+  {
+    "symbol": "savedY",
+    "name": "savedY",
+    "type": "variable",
+    "component": "wb-resize",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-resize"
+  },
+  {
+    "symbol": "savedHeight",
+    "name": "savedHeight",
+    "type": "variable",
+    "component": "wb-resize",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-resize"
+  },
+  {
+    "symbol": "wb-resize",
+    "name": "wb-resize",
+    "type": "custom-element",
+    "component": "wb-resize",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-resize"
   },
   {
     "symbol": "WBSearch",
@@ -5295,6 +6276,15 @@
     "symbol": "WBSelect",
     "name": "WBSelect",
     "type": "class",
+    "component": "wb-select",
+    "source": "legacy",
+    "webComponent": true,
+    "customElement": "wb-select"
+  },
+  {
+    "symbol": "optionsAttr",
+    "name": "optionsAttr",
+    "type": "variable",
     "component": "wb-select",
     "source": "legacy",
     "webComponent": true,
@@ -5607,15 +6597,6 @@
     "customElement": "wb-status"
   },
   {
-    "symbol": "function\nwindow",
-    "name": "function\nwindow",
-    "type": "function",
-    "component": "wb-status",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-status"
-  },
-  {
     "symbol": "leftSection",
     "name": "leftSection",
     "type": "variable",
@@ -5663,15 +6644,6 @@
   {
     "symbol": "alreadyQueued",
     "name": "alreadyQueued",
-    "type": "variable",
-    "component": "wb-status",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-status"
-  },
-  {
-    "symbol": "eventData",
-    "name": "eventData",
     "type": "variable",
     "component": "wb-status",
     "source": "legacy",
@@ -5742,53 +6714,8 @@
     "customElement": "wb-status"
   },
   {
-    "symbol": "currentStatus",
-    "name": "currentStatus",
-    "type": "variable",
-    "component": "wb-status",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-status"
-  },
-  {
-    "symbol": "statusBar",
-    "name": "statusBar",
-    "type": "variable",
-    "component": "wb-status",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-status"
-  },
-  {
-    "symbol": "colorKeywords",
-    "name": "colorKeywords",
-    "type": "variable",
-    "component": "wb-status",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-status"
-  },
-  {
-    "symbol": "isColorEvent",
-    "name": "isColorEvent",
-    "type": "variable",
-    "component": "wb-status",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-status"
-  },
-  {
     "symbol": "_currentWBStatus",
     "name": "_currentWBStatus",
-    "type": "class",
-    "component": "wb-status",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-status"
-  },
-  {
-    "symbol": "updateStatus",
-    "name": "updateStatus",
     "type": "class",
     "component": "wb-status",
     "source": "legacy",
@@ -5861,15 +6788,6 @@
   {
     "symbol": "tabItems",
     "name": "tabItems",
-    "type": "variable",
-    "component": "wb-tab",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-tab"
-  },
-  {
-    "symbol": "tabPanels",
-    "name": "tabPanels",
     "type": "variable",
     "component": "wb-tab",
     "source": "legacy",
@@ -6131,15 +7049,6 @@
   {
     "symbol": "colSpan",
     "name": "colSpan",
-    "type": "variable",
-    "component": "wb-table",
-    "source": "legacy",
-    "webComponent": true,
-    "customElement": "wb-table"
-  },
-  {
-    "symbol": "table",
-    "name": "table",
     "type": "variable",
     "component": "wb-table",
     "source": "legacy",

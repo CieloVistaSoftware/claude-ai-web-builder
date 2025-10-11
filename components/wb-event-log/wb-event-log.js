@@ -1172,11 +1172,13 @@
                     <span>Events: ${this.getVisibleEvents().length}/${this.events.length}</span>
                 </div>
                 
-                <div class="wb-event-log-resize-handle" title="Drag to resize"></div>
+                <div class="wb-event-log-resize-handle" title="Drag to resize height"></div>
+                <div class="wb-event-log-resize-handle-horizontal" title="Drag to resize width"></div>
             `;
             
             this.setupUIEventListeners();
             this.setupResizeHandle();
+            this.setupHorizontalResizeHandle();
             this.setupDragHandle();
         }
         
@@ -1207,23 +1209,28 @@
         }
         
         renderEventHTML(event) {
-            const eventTypes = componentConfig.eventTypes || {};
-            const typeConfig = eventTypes[event.type] || { icon: '📝' };
             const timestamp = this.formatTimestamp(event.timestamp);
-            const message = this.formatMessage(event.message);
-            const fromTo = this.formatFromTo(event);
-            
-            const fullFromTo = `${event.from || 'unknown'} ➜ ${event.to || 'unknown'}`;
+            let message = this.formatMessage(event.message);
+            // Prefer details.message if it is shorter and not a duplicate
+            if (event.details && event.details.message && event.details.message !== event.message) {
+                if (event.details.message.length < message.length) {
+                    message = this.formatMessage(event.details.message);
+                }
+            }
             const expandedClass = event.expanded ? 'expanded' : '';
-            
+            let stack = '';
+            if (event.details && event.details.stack) {
+                stack = `<pre class=\"wb-event-log-stack\">${this.escapeHtml(event.details.stack)}</pre>`;
+            } else if (event.details && event.details.stackTrace) {
+                stack = `<pre class=\"wb-event-log-stack\">${this.escapeHtml(event.details.stackTrace)}</pre>`;
+            }
+            // Only show error type, message, and stack (if present)
             return `
                 <div class="wb-event-log-event ${expandedClass}" data-type="${event.type}" data-id="${event.id}">
-                    <span class="wb-event-log-icon">${typeConfig.icon}</span>
                     <span class="wb-event-log-timestamp">${timestamp}</span>
                     <span class="wb-event-log-type">[${event.type.toUpperCase()}]</span>
-                    <span class="wb-event-log-from-to" title="${fullFromTo}">${fromTo}</span>
-                    <span class="wb-event-log-message" title="${event.message}">${message}</span>
-                    <button class="wb-event-log-copy-single" data-event-id="${event.id}" title="Copy this event">📋</button>
+                    <span class="wb-event-log-message" title="${message}">${message}</span>
+                    ${stack}
                     ${event.expanded ? this.renderEventDetails(event) : ''}
                 </div>
             `;
@@ -1617,6 +1624,50 @@
                 const clampedHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
                 
                 this.style.height = `${clampedHeight}px`;
+                
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+        
+        setupHorizontalResizeHandle() {
+            const resizeHandle = this.querySelector('.wb-event-log-resize-handle-horizontal');
+            if (!resizeHandle) return;
+            
+            let isResizing = false;
+            let startX = 0;
+            let startWidth = 0;
+            
+            resizeHandle.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = this.offsetWidth;
+                
+                document.body.style.cursor = 'ew-resize';
+                document.body.style.userSelect = 'none';
+                
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+                
+                const deltaX = e.clientX - startX;
+                const newWidth = startWidth + deltaX;
+                
+                // Minimum width: 200px, Maximum width: 80vw
+                const minWidth = 200;
+                const maxWidth = window.innerWidth * 0.8;
+                const clampedWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+                
+                this.style.width = `${clampedWidth}px`;
                 
                 e.preventDefault();
             });

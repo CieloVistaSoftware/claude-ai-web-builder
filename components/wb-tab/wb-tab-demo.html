@@ -5,50 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Tab Component Demo</title>
     
-    <!-- Central Styles Import -->
-    <link rel="stylesheet" href="../../styles/main.css">
-    
     <style>
         body {
-            padding: var(--space-lg);
-            transition: background-color var(--transition-medium), color var(--transition-medium);
+            margin: 0;
+            padding: 2rem;
+            font-family: system-ui, sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: var(--bg-secondary);
-            padding: var(--space-xl);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-md);
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         
         h1 {
-            color: var(--primary);
+            color: #6366f1;
             text-align: center;
-            margin-bottom: var(--space-xl);
+            margin-bottom: 2rem;
         }
         
-        .demo-section {
-            margin: var(--space-xl) 0;
-            padding: var(--space-lg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            background: var(--bg-tertiary);
+        .tab-content {
+            padding: 2rem;
+            background: #334155;
+            border-radius: 8px;
+            min-height: 400px;
         }
         
-        .demo-section h3 {
+        .tab-content h2 {
+            color: #e2e8f0;
             margin-top: 0;
-            color: var(--primary);
         }
         
-        .output {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-base);
-            padding: 15px;
-            margin: 15px 0;
-            font-family: monospace;
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background: #0f172a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #475569;
+        }
+        
+        .feature-card h3 {
+            color: #6366f1;
+            margin-top: 0;
+        }
+        
+        pre {
+            background: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        
+        code {
+            color: #94a3b8;
+        }
             font-size: 13px;
             white-space: pre-wrap;
             color: var(--text-primary);
@@ -87,7 +110,6 @@
         }
         
         .controls button:hover {
-            background: var(--bg-secondary);
         }
         
         /* Tab content styling */
@@ -148,6 +170,7 @@
     <div class="container">
         <h1>WB Tab Web Component Demo</h1>
         <p>A comprehensive, accessible tab component with multiple variants and advanced features.</p>
+            <!DOCTYPE html>
         
         <!-- Basic Usage -->
         <div class="demo-section">

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel Debug - Console Check</title>
+    <style>
+        body { 
+            font-family: monospace; 
+            padding: 20px; 
+            background: #1a1a1a; 
+            color: #fff; 
+            line-height: 1.6;
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 4px; 
+        }
+        .success { background: #0f5132; color: #d1e7dd; }
+        .error { background: #842029; color: #f8d7da; }
+        .warning { background: #664d03; color: #fff3cd; }
+        .info { background: #055160; color: #b6effb; }
+        pre { background: #333; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .controls { margin: 20px 0; }
+        button { 
+            padding: 8px 16px; 
+            margin: 5px; 
+            background: #6366f1; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer;
+        }
+        button:hover { background: #4f46e5; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Control Panel Debug - Console Check</h1>
+    <p>This page loads the same components as index.html and shows detailed diagnostic information.</p>
+    
+    <div class="controls">
+        <button onclick="checkComponents()">🔄 Refresh Component Status</button>
+        <button onclick="checkErrors()">❌ Check Console Errors</button>
+        <button onclick="checkNetworkErrors()">🌐 Check Network Requests</button>
+        <button onclick="window.open('http://127.0.0.1:8081/index.html', '_blank')">🔗 Open Main Page</button>
+    </div>
+    
+    <div id="diagnostic-output"></div>
+    
+    <!-- Include the control panel element for testing -->
+    <h2>🎛️ Control Panel Test</h2>
+    <wb-control-panel id="test-control-panel"></wb-control-panel>
+    
+    <script>
+        const output = document.getElementById('diagnostic-output');
+        
+        function addLog(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            output.appendChild(div);
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        function addSection(title) {
+            const h3 = document.createElement('h3');
+            h3.textContent = title;
+            h3.style.marginTop = '30px';
+            h3.style.borderBottom = '2px solid #6366f1';
+            h3.style.paddingBottom = '5px';
+            output.appendChild(h3);
+        }
+        
+        // Store errors for analysis
+        const errors = [];
+        const networkErrors = [];
+        
+        // Capture all errors
+        window.addEventListener('error', (e) => {
+            const errorInfo = {
+                message: e.message,
+                filename: e.filename,
+                lineno: e.lineno,
+                colno: e.colno,
+                error: e.error?.stack || 'No stack trace',
+                timestamp: new Date().toISOString()
+            };
+            errors.push(errorInfo);
+            addLog(`❌ JavaScript Error: ${e.message} at ${e.filename}:${e.lineno}`, 'error');
+        });
+        
+        // Capture promise rejections
+        window.addEventListener('unhandledrejection', (e) => {
+            const errorInfo = {
+                reason: e.reason,
+                timestamp: new Date().toISOString()
+            };
+            errors.push(errorInfo);
+            addLog(`❌ Promise Rejection: ${e.reason}`, 'error');
+        });
+        
+        // Monitor fetch requests
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            const url = args[0];
+            addLog(`🌐 Fetching: ${url}`, 'info');
+            
+            return originalFetch.apply(this, args)
+                .then(response => {
+                    if (!response.ok) {
+                        networkErrors.push({
+                            url: url,
+                            status: response.status,
+                            statusText: response.statusText,
+                            timestamp: new Date().toISOString()
+                        });
+                        addLog(`❌ Network Error: ${response.status} ${response.statusText} for ${url}`, 'error');
+                    } else {
+                        addLog(`✅ Network Success: ${response.status} for ${url}`, 'success');
+                    }
+                    return response;
+                })
+                .catch(error => {
+                    networkErrors.push({
+                        url: url,
+                        error: error.message,
+                        timestamp: new Date().toISOString()
+                    });
+                    addLog(`❌ Network Fetch Failed: ${error.message} for ${url}`, 'error');
+                    throw error;
+                });
+        };
+        
+        function checkComponents() {
+            addSection('🔍 Component Status Check');
+            
+            // Check if scripts loaded
+            const components = [
+                'WBSafeLogger',
+                'WBComponentUtils', 
+                'WBEventLog',
+                'ControlPanel'
+            ];
+            
+            components.forEach(component => {
+                if (window[component]) {
+                    addLog(`✅ ${component} is available`, 'success');
+                } else {
+                    addLog(`❌ ${component} is NOT available`, 'error');
+                }
+            });
+            
+            // Check custom elements
+            const customElements = [
+                'wb-event-log',
+                'wb-control-panel',
+                'wb-toggle',
+                'wb-select',
+                'wb-color-bar',
+                'wb-color-bars'
+            ];
+            
+            customElements.forEach(element => {
+                if (window.customElements.get(element)) {
+                    addLog(`✅ ${element} custom element is registered`, 'success');
+                } else {
+                    addLog(`❌ ${element} custom element is NOT registered`, 'error');
+                }
+            });
+            
+            // Check DOM elements
+            const controlPanel = document.querySelector('wb-control-panel');
+            if (controlPanel) {
+                addLog(`✅ wb-control-panel element exists in DOM`, 'success');
+                addLog(`📏 Control panel offsetHeight: ${controlPanel.offsetHeight}px`, 'info');
+                addLog(`👁️ Control panel visible: ${controlPanel.offsetHeight > 0 ? 'YES' : 'NO'}`, controlPanel.offsetHeight > 0 ? 'success' : 'error');
+                
+                if (controlPanel.initialized) {
+                    addLog(`✅ Control panel is initialized`, 'success');
+                } else {
+                    addLog(`❌ Control panel is NOT initialized`, 'error');
+                }
+            } else {
+                addLog(`❌ wb-control-panel element NOT found in DOM`, 'error');
+            }
+        }
+        
+        function checkErrors() {
+            addSection('❌ Error Analysis');
+            
+            if (errors.length === 0) {
+                addLog(`✅ No JavaScript errors detected`, 'success');
+            } else {
+                addLog(`❌ Found ${errors.length} JavaScript errors:`, 'error');
+                errors.forEach((error, index) => {
+                    const pre = document.createElement('pre');
+                    pre.textContent = JSON.stringify(error, null, 2);
+                    output.appendChild(pre);
+                });
+            }
+        }
+        
+        function checkNetworkErrors() {
+            addSection('🌐 Network Request Analysis');
+            
+            if (networkErrors.length === 0) {
+                addLog(`✅ No network errors detected`, 'success');
+            } else {
+                addLog(`❌ Found ${networkErrors.length} network errors:`, 'error');
+                networkErrors.forEach((error, index) => {
+                    const pre = document.createElement('pre');
+                    pre.textContent = JSON.stringify(error, null, 2);
+                    output.appendChild(pre);
+                });
+            }
+        }
+        
+        // Initial diagnostic run
+        addLog('🚀 Starting diagnostic checks...', 'info');
+        
+        // Check when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(checkComponents, 2000); // Wait 2 seconds for components to load
+            });
+        } else {
+            setTimeout(checkComponents, 2000);
+        }
+        
+        // Listen for WB events
+        window.addEventListener('wb-ready', (e) => {
+            addLog(`✅ WB Ready event received: ${e.detail.message}`, 'success');
+            addLog(`📊 Scripts loaded: ${e.detail.scriptsLoaded}`, 'info');
+        });
+        
+        window.addEventListener('wb-error', (e) => {
+            addLog(`❌ WB Error event: ${e.detail.message}`, 'error');
+        });
+        
+        // Listen for control panel events
+        window.addEventListener('wb:control-panel-ready', (e) => {
+            addLog(`✅ Control panel ready event received`, 'success');
+        });
+        
+        window.addEventListener('controlPanelReady', (e) => {
+            addLog(`✅ Control panel ready event (legacy) received`, 'success');
+        });
+    </script>
+    
+    <!-- Load the same components as index.html -->
+    <script src="index.js"></script>
+</body>
+</html>

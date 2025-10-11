@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Dev Toolbox Event Order Diagnostics</title>
+  <script src="../../components/wb-log-viewer/wb-log-viewer.js"></script>
+  <script src="../../components/wb-event-log/wb-event-log.js"></script>
+  <script src="../../components/wb-dev-toolbox/wb-dev-toolbox-log.js"></script>
+  <style>
+    body { font-family: sans-serif; background: #18181b; color: #fbbf24; }
+  .diagnostics { background: #222; color: #fff; padding: 0.5em 1em; border-radius: 8px; margin: 0.5em 0; }
+  .compact-diagnostics label, .compact-diagnostics button { margin: 0; }
+  .diagnostics pre { background: #111; color: #fbbf24; padding: 0.3em 0.5em; border-radius: 4px; font-size:0.92em; max-height:7em; overflow:auto; }
+  button { background: #ef4444; color: #fff; border: none; border-radius: 4px; cursor: pointer; padding:0.3em 0.7em; font-size:0.95em; margin:0; }
+  </style>
+</head>
+<body>
+  <h1>WB Dev Toolbox & Event Log Diagnostics</h1>
+  <div class="diagnostics compact-diagnostics">
+    <div style="display:flex;align-items:center;gap:0.5em;flex-wrap:wrap;">
+      <button id="toggleLogBtn" style="font-size:0.95em;padding:0.3em 1.2em;background:#333;color:#fff;border-radius:4px;border:none;cursor:pointer;">
+        Diagnostic Log (active)
+      </button>
+      <button id="trigger-js-error" data-btn="trigger-js-error">Trigger JS Error</button>
+      <button id="trigger-resource-error" data-btn="trigger-resource-error">Inject Missing Script</button>
+      <button id="dispatch-custom-error" data-btn="dispatch-custom-error">Dispatch Custom Error</button>
+    </div>
+    <wb-log-viewer id="diagnostics-log" style="margin-top:0.5em;"></wb-log-viewer>
+  </div>
+  <wb-event-log id="eventLog" style="margin-top:2rem;display:none;"></wb-event-log>
+  <wb-dev-toolbox-log id="devToolboxLog"></wb-dev-toolbox-log>
+  <script>
+    // Diagnostics event order log using wb-log-viewer
+    const diagLog = document.getElementById('diagnostics-log');
+    let showingDiagnostics = true;
+    let diagnosticsLogActive = true;
+    const toggleLogBtn = document.getElementById('toggleLogBtn');
+    const eventLog = document.getElementById('eventLog');
+    const devToolboxLog = document.getElementById('devToolboxLog');
+    function updateLogVisibility() {
+      if (showingDiagnostics) {
+        diagLog.style.display = '';
+        devToolboxLog.style.display = '';
+        eventLog.style.display = 'none';
+        diagnosticsLogActive = true;
+        toggleLogBtn.textContent = 'Diagnostic Log (active)';
+      } else {
+        diagLog.style.display = 'none';
+        devToolboxLog.style.display = 'none';
+        eventLog.style.display = '';
+        diagnosticsLogActive = false;
+        toggleLogBtn.textContent = 'Event Log (active)';
+      }
+    }
+    toggleLogBtn.onclick = () => {
+      showingDiagnostics = !showingDiagnostics;
+      updateLogVisibility();
+    };
+    // Show diagnostics log by default on load
+    updateLogVisibility();
+    function logDiag(msg) {
+      if (!diagnosticsLogActive) return;
+      diagLog.add(`[${new Date().toLocaleTimeString()}] ${msg}`);
+    }
+    // Listen for all custom events
+    ['wb:error','wb:warning','wb:info','wb:debug','wb:success','wb:user'].forEach(type => {
+      document.addEventListener(type, e => {
+        logDiag(`CustomEvent: ${type} | message: ${e.detail.message} | source: ${e.detail.source}`);
+      });
+    });
+    // Listen for global errors
+    window.addEventListener('error', e => {
+      logDiag(`window.error: ${e.message || e.type}`);
+    });
+    window.addEventListener('unhandledrejection', e => {
+      logDiag(`window.unhandledrejection: ${e.reason}`);
+    });
+    // Button triggers
+    document.getElementById('trigger-js-error').onclick = () => {
+      document.dispatchEvent(new CustomEvent('wb:user', {detail: {message: 'Button clicked: Trigger JS Error', buttonId: 'trigger-js-error', time: new Date().toLocaleTimeString(), source: 'diagnostics'}}));
+      setTimeout(() => { throw new Error('Test error from diagnostics button'); }, 0);
+    };
+    document.getElementById('trigger-resource-error').onclick = () => {
+      document.dispatchEvent(new CustomEvent('wb:user', {detail: {message: 'Button clicked: Inject Missing Script', buttonId: 'trigger-resource-error', time: new Date().toLocaleTimeString(), source: 'diagnostics'}}));
+      var s = document.createElement('script');
+      s.src = 'missing-script.js';
+      document.body.appendChild(s);
+    };
+    document.getElementById('dispatch-custom-error').onclick = () => {
+      document.dispatchEvent(new CustomEvent('wb:user', {detail: {message: 'Button clicked: Dispatch Custom Error', buttonId: 'dispatch-custom-error', time: new Date().toLocaleTimeString(), source: 'diagnostics'}}));
+      document.dispatchEvent(new CustomEvent('wb:error', {detail: {message: 'Manual test error from diagnostics', type: 'error', time: new Date().toLocaleTimeString(), source: 'diagnostics'}}));
+    };
+  </script>
+</body>
+</html>

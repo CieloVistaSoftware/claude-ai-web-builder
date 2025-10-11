@@ -20,7 +20,15 @@
 (function() {
     'use strict';
     
-    console.log('📝 WB Input Web Component: Starting initialization...');
+    if (window.WBEventLog) {
+        WBEventLog.logInfo('WB Input Web Component: Starting initialization...', { 
+            component: 'wb-input', 
+            method: 'moduleLoad', 
+            line: 23 
+        });
+    } else {
+        console.log('📝 WB Input Web Component: Starting initialization...');
+    }
 
     // Configuration fallback - used if JSON loading fails
     const fallbackConfig = {
@@ -109,7 +117,17 @@
             try {
                 await this.initialize();
             } catch (error) {
-                console.error('📝 WB Input initialization failed:', error);
+                if (window.WBEventLog) {
+                    WBEventLog.logError('WB Input initialization failed', { 
+                        component: 'wb-input', 
+                        method: 'connectedCallback', 
+                        line: 112, 
+                        error: error.message, 
+                        stack: error.stack 
+                    });
+                } else {
+                    console.error('📝 WB Input initialization failed:', error);
+                }
                 this.initializeFallback();
             }
         }
@@ -166,7 +184,16 @@
         }
 
         async initialize() {
-            console.log(`📝 WB Input Web Component: initialize() called for type "${this.getAttribute('type') || 'text'}"`);
+            if (window.WBEventLog) {
+                WBEventLog.logInfo('WB Input Web Component: initialize() called', { 
+                    component: 'wb-input', 
+                    method: 'initialize', 
+                    line: 169, 
+                    type: this.getAttribute('type') || 'text' 
+                });
+            } else {
+                console.log(`📝 WB Input Web Component: initialize() called for type "${this.getAttribute('type') || 'text'}"`); 
+            }
             
             // Load utilities
             await this.loadUtils();
@@ -210,7 +237,16 @@
                     const configPath = this.utils.getPath('wb-input.js', '../components/wb-input/') + 'wb-input.json';
                     this.config = await this.utils.loadConfig(configPath, fallbackConfig, 'WB Input');
                 } catch (error) {
-                    console.warn('📝 WB Input: Using fallback config:', error.message);
+                    if (window.WBEventLog) {
+                        WBEventLog.logWarning('WB Input: Using fallback config', { 
+                            component: 'wb-input', 
+                            method: 'loadConfig', 
+                            line: 213, 
+                            error: error.message 
+                        });
+                    } else {
+                        console.warn('📝 WB Input: Using fallback config:', error.message);
+                    }
                     this.config = fallbackConfig;
                 }
             }
@@ -235,7 +271,15 @@
         }
 
         initializeFallback() {
-            console.warn('📝 WB Input: Initializing with basic functionality');
+            if (window.WBEventLog) {
+                WBEventLog.logWarning('WB Input: Initializing with basic functionality', { 
+                    component: 'wb-input', 
+                    method: 'initializeFallback', 
+                    line: 238 
+                });
+            } else {
+                console.warn('📝 WB Input: Initializing with basic functionality');
+            }
             this.classList.add('wb-input');
             this.createInputStructure();
             this.setupEventListeners();
@@ -420,7 +464,15 @@
                     const rules = JSON.parse(validationRules);
                     this.validate(rules);
                 } catch (e) {
-                    console.warn('📝 WB Input: Invalid validation rules JSON');
+                    if (window.WBEventLog) {
+                        WBEventLog.logWarning('WB Input: Invalid validation rules JSON', { 
+                            component: 'wb-input', 
+                            method: 'handleBlur', 
+                            line: 423 
+                        });
+                    } else {
+                        console.warn('📝 WB Input: Invalid validation rules JSON');
+                    }
                 }
             }
         }
@@ -731,7 +783,15 @@
                 }));
             }
             
-            console.log('📝 WB Input Web Component: Initialized successfully');
+            if (window.WBEventLog) {
+                WBEventLog.logSuccess('WB Input Web Component: Initialized successfully', { 
+                    component: 'wb-input', 
+                    method: 'dispatchReady', 
+                    line: 734 
+                });
+            } else {
+                console.log('📝 WB Input Web Component: Initialized successfully');
+            }
         }
     }
 
@@ -791,17 +851,49 @@
 
     WBInput.initializeExisting = function() {
         // No longer needed with Web Components
-        console.log('📝 WB Input: initializeExisting() called but not needed with Web Components');
+        if (window.WBEventLog) {
+            WBEventLog.logInfo('WB Input: initializeExisting() called but not needed with Web Components', { 
+                component: 'wb-input', 
+                method: 'initializeExisting', 
+                line: 794 
+            });
+        } else {
+            console.log('📝 WB Input: initializeExisting() called but not needed with Web Components');
+        }
     };
 
     // Register the custom element
     if (customElements && !customElements.get('wb-input')) {
         customElements.define('wb-input', WBInput);
-        console.log('📝 WB Input Web Component: Custom element registered');
+        if (window.WBEventLog) {
+            WBEventLog.logSuccess('WB Input Web Component: Custom element registered', { 
+                component: 'wb-input', 
+                method: 'componentRegistration', 
+                line: 800 
+            });
+        } else {
+            console.log('📝 WB Input Web Component: Custom element registered');
+        }
     } else if (customElements.get('wb-input')) {
-        console.log('📝 WB Input Web Component: Already registered');
+        if (window.WBEventLog) {
+            WBEventLog.logInfo('WB Input Web Component: Already registered', { 
+                component: 'wb-input', 
+                method: 'componentRegistration', 
+                line: 802 
+            });
+        } else {
+            console.log('📝 WB Input Web Component: Already registered');
+        }
     } else {
-        console.error('📝 WB Input Web Component: Custom Elements not supported');
+        if (window.WBEventLog) {
+            WBEventLog.logError('WB Input Web Component: Custom Elements not supported', { 
+                component: 'wb-input', 
+                method: 'componentRegistration', 
+                line: 804 
+            });
+        } else {
+            console.error('📝 WB Input Web Component: Custom Elements not supported');
+        }
     }
     
     // Register with WBComponentRegistry if available

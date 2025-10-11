@@ -1,6 +1,6 @@
 /**
- * WB Layout Component
- * Handles website layout switching between different navigation configurations
+ * WB Layout Component - Reactive Architecture
+ * Handles website layout switching with internal state management
  * 
  * Supported layouts:
  * - top-nav: Horizontal navigation at page top
@@ -15,8 +15,10 @@
     class WBLayout extends HTMLElement {
         constructor() {
             super();
-            this.currentLayout = 'top-nav';
-            this.layoutConfigs = {
+            // Cache DOM elements during initialization
+            this._elements = {};
+            // Layout configuration (internal data)
+            this._layoutConfigs = {
                 'top-nav': {
                     name: 'Top Navigation',
                     description: 'Horizontal navigation bar at page top',
@@ -46,53 +48,140 @@
                     navConfig: { type: 'enhanced', branding: true, cta: true }
                 }
             };
+            // Reactive state using Proxy for automatic UI updates
+            this._state = new Proxy({
+                currentLayout: 'top-nav',
+                showControls: false,
+                responsiveMode: 'desktop',
+                autoApply: true
+            }, {
+                set: (target, property, value) => {
+                    if (target[property] !== value) {
+                        const oldValue = target[property];
+                        target[property] = value;
+                        this._updateUI();
+                        this._emitStateChange(property, value, oldValue);
+                    }
+                    return true;
+                }
+            });
         }
 
         connectedCallback() {
-            this.init();
+            this._initializeComponent();
         }
 
         static get observedAttributes() {
-            return ['layout', 'auto-apply'];
+            return ['layout', 'auto-apply', 'show-controls'];
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
-            if (name === 'layout' && newValue !== oldValue) {
-                this.setLayout(newValue);
+            if (!this._state) return; // Not initialized yet
+            
+            switch (name) {
+                case 'layout':
+                    if (newValue && newValue !== oldValue) {
+                        this._state.currentLayout = newValue;
+                    }
+                    break;
+                case 'auto-apply':
+                    this._state.autoApply = newValue !== 'false';
+                    break;
+                case 'show-controls':
+                    this._state.showControls = newValue === 'true';
+                    break;
             }
         }
 
-        init() {
-            // Get initial layout from attribute or default
+        // REACTIVE STATE MANAGEMENT
+        // All UI updates now handled in _updateUI() reactively
+        _updateUI() {
+            // Update layout
+            const layout = this._state.currentLayout;
+            const config = this._layoutConfigs[layout];
+            const oldLayout = this.getAttribute('data-prev-layout');
+            // Remove old layout class
+            if (oldLayout && this._layoutConfigs[oldLayout]) {
+                document.body.classList.remove(this._layoutConfigs[oldLayout].bodyClass);
+            }
+            // Add new layout class
+            document.body.classList.add(config.bodyClass);
+            document.body.setAttribute('data-layout', layout);
+            this.setAttribute('data-prev-layout', layout);
+            // Apply layout-specific CSS custom properties
+            this._applyLayoutStyles(config);
+            // Apply layout to component structure
+            this._applyComponentStructure(config);
+            // Controls visibility
+            if (this._elements.control) {
+                this._elements.control.style.display = this._state.showControls ? 'block' : 'none';
+            }
+            // Responsive mode
+            document.documentElement.setAttribute('data-responsive-mode', this._state.responsiveMode);
+            // Update control select
+            if (this._elements.select && this._elements.select.value !== layout) {
+                this._elements.select.value = layout;
+            }
+            // Update component attributes
+            this.setAttribute('layout', layout);
+            // Update navigation component
+            this._updateNavigationComponent(config);
+        }
+
+        // _updateLayout, _updateControlsVisibility, _updateResponsiveMode are now handled in _updateUI
+
+        // INITIALIZATION
+        _initializeComponent() {
+            // Get initial values from attributes
             const initialLayout = this.getAttribute('layout') || 'top-nav';
             const autoApply = this.getAttribute('auto-apply') !== 'false';
+            const showControls = this.getAttribute('show-controls') === 'true';
             
-            // Store existing content before adding template
+            // Store existing content
             const existingContent = this.innerHTML;
             
-            // Add control template while preserving existing content
+            // Add control template if not exists
             if (!this.querySelector('.wb-layout-control')) {
-                this.insertAdjacentHTML('afterbegin', this.getTemplate());
+                this.insertAdjacentHTML('afterbegin', this._getControlTemplate());
             }
             
-            this.setupEventListeners();
+            // Cache DOM elements
+            this._cacheElements();
             
-            if (autoApply) {
-                this.setLayout(initialLayout);
-            }
+            // Setup internal event handlers
+            this._setupInternalEventHandlers();
+            
+            // Initialize reactive state (triggers automatic updates)
+            this._state.currentLayout = initialLayout;
+            this._state.autoApply = autoApply;
+            this._state.showControls = showControls;
 
-            console.log('🎨 WB Layout component initialized');
+            // Detect responsive mode
+            this._detectResponsiveMode();
+
+            WBEventLog.logSuccess('WB Layout component initialized with reactive architecture', { component: 'wb-layout', method: '_initializeComponent', line: 175 });
             this.dispatchEvent(new CustomEvent('wb-layout-ready', {
-                detail: { component: this }
+                detail: { component: this, layout: this._state.currentLayout }
             }));
         }
 
-        getTemplate() {
+        _cacheElements() {
+            // Cache all DOM elements once during initialization
+            this._elements = {
+                control: this.querySelector('.wb-layout-control'),
+                select: this.querySelector('#wb-layout-select'),
+                body: document.body,
+                documentElement: document.documentElement,
+                nav: null // Will be found dynamically
+            };
+        }
+
+        _getControlTemplate() {
             return `
                 <div class="wb-layout-control" style="display: none;">
                     <label for="wb-layout-select">Layout:</label>
                     <select id="wb-layout-select">
-                        ${Object.entries(this.layoutConfigs).map(([key, config]) => 
+                        ${Object.entries(this._layoutConfigs).map(([key, config]) => 
                             `<option value="${key}">${config.name}</option>`
                         ).join('')}
                     </select>
@@ -100,85 +189,84 @@
             `;
         }
 
-        setupEventListeners() {
-            const select = this.querySelector('#wb-layout-select');
-            if (select) {
-                select.addEventListener('change', (e) => {
-                    this.setLayout(e.target.value);
+        _setupInternalEventHandlers() {
+            // Internal control handling
+            if (this._elements.select) {
+                this._elements.select.addEventListener('change', (e) => {
+                    this._state.currentLayout = e.target.value; // Triggers reactive update
                 });
             }
 
-            // Listen for external layout change requests
+            // Listen for external layout change requests (for backward compatibility)
             document.addEventListener('wb-layout-change', (e) => {
-                if (e.detail.layout) {
-                    this.setLayout(e.detail.layout);
+                if (e.detail.layout && e.detail.layout !== this._state.currentLayout) {
+                    this._state.currentLayout = e.detail.layout; // Triggers reactive update
                 }
             });
+
+            // Listen for reactive wb:layout-changed events from control panel
+            document.addEventListener('wb:layout-changed', (e) => {
+                const { layout, source } = e.detail;
+                WBEventLog.logInfo(`Received layout change request: ${layout}`, {
+                    component: 'wb-layout',
+                    method: '_setupInternalEventHandlers',
+                    source: source,
+                    layout: layout,
+                    line: 220
+                });
+                
+                if (layout && layout !== this._state.currentLayout) {
+                    this._state.currentLayout = layout; // Triggers reactive update
+                }
+            });
+
+            // Responsive breakpoint detection
+            if (window.matchMedia) {
+                const mobileQuery = window.matchMedia('(max-width: 768px)');
+                const tabletQuery = window.matchMedia('(max-width: 1024px)');
+                
+                const updateResponsiveMode = () => {
+                    if (mobileQuery.matches) {
+                        this._state.responsiveMode = 'mobile';
+                    } else if (tabletQuery.matches) {
+                        this._state.responsiveMode = 'tablet';
+                    } else {
+                        this._state.responsiveMode = 'desktop';
+                    }
+                };
+                
+                mobileQuery.addListener(updateResponsiveMode);
+                tabletQuery.addListener(updateResponsiveMode);
+                updateResponsiveMode(); // Initial check
+            }
         }
 
-        setLayout(layoutType) {
-            if (!this.layoutConfigs[layoutType]) {
-                console.warn(`🎨 WB Layout: Unknown layout type '${layoutType}'`);
-                return;
-            }
-
-            const config = this.layoutConfigs[layoutType];
-            const oldLayout = this.currentLayout;
-            this.currentLayout = layoutType;
-
-            // Update body attributes and classes
-            this.applyLayoutToPage(config, oldLayout);
-
-            // Update navigation component if present
-            this.updateNavigationComponent(config);
-
-            // Update select value if it exists
-            const select = this.querySelector('#wb-layout-select');
-            if (select && select.value !== layoutType) {
-                select.value = layoutType;
-            }
-
-            // Update component attribute
-            this.setAttribute('layout', layoutType);
-
-            // Dispatch layout change event
-            this.dispatchEvent(new CustomEvent('wb-layout-changed', {
-                detail: {
-                    layout: layoutType,
-                    config: config,
-                    previousLayout: oldLayout
-                },
-                bubbles: true
-            }));
-
-            console.log(`🎨 WB Layout: Changed from '${oldLayout}' to '${layoutType}'`);
-        }
-
-        applyLayoutToPage(config, oldLayout) {
-            const body = document.body;
+        // UI UPDATE METHODS (Called automatically by reactive state)
+        _updatePageLayout(config, oldLayout) {
+            const body = this._elements.body;
             
-            // Remove old layout classes
-            if (oldLayout && this.layoutConfigs[oldLayout]) {
-                body.classList.remove(this.layoutConfigs[oldLayout].bodyClass);
+            // Remove old layout class
+            if (oldLayout && this._layoutConfigs[oldLayout]) {
+                body.classList.remove(this._layoutConfigs[oldLayout].bodyClass);
             }
 
             // Add new layout class
             body.classList.add(config.bodyClass);
 
-            // Update data-layout attribute
-            body.setAttribute('data-layout', this.currentLayout);
-
-            // Apply layout-specific CSS custom properties
-            this.applyLayoutStyles(config);
+            // Update data attributes
+            body.setAttribute('data-layout', this._state.currentLayout);
             
-            // Apply layout to this component's structure
-            this.applyLayoutStructure(config);
+            // Apply layout-specific CSS custom properties
+            this._applyLayoutStyles(config);
+            
+            // Apply layout to component structure
+            this._applyComponentStructure(config);
         }
 
-        applyLayoutStyles(config) {
-            const root = document.documentElement;
+        _applyLayoutStyles(config) {
+            const root = this._elements.documentElement;
             
-            switch (this.currentLayout) {
+            switch (this._state.currentLayout) {
                 case 'top-nav':
                     root.style.setProperty('--nav-width', '100%');
                     root.style.setProperty('--nav-height', '60px');
@@ -210,57 +298,51 @@
             }
         }
 
-        applyLayoutStructure(config) {
+        _applyComponentStructure(config) {
             // Apply CSS classes to organize child elements based on layout
-            this.className = `wb-layout wb-layout-${this.currentLayout}`;
+            this.className = `wb-layout wb-layout-${this._state.currentLayout}`;
             
             // Ensure the component displays as flex with proper layout
             this.style.display = 'flex';
             
-            switch (this.currentLayout) {
+            switch (this._state.currentLayout) {
                 case 'top-nav':
                     this.style.flexDirection = 'column';
-                    this.organizeTopNavLayout();
+                    this._organizeTopNavLayout();
                     break;
                 case 'left-nav':
                     this.style.flexDirection = 'row';
-                    this.organizeLeftNavLayout();
+                    this._organizeLeftNavLayout();
                     break;
                 case 'right-nav':
                     this.style.flexDirection = 'row-reverse';
-                    this.organizeRightNavLayout();
+                    this._organizeRightNavLayout();
                     break;
                 case 'ad-layout':
                     this.style.flexDirection = 'column';
-                    this.organizeAdLayout();
+                    this._organizeAdLayout();
                     break;
             }
         }
-        
-        organizeTopNavLayout() {
-            // For top-nav: nav, header, main, footer in column
-            // Remove content column if it exists
-            this.removeContentColumn();
+
+        _organizeTopNavLayout() {
+            this._removeContentColumn();
         }
         
-        organizeLeftNavLayout() {
-            // For left-nav: nav (sidebar) + content column (header, main, footer)
-            this.createContentColumn();
+        _organizeLeftNavLayout() {
+            this._createContentColumn();
         }
         
-        organizeRightNavLayout() {
-            // For right-nav: content column (header, main, footer) + nav (sidebar)
-            this.createContentColumn();
+        _organizeRightNavLayout() {
+            this._createContentColumn();
         }
         
-        organizeAdLayout() {
-            // For ad-layout: nav, header, main, footer, aside in column
-            // Remove content column if it exists
-            this.removeContentColumn();
+        _organizeAdLayout() {
+            this._removeContentColumn();
         }
         
-        createContentColumn() {
-            // Find all non-nav elements (header, main, footer)
+        _createContentColumn() {
+            // Find all non-nav elements
             const nav = this.querySelector('wb-nav');
             const header = this.querySelector('header');
             const main = this.querySelector('main');
@@ -270,7 +352,6 @@
             // Remove existing content column if it exists
             const existingColumn = this.querySelector('.wb-content-column');
             if (existingColumn) {
-                // Move children back to parent before removing
                 while (existingColumn.firstChild) {
                     this.appendChild(existingColumn.firstChild);
                 }
@@ -282,59 +363,54 @@
             contentColumn.className = 'wb-content-column';
             contentColumn.style.cssText = 'display: flex; flex-direction: column; flex: 1; min-height: 100vh; width: 100%;';
             
-            // Move header, main, footer into content column
-            if (header) {
-                contentColumn.appendChild(header);
-            }
-            if (main) {
-                contentColumn.appendChild(main);
-            }
-            if (footer) {
-                contentColumn.appendChild(footer);
-            }
+            // Move elements into content column
+            [header, main, footer].forEach(element => {
+                if (element) {
+                    contentColumn.appendChild(element);
+                }
+            });
             
-            // Insert content column after nav (for left-nav) or before nav (handled by row-reverse for right-nav)
+            // Insert content column appropriately
             if (nav) {
                 this.insertBefore(contentColumn, nav.nextSibling);
             } else {
                 this.appendChild(contentColumn);
             }
             
-            // Add aside if it exists (for ad-layout variations)
+            // Add aside if it exists
             if (aside && !contentColumn.contains(aside)) {
                 this.appendChild(aside);
             }
-            
-            console.log('🎨 WB Layout: Created content column with header, main, footer');
         }
         
-        removeContentColumn() {
+        _removeContentColumn() {
             const contentColumn = this.querySelector('.wb-content-column');
             if (contentColumn) {
-                // Move children back to parent
                 while (contentColumn.firstChild) {
                     this.appendChild(contentColumn.firstChild);
                 }
                 contentColumn.remove();
-                console.log('🎨 WB Layout: Removed content column');
             }
         }
 
-        updateNavigationComponent(config) {
-            const navElement = this.querySelector('wb-nav') || document.querySelector('wb-nav');
+        _updateNavigationComponent(config) {
+            // Find nav element (update cache if needed)
+            this._elements.nav = this.querySelector('wb-nav') || document.querySelector('wb-nav');
+            const navElement = this._elements.nav;
+            
             if (navElement) {
                 // Remove existing layout classes
                 navElement.classList.remove('wb-nav--horizontal', 'wb-nav--vertical', 'wb-nav--left', 'wb-nav--right', 'wb-nav--top');
                 
-                // Set layout attribute and classes based on current layout
-                if (this.currentLayout === 'top-nav' || this.currentLayout === 'ad-layout') {
+                // Set layout attributes and classes based on current layout
+                if (this._state.currentLayout === 'top-nav' || this._state.currentLayout === 'ad-layout') {
                     navElement.setAttribute('layout', 'horizontal');
                     navElement.classList.add('wb-nav--horizontal', 'wb-nav--top');
-                } else if (this.currentLayout === 'left-nav') {
+                } else if (this._state.currentLayout === 'left-nav') {
                     navElement.setAttribute('layout', 'vertical');
                     navElement.setAttribute('position', 'left');
                     navElement.classList.add('wb-nav--vertical', 'wb-nav--left');
-                } else if (this.currentLayout === 'right-nav') {
+                } else if (this._state.currentLayout === 'right-nav') {
                     navElement.setAttribute('layout', 'vertical');
                     navElement.setAttribute('position', 'right');
                     navElement.classList.add('wb-nav--vertical', 'wb-nav--right');
@@ -345,7 +421,7 @@
                     navElement.setAttribute(key, value);
                 });
 
-                // Trigger re-render of nav component if it has the method
+                // Trigger re-render if navigation component supports it
                 if (navElement.render && typeof navElement.render === 'function') {
                     navElement.render();
                 }
@@ -353,78 +429,133 @@
                 // Dispatch event to navigation component
                 navElement.dispatchEvent(new CustomEvent('wb-nav-layout-change', {
                     detail: {
-                        layout: this.currentLayout,
+                        layout: this._state.currentLayout,
                         config: config.navConfig
                     }
                 }));
-                
-                console.log(`🎨 WB Layout: Updated nav component for ${this.currentLayout} layout`);
+            }
+        }
+
+        _updateControlSelect() {
+            if (this._elements.select && this._elements.select.value !== this._state.currentLayout) {
+                this._elements.select.value = this._state.currentLayout;
+            }
+        }
+
+        _updateComponentAttributes() {
+            this.setAttribute('layout', this._state.currentLayout);
+        }
+
+        _detectResponsiveMode() {
+            const width = window.innerWidth;
+            if (width <= 768) {
+                this._state.responsiveMode = 'mobile';
+            } else if (width <= 1024) {
+                this._state.responsiveMode = 'tablet';
+            } else {
+                this._state.responsiveMode = 'desktop';
+            }
+        }
+
+        // EVENT EMISSION
+        _emitStateChange(property, newValue, oldValue) {
+            // Emit specific property change events
+            this.dispatchEvent(new CustomEvent(`wb-layout-${property}-changed`, {
+                detail: { [property]: newValue, previous: oldValue },
+                bubbles: true
+            }));
+
+            // Emit general layout change event (for backward compatibility)
+            if (property === 'currentLayout') {
+                this.dispatchEvent(new CustomEvent('wb-layout-changed', {
+                    detail: {
+                        layout: newValue,
+                        config: this._layoutConfigs[newValue],
+                        previousLayout: oldValue
+                    },
+                    bubbles: true
+                }));
+            }
+        }
+
+        // PUBLIC API (Simplified - reactive state handles the rest)
+        setLayout(layoutType) {
+            if (this._layoutConfigs[layoutType]) {
+                this._state.currentLayout = layoutType; // Triggers automatic updates
+            } else {
+                console.warn(`🎨 WB Layout: Unknown layout type '${layoutType}'`);
             }
         }
 
         getLayout() {
             return {
-                current: this.currentLayout,
-                config: this.layoutConfigs[this.currentLayout],
-                available: Object.keys(this.layoutConfigs)
+                current: this._state.currentLayout,
+                config: this._layoutConfigs[this._state.currentLayout],
+                available: Object.keys(this._layoutConfigs),
+                responsiveMode: this._state.responsiveMode
             };
         }
 
         getAvailableLayouts() {
-            return Object.entries(this.layoutConfigs).map(([key, config]) => ({
+            return Object.entries(this._layoutConfigs).map(([key, config]) => ({
                 value: key,
                 label: config.name,
                 description: config.description
             }));
         }
 
-        // Public API methods
         showControl() {
-            const control = this.querySelector('.wb-layout-control');
-            if (control) {
-                control.style.display = 'block';
-            }
+            this._state.showControls = true; // Triggers automatic update
         }
 
         hideControl() {
-            const control = this.querySelector('.wb-layout-control');
-            if (control) {
-                control.style.display = 'none';
+            this._state.showControls = false; // Triggers automatic update
+        }
+
+        // Responsive API
+        setResponsiveMode(mode) {
+            if (['mobile', 'tablet', 'desktop'].includes(mode)) {
+                this._state.responsiveMode = mode;
             }
+        }
+
+        getResponsiveMode() {
+            return this._state.responsiveMode;
         }
     }
 
     // Define the custom element
     if (!customElements.get('wb-layout')) {
         customElements.define('wb-layout', WBLayout);
-        console.log('🎨 WB Layout component registered');
+        console.log('🎨 WB Layout component registered with reactive architecture');
     }
     
     // Register with WBComponentRegistry if available
     if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
         window.WBComponentRegistry.register('wb-layout', WBLayout, ['wb-event-log'], {
-            version: '1.0.0',
+            version: '2.0.0',
             type: 'layout',
             role: 'structural',
-            description: 'Responsive layout management system with CSS grid and flexbox support',
+            architecture: 'reactive',
+            description: 'Reactive layout management system with internal state management',
             api: {
-                static: ['setLayout'],
-                events: ['layout-changed', 'breakpoint-changed'],
-                attributes: ['data-layout', 'data-responsive', 'data-grid-columns', 'data-gap'],
-                methods: ['setLayout', 'getLayout', 'updateLayout', 'hideControls']
+                static: ['setLayout', 'getLayout'],
+                events: ['layout-changed', 'responsive-mode-changed'],
+                attributes: ['layout', 'auto-apply', 'show-controls'],
+                methods: ['setLayout', 'getLayout', 'showControl', 'hideControl', 'setResponsiveMode']
             },
-            priority: 3 // Layout component depends on logging
+            priority: 3
         });
     }
 
-    // Global API
+    // Global API (Updated for reactive architecture)
     window.WBLayout = {
         setLayout: function(layout) {
             const layoutComponent = document.querySelector('wb-layout');
             if (layoutComponent) {
-                layoutComponent.setLayout(layout);
+                layoutComponent.setLayout(layout); // Component handles all updates automatically
             } else {
-                // Dispatch event for control panel or other listeners
+                // Fallback: dispatch event for components not yet loaded
                 document.dispatchEvent(new CustomEvent('wb-layout-change', {
                     detail: { layout: layout }
                 }));

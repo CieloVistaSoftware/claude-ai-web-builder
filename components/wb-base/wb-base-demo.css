@@ -1,0 +1,27 @@
+body {
+  font-family: var(--font-sans, Arial, sans-serif);
+  background: var(--neutral-900, #18181b);
+  color: var(--neutral-100, #f3f4f6);
+  margin: 0;
+  padding: 2rem;
+}
+
+h1 {
+  color: var(--primary, #38bdf8);
+  margin-bottom: 1rem;
+}
+
+.demo-content {
+  background: var(--neutral-800, #27272a);
+  border-radius: 8px;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+  color: var(--accent, #f472b6);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 1rem;
+}
+
+wb-demo {
+  display: block;
+  margin: 2rem 0;
+}

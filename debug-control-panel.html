@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Control Panel</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #fff; }
+        .log { border: 1px solid #333; padding: 10px; margin: 10px 0; background: #222; }
+        .error { color: #ff6b6b; }
+        .success { color: #51cf66; }
+        .info { color: #74c0fc; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Control Panel Debug</h1>
+    <div id="debug-log"></div>
+    
+    <!-- Add the control panel element -->
+    <wb-control-panel></wb-control-panel>
+    
+    <script>
+        const log = document.getElementById('debug-log');
+        
+        function addLog(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            log.appendChild(div);
+            console.log(message);
+        }
+        
+        addLog('🚀 Debug script started');
+        
+        // Check if control panel element exists
+        const controlPanel = document.querySelector('wb-control-panel');
+        addLog(`Control panel element: ${controlPanel ? 'EXISTS' : 'NOT FOUND'}`, controlPanel ? 'success' : 'error');
+        
+        // Check if custom element is defined
+        addLog(`wb-control-panel defined: ${customElements.get('wb-control-panel') ? 'YES' : 'NO'}`, customElements.get('wb-control-panel') ? 'success' : 'error');
+        
+        // Monitor for when it gets defined
+        customElements.whenDefined('wb-control-panel').then(() => {
+            addLog('✅ wb-control-panel custom element defined!', 'success');
+            
+            // Check if it's connected
+            setTimeout(() => {
+                const cp = document.querySelector('wb-control-panel');
+                addLog(`Control panel connected: ${cp && cp.isConnected ? 'YES' : 'NO'}`, cp && cp.isConnected ? 'success' : 'error');
+                
+                if (cp) {
+                    addLog(`Control panel innerHTML length: ${cp.innerHTML.length}`);
+                    addLog(`Control panel initialized: ${cp.initialized || 'NO'}`);
+                }
+            }, 100);
+        });
+        
+        // Load index.js to test component loading
+        const script = document.createElement('script');
+        script.src = 'index.js';
+        script.onload = () => addLog('✅ index.js loaded successfully', 'success');
+        script.onerror = () => addLog('❌ Failed to load index.js', 'error');
+        document.head.appendChild(script);
+        
+        // Monitor for errors
+        window.addEventListener('error', (e) => {
+            addLog(`❌ JavaScript Error: ${e.message} at ${e.filename}:${e.lineno}`, 'error');
+        });
+        
+        // Monitor for unhandled promise rejections
+        window.addEventListener('unhandledrejection', (e) => {
+            addLog(`❌ Unhandled Promise Rejection: ${e.reason}`, 'error');
+        });
+        
+        // Check in 5 seconds if everything loaded
+        setTimeout(() => {
+            addLog('--- FINAL STATUS CHECK ---');
+            addLog(`Custom element defined: ${customElements.get('wb-control-panel') ? 'YES' : 'NO'}`);
+            addLog(`WBComponentUtils available: ${window.WBComponentUtils ? 'YES' : 'NO'}`);
+            addLog(`WBEventLog available: ${window.WBEventLog ? 'YES' : 'NO'}`);
+            addLog(`Control panel visible: ${controlPanel && controlPanel.offsetHeight > 0 ? 'YES' : 'NO'}`);
+        }, 5000);
+    </script>
+</body>
+</html>

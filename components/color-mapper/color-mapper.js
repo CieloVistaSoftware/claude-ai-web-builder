@@ -28,13 +28,31 @@
                 originalValues[varName] = computedStyle[varName];
             }
         });
-        console.log('Original color values stored', originalValues);
+        if (window.WBEventLog) {
+            WBEventLog.logSuccess('Original color values stored', { 
+                component: 'color-mapper', 
+                method: 'storeOriginalValues', 
+                line: 31, 
+                valuesCount: Object.keys(originalValues).length 
+            });
+        } else {
+            console.log('Original color values stored', originalValues);
+        }
     }
     // Function to map color variables from our theme system to the site's variables
     function mapThemeColors() {
         // Get the current theme from the data-theme attribute
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        console.log(`Mapping colors for theme: ${currentTheme}`);
+        if (window.WBEventLog) {
+            WBEventLog.logInfo('Mapping colors for theme', { 
+                component: 'color-mapper', 
+                method: 'mapThemeColors', 
+                line: 37, 
+                theme: currentTheme 
+            });
+        } else {
+            console.log(`Mapping colors for theme: ${currentTheme}`);
+        }
         // Store original values on first run
         if (!initialized) {
             storeOriginalValues();
@@ -409,12 +427,30 @@
             }
             // Add the new style to the head
             document.head.appendChild(style);
-            console.log('Color mapping applied for theme:', currentTheme);
+            if (window.WBEventLog) {
+                WBEventLog.logSuccess('Color mapping applied', { 
+                    component: 'color-mapper', 
+                    method: 'mapThemeColors', 
+                    line: 412, 
+                    theme: currentTheme 
+                });
+            } else {
+                console.log('Color mapping applied for theme:', currentTheme);
+            }
             // Apply as direct CSS variables too (for legacy code that doesn't use CSS variables)
             applyDirectCSSVariables(currentTheme);
         }
         else {
-            console.error(`Theme not found in mappings: ${currentTheme}`);
+            if (window.WBEventLog) {
+                WBEventLog.logError('Theme not found in mappings', { 
+                    component: 'color-mapper', 
+                    method: 'mapThemeColors', 
+                    line: 417, 
+                    theme: currentTheme 
+                });
+            } else {
+                console.error(`Theme not found in mappings: ${currentTheme}`);
+            }
         }
     }
     // Function to observe theme changes
@@ -433,10 +469,27 @@
         observer.observe(document.body, { attributes: true });
         // Also listen for the theme change custom event
         document.addEventListener('wb-theme-changed', (event) => {
-            console.log('Theme change event detected:', event.detail.theme);
+            if (window.WBEventLog) {
+                WBEventLog.logInfo('Theme change event detected', { 
+                    component: 'color-mapper', 
+                    method: 'observeThemeChanges', 
+                    line: 436, 
+                    theme: event.detail.theme 
+                });
+            } else {
+                console.log('Theme change event detected:', event.detail.theme);
+            }
             mapThemeColors();
         });
-        console.log('Theme change observer initialized');
+        if (window.WBEventLog) {
+            WBEventLog.logSuccess('Theme change observer initialized', { 
+                component: 'color-mapper', 
+                method: 'observeThemeChanges', 
+                line: 439 
+            });
+        } else {
+            console.log('Theme change observer initialized');
+        }
     }
     // Apply CSS variables directly to documentElement to ensure they take effect
     // This helps with legacy code that might be reading variables directly
@@ -509,7 +562,16 @@
                 });
             });
         }
-        console.log(`Direct CSS variables applied for theme: ${theme}`);
+        if (window.WBEventLog) {
+            WBEventLog.logSuccess('Direct CSS variables applied', { 
+                component: 'color-mapper', 
+                method: 'applyDirectCSSVariables', 
+                line: 512, 
+                theme: theme 
+            });
+        } else {
+            console.log(`Direct CSS variables applied for theme: ${theme}`);
+        }
     }
     // Debug function to log all color-related CSS variables
     function debugColorVariables() {
@@ -524,22 +586,76 @@
                 allProps.push({ prop, value });
             }
         }
-        console.log('===== COLOR VARIABLES DETECTED =====');
+        if (window.WBEventLog) {
+            WBEventLog.logDebug('Color variables detected', { 
+                component: 'color-mapper', 
+                method: 'detectColorVariables', 
+                line: 527, 
+                count: allProps.length 
+            });
+        } else {
+            console.log('===== COLOR VARIABLES DETECTED =====');
+        }
         allProps.forEach(({ prop, value }) => {
-            console.log(`${prop}: ${value}`);
+            if (window.WBEventLog) {
+                WBEventLog.logDebug('Color variable', { 
+                    component: 'color-mapper', 
+                    method: 'detectColorVariables', 
+                    line: 529, 
+                    property: prop, 
+                    value: value 
+                });
+            } else {
+                console.log(`${prop}: ${value}`);
+            }
         });
-        console.log('===================================');
+        if (window.WBEventLog) {
+            WBEventLog.logDebug('Color variables detection complete', { 
+                component: 'color-mapper', 
+                method: 'detectColorVariables', 
+                line: 531 
+            });
+        } else {
+            console.log('===================================');
+        }
         return allProps;
     }
     // Debug function to show mappings for current theme
     function debugCurrentThemeMappings() {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const themeMapping = mappings[currentTheme];
-        console.log(`===== THEME MAPPINGS FOR '${currentTheme}' =====`);
-        for (const [siteVar, ourVar] of Object.entries(themeMapping)) {
-            console.log(`${siteVar} → ${ourVar}`);
+        if (window.WBEventLog) {
+            WBEventLog.logDebug('Debug theme mappings', { 
+                component: 'color-mapper', 
+                method: 'debugCurrentThemeMappings', 
+                line: 627, 
+                theme: currentTheme 
+            });
+        } else {
+            console.log(`===== THEME MAPPINGS FOR '${currentTheme}' =====`);
         }
-        console.log('==========================================');
+        for (const [siteVar, ourVar] of Object.entries(themeMapping)) {
+            if (window.WBEventLog) {
+                WBEventLog.logDebug('Theme mapping', { 
+                    component: 'color-mapper', 
+                    method: 'debugCurrentThemeMappings', 
+                    line: 628, 
+                    siteVar: siteVar, 
+                    ourVar: ourVar 
+                });
+            } else {
+                console.log(`${siteVar} → ${ourVar}`);
+            }
+        }
+        if (window.WBEventLog) {
+            WBEventLog.logDebug('Theme mappings debug complete', { 
+                component: 'color-mapper', 
+                method: 'debugCurrentThemeMappings', 
+                line: 631 
+            });
+        } else {
+            console.log('==========================================');
+        }
         return themeMapping;
     }
     // Function to check elements and diagnose color issues
@@ -571,9 +687,18 @@
                 });
             }
         });
-        console.log('===== COLOR DIAGNOSIS =====');
-        console.log(results);
-        console.log('==========================');
+        if (window.WBEventLog) {
+            WBEventLog.logDebug('Color diagnosis results', { 
+                component: 'color-mapper', 
+                method: 'diagnoseColorIssues', 
+                line: 663, 
+                results: results 
+            });
+        } else {
+            console.log('===== COLOR DIAGNOSIS =====');
+            console.log(results);
+            console.log('==========================');
+        }
         return results;
     }
     // Add global debugging functions
@@ -583,13 +708,29 @@
     window.forceWbThemeUpdate = () => mapThemeColors();
     // Initialize on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('Color mapper initializing...');
+        if (window.WBEventLog) {
+            WBEventLog.logInfo('Color mapper initializing...', { 
+                component: 'color-mapper', 
+                method: 'DOMContentLoaded', 
+                line: 675 
+            });
+        } else {
+            console.log('Color mapper initializing...');
+        }
         mapThemeColors();
         observeThemeChanges();
     });
     // Also run immediately if the document is already loaded
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        console.log('Document already loaded, initializing color mapper now');
+        if (window.WBEventLog) {
+            WBEventLog.logInfo('Document already loaded, initializing color mapper now', { 
+                component: 'color-mapper', 
+                method: 'immediateInit', 
+                line: 681 
+            });
+        } else {
+            console.log('Document already loaded, initializing color mapper now');
+        }
         setTimeout(() => {
             mapThemeColors();
             observeThemeChanges();
