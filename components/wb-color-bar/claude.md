@@ -1,4 +1,12 @@
 # ./components/wb-color-bar/claude.md - WB-Color-Bar Component Specification
+## Compliance Note
+This component is **compliant** with the project rules as of October 2025:
+- Uses reactive coding only (no imperative code)
+- Follows all requirements in [docs/claude-md-compliance-table.md](../../docs/claude-md-compliance-table.md)
+
+**Component/Directory:** `components/wb-color-bar/`
+
+---
 
 ## 🕒 RECENT ACTIVITY (October 6, 2025 - Most Recent First)
 add in event log, this demo is looping

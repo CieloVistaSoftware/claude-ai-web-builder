@@ -586,7 +586,38 @@
     <div class="container">
         <h1>🚀 Website Builder System Architecture</h1>
         <div class="version-badge">
-            <span>Version 2.0</span>
+            <span>Version 3.0 - Reactive Compliant</span>
+        </div>
+        
+        <!-- Reactive Architecture Overview -->
+        <div class="enhanced-features" style="margin-bottom: 30px;">
+            <h2>🔄 Reactive Architecture Overview</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <strong>🎯 Proxy-Based State Management</strong>
+                    All components use reactive Proxy objects that automatically trigger renders when state changes
+                </div>
+                <div class="feature-item">
+                    <strong>⚡ Event Delegation</strong>
+                    Single event handlers manage all user interactions via event delegation patterns
+                </div>
+                <div class="feature-item">
+                    <strong>🔄 Lifecycle Management</strong>
+                    Proper connectedCallback/disconnectedCallback with automatic cleanup
+                </div>
+                <div class="feature-item">
+                    <strong>📡 Reactive Attributes</strong>
+                    Component attributes automatically sync with internal state using observedAttributes
+                </div>
+                <div class="feature-item">
+                    <strong>🧩 Web Component Standards</strong>
+                    All components extend HTMLElement with proper shadow DOM encapsulation
+                </div>
+                <div class="feature-item">
+                    <strong>🚫 No Imperative Code</strong>
+                    Zero direct DOM manipulation - all updates flow through reactive state changes
+                </div>
+            </div>
         </div>
         
         <!-- Control Panel -->
@@ -679,13 +710,14 @@
                         <div class="component-status"></div>
                     </div>
                     <div class="component-files">
-                        <span class="file-tag">color-mapper.js</span>
+                        <span class="file-tag">wb-color-mapper.js</span>
+                        <span class="file-tag">wb-color-transformer.js</span>
                     </div>
                     <ul class="component-features">
-                        <li>Legacy variable mapping</li>
-                        <li>Theme bridging</li>
-                        <li>Color theming engine</li>
-                        <li>Variable compatibility</li>
+                        <li>Reactive color mapping</li>
+                        <li>WordPress theme transformation</li>
+                        <li>Proxy-based state management</li>
+                        <li>Web component architecture</li>
                     </ul>
                 </div>
             </div>

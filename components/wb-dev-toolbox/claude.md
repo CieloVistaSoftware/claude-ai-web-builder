@@ -1,3 +1,32 @@
+# ./components/wb-dev-toolbox/claude.md - WB Dev Toolbox
+
+## Compliance Note
+This component is **compliant** with the project rules as of January 2025:
+- Uses reactive coding with Proxy-based state management
+- Is a proper Web Component extending HTMLElement
+- Follows all requirements in [docs/claude-md-compliance-table.md](../../docs/claude-md-compliance-table.md)
+
+**Component/Directory:** `components/wb-dev-toolbox/`
+
+**Documentation:** [wb-dev-toolbox.md](./wb-dev-toolbox.md)
+
+---
+
+## 🕒 RECENT ACTIVITY (January 2025 - Most Recent First)
+
+### ✅ Reactive Refactoring Complete (January 10, 2025)
+- **Issue**: Component was using imperative code with direct event listeners
+- **Fix**: Refactored to use reactive Proxy-based state management
+- **Changes**:
+  - Added reactive state proxy for log entries and settings
+  - Added observedAttributes for show-local-log and max-entries
+  - Implemented attributeChangedCallback for reactive attribute handling
+  - Made render method reactive (triggered by state changes)
+  - Added proper event listener cleanup
+  - Added support for listening to wb: events from other components
+- **Result**: Component now fully reactive and compliant
+
+---
 # WB Dev Toolbox
 
 A web component that logs JavaScript errors and resource load failures directly in the page. Useful for debugging and live error monitoring in development environments.

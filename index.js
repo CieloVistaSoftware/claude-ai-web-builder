@@ -10,12 +10,29 @@
     
     console.log('🚀 WB Website Builder: Starting dynamic component loader...');
     
+    // Detect base path relative to current location
+    function getBasePath() {
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('/components/')) {
+            // If we're in a component subdirectory, go back to root
+            const pathParts = currentPath.split('/');
+            const componentsIndex = pathParts.lastIndexOf('components');
+            if (componentsIndex > 0) {
+                return '../'.repeat(pathParts.length - componentsIndex - 1);
+            }
+        }
+        return './';
+    }
+    
+    const basePath = getBasePath();
+    console.log('🗂️ Base path detected:', basePath);
+    
     // Configuration
     const config = {
-        utilsPath: 'utils/wb',
-        componentsPath: 'components',
-        stylesPath: 'styles',
-        manifestPath: 'components/manifest.json'
+        utilsPath: basePath + 'utils/wb',
+        componentsPath: basePath + 'components',
+        stylesPath: basePath + 'styles',
+        manifestPath: basePath + 'components/manifest.json'
     };
     
     // Load scripts sequentially
@@ -54,10 +71,10 @@
     // Fallback: Use default component list if no manifest
     function getFallbackComponents() {
         return {
-            infrastructure: ['wb-safe-logger.js', 'wb-component-utils.js'],
+            infrastructure: ['wb-component-utils.js'],
             styles: ['main.js'],
             dependencies: ['wb-toggle', 'wb-select', 'wb-color-bar', 'wb-color-bars'],
-            components: ['wb-event-log', 'wb-control-panel']
+            components: ['wb-event-log', 'wb-control-panel', 'wb-demo', 'wb-layout', 'wb-nav', 'md-to-html']
         };
     }
     

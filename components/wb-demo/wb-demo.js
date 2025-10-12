@@ -17,6 +17,7 @@ customElements.define('wb-demo-output', WBDemoOutput);
 class WBDemo extends HTMLElement {
     constructor() {
         super();
+        console.log('🎯 WB Demo: Constructor called');
         this.attachShadow({ mode: 'open' });
 
         // Event storage for saving
@@ -28,7 +29,8 @@ class WBDemo extends HTMLElement {
         // Inject both external and internal CSS for subcomponents into Shadow DOM
         const linkElem = document.createElement('link');
         linkElem.setAttribute('rel', 'stylesheet');
-        linkElem.setAttribute('href', new URL('./wb-demo.css', import.meta.url).href);
+        // Use simple relative path that works from component subdirectories
+        linkElem.setAttribute('href', '../wb-demo/wb-demo.css');
         const styleElem = document.createElement('style');
         styleElem.textContent = `
             wb-example, wb-demo-section, wb-demo-grid, wb-demo-item, wb-demo-output {
@@ -167,13 +169,14 @@ class WBDemo extends HTMLElement {
             </div>
         `;
         
-    this.setupTabSwitching();
+        console.log('🎯 WB Demo: Constructor completed, shadow DOM created');
+    }
 
-    // Dynamically load and render markdown documentation if attribute is present
-    this._renderMarkdownDocIfNeeded();
     async _renderMarkdownDocIfNeeded() {
         const mdUrl = this.getAttribute('markdown');
+        console.log('🎯 WB Demo: Checking markdown attribute:', mdUrl);
         if (!mdUrl) return;
+        
         // Find the documentation slot element
         let docSlot = null;
         // Try to find a direct child with slot="documentation"
@@ -183,6 +186,7 @@ class WBDemo extends HTMLElement {
                 break;
             }
         }
+        console.log('🎯 WB Demo: Found documentation slot:', !!docSlot);
         if (!docSlot) return;
         // Use WBBaseComponent.renderMarkdownDoc if available, else fallback
         if (window.WBBaseComponent && typeof window.WBBaseComponent.renderMarkdownDoc === 'function') {
@@ -212,7 +216,6 @@ class WBDemo extends HTMLElement {
                 docSlot.innerHTML = '<p>Error loading documentation: ' + error.message + '</p>';
             }
         }
-    }
     }
     
     setupTabSwitching() {
@@ -450,13 +453,20 @@ class WBDemo extends HTMLElement {
     }
     
     connectedCallback() {
-        this.logEvent('Demo component initialized');
+        console.log('🎯 WB Demo: connectedCallback called');
+        
+        // Set up tab switching functionality
+        this.setupTabSwitching();
+        
         // Render markdown doc again in case slot is added after construction
         this._renderMarkdownDocIfNeeded();
+        
         // Auto-wrap examples content with wb-resize for interactive demos
         setTimeout(() => {
             this.wrapExamplesWithResize();
         }, 100);
+        
+        console.log('🎯 WB Demo: connectedCallback completed');
     }
 
     wrapExamplesWithResize() {
@@ -502,4 +512,9 @@ class WBDemo extends HTMLElement {
 }
 
 // Register the component
-customElements.define('wb-demo', WBDemo);
+if (!customElements.get('wb-demo')) {
+    customElements.define('wb-demo', WBDemo);
+    console.log('🎯 WB Demo: Component registered successfully');
+} else {
+    console.log('⚠️ WB Demo: Component already registered');
+}

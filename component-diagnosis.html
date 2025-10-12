@@ -31,20 +31,20 @@
     <!-- WB Event Log - Shows all diagnostic messages -->
     <wb-event-log></wb-event-log>
 
-    <!-- Load main.js which includes WBSafeLogger -->
+    <!-- Load main.js which includes WBEventLog utilities -->
     <script src="styles/main.js"></script>
     
     <!-- Load wb-event-log component -->
     <script src="components/wb-event-log/wb-event-log.js"></script>
     
     <script>
-        // Wait for WBSafeLogger to be ready
-        function waitForSafeLogger() {
+        // Wait for WBEventLog to be ready
+        function waitForEventLog() {
             return new Promise(resolve => {
-                if (window.WBSafeLogger) {
+                if (window.WBEventLog || document.querySelector('wb-event-log')) {
                     resolve();
                 } else {
-                    setTimeout(() => waitForSafeLogger().then(resolve), 50);
+                    setTimeout(() => waitForEventLog().then(resolve), 50);
                 }
             });
         }
@@ -55,11 +55,15 @@
                 const script = document.createElement('script');
                 script.src = src;
                 script.onload = () => {
-                    WBSafeLogger.success(`Script loaded: ${src}`, { component: 'diagnosis', src });
+                    if (window.WBEventLog) {
+                        WBEventLog.logSuccess(`Script loaded: ${src}`, { component: 'diagnosis', src });
+                    }
                     resolve();
                 };
                 script.onerror = () => {
-                    WBSafeLogger.error(`Script failed: ${src}`, { component: 'diagnosis', src });
+                    if (window.WBEventLog) {
+                        WBEventLog.logError(`Script failed: ${src}`, { component: 'diagnosis', src });
+                    }
                     reject(new Error(`Failed to load ${src}`));
                 };
                 document.head.appendChild(script);
@@ -69,7 +73,7 @@
         async function diagnoseComponents() {
             await waitForSafeLogger();
             
-            WBSafeLogger.info('Starting component diagnosis...', { component: 'diagnosis' });
+            document.dispatchEvent(new CustomEvent('wb:info', { detail: { message: 'Starting component diagnosis...', component: 'diagnosis' } }));
 
             // Wait for wb-event-log to be ready
             await new Promise(resolve => {
@@ -79,11 +83,11 @@
                 };
                 check();
             });
-            WBSafeLogger.success('wb-event-log ready', { component: 'diagnosis' });
+            document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'wb-event-log ready', component: 'diagnosis' } }));
 
             // Wait for main.js to be ready
             if (!window.WBMainJS?.ready) {
-                WBSafeLogger.warning('Waiting for WBMainJS...', { component: 'diagnosis' });
+                document.dispatchEvent(new CustomEvent('wb:warning', { detail: { message: 'Waiting for WBMainJS...', component: 'diagnosis' } }));
                 await new Promise(resolve => {
                     const check = () => {
                         if (window.WBMainJS?.ready) resolve();
@@ -92,20 +96,20 @@
                     check();
                 });
             }
-            WBSafeLogger.success('WBMainJS ready', { component: 'diagnosis' });
+            document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'WBMainJS ready', component: 'diagnosis' } }));
 
             // Test 1: WBComponentUtils (already loaded by main.js)
             if (window.WBComponentUtils) {
-                WBSafeLogger.success('WBComponentUtils available', { component: 'diagnosis' });
+                document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'WBComponentUtils available', component: 'diagnosis' } }));
             } else {
-                WBSafeLogger.warning('WBComponentUtils not available', { component: 'diagnosis' });
+                document.dispatchEvent(new CustomEvent('wb:warning', { detail: { message: 'WBComponentUtils not available', component: 'diagnosis' } }));
             }
 
             // Test 2: WBComponentRegistry (already loaded by main.js)
             if (window.WBComponentRegistry) {
-                WBSafeLogger.success('WBComponentRegistry available', { component: 'diagnosis' });
+                document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'WBComponentRegistry available', component: 'diagnosis' } }));
             } else {
-                WBSafeLogger.warning('WBComponentRegistry not available', { component: 'diagnosis' });
+                document.dispatchEvent(new CustomEvent('wb:warning', { detail: { message: 'WBComponentRegistry not available', component: 'diagnosis' } }));
             }
 
             // Test 3: wb-color-bar
@@ -114,12 +118,12 @@
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
                 if (customElements.get('wb-color-bar')) {
-                    WBSafeLogger.success('wb-color-bar registered', { component: 'diagnosis' });
+                    document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'wb-color-bar registered', component: 'diagnosis' } }));
                 } else {
-                    WBSafeLogger.error('wb-color-bar not registered', { component: 'diagnosis' });
+                    document.dispatchEvent(new CustomEvent('wb:error', { detail: { message: 'wb-color-bar not registered', component: 'diagnosis' } }));
                 }
             } catch (error) {
-                WBSafeLogger.error('wb-color-bar failed', { component: 'diagnosis', error: error.message });
+                document.dispatchEvent(new CustomEvent('wb:error', { detail: { message: 'wb-color-bar failed', component: 'diagnosis', error: error.message } }));
             }
 
             // Test 4: wb-color-bars
@@ -128,12 +132,12 @@
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
                 if (customElements.get('wb-color-bars')) {
-                    WBSafeLogger.success('wb-color-bars registered', { component: 'diagnosis' });
+                    document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'wb-color-bars registered', component: 'diagnosis' } }));
                 } else {
-                    WBSafeLogger.error('wb-color-bars not registered', { component: 'diagnosis' });
+                    document.dispatchEvent(new CustomEvent('wb:error', { detail: { message: 'wb-color-bars not registered', component: 'diagnosis' } }));
                 }
             } catch (error) {
-                WBSafeLogger.error('wb-color-bars failed', { component: 'diagnosis', error: error.message });
+                document.dispatchEvent(new CustomEvent('wb:error', { detail: { message: 'wb-color-bars failed', component: 'diagnosis', error: error.message } }));
             }
 
             // Test 5: wb-nav
@@ -142,12 +146,12 @@
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
                 if (customElements.get('wb-nav')) {
-                    WBSafeLogger.success('wb-nav registered', { component: 'diagnosis' });
+                    document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'wb-nav registered', component: 'diagnosis' } }));
                 } else {
-                    WBSafeLogger.error('wb-nav not registered', { component: 'diagnosis' });
+                    document.dispatchEvent(new CustomEvent('wb:error', { detail: { message: 'wb-nav not registered', component: 'diagnosis' } }));
                 }
             } catch (error) {
-                WBSafeLogger.error('wb-nav failed', { component: 'diagnosis', error: error.message });
+                document.dispatchEvent(new CustomEvent('wb:error', { detail: { message: 'wb-nav failed', component: 'diagnosis', error: error.message } }));
             }
 
             // Test 6: wb-control-panel
@@ -156,37 +160,39 @@
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
                 if (customElements.get('wb-control-panel')) {
-                    WBSafeLogger.success('wb-control-panel registered', { component: 'diagnosis' });
+                    document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'wb-control-panel registered', component: 'diagnosis' } }));
                 } else {
-                    WBSafeLogger.error('wb-control-panel not registered', { component: 'diagnosis' });
+                    document.dispatchEvent(new CustomEvent('wb:error', { detail: { message: 'wb-control-panel not registered', component: 'diagnosis' } }));
                 }
             } catch (error) {
-                WBSafeLogger.error('wb-control-panel failed', { component: 'diagnosis', error: error.message });
+                document.dispatchEvent(new CustomEvent('wb:error', { detail: { message: 'wb-control-panel failed', component: 'diagnosis', error: error.message } }));
             }
 
-            WBSafeLogger.success('Diagnosis complete!', { component: 'diagnosis' });
+            document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'Diagnosis complete!', component: 'diagnosis' } }));
         }
 
         // Capture global errors
         window.addEventListener('error', (event) => {
-            if (window.WBSafeLogger) {
-                WBSafeLogger.error(`Global error: ${event.message}`, { 
+            document.dispatchEvent(new CustomEvent('wb:error', { 
+                detail: { 
+                    message: `Global error: ${event.message}`,
                     component: 'diagnosis',
                     filename: event.filename,
                     lineno: event.lineno,
                     error: event.error?.message
-                });
-            }
+                }
+            }));
             event.preventDefault();
         });
 
         window.addEventListener('unhandledrejection', (event) => {
-            if (window.WBSafeLogger) {
-                WBSafeLogger.error(`Unhandled rejection: ${event.reason}`, { 
+            document.dispatchEvent(new CustomEvent('wb:error', { 
+                detail: { 
+                    message: `Unhandled rejection: ${event.reason}`,
                     component: 'diagnosis',
                     reason: event.reason 
-                });
-            }
+                }
+            }));
             event.preventDefault();
         });
 
@@ -194,22 +200,24 @@
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
                 diagnoseComponents().catch(error => {
-                    if (window.WBSafeLogger) {
-                        WBSafeLogger.error(`Diagnosis crashed: ${error.message}`, { 
+                    document.dispatchEvent(new CustomEvent('wb:error', { 
+                        detail: { 
+                            message: `Diagnosis crashed: ${error.message}`,
                             component: 'diagnosis',
                             error: error.message 
-                        });
-                    }
+                        }
+                    }));
                 });
             });
         } else {
             diagnoseComponents().catch(error => {
-                if (window.WBSafeLogger) {
-                    WBSafeLogger.error(`Diagnosis crashed: ${error.message}`, { 
+                document.dispatchEvent(new CustomEvent('wb:error', { 
+                    detail: { 
+                        message: `Diagnosis crashed: ${error.message}`,
                         component: 'diagnosis',
                         error: error.message 
-                    });
-                }
+                    }
+                }));
             });
         }
     </script>

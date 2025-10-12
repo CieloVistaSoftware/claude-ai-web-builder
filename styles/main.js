@@ -15,12 +15,12 @@
  * <script src="wb-component-demo.js"></script>
  */
 
-// NOTE: WBSafeLogger and WBComponentUtils are now loaded by index.js
+// NOTE: WBEventLog and WBComponentUtils are now loaded by index.js
 // This file is kept for compatibility but doesn't duplicate those loads
 
 // Signal that main.js has loaded
-if (window.WBSafeLogger) {
-    WBSafeLogger.success('WB Main JS: Core utilities loaded', { component: 'main.js', line: 22 });
+if (window.WBEventLog) {
+    WBEventLog.logSuccess('WB Main JS: Core utilities loaded', { component: 'main.js', line: 22 });
 }
 
 // Dispatch event to signal utilities are ready

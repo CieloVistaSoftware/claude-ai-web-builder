@@ -6,43 +6,39 @@
 
 /**
  * ControlPanel Web Component
- * A draggable, collapsible control panel for the website builder
- * @class ControlPanel
- * @extends HTMLElement
- */
-class ControlPanel extends HTMLElement {
-  private isDragging: boolean = false;
-  private startX: number = 0;
-  private startY: number = 0;
-  private startLeft: number = 0;
-  private startTop: number = 0;
-  private isMinimized: boolean = false;
 
-  /**
-   * Constructor for the ControlPanel component
-   * Creates a shadow DOM with open mode for encapsulation
-   */
+// Minimal reactive store for state
+type Listener<T> = (value: T) => void;
+function createSignal<T>(initial: T): [() => T, (v: T) => void, (fn: Listener<T>) => void] {
+  let value = initial;
+  const listeners: Listener<T>[] = [];
+  const get = () => value;
+  const set = (v: T) => {
+    value = v;
+    listeners.forEach(fn => fn(value));
+  };
+  const subscribe = (fn: Listener<T>) => { listeners.push(fn); };
+  return [get, set, subscribe];
+}
+
+class ControlPanel extends HTMLElement {
+  private minimized = false;
+  private [getMinimized, setMinimized, onMinimized] = createSignal(false);
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    // Subscribe to state changes and re-render
+    onMinimized(() => this.render());
   }
 
-  /**
-   * Lifecycle callback when the component is added to the DOM
-   * Renders the component and initializes event handlers
-   */
-  connectedCallback(): void {
+  connectedCallback() {
     this.render();
-    this.initEvents();
   }
 
-  /**
-   * Renders the component's HTML and CSS into the shadow DOM
-   * Creates the structure for the control panel with header and content area
-   */
-  render(): void {
+  render() {
     if (!this.shadowRoot) return;
-    
+    const isMin = this.getMinimized();
     this.shadowRoot.innerHTML = `
       <style>
         :host {
@@ -99,15 +95,16 @@ class ControlPanel extends HTMLElement {
           max-height: calc(80vh - 80px);
           overflow-y: auto;
           box-sizing: border-box;
+          display: ${isMin ? 'none' : 'block'};
         }
         ::slotted(*) {
           width: 100%;
         }
       </style>
-      <div class="control-panel-header" id="drag-handle">
+      <div class="control-panel-header">
         <h3><slot name="title">Website Builder</slot></h3>
         <div class="control-panel-actions">
-          <button id="minimize-btn" class="control-btn" title="Minimize Panel">⊟</button>
+          <button class="control-btn" title="${isMin ? 'Maximize Panel' : 'Minimize Panel'}" onclick="this.getRootNode().host.toggleMinimized()">${isMin ? '&#8854;' : '&#8855;'}</button>
         </div>
       </div>
       <div class="control-panel-body">
@@ -116,117 +113,27 @@ class ControlPanel extends HTMLElement {
     `;
   }
 
-  /**
-   * Initializes all event handlers for the control panel
-   * Sets up drag functionality and minimize button behavior
-   */
-  initEvents(): void {
-    if (!this.shadowRoot) return;
-    
-    // Drag functionality
-    const dragHandle = this.shadowRoot.getElementById('drag-handle');
-    if (!dragHandle) return;
-    
-    dragHandle.addEventListener('mousedown', this.handleDragStart.bind(this));
-    document.addEventListener('mousemove', this.handleDragMove.bind(this));
-    document.addEventListener('mouseup', this.handleDragEnd.bind(this));
-    
-    // Minimize functionality
-    const minimizeBtn = this.shadowRoot.getElementById('minimize-btn');
-    if (!minimizeBtn) return;
-    
-    minimizeBtn.addEventListener('click', this.handleMinimize.bind(this));
+  getMinimized() {
+    return this.getMinimizedSignal();
   }
-  
-  /**
-   * Handles the start of a drag operation
-   * @param {MouseEvent} e - The mouse event
-   */
-  private handleDragStart(e: MouseEvent): void {
-    const target = e.target as HTMLElement;
-    if (target.closest('button')) return;
-    
-    this.isDragging = true;
-    this.startX = e.clientX;
-    this.startY = e.clientY;
-    
-    const rect = this.getBoundingClientRect();
-    this.startLeft = rect.left;
-    this.startTop = rect.top;
-    
-    this.style.transition = 'none';
-    document.body.style.cursor = 'grabbing';
-    e.preventDefault();
-  }
-  
-  /**
-   * Handles the drag movement
-   * @param {MouseEvent} e - The mouse event
-   */
-  private handleDragMove(e: MouseEvent): void {
-    if (!this.isDragging) return;
-    
-    const deltaX = e.clientX - this.startX;
-    const deltaY = e.clientY - this.startY;
-    
-    const newLeft = Math.max(0, Math.min(this.startLeft + deltaX, window.innerWidth - this.offsetWidth));
-    const newTop = Math.max(0, Math.min(this.startTop + deltaY, window.innerHeight - this.offsetHeight));
-    
-    this.style.left = newLeft + 'px';
-    this.style.top = newTop + 'px';
-    this.style.right = 'auto';
-  }
-  
-  /**
-   * Handles the end of a drag operation
-   */
-  private handleDragEnd(): void {
-    if (this.isDragging) {
-      this.isDragging = false;
-      this.style.transition = '';
-      document.body.style.cursor = '';
-      
-      // Dispatch custom event
-      const event = new CustomEvent('controlpanel:dragend', {
-        bubbles: true,
-        detail: { 
-          controlPanel: this,
-          position: { 
-            left: this.style.left,
-            top: this.style.top 
-          }
-        }
-      });
-      this.dispatchEvent(event);
-    }
-  }
-  
-  /**
-   * Handles the minimize/maximize toggle
-   */
-  private handleMinimize(): void {
-    if (!this.shadowRoot) return;
-    
-    const body = this.shadowRoot.querySelector('.control-panel-body') as HTMLElement;
-    const minimizeBtn = this.shadowRoot.getElementById('minimize-btn');
-    if (!body || !minimizeBtn) return;
-    
-    this.isMinimized = !this.isMinimized;
-    body.style.display = this.isMinimized ? 'none' : 'block';
-    minimizeBtn.textContent = this.isMinimized ? '⊞' : '⊟';
-    minimizeBtn.title = this.isMinimized ? 'Maximize Panel' : 'Minimize Panel';
-    
-    // Dispatch custom event
-    const event = new CustomEvent('controlpanel:minimize', {
+
+  toggleMinimized() {
+    this.setMinimizedSignal(!this.getMinimizedSignal());
+    // Dispatch custom event for minimize
+    this.dispatchEvent(new CustomEvent('controlpanel:minimize', {
       bubbles: true,
-      detail: { 
-        controlPanel: this,
-        isMinimized: this.isMinimized 
-      }
-    });
-    this.dispatchEvent(event);
+      detail: { controlPanel: this, isMinimized: this.getMinimizedSignal() }
+    }));
   }
+
+  // Signal accessors for template
+  private getMinimizedSignal = this.getMinimized;
+  private setMinimizedSignal = this.setMinimized;
 }
+
+customElements.define('control-panel', ControlPanel);
+
+export default ControlPanel;
 
 customElements.define('control-panel', ControlPanel);
 

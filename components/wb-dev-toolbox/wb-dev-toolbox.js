@@ -2,6 +2,51 @@ class WBDevToolbox extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({mode: 'open'});
+    
+    // Create reactive state
+    this._state = new Proxy({
+      log: [],
+      showLocalLog: true,
+      maxEntries: 50
+    }, {
+      set: (target, prop, value) => {
+        target[prop] = value;
+        if (prop === 'log' || prop === 'showLocalLog') {
+          this._render();
+        }
+        return true;
+      }
+    });
+    
+    // Bind methods
+    this._onError = this._onError.bind(this);
+    this._onRejection = this._onRejection.bind(this);
+    this._onWbError = this._onWbError.bind(this);
+    
+    this._setupShadowDOM();
+  }
+  
+  static get observedAttributes() {
+    return ['show-local-log', 'max-entries'];
+  }
+  
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case 'show-local-log':
+        this._state.showLocalLog = newValue !== 'false';
+        const checkbox = this.shadowRoot.getElementById('showLocalLog');
+        if (checkbox) checkbox.checked = this._state.showLocalLog;
+        break;
+      case 'max-entries':
+        const max = parseInt(newValue);
+        if (!isNaN(max) && max > 0) {
+          this._state.maxEntries = max;
+        }
+        break;
+    }
+  }
+  
+  _setupShadowDOM() {
     this.shadowRoot.innerHTML = `
       <style>
         :host { display: block; font-family: monospace; background: #18181b; color: #fbbf24; padding: 0.5em 1em; border-radius: 6px; margin: 1em 0; max-width: 100vw; overflow-x: auto; }
@@ -18,30 +63,37 @@ class WBDevToolbox extends HTMLElement {
       <div id="log"></div>
     `;
     this.logDiv = this.shadowRoot.getElementById('log');
-    this.maxEntries = 50;
-    this._log = [];
-    this.showLocalLog = true;
   }
   connectedCallback() {
-    window.addEventListener('error', this._onError);
-    window.addEventListener('unhandledrejection', this._onRejection);
-    // Setup toggle for local log display
+    // Listen for error events reactively
+    window.addEventListener('error', this._onError, true);
+    window.addEventListener('unhandledrejection', this._onRejection, true);
+    
+    // Listen for wb: events from other components
+    document.addEventListener('wb:error', this._onWbError);
+    document.addEventListener('wb:warning', this._onWbError);
+    document.addEventListener('wb:info', this._onWbError);
+    
+    // Setup reactive toggle handling
     const showLocalLogBox = this.shadowRoot.getElementById('showLocalLog');
     if (showLocalLogBox) {
       showLocalLogBox.addEventListener('change', (e) => {
-        this.showLocalLog = e.target.checked;
-        this._render();
+        this._state.showLocalLog = e.target.checked;
       });
     }
-    // If wb-event-log is present, default to not showing local log
+    
+    // Auto-detect wb-event-log presence
     if (document.querySelector('wb-event-log')) {
-      this.showLocalLog = false;
+      this._state.showLocalLog = false;
       if (showLocalLogBox) showLocalLogBox.checked = false;
     }
   }
   disconnectedCallback() {
-    window.removeEventListener('error', this._onError);
-    window.removeEventListener('unhandledrejection', this._onRejection);
+    window.removeEventListener('error', this._onError, true);
+    window.removeEventListener('unhandledrejection', this._onRejection, true);
+    document.removeEventListener('wb:error', this._onWbError);
+    document.removeEventListener('wb:warning', this._onWbError);
+    document.removeEventListener('wb:info', this._onWbError);
   }
   _onError = (event) => {
     let msg;
@@ -55,8 +107,16 @@ class WBDevToolbox extends HTMLElement {
   _onRejection = (event) => {
     this._addLog('Unhandled promise rejection: ' + event.reason, 'error');
   }
+  _onWbError(event) {
+    if (event.detail && event.detail.source !== 'wb-dev-toolbox') {
+      const type = event.type.replace('wb:', '');
+      this._addLog(event.detail.message, type);
+    }
+  }
+  
   _addLog(msg, type = 'info') {
     const entry = {msg, type, time: new Date().toLocaleTimeString()};
+    
     // Always publish as custom event for observers like wb-event-log
     const eventType = {
       'error': 'wb:error',
@@ -67,6 +127,7 @@ class WBDevToolbox extends HTMLElement {
       'success': 'wb:success',
       'user': 'wb:user'
     }[type] || 'wb:info';
+    
     document.dispatchEvent(new CustomEvent(eventType, {
       detail: {
         message: msg,
@@ -75,15 +136,18 @@ class WBDevToolbox extends HTMLElement {
         source: 'wb-dev-toolbox',
       }
     }));
-    // Only show in local log if enabled
-    if (this.showLocalLog) {
-      this._log.unshift(entry);
-      if (this._log.length > this.maxEntries) this._log.length = this.maxEntries;
-      this._render();
+    
+    // Update reactive state
+    if (this._state.showLocalLog) {
+      const newLog = [entry, ...this._state.log].slice(0, this._state.maxEntries);
+      this._state.log = newLog;
     }
   }
   _render() {
-    this.logDiv.innerHTML = this._log.map(e => `<div class="log-entry ${e.type}">[${e.time}] ${e.msg}</div>`).join('');
+    if (!this.logDiv) return;
+    this.logDiv.innerHTML = this._state.log
+      .map(e => `<div class="log-entry ${e.type}">[${e.time}] ${e.msg}</div>`)
+      .join('');
   }
 }
 customElements.define('wb-dev-toolbox', WBDevToolbox);

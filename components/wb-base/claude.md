@@ -4,7 +4,16 @@
 
 [Documentation is found here](../wb-base.md)
 
-# WB Base Component (`wb-base`)
+# ./components/wb-base/claude.md - WB Base Component (`wb-base`)
+## Compliance Note
+This module is **NOT compliant** with the project rules as of October 2025:
+- Not a web component (base class only)
+- Not directly reactive (utility base, not a UI component)
+- Does NOT follow [docs/claude-md-compliance-table.md](../../docs/claude-md-compliance-table.md) requirements
+
+**Component/Directory:** `components/wb-base/`
+
+---
 
 ---
 

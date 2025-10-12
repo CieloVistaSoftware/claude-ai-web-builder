@@ -1,0 +1,309 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Color Transformer Component",
+  "type": "object",
+  "properties": {
+    "tag": {
+      "type": "string",
+      "const": "wb-color-transformer",
+      "description": "The HTML tag name for the component"
+    },
+    "name": {
+      "type": "string",
+      "default": "WB Color Transformer",
+      "description": "Display name of the component"
+    },
+    "description": {
+      "type": "string",
+      "default": "Transforms WordPress color schemes based on hue shift",
+      "description": "Brief description of the component's purpose"
+    },
+    "category": {
+      "type": "string",
+      "default": "theme",
+      "enum": ["theme", "utility", "style"],
+      "description": "Component category for organization"
+    },
+    "priority": {
+      "type": "integer",
+      "default": 5,
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Loading priority (1-10, higher loads first)"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "List of component dependencies"
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "primary-color": {
+          "type": "string",
+          "description": "New primary color hex value to transform to"
+        },
+        "hue-shift": {
+          "type": "string",
+          "description": "Direct hue shift in degrees (-360 to 360)"
+        },
+        "auto-detect": {
+          "type": "string",
+          "enum": ["true", "false"],
+          "default": "false",
+          "description": "Auto-detect current WordPress primary color"
+        },
+        "debug": {
+          "type": "string",
+          "enum": ["true", "false"],
+          "default": "false",
+          "description": "Enable debug mode to show component status"
+        }
+      }
+    },
+    "methods": {
+      "type": "object",
+      "properties": {
+        "applyToDocument": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Transform colors based on new primary color"
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "default": [
+                {
+                  "name": "primaryHex",
+                  "type": "string",
+                  "description": "Primary color hex value"
+                }
+              ]
+            }
+          }
+        },
+        "applyHueShift": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Apply direct hue shift to all colors"
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "default": [
+                {
+                  "name": "hueDiff",
+                  "type": "number",
+                  "description": "Hue shift in degrees"
+                }
+              ]
+            }
+          }
+        },
+        "getTransformedColors": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Get current transformed color values"
+            },
+            "returns": {
+              "type": "string",
+              "default": "Object with color name to hex mappings"
+            }
+          }
+        },
+        "getOriginalColors": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Get original WordPress color values"
+            },
+            "returns": {
+              "type": "string",
+              "default": "Object with color name to hex mappings"
+            }
+          }
+        },
+        "reset": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Reset to original WordPress colors"
+            }
+          }
+        },
+        "autoDetectAndTransform": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Auto-detect current primary and transform"
+            }
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "object",
+      "properties": {
+        "wb-color-transformer-ready": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Fired when component is initialized and ready"
+            },
+            "detail": {
+              "type": "object",
+              "properties": {
+                "component": {
+                  "type": "string",
+                  "description": "Reference to the component instance"
+                },
+                "isWordPress": {
+                  "type": "boolean",
+                  "description": "Whether WordPress environment was detected"
+                }
+              }
+            }
+          }
+        },
+        "wb-color-transformer-applied": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Fired when color transformation is applied"
+            },
+            "detail": {
+              "type": "object",
+              "properties": {
+                "primaryColor": {
+                  "type": "string",
+                  "description": "New primary color (if applicable)"
+                },
+                "hueShift": {
+                  "type": "number",
+                  "description": "Hue shift amount (if applicable)"
+                },
+                "colors": {
+                  "type": "object",
+                  "description": "Transformed color mappings"
+                }
+              }
+            }
+          }
+        },
+        "wb-color-transformer-reset": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Fired when colors are reset to original"
+            }
+          }
+        }
+      }
+    },
+    "wpColors": {
+      "type": "object",
+      "description": "Default WordPress color palette",
+      "properties": {
+        "black": { "type": "string", "default": "#000000" },
+        "cyan-bluish-gray": { "type": "string", "default": "#abb8c3" },
+        "white": { "type": "string", "default": "#ffffff" },
+        "pale-pink": { "type": "string", "default": "#f78da7" },
+        "vivid-red": { "type": "string", "default": "#cf2e2e" },
+        "luminous-vivid-orange": { "type": "string", "default": "#ff6900" },
+        "luminous-vivid-amber": { "type": "string", "default": "#fcb900" },
+        "light-green-cyan": { "type": "string", "default": "#7bdcb5" },
+        "vivid-green-cyan": { "type": "string", "default": "#00d084" },
+        "pale-cyan-blue": { "type": "string", "default": "#8ed1fc" },
+        "vivid-cyan-blue": { "type": "string", "default": "#0693e3" },
+        "vivid-purple": { "type": "string", "default": "#9b51e0" }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "default": [
+        {
+          "title": "Basic Usage",
+          "code": "<wb-color-transformer primary-color=\"#ff6900\"></wb-color-transformer>",
+          "description": "Transform WordPress colors to orange theme"
+        },
+        {
+          "title": "Hue Shift",
+          "code": "<wb-color-transformer hue-shift=\"60\"></wb-color-transformer>",
+          "description": "Shift all colors by 60 degrees"
+        },
+        {
+          "title": "Auto Detect",
+          "code": "<wb-color-transformer auto-detect=\"true\"></wb-color-transformer>",
+          "description": "Auto-detect current primary color and apply"
+        },
+        {
+          "title": "Debug Mode",
+          "code": "<wb-color-transformer debug=\"true\" hue-shift=\"120\"></wb-color-transformer>",
+          "description": "Show debug information and color swatches"
+        },
+        {
+          "title": "Event Listener",
+          "code": "<wb-color-transformer id=\"transformer\"></wb-color-transformer>\n<script>\n  document.addEventListener('wb-color-changed', (e) => {\n    const transformer = document.getElementById('transformer');\n    transformer.applyToDocument(e.detail.color);\n  });\n</script>",
+          "description": "React to color change events from other components"
+        }
+      ]
+    }
+  },
+  "required": ["tag", "name", "description"],
+  "additionalProperties": false
+}

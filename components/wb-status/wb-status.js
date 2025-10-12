@@ -1,8 +1,8 @@
 // WB Status Component - Pure Web Component
 // Website Builder status bar component for displaying events and settings
-import { WBBaseComponent } from '../wb-base/wb-base.js';
+// Note: Converted from ES6 import to regular syntax to avoid module loading issues
 
-class WBStatus extends WBBaseComponent {
+class WBStatus extends HTMLElement {
     constructor() {
         super();
         this.config = null;

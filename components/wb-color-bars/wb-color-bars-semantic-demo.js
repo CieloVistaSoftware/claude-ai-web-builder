@@ -40,7 +40,7 @@ class ColorBarsSemanticDemo {
         this.colorBars = document.getElementById('semantic-color-bars');
         
         if (!this.colorBars) {
-            WBSafeLogger.error('wb-color-bars component not found', { component: 'ColorBarsSemanticDemo', method: 'setupColorBarsComponent', line: 35 });
+            WBEventLog.logError('wb-color-bars component not found', { component: 'ColorBarsSemanticDemo', method: 'setupColorBarsComponent', line: 35 });
             return;
         }
 
@@ -48,7 +48,7 @@ class ColorBarsSemanticDemo {
         setTimeout(() => {
             // Listen for color change events from the updated wb-color-bars component
             this.colorBars.addEventListener('colorchange', (e) => {
-                WBSafeLogger.info('Color change event received', { component: 'ColorBarsSemanticDemo', detail: e.detail, line: 42 });
+                WBEventLog.logInfo('Color change event received', { component: 'ColorBarsSemanticDemo', detail: e.detail, line: 42 });
                 
                 // The new event structure includes both text and background colors
                 if (e.detail && e.detail.text && e.detail.background) {
@@ -72,7 +72,7 @@ class ColorBarsSemanticDemo {
             // Initialize with current attribute values
             this.initializeFromAttributes();
             
-            WBSafeLogger.success('Color bars component initialized with new event structure', { component: 'ColorBarsSemanticDemo', method: 'setupColorBarsComponent', line: 64 });
+            WBEventLog.logSuccess('Color bars component initialized with new event structure', { component: 'ColorBarsSemanticDemo', method: 'setupColorBarsComponent', line: 64 });
         }, 1500);
     }
 
@@ -92,7 +92,7 @@ class ColorBarsSemanticDemo {
                 break;
         }
         
-        WBSafeLogger.debug(`Updated ${type} color`, { component: 'ColorBarsSemanticDemo', type, color: targetColor, line: 85 });
+        WBEventLog.logDebug(`Updated ${type} color`, { component: 'ColorBarsSemanticDemo', type, color: targetColor, line: 85 });
     }
 
     initializeFromAttributes() {
@@ -116,7 +116,7 @@ class ColorBarsSemanticDemo {
             lightness: parseInt(bgLight)
         };
         
-        WBSafeLogger.info('Initialized colors from attributes', { 
+        WBEventLog.logInfo('Initialized colors from attributes', { 
             component: 'ColorBarsSemanticDemo', 
             method: 'initializeFromAttributes',
             text: this.currentTextColor,
@@ -142,7 +142,7 @@ class ColorBarsSemanticDemo {
                 }
                 
                 this.applyColorsToElements();
-                WBSafeLogger.info('Target elements updated', { component: 'ColorBarsSemanticDemo', elements: Array.from(this.targetElements), line: 129 });
+                WBEventLog.logInfo('Target elements updated', { component: 'ColorBarsSemanticDemo', elements: Array.from(this.targetElements), line: 129 });
             });
         });
     }
@@ -163,7 +163,7 @@ class ColorBarsSemanticDemo {
                 bubbles: true
             }));
             
-            WBSafeLogger.logUser('Theme toggle requested', {
+            WBEventLog.logUser('Theme toggle requested', {
                 component: 'ColorBarsSemanticDemo',
                 method: 'toggleTheme',
                 line: 155,
@@ -222,7 +222,7 @@ class ColorBarsSemanticDemo {
     applyColorsToElements() {
         const contentPreview = document.querySelector('.content-preview');
         if (!contentPreview) {
-            WBSafeLogger.warning('Content preview not found', { component: 'ColorBarsSemanticDemo', method: 'applyColorsToElements', line: 222 });
+            WBEventLog.logWarning('Content preview not found', { component: 'ColorBarsSemanticDemo', method: 'applyColorsToElements', line: 222 });
             return;
         }
 
@@ -290,7 +290,7 @@ class ColorBarsSemanticDemo {
             bubbles: true
         }));
 
-        WBSafeLogger.success('Applied colors to elements', { 
+        WBEventLog.logSuccess('Applied colors to elements', { 
             component: 'ColorBarsSemanticDemo',
             method: 'applyColorsToElements',
             elements: Array.from(elementsToStyle),
@@ -302,12 +302,12 @@ class ColorBarsSemanticDemo {
     }
 
     addDebugInfo() {
-        WBSafeLogger.success('Color Bars Semantic Demo loaded', { component: 'ColorBarsSemanticDemo', method: 'addDebugInfo', line: 284 });
-        WBSafeLogger.info('This demo shows how 6 color bars control text and background colors', { component: 'ColorBarsSemanticDemo', line: 285 });
+        WBEventLog.logSuccess('Color Bars Semantic Demo loaded', { component: 'ColorBarsSemanticDemo', method: 'addDebugInfo', line: 284 });
+        WBEventLog.logInfo('This demo shows how 6 color bars control text and background colors', { component: 'ColorBarsSemanticDemo', line: 285 });
         
         setTimeout(() => {
             const colorBarsElement = document.querySelector('wb-color-bars');
-            WBSafeLogger.debug('Component check', { 
+            WBEventLog.logDebug('Component check', { 
                 component: 'ColorBarsSemanticDemo',
                 element: !!colorBarsElement,
                 'wb-color-bars-defined': customElements.get('wb-color-bars') ? 'YES' : 'NO',
@@ -316,7 +316,7 @@ class ColorBarsSemanticDemo {
             });
             
             if (colorBarsElement) {
-                WBSafeLogger.debug('Component details', {
+                WBEventLog.logDebug('Component details', {
                     component: 'ColorBarsSemanticDemo',
                     attributes: Array.from(colorBarsElement.attributes).map(attr => `${attr.name}="${attr.value}"`),
                     shadowRoot: colorBarsElement.shadowRoot ? 'exists' : 'missing',

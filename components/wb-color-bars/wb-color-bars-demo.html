@@ -100,17 +100,17 @@
 const colorPicker = document.getElementById('my-color');
 
 colorPicker.addEventListener('colorchange', (e) => {
-    WBSafeLogger.info('Color changed', { component: 'wb-color-bars-demo', event: 'colorchange', detail: e.detail, line: 103 });
+    WBEventLog.logInfo('Color changed', { component: 'wb-color-bars-demo', event: 'colorchange', detail: e.detail, line: 103 });
     // e.detail contains: { hue, saturation, lightness, hsl, hex, rgb }
 });
 
 colorPicker.addEventListener('colorselect', (e) => {
-    WBSafeLogger.info('Color selected: ' + e.detail.hex, { component: 'wb-color-bars-demo', event: 'colorselect', hex: e.detail.hex, line: 108 });
+    WBEventLog.logInfo('Color selected: ' + e.detail.hex, { component: 'wb-color-bars-demo', event: 'colorselect', hex: e.detail.hex, line: 108 });
 });
 
 // Programmatic control
 colorPicker.setColor(180, 60, 40);
-WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: colorPicker.color, line: 113 });
+WBEventLog.logInfo('Current color', { component: 'wb-color-bars-demo', color: colorPicker.color, line: 113 });
 &lt;/script&gt;</code></pre>
             
             <h3>Features</h3>
@@ -180,7 +180,7 @@ WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: col
                 \`;
             }
             
-            WBSafeLogger.info('Accent color applied to page elements', { 
+            WBEventLog.logInfo('Accent color applied to page elements', { 
                 component: 'wb-color-bars-demo', 
                 accent: accentHex, 
                 line: 175 
@@ -231,7 +231,7 @@ WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: col
                     detail: { text, background, accent }
                 }));
                 
-                WBSafeLogger.info('Page colors applied', { 
+                WBEventLog.logInfo('Page colors applied', { 
                     component: 'wb-color-bars-demo', 
                     text: text.hex, 
                     background: background.hex,
@@ -269,7 +269,7 @@ WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: col
                     `;
                 }
                 
-                WBSafeLogger.info('Theme colors applied', { 
+                WBEventLog.logInfo('Theme colors applied', { 
                     component: 'wb-color-bars-demo', 
                     primary: text.hex, 
                     line: 200 
@@ -298,16 +298,16 @@ WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: col
         }
         
         // Demo console logging
-        WBSafeLogger.success('Color Bars Demo loaded', { component: 'wb-color-bars-demo', line: 290 });
-        WBSafeLogger.info('Try changing colors and check the event log!', { component: 'wb-color-bars-demo', line: 291 });
+        WBEventLog.logSuccess('Color Bars Demo loaded', { component: 'wb-color-bars-demo', line: 290 });
+        WBEventLog.logInfo('Try changing colors and check the event log!', { component: 'wb-color-bars-demo', line: 291 });
         
         // Debug: Check if wb-color-bars components are properly defined
         setTimeout(() => {
             const colorBarsElements = document.querySelectorAll('wb-color-bars');
-            WBSafeLogger.info(`Found ${colorBarsElements.length} wb-color-bars elements`, { component: 'wb-color-bars-demo', count: colorBarsElements.length, line: 296 });
+            WBEventLog.logInfo(`Found ${colorBarsElements.length} wb-color-bars elements`, { component: 'wb-color-bars-demo', count: colorBarsElements.length, line: 296 });
             
             colorBarsElements.forEach((element, index) => {
-                WBSafeLogger.debug(`wb-color-bars ${index + 1}`, { 
+                WBEventLog.logDebug(`wb-color-bars ${index + 1}`, { 
                     component: 'wb-color-bars-demo',
                     index: index + 1,
                     line: 299,
@@ -320,7 +320,7 @@ WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: col
             });
             
             // Check if the individual wb-color-bar components are defined
-            WBSafeLogger.info('Web component definitions', { 
+            WBEventLog.logInfo('Web component definitions', { 
                 component: 'wb-color-bars-demo',
                 line: 309,
                 'wb-color-bars': customElements.get('wb-color-bars') ? 'YES' : 'NO',
@@ -330,7 +330,7 @@ WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: col
         
         // Initialize theme and components after everything loads
         function initializeDemo() {
-            WBSafeLogger.info('Initializing demo...', { component: 'wb-color-bars-demo', line: 316 });
+            WBEventLog.logInfo('Initializing demo...', { component: 'wb-color-bars-demo', line: 316 });
             
             // Set dark theme
             document.body.classList.add('dark');
@@ -344,10 +344,10 @@ WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: col
             
             // Initialize all wb-color-bars components
             const colorBars = document.querySelectorAll('wb-color-bars');
-            WBSafeLogger.info(`Found ${colorBars.length} wb-color-bars components`, { component: 'wb-color-bars-demo', count: colorBars.length, line: 330 });
+            WBEventLog.logInfo(`Found ${colorBars.length} wb-color-bars components`, { component: 'wb-color-bars-demo', count: colorBars.length, line: 330 });
             
             colorBars.forEach((picker, index) => {
-                WBSafeLogger.info(`Initializing wb-color-bars ${index + 1}...`, { component: 'wb-color-bars-demo', index: index + 1, line: 333 });
+                WBEventLog.logInfo(`Initializing wb-color-bars ${index + 1}...`, { component: 'wb-color-bars-demo', index: index + 1, line: 333 });
                 picker.setAttribute('theme', 'dark');
                 
                 // Force re-render if component has this method
@@ -356,7 +356,7 @@ WBSafeLogger.info('Current color', { component: 'wb-color-bars-demo', color: col
                 }
             });
             
-            WBSafeLogger.success('Demo initialization complete', { component: 'wb-color-bars-demo', line: 342 });
+            WBEventLog.logSuccess('Demo initialization complete', { component: 'wb-color-bars-demo', line: 342 });
         }
         
         // Initialize when DOM and components are ready

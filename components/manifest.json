@@ -7,7 +7,6 @@
     "wb-component-base.js",
     "wb-component-registry.js",
     "wb-component-utils.js",
-    "wb-safe-logger.js",
     "wb-status-service.js"
   ],
   "styles": [
@@ -39,6 +38,7 @@
     "wb-layout",
     "wb-log-error",
     "wb-log-viewer",
+    "md-to-html",
     "wb-modal",
     "wb-nav",
     "wb-resize",
@@ -49,7 +49,7 @@
     "wb-viewport"
   ],
   "metadata": {
-    "totalComponents": 29,
+    "totalComponents": 30,
     "lastUpdated": "2025-10-11T01:45:54.854Z",
     "buildScript": "scripts/build-manifest.js",
     "notes": "This file is auto-generated. Run 'npm run build:manifest' to regenerate."

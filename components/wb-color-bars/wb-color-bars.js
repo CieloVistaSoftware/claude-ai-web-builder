@@ -69,17 +69,17 @@ class ColorBars extends HTMLElement {
     // Use WBComponentRegistry if available for better dependency management
     if (window.WBComponentRegistry) {
       try {
-        await window.WBComponentRegistry.waitForComponent('wb-color-bar', 5000);
-        WBSafeLogger.info('wb-color-bar dependency resolved via registry', { component: 'wb-color-bars', method: 'loadDependencies', line: 74 });
+        await window.WBComponentRegistry.waitForComponent('wb-color-bar', 2000);
+        WBEventLog.logInfo('wb-color-bar dependency resolved via registry', { component: 'wb-color-bars', method: 'loadDependencies', line: 74 });
         return;
       } catch (error) {
-        WBSafeLogger.warning('Registry wait failed, falling back to manual loading', { component: 'wb-color-bars', method: 'loadDependencies', line: 77 });
+        WBEventLog.logWarning('Registry wait failed, falling back to manual loading', { component: 'wb-color-bars', method: 'loadDependencies', line: 77 });
       }
     }
     
     // Check if wb-color-bar is already loaded
     if (customElements.get('wb-color-bar')) {
-      WBSafeLogger.info('wb-color-bar already loaded', { component: 'wb-color-bars', method: 'loadDependencies', line: 83 });
+      WBEventLog.logInfo('wb-color-bar already loaded', { component: 'wb-color-bars', method: 'loadDependencies', line: 83 });
       return;
     }
     
@@ -90,7 +90,7 @@ class ColorBars extends HTMLElement {
       // Try multiple path resolution strategies
       let scriptPath;
       if (window.WBComponentUtils?.resolve) {
-        scriptPath = window.WBComponentUtils.resolve('wb.color-bar.js');
+        scriptPath = window.WBComponentUtils.resolve('wb-color-bar.js');
       } else {
         // Fallback path resolution - try relative paths first
         const possiblePaths = [
@@ -102,25 +102,25 @@ class ColorBars extends HTMLElement {
       }
       
       script.src = scriptPath;
-      WBSafeLogger.info('Loading wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 106 });
+      WBEventLog.logInfo('Loading wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 106 });
       document.head.appendChild(script);
       
       return new Promise((resolve, reject) => {
         script.onload = () => {
-          WBSafeLogger.success('wb-color-bar dependency loaded successfully', { component: 'wb-color-bars', method: 'loadDependencies', line: 111 });
+          WBEventLog.logSuccess('wb-color-bar dependency loaded successfully', { component: 'wb-color-bars', method: 'loadDependencies', line: 111 });
           resolve();
         };
         script.onerror = () => {
-          WBSafeLogger.warning('Failed to load wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 115 });
+          WBEventLog.logWarning('Failed to load wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 115 });
           // Don't reject - wb-color-bars can work without wb-color-bar dependency
           // by using embedded fallback sliders
-          WBSafeLogger.info('wb-color-bars will use embedded slider fallback', { component: 'wb-color-bars', method: 'loadDependencies', line: 118 });
+          WBEventLog.logInfo('wb-color-bars will use embedded slider fallback', { component: 'wb-color-bars', method: 'loadDependencies', line: 118 });
           resolve();
         };
       });
     } catch (error) {
-      WBSafeLogger.warning('Error loading wb-color-bar dependency: ' + error.message, { component: 'wb-color-bars', method: 'loadDependencies', line: 123, error });
-      WBSafeLogger.info('wb-color-bars will continue without dependency', { component: 'wb-color-bars', method: 'loadDependencies', line: 124 });
+      WBEventLog.logWarning('Error loading wb-color-bar dependency: ' + error.message, { component: 'wb-color-bars', method: 'loadDependencies', line: 123, error });
+      WBEventLog.logInfo('wb-color-bars will continue without dependency', { component: 'wb-color-bars', method: 'loadDependencies', line: 124 });
       // Don't throw - let the component work with fallback
     }
   }
@@ -130,11 +130,11 @@ class ColorBars extends HTMLElement {
       const script = document.createElement('script');
       script.src = window.WBComponentUtils?.resolve('wb.utils') || '/utils/wb/wb-component-utils.js';
       script.onload = () => {
-        WBSafeLogger.success('WBComponentUtils loaded', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 134 });
+        WBEventLog.logSuccess('WBComponentUtils loaded', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 134 });
         resolve();
       };
       script.onerror = () => {
-        WBSafeLogger.error('Failed to load WBComponentUtils', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 138 });
+        WBEventLog.logError('Failed to load WBComponentUtils', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 138 });
         reject();
       };
       document.head.appendChild(script);
@@ -225,7 +225,7 @@ class ColorBars extends HTMLElement {
       try {
         cssPath = '/components/wb-color-bars/wb-color-bars.css';
       } catch (e) {
-        WBSafeLogger.warning('Could not resolve CSS path, using fallback', { component: 'wb-color-bars', method: 'render', line: 243, error: e });
+        WBEventLog.logWarning('Could not resolve CSS path, using fallback', { component: 'wb-color-bars', method: 'render', line: 243, error: e });
       }
     }
     
@@ -500,7 +500,7 @@ class ColorBars extends HTMLElement {
         detail: { type: 'text', hex }
       }));
     }).catch(err => {
-      WBSafeLogger.warning('Failed to copy text color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyTextColorToClipboard', line: 518, error: err });
+      WBEventLog.logWarning('Failed to copy text color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyTextColorToClipboard', line: 518, error: err });
     });
   }
   
@@ -512,7 +512,7 @@ class ColorBars extends HTMLElement {
         detail: { type: 'background', hex }
       }));
     }).catch(err => {
-      WBSafeLogger.warning('Failed to copy background color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyBgColorToClipboard', line: 530, error: err });
+      WBEventLog.logWarning('Failed to copy background color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyBgColorToClipboard', line: 530, error: err });
     });
   }
   

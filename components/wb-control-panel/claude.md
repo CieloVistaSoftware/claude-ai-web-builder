@@ -1,4 +1,295 @@
 # Control Panel - Current Status & Issues
+wb-component-utils.js:13 🔧 WB Component Utils: Initializing...
+wb-component-utils.js:1002 🔧 WB Component Utils: Initialized successfully
+wb-component-utils.js:1003 🔧 Available utilities: Array(23)
+wb-component-registry.js:12 WB Component Registry: Initializing...
+wb-component-registry.js:454 WB Component Registry: Initialized successfully
+wb-event-log.js:2662 🔧 WB Event Log: Component registered
+wb-component-registry.js:387 Registry [INFO]: Registering component: wb-event-log Object
+wb-component-registry.js:387 Registry [SUCCESS]: Component wb-event-log loaded successfully Object
+wb-status.js:3  Uncaught SyntaxError: Cannot use import statement outside a module
+wb-component-registry.js:387 Registry [INFO]: Registering component: wb-nav Object
+wb-component-registry.js:387 Registry [INFO]: Waiting for dependencies: wb-event-log Object
+wb-nav.js:514 🧭 WB Nav: Web component registered
+wb-component-registry.js:387 Registry [SUCCESS]: Component wb-nav loaded successfully Object
+wb-card.js:160  Uncaught NotSupportedError: Failed to execute 'define' on 'CustomElementRegistry': the name "wb-card" has already been used with this registry
+    at wb-card.js:160:16
+wb-demo.js:31  Uncaught SyntaxError: Cannot use 'import.meta' outside a module
+wb-control-panel.js:21 Control Panel Component: Starting initialization...
+wb-component-registry.js:387 Registry [INFO]: Registering component: wb-control-panel Object
+wb-component-registry.js:387 Registry [INFO]: Waiting for dependencies: wb-color-bar, wb-color-bars, wb-event-log Object
+wb-control-panel.js:1984 Control Panel component script loaded successfully
+wb-event-log.js:45 🔧 WB Event Log: Initializing...
+wb-component-utils.js:906 🔧 Symbol Registry: Resolved 'wb.event-log.config' -> '/components/wb-event-log/wb-event-log.config.json'
+wb-nav.schema.json:1   Failed to load resource: the server responded with a status of 404 (Not Found)
+wb-nav.js:95  🧭 WB Nav: Could not load wb-nav.schema.json, using defaults Error: HTTP 404: Not Found
+    at WBNav.loadConfig (wb-nav.js:91:37)
+    at async WBNav.connectedCallback (wb-nav.js:19:9)
+loadConfig @ wb-nav.js:95
+wb-component-utils.js:127 ✅ Path Detector: Found exact match for wb-nav.js at: http://127.0.0.1:8083/components/wb-nav/
+wb-component-utils.js:36 🔧 CSS Loader: Loading wb-nav CSS file...
+wb-component-utils.js:13 🔧 WB Component Utils: Initializing...
+wb-component-utils.js:1002 🔧 WB Component Utils: Initialized successfully
+wb-component-utils.js:1003 🔧 Available utilities: Array(23)
+wb-component-utils.js:48 🔧 CSS Loader: wb-nav CSS loaded successfully
+wb-event-log.js:77 🔧 WB Event Log: Configuration loaded Object
+wb-event-log.js:170 🔧 WB Event Log: Ready
+wb-event-log.js:180  🔧 Symbol Registry: Unknown symbol 'styles.layouts', returning as-is
+console.warn @ wb-event-log.js:180
+wb-event-log.js:170 🔧 CSS Loader: Loading wb-layouts CSS file...
+wb-event-log.js:170 🔧 Layout Manager: Initialized
+wb-control-panel-demo.html#demo:1  Refused to apply style from 'http://127.0.0.1:8083/components/wb-control-panel/styles.layouts' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
+wb-event-log.js:180  🔧 CSS Loader: Failed to load wb-layouts CSS from styles.layouts
+console.warn @ wb-event-log.js:180
+content.js:2 CSS Extractor Pro content script loaded
+content.js:592 CSS Extractor Pro ready!
+content.js:552 Content script received: ping
+wb-event-log.js:170 Registry [ERROR]: Component wb-control-panel failed to load Object
+wb-event-log.js:170 Registry [ERROR]: Failed to register component wb-control-panel Object
+wb-event-log.js:191  ⚠️ Failed to register wb-control-panel: Error: Timeout waiting for component: wb-color-bar
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:170 Control Panel Web Component: Connected to DOM
+wb-event-log.js:170 ✅ wb-control-panel registered directly (fallback)
+wb-event-log.js:170 Control Panel: Starting initialization...
+wb-event-log.js:170 ✅ Path Detector: Found exact match for wb-control-panel.js at: http://127.0.0.1:8083/components/wb-control-panel/
+wb-event-log.js:170 🔧 CSS Loader: wb-control-panel CSS already loaded, skipping
+wb-event-log.js:170 ✅ Control Panel: CSS loaded via legacy getPath from: http://127.0.0.1:8083/components/wb-control-panel/wb-control-panel.css
+wb-event-log.js:170 Control Panel: Creating HTML structure...
+wb-event-log.js:170 🎨 Creating wb-color-bars with config: Object
+wb-event-log.js:170 🎨 Creating wb-color-bars with config: Object
+wb-event-log.js:170 🔧 WB Event Log: Initializing...
+wb-event-log.js:170 🔧 Symbol Registry: Resolved 'wb.event-log.config' -> '/components/wb-event-log/wb-event-log.config.json'
+wb-event-log.js:170 Control Panel: HTML structure created
+wb-event-log.js:170 Control Panel: Setting up event listeners...
+wb-event-log.js:170 ✅ Layout selector event listener attached
+wb-event-log.js:170 ✅ Theme selector event listener attached
+wb-event-log.js:170 🔄 Loading wb-color-bars via schema-driven registry...
+wb-event-log.js:170 🔧 Symbol Registry: Resolved 'wb.color-bars.js' -> '/components/wb-color-bars/wb-color-bars.js'
+wb-event-log.js:170 Registry [INFO]: Loading component wb-color-bars from /components/wb-color-bars/wb-color-bars.js Object
+wb-event-log.js:170 Control Panel: Drag functionality enabled
+wb-event-log.js:170 Control Panel: Resize functionality enabled
+wb-event-log.js:170 🔄 Loading wb-color-bars via schema-driven registry...
+wb-event-log.js:170 🔄 Component wb-color-bars already loading, waiting...
+wb-event-log.js:170 Control Panel: Event listeners setup complete
+wb-event-log.js:170 📡 Initial colors set on wb-color-bars - they will apply CSS immediately
+wb-event-log.js:170 Control Panel: Initial settings applied - components are reactive
+wb-event-log.js:170 Control Panel: Component initialized successfully
+wb-event-log.js:170 Registry [INFO]: Registering component: wb-color-bars Object
+wb-event-log.js:170 Registry [INFO]: Waiting for dependencies: wb-color-bar Object
+wb-event-log.js:170 🔧 WB Event Log: Configuration loaded Object
+wb-event-log.js:170 🔧 WB Event Log: Ready
+wb-event-log.js:170 🎛️ Control Panel Web Component: Disconnected from DOM
+wb-event-log.js:170 Control Panel Web Component: Connected to DOM
+wb-event-log.js:170 ✅ Loaded navigation configuration from JSON
+wb-event-log.js:170 📋 Updated wb-nav from JSON config for layout: top-nav
+wb-event-log.js:170 📋 Updated wb-nav from JSON config for layout: top-nav
+wb-event-log.js:170 Registry [ERROR]: Component wb-color-bars loaded but failed to register: Timeout waiting for component: wb-color-bars Object
+wb-event-log.js:191  ❌ Failed to load wb-color-bars: Error: Timeout waiting for component: wb-color-bars
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ❌ Failed to load wb-color-bars: Error: Timeout waiting for component: wb-color-bars
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:16.778Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: Error: Timeout waiting for component: wb-color-bars
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: Error: Timeout waiting for component: wb-color-bars
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:16.814Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: Error: Timeout waiting for component: wb-color-bars
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: Error: Timeout waiting for component: wb-color-bars
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-component-registry.js:129  Uncaught (in promise) Error: Timeout waiting for component: wb-color-bars
+    at wb-component-registry.js:129:28
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:16.854Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: Error: Timeout waiting for component: wb-color-bars
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: Error: Timeout waiting for component: wb-color-bars
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:16.902Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: Error: Timeout waiting for component: wb-color-bars
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: Error: Timeout waiting for component: wb-color-bars
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-component-registry.js:129  Uncaught (in promise) Error: Timeout waiting for component: wb-color-bars
+    at wb-component-registry.js:129:28
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:18.756Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: ReferenceError: WBSafeLogger is not defined
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:18.808Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: ReferenceError: WBSafeLogger is not defined
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-color-bars.js:76  Uncaught (in promise) ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:18.871Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: ReferenceError: WBSafeLogger is not defined
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:18.943Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: ReferenceError: WBSafeLogger is not defined
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-color-bars.js:76  Uncaught (in promise) ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:19.010Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: ReferenceError: WBSafeLogger is not defined
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:19.072Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: ReferenceError: WBSafeLogger is not defined
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-color-bars.js:76  Uncaught (in promise) ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:19.148Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: ReferenceError: WBSafeLogger is not defined
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:19.231Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: ReferenceError: WBSafeLogger is not defined
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-color-bars.js:76  Uncaught (in promise) ReferenceError: WBSafeLogger is not defined
+    at HTMLElement.loadDependencies (wb-color-bars.js:76:9)
+wb-event-log.js:170 Registry [ERROR]: Component wb-color-bars failed to load Object
+wb-event-log.js:170 Registry [ERROR]: Failed to register component wb-color-bars Object
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:23.800Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: Error: Timeout waiting for component: wb-color-bar
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: Error: Timeout waiting for component: wb-color-bar
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  
+🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  ⏰ TIME: 2025-10-12T01:10:23.873Z
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📝 REASON: Error: Timeout waiting for component: wb-color-bar
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  📜 STACK: Error: Timeout waiting for component: wb-color-bar
+    at wb-component-registry.js:129:28
+console.error @ wb-event-log.js:191
+wb-event-log.js:191  🚨🚨🚨 =================================== 🚨🚨🚨
+
+console.error @ wb-event-log.js:191
+wb-component-registry.js:129  Uncaught (in promise) Error: Timeout waiting for component: wb-color-bar
+    at wb-component-registry.js:129:28
+wb-control-panel-demo.html#demo:1  Refused to apply style from 'http://127.0.0.1:8083/components/wb-control-panel/styles.layouts' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
 
 ## 📝 CHANGELOG (October 2025)
 

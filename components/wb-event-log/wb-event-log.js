@@ -1566,6 +1566,11 @@
                 saveClaudeBtn.addEventListener('click', () => this.saveToClaudeFile());
             }
             
+            const settingsBtn = this.querySelector('.wb-event-log-settings');
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', () => this.openSettings());
+            }
+            
             // Filter buttons
             const filterButtons = this.querySelectorAll('.wb-event-log-filter');
             filterButtons.forEach(btn => {
@@ -2653,6 +2658,214 @@ ${event.message}`;
             } catch (error) {
                 return `Error getting HTML context: ${error.message}`;
             }
+        }
+        
+        openSettings() {
+            // Create settings modal if it doesn't exist
+            let settingsModal = document.querySelector('.wb-event-log-settings-modal');
+            if (!settingsModal) {
+                settingsModal = this.createSettingsModal();
+                document.body.appendChild(settingsModal);
+            }
+            
+            // Show the modal
+            settingsModal.style.display = 'flex';
+            this.populateSettingsForm(settingsModal);
+            
+            this.logInfo('Settings panel opened', { source: 'wb-event-log', action: 'settings' });
+        }
+        
+        createSettingsModal() {
+            const modal = document.createElement('div');
+            modal.className = 'wb-event-log-settings-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: none;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
+            
+            modal.innerHTML = `
+                <div class="wb-event-log-settings-panel" style="
+                    background: var(--background-color, #1a1a1a);
+                    color: var(--text-color, #ffffff);
+                    border: 1px solid var(--border-color, #333);
+                    border-radius: 8px;
+                    padding: 20px;
+                    max-width: 500px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                ">
+                    <h3 style="margin-top: 0; color: var(--text-color, #ffffff);">Event Log Settings</h3>
+                    
+                    <div class="setting-group" style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Max Events:</label>
+                        <input type="number" name="maxEvents" min="100" max="10000" step="100" 
+                               style="width: 100%; padding: 5px; background: var(--input-bg, #333); color: var(--text-color, #fff); border: 1px solid var(--border-color, #555); border-radius: 4px;">
+                    </div>
+                    
+                    <div class="setting-group" style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" name="autoScroll" style="margin: 0;">
+                            <span>Auto-scroll to new events</span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-group" style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Default Filters:</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="filter-error" style="margin: 0;"> Error</label>
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="filter-warning" style="margin: 0;"> Warning</label>
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="filter-info" style="margin: 0;"> Info</label>
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="filter-success" style="margin: 0;"> Success</label>
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="filter-debug" style="margin: 0;"> Debug</label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group" style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Capture Options:</label>
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="capture-console" style="margin: 0;"> Console messages</label>
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="capture-network" style="margin: 0;"> Network requests</label>
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="capture-performance" style="margin: 0;"> Performance events</label>
+                            <label style="display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="capture-user" style="margin: 0;"> User interactions</label>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                        <button class="wb-settings-cancel" style="
+                            padding: 8px 16px;
+                            background: var(--button-secondary-bg, #555);
+                            color: var(--button-text, #fff);
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                        ">Cancel</button>
+                        <button class="wb-settings-save" style="
+                            padding: 8px 16px;
+                            background: var(--button-primary-bg, #007acc);
+                            color: var(--button-text, #fff);
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                        ">Save</button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners
+            const cancelBtn = modal.querySelector('.wb-settings-cancel');
+            const saveBtn = modal.querySelector('.wb-settings-save');
+            
+            cancelBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            saveBtn.addEventListener('click', () => {
+                this.saveSettings(modal);
+                modal.style.display = 'none';
+            });
+            
+            // Close on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            return modal;
+        }
+        
+        populateSettingsForm(modal) {
+            // Populate current settings
+            const maxEventsInput = modal.querySelector('input[name="maxEvents"]');
+            const autoScrollInput = modal.querySelector('input[name="autoScroll"]');
+            
+            if (maxEventsInput) maxEventsInput.value = this.maxEvents || 1000;
+            if (autoScrollInput) autoScrollInput.checked = this.autoScroll !== false;
+            
+            // Populate filters
+            const currentFilters = this.filters || ['error', 'warning', 'info'];
+            ['error', 'warning', 'info', 'success', 'debug'].forEach(type => {
+                const filterInput = modal.querySelector(`input[name="filter-${type}"]`);
+                if (filterInput) {
+                    filterInput.checked = currentFilters.includes(type);
+                }
+            });
+            
+            // Populate capture options (use current config or defaults)
+            const captureOptions = componentConfig.config?.capture || {
+                console: true,
+                network: true,
+                performance: true,
+                userInteractions: true
+            };
+            
+            Object.entries(captureOptions).forEach(([key, value]) => {
+                const captureInput = modal.querySelector(`input[name="capture-${key.toLowerCase()}"]`);
+                if (captureInput) {
+                    captureInput.checked = value;
+                }
+            });
+        }
+        
+        saveSettings(modal) {
+            // Collect form data
+            const maxEvents = parseInt(modal.querySelector('input[name="maxEvents"]').value);
+            const autoScroll = modal.querySelector('input[name="autoScroll"]').checked;
+            
+            // Collect filter settings
+            const filters = [];
+            ['error', 'warning', 'info', 'success', 'debug'].forEach(type => {
+                const filterInput = modal.querySelector(`input[name="filter-${type}"]`);
+                if (filterInput && filterInput.checked) {
+                    filters.push(type);
+                }
+            });
+            
+            // Collect capture settings
+            const capture = {};
+            ['console', 'network', 'performance', 'user'].forEach(type => {
+                const captureInput = modal.querySelector(`input[name="capture-${type}"]`);
+                if (captureInput) {
+                    capture[type] = captureInput.checked;
+                }
+            });
+            
+            // Apply settings immediately
+            this.maxEvents = maxEvents;
+            this.autoScroll = autoScroll;
+            this.filters = filters;
+            
+            // Update component config
+            componentConfig.config = {
+                ...componentConfig.config,
+                maxEvents,
+                autoScroll,
+                defaultFilters: filters,
+                capture
+            };
+            
+            // Refresh the display with new filters
+            this.refreshEvents();
+            
+            // Log the settings change
+            this.logSuccess('Settings updated successfully', { 
+                source: 'wb-event-log',
+                settings: {
+                    maxEvents,
+                    autoScroll,
+                    filters: filters.length,
+                    capture: Object.values(capture).filter(v => v).length
+                }
+            });
         }
     }
     

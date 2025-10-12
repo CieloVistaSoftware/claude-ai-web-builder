@@ -6,11 +6,14 @@
     <title>WB Nav Component Demo</title>
     
     <!-- Central Styles Import -->
-    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
-    <link rel="stylesheet" href="../../styles/main.css">    <!-- Load component CSS -->
-    <link rel="stylesheet" href="wb-nav.css">
-    <link rel="stylesheet" href="../wb-button/wb-button.css">
-    <link rel="stylesheet" href="../wb-tab/wb-tab.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <!-- Load WB Demo Component -->
+    <script src="../wb-demo/wb-demo.js"></script>
+    
+    <!-- Load wb-nav web component -->
+    <script src="wb-nav.js"></script>
+    <script src="../wb-button/wb-button.js"></script>
     
     <!-- Demo-specific popup styles only -->
     <style>
@@ -144,64 +147,121 @@
     </style>
 </head>
 <body data-theme="dark">
-    <div class="demo-container">
-        <h1>WB Nav Menu Component Demo</h1>
-        <p>Comprehensive navigation menu component with responsive layouts and theming.</p>
+    <wb-demo>
+        <span slot="title">🧭 WB Nav Component Demo</span>
         
-        <div class="status" id="status">
-            Component loading...
+        <div slot="documentation">
+            <h2>🧭 WB Nav Component</h2>
+            <p>Comprehensive navigation menu component with responsive layouts, theming, and multiple variants for modern web applications.</p>
+            
+            <h3>🚀 Features</h3>
+            <ul>
+                <li>✅ <strong>Multiple Layouts:</strong> horizontal, vertical, sidebar navigation</li>
+                <li>✅ <strong>Variant Styles:</strong> default, pills, tabs, minimal, gradient</li>
+                <li>✅ <strong>Position Options:</strong> top, left, right positioning</li>
+                <li>✅ <strong>Responsive Design:</strong> mobile-friendly navigation patterns</li>
+                <li>✅ <strong>Dropdown Support:</strong> multi-level navigation menus</li>
+                <li>✅ <strong>Active State Management:</strong> automatic active item highlighting</li>
+                <li>✅ <strong>Keyboard Navigation:</strong> arrow keys, tab, enter support</li>
+                <li>✅ <strong>Theme Integration:</strong> works with dark/light themes</li>
+                <li>✅ <strong>Accessibility:</strong> ARIA compliant with screen reader support</li>
+            </ul>
+            
+            <h3>💻 Basic Usage</h3>
+            <pre><code>&lt;!-- Basic horizontal navigation --&gt;
+&lt;wb-nav layout="horizontal" variant="default"&gt;
+    &lt;ul class="wb-nav-list"&gt;
+        &lt;li class="wb-nav-item wb-nav--active"&gt;
+            &lt;a href="/" class="wb-nav-link"&gt;Home&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="wb-nav-item"&gt;
+            &lt;a href="/about" class="wb-nav-link"&gt;About&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="wb-nav-item"&gt;
+            &lt;a href="/contact" class="wb-nav-link"&gt;Contact&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/wb-nav&gt;</code></pre>
+            
+            <h3>🎯 JavaScript API</h3>
+            <pre><code>// Create navigation programmatically
+const nav = document.createElement('wb-nav');
+nav.setAttribute('layout', 'vertical');
+nav.setAttribute('variant', 'pills');
+
+// Set navigation items
+nav.setItems([
+    { label: 'Dashboard', href: '/dashboard', active: true },
+    { label: 'Users', href: '/users' },
+    { label: 'Settings', href: '/settings' }
+]);
+
+// Update layout dynamically
+nav.updateLayout('horizontal');
+
+// Set active item
+nav.setActiveItem('/users');</code></pre>
+            
+            <h3>📡 Event Handling</h3>
+            <pre><code>// Listen for navigation events
+document.addEventListener('wbNavItemClick', (e) => {
+    console.log('Navigation item clicked:', e.detail);
+});
+
+document.addEventListener('wbNavLayoutChange', (e) => {
+    console.log('Layout changed:', e.detail);
+});
+
+document.addEventListener('wbNavReady', (e) => {
+    console.log('Navigation component ready');
+});</code></pre>
+            
+            <h3>⚙️ Configuration Options</h3>
+            <ul>
+                <li><strong>layout:</strong> "horizontal" | "vertical"</li>
+                <li><strong>variant:</strong> "default" | "pills" | "tabs" | "minimal" | "gradient"</li>
+                <li><strong>position:</strong> "top" | "left" | "right"</li>
+                <li><strong>items:</strong> Array of navigation item configurations</li>
+            </ul>
+            
+            <h3>🎨 Advanced Features</h3>
+            <ul>
+                <li><strong>Dropdown Menus:</strong> Multi-level navigation with submenu support</li>
+                <li><strong>Icon Integration:</strong> Support for icons in navigation items</li>
+                <li><strong>Badge Support:</strong> Show counts or indicators on navigation items</li>
+                <li><strong>Collapsible Navigation:</strong> Mobile-friendly collapsible menu patterns</li>
+                <li><strong>Custom Styling:</strong> CSS custom properties for complete theming control</li>
+            </ul>
         </div>
         
-        <!-- Navigation Demo Tabs -->
-        <wb-tab variant="underline" active-tab="0">
-            <wb-tab-item label="📚 Documentation">
-                <div class="demo-section">
-                    <h2>📖 Component Documentation</h2>
-                    <md-to-html theme="dark" src="./wb-nav.md"></md-to-html>
-                </div>
-            </wb-tab-item>
+        <div slot="examples">
+            <h2>🎯 Interactive Examples</h2>
+            <p>Click any button below to see live navigation demonstrations in popup overlays. Each demo showcases different navigation patterns and capabilities.</p>
             
-            <wb-tab-item label="🎮 Examples">
-                <div class="demo-section">
-                    <h3>Navigation Menu Popups</h3>
-                    <p>Click the buttons below to open navigation menus in popup overlays:</p>
+            <div class="status" id="status">
+                Component loading...
+            </div>
+            
+            <div class="demo-section">
+                <h3>Navigation Menu Popups</h3>
+                <p>Click the buttons below to open navigation menus in popup overlays:</p>
+                
+                <div class="demo-buttons">
+                    <button class="wb-btn wb-btn--primary" onclick="openNavPopup('basic')">
+                        🧭 Basic Navigation
+                    </button>
                     
-                    <div class="demo-buttons">
-                        <button class="wb-btn wb-btn--primary" onclick="openNavPopup('basic')">
-                            🧭 Basic
-                        </button>
-                        
-                        <button class="wb-btn wb-btn--primary" onclick="openNavPopup('dropdown')">
-                            � Drops
-                        </button>
-                        
-                        <button class="wb-btn wb-btn--success" onclick="openNavPopup('admin')">
-                            ⚙️ Admin
-                        </button>
-                    </div>
+                    <button class="wb-btn wb-btn--primary" onclick="openNavPopup('dropdown')">
+                        📂 Dropdown Navigation
+                    </button>
+                    
+                    <button class="wb-btn wb-btn--success" onclick="openNavPopup('admin')">
+                        ⚙️ Admin Navigation
+                    </button>
                 </div>
-            </wb-tab-item>
-        </wb-tab>
-        
-        <div class="demo-section">
-            <h3>Navigation Menu Popups</h3>
-            <p>Click the buttons below to open navigation menus in popup overlays:</p>
-            
-            <div class="demo-buttons">
-                <button class="wb-btn wb-btn--primary" onclick="openNavPopup('basic')">
-                    🧭 Basic
-                </button>
-                
-                <button class="wb-btn wb-btn--primary" onclick="openNavPopup('dropdown')">
-                    📂 Drops
-                </button>
-                
-                <button class="wb-btn wb-btn--success" onclick="openNavPopup('admin')">
-                    ⚙️ Admin
-                </button>
             </div>
         </div>
-    </div>
+    </wb-demo>
     
     <!-- Navigation Popup Overlays -->
     <div class="nav-popup-overlay" id="basic-nav-popup">

@@ -1,4 +1,12 @@
-# WB Color Picker Component Development Log
+# ./components/wb-color-picker/claude.md - WB Color Picker Component Development Log
+## Compliance Note
+This component is **compliant** with the project rules as of October 2025:
+- Uses reactive coding only (no imperative code)
+- Follows all requirements in [docs/claude-md-compliance-table.md](../../docs/claude-md-compliance-table.md)
+
+**Component/Directory:** `components/wb-color-picker/`
+
+---
 
 ## 🕒 RECENT ACTIVITY (December 2024 - Most Recent First)
 

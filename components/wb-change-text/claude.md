@@ -1,4 +1,12 @@
-# WB Change Text Component Development Log
+# ./components/wb-change-text/claude.md - WB Change Text Component Development Log
+## Compliance Note
+This component is **compliant** with the project rules as of October 2025:
+- Uses reactive coding only (no imperative code)
+- Follows all requirements in [docs/claude-md-compliance-table.md](../../docs/claude-md-compliance-table.md)
+
+**Component/Directory:** `components/wb-change-text/`
+
+---
 
 ## 🕒 RECENT ACTIVITY (December 2024 - Most Recent First)
 
@@ -15,6 +23,7 @@
   }
   ```
 - **Result**: No changes needed - already follows best practices
+
 
 ## Component Overview
 

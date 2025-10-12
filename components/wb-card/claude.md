@@ -1,6 +1,28 @@
-# WB Card Component Development Log
+# Component: wb-card
+# Directory: components/wb-card
 
-## 🕒 RECENT ACTIVITY (December 2024 - Most Recent First)
+**See [CONTRIBUTING.md](../../CONTRIBUTING.md) for project rules and review checklist.**
+
+---
+
+## Compliance Note
+- As of October 11, 2025, this component is fully compliant with the new project rule: **All components must use reactive coding only. Imperative code is not allowed.**
+- See compliance table in docs/claude-md-compliance-table.md for status tracking.
+
+---
+
+# WB Card Component Development Log
+<link rel="stylesheet" href="../wb-event-log/wb-event-log.css"> remove this each compnent is fully contained and uses the comopnent .css in the component no need to re referece.
+no inline styles or .js
+no floating event log it should arleady be a part of our base component
+use wb-nav not nav
+udr wb-btn not button
+use wb-card for all card examples
+use wb-demo for the two tab layout 1) Documentation and 2) examples must work 100% 
+
+## 🕒 RECENT ACTIVITY (October 11, 2025)
+- Refactored wb-card.js to use a reactive pattern (signals/observables, declarative rendering, no imperative code) for full compliance with project rules.
+- Updated compliance table and this claude.md accordingly.
 
 ### ✅ Duplicate Code Cleanup (December 19, 2024)
 - **Issue**: CSS loading code duplicated across components

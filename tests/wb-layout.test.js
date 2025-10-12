@@ -76,14 +76,14 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
 
     test.describe('Reactive State Management', () => {
         test('component updates automatically when state changes', async ({ page }) => {
-            WBSafeLogger.info('Test: Starting reactive state management test', {
+            WBEventLog.logInfo('Test: Starting reactive state management test', {
                 component: 'wb-layout-test',
                 testName: 'component updates automatically when state changes'
             });
             
             // Arrange: Get initial state
             const initialLayout = component.getLayout();
-            WBSafeLogger.debug('Test: Initial layout retrieved', {
+            WBEventLog.logDebug('Test: Initial layout retrieved', {
                 component: 'wb-layout-test',
                 initialLayout: initialLayout,
                 expectedDefault: 'top-nav'
@@ -92,7 +92,7 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
             expect(initialLayout).toBe('top-nav'); // Default layout
             
             // Act: Change layout using public API
-            WBSafeLogger.info('Test: Changing layout to left-nav', {
+            WBEventLog.logInfo('Test: Changing layout to left-nav', {
                 component: 'wb-layout-test',
                 from: initialLayout,
                 to: 'left-nav'
@@ -102,7 +102,7 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
             
             // Assert: Component should update itself automatically
             const newLayout = component.getLayout();
-            WBSafeLogger.debug('Test: Layout after change', {
+            WBEventLog.logDebug('Test: Layout after change', {
                 component: 'wb-layout-test',
                 newLayout: newLayout,
                 expected: 'left-nav'
@@ -114,7 +114,7 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
             const layoutDisplay = component.querySelector('.layout-display');
             const navPosition = component.querySelector('.nav-position-display');
             
-            WBSafeLogger.debug('Test: Checking UI elements', {
+            WBEventLog.logDebug('Test: Checking UI elements', {
                 component: 'wb-layout-test',
                 layoutDisplayFound: !!layoutDisplay,
                 navPositionFound: !!navPosition,
@@ -125,14 +125,14 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
             expect(layoutDisplay?.textContent).toBe('Left Sidebar');
             expect(navPosition?.textContent).toBe('Vertical Left');
             
-            WBSafeLogger.success('Test: Reactive state management test completed', {
+            WBEventLog.logSuccess('Test: Reactive state management test completed', {
                 component: 'wb-layout-test',
                 testResult: 'PASS'
             });
         });
 
         test('component handles multiple rapid state changes', () => {
-            WBSafeLogger.info('Test: Starting rapid state changes test', {
+            WBEventLog.logInfo('Test: Starting rapid state changes test', {
                 component: 'wb-layout-test',
                 testName: 'component handles multiple rapid state changes'
             });
@@ -141,7 +141,7 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
             const changes = ['left-nav', 'right-nav', 'ad-layout'];
             
             changes.forEach((layout, index) => {
-                WBSafeLogger.debug(`Test: Rapid change ${index + 1}`, {
+                WBEventLog.logDebug(`Test: Rapid change ${index + 1}`, {
                     component: 'wb-layout-test',
                     layout: layout,
                     sequence: index + 1,
@@ -152,7 +152,7 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
             
             // Final state should be correct
             const finalLayout = component.getLayout();
-            WBSafeLogger.debug('Test: Final layout after rapid changes', {
+            WBEventLog.logDebug('Test: Final layout after rapid changes', {
                 component: 'wb-layout-test',
                 finalLayout: finalLayout,
                 expected: 'ad-layout'
@@ -162,7 +162,7 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
             
             // UI should reflect final state
             const layoutDisplay = component.querySelector('.layout-display');
-            WBSafeLogger.debug('Test: Final UI state', {
+            WBEventLog.logDebug('Test: Final UI state', {
                 component: 'wb-layout-test',
                 layoutDisplayText: layoutDisplay?.textContent,
                 expected: 'Advertisement Layout'
@@ -170,7 +170,7 @@ test.describe('WB Layout Component - Reactive Architecture', () => {
             
             expect(layoutDisplay?.textContent).toBe('Advertisement Layout');
             
-            WBSafeLogger.success('Test: Rapid state changes test completed', {
+            WBEventLog.logSuccess('Test: Rapid state changes test completed', {
                 component: 'wb-layout-test',
                 testResult: 'PASS'
             });

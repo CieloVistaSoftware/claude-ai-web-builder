@@ -1,5 +1,7 @@
 # ./components/wb-nav/claude.md - WB Nav Component Development Log
-
+the .html doesn't need this  <script src="../wb-button/wb-button.js"></script>
+no inline style use our styling system.
+  <wb-demo> should produce two tabs 1) Documentation which shows the .md file and 2) examples - acutal examples of the component.
 ## 🕒 RECENT ACTIVITY (December 2024 - Most Recent First)
 
 ### ✅ Duplicate Code Cleanup (December 19, 2024)
