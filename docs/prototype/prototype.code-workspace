@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../components"
+		},
+		{
+			"path": "../../styles"
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 8083,
+		"liveServer.settings.multiRootWorkspaceName": "prototype"
+	}
+}

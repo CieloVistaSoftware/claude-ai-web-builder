@@ -1,4 +1,10 @@
 # ./components/wb-color-bar/claude.md - WB-Color-Bar Component Specification
+we just refactored to use wb:color-harmony to target the control-panel to work better.  
+
+1)  Update all demos requiring it to ensure they use the new compnent properly.
+2) for All demos in Comopents ensure no inline styles or .js is being used. We have a doc on compnent creation you must follow.
+3) Then go to the tests folders and fix all HTML to follow those guidelin
+
 ## Compliance Note
 This component is **compliant** with the project rules as of October 2025:
 - Uses reactive coding only (no imperative code)

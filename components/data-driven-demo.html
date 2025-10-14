@@ -1,209 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data-Driven Component Demo</title>
-    
-    <!-- Central Styles Import -->
-    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
-    <link rel="stylesheet" href="../styles/main.css">    <style>
-        body {
-            padding: var(--space-lg);
-        }
-        
-        .demo-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin-bottom: var(--space-sm);
-        }
-        
-        .intro {
-            background: var(--bg-secondary);
-            padding: var(--space-lg);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-2xl);
-            box-shadow: var(--shadow-base);
-        }
-        
-        .demo-section {
-            margin-bottom: var(--space-3xl);
-        }
-        
-        .demo-section h2 {
-            color: var(--primary-dark);
-            margin-bottom: var(--space-lg);
-        }
-        
-        .component-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: var(--space-lg);
-            margin-bottom: var(--space-2xl);
-        }
-        
-        .code-section {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            padding: var(--space-lg);
-            border-radius: var(--radius-lg);
-            overflow-x: auto;
-            margin-top: var(--space-lg);
-            border: 1px solid var(--border-color);
-        }
-        
-        .code-section h3 {
-            color: var(--primary-light);
-            margin-top: 0;
-        }
-        
-        pre {
-            margin: 0;
-            white-space: pre-wrap;
-        }
-        
-        .controls {
-            background: var(--bg-secondary);
-            padding: var(--space-lg);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-lg);
-            box-shadow: var(--shadow-base);
-        }
-        
-        .control-group {
-            margin-bottom: var(--space-md);
-        }
-        
-        .control-group label {
-            display: block;
-            margin-bottom: var(--space-xs);
-            font-weight: var(--font-semibold);
-            color: var(--text-primary);
-        }
-        
-        .control-group input,
-        .control-group textarea,
-        .control-group select {
-            width: 100%;
-            padding: var(--space-sm);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-base);
-            font-family: inherit;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-        
-        .control-group textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: var(--space-sm);
-            margin-top: var(--space-lg);
-        }
-        
-        .btn {
-            padding: var(--space-sm) var(--space-lg);
-            border: none;
-            border-radius: var(--radius-base);
-            background: var(--primary);
-            color: white;
-            cursor: pointer;
-            font-size: var(--text-sm);
-            font-weight: var(--font-medium);
-            transition: var(--transition-colors);
-        }
-        
-        .btn:hover {
-            background: var(--primary-dark);
-        }
-        
-        .btn-secondary {
-            background: var(--secondary);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--secondary-dark);
-        }
-        
-        /* CSS Variables handled by central CSS */
-    </style>
-</head>
-<body data-theme="dark">
-    <div class="demo-container">
-        <h1>Data-Driven Component System Demo</h1>
-        
-        <div class="intro">
-            <p>This demo showcases the data-driven component factory that generates UI components from JSON definitions. Components are created dynamically at runtime with automatic style injection, event handling, and data binding.</p>
-        </div>
-        
-        <div class="demo-section">
-            <h2>Live Component Builder</h2>
-            
-            <div class="controls">
-                <h3>Configure Your Card Component</h3>
-                
-                <div class="control-group">
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" value="Dynamic Card Title">
-                </div>
-                
-                <div class="control-group">
-                    <label for="subtitle">Subtitle (optional):</label>
-                    <input type="text" id="subtitle" value="Created from data">
-                </div>
-                
-                <div class="control-group">
-                    <label for="content">Content:</label>
-                    <textarea id="content">This card component is generated entirely from a JSON definition. Change the values above to see it update in real-time!</textarea>
-                </div>
-                
-                <div class="control-group">
-                    <label for="image">Image URL (optional):</label>
-                    <input type="text" id="image" placeholder="https://example.com/image.jpg">
-                </div>
-                
-                <div class="control-group">
-                    <label for="variant">Variant:</label>
-                    <select id="variant">
-                        <option value="elevated">Elevated</option>
-                        <option value="outlined">Outlined</option>
-                        <option value="interactive">Interactive</option>
-                    </select>
-                </div>
-                
-                <div class="control-group">
-                    <label for="tags">Tags (comma separated):</label>
-                    <input type="text" id="tags" value="Data-Driven, Dynamic, Component">
-                </div>
-                
-                <div class="button-group">
-                    <button class="btn" onclick="createComponent()">Create Component</button>
-                    <button class="btn btn-secondary" onclick="loadExample('basic')">Basic Example</button>
-                    <button class="btn btn-secondary" onclick="loadExample('withImage')">Image Example</button>
-                    <button class="btn btn-secondary" onclick="loadExample('withActions')">Actions Example</button>
-                </div>
-            </div>
-            
-            <div id="component-container" class="component-grid"></div>
-        </div>
-        
-        <div class="demo-section">
-            <h2>How It Works</h2>
-            
-            <div class="code-section">
-                <h3>1. Define Component Structure in JSON</h3>
-                <pre>{
-  "template": {
-    "structure": [
-      {
-        "tag": "div",
         "attributes": { "class": "wb-card" },
         "children": [
           {
@@ -220,7 +14,6 @@
   }
 }</pre>
             </div>
-            
             <div class="code-section">
                 <h3>2. Create Component with Factory</h3>
                 <pre>const card = await ComponentFactory.create('wb-card', {
@@ -244,16 +37,43 @@
     </div>
     
     <!-- Load Component Factory -->
-    <script src="../utils/component-factory.js"></script>
+    <script src="../utils/component/component-factory.js"></script>
     
     <script>
+        async function previewComponent() {
+            if (!cardDefinition) return;
+            // Get form values
+            const data = {
+                title: document.getElementById('title').value,
+                subtitle: document.getElementById('subtitle').value,
+                content: document.getElementById('content').value,
+                image: document.getElementById('image').value,
+                variant: document.getElementById('variant').value,
+                tags: document.getElementById('tags').value
+                    .split(',')
+                    .map(tag => tag.trim())
+                    .filter(tag => tag.length > 0)
+            };
+            if (!data.subtitle) delete data.subtitle;
+            if (!data.image) delete data.image;
+            if (data.tags.length === 0) delete data.tags;
+            data.actions = [
+                { actionId: 'view', actionLabel: 'View Details', actionVariant: 'primary' },
+                { actionId: 'edit', actionLabel: 'Edit', actionVariant: 'secondary' }
+            ];
+            // Create preview card
+            const component = await ComponentFactory.create('wb-card', { data, variant: data.variant });
+            const preview = document.getElementById('preview-container');
+            preview.innerHTML = '';
+            preview.appendChild(component.element);
+        }
         // Load the card definition
         let cardDefinition = null;
         
         async function initialize() {
             try {
                 // Load the example schema
-                const response = await fetch('data-driven-schema-example.json');
+                const response = await fetch('../utils/component/data-driven-schema-example.json');
                 cardDefinition = await response.json();
                 ComponentFactory.register(cardDefinition);
                 

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "maxEvents": 1000,
+    "autoScroll": true,
+    "defaultFilters": ["error", "warning", "info"],
+    "display": {
+      "wrapMode": "truncate",
+      "maxWidth": "100%",
+      "showTimestamps": true,
+      "showSource": true
+    },
+    "capture": {
+      "console": true,
+      "network": true,
+      "performance": true,
+      "userInteractions": true
+    },
+    "export": {
+      "enabled": true,
+      "includeStackTraces": true,
+      "compressOldEvents": false
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "description": "Event logging configuration for wb-event-log component",
+    "lastUpdated": "2025-10-07"
+  }
+}

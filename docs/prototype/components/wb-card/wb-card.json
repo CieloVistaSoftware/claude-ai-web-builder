@@ -1,0 +1,26 @@
+{
+  "name": "wb-card",
+  "version": "1.0.0",
+  "description": "WB Card component for displaying content in card format",
+  "classes": {
+    "base": "wb-card",
+    "header": "wb-card-header",
+    "body": "wb-card-body",
+    "footer": "wb-card-footer",
+    "title": "wb-card-title",
+    "text": "wb-card-text"
+  },
+  "defaults": {
+    "theme": "default",
+    "padding": "normal",
+    "shadow": true
+  },
+  "themes": {
+    "default": "wb-card--default",
+    "primary": "wb-card--primary",
+    "secondary": "wb-card--secondary",
+    "success": "wb-card--success",
+    "warning": "wb-card--warning",
+    "danger": "wb-card--danger"
+  }
+}

@@ -1,0 +1,900 @@
+<!DOCTYPE html><!DOCTYPE html>
+
+<html lang="en" data-theme="dark"><html lang="en" data-theme="dark">
+
+<head><head>
+
+    <meta charset="UTF-8">    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WB Event Log - Interactive Demo</title>    <title>WB Event Log Component Demo</title>
+
+        
+
+    <!-- Core Styles (Correct Path) -->    <!-- Component System - Auto-loads all components used on the page -->
+
+    <link rel="stylesheet" href="../../styles/_variables.css">    <script src="/config.js"></script>
+
+    <link rel="stylesheet" href="../../styles/_base.css">    <script src="/utils/auto-loader.js"></script>
+
+    <link rel="stylesheet" href="../../styles/main.css">    
+
+    <link rel="stylesheet" href="../../styles/wb-event-log-demo.css">    <!-- Demo Styles -->
+
+        <link rel="stylesheet" href="/components/wb-event-log/wb-event-log-demo.css">
+
+    <!-- Component Style -->    
+
+    <link rel="stylesheet" href="wb-event-log.css">
+
+</head></head>
+
+<body>
+
+<body class="event-log-demo">    <div class="container">
+
+    <div class="demo-container">        <div class="header">
+
+        <!-- Header -->            <h1>🔧 WB Event Log Component</h1>
+
+        <header class="demo-header">            <p>Passive event-driven logging system for Website Builder applications</p>
+
+            <h1 class="demo-title">WB Event Log Component</h1>        </div>
+
+            <p class="demo-subtitle">        
+
+                Zero-configuration event logging with real-time display, filtering, and export capabilities.        <!-- WB Tab Component -->
+
+            </p>        <wb-tab active-tab="live-demo" variant="default" theme="dark">
+
+        </header>            <wb-tab-item tab-id="live-demo" icon="🎯">Live Demo</wb-tab-item>
+
+            <wb-tab-item tab-id="documentation" icon="📚">Documentation</wb-tab-item>
+
+        <!-- Configuration Panel -->            <wb-tab-item tab-id="code-examples" icon="💻">Code Examples</wb-tab-item>
+
+        <section class="demo-section">            
+
+            <h2 class="section-title">Configuration</h2>            <wb-tab-panel tab-for="live-demo">
+
+            <div class="demo-controls">                <div class="tab-content">
+
+                <div class="control-group">            <div class="demo-section">
+
+                    <label class="control-label" for="maxEvents">Max Events</label>                <h2>🎯 Interactive Demo</h2>
+
+                    <input type="number" id="maxEvents" class="control-input" value="1000" min="10" max="10000">                <p>Test the event log component with various event types and configurations. The component automatically captures console messages, errors, and user interactions.</p>
+
+                </div>                
+
+                <div class="control-group">                <div class="demo-grid">
+
+                    <label class="control-label" for="autoScroll">Auto Scroll</label>                    <div>
+
+                    <select id="autoScroll" class="control-select">                        <h3>Manual Event Generation</h3>
+
+                        <option value="true" selected>Enabled</option>                        <div class="demo-controls">
+
+                        <option value="false">Disabled</option>                            <wb-button variant="primary" id="btn-info-event">📝 Info Event</wb-button>
+
+                    </select>                            <wb-button variant="warning" id="btn-warning-event">⚠️ Warning Event</wb-button>
+
+                </div>                            <wb-button variant="danger" id="btn-error-event">❌ Error Event</wb-button>
+
+                <div class="control-group">                            <wb-button variant="success" id="btn-success-event">✅ Success Event</wb-button>
+
+                    <label class="control-label" for="wrapMode">Wrap Mode</label>                            <wb-button variant="secondary" id="btn-debug-event">🐛 Debug Event</wb-button>
+
+                    <select id="wrapMode" class="control-select">                            <wb-button variant="info" id="btn-user-event">👤 User Event</wb-button>
+
+                        <option value="truncate" selected>Truncate</option>                        </div>
+
+                        <option value="wrap">Wrap</option>                        
+
+                        <option value="nowrap">No Wrap</option>                        <h3>Console & System Events</h3>
+
+                    </select>                        <div class="demo-controls">
+
+                </div>                            <wb-button variant="info" id="btn-console-events">💬 Console Messages</wb-button>
+
+                <div class="control-group">                            <wb-button variant="danger" id="btn-js-error">💥 JavaScript Error</wb-button>
+
+                    <label class="control-label" for="showTimestamps">Show Timestamps</label>                            <wb-button variant="danger" id="btn-promise-error">🚫 Promise Rejection</wb-button>
+
+                    <select id="showTimestamps" class="control-select">                            <wb-button variant="secondary" id="btn-user-interactions">🖱️ User Interactions</wb-button>
+
+                        <option value="true" selected>Yes</option>                        </div>
+
+                        <option value="false">No</option>                        
+
+                    </select>                        <h3>Bulk Event Generation</h3>
+
+                </div>                        <div class="demo-controls">
+
+                <div class="control-group">                            <wb-button variant="primary" id="btn-bulk-10">Generate 10 Events</wb-button>
+
+                    <label class="control-label" for="darkMode">Theme</label>                            <wb-button variant="warning" id="btn-bulk-50">Generate 50 Events</wb-button>
+
+                    <select id="darkMode" class="control-select">                            <wb-button variant="danger" id="btn-bulk-100">Generate 100 Events</wb-button>
+
+                        <option value="auto" selected>Auto</option>                            <wb-button variant="info" id="btn-stress-test">🔥 Stress Test</wb-button>
+
+                        <option value="true">Dark</option>                        </div>
+
+                        <option value="false">Light</option>                    </div>
+
+                    </select>                    
+
+                </div>                    <div>
+
+                <div class="control-group">                        <h3>Configuration Controls</h3>
+
+                    <label class="control-label" for="compact">Display Mode</label>                        
+
+                    <select id="compact" class="control-select">                        <div class="config-section">
+
+                        <option value="false" selected>Normal</option>                            <h4>Display Settings</h4>
+
+                        <option value="true">Compact</option>                            <div class="config-controls">
+
+                    </select>                                <label>
+
+                </div>                                    <wb-input type="checkbox" id="autoScroll" checked> Auto-scroll
+
+            </div>                                </label>
+
+        </section>                                <label>
+
+                                    Wrap Mode:
+
+        <!-- Demo Actions -->                                    <wb-select id="wrapMode">
+
+        <section class="demo-section">                                        <option value="truncate">Truncate</option>
+
+            <h2 class="section-title">Demo Actions</h2>                                        <option value="wrap">Wrap</option>
+
+            <div class="action-buttons">                                    </wb-select>
+
+                <button class="demo-button primary" onclick="generateEvent('info')">Generate Info</button>                                </label>
+
+                <button class="demo-button secondary" onclick="generateEvent('warning')">Generate Warning</button>                                <label>
+
+                <button class="demo-button danger" onclick="generateEvent('error')">Generate Error</button>                                    Max Events:
+
+                <button class="demo-button success" onclick="generateEvent('success')">Generate Success</button>                                    <wb-input type="number" id="maxEvents" value="1000" min="10" max="5000"></wb-input>
+
+                <button class="demo-button secondary" onclick="clearAllEvents()">Clear Events</button>                                </label>
+
+                <button class="demo-button secondary" onclick="pauseLogging()">Pause Logging</button>                            </div>
+
+                <button class="demo-button secondary" onclick="resumeLogging()">Resume Logging</button>                        </div>
+
+                <button class="demo-button primary" onclick="exportEvents('json')">Export JSON</button>                        
+
+                <button class="demo-button primary" onclick="exportEvents('csv')">Export CSV</button>                        <div class="config-section">
+
+            </div>                            <h4>Filter Controls</h4>
+
+        </section>                            <div class="config-controls">
+
+                                <label><wb-input type="checkbox" class="filter-checkbox" value="info" checked> Info</label>
+
+        <!-- Event Log Component -->                                <label><wb-input type="checkbox" class="filter-checkbox" value="warning" checked> Warning</label>
+
+        <section class="demo-section">                                <label><wb-input type="checkbox" class="filter-checkbox" value="error" checked> Error</label>
+
+            <h2 class="section-title">Live Event Log</h2>                                <label><wb-input type="checkbox" class="filter-checkbox" value="success" checked> Success</label>
+
+            <div class="event-log-container">                                <label><wb-input type="checkbox" class="filter-checkbox" value="debug"> Debug</label>
+
+                <wb-event-log                                 <label><wb-input type="checkbox" class="filter-checkbox" value="user" checked> User</label>
+
+                    id="demoEventLog"                            </div>
+
+                    max-events="1000"                        </div>
+
+                    auto-scroll="true"                        
+
+                    show-timestamps="true"                        <div class="config-section">
+
+                    show-source="true"                            <h4>Export & Actions</h4>
+
+                    expandable-details="true"                            <div class="config-controls">
+
+                    wrap-mode="truncate"                                <wb-button variant="primary" id="btn-copy-json">📋 Copy JSON</wb-button>
+
+                    dark-mode="auto"                                <wb-button variant="primary" id="btn-export-json">📄 Export JSON</wb-button>
+
+                    compact="false"                                <wb-button variant="primary" id="btn-export-csv">📊 Export CSV</wb-button>
+
+                    toolbar="true"                                <wb-button variant="primary" id="btn-export-txt">📝 Export TXT</wb-button>
+
+                    search="true"                                <wb-button variant="warning" id="btn-toggle-pause">⏸️ Pause/Resume</wb-button>
+
+                    filters="true"                                <wb-button variant="danger" id="btn-clear-events">🗑️ Clear All</wb-button>
+
+                    export="true"                            </div>
+
+                    intercept-console="true"                        </div>
+
+                    capture-errors="true">                    </div>
+
+                </wb-event-log>                </div>
+
+            </div>            </div>
+
+        </section>            
+
+            <div class="demo-section">
+
+        <!-- Statistics -->                <h2>📊 Live Event Log</h2>
+
+        <section class="demo-section">                <div class="event-log-container">
+
+            <h2 class="section-title">Statistics</h2>                    <wb-event-log id="mainEventLog"></wb-event-log>
+
+            <div class="stats-grid">                </div>
+
+                <div class="stat-card">                
+
+                    <span class="stat-value" id="totalEvents">0</span>                <div class="stats">
+
+                    <span class="stat-label">Total Events</span>                    <wb-card variant="filled">
+
+                </div>                        <div class="stat-number" id="totalEvents">0</div>
+
+                <div class="stat-card">                        <div class="stat-label">Total Events</div>
+
+                    <span class="stat-value" id="errorCount">0</span>                    </wb-card>
+
+                    <span class="stat-label">Errors</span>                    <wb-card variant="filled">
+
+                </div>                        <div class="stat-number" id="visibleEvents">0</div>
+
+                <div class="stat-card">                        <div class="stat-label">Visible Events</div>
+
+                    <span class="stat-value" id="warningCount">0</span>                    </wb-card>
+
+                    <span class="stat-label">Warnings</span>                    <wb-card variant="filled">
+
+                </div>                        <div class="stat-number" id="errorCount">0</div>
+
+                <div class="stat-card">                        <div class="stat-label">Errors</div>
+
+                    <span class="stat-value" id="loggingStatus">Active</span>                    </wb-card>
+
+                    <span class="stat-label">Status</span>                    <wb-card variant="filled">
+
+                </div>                        <div class="stat-number" id="eventRate">0</div>
+
+            </div>                        <div class="stat-label">Events/sec</div>
+
+        </section>                    </wb-card>
+
+                </div>
+
+        <!-- Code Examples -->                </div>
+
+        <section class="demo-section">            </wb-tab-panel>
+
+            <h2 class="section-title">Usage Examples</h2>            
+
+                        <wb-tab-panel tab-for="documentation">
+
+            <div class="doc-section">                <div class="tab-content">
+
+                <h3>Basic Usage</h3>            <div class="demo-section">
+
+                <div class="code-example">&lt;!-- Simple Setup --&gt;                <h2>📚 Documentation</h2>
+
+&lt;link rel="stylesheet" href="wb-event-log.css"&gt;                
+
+&lt;script src="wb-event-log.js"&gt;&lt;/script&gt;                <h3>🚀 Auto-Loading System</h3>
+
+                <ul>
+
+&lt;!-- Zero Configuration --&gt;                    <li><strong>Smart Component Detection:</strong> Automatically detects WB components on the page</li>
+
+&lt;wb-event-log&gt;&lt;/wb-event-log&gt;                    <li><strong>Dependency Auto-Loading:</strong> Loads CSS and JS files only for components you use</li>
+
+                    <li><strong>Dynamic Component Support:</strong> Detects and loads components added after page load</li>
+
+&lt;!-- With Configuration --&gt;                    <li><strong>Simplified Setup:</strong> Just 2 script tags instead of manual component imports</li>
+
+&lt;wb-event-log                     <li><strong>Performance Optimized:</strong> Parallel loading with duplicate prevention</li>
+
+    max-events="500"                </ul>
+
+    auto-scroll="true"                
+
+    show-timestamps="true"                <h3>Component Features</h3>
+
+    wrap-mode="truncate"                <ul>
+
+    dark-mode="auto"&gt;                    <li><strong>Zero Integration Required:</strong> Just include the component and it starts working</li>
+
+&lt;/wb-event-log&gt;</div>                    <li><strong>Passive Event Monitoring:</strong> Automatically captures console, errors, and interactions</li>
+
+            </div>                    <li><strong>Configurable Display:</strong> Choose between truncate or wrap modes for long messages</li>
+
+                    <li><strong>Real-time Filtering:</strong> Filter by event type and search text</li>
+
+            <div class="doc-section">                    <li><strong>Export Capabilities:</strong> Export events to JSON, CSV, or TXT formats</li>
+
+                <h3>JavaScript API</h3>                    <li><strong>Performance Optimized:</strong> Virtual scrolling and event limits</li>
+
+                <div class="code-example">// Get component reference                </ul>
+
+const eventLog = document.querySelector('wb-event-log');                
+
+                <h3>Event Types</h3>
+
+// Generate custom events                <ul>
+
+document.dispatchEvent(new CustomEvent('wb:info', {                    <li>📝 <strong>Info:</strong> General information messages</li>
+
+    detail: {                     <li>⚠️ <strong>Warning:</strong> Non-critical warnings</li>
+
+        message: 'Operation completed',                     <li>❌ <strong>Error:</strong> Critical errors and failures</li>
+
+        source: 'my-app',                    <li>✅ <strong>Success:</strong> Successful operations</li>
+
+        data: { userId: 123, action: 'login' }                    <li>🐛 <strong>Debug:</strong> Development/debugging messages</li>
+
+    }                    <li>👤 <strong>User:</strong> User actions and interactions</li>
+
+}));                </ul>
+
+                
+
+// Control component                <h3>Configuration Options</h3>
+
+eventLog.clearEvents();                <ul>
+
+eventLog.pauseLogging();                    <li><strong>maxEvents:</strong> Maximum number of events to keep (default: 1000)</li>
+
+eventLog.resumeLogging();                    <li><strong>autoScroll:</strong> Automatically scroll to new events (default: true)</li>
+
+eventLog.exportEvents('json');</div>                    <li><strong>wrapMode:</strong> "truncate" or "wrap" for long messages (default: "truncate")</li>
+
+            </div>                    <li><strong>filters:</strong> Array of event types to display</li>
+
+        </section>                    <li><strong>searchFilter:</strong> Text filter for events</li>
+
+    </div>                </ul>
+
+                </div>
+
+    <!-- Component Script -->            </wb-tab-panel>
+
+    <script src="wb-event-log.js"></script>            
+
+                <wb-tab-panel tab-for="code-examples">
+
+    <!-- Demo Script -->                <div class="tab-content">
+
+    <script>            <div class="demo-section">
+
+        // Demo state                <h2>💻 Code Examples</h2>
+
+        let eventCounter = 0;                
+
+        let stats = { total: 0, errors: 0, warnings: 0, info: 0, success: 0 };                <h3>Basic Usage</h3>
+
+        let isPaused = false;                <div class="code-example">
+
+&lt;!-- Simple HTML head setup (auto-loads all components) --&gt;
+
+        // Get component reference&lt;script src="/config.js"&gt;&lt;/script&gt;
+
+        const eventLog = document.getElementById('demoEventLog');&lt;script src="/utils/auto-loader.js"&gt;&lt;/script&gt;
+
+
+
+        // Sample event messages&lt;!-- Zero configuration usage --&gt;
+
+        const eventMessages = {&lt;wb-event-log&gt;&lt;/wb-event-log&gt;
+
+            info: [
+
+                'User logged in successfully',&lt;!-- With configuration --&gt;
+
+                'Component initialized',&lt;wb-event-log 
+
+                'Data loaded from cache',    data-max-events="500"
+
+                'Navigation updated',    data-auto-scroll="true"
+
+                'Theme changed to dark mode'    data-wrap-mode="wrap"&gt;
+
+            ],&lt;/wb-event-log&gt;</div>
+
+            warning: [                
+
+                'API response time exceeded 2s',                <h3>Manual Event Logging</h3>
+
+                'Cache miss for user data',                <div class="code-example">
+
+                'Deprecated method used',// Static helper methods
+
+                'Memory usage above 80%',WBEventLog.logInfo('Component initialized');
+
+                'Connection unstable'WBEventLog.logWarning('API response slow');
+
+            ],WBEventLog.logError('Failed to load data');
+
+            error: [WBEventLog.logSuccess('File saved successfully');
+
+                'Database connection failed',
+
+                'Authentication token expired',// Custom events (components can emit these)
+
+                'Invalid user input',document.dispatchEvent(new CustomEvent('wb:info', {
+
+                'Component render failed',    detail: { message: 'Component loaded', source: 'wb-button' }
+
+                'Network timeout'}));
+
+            ],
+
+            success: [document.dispatchEvent(new CustomEvent('wb:error', {
+
+                'Data saved successfully',    detail: { message: 'API call failed', source: 'api-service', error: errorObj }
+
+                'File upload completed',}));</div>
+
+                'User profile updated',                
+
+                'Configuration applied',                <h3>Component API</h3>
+
+                'Backup created'                <div class="code-example">
+
+            ]const eventLog = document.querySelector('wb-event-log');
+
+        };
+
+// Control logging
+
+        // Configuration change handlerseventLog.clearEvents();
+
+        document.getElementById('maxEvents').addEventListener('change', (e) => {eventLog.pauseLogging();
+
+            eventLog.setAttribute('max-events', e.target.value);eventLog.resumeLogging();
+
+        });
+
+// Export events
+
+        document.getElementById('autoScroll').addEventListener('change', (e) => {eventLog.exportEvents('json');
+
+            eventLog.setAttribute('auto-scroll', e.target.value);eventLog.exportEvents('csv');
+
+        });eventLog.exportEvents('txt');
+
+
+
+        document.getElementById('wrapMode').addEventListener('change', (e) => {// Configure display
+
+            eventLog.setAttribute('wrap-mode', e.target.value);eventLog.setFilter(['info', 'error']);
+
+        });eventLog.setSearchFilter('component');
+
+eventLog.setMaxEvents(500);
+
+        document.getElementById('showTimestamps').addEventListener('change', (e) => {eventLog.setAutoScroll(false);
+
+            eventLog.setAttribute('show-timestamps', e.target.value);eventLog.setWrapMode('wrap');</div>
+
+        });                
+
+                <h3>Event Listening</h3>
+
+        document.getElementById('darkMode').addEventListener('change', (e) => {                <div class="code-example">
+
+            eventLog.setAttribute('dark-mode', e.target.value);// Listen for component events
+
+        });eventLog.addEventListener('wb-event-logged', (e) => {
+
+    console.log('New event:', e.detail);
+
+        document.getElementById('compact').addEventListener('change', (e) => {});
+
+            eventLog.setAttribute('compact', e.target.value);
+
+        });eventLog.addEventListener('wb-events-cleared', () => {
+
+    console.log('Events cleared');
+
+        // Event generation});
+
+        function generateEvent(type) {
+
+            if (isPaused) return;eventLog.addEventListener('wb-filter-changed', (e) => {
+
+    console.log('Filters changed:', e.detail.filters);
+
+            const messages = eventMessages[type] || eventMessages.info;});</div>
+
+            const message = messages[Math.floor(Math.random() * messages.length)];                </div>
+
+                        </wb-tab-panel>
+
+            document.dispatchEvent(new CustomEvent(`wb:${type}`, {        </wb-tab>
+
+                detail: {    </div>
+
+                    message: message,    
+
+                    source: 'demo-component',    <script>
+
+                    timestamp: new Date().toISOString(),        // Demo functionality
+
+                    eventId: ++eventCounter,        let eventCount = 0;
+
+                    data: {        let errorCount = 0;
+
+                        demoEvent: true,        let lastEventTime = Date.now();
+
+                        randomId: Math.random().toString(36).substr(2, 9)        let eventTimes = [];
+
+                    }        
+
+                }        // wb-tab component handles tab switching automatically
+
+            }));        
+
+        // Get event log instance
+
+            updateStats(type);        const eventLog = document.getElementById('mainEventLog');
+
+        }        
+
+        // Add event listeners for buttons (replacing inline onclick)
+
+        // Control functions        function attachEventListeners() {
+
+        function clearAllEvents() {            // Manual event generation buttons
+
+            if (eventLog.clearEvents) {            document.getElementById('btn-info-event')?.addEventListener('click', generateInfoEvent);
+
+                eventLog.clearEvents();            document.getElementById('btn-warning-event')?.addEventListener('click', generateWarningEvent);
+
+            }            document.getElementById('btn-error-event')?.addEventListener('click', generateErrorEvent);
+
+            stats = { total: 0, errors: 0, warnings: 0, info: 0, success: 0 };            document.getElementById('btn-success-event')?.addEventListener('click', generateSuccessEvent);
+
+            updateStatsDisplay();            document.getElementById('btn-debug-event')?.addEventListener('click', generateDebugEvent);
+
+        }            document.getElementById('btn-user-event')?.addEventListener('click', generateUserEvent);
+
+            
+
+        function pauseLogging() {            // Console & system event buttons
+
+            isPaused = true;            document.getElementById('btn-console-events')?.addEventListener('click', generateConsoleEvents);
+
+            if (eventLog.pauseLogging) {            document.getElementById('btn-js-error')?.addEventListener('click', generateJSError);
+
+                eventLog.pauseLogging();            document.getElementById('btn-promise-error')?.addEventListener('click', generatePromiseError);
+
+            }            document.getElementById('btn-user-interactions')?.addEventListener('click', simulateUserInteractions);
+
+            document.getElementById('loggingStatus').textContent = 'Paused';            
+
+        }            // Bulk event generation buttons
+
+            document.getElementById('btn-bulk-10')?.addEventListener('click', () => generateBulkEvents(10));
+
+        function resumeLogging() {            document.getElementById('btn-bulk-50')?.addEventListener('click', () => generateBulkEvents(50));
+
+            isPaused = false;            document.getElementById('btn-bulk-100')?.addEventListener('click', () => generateBulkEvents(100));
+
+            if (eventLog.resumeLogging) {            document.getElementById('btn-stress-test')?.addEventListener('click', generateStressTest);
+
+                eventLog.resumeLogging();            
+
+            }            // Export & action buttons
+
+            document.getElementById('loggingStatus').textContent = 'Active';            document.getElementById('btn-copy-json')?.addEventListener('click', copyEventsJSON);
+
+        }            document.getElementById('btn-export-json')?.addEventListener('click', () => exportEvents('json'));
+
+            document.getElementById('btn-export-csv')?.addEventListener('click', () => exportEvents('csv'));
+
+        function exportEvents(format) {            document.getElementById('btn-export-txt')?.addEventListener('click', () => exportEvents('txt'));
+
+            if (eventLog.exportEvents) {            document.getElementById('btn-toggle-pause')?.addEventListener('click', togglePause);
+
+                eventLog.exportEvents(format);            document.getElementById('btn-clear-events')?.addEventListener('click', clearEvents);
+
+            }        }
+
+        }        
+
+        // Event generation functions
+
+        // Statistics management        function generateInfoEvent() {
+
+        function updateStats(type) {            WBEventLog.logInfo(`Info message #${++eventCount}`, { 
+
+            stats.total++;                source: 'demo', 
+
+            if (stats[type] !== undefined) {                timestamp: Date.now(),
+
+                stats[type]++;                details: { action: 'manual', type: 'info' }
+
+            }            });
+
+            updateStatsDisplay();            updateStats();
+
+        }        }
+
+        
+
+        function updateStatsDisplay() {        function generateWarningEvent() {
+
+            document.getElementById('totalEvents').textContent = stats.total;            const warnings = [
+
+            document.getElementById('errorCount').textContent = stats.errors;                'API response time exceeded threshold',
+
+            document.getElementById('warningCount').textContent = stats.warnings;                'Deprecated function usage detected',
+
+        }                'Memory usage approaching limit',
+
+                'Cache miss rate high',
+
+        // Listen for component events                'Network latency increased'
+
+        eventLog.addEventListener('wb-event-log:event-added', (e) => {            ];
+
+            console.log('Event added:', e.detail);            WBEventLog.logWarning(warnings[Math.floor(Math.random() * warnings.length)], { 
+
+        });                source: 'demo',
+
+                severity: 'medium'
+
+        eventLog.addEventListener('wb-event-log:cleared', () => {            });
+
+            console.log('Events cleared');            updateStats();
+
+        });        }
+
+        
+
+        eventLog.addEventListener('wb-event-log:exported', (e) => {        function generateErrorEvent() {
+
+            console.log('Events exported:', e.detail.format);            const errors = [
+
+        });                'Failed to connect to database',
+
+                'Authentication token expired',
+
+        // Auto-generate some sample events on load                'File not found: config.json',
+
+        setTimeout(() => {                'Network request timeout',
+
+            generateEvent('info');                'Invalid JSON response'
+
+            setTimeout(() => generateEvent('success'), 500);            ];
+
+            setTimeout(() => generateEvent('warning'), 1000);            WBEventLog.logError(errors[Math.floor(Math.random() * errors.length)], { 
+
+        }, 1000);                source: 'demo',
+
+                severity: 'high',
+
+        // Generate random events periodically (for demo purposes)                stack: 'Error at demo.js:123'
+
+        setInterval(() => {            });
+
+            if (!isPaused && Math.random() < 0.3) {            errorCount++;
+
+                const types = ['info', 'warning', 'error', 'success'];            updateStats();
+
+                const randomType = types[Math.floor(Math.random() * types.length)];        }
+
+                generateEvent(randomType);        
+
+            }        function generateSuccessEvent() {
+
+        }, 5000);            const successes = [
+
+    </script>                'User authentication successful',
+
+</body>                'Data saved to database',
+
+</html>                'File upload completed',
+                'Cache refreshed successfully',
+                'Settings updated'
+            ];
+            WBEventLog.logSuccess(successes[Math.floor(Math.random() * successes.length)], { 
+                source: 'demo',
+                duration: Math.floor(Math.random() * 1000) + 'ms'
+            });
+            updateStats();
+        }
+        
+        function generateDebugEvent() {
+            const debugMessages = [
+                'Component lifecycle: mounted',
+                'State updated: { theme: "dark" }',
+                'Event listener attached',
+                'Cache hit for key: user_123',
+                'Performance marker: render_complete'
+            ];
+            WBEventLog.logDebug(debugMessages[Math.floor(Math.random() * debugMessages.length)], { 
+                source: 'demo',
+                level: 'verbose'
+            });
+            updateStats();
+        }
+        
+        function generateUserEvent() {
+            const userActions = [
+                'Button clicked: Save Document',
+                'Form submitted: User Registration',
+                'Page navigated: /dashboard',
+                'Modal opened: Settings',
+                'File selected: image.png'
+            ];
+            WBEventLog.logUser(userActions[Math.floor(Math.random() * userActions.length)], { 
+                source: 'demo',
+                userId: 'user_123',
+                sessionId: 'session_456'
+            });
+            updateStats();
+        }
+        
+        function generateConsoleEvents() {
+            console.log('This is a console.log message');
+            console.warn('This is a console.warn message');
+            console.error('This is a console.error message');
+            console.info('This is a console.info message');
+            console.debug('This is a console.debug message');
+            updateStats();
+        }
+        
+        function generateJSError() {
+            setTimeout(() => {
+                throw new Error('Demo JavaScript error for testing');
+            }, 100);
+            updateStats();
+        }
+        
+        function generatePromiseError() {
+            Promise.reject(new Error('Demo promise rejection for testing'));
+            updateStats();
+        }
+        
+        function simulateUserInteractions() {
+            // Create some temporary elements to interact with
+            const tempButton = document.createElement('button');
+            tempButton.textContent = 'Demo Button';
+            tempButton.id = 'demo-btn-' + Date.now();
+            document.body.appendChild(tempButton);
+            
+            setTimeout(() => {
+                tempButton.click();
+                document.body.removeChild(tempButton);
+            }, 100);
+            
+            updateStats();
+        }
+        
+        function generateBulkEvents(count) {
+            const eventTypes = ['info', 'warning', 'error', 'success', 'debug', 'user'];
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const type = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+                    switch (type) {
+                        case 'info': generateInfoEvent(); break;
+                        case 'warning': generateWarningEvent(); break;
+                        case 'error': generateErrorEvent(); break;
+                        case 'success': generateSuccessEvent(); break;
+                        case 'debug': generateDebugEvent(); break;
+                        case 'user': generateUserEvent(); break;
+                    }
+                }, i * 10); // Stagger events
+            }
+        }
+        
+        function generateStressTest() {
+            let stressCount = 0;
+            const stressInterval = setInterval(() => {
+                if (stressCount >= 200) {
+                    clearInterval(stressInterval);
+                    return;
+                }
+                
+                generateBulkEvents(5);
+                stressCount += 5;
+            }, 100);
+        }
+        
+        // Configuration controls
+        document.getElementById('autoScroll').addEventListener('change', (e) => {
+            eventLog.setAutoScroll(e.target.checked);
+        });
+        
+        document.getElementById('wrapMode').addEventListener('change', (e) => {
+            eventLog.setWrapMode(e.target.value);
+        });
+        
+        document.getElementById('maxEvents').addEventListener('change', (e) => {
+            eventLog.setMaxEvents(parseInt(e.target.value));
+        });
+        
+        document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const activeFilters = Array.from(document.querySelectorAll('.filter-checkbox:checked'))
+                    .map(cb => cb.value);
+                eventLog.setFilter(activeFilters);
+            });
+        });
+        
+        // Copy function
+        function copyEventsJSON() {
+            eventLog.copyEventsAsJSON();
+        }
+        
+        // Export functions
+        function exportEvents(format) {
+            eventLog.exportEvents(format);
+        }
+        
+        function togglePause() {
+            const btn = event.target;
+            if (eventLog.isPaused) {
+                eventLog.resumeLogging();
+                btn.textContent = '⏸️ Pause';
+            } else {
+                eventLog.pauseLogging();
+                btn.textContent = '▶️ Resume';
+            }
+        }
+        
+        function clearEvents() {
+            eventLog.clearEvents();
+            eventCount = 0;
+            errorCount = 0;
+            eventTimes = [];
+            updateStats();
+        }
+        
+        // Statistics tracking
+        function updateStats() {
+            const now = Date.now();
+            eventTimes.push(now);
+            
+            // Keep only last 10 seconds of event times
+            eventTimes = eventTimes.filter(time => now - time < 10000);
+            
+            document.getElementById('totalEvents').textContent = eventCount;
+            document.getElementById('visibleEvents').textContent = eventLog?.getVisibleEvents?.()?.length || 0;
+            document.getElementById('errorCount').textContent = errorCount;
+            document.getElementById('eventRate').textContent = (eventTimes.length / 10).toFixed(1);
+        }
+        
+        // Listen for event log events
+        eventLog.addEventListener('wb-event-logged', updateStats);
+        eventLog.addEventListener('wb-events-cleared', updateStats);
+        
+        // Initialize event listeners and sample events
+        document.addEventListener('DOMContentLoaded', () => {
+            attachEventListeners();
+        });
+        
+        setTimeout(() => {
+            WBEventLog.logInfo('Event log demo initialized', { source: 'demo-page' });
+            WBEventLog.logSuccess('All components loaded successfully', { source: 'demo-page' });
+            generateConsoleEvents();
+            updateStats();
+        }, 1000);
+        
+        // Update stats periodically
+        setInterval(updateStats, 1000);
+    </script>
+</body>
+</html>

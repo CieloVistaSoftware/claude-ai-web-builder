@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Control Panel - Simple Demo</title>
+    
+    <!-- Load Foundation CSS -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <!-- Load wb-component-utils FIRST -->
+    <script src="../../utils/wb/wb-component-utils.js"></script>
+    
+    <!-- Use the index.js loader to handle all dependencies automatically -->
+    <script src="../../index.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-primary, #1e293b);
+            color: var(--text-primary, #f1f5f9);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation - First element */
+        .page-nav {
+            background: var(--bg-secondary, #334155);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.1));
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .page-nav a {
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .page-nav a:hover {
+            color: var(--primary, #6366f1) !important;
+        }
+        
+        /* Header - Second element */
+        .page-header {
+            background: var(--bg-secondary, #2d3748);
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.1));
+        }
+        
+        .page-header h1 {
+            margin: 0;
+            color: var(--text-primary, #f1f5f9);
+        }
+        
+        /* Main - Third element */
+        .page-main {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        /* Footer - Fourth element */
+        .page-footer {
+            padding: 1rem 2rem;
+            border-top: 1px solid var(--border-color, rgba(255,255,255,0.1));
+            text-align: center;
+            background: var(--bg-secondary, rgba(255,255,255,0.02));
+        }
+        
+        /* Control panel should float */
+        wb-control-panel {
+            position: fixed !important;
+            top: 1rem !important;
+            right: 1rem !important;
+            z-index: 1000 !important;
+            /* Ensure it doesn't affect layout */
+            width: 280px !important;
+            height: auto !important;
+        }
+        
+        /* Ensure control panel children don't break out */
+        wb-control-panel * {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation - First element on page -->
+    <nav class="page-nav">
+        <a href="#" style="color: var(--primary, #6366f1); margin-right: 2rem;">Home</a>
+        <a href="#about" style="color: var(--text-primary, #f1f5f9); margin-right: 2rem;">About</a>
+        <a href="#services" style="color: var(--text-primary, #f1f5f9); margin-right: 2rem;">Services</a>
+        <a href="#contact" style="color: var(--text-primary, #f1f5f9);">Contact</a>
+    </nav>
+    
+    <!-- Header - Second element -->
+    <header class="page-header">
+        <h1>Website Builder Demo</h1>
+    </header>
+    
+    <!-- Main content - Third element -->
+    <main class="page-main">
+        <h2>Control Panel Demo</h2>
+        <p>This is a simple demo showing the control panel floating over a sample page.</p>
+        
+        <h3>About This Demo</h3>
+        <p>The control panel is positioned in the top-right corner and allows you to:</p>
+        <ul>
+            <li>Change the theme</li>
+            <li>Adjust the layout</li>
+            <li>Modify colors</li>
+            <li>Toggle various features</li>
+        </ul>
+        
+        <h3>Sample Content</h3>
+        <p>This page contains sample content to demonstrate how the control panel works with a real webpage.</p>
+    </main>
+    
+    <!-- Footer - Fourth element -->
+    <footer class="page-footer">
+        <p>&copy; 2025 Sample Website. All rights reserved.</p>
+    </footer>
+    
+    <!-- Layout and Theme Management Components -->
+    <wb-layout id="page-layout" layout="top-nav"></wb-layout>
+    <wb-theme-manager id="theme-manager" theme="dark"></wb-theme-manager>
+    
+    <!-- Control Panel - Floating overlay -->
+    <wb-control-panel id="main-control-panel" style="visibility: hidden;"></wb-control-panel>
+    
+    <script>
+        // Wait for all WB components to load before showing control panel
+        window.addEventListener('wb-ready', () => {
+            console.log('🎉 All WB components loaded, showing control panel');
+            
+            setTimeout(() => {
+                const controlPanel = document.getElementById('main-control-panel');
+                if (controlPanel) {
+                    controlPanel.style.visibility = 'visible';
+                    console.log('✅ Control panel visible');
+                }
+            }, 100);
+        });
+        
+        // Fallback for older browsers or if wb-ready doesn't fire
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const controlPanel = document.getElementById('main-control-panel');
+                if (controlPanel && controlPanel.style.visibility !== 'visible') {
+                    controlPanel.style.visibility = 'visible';
+                    console.log('📦 Control panel visible (fallback)');
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Table Web Component",
+  "description": "Schema for wb-table custom element attributes",
+  "type": "object",
+  "properties": {
+    "data-json": {
+      "type": "string",
+      "description": "JSON string containing table data as array of objects or arrays",
+      "examples": [
+        "[{\"name\":\"John\",\"age\":30},{\"name\":\"Jane\",\"age\":25}]",
+        "[[\"Name\",\"Age\"],[\"John\",30],[\"Jane\",25]]"
+      ]
+    },
+    "data-source": {
+      "type": "string",
+      "description": "Global variable name to watch for automatic data updates"
+    },
+    "striped": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable alternating row colors"
+    },
+    "hover": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable hover effects on rows"
+    },
+    "bordered": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable borders around table cells"
+    },
+    "compact": {
+      "type": "boolean",
+      "default": false,
+      "description": "Use compact spacing for smaller tables"
+    },
+    "responsive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable responsive table behavior"
+    },
+    "sortable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable column sorting functionality"
+    },
+    "filterable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable row filtering functionality"
+    },
+    "paginated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable pagination for large datasets"
+    },
+    "page-size": {
+      "type": "number",
+      "default": 10,
+      "description": "Number of rows per page when pagination is enabled"
+    },
+    "auto-headers": {
+      "type": "boolean",
+      "default": true,
+      "description": "Automatically generate headers from JSON object keys"
+    },
+    "header-transform": {
+      "type": "string",
+      "enum": ["none", "capitalize", "title-case", "upper", "lower"],
+      "default": "title-case",
+      "description": "How to transform header text display"
+    },
+    "empty-message": {
+      "type": "string",
+      "default": "No data available",
+      "description": "Message to show when table has no data"
+    },
+    "loading-message": {
+      "type": "string",
+      "default": "Loading...",
+      "description": "Message to show while data is loading"
+    },
+    "error-message": {
+      "type": "string",
+      "default": "Error loading data",
+      "description": "Message to show when data loading fails"
+    },
+    "max-rows": {
+      "type": "number",
+      "description": "Maximum number of rows to display"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the table"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for the table"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "ondata-changed": {
+      "type": "string",
+      "description": "JavaScript code to execute when table data changes"
+    },
+    "onrow-added": {
+      "type": "string",
+      "description": "JavaScript code to execute when a row is added"
+    },
+    "onrow-removed": {
+      "type": "string",
+      "description": "JavaScript code to execute when a row is removed"
+    },
+    "oncleared": {
+      "type": "string",
+      "description": "JavaScript code to execute when table is cleared"
+    },
+    "onsorted": {
+      "type": "string",
+      "description": "JavaScript code to execute when table is sorted"
+    },
+    "onfiltered": {
+      "type": "string",
+      "description": "JavaScript code to execute when table is filtered"
+    },
+    "onwb-table:data-changed": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-table:data-changed event"
+    },
+    "onwb-table:row-added": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-table:row-added event"
+    },
+    "onwb-table:row-removed": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-table:row-removed event"
+    },
+    "onwb-table:cleared": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-table:cleared event"
+    },
+    "onwb-table:sorted": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-table:sorted event"
+    },
+    "onwb-table:filtered": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-table:filtered event"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this table"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this table"
+    },
+    "aria-rowcount": {
+      "type": "number",
+      "description": "Total number of rows in the data set"
+    },
+    "aria-colcount": {
+      "type": "number",
+      "description": "Total number of columns in the table"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["table", "grid", "treegrid"],
+      "default": "table",
+      "description": "ARIA role for the table"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    }
+  }
+}

@@ -1,0 +1,365 @@
+/* WB Component IDE Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f172a;
+  color: #f1f5f9;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.ide-header {
+  background: #1e293b;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #334155;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ide-header h1 {
+  color: #6366f1;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: #6366f1;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Main Layout */
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #1e293b;
+  border-right: 2px solid #334155;
+  overflow-y: auto;
+  padding: 1rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar h3 {
+  color: #6366f1;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.component-item {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #f1f5f9;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  text-align: left;
+  transition: all 0.2s;
+  font-family: 'Courier New', monospace;
+}
+
+.component-item:hover {
+  background: #1e293b;
+  border-color: #6366f1;
+  transform: translateX(4px);
+}
+
+.component-item.selected {
+  background: #312e81;
+  border-color: #6366f1;
+}
+
+.loading-state {
+  padding: 1rem;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+/* Editor Area */
+.editor-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #0f172a;
+  min-width: 0;
+}
+
+.editor-toolbar {
+  background: #1e293b;
+  padding: 1rem;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.toolbar-btn {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.toolbar-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.toolbar-btn.active {
+  background: #312e81;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.editor-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.editor-panel {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+
+.editor-panel.active {
+  display: block;
+}
+
+/* HTML Editor */
+.html-editor {
+  width: 100%;
+  height: 100%;
+  background: #181c20;
+  color: #f0f6fc;
+  border: none;
+  padding: 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+}
+
+/* Preview Frame */
+.preview-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+
+/* Documentation Viewer */
+.docs-viewer {
+  width: 100%;
+  height: 100%;
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: clamp(1rem, 3vw, 2rem);
+  overflow-y: auto;
+}
+
+.docs-viewer h1 {
+  color: #6366f1;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #334155;
+  padding-bottom: 0.5rem;
+}
+
+.docs-viewer h2 {
+  color: #818cf8;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.docs-viewer h3 {
+  color: #a5b4fc;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.docs-viewer p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.docs-viewer code {
+  background: #0f172a;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85em;
+}
+
+.docs-viewer pre {
+  background: #0f172a;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.docs-viewer ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.docs-viewer li {
+  margin-bottom: 0.5rem;
+}
+
+/* Status Bar */
+.status-bar {
+  background: #1e293b;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid #334155;
+  font-size: clamp(0.7rem, 1.5vw, 0.75rem);
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+/* Insert Hint */
+.insert-hint {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background: #312e81;
+  color: #a5b4fc;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #6366f1;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  max-width: 300px;
+  z-index: 1000;
+}
+
+.insert-hint.show {
+  opacity: 1;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .ide-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .toolbar-btn {
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    max-width: 80vw;
+    z-index: 100;
+    box-shadow: 4px 0 8px rgba(0,0,0,0.3);
+  }
+
+  .sidebar.closed {
+    transform: translateX(-100%);
+  }
+
+  .editor-toolbar {
+    padding: 0.75rem;
+  }
+
+  .docs-viewer {
+    padding: 1rem;
+  }
+
+  .insert-hint {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    max-width: 90vw;
+  }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  .ide-header h1 {
+    font-size: 1rem;
+  }
+
+  .toolbar-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .component-item {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}

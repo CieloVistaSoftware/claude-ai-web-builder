@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Table JSON Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #475569;
+            --primary: #6366f1;
+            --font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin-bottom: 40px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .demo-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .demo-description {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .demo-controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .demo-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .demo-button:hover {
+            opacity: 0.8;
+        }
+
+        .table-container {
+            height: 300px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-tertiary);
+            overflow: auto;
+        }
+
+        .stats {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        pre {
+            background: var(--bg-primary);
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            white-space: pre-wrap;
+        }
+
+        wb-table {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>WB Table JSON Web Component Demo</h1>
+        <p>True web component that automatically handles JSON data and creates table headers.</p>
+
+        <!-- Direct JSON Attribute -->
+        <div class="demo-section">
+            <h2 class="demo-title">Direct JSON Attribute</h2>
+            <p class="demo-description">Table with JSON data directly in the HTML attribute.</p>
+            
+            <div class="table-container">
+                <wb-table 
+                    striped 
+                    hover 
+                    bordered
+                    data-json='[
+                        {"id": 1, "name": "John Doe", "email": "john@example.com", "role": "Admin"},
+                        {"id": 2, "name": "Jane Smith", "email": "jane@example.com", "role": "User"},
+                        {"id": 3, "name": "Bob Wilson", "email": "bob@example.com", "role": "Editor"}
+                    ]'>
+                </wb-table>
+            </div>
+        </div>
+
+        <!-- Programmatic JSON -->
+        <div class="demo-section">
+            <h2 class="demo-title">Programmatic JSON Data</h2>
+            <p class="demo-description">Table with JSON data added via JavaScript.</p>
+            
+            <div class="demo-controls">
+                <button class="demo-button" onclick="loadErrorLog()">Load Error Log</button>
+                <button class="demo-button" onclick="addError()">Add Error</button>
+                <button class="demo-button" onclick="addWarning()">Add Warning</button>
+                <button class="demo-button" onclick="clearLog()">Clear</button>
+            </div>
+            
+            <div class="table-container">
+                <wb-table id="error-table" striped hover bordered></wb-table>
+            </div>
+            <div id="error-stats" class="stats">0 rows</div>
+        </div>
+
+        <!-- Dynamic Data Binding -->
+        <div class="demo-section">
+            <h2 class="demo-title">Dynamic Data Binding</h2>
+            <p class="demo-description">Table that watches a global variable for changes.</p>
+            
+            <div class="demo-controls">
+                <button class="demo-button" onclick="addTask()">Add Task</button>
+                <button class="demo-button" onclick="updateTask()">Update Task</button>
+                <button class="demo-button" onclick="clearTasks()">Clear Tasks</button>
+            </div>
+            
+            <div class="table-container">
+                <wb-table id="tasks-table" data-source="tasksData" striped hover bordered></wb-table>
+            </div>
+            <div id="tasks-stats" class="stats">0 rows</div>
+        </div>
+
+        <!-- Usage Examples -->
+        <div class="demo-section">
+            <h2 class="demo-title">Usage Examples</h2>
+            
+            <h3>1. Direct HTML with JSON:</h3>
+            <pre><code>&lt;wb-table striped hover bordered data-json='[
+    {"name": "John", "age": 30, "city": "NYC"},
+    {"name": "Jane", "age": 25, "city": "LA"}
+]'&gt;&lt;/wb-table&gt;</code></pre>
+
+            <h3>2. Programmatic:</h3>
+            <pre><code>const table = document.querySelector('wb-table');
+
+// Set JSON data (headers auto-extracted from object keys)
+table.setData([
+    {level: 'error', time: '10:30:45', source: 'app.js', message: 'Error occurred'},
+    {level: 'warn', time: '10:31:12', source: 'utils.js', message: 'Warning message'}
+]);
+
+// Add single JSON object
+table.addRow({
+    level: 'info', 
+    time: '10:32:00', 
+    source: 'main.js', 
+    message: 'Info message'
+});</code></pre>
+
+            <h3>3. Data Binding:</h3>
+            <pre><code>// Set up global data
+window.myData = [
+    {id: 1, name: 'Task 1', status: 'pending'},
+    {id: 2, name: 'Task 2', status: 'complete'}
+];
+
+// Table watches for changes
+&lt;wb-table data-source="myData" striped hover&gt;&lt;/wb-table&gt;</code></pre>
+        </div>
+    </div>
+
+    <script type="module" src="wb-table.js"></script>
+    <script>
+        let errorCounter = 1;
+        let taskCounter = 1;
+
+        // Global data for data binding demo
+        window.tasksData = [
+            {id: 1, title: 'Setup project', priority: 'high', status: 'complete', assignee: 'John'},
+            {id: 2, title: 'Write tests', priority: 'medium', status: 'pending', assignee: 'Jane'}
+        ];
+
+        function loadErrorLog() {
+            const table = document.getElementById('error-table');
+            table.setData([
+                {level: 'error', timestamp: '10:30:45', source: 'app.js', message: 'Failed to connect to database'},
+                {level: 'warn', timestamp: '10:31:12', source: 'utils.js', message: 'Deprecated function used'},
+                {level: 'info', timestamp: '10:32:00', source: 'main.js', message: 'Application started successfully'},
+                {level: 'error', timestamp: '10:33:15', source: 'auth.js', message: 'Invalid login credentials'}
+            ]);
+            updateStats();
+        }
+
+        function addError() {
+            const table = document.getElementById('error-table');
+            const now = new Date();
+            table.addRow({
+                level: 'error',
+                timestamp: now.toLocaleTimeString(),
+                source: 'demo.js',
+                message: `Error ${++errorCounter}: Something went wrong`
+            });
+            updateStats();
+        }
+
+        function addWarning() {
+            const table = document.getElementById('error-table');
+            const now = new Date();
+            table.addRow({
+                level: 'warn',
+                timestamp: now.toLocaleTimeString(),
+                source: 'demo.js',
+                message: `Warning ${++errorCounter}: This is a warning`
+            });
+            updateStats();
+        }
+
+        function clearLog() {
+            const table = document.getElementById('error-table');
+            table.clear();
+            errorCounter = 1;
+            updateStats();
+        }
+
+        function addTask() {
+            const tasks = ['Review code', 'Fix bug', 'Update docs', 'Deploy app', 'Test feature'];
+            const priorities = ['high', 'medium', 'low'];
+            const statuses = ['pending', 'progress', 'complete'];
+            const assignees = ['Alice', 'Bob', 'Carol', 'Dave'];
+
+            window.tasksData.unshift({
+                id: ++taskCounter + 2,
+                title: tasks[Math.floor(Math.random() * tasks.length)],
+                priority: priorities[Math.floor(Math.random() * priorities.length)],
+                status: statuses[Math.floor(Math.random() * statuses.length)],
+                assignee: assignees[Math.floor(Math.random() * assignees.length)]
+            });
+            updateStats();
+        }
+
+        function updateTask() {
+            if (window.tasksData.length > 0) {
+                const task = window.tasksData[0];
+                const statuses = ['pending', 'progress', 'complete'];
+                task.status = statuses[Math.floor(Math.random() * statuses.length)];
+                updateStats();
+            }
+        }
+
+        function clearTasks() {
+            window.tasksData = [];
+            taskCounter = 1;
+            updateStats();
+        }
+
+        function updateStats() {
+            const errorTable = document.getElementById('error-table');
+            const tasksTable = document.getElementById('tasks-table');
+            
+            document.getElementById('error-stats').textContent = `${errorTable.getRowCount()} rows`;
+            document.getElementById('tasks-stats').textContent = `${window.tasksData.length} rows`;
+        }
+
+        // Update stats initially
+        setTimeout(updateStats, 100);
+
+        // Listen for table events
+        document.addEventListener('wb-table:dataChanged', (e) => {
+            console.log('Table data changed:', e.detail);
+        });
+
+        document.addEventListener('wb-table:rowAdded', (e) => {
+            console.log('Row added:', e.detail);
+        });
+    </script>
+</body>
+</html>

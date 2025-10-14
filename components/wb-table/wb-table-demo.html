@@ -168,12 +168,15 @@ table.addRow({ id: 3, name: 'Bob', status: 'pending', message: 'Hi' });</code></
         </div>
     </div>
 
-    <script src="wb-table.js"></script>
+    <script type="module" src="wb-table.js"></script>
     <script>
 
         <wb-demo title="WB Table Component Demo: Basic Table">
             <div slot="example">
                 <h2>Basic Table Example</h2>
+                <wb-table id="users-table">
+                    data-json='[{"id":1,"name":"John Doe","email":"john@example.com"},{"id":2,"name":"Jane Smith","email":"jane@example.com"},{"id":3,"name":"Bob Wilson","email":"bob@example.com"}]'>
+                    </wb-table>
                 <div>
                     <button onclick="loadUsers()">Load Users</button>
                     <button onclick="addUser()">Add User</button>

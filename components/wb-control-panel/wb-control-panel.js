@@ -1271,33 +1271,48 @@
         async setupColorSliders() {
             // Load color components first
             await this.loadComponents(['wb-color-bars', 'wb-color-bar'], { discoverDependencies: true });
-            
             // 🎯 REACTIVE APPROACH: Listen to events bubbling up from ANY wb-color-bars component
             // Don't query for specific IDs - just listen to the events they fire
-            
+
             // Listen for colorchange events from any wb-color-bars component
             this.addEventListener('colorchange', (e) => {
                 // Event bubbles up from wb-color-bars, contains all necessary data
                 console.log('🎨 Color change event received:', e.detail);
-                
                 // Determine color type from event detail or element ID
                 const colorType = this.determineColorType(e);
-                
                 // Relay the standardized color change event
                 this.handleColorBarsChange(e, colorType);
             });
-            
             // Listen for colorselect events from any wb-color-bars component
             this.addEventListener('colorselect', (e) => {
                 console.log('🎨 Color select event received:', e.detail);
-                
                 // Determine color type from event detail or element ID
                 const colorType = this.determineColorType(e);
-                
                 // Handle final color selection
                 this.handleColorBarsSelect(e, colorType);
             });
-            
+            // Listen for harmony palette events and apply to :root
+            this.addEventListener('wb:color-harmony-change', (e) => {
+                if (!e.detail) return;
+                // Apply text palette
+                if (Array.isArray(e.detail.textPalette)) {
+                    e.detail.textPalette.forEach(color => {
+                        const varName = `--color-text-${color.name.toLowerCase().replace(/\s+/g, '-')}`;
+                        const hsl = `hsl(${Math.round(color.hue)}, ${Math.round(color.saturation)}%, ${Math.round(color.lightness)}%)`;
+                        document.documentElement.style.setProperty(varName, hsl);
+                    });
+                }
+                // Apply background palette
+                if (Array.isArray(e.detail.bgPalette)) {
+                    e.detail.bgPalette.forEach(color => {
+                        const varName = `--color-bg-${color.name.toLowerCase().replace(/\s+/g, '-')}`;
+                        const hsl = `hsl(${Math.round(color.hue)}, ${Math.round(color.saturation)}%, ${Math.round(color.lightness)}%)`;
+                        document.documentElement.style.setProperty(varName, hsl);
+                    });
+                }
+                // Optionally log
+                console.log('🎨 CSS variables updated from harmony palette', e.detail);
+            });
             console.log('✅ Color event listeners attached - listening for events from all wb-color-bars components');
         }
         
@@ -1361,6 +1376,8 @@
             // - Load order based on schema priority
             // - Custom element registration
             // - Metadata and health monitoring
+            //
+            // Control panel just requests components by name - registry handles the rest
             
             if (!window.WBComponentRegistry) {
                 console.error(`❌ WBComponentRegistry not available - cannot load ${componentName}`);

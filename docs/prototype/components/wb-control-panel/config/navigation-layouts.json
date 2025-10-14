@@ -1,0 +1,83 @@
+{
+  "$schema": "../wb-control-panel.schema.json",
+  "description": "Navigation configurations for different layout types",
+  "layouts": {
+    "top-nav": {
+      "id": "top-nav",
+      "name": "Top Navigation",
+      "description": "Horizontal navigation at the top of the page",
+      "wbNavConfig": {
+        "layout": "horizontal",
+        "variant": "default",
+        "position": "top"
+      },
+      "navItems": [
+        { "id": "home", "text": "Home", "href": "#home", "icon": "🏠", "active": true },
+        { "id": "about", "text": "About", "href": "#about", "icon": "ℹ️" },
+        { "id": "services", "text": "Services", "href": "#services", "icon": "⚙️" },
+        { "id": "portfolio", "text": "Portfolio", "href": "#portfolio", "icon": "💼" },
+        { "id": "contact", "text": "Contact", "href": "#contact", "icon": "📧" }
+      ]
+    },
+    "left-nav": {
+      "id": "left-nav",
+      "name": "Left Sidebar",
+      "description": "Vertical navigation on the left side",
+      "wbNavConfig": {
+        "layout": "vertical",
+        "variant": "pills",
+        "position": "left"
+      },
+      "navItems": [
+        { "id": "home", "text": "Home", "href": "#home", "icon": "🏠", "active": true },
+        { "id": "about", "text": "About", "href": "#about", "icon": "ℹ️" },
+        { "id": "services", "text": "Services", "href": "#services", "icon": "⚙️" },
+        { "id": "portfolio", "text": "Portfolio", "href": "#portfolio", "icon": "💼" },
+        { "id": "blog", "text": "Blog", "href": "#blog", "icon": "📝" },
+        { "id": "contact", "text": "Contact", "href": "#contact", "icon": "📧" }
+      ]
+    },
+    "right-nav": {
+      "id": "right-nav",
+      "name": "Right Sidebar",
+      "description": "Vertical navigation on the right side",
+      "wbNavConfig": {
+        "layout": "vertical",
+        "variant": "pills",
+        "position": "right"
+      },
+      "navItems": [
+        { "id": "home", "text": "Home", "href": "#home", "icon": "🏠", "active": true },
+        { "id": "about", "text": "About", "href": "#about", "icon": "ℹ️" },
+        { "id": "services", "text": "Services", "href": "#services", "icon": "⚙️" },
+        { "id": "portfolio", "text": "Portfolio", "href": "#portfolio", "icon": "💼" },
+        { "id": "blog", "text": "Blog", "href": "#blog", "icon": "📝" },
+        { "id": "contact", "text": "Contact", "href": "#contact", "icon": "📧" }
+      ]
+    },
+    "ad-layout": {
+      "id": "ad-layout",
+      "name": "Ad Layout",
+      "description": "Advertising-focused layout with prominent CTA",
+      "wbNavConfig": {
+        "layout": "horizontal",
+        "variant": "gradient",
+        "position": "top"
+      },
+      "navItems": [
+        { "id": "home", "text": "Home", "href": "#home", "icon": "🏠", "active": true },
+        { "id": "features", "text": "Features", "href": "#features", "icon": "✨" },
+        { "id": "pricing", "text": "Pricing", "href": "#pricing", "icon": "💰" },
+        { "id": "testimonials", "text": "Testimonials", "href": "#testimonials", "icon": "💬" },
+        { "id": "contact", "text": "Contact", "href": "#contact", "icon": "📧" },
+        { "id": "cta", "text": "Get Started", "href": "#get-started", "icon": "🚀", "highlight": true }
+      ]
+    }
+  },
+  "layoutOptions": [
+    { "value": "top-nav", "label": "Top Navigation" },
+    { "value": "left-nav", "label": "Left Sidebar" },
+    { "value": "right-nav", "label": "Right Sidebar" },
+    { "value": "ad-layout", "label": "Ad Layout" }
+  ]
+}

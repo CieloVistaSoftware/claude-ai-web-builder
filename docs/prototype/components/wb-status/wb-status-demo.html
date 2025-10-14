@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Status Component Demo</title>
+    
+    <!-- Central Styles Import -->
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">    <style>
+        body {
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            padding-top: calc(var(--space-lg) + 2rem); /* Account for top status bar */
+            padding-bottom: 3rem; /* Account for bottom status bar */
+        }
+        
+        .demo-content {
+            flex: 1;
+            padding-bottom: var(--space-3xl); /* More space for two status bars */
+        }
+        
+        .demo-section {
+            background: var(--bg-secondary);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .button-demo {
+            display: flex;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+            flex-wrap: wrap;
+        }
+        
+        .status {
+            background: rgba(var(--success-color-rgb), 0.1);
+            border: 1px solid rgba(var(--success-color-rgb), 0.3);
+            padding: var(--space-sm);
+            border-radius: var(--radius-base);
+            margin: var(--space-md) 0;
+            font-size: var(--text-sm);
+        }
+        
+        .wb-btn {
+            padding: var(--space-sm) var(--space-md);
+            border: none;
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-size: var(--text-sm);
+            transition: all var(--transition-base);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .wb-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .wb-btn--success {
+            background: var(--success-color);
+        }
+        
+        .wb-btn--warning {
+            background: var(--warning-color);
+        }
+        
+        .wb-btn--danger {
+            background: var(--error-color);
+        }
+        
+        .wb-btn--small {
+            padding: var(--space-xs) var(--space-sm);
+            font-size: var(--text-xs);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+        
+        .demo-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+        }
+        
+        .demo-card h4 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+        
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 4px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.3);
+            padding: var(--space-md);
+            border-radius: var(--radius-base);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: var(--space-md);
+        }
+        
+        .settings-demo {
+            background: rgba(var(--primary-rgb), 0.1);
+            border: 1px solid rgba(var(--primary-rgb), 0.3);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin: var(--space-md) 0;
+        }
+        
+        .position-demo {
+            position: relative;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-lg);
+            margin: var(--space-md) 0;
+            overflow: hidden;
+            border: 2px dashed var(--border-color);
+        }
+        
+        .position-demo .preview-status {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--space-sm);
+            font-size: 0.625rem;
+            color: var(--text-primary);
+        }
+        
+        .position-demo .preview-status--bottom {
+            bottom: 0;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .position-demo .preview-status--top {
+            top: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        /* Custom Status Bar Styles - Override wb-status.css */
+        /* This section intentionally uses hardcoded values to demonstrate custom overrides */
+        .wb-status-bar--custom {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%) !important;
+            border-top: 2px solid #764ba2 !important;
+            height: 1rem !important; /* Same height as default */
+            box-shadow: 0 -4px 20px rgba(102, 126, 234, 0.3) !important;
+        }
+        
+        .wb-status-bar--custom .wb-status-title {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .wb-status-bar--custom .wb-status-divider {
+            background: rgba(255, 255, 255, 0.3) !important;
+            width: 2px !important;
+        }
+        
+        .wb-status-bar--custom .wb-status-event {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .wb-status-bar--custom .wb-status-event--success {
+            background: rgba(34, 197, 94, 0.3) !important;
+            color: #ffffff !important;
+            border-color: rgba(34, 197, 94, 0.5) !important;
+        }
+        
+        .wb-status-bar--custom .wb-status-event--warning {
+            background: rgba(251, 191, 36, 0.3) !important;
+            color: #ffffff !important;
+            border-color: rgba(251, 191, 36, 0.5) !important;
+        }
+        
+        .wb-status-bar--custom .wb-status-event--error {
+            background: rgba(239, 68, 68, 0.3) !important;
+            color: #ffffff !important;
+            border-color: rgba(239, 68, 68, 0.5) !important;
+        }
+        
+        .wb-status-bar--custom .wb-status-setting-label {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 600;
+            font-size: 0.45rem !important; /* Larger font size */
+        }
+        
+        .wb-status-bar--custom .wb-status-setting-value {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            font-size: 0.45rem !important; /* Larger font size */
+        }
+        
+        .wb-status-bar--custom .wb-status-setting-value--error {
+            background: rgba(239, 68, 68, 0.4) !important;
+            color: #ffffff !important;
+            border-color: rgba(239, 68, 68, 0.6) !important;
+        }
+        
+        /* Status bar positioning for demo */
+        .demo-status-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .demo-status-container .wb-status-bar:first-child {
+            position: relative;
+            bottom: auto;
+        }
+        
+        .demo-status-container .wb-status-bar:last-child {
+            position: relative;
+            bottom: auto;
+            margin-top: calc(var(--space-xs) / 2);
+        }
+        
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .tab {
+            padding: var(--space-sm) var(--space-lg);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+            font-weight: var(--font-medium);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <wb-demo title="WB Status Component Demo">
+        <div slot="example">
+            <h2>WB-Status HTML Tag Examples</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h4>Basic Usage</h4>
+                    <p>Simple wb-status element with minimal configuration:</p>
+                    <code style="display: block; white-space: pre-wrap; margin: 0.5rem 0;">&lt;wb-status id="basic-example"&gt;&lt;/wb-status&gt;</code>
+                    <wb-status id="basic-example" style="position: relative; margin: 10px 0;"></wb-status>
+                    <button class="wb-btn wb-btn--small" onclick="testBasicExample()">Test Basic</button>
+                </div>
+                <div class="demo-card">
+                    <h4>With Custom Class</h4>
+                    <p>wb-status with custom CSS class for styling:</p>
+                    <code style="display: block; white-space: pre-wrap; margin: 0.5rem 0;">&lt;wb-status id="custom-class-example" class="wb-status-bar--custom"&gt;&lt;/wb-status&gt;</code>
+                    <wb-status id="custom-class-example" class="wb-status-bar--custom" style="position: relative; margin: 10px 0;"></wb-status>
+                    <button class="wb-btn wb-btn--small" onclick="testCustomClassExample()">Test Custom</button>
+                </div>
+                <div class="demo-card">
+                    <h4>With Data Attributes</h4>
+                    <p>wb-status with configuration via data attributes:</p>
+                    <code style="display: block; white-space: pre-wrap; margin: 0.5rem 0;">&lt;wb-status id="data-attrs-example" 
+          data-position="bottom"
+          data-theme="dark"
+          data-auto-hide="false"&gt;&lt;/wb-status&gt;</code>
+                    <wb-status id="data-attrs-example" data-position="bottom" data-theme="dark" data-auto-hide="false" style="position: relative; margin: 10px 0;"></wb-status>
+                    <button class="wb-btn wb-btn--small" onclick="testDataAttrsExample()">Test Data Attrs</button>
+                </div>
+                <div class="demo-card">
+                    <h4>Top Position with Settings</h4>
+                    <p>wb-status configured for top positioning:</p>
+                    <code style="display: block; white-space: pre-wrap; margin: 0.5rem 0;">&lt;wb-status id="top-position-example"
+          data-position="top"
+          data-show-settings="true"
+          data-max-events="5"&gt;&lt;/wb-status&gt;</code>
+                    <wb-status id="top-position-example" data-position="top" data-show-settings="true" data-max-events="5" style="position: relative; margin: 10px 0;"></wb-status>
+                    <button class="wb-btn wb-btn--small" onclick="testTopPositionExample()">Test Top Position</button>
+                </div>
+                <div class="demo-card">
+                    <h4>Event Configuration</h4>
+                    <p>wb-status with event handling configuration:</p>
+                    <code style="display: block; white-space: pre-wrap; margin: 0.5rem 0;">&lt;wb-status id="event-config-example"
+          data-event-duration="5000"
+          data-fade-duration="800"
+          data-group-similar="true"&gt;&lt;/wb-status&gt;</code>
+                    <wb-status id="event-config-example" data-event-duration="5000" data-fade-duration="800" data-group-similar="true" style="position: relative; margin: 10px 0;"></wb-status>
+                    <button class="wb-btn wb-btn--small" onclick="testEventConfigExample()">Test Event Config</button>
+                </div>
+                <div class="demo-card">
+                    <h4>All Options Combined</h4>
+                    <p>wb-status with multiple configuration options:</p>
+                    <code style="display: block; white-space: pre-wrap; margin: 0.5rem 0;">&lt;wb-status id="full-config-example"
+          class="wb-status-bar--custom"
+          data-position="bottom"
+          data-theme="gradient"
+          data-auto-hide="true"
+          data-show-settings="true"
+          data-max-events="10"
+          data-event-duration="4000"
+          data-fade-duration="600"
+          data-group-similar="true"&gt;&lt;/wb-status&gt;</code>
+                    <wb-status id="full-config-example" class="wb-status-bar--custom" data-position="bottom" data-theme="gradient" data-auto-hide="true" data-show-settings="true" data-max-events="10" data-event-duration="4000" data-fade-duration="600" data-group-similar="true" style="position: relative; margin: 10px 0;"></wb-status>
+                    <button class="wb-btn wb-btn--small" onclick="testFullConfigExample()">Test Full Config</button>
+                </div>
+            </div>
+        </div>
+        <div slot="documentation">
+            <h2>Component Documentation</h2>
+            <p>Standardized status bar component for displaying events and current settings. See below for supported data attributes.</p>
+            <div class="demo-card">
+                <h4>Available Data Attributes</h4>
+                <p>Complete list of supported data attributes for wb-status:</p>
+                <ul style="margin: 1rem 0; padding-left: 2rem; color: var(--text-secondary);">
+                    <li><code>data-position</code> - "top" | "bottom" | "sticky" (default: "bottom")</li>
+                    <li><code>data-theme</code> - "dark" | "light" | "auto" | "gradient" (default: "dark")</li>
+                    <li><code>data-auto-hide</code> - "true" | "false" (default: "true")</li>
+                    <li><code>data-show-settings</code> - "true" | "false" (default: "true")</li>
+                    <li><code>data-max-events</code> - number (default: 5)</li>
+                    <li><code>data-event-duration</code> - milliseconds (default: 3000)</li>
+                    <li><code>data-fade-duration</code> - milliseconds (default: 500)</li>
+                    <li><code>data-group-similar</code> - "true" | "false" (default: "true")</li>
+                </ul>
+            </div>
+        </div>
+    </wb-demo>
+                </div>
+                
+                <div class="demo-card">
+                    <h4>2) Custom Override Styling</h4>
+                    <p>Shows how to override wb-status.css with custom gradient background and glassmorphism effects.</p>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <h4>Custom CSS Override Example</h4>
+                <p>Here's how the custom styling overrides the default wb-status.css:</p>
+                <code style="display: block; white-space: pre-wrap; margin-top: 0.5rem;">/* Custom Status Bar Override */
+.wb-status-bar--custom {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%) !important;
+    border-top: 2px solid #764ba2 !important;
+    height: 1.5rem !important;
+    box-shadow: 0 -4px 20px rgba(102, 126, 234, 0.3) !important;
+}
+
+.wb-status-bar--custom .wb-status-event {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}</code>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Event Types (Both Status Bars)</h3>
+            <p>All events are sent to both status bars to compare styling differences:</p>
+            
+            <div class="button-demo">
+                <button class="wb-btn" onclick="addInfoEvent()">Info Event</button>
+                <button class="wb-btn wb-btn--success" onclick="addSuccessEvent()">Success Event</button>
+                <button class="wb-btn wb-btn--warning" onclick="addWarningEvent()">Warning Event</button>
+                <button class="wb-btn wb-btn--danger" onclick="addErrorEvent()">Error Event</button>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Event Queue</h3>
+            <p>Multiple events are queued and displayed one at a time:</p>
+            
+            <div class="button-demo">
+                <button class="wb-btn" onclick="addMultipleEvents()">Add Multiple Events</button>
+                <button class="wb-btn" onclick="addPriorityEvent()">High Priority Event</button>
+                <button class="wb-btn wb-btn--small" onclick="clearAllEvents()">Clear Queue</button>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Settings Display</h3>
+            <p>Real-time display of current application settings:</p>
+            
+            <div class="settings-demo">
+                <div class="button-demo">
+                    <button class="wb-btn wb-btn--small" onclick="updateLayoutSetting()">Update Layout</button>
+                    <button class="wb-btn wb-btn--small" onclick="updateThemeSetting()">Update Theme</button>
+                    <button class="wb-btn wb-btn--small" onclick="updatePrimarySetting()">Update Primary Color</button>
+                    <button class="wb-btn wb-btn--small" onclick="setErrorSetting()">Set Error State</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Color Event Handling</h3>
+            <p>Smart grouping of color-related events to prevent spam:</p>
+            
+            <div class="button-demo">
+                <button class="wb-btn" onclick="simulateColorChanges()">Simulate Color Changes</button>
+                <button class="wb-btn" onclick="simulateHueChange()">Hue Change</button>
+                <button class="wb-btn" onclick="simulateSaturationChange()">Saturation Change</button>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Position Variants</h3>
+            <p>Different positioning options for the status bar:</p>
+            
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h4>Bottom Sticky (Default)</h4>
+                    <div class="position-demo">
+                        <div class="preview-status preview-status--bottom">
+                            <span>Events</span>
+                            <span style="margin-left: auto;">Settings: value</span>
+                        </div>
+                    </div>
+                    <button class="wb-btn wb-btn--small" onclick="createBottomStatus()">Create Bottom Status</button>
+                </div>
+                
+                <div class="demo-card">
+                    <h4>Top Sticky</h4>
+                    <div class="position-demo">
+                        <div class="preview-status preview-status--top">
+                            <span>Events</span>
+                            <span style="margin-left: auto;">Settings: value</span>
+                        </div>
+                    </div>
+                    <button class="wb-btn wb-btn--small" onclick="createTopStatus()">Create Top Status</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>JavaScript API</h3>
+            <p>Programmatic control of the status bar:</p>
+            
+            <div class="button-demo">
+                <button class="wb-btn" onclick="showStatusBar()">Show Status Bar</button>
+                <button class="wb-btn" onclick="hideStatusBar()">Hide Status Bar</button>
+                <button class="wb-btn wb-btn--small" onclick="clearDuplicateTracking()">Clear Duplicate Tracking</button>
+            </div>
+            
+            <div class="log" id="event-log">
+                Status events will be logged here...
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Real-time Integration</h3>
+            <p>Simulate real application integration with automatic updates:</p>
+            
+            <div class="button-demo">
+                <button class="wb-btn wb-btn--success" onclick="simulateUserAction()">Simulate User Action</button>
+                <button class="wb-btn wb-btn--warning" onclick="simulateSystemWarning()">System Warning</button>
+                <button class="wb-btn wb-btn--danger" onclick="simulateError()">Simulate Error</button>
+            </div>
+        </div>
+        
+        </div> <!-- Close examples tab -->
+    </div>
+    
+        <!-- Top Status Bar -->\n    <div id=\"top-status-container\" style=\"position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); min-height: 2rem; padding: 4px;\">\n        <wb-status id=\"main-top-status\" style=\"display: block; min-height: 1.5rem; background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; padding: 4px 8px; color: #f1f5f9; font-size: 12px;\">Loading top status bar...</wb-status>\n    </div>\n    \n    <!-- Bottom Status Bar -->\n    <div id=\"bottom-status-container\" style=\"position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; min-height: 2rem; padding: 4px;\">\n        <wb-status id=\"main-bottom-status\" class=\"wb-status-bar--custom\" style=\"display: block; min-height: 1.5rem; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border: 1px solid #764ba2; padding: 4px 8px; color: #ffffff; font-size: 12px;\">Loading bottom status bar...</wb-status>\n    </div>
+    
+    <!-- Load marked library -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script>
+        // Load and render markdown documentation
+        async function loadStatusDocs() {
+            try {
+                const response = await fetch('./wb-status.md');
+                if (!response.ok) throw new Error('Failed to load markdown');
+                
+                const markdown = await response.text();
+                const html = marked.parse(markdown);
+                document.getElementById('status-docs').innerHTML = html;
+            } catch (error) {
+                document.getElementById('status-docs').innerHTML = '<p>Error loading documentation: ' + error.message + '</p>';
+            }
+        }
+        
+        // Load docs when marked is ready
+        if (window.marked) {
+            loadStatusDocs();
+        } else {
+            window.addEventListener('load', loadStatusDocs);
+        }
+    </script>
+    
+    <!-- Load WB Status Component -->
+    <script src="wb-status.js"></script>
+    
+    <script>
+        let eventCounter = 0;
+        let topStatusBar = null;
+        let bottomStatusBar = null;
+        let topManager = null;
+        let bottomManager = null;
+        
+        // Demo example status bars
+        let topExampleStatus = null;
+        let bottomExampleStatus = null;
+        
+        function log(message) {
+            const logElement = document.getElementById('event-log');
+            eventCounter++;
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML = `[${eventCounter}] ${timestamp}: ${message}<br>` + logElement.innerHTML;
+        }
+        
+        // Global error handler for debugging
+        window.addEventListener('error', function(e) {
+            const errorMsg = `❌ JS Error: ${e.message} at ${e.filename}:${e.lineno}`;
+            console.error(errorMsg, e);
+            log(errorMsg);
+            document.getElementById('status').innerHTML += '<br>' + errorMsg;
+        });
+        
+        // Event functions - all events go to both status bars automatically
+        function addInfoEvent() {
+            addEventToBoth('Information message displayed', 'info');
+        }
+        
+        function addSuccessEvent() {
+            addEventToBoth('Operation completed successfully', 'success');
+        }
+        
+        function addWarningEvent() {
+            addEventToBoth('Warning: Please review your settings', 'warning');
+        }
+        
+        function addErrorEvent() {
+            addEventToBoth('Error: Connection failed', 'error');
+        }
+        
+        // Override global WBStatus.addEvent to send all events to both status bars
+        let originalAddEvent = null;
+        
+        function overrideGlobalEvents() {
+            // Store original function if not already stored
+            if (!originalAddEvent && window.WBStatus && window.WBStatus.addEvent) {
+                originalAddEvent = window.WBStatus.addEvent;
+            }
+            
+            // Override WBStatus.addEvent to send to both status bars
+            if (window.WBStatus) {
+                window.WBStatus.addEvent = function(message, type = 'info', options = {}) {
+                    addEventToBoth(message, type, options);
+                };
+            }
+        }
+        
+        // Core function that sends events to both status bars
+        function addEventToBoth(message, type, options = {}) {
+            let eventsSent = 0;
+            
+            if (topManager && typeof topManager.addEvent === 'function') {
+                try {
+                    topManager.addEvent(message, type, options);
+                    eventsSent++;
+                } catch (error) {
+                    console.warn('Failed to add event to top status bar:', error);
+                }
+            }
+            
+            if (bottomManager && typeof bottomManager.addEvent === 'function') {
+                try {
+                    bottomManager.addEvent(message, type, options);
+                    eventsSent++;
+                } catch (error) {
+                    console.warn('Failed to add event to bottom status bar:', error);
+                }
+            }
+            
+            if (eventsSent > 0) {
+                log(`Added ${type} event to ${eventsSent} status bar(s): ${message}`);
+            } else {
+                log(`⚠️ No status bars ready to receive event: ${message}`);
+            }
+        }
+        
+        // Queue Examples
+        function addMultipleEvents() {
+            const events = [
+                { message: 'First event in queue', type: 'info' },
+                { message: 'Second event in queue', type: 'success' },
+                { message: 'Third event in queue', type: 'warning' },
+                { message: 'Fourth event in queue', type: 'info' }
+            ];
+            
+            events.forEach((event, index) => {
+                setTimeout(() => {
+                    addEventToBoth(event.message, event.type);
+                    log(`Queued event ${index + 1} on both status bars`);
+                }, index * 100);
+            });
+        }
+        
+        function addPriorityEvent() {
+            if (topManager) {
+                topManager.addEvent('URGENT: High priority message', 'error', { priority: 10 });
+            }
+            if (bottomManager) {
+                bottomManager.addEvent('URGENT: High priority message', 'error', { priority: 10 });
+            }
+            log('Added high priority event to both status bars');
+        }
+        
+        function clearAllEvents() {
+            if (topManager) topManager.clearEvents();
+            if (bottomManager) bottomManager.clearEvents();
+            log('Cleared all events from both status bars');
+        }
+        
+        // Settings Examples - update both with related settings
+        function updateLayoutSetting() {
+            const layouts = ['grid', 'list', 'card', 'table'];
+            const layout = layouts[Math.floor(Math.random() * layouts.length)];
+            if (topManager) {
+                topManager.updateSetting('layout', layout);
+            }
+            if (bottomManager) {
+                bottomManager.updateSetting('layout', layout);
+            }
+            log(`Updated layout setting on both status bars: ${layout}`);
+        }
+        
+        function updateThemeSetting() {
+            const themes = ['dark', 'light', 'auto'];
+            const theme = themes[Math.floor(Math.random() * themes.length)];
+            if (topManager) {
+                topManager.updateSetting('theme', theme);
+            }
+            if (bottomManager) {
+                bottomManager.updateSetting('theme', theme);
+            }
+            log(`Updated theme setting on both status bars: ${theme}`);
+        }
+        
+        function updatePrimarySetting() {
+            const colors = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            if (topManager) {
+                topManager.updateSetting('primary', color);
+            }
+            if (bottomManager) {
+                bottomManager.updateSetting('primary', color);
+            }
+            log(`Updated primary color on both status bars: ${color}`);
+        }
+        
+        function setErrorSetting() {
+            if (topManager) {
+                topManager.updateSetting('connection', 'ERROR', true);
+            }
+            if (bottomManager) {
+                bottomManager.updateSetting('connection', 'ERROR', true);
+            }
+            log('Set error setting on both status bars');
+        }
+        
+        // Color Event Examples
+        function simulateColorChanges() {
+            // Simulate rapid color changes that should be grouped
+            addEventToBoth('Primary hue changed to 240°', 'info');
+            setTimeout(() => addEventToBoth('Saturation adjusted to 80%', 'info'), 50);
+            setTimeout(() => addEventToBoth('Lightness modified to 60%', 'info'), 100);
+            log('Simulated rapid color changes on both status bars (should be grouped)');
+        }
+        
+        function simulateHueChange() {
+            const hue = Math.floor(Math.random() * 360);
+            addEventToBoth(`Hue changed to ${hue}°`, 'info');
+            log(`Simulated hue change to ${hue}° on both status bars`);
+        }
+        
+        function simulateSaturationChange() {
+            const saturation = Math.floor(Math.random() * 100);
+            addEventToBoth(`Saturation changed to ${saturation}%`, 'info');
+            log(`Simulated saturation change to ${saturation}% on both status bars`);
+        }
+        
+        // Position Examples
+        function createBottomStatus() {
+            // Get existing HTML elements
+            topStatusBar = document.getElementById('main-top-status');
+            bottomStatusBar = document.getElementById('main-bottom-status');
+            
+            if (!topStatusBar || !bottomStatusBar) {
+                console.error('Status bar elements not found');
+                return;
+            }
+            
+            // Wait for web components to initialize if they haven't yet
+            const waitForInitialization = (element, timeout = 3000) => {
+                return new Promise((resolve) => {
+                    const startTime = Date.now();
+                    
+                    const checkInit = () => {
+                        if (element._wbStatusManager || element.addEvent) {
+                            resolve(element._wbStatusManager || element);
+                        } else if (Date.now() - startTime > timeout) {
+                            console.warn('Status bar initialization timeout, using element directly');
+                            resolve(element);
+                        } else {
+                            setTimeout(checkInit, 50);
+                        }
+                    };
+                    
+                    checkInit();
+                });
+            };
+            
+            // Initialize both status bars
+            Promise.all([
+                waitForInitialization(topStatusBar),
+                waitForInitialization(bottomStatusBar)
+            ]).then(([topMgr, bottomMgr]) => {
+                topManager = topMgr;
+                bottomManager = bottomMgr;
+                
+                console.log('Status bars initialized:', { topManager, bottomManager });
+                addEventToBoth('Status bars ready - top and bottom', 'success');
+                log('Using HTML wb-status elements at top and bottom');
+            }).catch(error => {
+                console.error('Failed to initialize status bars:', error);
+                // Fallback to direct element access
+                topManager = topStatusBar;
+                bottomManager = bottomStatusBar;
+                log('Using fallback direct element access');
+            });
+        }
+        
+        function createTopStatus() {
+            // Same as createBottomStatus since we have both positions
+            createBottomStatus();
+        }
+        
+        // Control Examples
+        function showStatusBar() {
+            if (topManager) topManager.show();
+            if (bottomManager) bottomManager.show();
+            log('Both status bars shown');
+        }
+        
+        function hideStatusBar() {
+            if (topManager) topManager.hide();
+            if (bottomManager) bottomManager.hide();
+            log('Both status bars hidden');
+        }
+        
+        function clearDuplicateTracking() {
+            if (topManager) {
+                topManager.shownEvents.clear();
+                log('Cleared top status bar duplicate tracking');
+            }
+            if (bottomManager) {
+                bottomManager.shownEvents.clear();
+                log('Cleared bottom status bar duplicate tracking');
+            }
+        }
+        
+        // Real-time Integration Examples
+        function simulateUserAction() {
+            const actions = [
+                'Page saved successfully',
+                'Content updated',
+                'Layout changed to grid view',
+                'Theme switched to dark mode',
+                'Export completed'
+            ];
+            const action = actions[Math.floor(Math.random() * actions.length)];
+            addEventToBoth(action, 'success');
+            log(`Simulated user action on both status bars: ${action}`);
+        }
+        
+        function simulateSystemWarning() {
+            const warnings = [
+                'Low memory usage detected',
+                'Auto-save in 30 seconds',
+                'Session expires in 5 minutes',
+                'Unsaved changes detected',
+                'Connection unstable'
+            ];
+            const warning = warnings[Math.floor(Math.random() * warnings.length)];
+            addEventToBoth(warning, 'warning');
+            log(`Simulated warning on both status bars: ${warning}`);
+        }
+        
+        function simulateError() {
+            const errors = [
+                'Failed to save changes',
+                'Network connection lost',
+                'Server timeout',
+                'Invalid file format',
+                'Permission denied'
+            ];
+            const error = errors[Math.floor(Math.random() * errors.length)];
+            addEventToBoth(error, 'error');
+            log(`Simulated error on both status bars: ${error}`);
+        }
+        
+        // HTML Tag Example Test Functions
+        function testBasicExample() {
+            const element = document.getElementById('basic-example');
+            const manager = element._wbStatusManager || element;
+            
+            if (manager && manager.addEvent) {
+                manager.addEvent('Basic HTML tag test', 'info');
+                manager.updateSetting('test', 'basic');
+            } else {
+                console.log('Manager not ready for basic example');
+            }
+        }
+        
+        function testCustomClassExample() {
+            const element = document.getElementById('custom-class-example');
+            const manager = element._wbStatusManager || element;
+            
+            if (manager && manager.addEvent) {
+                manager.addEvent('Custom class test event', 'success');
+                manager.updateSetting('style', 'custom-class');
+            } else {
+                console.log('Manager not ready for custom class example');
+            }
+        }
+        
+        function testDataAttrsExample() {
+            const element = document.getElementById('data-attrs-example');
+            const manager = element._wbStatusManager || element;
+            
+            if (manager && manager.addEvent) {
+                manager.addEvent('Data attributes configured!', 'info');
+                manager.updateSetting('config', 'data-attrs');
+            } else {
+                console.log('Manager not ready for data attrs example');
+            }
+        }
+        
+        function testTopPositionExample() {
+            const element = document.getElementById('top-position-example');
+            const manager = element._wbStatusManager || element;
+            
+            if (manager && manager.addEvent) {
+                manager.addEvent('Top position with settings', 'warning');
+                manager.updateSetting('position', 'top');
+                manager.updateSetting('maxEvents', '5');
+            } else {
+                console.log('Manager not ready for top position example');
+            }
+        }
+        
+        function testEventConfigExample() {
+            const element = document.getElementById('event-config-example');
+            const manager = element._wbStatusManager || element;
+            
+            if (manager && manager.addEvent) {
+                manager.addEvent('Event with custom timing', 'success');
+                manager.addEvent('Similar event for grouping', 'success');
+                manager.updateSetting('eventDuration', '5000ms');
+            } else {
+                console.log('Manager not ready for event config example');
+            }
+        }
+        
+        function testFullConfigExample() {
+            const element = document.getElementById('full-config-example');
+            const manager = element._wbStatusManager || element;
+            
+            if (manager && manager.addEvent) {
+                manager.addEvent('Fully configured status bar!', 'error');
+                manager.updateSetting('config', 'complete');
+                manager.updateSetting('theme', 'gradient');
+                manager.updateSetting('features', 'all-enabled');
+            } else {
+                console.log('Manager not ready for full config example');
+            }
+        }
+        
+        // Update status immediately to show we're trying to load
+        document.getElementById('status').innerHTML = '⏳ Loading WB Status Component...';
+        
+        // Function to initialize the demo
+        function initializeDemo() {
+            console.log('🚀 initializeDemo() called');
+            // Actually check if the status bars are working
+            const topStatus = document.getElementById('main-top-status');
+            const bottomStatus = document.getElementById('main-bottom-status');
+            
+            let statusMessage = '🔍 Checking status bars...\n';
+            
+            if (topStatus && bottomStatus) {
+                statusMessage += `✅ HTML elements found\n`;
+                statusMessage += `📋 Top status: ${topStatus.tagName} (${topStatus.className || 'no class'})\n`;
+                statusMessage += `📋 Bottom status: ${bottomStatus.tagName} (${bottomStatus.className || 'no class'})\n`;
+                
+                // Check if they have content or are initialized
+                if (topStatus.innerHTML.trim() || bottomStatus.innerHTML.trim()) {
+                    statusMessage += '✅ Status bars have content';
+                    document.getElementById('status').innerHTML = statusMessage;
+                } else {
+                    statusMessage += '❌ Status bars are empty - wb-status component not working';
+                    document.getElementById('status').innerHTML = statusMessage;
+                }
+            } else {
+                statusMessage += '❌ Status bar HTML elements not found';
+                document.getElementById('status').innerHTML = statusMessage;
+            }
+            
+            console.log('WB Status Component check:', statusMessage);
+            
+            // Initialize status bars
+            setTimeout(() => {
+                console.log('🔧 About to call createBottomStatus()');
+                createBottomStatus();
+                
+                // Override global WBStatus.addEvent to send to both status bars
+                overrideGlobalEvents();
+                
+                // Initialize all example status bars
+                const exampleIds = [
+                    'basic-example',
+                    'custom-class-example', 
+                    'data-attrs-example',
+                    'top-position-example',
+                    'event-config-example',
+                    'full-config-example'
+                ];
+                
+                exampleIds.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        console.log(`Initialized example: ${id}`);
+                    }
+                });
+                
+                                // Show immediate test events to prove status bars are working\n                setTimeout(() => {\n                    // Force custom element initialization\n                    const topStatus = document.getElementById('main-top-status');\n                    const bottomStatus = document.getElementById('main-bottom-status');\n                    \n                    console.log('🔍 Force initializing custom elements...');\n                    console.log('Top status element:', topStatus, 'Connected?', topStatus.isConnected);\n                    console.log('Bottom status element:', bottomStatus, 'Connected?', bottomStatus.isConnected);\n                    \n                    // Clear placeholder text\n                    topStatus.innerHTML = '';\n                    bottomStatus.innerHTML = '';\n                    \n                    // Try to trigger connectedCallback manually if needed\n                    if (topStatus.connectedCallback && typeof topStatus.connectedCallback === 'function') {\n                        topStatus.connectedCallback();\n                    }\n                    if (bottomStatus.connectedCallback && typeof bottomStatus.connectedCallback === 'function') {\n                        bottomStatus.connectedCallback();\n                    }\n                    \n                    addEventToBoth('Status bars initialized and working!', 'success');\n                }, 500);
+                
+                setTimeout(() => {
+                    addEventToBoth('Top status bar = default theme', 'info');
+                }, 1000);
+                
+                setTimeout(() => {
+                    addEventToBoth('Bottom status bar = custom gradient theme', 'info');
+                }, 1500);
+            }, 100);
+            
+            // Set initial settings for both status bars - different values to show they're independent
+            setTimeout(() => {
+                if (topManager && topManager.updateSetting) {
+                    topManager.updateSetting('position', 'top');
+                    topManager.updateSetting('theme', 'dark');
+                    topManager.updateSetting('style', 'default');
+                }
+                
+                if (bottomManager && bottomManager.updateSetting) {
+                    bottomManager.updateSetting('position', 'bottom');
+                    bottomManager.updateSetting('theme', 'gradient');
+                    bottomManager.updateSetting('style', 'custom');
+                }
+            }, 1500);
+        }
+        
+        // Multiple initialization strategies to ensure wb-status components are ready
+        let initializationAttempts = 0;
+        const maxAttempts = 5;
+        
+        function attemptInitialization() {
+            initializationAttempts++;
+            console.log(`🔄 Initialization attempt ${initializationAttempts}/${maxAttempts}`);
+            
+            const topElement = document.getElementById('main-top-status');
+            const bottomElement = document.getElementById('main-bottom-status');
+            
+            if (topElement && bottomElement) {
+                console.log('✅ Status bar elements found');
+                console.log('Top element:', topElement.tagName, topElement._wbStatusManager ? 'has manager' : 'no manager');
+                console.log('Bottom element:', bottomElement.tagName, bottomElement._wbStatusManager ? 'has manager' : 'no manager');
+                
+                // Check if custom elements are defined
+                if (customElements.get('wb-status')) {
+                    console.log('✅ wb-status custom element is registered');
+                    initializeDemo();
+                    return true;
+                } else {
+                    console.log('⚠️ wb-status custom element not yet registered');
+                }
+            } else {
+                console.log('❌ Status bar elements not found in DOM');
+            }
+            
+            // Try again if we haven't exceeded max attempts
+            if (initializationAttempts < maxAttempts) {
+                setTimeout(attemptInitialization, 500);
+            } else {
+                console.error('❌ Failed to initialize after maximum attempts');
+                document.getElementById('status').innerHTML = '❌ Component initialization failed after 5 attempts';
+            }
+            
+            return false;
+        }
+        
+        // Listen for component ready events
+        document.addEventListener('wbStatusReady', function(e) {
+            console.log('📡 wbStatusReady event received:', e.detail);
+            initializeDemo();
+        });
+        
+        // Start attempting initialization
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', attemptInitialization);
+        } else {
+            attemptInitialization();
+        }
+        
+        // Fallback initialization in case wbStatusReady event doesn't fire
+        setTimeout(() => {
+            if (document.getElementById('status').innerHTML.includes('Component loading') || document.getElementById('status').innerHTML.includes('Loading WB Status')) {
+                console.warn('WB Status Component did not fire ready event');
+                
+                // Try to initialize anyway
+                if (window.WBStatus) {
+                    console.log('WB Status object found, attempting manual initialization');
+                    initializeDemo();
+                } else {
+                    document.getElementById('status').innerHTML = '❌ WB Status Component failed to load. Check if wb-status.js exists.';
+                    console.error('WB Status object not found. Make sure wb-status.js is loaded.');
+                    
+                    // Create fallback status message
+                    const topContainer = document.getElementById('top-status-container');
+                    const bottomContainer = document.getElementById('bottom-status-container');
+                    if (topContainer) {
+                        topContainer.innerHTML = '<div style="padding: 8px; color: #f87171; font-size: 12px;">⚠️ wb-status.js not loaded</div>';
+                    }
+                    if (bottomContainer) {
+                        bottomContainer.innerHTML = '<div style="padding: 8px; color: #f87171; font-size: 12px;">⚠️ wb-status.js not loaded</div>';
+                    }
+                }
+            }
+        }, 2000);
+        
+        // Listen for status events
+        document.addEventListener('wbStatusEventAdded', function(event) {
+            console.log('Status event added:', event.detail);
+        });
+        
+        document.addEventListener('wbStatusEventShown', function(event) {
+            console.log('Status event shown:', event.detail);
+        });
+        
+        document.addEventListener('wbStatusSettingUpdated', function(event) {
+            console.log('Status setting updated:', event.detail);
+        });
+        
+        // Simulate periodic updates
+        setInterval(() => {
+            if (Math.random() < 0.3) { // 30% chance every 10 seconds
+                const randomActions = [
+                    () => updatePrimarySetting(),
+                    () => addEventToBoth('Auto-save completed', 'success'),
+                    () => addEventToBoth('Background sync in progress', 'info')
+                ];
+                const action = randomActions[Math.floor(Math.random() * randomActions.length)];
+                action();
+            }
+        }, 10000);
+        
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Mark the correct tab button as active
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

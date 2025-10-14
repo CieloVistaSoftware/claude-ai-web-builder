@@ -53,9 +53,9 @@ node tools/component-discovery.js
 ```
 
 **Output**:
-- `component-discovery-reports/symbol-table.json`
-- `component-discovery-reports/component-registry.json`
-- `component-discovery-reports/discovery-metadata.json`
+- `build/component-discovery/symbol-table.json`
+- `build/component-discovery/component-registry.json`
+- `build/component-discovery/discovery-metadata.json`
 
 ### 2. Build Integration (`build-symbols.js`)
 
@@ -193,7 +193,7 @@ The system validates:
 🔍 Analyzing: wb-table
 ...
 📊 Symbol table built: 89 symbols
-📄 Reports generated in: component-discovery-reports
+📄 Reports generated in: build/component-discovery
 ✅ Component discovery complete!
 
 📊 Discovery Summary:
@@ -228,7 +228,7 @@ This system solves the "compiler not being used to find all symbols" issue by pr
 ## Files Generated
 
 ```
-component-discovery-reports/
+build/component-discovery/
 ├── symbol-table.json          # Complete symbol mapping
 ├── component-registry.json    # Component status and metadata
 └── discovery-metadata.json    # Discovery statistics

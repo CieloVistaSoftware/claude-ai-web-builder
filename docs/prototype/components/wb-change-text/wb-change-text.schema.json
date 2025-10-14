@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Change Text Component Schema",
+  "description": "Schema for wb-change-text Web Component - inline text editing",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-change-text",
+      "description": "Web Component for direct inline text editing using contenteditable",
+      "attributes": [
+        {
+          "name": "edit-mode",
+          "description": "Enable edit mode automatically on component load",
+          "valueSet": "boolean",
+          "values": [
+            {
+              "name": "true",
+              "description": "Enable edit mode"
+            },
+            {
+              "name": "false", 
+              "description": "Disable edit mode (default)"
+            },
+            {
+              "name": "",
+              "description": "Enable edit mode (boolean attribute)"
+            }
+          ]
+        },
+        {
+          "name": "target-selectors",
+          "description": "Comma-separated CSS selectors for elements that should be editable",
+          "valueSet": "string",
+          "values": [
+            {
+              "name": "h1,h2,h3,h4,h5,h6",
+              "description": "All heading elements"
+            },
+            {
+              "name": "p,div,span",
+              "description": "Common text containers"
+            },
+            {
+              "name": "li,td,th",
+              "description": "List and table text elements"
+            },
+            {
+              "name": "article,section,aside",
+              "description": "Semantic content elements"
+            },
+            {
+              "name": "header,nav,main,footer",
+              "description": "Page structure elements"
+            }
+          ]
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the component instance"
+        },
+        {
+          "name": "class",
+          "description": "CSS classes to apply to the component"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for accessibility",
+          "valueSet": "aria-role"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this component"
+        }
+      ],
+      "references": [
+        {
+          "name": "WB Change Text Documentation",
+          "url": "components/wb-change-text/wb-change-text.md"
+        }
+      ]
+    }
+  ],
+  "globalAttributes": [
+    {
+      "name": "data-*",
+      "description": "Custom data attributes for component configuration"
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "boolean",
+      "values": [
+        {
+          "name": "true",
+          "description": "Boolean true value"
+        },
+        {
+          "name": "false", 
+          "description": "Boolean false value"
+        },
+        {
+          "name": "",
+          "description": "Empty string evaluates to true for boolean attributes"
+        }
+      ]
+    },
+    {
+      "name": "css-selector",
+      "values": [
+        {
+          "name": "h1",
+          "description": "Primary heading element"
+        },
+        {
+          "name": "h2",
+          "description": "Secondary heading element"
+        },
+        {
+          "name": "h3",
+          "description": "Tertiary heading element" 
+        },
+        {
+          "name": "h4",
+          "description": "Fourth-level heading element"
+        },
+        {
+          "name": "h5", 
+          "description": "Fifth-level heading element"
+        },
+        {
+          "name": "h6",
+          "description": "Sixth-level heading element"
+        },
+        {
+          "name": "p",
+          "description": "Paragraph element"
+        },
+        {
+          "name": "div",
+          "description": "Generic container element"
+        },
+        {
+          "name": "span",
+          "description": "Inline text element"
+        },
+        {
+          "name": "li",
+          "description": "List item element"
+        },
+        {
+          "name": "td",
+          "description": "Table data cell"
+        },
+        {
+          "name": "th",
+          "description": "Table header cell"
+        },
+        {
+          "name": "article",
+          "description": "Article content element"
+        },
+        {
+          "name": "section",
+          "description": "Section content element"
+        },
+        {
+          "name": "aside",
+          "description": "Aside content element"
+        },
+        {
+          "name": "header",
+          "description": "Header element"
+        },
+        {
+          "name": "nav",
+          "description": "Navigation element"
+        },
+        {
+          "name": "main",
+          "description": "Main content element"
+        },
+        {
+          "name": "footer",
+          "description": "Footer element"
+        }
+      ]
+    }
+  ]
+}

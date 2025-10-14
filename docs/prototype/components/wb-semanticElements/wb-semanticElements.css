@@ -1,0 +1,31 @@
+/* wb-semanticElements.css */
+[data-wb-semantic] {
+  outline: 2px dashed #6366f1;
+  background: rgba(99,102,241,0.05);
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+}
+nav[data-wb-semantic]::before {
+  content: "<nav> (auto)";
+  color: #6366f1;
+  font-size: 0.9em;
+  margin-right: 0.5em;
+}
+header[data-wb-semantic]::before {
+  content: "<header> (auto)";
+  color: #6366f1;
+  font-size: 0.9em;
+  margin-right: 0.5em;
+}
+main[data-wb-semantic]::before {
+  content: "<main> (auto)";
+  color: #6366f1;
+  font-size: 0.9em;
+  margin-right: 0.5em;
+}
+footer[data-wb-semantic]::before {
+  content: "<footer> (auto)";
+  color: #6366f1;
+  font-size: 0.9em;
+  margin-right: 0.5em;
+}

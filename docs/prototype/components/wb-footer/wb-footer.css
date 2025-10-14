@@ -1,0 +1,557 @@
+/* WB Footer Component Styles */
+/* Website Builder footer component with responsive layouts and positioning modes */
+
+/* Base footer styles */
+.wb-footer {
+  background: var(--wb-footer-bg, var(--bg-secondary));
+  color: var(--wb-footer-text, var(--text-secondary));
+  border-top: var(--wb-footer-border-width, 1px) solid var(--wb-footer-border, var(--border-color));
+  position: relative;
+  width: 100%;
+  z-index: var(--z-footer, 10);
+}
+
+/* Footer container */
+.wb-footer-container {
+  max-width: var(--max-width, 1200px);
+  margin: 0 auto;
+  padding: var(--wb-footer-padding, var(--space-lg, 2rem));
+}
+
+/* Footer sections */
+.wb-footer-top {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--wb-footer-gap, var(--space-lg, 2rem));
+  margin-bottom: var(--space-lg, 2rem);
+}
+
+.wb-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md, 1rem);
+  padding-top: var(--space-md, 1rem);
+  border-top: 1px solid var(--wb-footer-border, var(--border-color));
+}
+
+.wb-footer-section {
+  min-width: 200px;
+}
+
+/* Navigation styles */
+.wb-footer-nav-group {
+  margin-bottom: var(--space-lg, 2rem);
+}
+
+.wb-footer-nav-title {
+  font-size: var(--text-lg, 1.125rem);
+  font-weight: 600;
+  color: var(--wb-footer-text, var(--text-primary));
+  margin-bottom: var(--space-md, 1rem);
+}
+
+.wb-footer-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wb-footer-nav-item {
+  margin-bottom: var(--space-xs, 0.5rem);
+}
+
+.wb-footer-nav-link {
+  color: var(--wb-footer-link-color, var(--text-secondary));
+  text-decoration: none;
+  font-size: var(--text-sm, 0.875rem);
+  transition: color 0.2s ease;
+}
+
+.wb-footer-nav-link:hover {
+  color: var(--wb-footer-link-hover, var(--primary));
+  text-decoration: underline;
+}
+
+.wb-footer-nav-link:focus {
+  outline: 2px solid var(--wb-footer-link-hover, var(--primary));
+  outline-offset: 2px;
+}
+
+/* Company section */
+.wb-footer-company {
+  max-width: 300px;
+}
+
+.wb-footer-company h3 {
+  font-size: var(--text-xl, 1.25rem);
+  color: var(--wb-footer-text, var(--text-primary));
+  margin-bottom: var(--space-sm, 0.75rem);
+}
+
+.wb-footer-company p {
+  color: var(--wb-footer-text-secondary, var(--text-secondary));
+  font-size: var(--text-sm, 0.875rem);
+  line-height: 1.5;
+}
+
+.wb-footer-logo {
+  max-width: 120px;
+  height: auto;
+  margin-bottom: var(--space-md, 1rem);
+}
+
+/* Social media styles */
+.wb-footer-social-section h4 {
+  font-size: var(--text-md, 1rem);
+  font-weight: 600;
+  color: var(--wb-footer-text, var(--text-primary));
+  margin-bottom: var(--space-md, 1rem);
+}
+
+.wb-footer-social-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm, 0.75rem);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wb-footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs, 0.5rem) var(--space-sm, 0.75rem);
+  background: var(--wb-footer-accent, var(--accent));
+  color: white;
+  text-decoration: none;
+  border-radius: var(--border-radius, 4px);
+  font-size: var(--text-sm, 0.875rem);
+  transition: all 0.2s ease;
+}
+
+.wb-footer-social-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Newsletter section */
+.wb-footer-newsletter h4 {
+  font-size: var(--text-md, 1rem);
+  font-weight: 600;
+  color: var(--wb-footer-text, var(--text-primary));
+  margin-bottom: var(--space-sm, 0.75rem);
+}
+
+.wb-footer-newsletter p {
+  color: var(--wb-footer-text-secondary, var(--text-secondary));
+  font-size: var(--text-sm, 0.875rem);
+  margin-bottom: var(--space-md, 1rem);
+}
+
+.wb-footer-newsletter-form {
+  display: flex;
+  gap: var(--space-xs, 0.5rem);
+  margin-bottom: var(--space-sm, 0.75rem);
+}
+
+.wb-footer-newsletter-form input {
+  flex: 1;
+  padding: var(--space-sm, 0.75rem);
+  border: 1px solid var(--wb-footer-border, var(--border-color));
+  border-radius: var(--border-radius, 4px);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: var(--text-sm, 0.875rem);
+}
+
+.wb-footer-newsletter-form button {
+  padding: var(--space-sm, 0.75rem) var(--space-md, 1rem);
+  background: var(--wb-footer-accent, var(--primary));
+  color: white;
+  border: none;
+  border-radius: var(--border-radius, 4px);
+  font-size: var(--text-sm, 0.875rem);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.wb-footer-newsletter-form button:hover {
+  background: var(--wb-footer-link-hover, var(--primary-hover));
+}
+
+.wb-footer-newsletter small {
+  color: var(--wb-footer-text-secondary, var(--text-tertiary));
+  font-size: var(--text-xs, 0.75rem);
+}
+
+/* Copyright and legal */
+.wb-footer-copyright {
+  color: var(--wb-footer-text-secondary, var(--text-secondary));
+  font-size: var(--text-sm, 0.875rem);
+}
+
+.wb-footer-legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md, 1rem);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wb-footer-legal a {
+  color: var(--wb-footer-link-color, var(--text-secondary));
+  text-decoration: none;
+  font-size: var(--text-sm, 0.875rem);
+  transition: color 0.2s ease;
+}
+
+.wb-footer-legal a:hover {
+  color: var(--wb-footer-link-hover, var(--primary));
+  text-decoration: underline;
+}
+
+/* Essential links for sticky layout */
+.wb-footer-essential .wb-footer-nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md, 1rem);
+  justify-content: center;
+}
+
+/* Layout Variants */
+
+/* Simple Layout */
+.wb-footer--simple .wb-footer-container {
+  text-align: center;
+  padding: var(--space-md, 1rem);
+}
+
+.wb-footer--simple .wb-footer-top {
+  display: none;
+}
+
+.wb-footer--simple .wb-footer-bottom {
+  border-top: none;
+  padding-top: 0;
+  justify-content: center;
+}
+
+/* Standard Layout */
+.wb-footer--standard .wb-footer-top {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wb-footer-gap, var(--space-lg, 2rem));
+}
+
+/* Complex Layout */
+.wb-footer--complex .wb-footer-top {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--wb-footer-gap, var(--space-lg, 2rem));
+}
+
+/* Sticky Layout */
+.wb-footer--sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky, 1000);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wb-footer--sticky .wb-footer-container {
+  padding: var(--space-sm, 0.75rem) var(--space-lg, 2rem);
+}
+
+.wb-footer--sticky .wb-footer-top {
+  margin-bottom: var(--space-sm, 0.75rem);
+}
+
+.wb-footer--sticky .wb-footer-bottom {
+  padding-top: var(--space-sm, 0.75rem);
+}
+
+/* Positioning Modes */
+
+/* Same Page Positioning */
+.wb-footer--same-page {
+  position: static;
+  margin-top: auto;
+}
+
+/* Bottom Fixed Positioning */
+.wb-footer--bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-footer-fixed, 1000);
+  max-height: 40vh;
+  overflow-y: auto;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wb-footer--bottom .wb-footer-container {
+  padding: var(--space-md, 1rem) var(--space-lg, 2rem);
+}
+
+/* Expanded Positioning */
+.wb-footer--expanded {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+/* Theme Variants */
+
+/* Light Theme */
+.wb-footer--light {
+  --wb-footer-bg: var(--bg-light, #ffffff);
+  --wb-footer-text: var(--text-light, #333333);
+  --wb-footer-text-secondary: var(--text-secondary-light, #666666);
+  --wb-footer-border: var(--border-light, #e5e5e5);
+  --wb-footer-link-color: var(--link-light, #0066cc);
+  --wb-footer-link-hover: var(--link-hover-light, #0052a3);
+}
+
+/* Dark Theme */
+.wb-footer--dark {
+  --wb-footer-bg: var(--bg-dark, #1a1a1a);
+  --wb-footer-text: var(--text-dark, #ffffff);
+  --wb-footer-text-secondary: var(--text-secondary-dark, #cccccc);
+  --wb-footer-border: var(--border-dark, #333333);
+  --wb-footer-link-color: var(--link-dark, #66b3ff);
+  --wb-footer-link-hover: var(--link-hover-dark, #3399ff);
+}
+
+/* Auto Theme - follows system preference */
+.wb-footer--auto {
+  /* Default to light theme */
+  --wb-footer-bg: var(--bg-light, #ffffff);
+  --wb-footer-text: var(--text-light, #333333);
+  --wb-footer-text-secondary: var(--text-secondary-light, #666666);
+  --wb-footer-border: var(--border-light, #e5e5e5);
+  --wb-footer-link-color: var(--link-light, #0066cc);
+  --wb-footer-link-hover: var(--link-hover-light, #0052a3);
+}
+
+@media (prefers-color-scheme: dark) {
+  .wb-footer--auto {
+    --wb-footer-bg: var(--bg-dark, #1a1a1a);
+    --wb-footer-text: var(--text-dark, #ffffff);
+    --wb-footer-text-secondary: var(--text-secondary-dark, #cccccc);
+    --wb-footer-border: var(--border-dark, #333333);
+    --wb-footer-link-color: var(--link-dark, #66b3ff);
+    --wb-footer-link-hover: var(--link-hover-dark, #3399ff);
+  }
+}
+
+/* Column Variants */
+.wb-footer--1-col .wb-footer-top {
+  grid-template-columns: 1fr;
+}
+
+.wb-footer--2-col .wb-footer-top {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.wb-footer--3-col .wb-footer-top {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.wb-footer--4-col .wb-footer-top {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Alignment Variants */
+.wb-footer--left {
+  text-align: left;
+}
+
+.wb-footer--center {
+  text-align: center;
+}
+
+.wb-footer--center .wb-footer-nav-list {
+  justify-content: center;
+}
+
+.wb-footer--right {
+  text-align: right;
+}
+
+.wb-footer--right .wb-footer-nav-list {
+  justify-content: flex-end;
+}
+
+/* State Classes */
+.wb-footer--collapsed .wb-footer-top {
+  display: none;
+}
+
+.wb-footer--expanded .wb-footer-top {
+  display: grid;
+}
+
+.wb-footer--sticky-active {
+  position: fixed;
+  bottom: 0;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.wb-footer--fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.wb-footer--normal {
+  position: static;
+}
+
+/* Responsive Design */
+
+/* Tablet styles */
+@media (max-width: 1023px) {
+  .wb-footer--complex .wb-footer-top,
+  .wb-footer--standard .wb-footer-top {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .wb-footer-section {
+    min-width: 200px;
+  }
+  
+  .wb-footer-newsletter-form {
+    flex-direction: column;
+  }
+  
+  .wb-footer-newsletter-form input {
+    margin-bottom: var(--space-xs, 0.5rem);
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .wb-footer-container {
+    padding: var(--space-md, 1rem);
+  }
+  
+  .wb-footer-top {
+    flex-direction: column;
+    gap: var(--space-md, 1rem);
+  }
+  
+  .wb-footer--complex .wb-footer-top,
+  .wb-footer--standard .wb-footer-top {
+    grid-template-columns: 1fr;
+  }
+  
+  .wb-footer-section {
+    min-width: auto;
+  }
+  
+  .wb-footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-sm, 0.75rem);
+  }
+  
+  .wb-footer-legal ul {
+    justify-content: center;
+    gap: var(--space-sm, 0.75rem);
+  }
+  
+  .wb-footer-social-list {
+    justify-content: center;
+  }
+  
+  .wb-footer-essential .wb-footer-nav-list {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm, 0.75rem);
+  }
+  
+  /* Fixed footer adaptations for mobile */
+  .wb-footer--bottom {
+    max-height: 50vh;
+  }
+  
+  .wb-footer--bottom .wb-footer-container {
+    padding: var(--space-sm, 0.75rem);
+  }
+}
+
+/* Focus and interaction states */
+.wb-footer a:focus,
+.wb-footer button:focus,
+.wb-footer input:focus {
+  outline: 2px solid var(--wb-footer-accent, var(--primary));
+  outline-offset: 2px;
+}
+
+.wb-footer button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wb-footer input:invalid {
+  border-color: var(--error, #dc3545);
+}
+
+/* Print styles */
+@media print {
+  .wb-footer--bottom,
+  .wb-footer--sticky {
+    position: static !important;
+    box-shadow: none !important;
+  }
+  
+  .wb-footer-newsletter,
+  .wb-footer-social-section {
+    display: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .wb-footer {
+    border-top-width: 2px;
+  }
+  
+  .wb-footer-nav-link,
+  .wb-footer-legal a {
+    text-decoration: underline;
+  }
+  
+  .wb-footer-social-link {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .wb-footer * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .wb-footer--sticky-active {
+    animation: none;
+  }
+}

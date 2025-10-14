@@ -2,6 +2,7 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 import { BaseUnitTest } from '../helpers/BaseUnitTestSimple.js';
+import { spawn } from 'child_process';
 
 /**
  * Test suite for the Website Builder control panel - Simple Version
@@ -10,12 +11,29 @@ import { BaseUnitTest } from '../helpers/BaseUnitTestSimple.js';
 
 test.describe('Website Builder Control Panel Simple Tests', () => {
   const baseTest = new BaseUnitTest();
+  let serverProcess: any;
 
   // Setup standard error monitoring and wb-event-log integration
   test.beforeEach(async ({ page }) => {
     await baseTest.setupStandardBeforeEach(page);
     await page.goto('/tests/wb-control-panel/test-control-panel-simple.html');
     await page.waitForTimeout(3000);
+  });
+
+  test.beforeAll(async () => {
+    // Start static server for test HTML/demo files
+    serverProcess = spawn('npx', ['serve', '-l', '8081', '../../'], {
+      stdio: 'inherit',
+      shell: true
+    });
+    // Wait for server to be ready
+    await new Promise(res => setTimeout(res, 3000));
+  });
+
+  test.afterAll(async () => {
+    if (serverProcess) {
+      serverProcess.kill();
+    }
   });
 
   // Simple TEXT VALIDATION test with mandatory error monitoring

@@ -1,6 +1,7 @@
 // WB Nav Web Component
 // A fully-featured navigation menu component with responsive layouts
 
+if (typeof WBNav === 'undefined') {
 class WBNav extends HTMLElement {
     constructor() {
         super();
@@ -86,7 +87,17 @@ class WBNav extends HTMLElement {
 
     async loadConfig() {
         try {
-            const configPath = './wb-nav.schema.json';
+            // Use component utils to get correct path
+            let configPath = './wb-nav.schema.json';
+            if (window.WBComponentUtils && typeof window.WBComponentUtils.getPath === 'function') {
+                try {
+                    const basePath = window.WBComponentUtils.getPath('wb-nav.js', '../components/wb-nav/');
+                    configPath = basePath + 'wb-nav.schema.json';
+                } catch (e) {
+                    console.warn('🧭 WB Nav: Could not use WBComponentUtils for schema path, using relative path');
+                }
+            }
+            
             const response = await fetch(configPath);
             if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             this.config = await response.json();
@@ -123,7 +134,7 @@ class WBNav extends HTMLElement {
 
     render() {
         // Ensure config is loaded before rendering
-        if (!this.config) {
+        if (!this.config || !this.config.classes) {
             console.warn('🧭 WB Nav: Config not loaded yet, using defaults for render');
             this.config = this.getDefaultConfig();
         }
@@ -159,14 +170,14 @@ class WBNav extends HTMLElement {
         
         // Create container
         const container = document.createElement('div');
-        container.className = this.config.classes.container;
+        container.className = this.config?.classes?.container || 'wb-nav-container';
         
         // Create brand if provided
         const brandText = this.getAttribute('brand-text');
         const brandHref = this.getAttribute('brand-href');
         if (brandText) {
             const brand = document.createElement('a');
-            brand.className = this.config.classes.brand;
+            brand.className = this.config?.classes?.brand || 'wb-nav-brand';
             brand.href = brandHref || '#';
             brand.textContent = brandText;
             container.appendChild(brand);
@@ -174,7 +185,7 @@ class WBNav extends HTMLElement {
         
         // Create navigation list
         const navList = document.createElement('ul');
-        navList.className = this.config.classes.list;
+        navList.className = this.config?.classes?.list || 'wb-nav-list';
         
         // Get items from attribute or use default
         const itemsData = this.getAttribute('items');
@@ -206,7 +217,7 @@ class WBNav extends HTMLElement {
 
     createNavItem(item, index) {
         const navItem = document.createElement('li');
-        navItem.className = this.config.classes.item;
+        navItem.className = this.config?.classes?.item || 'wb-nav-item';
         navItem.setAttribute('data-nav-index', index);
         
         if (item.id) {
@@ -214,7 +225,7 @@ class WBNav extends HTMLElement {
         }
         
         const navLink = document.createElement('a');
-        navLink.className = this.config.classes.link;
+        navLink.className = this.config?.classes?.link || 'wb-nav-link';
         navLink.href = item.href || '#';
         navLink.textContent = item.text;
         
@@ -491,10 +502,10 @@ class WBNav extends HTMLElement {
         }
     }
 }
-
 // Register the custom element
-customElements.define('wb-nav', WBNav);
-
+if (!customElements.get('wb-nav')) {
+  customElements.define('wb-nav', WBNav);
+}
 // Register with WBComponentRegistry if available
 if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
     window.WBComponentRegistry.register('wb-nav', WBNav, ['wb-event-log'], {
@@ -510,5 +521,5 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         priority: 3 // Navigation component depends on logging
     });
 }
-
-console.log('🧭 WB Nav: Web component registered');
+window.WBNav = WBNav;
+} // <-- End of typeof WBNav === 'undefined' guard

@@ -49,7 +49,9 @@
       "Bash(powershell:*)",
       "Bash(start wb-button-demo.html)",
       "Bash(start debug-dropdown-issue.html)",
-      "Bash(start:*)"
+      "Bash(start:*)",
+      "Bash(where chrome)",
+      "Bash(where:*)"
     ],
     "deny": []
   }

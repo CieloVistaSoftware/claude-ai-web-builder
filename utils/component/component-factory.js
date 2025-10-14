@@ -4,7 +4,7 @@
 (function() {
     'use strict';
     
-    console.log('🏭 Component Factory: Initializing...');
+    // console.log('🏭 Component Factory: Initializing...');
     
     // Component Factory namespace
     window.ComponentFactory = {
@@ -16,9 +16,21 @@
         
         // Register a component definition
         register: function(definition) {
-            const name = definition.component.name;
-            this.registry.set(name, definition);
-            console.log(`🏭 Registered component: ${name}`);
+            // console.log('ComponentFactory.register called with:', definition);
+            if (!definition) {
+                throw new Error('register: definition is undefined');
+            }
+            if (definition.name) {
+                // Flat definition (single object)
+                this.registry.set(definition.name, definition);
+                // console.log(`🏭 Registered component: ${definition.name}`);
+            } else if (definition.component && definition.component.name) {
+                // Nested definition (legacy)
+                this.registry.set(definition.component.name, definition);
+                // console.log(`🏭 Registered component: ${definition.component.name}`);
+            } else {
+                throw new Error('register: definition missing name property');
+            }
             return this;
         },
         
@@ -71,15 +83,16 @@
                 if (typeof element === 'string') {
                     return this.interpolate(element, data);
                 }
-                
-                const { tag, attributes = {}, content, children = [], condition, repeat } = element;
-                
+
+                // Support both 'repeat' and 'for' for array rendering
+                const { tag, attributes = {}, content, children = [], condition, repeat, for: forKey } = element;
+
                 // Handle conditional rendering
                 if (condition && !this.evaluateCondition(condition, data)) {
                     return '';
                 }
-                
-                // Handle repeating elements
+
+                // Handle 'repeat' (preferred)
                 if (repeat) {
                     const collection = this.getNestedValue(data, repeat.collection);
                     if (collection && Array.isArray(collection)) {
@@ -89,17 +102,39 @@
                         }).join('');
                     }
                 }
-                
+
+                // Handle 'for' (legacy, e.g., for: 'actions')
+                if (forKey) {
+                    const collection = this.getNestedValue(data, forKey);
+                    if (collection && Array.isArray(collection)) {
+                        return collection.map((item, index) => {
+                            // Merge item into data context for this element
+                            const itemData = { ...data, ...item, [`${forKey}Index`]: index };
+                            return this.createElement(tag, attributes, content, children, itemData, definition);
+                        }).join('');
+                    }
+                }
+
                 return this.createElement(tag, attributes, content, children, data, definition);
             }).join('');
         },
         
         // Create single HTML element
         createElement: function(tag, attributes, content, children, data, definition) {
+            // Special case: skip <img> if src is empty or still contains {{image}}
+            if (tag === 'img') {
+                let src = attributes.src || '';
+                // Interpolate src
+                if (src.includes('{{')) {
+                    src = this.interpolate(src, data);
+                }
+                if (!src || src.includes('{{image}}')) {
+                    return '';
+                }
+            }
             const attrs = this.buildAttributes(attributes, data, definition);
             const innerContent = content ? this.interpolate(content, data) : '';
             const childrenHTML = children.length ? this.buildHTML(children, data, definition) : '';
-            
             return `<${tag}${attrs}>${innerContent}${childrenHTML}</${tag}>`;
         },
         
@@ -224,8 +259,11 @@
         
         async initialize() {
             // Load dependencies
-            if (this.definition.component.dependencies) {
+            if (this.definition.component && this.definition.component.dependencies) {
+                // console.log('Loading dependencies:', this.definition.component.dependencies);
                 await this.loadDependencies();
+            } else {
+                // console.log('No dependencies to load for', this.definition.name || this.definition);
             }
             
             // Create component element
@@ -276,18 +314,27 @@
         
         createElement() {
             const html = ComponentFactory.generateHTML(this.definition, this.data);
-            const componentName = this.definition.component.name;
-            
+            let componentName;
+            if (this.definition.component && this.definition.component.name) {
+                componentName = this.definition.component.name;
+            } else if (this.definition.name) {
+                componentName = this.definition.name;
+            } else {
+                console.error('createElement: No component name found in definition', this.definition);
+                throw new Error('createElement: No component name found in definition');
+            }
+            // console.log('createElement using componentName:', componentName);
+
             // Check if this is a custom element that should be created directly
             if (customElements.get(componentName)) {
                 // Create the custom element directly
                 this.element = document.createElement(componentName);
-                
+
                 // Parse the generated HTML to extract content
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = html;
                 const content = tempDiv.firstElementChild;
-                
+
                 if (content) {
                     // Copy attributes from generated content to custom element
                     Array.from(content.attributes).forEach(attr => {
@@ -406,13 +453,22 @@
         
         dispatchEvent(eventName, detail = {}) {
             const eventConfig = this.definition.events?.[eventName];
-            const fullEventName = eventConfig || `${this.definition.component.name}${eventName.charAt(0).toUpperCase() + eventName.slice(1)}`;
-            
+            let componentName;
+            if (this.definition.component && this.definition.component.name) {
+                componentName = this.definition.component.name;
+            } else if (this.definition.name) {
+                componentName = this.definition.name;
+            } else {
+                console.error('dispatchEvent: No component name found in definition', this.definition);
+                throw new Error('dispatchEvent: No component name found in definition');
+            }
+            const fullEventName = eventConfig || `${componentName}${eventName.charAt(0).toUpperCase() + eventName.slice(1)}`;
+
             const event = new CustomEvent(fullEventName, {
                 detail: { ...detail, component: this, id: this.id },
                 bubbles: true
             });
-            
+
             this.element.dispatchEvent(event);
         }
         

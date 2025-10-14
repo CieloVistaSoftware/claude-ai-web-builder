@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Slider Component Demo</title>
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="wb-slider.css">
+    <script type="module" src="../../components/wb-demo/wb-demo.js"></script>
+    <script src="../../components/md-to-html/md-to-html.js">    </script>
+    <script src="wb-slider.js"></script>
+</head>
+<body>
+        <wb-demo>
+            <span slot="title">WB Slider Component Demo</span>
+            <div slot="documentation">
+                <h2>Component Documentation</h2>
+                <!--
+                  md-to-html.js is missing from components/md-to-html/.
+                  Documentation will not render until this file is restored.
+                  To fix: add md-to-html.js and load it with
+                  <script src="../../components/md-to-html/md-to-html.js"></script>
+                -->
+                <md-to-html src="./wb-slider.md" theme="dark"></md-to-html>
+            </div>
+            <div slot="examples">
+                <wb-demo-section>
+                    <h2>Basic Usage</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Simple Slider</h3>
+                            <p>Basic slider with default settings</p>
+                            <wb-slider id="basic-slider" label="Basic" min="0" max="100" value="50"></wb-slider>
+                            <wb-demo-output id="basic-output">Value: 50</wb-demo-output>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>With Unit</h3>
+                            <p>Slider with unit display (pixels)</p>
+                            <wb-slider id="pixel-slider" label="Pixels" min="0" max="50" value="16" unit="px"></wb-slider>
+                            <wb-demo-output id="pixel-output">Value: 16px</wb-demo-output>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Custom Range</h3>
+                            <p>Slider with custom min/max values</p>
+                            <wb-slider id="range-slider" label="Custom Range" min="0" max="1" value="0.5" step="0.01"></wb-slider>
+                            <wb-demo-output id="range-output">Value: 0.5</wb-demo-output>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>With Ticks</h3>
+                            <p>Slider showing tick marks</p>
+                            <wb-slider id="ticks-slider" label="With Ticks" min="0" max="10" value="3" show-ticks="true"></wb-slider>
+                            <wb-demo-output id="ticks-output">Value: 3</wb-demo-output>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Size Variations</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Small Size</h3>
+                            <wb-slider id="small-slider" label="Small" min="0" max="100" value="25" size="small"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Standard Size (Default)</h3>
+                            <wb-slider id="standard-slider" label="Standard" min="0" max="100" value="50"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Large Size</h3>
+                            <wb-slider id="large-slider" label="Large" min="0" max="100" value="75" size="large"></wb-slider>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Color Variants</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Primary (Default)</h3>
+                            <wb-slider id="primary-slider" label="Primary" min="0" max="100" value="50" variant="primary"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Success</h3>
+                            <wb-slider id="success-slider" label="Success" min="0" max="100" value="80" variant="success"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Warning</h3>
+                            <wb-slider id="warning-slider" label="Warning" min="0" max="100" value="20" variant="warning"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Error</h3>
+                            <wb-slider id="error-slider" label="Error" min="0" max="100" value="10" variant="error"></wb-slider>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>States</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Normal State</h3>
+                            <wb-slider id="normal-slider" label="Normal" min="0" max="100" value="60"></wb-slider>
+                        </wb-demo-item>
+                        <wb-demo-item>
+                            <h3>Disabled State</h3>
+                            <wb-slider id="disabled-slider" label="Disabled" min="0" max="100" value="40" disabled></wb-slider>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Vertical Orientation</h2>
+                    <div class="vertical-demo">
+                        <wb-slider id="vertical-slider" label="Vertical" min="0" max="150" value="75" orientation="vertical"></wb-slider>
+                        <div>
+                            <h3>Vertical Slider</h3>
+                            <p>Useful for controls like volume or height</p>
+                            <wb-demo-output id="vertical-output">Value: 75</wb-demo-output>
+                        </div>
+                    </div>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>JavaScript API</h2>
+                    <wb-demo-item>
+                        <h3>Programmatic Control</h3>
+                        <wb-slider id="api-slider" label="API Demo" min="0" max="100" value="60"></wb-slider>
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button onclick="setSliderValue(25)">Set to 25</button>
+                            <button onclick="setSliderValue(50)">Set to 50</button>
+                            <button onclick="setSliderValue(75)">Set to 75</button>
+                            <button onclick="toggleDisabled()">Toggle Disabled</button>
+                            <button onclick="changeRange()">Change Range (0-200)</button>
+                        </div>
+                        <wb-demo-output id="api-output">Value: 60</wb-demo-output>
+                    </wb-demo-item>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Usage Examples</h2>
+                    <h3>HTML Usage</h3>
+                    <pre><code>&lt;!-- Basic slider --&gt;
+&lt;wb-slider id="volume" label="Volume" min="0" max="100" value="50"&gt;&lt;/wb-slider&gt;
+
+&lt;!-- With unit and custom range --&gt;
+&lt;wb-slider id="spacing" label="Spacing" min="0" max="50" 
+           value="16" unit="px" show-ticks="true"&gt;&lt;/wb-slider&gt;
+
+&lt;!-- Vertical orientation --&gt;
+&lt;wb-slider orientation="vertical" label="Height" 
+           min="0" max="200" value="100"&gt;&lt;/wb-slider&gt;</code></pre>
+                    <h3>JavaScript Usage</h3>
+                    <pre><code>// Create slider programmatically
+const slider = WBSlider.create({
+    label: 'Opacity',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    value: 0.8,
+    unit: '',
+    onchange: (value) => console.log('New value:', value)
+});
+
+// API methods
+WBSlider.setValue(slider, 0.5);
+const currentValue = WBSlider.getValue(slider);
+WBSlider.setDisabled(slider, true);
+WBSlider.setRange(slider, 0, 2);</code></pre>
+                </wb-demo-section>
+            </div>
+        </wb-demo>
+<script>
+// Output value binding for all demo sliders
+function bindSliderOutput(sliderId, outputId, unit = '') {
+    const slider = document.getElementById(sliderId);
+    const output = document.getElementById(outputId);
+    if (!slider || !output) return;
+    function update() {
+        let val = slider.value;
+        if (unit) val += unit;
+        output.textContent = 'Value: ' + val;
+    }
+    slider.addEventListener('input', update);
+    slider.addEventListener('change', update);
+    update();
+}
+document.addEventListener('DOMContentLoaded', () => {
+    bindSliderOutput('basic-slider', 'basic-output');
+    bindSliderOutput('pixel-slider', 'pixel-output', 'px');
+    bindSliderOutput('range-slider', 'range-output');
+    bindSliderOutput('ticks-slider', 'ticks-output');
+    bindSliderOutput('vertical-slider', 'vertical-output');
+    bindSliderOutput('api-slider', 'api-output');
+});
+</script>
+</body>
+</html>

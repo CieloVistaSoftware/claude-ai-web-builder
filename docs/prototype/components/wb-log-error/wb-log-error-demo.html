@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Log Error Component Demo</title>
+    
+    <!-- Central Styles Import -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <!-- Load WB Demo Component -->
+    <script src="../wb-demo/wb-demo.js"></script>
+    
+    <!-- Load wb-log-error web component -->
+    <script src="wb-log-error.js"></script>
+    
+    <!-- Demo Styles -->
+    <style>
+        .demo-buttons {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            margin: var(--space-md) 0;
+        }
+        
+        .btn {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            border: none;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--text-sm);
+            transition: var(--transition-colors);
+        }
+        
+        .btn:hover {
+            background: var(--btn-primary-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--btn-secondary-hover);
+        }
+        
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #d97706;
+        }
+        
+        .status-box {
+            background: rgba(var(--success-color-rgb), 0.1);
+            border: 1px solid rgba(var(--success-color-rgb), 0.3);
+            padding: var(--space-md);
+            border-radius: var(--radius-base);
+            margin: var(--space-md) 0;
+            color: var(--text-primary);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+        
+        .stat-card {
+            background: var(--bg-tertiary);
+            padding: var(--space-md);
+            border-radius: var(--radius-base);
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-value {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            margin-top: var(--space-xs);
+        }
+        
+        .shortcut-hint {
+            background: var(--bg-tertiary);
+            padding: var(--space-md);
+            border-radius: var(--radius-base);
+            margin: var(--space-md) 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .shortcut-hint kbd {
+            background: var(--bg-primary);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            border: 1px solid var(--border-color);
+            margin: 0 var(--space-xs);
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <wb-demo>
+        <span slot="title">📋 WB Log Error Component Demo</span>
+        
+        <div slot="documentation">
+            <h2>📋 WB Log Error Component</h2>
+            <p>A fully reactive error logging and notification component for debugging and monitoring applications. Features Proxy-based state management and automatic error capture.</p>
+            
+            <h3>🔄 Reactive Architecture</h3>
+            <ul class="feature-list">
+                <li>✅ <strong>Proxy-Based State Management:</strong> All component state changes automatically trigger reactive updates</li>
+                <li>✅ <strong>Event Delegation:</strong> Single event handler manages all user interactions efficiently</li>
+                <li>✅ <strong>Web Component Standards:</strong> Extends HTMLElement with proper lifecycle methods</li>
+                <li>✅ <strong>Automatic Cleanup:</strong> Proper disconnectedCallback with event listener removal</li>
+                <li>✅ <strong>Reactive Attributes:</strong> Component attributes sync automatically with internal state</li>
+            </ul>
+            
+            <h3>🚀 Features</h3>
+            <ul class="feature-list">
+                <li>✅ Automatic capture of console errors and warnings</li>
+                <li>✅ Automatic capture of unhandled JavaScript errors</li>
+                <li>✅ Automatic capture of unhandled Promise rejections</li>
+                <li>✅ Multiple log levels with color coding and icons</li>
+                <li>✅ Persistent storage across browser sessions</li>
+                <li>✅ Export functionality (JSON, CSV, Markdown formats)</li>
+                <li>✅ Drag and drop positioning</li>
+                <li>✅ Real-time filtering and search</li>
+                <li>✅ Stack trace viewing for detailed debugging</li>
+                <li>✅ Event-driven architecture for integration</li>
+                <li>✅ Responsive design for mobile devices</li>
+                <li>✅ Accessibility support with ARIA attributes</li>
+            </ul>
+            
+            <h3>💻 Basic Usage</h3>
+            <pre><code>&lt;wb-log-error 
+    position="bottom-right" 
+    visible="true" 
+    enable-export="true" 
+    enable-clear="true" 
+    max-entries="100"&gt;
+&lt;/wb-log-error&gt;</code></pre>
+            
+            <h3>🎯 JavaScript API</h3>
+            <pre><code>// Get component instance
+const logComponent = document.querySelector('wb-log-error');
+
+// Log different types of messages
+logComponent.error('Something went wrong!', 'component.js');
+logComponent.warn('This is a warning', 'validator.js');
+logComponent.info('Information message', 'app.js');
+logComponent.debug('Debug information', 'debugger.js');
+
+// Control visibility
+logComponent.show();
+logComponent.hide();
+logComponent.toggleVisibility();
+
+// Get data and clear
+const errors = logComponent.getErrors();
+const filtered = logComponent.getFilteredErrors();
+logComponent.clearErrors();
+
+// Export functionality
+logComponent.copyToClipboard();
+logComponent.exportErrors('json');
+logComponent.exportErrors('csv');
+logComponent.exportErrors('markdown');</code></pre>
+            
+            <h3>📡 Event Handling</h3>
+            <pre><code>// Listen for component events
+document.addEventListener('wb-log-error:ready', (e) => {
+    console.log('Component ready:', e.detail.component);
+});
+
+document.addEventListener('wb-log-error:new', (e) => {
+    console.log('New error logged:', e.detail.error);
+});
+
+document.addEventListener('wb-log-error:clear', (e) => {
+    console.log('Errors cleared');
+});
+
+document.addEventListener('wb-log-error:toggle', (e) => {
+    console.log('Visibility toggled:', e.detail.visible);
+});</code></pre>
+            
+            <h3>⚙️ Configuration Options</h3>
+            <ul class="feature-list">
+                <li><strong>position:</strong> "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center"</li>
+                <li><strong>visible:</strong> "true" | "false" - Initial visibility state</li>
+                <li><strong>enable-export:</strong> "true" | "false" - Show export button</li>
+                <li><strong>enable-clear:</strong> "true" | "false" - Show clear button</li>
+                <li><strong>enable-toggle:</strong> "true" | "false" - Show toggle button</li>
+                <li><strong>max-entries:</strong> number - Maximum errors to store (default: 100)</li>
+            </ul>
+        </div>
+        
+        <div slot="examples">
+            <h2>🎯 Interactive Examples</h2>
+            <p>Live demonstration of the wb-log-error component with reactive architecture features.</p>
+    
+            <!-- WB Log Error Web Component -->
+            <wb-log-error 
+                position="bottom-right" 
+                visible="true" 
+                enable-export="true" 
+                enable-clear="true" 
+                enable-toggle="true"
+                max-entries="100">
+            </wb-log-error>
+            
+            <wb-demo-section>
+                <h3>📋 Live Error Log</h3>
+                <p>The error log component is now active in the bottom-right corner. It will automatically capture and display all errors.</p>
+                <div class="status-box">
+                    <strong>Status:</strong> <span id="log-status">Ready</span><br>
+                    <strong>Auto-show:</strong> Enabled<br>
+                    <small style="color: var(--text-secondary);">The error log will automatically appear when the first error is logged</small>
+                </div>
+            </wb-demo-section>
+    
+            <wb-demo-section>
+                <h3>🚨 Test Error Logging</h3>
+                <p>Test different types of error logging using the reactive API:</p>
+                <div class="demo-buttons">
+                    <button class="btn btn-danger" onclick="testError()">Test Error</button>
+                    <button class="btn btn-warning" onclick="testWarning()">Test Warning</button>
+                    <button class="btn" onclick="testInfo()">Test Info</button>
+                    <button class="btn btn-secondary" onclick="testDebug()">Test Debug</button>
+                </div>
+            </wb-demo-section>
+    
+            <wb-demo-section>
+                <h3>💥 Simulated Real Errors</h3>
+                <p>Trigger actual JavaScript errors that will be automatically captured by the reactive error handlers:</p>
+                <div class="demo-buttons">
+                    <button class="btn btn-danger" onclick="triggerRuntimeError()">Runtime Error</button>
+                    <button class="btn btn-danger" onclick="triggerReferenceError()">Reference Error</button>
+                    <button class="btn btn-danger" onclick="triggerTypeError()">Type Error</button>
+                    <button class="btn btn-danger" onclick="triggerPromiseRejection()">Promise Rejection</button>
+                </div>
+            </wb-demo-section>
+    
+            <wb-demo-section>
+                <h3>🎛️ Component Controls</h3>
+                <p>Control the error log display and behavior using the reactive API:</p>
+                <div class="demo-buttons">
+                    <button class="btn" onclick="getLogComponent().show()">Show Log</button>
+                    <button class="btn" onclick="getLogComponent().hide()">Hide Log</button>
+                    <button class="btn" onclick="getLogComponent().toggleVisibility()">Toggle Log</button>
+                    <button class="btn btn-secondary" onclick="getLogComponent().clearErrors()">Clear All</button>
+                    <button class="btn btn-secondary" onclick="getLogComponent().copyToClipboard()">📋 Copy to Clipboard</button>
+                    <button class="btn btn-secondary" onclick="getLogComponent().exportErrors('json')">Export JSON</button>
+                    <button class="btn btn-secondary" onclick="getLogComponent().exportErrors('csv')">Export CSV</button>
+                    <button class="btn btn-secondary" onclick="getLogComponent().exportErrors('markdown')">Export Markdown</button>
+                    <button class="btn" onclick="getLogComponent().error('Manual error via reactive API', 'demo.js')">➕ Add Error</button>
+                </div>
+            </wb-demo-section>
+    
+            <wb-demo-section>
+                <h3>📊 Statistics</h3>
+                <p>Current error log statistics updated reactively:</p>
+                <div class="stats-grid" id="stats-grid">
+                    <!-- Stats will be populated by JavaScript -->
+                </div>
+                <button class="btn btn-secondary" onclick="updateStats()">Refresh Stats</button>
+            </wb-demo-section>
+        </div>
+    </wb-demo>
+    
+    <script>
+        // Get the web component instance
+        function getLogComponent() {
+            return document.querySelector('wb-log-error');
+        }
+
+        // Demo functions for testing reactive error logging
+        function testError() {
+            getLogComponent().error('This is a test error message via reactive API', 'demo.js');
+        }
+        
+        function testWarning() {
+            getLogComponent().warn('This is a test warning message via reactive API', 'demo.js');
+        }
+        
+        function testInfo() {
+            getLogComponent().info('This is a test info message via reactive API', 'demo.js');
+        }
+        
+        function testDebug() {
+            getLogComponent().debug('This is a test debug message via reactive API', 'demo.js');
+        }
+        
+        // Functions to trigger real JavaScript errors that will be captured reactively
+        function triggerRuntimeError() {
+            // This will trigger a runtime error that the reactive component will capture
+            let undefined_variable;
+            undefined_variable.nonexistent_property.access();
+        }
+        
+        function triggerReferenceError() {
+            // This will trigger a reference error captured by reactive error handlers
+            nonExistentFunction();
+        }
+        
+        function triggerTypeError() {
+            // This will trigger a type error captured by reactive error handlers
+            const num = 42;
+            num.toUpperCase();
+        }
+        
+        function triggerPromiseRejection() {
+            // This will trigger an unhandled promise rejection captured reactively
+            new Promise((resolve, reject) => {
+                reject(new Error('Simulated promise rejection - captured by reactive component'));
+            });
+        }
+        
+        function updateStats() {
+            const logComponent = getLogComponent();
+            if (!logComponent) return;
+            
+            const errors = logComponent.getErrors();
+            const filteredErrors = logComponent.getFilteredErrors();
+            
+            // Calculate stats from reactive state
+            const stats = {
+                total: errors.length,
+                errors: errors.filter(e => e.level === 'error').length,
+                warnings: errors.filter(e => e.level === 'warning').length,
+                info: errors.filter(e => e.level === 'info').length,
+                debug: errors.filter(e => e.level === 'debug').length,
+                filtered: filteredErrors.length
+            };
+            
+            const statsGrid = document.getElementById('stats-grid');
+            if (statsGrid) {
+                statsGrid.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.total}</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.errors}</div>
+                        <div class="stat-label">Errors</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.warnings}</div>
+                        <div class="stat-label">Warnings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.info}</div>
+                        <div class="stat-label">Info</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.debug}</div>
+                        <div class="stat-label">Debug</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.filtered}</div>
+                        <div class="stat-label">Filtered</div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Initialize demo when component is ready
+        document.addEventListener('wb-log-error:ready', () => {
+            console.log('WB Log Error reactive component is ready!');
+            updateStats();
+            
+            // Show the error log initially to demonstrate reactive visibility
+            setTimeout(() => {
+                getLogComponent().show();
+            }, 1000);
+        });
+        
+        // Update stats reactively when errors change
+        document.addEventListener('wb-log-error:new', () => {
+            updateStats();
+        });
+        
+        document.addEventListener('wb-log-error:clear', () => {
+            updateStats();
+        });
+        
+        // Auto-update stats to demonstrate reactive updates
+        setInterval(updateStats, 3000);
+    </script>
+</body>
+</html>

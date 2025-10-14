@@ -1,0 +1,442 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Color Bars Component Schema", 
+  "description": "Schema for wb-color-bars Web Component - dual HSL color picker for text color and background color control",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.1.0"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "const": "2025-10-06"
+    },
+    "wbComponentRegistryIntegration": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-color-bars",
+      "description": "Web Component with 6 color bars: 3 for text color (H,S,L) and 3 for background color (H,S,L) to control both color and background-color CSS properties",
+      "attributes": [
+        {
+          "name": "text-hue", 
+          "description": "Initial hue value for text color (0-360 degrees)",
+          "valueSet": "hue-values",
+          "values": [
+            {
+              "name": "0",
+              "description": "Red (0°)"
+            },
+            {
+              "name": "60",
+              "description": "Yellow (60°)"
+            },
+            {
+              "name": "120",
+              "description": "Green (120°)"
+            },
+            {
+              "name": "180",
+              "description": "Cyan (180°)"
+            },
+            {
+              "name": "240",
+              "description": "Blue (240° - default)"
+            },
+            {
+              "name": "300",
+              "description": "Magenta (300°)"
+            }
+          ]
+        },
+        {
+          "name": "text-saturation",
+          "description": "Initial saturation percentage for text color (0-100%)",
+          "valueSet": "percentage",
+          "values": [
+            {
+              "name": "0",
+              "description": "Grayscale (0%)"
+            },
+            {
+              "name": "25",
+              "description": "Low saturation (25%)"
+            },
+            {
+              "name": "50",
+              "description": "Medium saturation (50%)"
+            },
+            {
+              "name": "70",
+              "description": "High saturation (70% - default)"
+            },
+            {
+              "name": "100",
+              "description": "Full saturation (100%)"
+            }
+          ]
+        },
+        {
+          "name": "text-lightness", 
+          "description": "Initial lightness percentage for text color (0-100%)",
+          "valueSet": "percentage",
+          "values": [
+            {
+              "name": "0",
+              "description": "Black (0%)"
+            },
+            {
+              "name": "25",
+              "description": "Dark (25%)"
+            },
+            {
+              "name": "50",
+              "description": "Medium (50% - default)"
+            },
+            {
+              "name": "75",
+              "description": "Light (75%)"
+            },
+            {
+              "name": "100",
+              "description": "White (100%)"
+            }
+          ]
+        },
+        {
+          "name": "bg-hue",
+          "description": "Initial hue value for background color (0-360 degrees)",
+          "valueSet": "hue-values",
+          "values": [
+            {
+              "name": "0",
+              "description": "Red (0°)"
+            },
+            {
+              "name": "60", 
+              "description": "Yellow (60°)"
+            },
+            {
+              "name": "120",
+              "description": "Green (120°)"
+            },
+            {
+              "name": "180",
+              "description": "Cyan (180°)"
+            },
+            {
+              "name": "240",
+              "description": "Blue (240° - default)"
+            },
+            {
+              "name": "300",
+              "description": "Magenta (300°)"
+            }
+          ]
+        },
+        {
+          "name": "bg-saturation",
+          "description": "Initial saturation percentage for background color (0-100%)",
+          "valueSet": "percentage",
+          "values": [
+            {
+              "name": "0",
+              "description": "Grayscale (0%)"
+            },
+            {
+              "name": "25",
+              "description": "Low saturation (25%)"
+            },
+            {
+              "name": "50",
+              "description": "Medium saturation (50%)"
+            },
+            {
+              "name": "70",
+              "description": "High saturation (70% - default)"
+            },
+            {
+              "name": "100",
+              "description": "Full saturation (100%)"
+            }
+          ]
+        },
+        {
+          "name": "bg-lightness",
+          "description": "Initial lightness percentage for background color (0-100%)",
+          "valueSet": "percentage",
+          "values": [
+            {
+              "name": "0",
+              "description": "Black (0%)"
+            },
+            {
+              "name": "25",
+              "description": "Dark (25%)"
+            },
+            {
+              "name": "50",
+              "description": "Medium (50% - default)"
+            },
+            {
+              "name": "75",
+              "description": "Light (75%)"
+            },
+            {
+              "name": "100",
+              "description": "White (100%)"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disable all color picker interactions",
+          "valueSet": "boolean",
+          "values": [
+            {
+              "name": "true",
+              "description": "Disable interactions"
+            },
+            {
+              "name": "false",
+              "description": "Enable interactions (default)"
+            },
+            {
+              "name": "",
+              "description": "Disable interactions (boolean attribute)"
+            }
+          ]
+        },
+        {
+          "name": "theme",
+          "description": "Visual theme for the color picker",
+          "valueSet": "theme",
+          "values": [
+            {
+              "name": "light",
+              "description": "Light theme (default)"
+            },
+            {
+              "name": "dark",
+              "description": "Dark theme"
+            }
+          ]
+        },
+        {
+          "name": "label",
+          "description": "Label text for the color picker",
+          "valueSet": "string",
+          "values": [
+            {
+              "name": "Color",
+              "description": "Default label"
+            },
+            {
+              "name": "Primary Color",
+              "description": "Primary color selection"
+            },
+            {
+              "name": "Secondary Color",
+              "description": "Secondary color selection"
+            },
+            {
+              "name": "Accent Color",
+              "description": "Accent color selection"
+            },
+            {
+              "name": "Background Color",
+              "description": "Background color selection"
+            }
+          ]
+        },
+        {
+          "name": "id",
+          "description": "Unique identifier for the component instance"
+        },
+        {
+          "name": "class",
+          "description": "CSS classes to apply to the component"
+        },
+        {
+          "name": "role",
+          "description": "ARIA role for accessibility",
+          "valueSet": "aria-role"
+        },
+        {
+          "name": "aria-label",
+          "description": "Accessible label for screen readers"
+        },
+        {
+          "name": "aria-describedby",
+          "description": "ID of element that describes this component"
+        }
+      ],
+      "references": [
+        {
+          "name": "WB Color Bars Documentation",
+          "url": "components/wb-color-bars/wb-color-bars.md"
+        }
+      ],
+      "dependencies": ["wb-color-bar"],
+      "wbComponentRegistry": {
+        "registered": true,
+        "type": "composite",
+        "role": "ui-element",
+        "usedBy": ["wb-control-panel"],
+        "requires": ["wb-color-bar"]
+      }
+    }
+  ],
+  "globalAttributes": [
+    {
+      "name": "data-*",
+      "description": "Custom data attributes for component configuration"
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "boolean",
+      "values": [
+        {
+          "name": "true",
+          "description": "Boolean true value"
+        },
+        {
+          "name": "false",
+          "description": "Boolean false value"
+        },
+        {
+          "name": "",
+          "description": "Empty string evaluates to true for boolean attributes"
+        }
+      ]
+    },
+    {
+      "name": "hue-values",
+      "values": [
+        {
+          "name": "0",
+          "description": "Red hue (0°)"
+        },
+        {
+          "name": "30",
+          "description": "Orange hue (30°)"
+        },
+        {
+          "name": "60",
+          "description": "Yellow hue (60°)"
+        },
+        {
+          "name": "90",
+          "description": "Yellow-green hue (90°)"
+        },
+        {
+          "name": "120",
+          "description": "Green hue (120°)"
+        },
+        {
+          "name": "150",
+          "description": "Green-cyan hue (150°)"
+        },
+        {
+          "name": "180",
+          "description": "Cyan hue (180°)"
+        },
+        {
+          "name": "210",
+          "description": "Cyan-blue hue (210°)"
+        },
+        {
+          "name": "240",
+          "description": "Blue hue (240°)"
+        },
+        {
+          "name": "270",
+          "description": "Blue-magenta hue (270°)"
+        },
+        {
+          "name": "300",
+          "description": "Magenta hue (300°)"
+        },
+        {
+          "name": "330",
+          "description": "Magenta-red hue (330°)"
+        }
+      ]
+    },
+    {
+      "name": "percentage",
+      "values": [
+        {
+          "name": "0",
+          "description": "0%"
+        },
+        {
+          "name": "10",
+          "description": "10%"
+        },
+        {
+          "name": "20",
+          "description": "20%"
+        },
+        {
+          "name": "25",
+          "description": "25%"
+        },
+        {
+          "name": "30",
+          "description": "30%"
+        },
+        {
+          "name": "40",
+          "description": "40%"
+        },
+        {
+          "name": "50",
+          "description": "50%"
+        },
+        {
+          "name": "60",
+          "description": "60%"
+        },
+        {
+          "name": "70",
+          "description": "70%"
+        },
+        {
+          "name": "75",
+          "description": "75%"
+        },
+        {
+          "name": "80",
+          "description": "80%"
+        },
+        {
+          "name": "90",
+          "description": "90%"
+        },
+        {
+          "name": "100",
+          "description": "100%"
+        }
+      ]
+    },
+    {
+      "name": "theme",
+      "values": [
+        {
+          "name": "light",
+          "description": "Light color scheme"
+        },
+        {
+          "name": "dark",
+          "description": "Dark color scheme"
+        }
+      ]
+    }
+  ]
+}

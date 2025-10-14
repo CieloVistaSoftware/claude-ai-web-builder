@@ -16,69 +16,25 @@
 </head>
 <body data-theme="dark">
     
-    <wb-demo>
+    <wb-demo markdown="wb-demo.md">
+          
         <!-- Demo Title -->
         <span slot="title">🎯 WB Demo Component Demo</span>
-        
-        <!-- Documentation Content -->
-        <div slot="documentation">
-            <h2>📖 WB Demo Component Documentation</h2>
-            <p>A reusable component for creating consistent two-tab documentation and examples layouts across all WB components.</p>
-            
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>🎯 Purpose</h3>
-                    <ul>
-                        <li>Standardized demo structure for all WB components</li>
-                        <li>Built-in event logging system</li>
-                        <li>Slotted content architecture for flexibility</li>
-                        <li>Follows WB Component Rules and CSS-First architecture</li>
-                    </ul>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>🧩 Basic Usage</h3>
-                    <pre><code>&lt;wb-demo&gt;
-    &lt;span slot="title"&gt;🧪 My Component Demo&lt;/span&gt;
-    
-    &lt;div slot="documentation"&gt;
-        &lt;h2&gt;Documentation Content&lt;/h2&gt;
-        &lt;p&gt;Component docs go here...&lt;/p&gt;
-    &lt;/div&gt;
-    
-    &lt;div slot="examples"&gt;
-        &lt;h2&gt;Examples Content&lt;/h2&gt;
-        &lt;p&gt;Interactive examples go here...&lt;/p&gt;
-    &lt;/div&gt;
-&lt;/wb-demo&gt;</code></pre>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>⚙️ Features</h3>
-                    <ul>
-                        <li><strong>Two-tab structure:</strong> Documentation and Examples</li>
-                        <li><strong>Event logging:</strong> Built-in logging system</li>
-                        <li><strong>CSS-First:</strong> External wb-demo.css stylesheet</li>
-                        <li><strong>Shadow DOM:</strong> Proper encapsulation</li>
-                        <li><strong>Slotted content:</strong> Flexible content areas</li>
-                    </ul>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>📡 Standards Compliance</h3>
-                    <ul>
-                        <li>✅ <strong>wb- prefix:</strong> wb-demo</li>
-                        <li>✅ <strong>CSS-First:</strong> External stylesheet</li>
-                        <li>✅ <strong>claude.md:</strong> Development log</li>
-                        <li>✅ <strong>Two-tab demo:</strong> This file</li>
-                        <li>✅ <strong>ES6 modules:</strong> No CommonJS</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+ 
+        <!-- Documentation Content (rendered from .md file) -->
+     
         
         <!-- Examples Content -->
         <div slot="examples">
+            <wb-card 
+                title="WB Demo Component"
+                subtitle="A versatile demo component for showcasing WB web components."
+                body="The wb-demo component provides a standardized way to document and demonstrate WB web components. It includes slots for titles, documentation, and live examples, along with built-in event logging functionality."
+                variant="elevated"
+                size="standard"
+                layout="vertical"
+                style="margin-bottom: 1.5rem;"
+            ></wb-card>
             <h2>🎯 Interactive Examples</h2>
             <p>Demonstrations of the WB Demo component in action.</p>
             
@@ -90,7 +46,7 @@
                     <span slot="title">Nested Demo Level 2</span>
                     <div slot="documentation">
                         <h4>Nested Documentation</h4>
-                        <p>This is a real nested <code>&lt;wb-demo&gt;</code> component. You can nest as many levels as you want.</p>
+                        <p>This is a hard coded documentation<code>&lt;wb-demo&gt;</code> component. You can nest as many levels as you want.</p>
                     </div>
                     <div slot="examples">
                         <h4>Nested Example Content</h4>
@@ -132,6 +88,7 @@
                 </div>
             </div>
         </div>
+       
     </wb-demo>
 
     <!-- Load wb-demo component -->

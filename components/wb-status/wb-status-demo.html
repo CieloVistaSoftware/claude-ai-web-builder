@@ -290,6 +290,8 @@
     </style>
 </head>
 <body data-theme="dark">
+    <div id="status" style="margin-bottom: 1rem; color: var(--primary, #6366f1); font-size: 1rem;"></div>
+    <div id="status-docs" style="margin-bottom: 2rem;"></div>
     <wb-demo title="WB Status Component Demo">
         <div slot="example">
             <h2>WB-Status HTML Tag Examples</h2>
@@ -508,12 +510,21 @@
         </div> <!-- Close examples tab -->
     </div>
     
-        <!-- Top Status Bar -->\n    <div id=\"top-status-container\" style=\"position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); min-height: 2rem; padding: 4px;\">\n        <wb-status id=\"main-top-status\" style=\"display: block; min-height: 1.5rem; background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; padding: 4px 8px; color: #f1f5f9; font-size: 12px;\">Loading top status bar...</wb-status>\n    </div>\n    \n    <!-- Bottom Status Bar -->\n    <div id=\"bottom-status-container\" style=\"position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; min-height: 2rem; padding: 4px;\">\n        <wb-status id=\"main-bottom-status\" class=\"wb-status-bar--custom\" style=\"display: block; min-height: 1.5rem; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border: 1px solid #764ba2; padding: 4px 8px; color: #ffffff; font-size: 12px;\">Loading bottom status bar...</wb-status>\n    </div>
+    <!-- Top Status Bar -->
+    <div id="top-status-container" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); min-height: 2rem; padding: 4px;">
+        <wb-status id="main-top-status" style="display: block; min-height: 1.5rem; background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; padding: 4px 8px; color: #f1f5f9; font-size: 12px;">Loading top status bar...</wb-status>
+    </div>
     
-    <!-- Load marked library -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Bottom Status Bar -->
+    <div id="bottom-status-container" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; min-height: 2rem; padding: 4px;">
+        <wb-status id="main-bottom-status" class="wb-status-bar--custom" style="display: block; min-height: 1.5rem; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border: 1px solid #764ba2; padding: 4px 8px; color: #ffffff; font-size: 12px;">Loading bottom status bar...</wb-status>
+    </div>
     
-    <script>
+</body>
+<!-- Move all <script> tags here, after the closing </body> tag, to ensure DOM is ready -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="wb-status.js"></script>
+<script>
         // Load and render markdown documentation
         async function loadStatusDocs() {
             try {
@@ -534,12 +545,7 @@
         } else {
             window.addEventListener('load', loadStatusDocs);
         }
-    </script>
     
-    <!-- Load WB Status Component -->
-    <script src="wb-status.js"></script>
-    
-    <script>
         let eventCounter = 0;
         let topStatusBar = null;
         let bottomStatusBar = null;
@@ -983,7 +989,30 @@
                     }
                 });
                 
-                                // Show immediate test events to prove status bars are working\n                setTimeout(() => {\n                    // Force custom element initialization\n                    const topStatus = document.getElementById('main-top-status');\n                    const bottomStatus = document.getElementById('main-bottom-status');\n                    \n                    console.log('🔍 Force initializing custom elements...');\n                    console.log('Top status element:', topStatus, 'Connected?', topStatus.isConnected);\n                    console.log('Bottom status element:', bottomStatus, 'Connected?', bottomStatus.isConnected);\n                    \n                    // Clear placeholder text\n                    topStatus.innerHTML = '';\n                    bottomStatus.innerHTML = '';\n                    \n                    // Try to trigger connectedCallback manually if needed\n                    if (topStatus.connectedCallback && typeof topStatus.connectedCallback === 'function') {\n                        topStatus.connectedCallback();\n                    }\n                    if (bottomStatus.connectedCallback && typeof bottomStatus.connectedCallback === 'function') {\n                        bottomStatus.connectedCallback();\n                    }\n                    \n                    addEventToBoth('Status bars initialized and working!', 'success');\n                }, 500);
+                // Show immediate test events to prove status bars are working
+                setTimeout(() => {
+                    // Force custom element initialization
+                    const topStatus = document.getElementById('main-top-status');
+                    const bottomStatus = document.getElementById('main-bottom-status');
+                    
+                    console.log('🔍 Force initializing custom elements...');
+                    console.log('Top status element:', topStatus, 'Connected?', topStatus.isConnected);
+                    console.log('Bottom status element:', bottomStatus, 'Connected?', bottomStatus.isConnected);
+                    
+                    // Clear placeholder text
+                    topStatus.innerHTML = '';
+                    bottomStatus.innerHTML = '';
+                    
+                    // Try to trigger connectedCallback manually if needed
+                    if (topStatus.connectedCallback && typeof topStatus.connectedCallback === 'function') {
+                        topStatus.connectedCallback();
+                    }
+                    if (bottomStatus.connectedCallback && typeof bottomStatus.connectedCallback === 'function') {
+                        bottomStatus.connectedCallback();
+                    }
+                    
+                    addEventToBoth('Status bars initialized and working!', 'success');
+                }, 500);
                 
                 setTimeout(() => {
                     addEventToBoth('Top status bar = default theme', 'info');
@@ -1133,5 +1162,4 @@
             event.target.classList.add('active');
         }
     </script>
-</body>
 </html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Component Generator Runner</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    label, select, button { font-size: 1em; margin: 0.5em 0; }
+    #output { margin-top: 1em; white-space: pre-wrap; background: #f4f4f4; padding: 1em; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Run wc_generator.js with --from-schema</h2>
+  <form id="generator-form">
+    <label for="jsonFile">Select a JSON schema file from components/:</label><br>
+    <select id="jsonFile" name="jsonFile">
+      <!-- Options will be populated by script -->
+    </select><br>
+    <button type="submit">Run Generator</button>
+  </form>
+  <div id="output"></div>
+  <script>
+    // List of .json files in components/ and subfolders (manually populated)
+    const jsonFiles = [
+      // Top-level in components
+      'manifest.json',
+      'manifest.schema.json',
+      // Subfolders (relative to components/)
+      'wb-control-panel/wb-control-panel.schema.json',
+      'wb-color-bar/wb-color-bar.schema.json',
+      'wb-btn/wb-btn.schema.json',
+      'wb-color-mapper/wb-color-mapper.schema.json',
+      'wb-color-transformer/wb-color-transformer.schema.json'
+    ];
+    const select = document.getElementById('jsonFile');
+    jsonFiles.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f;
+      opt.textContent = f;
+      select.appendChild(opt);
+    });
+    if (jsonFiles.length === 0) {
+      select.innerHTML = '<option disabled>No .json files found</option>';
+    }
+    document.getElementById('generator-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const file = select.value;
+      if (!file) return;
+      const outputDiv = document.getElementById('output');
+      outputDiv.textContent = 'Running: node ComponentGenerator/wc_generator.js --from-schema components/' + file + ' ...';
+      try {
+        // Use fetch to call a local server endpoint (requires backend setup)
+        // This is a placeholder: you must run the command manually or set up a backend
+        outputDiv.textContent += '\n\nThis page cannot run Node.js scripts directly.\nPlease run the following command in your terminal:';
+        outputDiv.textContent += `\n\nnode ComponentGenerator/wc_generator.js --from-schema components/${file}`;
+      } catch (err) {
+        outputDiv.textContent = 'Error: ' + err;
+      }
+    };
+  </script>
+</body>
+</html>

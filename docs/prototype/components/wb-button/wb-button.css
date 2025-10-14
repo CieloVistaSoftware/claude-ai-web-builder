@@ -1,0 +1,376 @@
+/* ===== WB BUTTON COMPONENT ===== */
+/* Website Builder standardized button component for consistent styling across the entire site */
+
+/* Base Button Variables */
+:root {
+    /* WB Button Component Variables */
+    --wb-btn-height: 1.5rem;
+    --wb-btn-font-size: clamp(0.5rem, 2vw, 0.75rem);
+    --wb-btn-border-radius: 6px;
+    --wb-btn-transition: all 0.2s ease;
+    --wb-btn-padding: 0 0.5rem;
+}
+
+/* Base Button Class */
+.wb-btn {
+    width: 5rem;
+    height: var(--wb-btn-height) !important;
+    min-height: var(--wb-btn-height) !important;
+    max-height: var(--wb-btn-height) !important;
+    padding: var(--wb-btn-padding) !important;
+    margin: 0 0.5rem 0.5rem 0.5rem !important;
+    
+    font-size: var(--wb-btn-font-size) !important;
+    font-weight: 600;
+    line-height: 1 !important;
+    text-align: center !important;
+    white-space: nowrap;
+    
+    /* PROPER BUTTON APPEARANCE */
+    border: 1px solid var(--border-color, #404040) !important;
+    border-radius: var(--wb-btn-border-radius) !important;
+    background: var(--bg-secondary, #2a2a2a) !important;
+    color: var(--text-primary, #ffffff) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    transition: var(--wb-btn-transition);
+    box-sizing: border-box !important;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    /* Default width constraints - can be overridden by JS */
+    max-width: none;
+    min-width: 5rem;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Base button hover effect */
+.wb-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Button Variants */
+
+/* Primary Action Button */
+.wb-btn--primary {
+    background: var(--primary, #6366f1) !important;
+    color: var(--text-primary-inverse, #ffffff) !important;
+    border-color: var(--primary, #6366f1) !important;
+}
+
+.wb-btn--primary:hover {
+    background: var(--primary-dark, #4f46e5) !important;
+    border-color: var(--primary-dark, #4f46e5) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(99, 102, 241, 0.4);
+}
+
+/* Secondary Button */
+.wb-btn--secondary {
+    background: var(--bg-tertiary, #1e1e1e) !important;
+    color: var(--text-primary, #ffffff) !important;
+    border-color: var(--border-color, #404040) !important;
+}
+
+.wb-btn--secondary:hover {
+    background: var(--bg-secondary, #2a2a2a) !important;
+    border-color: var(--primary, #6366f1) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Success/Accent Button */
+.wb-btn--success {
+    background: var(--success-color, #10b981) !important;
+    color: var(--text-primary-inverse, #ffffff) !important;
+    border-color: var(--success-color, #10b981) !important;
+}
+
+.wb-btn--success:hover {
+    background: var(--success-dark, #059669) !important;
+    border-color: var(--success-dark, #059669) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(16, 185, 129, 0.4);
+}
+
+.wb-btn--success.active {
+    background: var(--primary, #6366f1) !important;
+    border-color: var(--primary, #6366f1) !important;
+}
+
+/* Toggle Button */
+.wb-btn--toggle {
+    background: var(--bg-tertiary, #1e1e1e) !important;
+    color: var(--text-secondary, #a0a0a0) !important;
+    border: 1px solid var(--border-color, #404040) !important;
+    justify-content: space-between !important;
+}
+
+.wb-btn--toggle:hover {
+    background: var(--bg-secondary, #2a2a2a) !important;
+    border-color: var(--primary, #6366f1) !important;
+    color: var(--text-primary, #ffffff) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.wb-btn--toggle.active {
+    background: var(--success-color, #10b981) !important;
+    border-color: var(--success-dark, #059669) !important;
+    color: var(--text-primary-inverse, #ffffff) !important;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+}
+
+.wb-btn--toggle.active::after {
+    content: ' ✓';
+    margin-left: 0.2rem;
+    font-weight: bold;
+}
+
+/* Toggle Button Checkmark */
+.wb-btn__check {
+    color: var(--accent);
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity var(--wb-btn-transition);
+}
+
+.wb-btn--toggle.active .wb-btn__check {
+    opacity: 1;
+    color: var(--text-primary-inverse, white);
+}
+
+/* Status Indicators */
+.wb-btn__status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 0.2rem;
+    flex-shrink: 0;
+    transition: var(--wb-btn-transition);
+}
+
+.wb-btn__status--active {
+    background-color: var(--success-color, #10b981);
+    box-shadow: 0 0 4px rgba(var(--success-color-rgb, 16, 185, 129), 0.5);
+}
+
+.wb-btn__status--inactive {
+    background-color: var(--error-color, #ef4444);
+    box-shadow: 0 0 4px rgba(var(--error-color-rgb, 239, 68, 68), 0.5);
+}
+
+.wb-btn__status--neutral {
+    background-color: var(--neutral-500);
+    box-shadow: 0 0 4px rgba(100, 116, 139, 0.3);
+}
+
+/* Icon Support */
+.wb-btn__icon {
+    margin-right: 0.3rem;
+    font-size: inherit;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.wb-btn__icon--right {
+    margin-right: 0;
+    margin-left: 0.3rem;
+}
+
+.wb-btn__icon--only {
+    margin: 0;
+}
+
+/* Image Support */
+.wb-btn__image {
+    width: 1rem;
+    height: 1rem;
+    object-fit: cover;
+    border-radius: 2px;
+    margin-right: 0.3rem;
+    flex-shrink: 0;
+}
+
+.wb-btn__image--right {
+    margin-right: 0;
+    margin-left: 0.3rem;
+}
+
+.wb-btn__image--only {
+    margin: 0;
+}
+
+/* Background Image Support */
+.wb-btn--bg-image {
+    background-image: var(--wb-btn-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--text-primary-inverse, white);
+    text-shadow: 0 1px 2px rgba(var(--neutral-900-rgb, 0, 0, 0), 0.7);
+    position: relative;
+}
+
+.wb-btn--bg-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: inherit;
+    transition: var(--wb-btn-transition);
+}
+
+.wb-btn--bg-image:hover::before {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.wb-btn--bg-image > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Icon Only and Image Only Variants */
+.wb-btn--icon-only,
+.wb-btn--image-only {
+    min-width: var(--wb-btn-height);
+    width: var(--wb-btn-height);
+    padding: 0 !important;
+    justify-content: center;
+}
+
+/* Size adjustments for icons and images */
+.wb-btn--small .wb-btn__icon,
+.wb-btn--small .wb-btn__image {
+    width: 1rem;
+    height: 1rem;
+}
+
+.wb-btn--large .wb-btn__icon,
+.wb-btn--large .wb-btn__image {
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+/* Grid Layout for Buttons */
+.wb-btn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.wb-btn-grid--single {
+    grid-template-columns: 1fr;
+}
+
+.wb-btn-grid--three {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 0.5rem;
+    width: fit-content;
+}
+
+.wb-btn-grid--four {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Remove button margins when in grid layouts */
+.wb-btn-grid .wb-btn,
+.wb-btn-grid--single .wb-btn,
+.wb-btn-grid--three .wb-btn,
+.wb-btn-grid--four .wb-btn {
+    margin: 0 !important;
+}
+
+/* Override web component margins in grid layouts */
+.wb-btn-grid wb-btn,
+.wb-btn-grid--single wb-btn,
+.wb-btn-grid--three wb-btn,
+.wb-btn-grid--four wb-btn {
+    margin: 0 !important;
+}
+
+/* Responsive Grid */
+@media (max-width: 600px) {
+    .wb-btn-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .wb-btn-grid--three,
+    .wb-btn-grid--four {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Size Variants */
+.wb-btn--small {
+    --wb-btn-height: 1.2rem;
+    --wb-btn-font-size: clamp(0.5rem, 2vw, 0.65rem);
+    --wb-btn-padding: 0 0.5rem;
+}
+
+.wb-btn--large {
+    --wb-btn-height: 2rem;
+    --wb-btn-font-size: clamp(0.65rem, 3vw, 0.9rem);
+    --wb-btn-padding: 0 0.5rem;
+}
+
+/* Button Groups */
+.wb-btn-group {
+    display: flex;
+    gap: 0;
+}
+
+.wb-btn-group .wb-btn {
+    border-radius: 0 !important;
+}
+
+.wb-btn-group .wb-btn:first-child {
+    border-top-left-radius: var(--wb-btn-border-radius) !important;
+    border-bottom-left-radius: var(--wb-btn-border-radius) !important;
+}
+
+.wb-btn-group .wb-btn:last-child {
+    border-top-right-radius: var(--wb-btn-border-radius) !important;
+    border-bottom-right-radius: var(--wb-btn-border-radius) !important;
+}
+
+/* Disabled State */
+.wb-btn:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+    background: var(--neutral-600, #4a5568) !important;
+    color: var(--neutral-400, #9ca3af) !important;
+    border-color: var(--neutral-500, #6b7280) !important;
+}
+
+.wb-btn:disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* All demo styles moved to styles/_utilities.css for global consistency */
+
+/* ===== WEB COMPONENT BUTTON STYLING ===== */
+/* Ensure wb-button web components look like proper buttons */
+
+wb-button {
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Demo styles moved to styles/_utilities.css for global use across all components */

@@ -1,0 +1,913 @@
+{
+  "$id": "wb-layout.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Layout Component Schema",
+  "description": "Schema for wb-layout web component - manages website layout configurations supporting both semantic HTML elements (<header>, <nav>, <main>, <footer>) and WB components (<wb-header>, <wb-nav>, <wb-main>, <wb-footer>)",
+  "type": "object",
+  "definitions": {
+    "layoutType": {
+      "type": "string",
+      "enum": ["top-nav", "left-nav", "right-nav", "ad-layout"],
+      "description": "Available layout types for the wb-layout component"
+    },
+    "elementType": {
+      "type": "string",
+      "enum": ["semantic", "wb-components", "mixed"],
+      "description": "Type of elements used in layout - semantic HTML, WB components, or mixed approach"
+    },
+    "supportedElements": {
+      "type": "object",
+      "description": "Elements supported by the layout system",
+      "properties": {
+        "semantic": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": ["header", "nav", "main", "footer", "aside"],
+          "description": "Standard HTML5 semantic elements"
+        },
+        "wb-components": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": ["wb-header", "wb-nav", "wb-main", "wb-footer"],
+          "description": "WB component elements"
+        },
+        "css-classes": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": [".wb-header", ".wb-nav", ".wb-main", ".wb-footer"],
+          "description": "Fallback CSS classes for mixed approaches"
+        }
+      }
+    },
+    "cssVariable": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "value": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["name", "value"]
+    },
+    "layoutConfig": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "bodyClass": { "type": "string" },
+        "navComponent": { "type": "string" },
+        "navConfig": { "type": "object" },
+        "cssVariables": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/cssVariable" }
+        }
+      },
+      "required": ["name", "description", "bodyClass"]
+    },
+    "wbNavConfig": {
+      "type": "object",
+      "description": "wb-nav component configuration patterns for each layout type",
+      "properties": {
+        "layout": {
+          "type": "string",
+          "enum": ["top-nav", "left-nav", "right-nav", "ad-layout"],
+          "description": "Layout type that matches wb-layout"
+        },
+        "brandText": {
+          "type": "string",
+          "description": "Brand text for concise wb-nav usage"
+        },
+        "items": {
+          "type": "array",
+          "description": "Navigation items in JSON format",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": { "type": "string", "description": "Display text for navigation item" },
+              "href": { "type": "string", "description": "URL or anchor for navigation item" },
+              "icon": { "type": "string", "description": "Optional icon for navigation item" }
+            },
+            "required": ["text", "href"]
+          }
+        },
+        "slots": {
+          "type": "array",
+          "description": "Available slots for verbose wb-nav usage",
+          "items": {
+            "type": "string",
+            "enum": ["brand", "nav-items", "cta", "extra"]
+          }
+        }
+      }
+    },
+    "usagePattern": {
+      "type": "object",
+      "description": "Usage pattern definition for wb-layout with wb-nav",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["concise", "verbose"],
+          "description": "Usage pattern type"
+        },
+        "description": { "type": "string" },
+        "example": { "type": "string", "description": "HTML example code" },
+        "whenToUse": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Scenarios when this pattern is recommended"
+        }
+      }
+    }
+  },
+  "properties": {
+    "layout": {
+      "$ref": "#/definitions/layoutType",
+      "default": "top-nav",
+      "description": "Current layout type applied to the page"
+    },
+    "element-type": {
+      "$ref": "#/definitions/elementType",
+      "default": "mixed",
+      "description": "Type of elements to support - semantic HTML, WB components, or mixed approach"
+    },
+    "flexible-selectors": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable support for both semantic HTML and WB components simultaneously"
+    },
+    "auto-apply": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to automatically apply layout styles when component initializes"
+    },
+    "show-control": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to show the layout selection dropdown control"
+    },
+    "supported-layouts": {
+      "type": "object",
+      "description": "Configuration for each supported layout type",
+      "properties": {
+        "top-nav": {
+          "$ref": "#/definitions/layoutConfig",
+          "default": {
+            "name": "Top Navigation",
+            "description": "Horizontal navigation bar at page top",
+            "bodyClass": "layout-top-nav",
+            "navComponent": "wb-nav",
+            "navConfig": { "type": "horizontal", "position": "top" },
+            "cssVariables": [
+              { "name": "--nav-width", "value": "100%", "description": "Navigation width" },
+              { "name": "--nav-height", "value": "60px", "description": "Navigation height" },
+              { "name": "--content-margin-top", "value": "60px", "description": "Top margin for main content" },
+              { "name": "--content-margin-left", "value": "0", "description": "Left margin for main content" },
+              { "name": "--content-margin-right", "value": "0", "description": "Right margin for main content" }
+            ]
+          }
+        },
+        "left-nav": {
+          "$ref": "#/definitions/layoutConfig",
+          "default": {
+            "name": "Left Sidebar",
+            "description": "Fixed vertical sidebar with icons and text on the left",
+            "bodyClass": "layout-left-nav",
+            "navComponent": "wb-nav",
+            "navConfig": { "type": "vertical", "position": "left", "width": "200px" },
+            "cssVariables": [
+              { "name": "--nav-width", "value": "200px", "description": "Navigation width" },
+              { "name": "--nav-height", "value": "100vh", "description": "Navigation height" },
+              { "name": "--content-margin-left", "value": "200px", "description": "Left margin for main content" },
+              { "name": "--content-margin-top", "value": "0", "description": "Top margin for main content" },
+              { "name": "--content-margin-right", "value": "0", "description": "Right margin for main content" }
+            ]
+          }
+        },
+        "right-nav": {
+          "$ref": "#/definitions/layoutConfig",
+          "default": {
+            "name": "Right Sidebar",
+            "description": "Fixed vertical sidebar with icons and text on the right",
+            "bodyClass": "layout-right-nav", 
+            "navComponent": "wb-nav",
+            "navConfig": { "type": "vertical", "position": "right", "width": "200px" },
+            "cssVariables": [
+              { "name": "--nav-width", "value": "200px", "description": "Navigation width" },
+              { "name": "--nav-height", "value": "100vh", "description": "Navigation height" },
+              { "name": "--content-margin-right", "value": "200px", "description": "Right margin for main content" },
+              { "name": "--content-margin-top", "value": "0", "description": "Top margin for main content" },
+              { "name": "--content-margin-left", "value": "0", "description": "Left margin for main content" }
+            ]
+          }
+        },
+        "ad-layout": {
+          "$ref": "#/definitions/layoutConfig",
+          "default": {
+            "name": "Ad Layout",
+            "description": "Advertisement optimized layout with enhanced navigation and branding",
+            "bodyClass": "layout-ad-layout",
+            "navComponent": "wb-nav",
+            "navConfig": { "type": "enhanced", "branding": true, "cta": true },
+            "cssVariables": [
+              { "name": "--nav-width", "value": "100%", "description": "Navigation width" },
+              { "name": "--nav-height", "value": "80px", "description": "Navigation height (enhanced for ads)" },
+              { "name": "--content-margin-top", "value": "80px", "description": "Top margin for main content" },
+              { "name": "--content-margin-left", "value": "0", "description": "Left margin for main content" },
+              { "name": "--content-margin-right", "value": "0", "description": "Right margin for main content" }
+            ]
+          }
+        }
+      }
+    },
+    "responsive-breakpoints": {
+      "type": "object",
+      "description": "Responsive design breakpoints for layout adaptations",
+      "properties": {
+        "mobile": {
+          "type": "string",
+          "default": "768px",
+          "description": "Mobile breakpoint - sidebar layouts convert to top navigation below this width"
+        },
+        "tablet": {
+          "type": "string",
+          "default": "1024px", 
+          "description": "Tablet breakpoint for intermediate layout adjustments"
+        },
+        "desktop": {
+          "type": "string",
+          "default": "1200px",
+          "description": "Desktop breakpoint for full layout features"
+        }
+      }
+    },
+    "element-flexibility": {
+      "type": "object",
+      "description": "Configuration for supporting multiple element types",
+      "properties": {
+        "semantic-html-support": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable support for semantic HTML elements (header, nav, main, footer)"
+        },
+        "wb-components-support": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable support for WB components (wb-header, wb-nav, wb-main, wb-footer)"
+        },
+        "css-class-fallback": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable CSS class fallbacks for mixed approaches"
+        },
+        "auto-detection": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically detect which element types are being used"
+        },
+        "usage-recommendations": {
+          "type": "object",
+          "description": "Guidance on when to use each approach",
+          "properties": {
+            "semantic-html": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "Simple websites with basic functionality",
+                "Accessibility-first projects requiring maximum screen reader compatibility",
+                "Learning projects or educational content",
+                "Legacy system integration where WB components aren't suitable",
+                "Minimal JavaScript environments"
+              ]
+            },
+            "wb-components": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "Complex applications requiring enhanced functionality",
+                "Consistent theming across multiple pages/sites",
+                "Dynamic content that needs programmatic updates",
+                "Advanced responsive behavior beyond CSS media queries",
+                "Integration with WB ecosystem (control panels, theme systems)"
+              ]
+            },
+            "mixed-approach": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "Progressive enhancement - start semantic, enhance selectively",
+                "Component migration - gradually adopting WB components",
+                "Specific feature needs - use WB components only where enhanced functionality is needed",
+                "Team preferences - different developers comfortable with different approaches"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "navigation-integration": {
+      "type": "object",
+      "description": "Configuration for navigation integration (both semantic nav and wb-nav)",
+      "properties": {
+        "auto-configure": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically configure wb-nav component based on layout"
+        },
+        "nav-selector": {
+          "type": "string",
+          "default": "nav, wb-nav",
+          "description": "CSS selector for navigation elements to configure (supports both semantic nav and wb-nav)"
+        },
+        "element-detection": {
+          "type": "object",
+          "description": "Automatic detection of element types in use",
+          "properties": {
+            "semantic-elements": {
+              "type": "boolean",
+              "default": true,
+              "description": "Detect presence of semantic HTML elements"
+            },
+            "wb-components": {
+              "type": "boolean",
+              "default": true,
+              "description": "Detect presence of WB components"
+            },
+            "notify-detection": {
+              "type": "boolean",
+              "default": false,
+              "description": "Dispatch events when element types are detected"
+            }
+          }
+        },
+        "dispatch-events": {
+          "type": "boolean",
+          "default": true,
+          "description": "Dispatch layout change events to navigation component"
+        },
+        "concise-format": {
+          "type": "object",
+          "description": "Concise wb-nav configuration using attributes",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "brand-attribute": { "type": "string", "default": "brand-text" },
+            "items-attribute": { "type": "string", "default": "items" },
+            "json-format": {
+              "type": "object",
+              "properties": {
+                "multiline": { "type": "boolean", "default": true, "description": "Use multi-line JSON formatting" },
+                "spacing": { "type": "boolean", "default": true, "description": "Add spaces after colons in JSON" },
+                "validation": { "type": "boolean", "default": true, "description": "Validate JSON syntax" }
+              }
+            }
+          }
+        },
+        "verbose-format": {
+          "type": "object",
+          "description": "Verbose wb-nav configuration using slots",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "available-slots": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["brand", "nav-items", "cta", "extra"]
+            }
+          }
+        }
+      }
+    },
+    "wb-nav-patterns": {
+      "type": "object",
+      "description": "wb-nav usage patterns for each layout type",
+      "properties": {
+        "top-nav": {
+          "$ref": "#/definitions/wbNavConfig",
+          "default": {
+            "layout": "top-nav",
+            "brandText": "My Website",
+            "items": [
+              {"text": "Home", "href": "#home"},
+              {"text": "About", "href": "#about"},
+              {"text": "Contact", "href": "#contact"}
+            ],
+            "slots": ["brand", "nav-items"]
+          }
+        },
+        "left-nav": {
+          "$ref": "#/definitions/wbNavConfig",
+          "default": {
+            "layout": "left-nav",
+            "brandText": "Dashboard",
+            "items": [
+              {"text": "🏠 Home", "href": "#home"},
+              {"text": "👤 Profile", "href": "#profile"},
+              {"text": "⚙️ Settings", "href": "#settings"}
+            ],
+            "slots": ["brand", "nav-items"]
+          }
+        },
+        "right-nav": {
+          "$ref": "#/definitions/wbNavConfig",
+          "default": {
+            "layout": "right-nav",
+            "brandText": "Related",
+            "items": [
+              {"text": "📖 Articles", "href": "#articles"},
+              {"text": "🏷️ Tags", "href": "#tags"}
+            ],
+            "slots": ["brand", "nav-items", "extra"]
+          }
+        },
+        "ad-layout": {
+          "$ref": "#/definitions/wbNavConfig",
+          "default": {
+            "layout": "ad-layout",
+            "brandText": "Premium Site",
+            "items": [
+              {"text": "Home", "href": "#home"},
+              {"text": "Products", "href": "#products"},
+              {"text": "Services", "href": "#services"}
+            ],
+            "slots": ["brand", "nav-items", "cta"]
+          }
+        }
+      }
+    },
+    "css-management": {
+      "type": "object",
+      "description": "CSS custom properties management configuration",
+      "properties": {
+        "update-root-vars": {
+          "type": "boolean",
+          "default": true,
+          "description": "Update CSS custom properties on document root"
+        },
+        "variable-prefix": {
+          "type": "string",
+          "default": "",
+          "description": "Prefix for CSS custom property names"
+        },
+        "transition-duration": {
+          "type": "string",
+          "default": "0.3s",
+          "description": "Duration for layout transition animations"
+        }
+      }
+    }
+  },
+  "events": {
+    "type": "object",
+    "description": "Events dispatched by wb-layout component",
+    "properties": {
+      "wb-layout-ready": {
+        "description": "Fired when component is initialized and ready",
+        "detail": {
+          "component": "WBLayout instance"
+        }
+      },
+      "wb-layout-changed": {
+        "description": "Fired when layout is changed",
+        "detail": {
+          "layout": "string - new layout type",
+          "config": "object - layout configuration",
+          "previousLayout": "string - previous layout type"
+        },
+        "bubbles": true
+      },
+      "wb-nav-layout-change": {
+        "description": "Fired to wb-nav component when layout changes",
+        "detail": {
+          "layout": "string - layout type",
+          "config": "object - navigation configuration"
+        }
+      }
+    }
+  },
+  "methods": {
+    "type": "object",
+    "description": "Public methods available on wb-layout component",
+    "properties": {
+      "setLayout": {
+        "description": "Set the current layout type",
+        "parameters": [
+          {
+            "name": "layoutType",
+            "type": "string",
+            "enum": ["top-nav", "left-nav", "right-nav", "ad-layout"],
+            "required": true
+          }
+        ],
+        "returns": "void"
+      },
+      "getLayout": {
+        "description": "Get current layout information",
+        "parameters": [],
+        "returns": {
+          "type": "object",
+          "properties": {
+            "current": "string - current layout type",
+            "config": "object - current layout configuration",
+            "available": "array - available layout types"
+          }
+        }
+      },
+      "getAvailableLayouts": {
+        "description": "Get list of available layout options",
+        "parameters": [],
+        "returns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": "string - layout type",
+              "label": "string - display name",
+              "description": "string - layout description"
+            }
+          }
+        }
+      },
+      "showControl": {
+        "description": "Show the layout selection dropdown",
+        "parameters": [],
+        "returns": "void"
+      },
+      "hideControl": {
+        "description": "Hide the layout selection dropdown",
+        "parameters": [],
+        "returns": "void"
+      }
+    }
+  },
+  "global-api": {
+    "type": "object",
+    "description": "Global WBLayout API available on window object",
+    "properties": {
+      "setLayout": {
+        "description": "Set layout globally - finds wb-layout element or dispatches event",
+        "parameters": [
+          {
+            "name": "layout",
+            "type": "string",
+            "enum": ["top-nav", "left-nav", "right-nav", "ad-layout"],
+            "required": true
+          }
+        ]
+      },
+      "getLayout": {
+        "description": "Get current layout information from wb-layout element",
+        "returns": "object or null"
+      },
+      "getAvailableLayouts": {
+        "description": "Get available layouts from wb-layout element",
+        "returns": "array or empty array"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "wb-layout",
+      "description": "Layout management component for website structure coordination",
+      "attributes": [
+        {
+          "name": "layout",
+          "description": "Current layout type",
+          "valueSet": "wb-layout-types"
+        },
+        {
+          "name": "auto-apply",
+          "description": "Automatically apply layout styles on initialization"
+        },
+        {
+          "name": "show-control",
+          "description": "Show layout selection dropdown control"
+        }
+      ]
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "wb-layout-types",
+      "values": [
+        { "name": "top-nav", "description": "Horizontal navigation at page top (default)" },
+        { "name": "left-nav", "description": "Fixed vertical sidebar navigation on left" },
+        { "name": "right-nav", "description": "Fixed vertical sidebar navigation on right" },
+        { "name": "ad-layout", "description": "Advertisement optimized layout with enhanced navigation" }
+      ]
+    }
+  ],
+  "usage-examples": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "title": "string",
+        "description": "string", 
+        "code": "string",
+        "pattern": {
+          "type": "string",
+          "enum": ["semantic", "wb-components", "mixed", "programmatic"]
+        }
+      }
+    },
+    "default": [
+      {
+        "title": "Semantic HTML Top Navigation",
+        "description": "Top navigation using standard HTML5 semantic elements",
+        "pattern": "semantic",
+        "code": "<body data-layout=\"top-nav\">\n  <header>\n    <h1>My Website</h1>\n  </header>\n  <nav>\n    <ul>\n      <li><a href=\"#home\">Home</a></li>\n      <li><a href=\"#about\">About</a></li>\n    </ul>\n  </nav>\n  <main>\n    <h1>Page Content</h1>\n  </main>\n  <footer>\n    <p>&copy; 2025 My Company</p>\n  </footer>\n</body>"
+      },
+      {
+        "title": "Semantic HTML Left Sidebar",
+        "description": "Left sidebar using standard HTML5 semantic elements",
+        "pattern": "semantic",
+        "code": "<body data-layout=\"left-nav\">\n  <header>Site Header</header>\n  <nav>\n    <ul>\n      <li><a href=\"#home\">🏠 Home</a></li>\n      <li><a href=\"#profile\">👤 Profile</a></li>\n    </ul>\n  </nav>\n  <main>Content Area</main>\n  <footer>Site Footer</footer>\n</body>"
+      },
+      {
+        "title": "Mixed Approach",
+        "description": "Mixing semantic HTML with WB components as needed",
+        "pattern": "mixed",
+        "code": "<body data-layout=\"top-nav\">\n  <header>\n    <h1>My Website</h1>\n  </header>\n  <wb-nav layout=\"horizontal\" items='[{\"text\": \"Home\", \"href\": \"#home\"}]'>\n  </wb-nav>\n  <main>\n    <p>Content goes here</p>\n  </main>\n  <wb-footer company-name=\"My Company\">\n  </wb-footer>\n</body>"
+      },
+      {
+        "title": "WB Components Top Navigation",
+        "description": "Top navigation using enhanced WB components",
+        "pattern": "wb-components",
+        "code": "<body data-layout=\"top-nav\">\n  <wb-header brand-text=\"My Website\" layout=\"default\">\n  </wb-header>\n  <wb-nav layout=\"horizontal\" \n          items='[\n            {\"text\": \"Home\", \"href\": \"#home\"},\n            {\"text\": \"About\", \"href\": \"#about\"}\n          ]'>\n  </wb-nav>\n  <wb-main>\n    <h1>Page Content</h1>\n  </wb-main>\n  <wb-footer company-name=\"My Company\">\n  </wb-footer>\n</body>"
+      },
+      {
+        "title": "WB Components Left Sidebar",
+        "description": "Left sidebar using enhanced WB components",
+        "pattern": "wb-components",
+        "code": "<body data-layout=\"left-nav\">\n  <wb-header brand-text=\"Dashboard\">\n  </wb-header>\n  <wb-nav layout=\"vertical\" \n          items='[\n            {\"text\": \"🏠 Home\", \"href\": \"#home\"},\n            {\"text\": \"👤 Profile\", \"href\": \"#profile\"}\n          ]'>\n  </wb-nav>\n  <wb-main>Content Area</wb-main>\n  <wb-footer>Site Footer</wb-footer>\n</body>"
+      },
+      {
+        "title": "Advanced WB Components with Slots",
+        "description": "WB components using slot-based configuration for maximum flexibility",
+        "pattern": "wb-components",
+        "code": "<body data-layout=\"top-nav\">\n  <wb-header>\n    <div slot=\"brand\">My Website</div>\n    <div slot=\"actions\">\n      <button>Login</button>\n    </div>\n  </wb-header>\n  <wb-nav>\n    <div slot=\"nav-items\">\n      <a href=\"#\">Home</a>\n      <a href=\"#\">About</a>\n    </div>\n  </wb-nav>\n  <wb-main>Content</wb-main>\n  <wb-footer>Footer</wb-footer>\n</body>"
+      },
+      {
+        "title": "Semantic Ad Layout",
+        "description": "Advertisement layout using semantic HTML with sidebar",
+        "pattern": "semantic",
+        "code": "<body data-layout=\"ad-layout\">\n  <header>\n    <h1>Premium Site</h1>\n  </header>\n  <nav>\n    <ul>\n      <li><a href=\"#products\">Products</a></li>\n      <li><a href=\"#services\">Services</a></li>\n    </ul>\n  </nav>\n  <main>Content Area</main>\n  <aside>\n    <div class=\"ad-content\">Advertisement</div>\n  </aside>\n  <footer>Site Footer</footer>\n</body>"
+      },
+      {
+        "title": "Programmatic Control",
+        "description": "Change layout using JavaScript API",
+        "pattern": "programmatic",
+        "code": "WBLayout.setLayout('right-nav');\nconst info = WBLayout.getLayout();"
+      },
+      {
+        "title": "Event Handling",
+        "description": "Listen for layout changes",
+        "pattern": "programmatic",
+        "code": "document.addEventListener('wb-layout-changed', (e) => {\n  console.log('Layout changed to:', e.detail.layout);\n});"
+      }
+    ]
+  },
+  "usage-patterns": {
+    "type": "object",
+    "description": "Detailed usage patterns for wb-layout with wb-nav integration",
+    "properties": {
+      "concise": {
+        "$ref": "#/definitions/usagePattern",
+        "default": {
+          "type": "concise",
+          "description": "Attribute-based wb-nav configuration using JSON items",
+          "example": "<wb-nav layout=\"top-nav\" brand-text=\"Site\" items='[{\"text\":\"Home\",\"href\":\"#\"}]'>",
+          "whenToUse": [
+            "Simple navigation with text links only",
+            "Rapid prototyping or simple sites",
+            "JSON-based configuration preferred",
+            "Minimal HTML structure desired"
+          ]
+        }
+      },
+      "verbose": {
+        "$ref": "#/definitions/usagePattern",
+        "default": {
+          "type": "verbose",
+          "description": "Slot-based wb-nav configuration with custom HTML",
+          "example": "<wb-nav><div slot=\"brand\">Brand</div><div slot=\"nav-items\"><a href=\"#\">Link</a></div></wb-nav>",
+          "whenToUse": [
+            "Complex navigation with custom HTML",
+            "Icons, buttons, or rich content needed",
+            "Maximum flexibility and customization required",
+            "Complex dropdown menus or special styling"
+          ]
+        }
+      }
+    }
+  },
+  "css-integration": {
+    "type": "object",
+    "description": "CSS custom properties managed by wb-layout component",
+    "properties": {
+      "variables": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": "string",
+            "description": "string",
+            "values": "object - layout-specific values"
+          }
+        },
+        "default": [
+          {
+            "name": "--nav-width",
+            "description": "Width of navigation component",
+            "values": {
+              "top-nav": "100%",
+              "left-nav": "200px", 
+              "right-nav": "200px",
+              "ad-layout": "100%"
+            }
+          },
+          {
+            "name": "--nav-height",
+            "description": "Height of navigation component",
+            "values": {
+              "top-nav": "60px",
+              "left-nav": "100vh",
+              "right-nav": "100vh", 
+              "ad-layout": "80px"
+            }
+          },
+          {
+            "name": "--content-margin-top",
+            "description": "Top margin for main content area",
+            "values": {
+              "top-nav": "60px",
+              "left-nav": "0",
+              "right-nav": "0",
+              "ad-layout": "80px"
+            }
+          },
+          {
+            "name": "--content-margin-left",
+            "description": "Left margin for main content area",
+            "values": {
+              "top-nav": "0",
+              "left-nav": "200px",
+              "right-nav": "0",
+              "ad-layout": "0"
+            }
+          },
+          {
+            "name": "--content-margin-right",
+            "description": "Right margin for main content area",
+            "values": {
+              "top-nav": "0",
+              "left-nav": "0",
+              "right-nav": "200px",
+              "ad-layout": "0"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "wb-nav-integration": {
+    "type": "object",
+    "description": "wb-nav component integration patterns and configurations",
+    "properties": {
+      "concise-pattern": {
+        "type": "object",
+        "description": "JSON-based attribute configuration for wb-nav",
+        "properties": {
+          "top-nav": {
+            "example": "<wb-nav layout=\"top-nav\" brand-text=\"My Website\" items='[{\"text\": \"Home\", \"href\": \"#home\"}]'>",
+            "attributes": ["layout", "brand-text", "items"]
+          },
+          "left-nav": {
+            "example": "<wb-nav layout=\"left-nav\" brand-text=\"Dashboard\" items='[{\"text\": \"🏠 Home\", \"href\": \"#home\"}]'>",
+            "attributes": ["layout", "brand-text", "items"]
+          },
+          "right-nav": {
+            "example": "<wb-nav layout=\"right-nav\" brand-text=\"Related\" items='[{\"text\": \"📖 Articles\", \"href\": \"#articles\"}]'>",
+            "attributes": ["layout", "brand-text", "items"],
+            "slots": ["extra"]
+          },
+          "ad-layout": {
+            "example": "<wb-nav layout=\"ad-layout\" brand-text=\"Premium\" items='[{\"text\": \"Products\", \"href\": \"#products\"}]'><div slot=\"cta\">CTA</div></wb-nav>",
+            "attributes": ["layout", "brand-text", "items"],
+            "slots": ["cta"]
+          }
+        }
+      },
+      "verbose-pattern": {
+        "type": "object",
+        "description": "Slot-based configuration for wb-nav",
+        "properties": {
+          "available-slots": ["brand", "nav-items", "cta", "extra"],
+          "when-to-use": [
+            "Complex navigation with custom HTML",
+            "Icons, buttons, or rich content needed",
+            "Maximum flexibility and customization required"
+          ]
+        }
+      }
+    }
+  },
+  "json-formatting-guidelines": {
+    "type": "object",
+    "description": "Guidelines for JSON formatting in wb-nav items attribute",
+    "properties": {
+      "recommended-format": {
+        "type": "string",
+        "example": "items='[\\n  {\"text\": \"Home\", \"href\": \"#home\"},\\n  {\"text\": \"About\", \"href\": \"#about\"}\\n]'"
+      },
+      "compact-format": {
+        "type": "string", 
+        "example": "items='[{\"text\":\"Home\",\"href\":\"#\"}]'"
+      },
+      "formatting-rules": [
+        "Use proper spacing: \"text\": \"Home\" instead of \"text\":\"Home\"",
+        "Multi-line format is more readable for multiple items",
+        "Single-line works fine for 1-2 simple items",
+        "Always validate JSON syntax to avoid parsing errors",
+        "Use meaningful href values instead of just '#'"
+      ],
+      "item-structure": {
+        "type": "object",
+        "properties": {
+          "text": {"type": "string", "required": true, "description": "Display text"},
+          "href": {"type": "string", "required": true, "description": "URL or anchor"},
+          "icon": {"type": "string", "required": false, "description": "Optional icon"}
+        }
+      }
+    }
+  },
+  "version": "2.0.0",
+  "lastUpdated": "2025-10-05",
+  "author": "WB Component System",
+  "element-support": {
+    "type": "object",
+    "description": "Comprehensive element support for layout system",
+    "properties": {
+      "semantic-html": {
+        "type": "object",
+        "description": "Support for standard HTML5 semantic elements",
+        "properties": {
+          "elements": {
+            "type": "array",
+            "items": {"type": "string"},
+            "default": ["header", "nav", "main", "footer", "aside"]
+          },
+          "grid-area-support": {"type": "boolean", "default": true},
+          "responsive-behavior": {"type": "boolean", "default": true},
+          "accessibility-optimized": {"type": "boolean", "default": true}
+        }
+      },
+      "wb-components": {
+        "type": "object",
+        "description": "Support for enhanced WB components",
+        "properties": {
+          "components": {
+            "type": "array",
+            "items": {"type": "string"},
+            "default": ["wb-header", "wb-nav", "wb-main", "wb-footer"]
+          },
+          "enhanced-features": {"type": "boolean", "default": true},
+          "theme-integration": {"type": "boolean", "default": true},
+          "programmatic-control": {"type": "boolean", "default": true}
+        }
+      },
+      "mixed-approach": {
+        "type": "object",
+        "description": "Support for mixing semantic HTML with WB components",
+        "properties": {
+          "progressive-enhancement": {"type": "boolean", "default": true},
+          "selective-adoption": {"type": "boolean", "default": true},
+          "css-class-fallbacks": {"type": "boolean", "default": true}
+        }
+      }
+    }
+  },
+  "component-dependencies": {
+    "required": [],
+    "optional": ["wb-nav", "wb-header", "wb-main", "wb-footer"],
+    "description": "Layout system works with both semantic HTML and WB components - no required dependencies",
+    "integration-notes": [
+      "Semantic HTML elements work automatically with layout system",
+      "WB components provide enhanced functionality when included",
+      "Mixed approaches are fully supported",
+      "CSS Grid areas work identically for both element types",
+      "Layout system auto-detects which elements are in use"
+    ]
+  },
+  "browser-support": {
+    "type": "object",
+    "properties": {
+      "custom-elements": { "required": true },
+      "css-custom-properties": { "required": true },
+      "es6-classes": { "required": true },
+      "minimum-versions": {
+        "chrome": "67",
+        "firefox": "63", 
+        "safari": "13.1",
+        "edge": "79"
+      }
+    }
+  }
+}

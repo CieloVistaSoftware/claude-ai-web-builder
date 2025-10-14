@@ -1,3 +1,14 @@
+## 2025-10-13: WBBaseComponent Inheritance Refactor Proposal Approved
+![the event log needs to wrap when window shrinks](eventlog.png)
+
+- Proposal to refactor all WB components to inherit from `WBBaseComponent` was created and approved.
+- Rationale: Reduce code duplication, improve consistency, and centralize shared logic (lifecycle, logging, event helpers, style loading, etc.).
+- Next steps:
+  - Audit all components for direct `HTMLElement` inheritance.
+  - Update imports and class definitions to use `WBBaseComponent`.
+  - Remove redundant logic now handled by the base class.
+  - Test and document changes.
+- See `components/wb-base/inheritance-refactor-proposal.md` for full details and migration plan.
 # ./components/wb-demo/claude.md - WB Demo Component Development Log
 
 ## Compliance Note

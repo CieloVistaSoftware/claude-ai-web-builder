@@ -1,0 +1,255 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Color Mapper Component",
+  "type": "object",
+  "properties": {
+    "tag": {
+      "type": "string",
+      "const": "wb-color-mapper",
+      "description": "The HTML tag name for the component"
+    },
+    "name": {
+      "type": "string",
+      "default": "WB Color Mapper",
+      "description": "Display name of the component"
+    },
+    "description": {
+      "type": "string",
+      "default": "Maps existing color variables to match WB theme system",
+      "description": "Brief description of the component's purpose"
+    },
+    "category": {
+      "type": "string",
+      "default": "theme",
+      "enum": ["theme", "utility", "style"],
+      "description": "Component category for organization"
+    },
+    "priority": {
+      "type": "integer",
+      "default": 5,
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Loading priority (1-10, higher loads first)"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "List of component dependencies"
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "enum": ["light", "dark", "cyberpunk", "ocean", "sunset", "forest"],
+          "description": "Theme to apply mappings for"
+        },
+        "auto-init": {
+          "type": "string",
+          "enum": ["true", "false"],
+          "default": "true",
+          "description": "Whether to automatically initialize on connection"
+        },
+        "debug": {
+          "type": "string",
+          "enum": ["true", "false"],
+          "default": "false",
+          "description": "Enable debug mode to show component status"
+        }
+      }
+    },
+    "methods": {
+      "type": "object",
+      "properties": {
+        "mapThemeColors": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Apply color mappings for a specific theme"
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "default": [
+                {
+                  "name": "theme",
+                  "type": "string",
+                  "description": "Theme name to apply"
+                }
+              ]
+            }
+          }
+        },
+        "debugColorVariables": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Log all color-related CSS variables"
+            },
+            "returns": {
+              "type": "string",
+              "default": "Array of color variable objects"
+            }
+          }
+        },
+        "debugCurrentThemeMappings": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Show mappings for current theme"
+            },
+            "returns": {
+              "type": "string",
+              "default": "Theme mapping object"
+            }
+          }
+        },
+        "diagnoseColorIssues": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Check for elements with problematic inline styles"
+            },
+            "returns": {
+              "type": "string",
+              "default": "Diagnosis results object"
+            }
+          }
+        },
+        "forceThemeUpdate": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Force re-application of current theme mappings"
+            }
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "object",
+      "properties": {
+        "wb-color-mapper-ready": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Fired when component is initialized and ready"
+            },
+            "detail": {
+              "type": "object",
+              "properties": {
+                "component": {
+                  "type": "string",
+                  "description": "Reference to the component instance"
+                }
+              }
+            }
+          }
+        },
+        "wb-color-mapper-stored": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Fired when original values are stored"
+            },
+            "detail": {
+              "type": "object",
+              "properties": {
+                "valuesCount": {
+                  "type": "integer",
+                  "description": "Number of values stored"
+                },
+                "originalValues": {
+                  "type": "object",
+                  "description": "Object containing original CSS values"
+                }
+              }
+            }
+          }
+        },
+        "wb-color-mapper-applied": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "Fired when theme mappings are applied"
+            },
+            "detail": {
+              "type": "object",
+              "properties": {
+                "theme": {
+                  "type": "string",
+                  "description": "Theme that was applied"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "default": [
+        {
+          "title": "Basic Usage",
+          "code": "<wb-color-mapper></wb-color-mapper>",
+          "description": "Automatically maps colors based on current theme"
+        },
+        {
+          "title": "Specific Theme",
+          "code": "<wb-color-mapper theme=\"cyberpunk\"></wb-color-mapper>",
+          "description": "Force mapping for a specific theme"
+        },
+        {
+          "title": "Debug Mode",
+          "code": "<wb-color-mapper debug=\"true\"></wb-color-mapper>",
+          "description": "Show component status indicator"
+        },
+        {
+          "title": "Manual Control",
+          "code": "<wb-color-mapper auto-init=\"false\" id=\"mapper\"></wb-color-mapper>\n<script>\n  const mapper = document.getElementById('mapper');\n  mapper.mapThemeColors('ocean');\n</script>",
+          "description": "Manual theme mapping control"
+        }
+      ]
+    }
+  },
+  "required": ["tag", "name", "description"],
+  "additionalProperties": false
+}

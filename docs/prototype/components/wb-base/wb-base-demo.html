@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>WB Base Component Demo</title>
+        <link rel="stylesheet" href="../../styles/main.css">
+        <link rel="stylesheet" href="wb-base-demo.css">
+        <script type="module" src="../wb-demo/wb-demo.js"></script>
+        <script type="module">
+            import { setupDemoBaseHover, setupDemoBaseEvent } from './wb-base.js';
+            setupDemoBaseHover();
+            setupDemoBaseEvent();
+        </script>
+    </head>
+
+    <body>
+        <wb-demo markdown="./wb-base.md">
+            <span slot="title">WB Base Component Example</span>
+            <div slot="documentation"></div>
+            <style>
+                /* Remove custom dark background for code blocks in examples tab */
+                [slot="examples"] pre code {
+                    color: inherit !important;
+                    background: inherit !important;
+                }
+                .demo-base-hover-container {
+                    display: inline-block;
+                    position: relative;
+                }
+                .hover-tip {
+                    display: none;
+                    position: absolute;
+                    left: 50%;
+                    top: 0;
+                    transform: translate(-50%, -120%);
+                    background: #232323;
+                    color: #fff;
+                    padding: 0.5rem 1rem;
+                    border-radius: 6px;
+                    font-size: 1rem;
+                    white-space: nowrap;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                    z-index: 10;
+                }
+                .demo-base-message {
+                    background: #181c3a;
+                    color: #fff;
+                    font-size: 2rem;
+                    padding: 2rem 1rem;
+                    border-radius: 12px;
+                    margin: 1rem 0;
+                    text-align: center;
+                    font-family: monospace;
+                }
+            </style>
+                        <div slot="examples">
+                                <h3>Minimal Example</h3>
+                                <div class="demo-base-hover-container">
+                                        <wb-demo-base id="demoBaseHover">Slot content here</wb-demo-base>
+                                        <span id="hoverTip" class="hover-tip">
+                                            💡 <b>Tip:</b> Right click and inspect element.
+                                        </span>
+                                    </div>
+                                    <!-- hover logic handled by demo-base-hover.js -->
+                                <p>This demo shows a minimal custom element extending <code>WBBaseComponent</code>. Check the event log
+                                        for lifecycle messages.</p>
+                                <h4>JavaScript Usage</h4>
+                                <pre><code class="language-js">import { WBBaseComponent } from './wb-base/wb-base.js';
+
+class MyComponent extends WBBaseComponent {
+    constructor() {
+        super();
+        this.shadowRoot.innerHTML = `
+             <div class="demo-base-message">
+                        WBBaseComponent is working!
+                    </div>
+        `;
+    }
+    connectedCallback() {
+        this.logInfo('MyComponent connected');
+    }
+}
+customElements.define('my-component', MyComponent);
+</code></pre>
+                                <h3>Custom Event Example</h3>
+                                <button id="fireEventBtn">Fire Custom Event</button>
+                <!-- event logic handled by demo-base-event.js -->
+                                <p>Click the button above to fire a custom event from the <code>wb-demo-base</code> component. The event
+                                        will be logged in the event log.</p>
+                                <h4>JavaScript for Custom Event</h4>
+                                <pre><code class="language-js">// Fire a custom event from the component
+const demoBase = document.querySelector('wb-demo-base');
+demoBase.fireEvent('custom-demo-event', { message: 'Hello from demo!' });
+</code></pre>
+                        </div>
+        </wb-demo>
+    </body>
+
+</html>

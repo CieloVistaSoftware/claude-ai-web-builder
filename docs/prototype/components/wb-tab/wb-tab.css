@@ -1,0 +1,150 @@
+/**
+ * WB Tab Component Styles
+ * External CSS file following CSS-first approach
+ */
+
+:host {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --tab-bg: var(--neutral-50, #f9fafb);
+    --tab-border: var(--neutral-200, #e5e7eb);
+    --tab-text: var(--neutral-700, #374151);
+    --tab-text-active: var(--primary, #3b82f6);
+    --tab-bg-active: var(--neutral-0, #ffffff);
+    --tab-bg-hover: var(--neutral-100, #f3f4f6);
+    --tab-focus: var(--primary-200, #dbeafe);
+    --tab-radius: 6px;
+    --tab-spacing: 4px;
+    --transition-speed: 0.2s;
+}
+
+:host([disabled]) {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.wb-tab-container {
+    display: flex;
+    border-bottom: 1px solid var(--tab-border);
+    background: var(--tab-bg);
+    border-radius: var(--tab-radius) var(--tab-radius) 0 0;
+    overflow: hidden;
+    gap: var(--tab-spacing);
+    padding: var(--tab-spacing);
+}
+
+.wb-tab-button {
+    padding: 12px 24px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--tab-radius);
+    color: var(--tab-text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all var(--transition-speed) ease;
+    white-space: nowrap;
+    outline: none;
+}
+
+.wb-tab-button:hover {
+    background: var(--tab-bg-hover);
+    border-color: var(--tab-border);
+}
+
+.wb-tab-button:focus {
+    box-shadow: 0 0 0 2px var(--tab-focus);
+}
+
+.wb-tab-button.active {
+    background: var(--tab-bg-active);
+    color: var(--tab-text-active);
+    border-color: var(--tab-border);
+    border-bottom-color: var(--tab-bg-active);
+    position: relative;
+    z-index: 1;
+}
+
+.wb-tab-content {
+    padding: 20px;
+    background: var(--tab-bg-active);
+    border: 1px solid var(--tab-border);
+    border-top: none;
+    border-radius: 0 0 var(--tab-radius) var(--tab-radius);
+}
+
+.wb-tab-panel {
+    display: none;
+}
+
+.wb-tab-panel.active {
+    display: block;
+}
+
+/* Dark theme support */
+:host([theme="dark"]) {
+    --tab-bg: var(--neutral-800, #1f2937);
+    --tab-border: var(--neutral-600, #4b5563);
+    --tab-text: var(--neutral-200, #e5e7eb);
+    --tab-text-active: var(--primary-300, #93c5fd);
+    --tab-bg-active: var(--neutral-700, #374151);
+    --tab-bg-hover: var(--neutral-700, #374151);
+    --tab-focus: var(--primary-600, #2563eb);
+}
+
+/* Tab Item Styles */
+:host(.tab-item) {
+    display: contents;
+}
+
+.tab-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.tab-icon {
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
+.tab-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tab-close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 2px;
+    color: var(--tab-text);
+    font-size: 14px;
+    line-height: 1;
+    transition: all var(--transition-speed) ease;
+}
+
+.tab-close:hover {
+    background: var(--tab-bg-hover);
+    color: var(--tab-text-active);
+}
+
+/* Tab Panel Styles */
+:host(.tab-panel) {
+    display: contents;
+}
+
+.panel-content {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.panel-content.active {
+    display: block;
+}

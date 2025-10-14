@@ -860,7 +860,8 @@
         symbols: {
             'wb.event-log.config': 'components/wb-event-log/wb-event-log.config.json',
             'wb.color-bars.js': 'components/wb-color-bars/wb-color-bars.js',
-            'wb.color-bar.js': 'components/wb-color-bar/wb-color-bar.js'
+            'wb.color-bar.js': 'components/wb-color-bar/wb-color-bar.js',
+            'wb.nav.js': 'components/wb-nav/wb-nav.js'
         },
         
         /**

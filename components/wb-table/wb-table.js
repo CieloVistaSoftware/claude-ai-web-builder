@@ -1,3 +1,9 @@
+// WARNING: This file is an ES module. Always load with <script type="module" src="wb-table.js"></script> in your HTML.
+// Do NOT open this file directly in the browser or load with a classic <script> tag.
+
+if (!('currentScript' in document) || (document.currentScript && document.currentScript.type !== 'module')) {
+    console.warn('wb-table.js: This file must be loaded as a module using <script type="module">.');
+}
 // WB Table Web Component
 // True web component that binds to data and uses first row as headers
 import { WBBaseComponent } from '../wb-base/wb-base.js';

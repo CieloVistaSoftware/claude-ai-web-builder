@@ -1,0 +1,622 @@
+/**
+ * Base Styles - Website Builder System
+ * Reset and foundational styles for consistent cross-browser behavior
+ * Applied before all component and utility styles
+ */
+
+/* ===== DEBUG PANEL STYLES ===== */
+#control-panel-debug {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: var(--error-color);
+    color: var(--text-primary);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#control-panel-debug.hidden {
+    display: none;
+}
+
+/* ===== EDIT OVERLAY STYLES ===== */
+#edit-overlay {
+    display: none;
+}
+
+#edit-overlay.active {
+    display: block;
+}
+
+#edit-controls {
+    /* Add styles for edit controls container */
+}
+
+#save-changes,
+#cancel-edit,
+#add-section {
+    /* Add styles for edit buttons */
+}
+
+/* ===== CSS RESET ===== */
+/* Modern CSS reset based on modern-normalize and tailwindcss */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  line-height: 1.15; /* 1. Correct the line height in all browsers. */
+  -webkit-text-size-adjust: 100%; /* 2. Prevent adjustments of font size after orientation changes in iOS. */
+  -moz-tab-size: 4; /* 3. Use a more readable tab size (opinionated). */
+  tab-size: 4; /* 3 */
+}
+
+body {
+  margin: 0; /* Remove the margin in all browsers. */
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== TYPOGRAPHY RESET ===== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+p,
+blockquote,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+/* ===== LIST RESET ===== */
+
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== FORM RESET ===== */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1. Change the font styles in all browsers. */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2. Remove the margin in Firefox and Safari. */
+}
+
+button,
+select {
+  text-transform: none; /* 1. Correct the inability to style clickable types in iOS and Safari. */
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button; /* 1. Correct the inability to style clickable types in iOS and Safari. */
+  background-color: transparent;
+  background-image: none;
+}
+
+button:focus {
+  outline: 1px dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1; /* 1. Fix the placeholder in Firefox. */
+  color: var(--form-control-placeholder); /* 2. Set the default placeholder color. */
+}
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+:disabled {
+  cursor: default;
+}
+
+/* ===== MEDIA RESET ===== */
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  fill: currentColor;
+}
+
+/* ===== TABLE RESET ===== */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td {
+  padding: 0;
+  text-align: left;
+}
+
+/* ===== LINK RESET ===== */
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/* ===== INTERACTIVE ELEMENTS ===== */
+
+summary {
+  display: list-item;
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+[hidden] {
+  display: none !important;
+}
+
+/* Ensure focus is visible for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* Remove focus styles for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== WEBSITE BUILDER BASE STYLES ===== */
+
+/* Root element sizing */
+html {
+  font-size: 16px; /* Base font size for rem calculations */
+  scroll-behavior: smooth;
+}
+
+/* Body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  overflow-x: hidden;
+}
+
+/* Improved focus management */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* ===== COMPONENT BASE STYLES ===== */
+
+/* Button base - foundation for all wb-button components */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation; /* Improve touch experience */
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Input base - foundation for all form components */
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+}
+
+/* Label base */
+label {
+  display: block;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Fieldset base */
+fieldset {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+legend {
+  font-weight: var(--font-medium);
+  padding: 0 var(--space-sm);
+}
+
+/* ===== LAYOUT FOUNDATIONS ===== */
+
+/* Container base */
+.wb-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+/* Common flex patterns */
+.wb-flex {
+  display: flex;
+}
+
+.wb-flex-col {
+  flex-direction: column;
+}
+
+.wb-grid {
+  display: grid;
+}
+
+/* ===== TYPOGRAPHY FOUNDATIONS ===== */
+
+/* Heading base styles */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-base); }
+
+/* Paragraph and text */
+p {
+  line-height: var(--leading-relaxed);
+  color: var(--text-primary);
+}
+
+small {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+strong, b {
+  font-weight: var(--font-semibold);
+}
+
+em, i {
+  font-style: italic;
+}
+
+/* Code elements */
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 1em;
+}
+
+code {
+  font-size: var(--text-sm);
+  background-color: var(--bg-secondary);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+}
+
+pre {
+  background-color: var(--bg-secondary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  line-height: var(--leading-relaxed);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* ===== LINK FOUNDATIONS ===== */
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition-colors);
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+  text-decoration: none;
+}
+
+/* ===== FORM FOUNDATIONS ===== */
+
+/* Form group spacing */
+.wb-form-group {
+  margin-bottom: var(--space-md);
+}
+
+.wb-form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Form layout */
+.wb-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.wb-form-col {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ===== ANIMATION FOUNDATIONS ===== */
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  img {
+    page-break-inside: avoid;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  .wb-no-print {
+    display: none !important;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE SUPPORT ===== */
+
+@media (prefers-contrast: high) {
+  button,
+  input,
+  select,
+  textarea {
+    border: 2px solid;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+}
+
+/* ===== DARK MODE SUPPORT ===== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+
+/* Webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--bg-secondary);
+}
+
+/* ===== SELECTION STYLING ===== */
+
+::selection {
+  background-color: var(--primary);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* ===== COMPONENT FOUNDATIONS ===== */
+
+/* Base component wrapper */
+.wb-component {
+  position: relative;
+  display: block;
+}
+
+/* Component content area */
+.wb-component-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Component overlay for loading/disabled states */
+.wb-component-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(var(--bg-primary-rgb), 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Component error boundary */
+.wb-component-error {
+  padding: var(--space-md);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--error-color);
+  border-radius: var(--radius-md);
+  color: var(--error-color);
+  font-size: var(--text-sm);
+}
+
+/* ===== RESPONSIVE FOUNDATIONS ===== */
+
+/* Base responsive breakpoints */
+@media (max-width: 640px) {
+  .wb-container {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+  }
+}
+
+/* Ensure mobile tap targets are large enough */
+@media (pointer: coarse) {
+  button,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

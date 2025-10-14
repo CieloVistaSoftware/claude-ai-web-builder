@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Semantic Elements</title>
+    <style>
+        /* Base styles */
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #333;
+            --bg-modal: #2a2a2a;
+            --bg-input: #1a1a1a;
+            --bg-button-secondary: #404040;
+            --bg-button-secondary-hover: #505050;
+            --bg-nav: #2c3e50;
+            --bg-footer: #343a40;
+            --bg-article: #2f3f2f;
+            --bg-section: #2a3540;
+            --bg-aside: #3d3520;
+            
+            --text-primary: #e0e0e0;
+            --text-secondary: #999;
+            --text-white: white;
+            
+            --border-primary: #404040;
+            --border-secondary: #555;
+            
+            --accent-primary: #6200ee;
+            --accent-primary-hover: #4a00b8;
+            --accent-green: #28a745;
+            --accent-blue: #17a2b8;
+            --accent-yellow: #ffc107;
+            
+            --header-gradient-start: #667eea;
+            --header-gradient-end: #764ba2;
+            
+            --shadow-primary: rgba(98, 0, 238, 0.1);
+            --shadow-secondary: rgba(98, 0, 238, 0.2);
+            --overlay: rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .semantic-element {
+            position: relative;
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid var(--border-primary);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 100px;
+        }
+
+        .semantic-element:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 2px 8px var(--shadow-primary);
+            transform: translateY(-1px);
+        }
+
+        .semantic-element.editing {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 12px var(--shadow-secondary);
+        }
+
+        .element-tag {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--accent-primary);
+            color: var(--text-white);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 10;
+        }
+
+        /* Modal styles */
+        .edit-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--overlay);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .edit-overlay.active {
+            display: flex;
+        }
+
+        .edit-modal {
+            background: var(--bg-modal);
+            padding: 20px;
+            border-radius: 8px;
+            width: auto;
+            min-width: 300px;
+            max-width: 400px;
+            position: fixed;
+            border: 1px solid var(--border-primary);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: move;
+        }
+
+        .edit-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            user-select: none;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .image-upload-section h4 {
+            color: var(--text-primary);
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+
+        .resize-inputs {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .resize-inputs label {
+            color: var(--text-primary);
+            font-size: 12px;
+        }
+
+        .resize-inputs input,
+        .resize-inputs select {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border-secondary);
+            border-radius: 4px;
+            padding: 6px 8px;
+            font-size: 12px;
+        }
+
+        .hidden-input {
+            display: none;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: var(--text-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-button-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-button-secondary-hover);
+        }
+
+        .edit-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .image-preview {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 4px;
+            border: 1px solid var(--border-secondary);
+        }
+
+        .image-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .inserted-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        /* Semantic element specific styles */
+        header.semantic-element {
+            background: linear-gradient(135deg, var(--header-gradient-start) 0%, var(--header-gradient-end) 100%);
+            color: var(--text-white);
+            text-align: center;
+        }
+
+        nav.semantic-element {
+            background: var(--bg-nav);
+            color: var(--text-white);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-white);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        main.semantic-element {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        article.semantic-element {
+            background: var(--bg-article);
+            border-left: 4px solid var(--accent-green);
+        }
+
+        section.semantic-element {
+            background: var(--bg-section);
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        aside.semantic-element {
+            background: var(--bg-aside);
+            border-left: 4px solid var(--accent-yellow);
+        }
+
+        footer.semantic-element {
+            background: var(--bg-footer);
+            color: var(--text-white);
+            text-align: center;
+        }
+
+        figure.semantic-element {
+            background: var(--bg-secondary);
+            text-align: center;
+            border: 1px solid var(--border-primary);
+        }
+
+        figcaption {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+
+        /* Editing disabled styles */
+        .editing-disabled .semantic-element {
+            cursor: default !important;
+        }
+
+        .editing-disabled .semantic-element:hover {
+            border-color: var(--border-primary) !important;
+            box-shadow: none !important;
+            transform: none !important;
+            outline: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Semantic Elements</h1>
+        <p>Double-click any element below to edit its content and add images</p>
+        
+        <!-- Edit Mode Controls -->
+        <div style="margin-bottom: 20px; text-align: center;">
+            <button id="editModeToggle" class="btn btn-primary" onclick="toggleEditMode()">
+                🔒 Enable Edit Mode
+            </button>
+            <span id="editModeStatus" style="margin-left: 15px; color: var(--text-secondary); font-size: 14px;">
+                Edit mode is disabled - images cannot be inserted
+            </span>
+        </div>
+
+        <header class="semantic-element" data-element="header">
+            <div class="element-tag">HEADER</div>
+            <h1>Welcome to Our Website</h1>
+            <p>Your trusted source for quality content and exceptional service since 2024</p>
+        </header>
+
+        <nav class="semantic-element" data-element="nav">
+            <div class="element-tag">NAV</div>
+            <h3>Navigation Menu</h3>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <main class="semantic-element" data-element="main">
+            <div class="element-tag">MAIN</div>
+            <h2>Main Content Area</h2>
+            <p>This is the primary content of our webpage. Here you'll find the most important information about our company, products, and services. We pride ourselves on delivering exceptional quality and customer satisfaction.</p>
+            <p>Our team of experienced professionals works tirelessly to ensure that every project meets the highest standards. Whether you're looking for innovative solutions or reliable support, we have the expertise to help you succeed.</p>
+        </main>
+
+        <article class="semantic-element" data-element="article">
+            <div class="element-tag">ARTICLE</div>
+            <h3>Latest News: Revolutionary Product Launch</h3>
+            <p><strong>Published:</strong> March 15, 2024 | <strong>Author:</strong> Sarah Johnson</p>
+            <p>We're excited to announce the launch of our groundbreaking new product that will transform the way you work. After months of development and rigorous testing, we're confident this innovation will exceed your expectations.</p>
+            <p>The product features cutting-edge technology, user-friendly design, and unparalleled performance. Early beta testers have reported increased productivity and significant cost savings.</p>
+        </article>
+
+        <section class="semantic-element" data-element="section">
+            <div class="element-tag">SECTION</div>
+            <h3>Our Services</h3>
+            <p>We offer a comprehensive range of services designed to meet your specific needs:</p>
+            <ul>
+                <li><strong>Consulting:</strong> Expert advice and strategic planning</li>
+                <li><strong>Development:</strong> Custom software and web solutions</li>
+                <li><strong>Support:</strong> 24/7 technical assistance and maintenance</li>
+                <li><strong>Training:</strong> Comprehensive educational programs</li>
+            </ul>
+        </section>
+
+        <aside class="semantic-element" data-element="aside">
+            <div class="element-tag">ASIDE</div>
+            <h4>Quick Facts</h4>
+            <ul>
+                <li>Founded in 2010</li>
+                <li>Over 500 satisfied clients</li>
+                <li>24/7 customer support</li>
+                <li>Award-winning team</li>
+                <li>100% satisfaction guarantee</li>
+            </ul>
+            <p><strong>Pro Tip:</strong> Contact us today for a free consultation and discover how we can help transform your business.</p>
+        </aside>
+
+        <figure class="semantic-element" data-element="figure">
+            <div class="element-tag">FIGURE</div>
+            <img src="https://via.placeholder.com/600x300/6200ee/ffffff?text=Sample+Infographic" alt="Sample infographic showing our growth metrics" style="max-width: 100%; height: auto;">
+            <figcaption>Figure 1: Our company growth over the past 5 years, showing consistent upward trends in revenue, client satisfaction, and market presence.</figcaption>
+        </figure>
+
+        <footer class="semantic-element" data-element="footer">
+            <div class="element-tag">FOOTER</div>
+            <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+            <p>Contact us: info@company.com | Phone: (555) 123-4567 | Address: 123 Business St, City, State 12345</p>
+            <p>Follow us on social media for the latest updates and insights</p>
+        </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editOverlay" class="edit-overlay">
+        <div class="edit-modal">
+            <div class="edit-header">
+                <h3 class="edit-title" id="editTitle">Edit Element</h3>
+                <button class="close-btn" onclick="closeEditMode()">&times;</button>
+            </div>
+
+            <div class="image-upload-section">
+                <h4>Add Image</h4>
+                <div class="image-resize-controls" style="margin-bottom: 15px;">
+                    <div class="resize-inputs">
+                        <label for="imageWidth">Width (px):</label>
+                        <input type="number" id="imageWidth" min="50" max="1200" value="100">
+                        <label for="imageHeight">Height (px):</label>
+                        <input type="number" id="imageHeight" min="50" max="1200" value="100">
+                        <label for="imagePosition">Position:</label>
+                        <select id="imagePosition">
+                            <option value="bottom" selected>Bottom</option>
+                            <option value="top">Top</option>
+                            <option value="left">Left</option>
+                            <option value="right">Right</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="document.getElementById('imageInput').click()" style="margin-bottom: 15px;">Add Image</button>
+                <input type="file" id="imageInput" class="hidden-input" accept="image/*">
+                
+                <div id="imagePreview" class="image-preview" style="display: none;">
+                    <img id="previewImg" class="preview-img" alt="Image preview">
+                    <div class="image-info">
+                        <div id="imageName"></div>
+                        <button class="btn btn-secondary" onclick="removeImage()" style="margin-top: 10px;">Remove Image</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="edit-actions">
+                <button class="btn btn-primary" onclick="closeEditMode()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Simple Auto-Attach Image Insert Component
+    (function() {
+        'use strict';
+        
+        // Configuration
+        const SEMANTIC_ELEMENTS = ['header', 'nav', 'main', 'article', 'section', 'aside', 'figure', 'footer'];
+        
+        let editingEnabled = true;
+        let currentElement = null;
+        let selectedImage = null;
+        let modalElement = null;
+        let dragState = {
+            isDragging: false,
+            currentX: 0,
+            currentY: 0,
+            initialX: 0,
+            initialY: 0,
+            xOffset: 0,
+            yOffset: 0
+        };
+        
+        // Setup modal event listeners
+        function setupModalEventListeners() {
+            // File input handler
+            document.getElementById('imageInput').addEventListener('change', handleImageSelect);
+            
+            // Width input handler
+            document.getElementById('imageWidth').addEventListener('input', function() {
+                const width = this.value;
+                document.getElementById('imageHeight').value = width;
+                
+                if (selectedImage) {
+                    selectedImage.customWidth = width ? parseInt(width) : null;
+                    selectedImage.customHeight = width ? parseInt(width) : null;
+                    
+                    const previewImg = document.getElementById('previewImg');
+                    if (width) {
+                        previewImg.style.width = width + 'px';
+                        previewImg.style.height = width + 'px';
+                    } else {
+                        previewImg.style.width = '';
+                        previewImg.style.height = '';
+                    }
+                    
+                    updateElementContent();
+                }
+            });
+            
+            // Height input handler
+            document.getElementById('imageHeight').addEventListener('input', function() {
+                const height = this.value;
+                
+                if (selectedImage) {
+                    selectedImage.customHeight = height ? parseInt(height) : null;
+                    
+                    const previewImg = document.getElementById('previewImg');
+                    if (height) {
+                        previewImg.style.height = height + 'px';
+                    } else {
+                        previewImg.style.height = '';
+                    }
+                    
+                    updateElementContent();
+                }
+            });
+            
+            // Position change handler
+            document.getElementById('imagePosition').addEventListener('change', function() {
+                if (selectedImage) {
+                    selectedImage.position = this.value;
+                    updateElementContent();
+                }
+            });
+            
+            // Close on escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('editOverlay').classList.contains('active')) {
+                    closeEditMode();
+                }
+            });
+            
+            // Close on overlay click
+            document.getElementById('editOverlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeEditMode();
+                }
+            });
+            
+            // Setup draggable
+            setupDraggable();
+        }
+        
+        // Attach listeners to all semantic elements
+        function attachListeners() {
+            document.querySelectorAll('.semantic-element').forEach(element => {
+                // Add double-click listener
+                element.addEventListener('dblclick', handleDoubleClick);
+                
+                // Add visual hint on hover
+                element.addEventListener('mouseenter', function() {
+                    this.style.outline = '2px dashed #6200ee';
+                    this.style.outlineOffset = '4px';
+                    this.style.cursor = 'pointer';
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('editing')) {
+                        this.style.outline = '';
+                        this.style.cursor = '';
+                    }
+                });
+            });
+        }
+        
+        // Handle double click
+        function handleDoubleClick(e) {
+            if (!editingEnabled) return; // Exit early if editing is disabled
+            e.preventDefault();
+            e.stopPropagation();
+            openEditMode(this);
+        }
+        
+        // Open edit mode for element
+        function openEditMode(element) {
+            currentElement = element;
+            const elementType = element.dataset.element ? element.dataset.element.toUpperCase() : element.tagName.toUpperCase();
+            
+            // Add editing class
+            element.classList.add('editing');
+            element.style.outline = '2px solid #6200ee';
+            
+            // Check for existing image
+            const existingImage = element.querySelector('.inserted-image');
+            if (existingImage) {
+                // Extract dimensions and position
+                const style = existingImage.getAttribute('style');
+                let customWidth = null;
+                let customHeight = null;
+                
+                if (style) {
+                    const widthMatch = style.match(/width:\s*(\d+)px/);
+                    const heightMatch = style.match(/height:\s*(\d+)px/);
+                    if (widthMatch) customWidth = parseInt(widthMatch[1]);
+                    if (heightMatch) customHeight = parseInt(heightMatch[1]);
+                }
+                
+                // Determine position
+                let position = 'bottom';
+                if (existingImage.parentElement.tagName === 'DIV' && existingImage.parentElement.style.display === 'flex') {
+                    position = existingImage.previousSibling ? 'right' : 'left';
+                } else if (existingImage.nextElementSibling) {
+                    position = 'top';
+                }
+                
+                selectedImage = {
+                    url: existingImage.src,
+                    name: existingImage.alt || 'Existing image',
+                    size: 0,
+                    type: 'existing',
+                    customWidth: customWidth,
+                    customHeight: customHeight,
+                    position: position
+                };
+                
+                // Set controls
+                if (customWidth) {
+                    document.getElementById('imageWidth').value = customWidth;
+                    document.getElementById('imageHeight').value = customHeight || customWidth;
+                }
+                document.getElementById('imagePosition').value = position;
+                
+                showImagePreview(selectedImage);
+            } else {
+                selectedImage = null;
+                document.getElementById('imagePreview').style.display = 'none';
+                document.getElementById('imageInput').value = '';
+                document.getElementById('imageWidth').value = '100';
+                document.getElementById('imageHeight').value = '100';
+                document.getElementById('imagePosition').value = 'bottom';
+            }
+            
+            document.getElementById('editTitle').textContent = `Edit ${elementType} Image`;
+            document.getElementById('editOverlay').classList.add('active');
+        }
+        
+        // Close modal
+        function closeEditMode() {
+            if (currentElement) {
+                currentElement.classList.remove('editing');
+                currentElement.style.outline = '';
+                currentElement.style.cursor = '';
+                currentElement = null;
+            }
+            document.getElementById('editOverlay').classList.remove('active');
+            selectedImage = null;
+            
+            // Reset drag state
+            dragState = {
+                isDragging: false,
+                currentX: 0,
+                currentY: 0,
+                initialX: 0,
+                initialY: 0,
+                xOffset: 0,
+                yOffset: 0
+            };
+            modalElement.style.transform = 'translate(-50%, -50%)';
+        }
+        
+        // Toggle edit mode
+        function toggleEditMode() {
+            const isEnabled = window.ImageInsert.isEnabled();
+            if (isEnabled) {
+                window.ImageInsert.disable();
+            } else {
+                window.ImageInsert.enable();
+            }
+            updateEditModeUI();
+        }
+        
+        // Update edit mode UI
+        function updateEditModeUI() {
+            const isEnabled = editingEnabled;
+            const button = document.getElementById('editModeToggle');
+            const status = document.getElementById('editModeStatus');
+            
+            if (isEnabled) {
+                button.textContent = '🔓 Disable Edit Mode';
+                button.className = 'btn btn-secondary';
+                status.textContent = 'Edit mode is enabled - double-click elements to insert images';
+                status.style.color = 'var(--accent-green)';
+            } else {
+                button.textContent = '🔒 Enable Edit Mode';
+                button.className = 'btn btn-primary';
+                status.textContent = 'Edit mode is disabled - images cannot be inserted';
+                status.style.color = 'var(--text-secondary)';
+            }
+        }
+        
+        // Update element content
+        function updateElementContent() {
+            if (!currentElement) return;
+            
+            // Get original text content
+            const tag = currentElement.querySelector('.element-tag');
+            const existingImage = currentElement.querySelector('.inserted-image');
+            let textContent = currentElement.innerHTML;
+            
+            // Remove tag from content
+            if (tag) {
+                textContent = textContent.replace(tag.outerHTML, '').trim();
+            }
+            
+            // Clean up flex wrapper if exists
+            const flexWrapper = currentElement.querySelector('div[style*="display: flex"]');
+            if (flexWrapper) {
+                textContent = flexWrapper.innerHTML;
+            }
+            
+            if (existingImage) {
+                textContent = textContent.replace(existingImage.outerHTML, '').trim();
+            }
+            
+            let newContent = '';
+            
+            if (selectedImage) {
+                let imageStyle = '';
+                if (selectedImage.customWidth) {
+                    imageStyle = ` style="width: ${selectedImage.customWidth}px; height: ${selectedImage.customHeight}px;"`;
+                }
+                const imageHTML = `<img src="${selectedImage.url}" alt="${selectedImage.name}" class="inserted-image"${imageStyle}>`;
+                
+                const position = selectedImage.position || 'bottom';
+                if (position === 'top') {
+                    newContent = imageHTML + '\n' + textContent;
+                } else if (position === 'bottom') {
+                    newContent = textContent + '\n' + imageHTML;
+                } else if (position === 'left') {
+                    newContent = `<div style="display: flex; align-items: center; gap: 10px;">${imageHTML}${textContent}</div>`;
+                } else if (position === 'right') {
+                    newContent = `<div style="display: flex; align-items: center; gap: 10px;">${textContent}${imageHTML}</div>`;
+                }
+            } else {
+                newContent = textContent;
+            }
+            
+            // Add tag back
+            currentElement.innerHTML = (tag ? tag.outerHTML : '') + newContent;
+        }
+        
+        // Handle image selection
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file.');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size must be less than 5MB.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const width = parseInt(document.getElementById('imageWidth').value) || 100;
+                const height = parseInt(document.getElementById('imageHeight').value) || 100;
+                const position = document.getElementById('imagePosition').value || 'bottom';
+                
+                selectedImage = {
+                    url: e.target.result,
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    customWidth: width,
+                    customHeight: height,
+                    position: position
+                };
+                
+                showImagePreview(selectedImage);
+                updateElementContent();
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // Show image preview
+        function showImagePreview(image) {
+            document.getElementById('previewImg').src = image.url;
+            const sizeText = image.size > 0 ? ` (${formatFileSize(image.size)})` : '';
+            document.getElementById('imageName').textContent = `${image.name}${sizeText}`;
+            
+            const widthInput = document.getElementById('imageWidth');
+            const heightInput = document.getElementById('imageHeight');
+            
+            if (image.customWidth) {
+                widthInput.value = image.customWidth;
+                heightInput.value = image.customHeight;
+                
+                const previewImg = document.getElementById('previewImg');
+                previewImg.style.width = image.customWidth + 'px';
+                previewImg.style.height = image.customHeight + 'px';
+            }
+            
+            document.getElementById('imagePreview').style.display = 'block';
+        }
+        
+        // Remove image
+        function removeImage() {
+            selectedImage = null;
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('imageInput').value = '';
+            updateElementContent();
+        }
+        
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Setup draggable functionality
+        function setupDraggable() {
+            modalElement = document.querySelector('.edit-modal');
+            const dragHandle = document.querySelector('.edit-header');
+            
+            dragHandle.addEventListener('mousedown', dragStart);
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('mousemove', drag);
+            
+            dragHandle.addEventListener('touchstart', dragStart);
+            document.addEventListener('touchend', dragEnd);
+            document.addEventListener('touchmove', drag);
+        }
+        
+        function dragStart(e) {
+            if (e.type === 'touchstart') {
+                dragState.initialX = e.touches[0].clientX - dragState.xOffset;
+                dragState.initialY = e.touches[0].clientY - dragState.yOffset;
+            } else {
+                dragState.initialX = e.clientX - dragState.xOffset;
+                dragState.initialY = e.clientY - dragState.yOffset;
+            }
+            
+            if (e.target.closest('.edit-header')) {
+                dragState.isDragging = true;
+            }
+        }
+        
+        function dragEnd(e) {
+            dragState.initialX = dragState.currentX;
+            dragState.initialY = dragState.currentY;
+            dragState.isDragging = false;
+        }
+        
+        function drag(e) {
+            if (dragState.isDragging) {
+                e.preventDefault();
+                
+                if (e.type === 'touchmove') {
+                    dragState.currentX = e.touches[0].clientX - dragState.initialX;
+                    dragState.currentY = e.touches[0].clientY - dragState.initialY;
+                } else {
+                    dragState.currentX = e.clientX - dragState.initialX;
+                    dragState.currentY = e.clientY - dragState.initialY;
+                }
+                
+                dragState.xOffset = dragState.currentX;
+                dragState.yOffset = dragState.currentY;
+                
+                modalElement.style.transform = `translate(${dragState.currentX}px, ${dragState.currentY}px)`;
+                modalElement.style.top = '50%';
+                modalElement.style.left = '50%';
+            }
+        }
+        
+        // Initialize
+        function init() {
+            // Attach listeners to all semantic elements
+            attachListeners();
+            
+            // Setup modal event listeners
+            setupModalEventListeners();
+            
+            // Add global functions for HTML onclick handlers
+            window.closeEditMode = closeEditMode;
+            window.removeImage = removeImage;
+            window.toggleEditMode = toggleEditMode;
+            
+            // Add global API for controlling editing
+            window.ImageInsert = {
+                enable: () => { 
+                    editingEnabled = true; 
+                    document.body.classList.remove('editing-disabled');
+                    updateEditModeUI();
+                    console.log('Image editing enabled');
+                },
+                disable: () => { 
+                    editingEnabled = false; 
+                    document.body.classList.add('editing-disabled');
+                    // Close any open modal
+                    if (document.getElementById('editOverlay').classList.contains('active')) {
+                        closeEditMode();
+                    }
+                    updateEditModeUI();
+                    console.log('Image editing disabled');
+                },
+                toggle: () => { 
+                    editingEnabled = !editingEnabled; 
+                    if (editingEnabled) {
+                        document.body.classList.remove('editing-disabled');
+                    } else {
+                        document.body.classList.add('editing-disabled');
+                        if (document.getElementById('editOverlay').classList.contains('active')) {
+                            closeEditMode();
+                        }
+                    }
+                    updateEditModeUI();
+                    console.log('Image editing', editingEnabled ? 'enabled' : 'disabled');
+                },
+                isEnabled: () => editingEnabled
+            };
+            
+            console.log('Image Insert Component initialized - Double-click any semantic element to add/edit images');
+            
+            // Initialize UI state
+            updateEditModeUI();
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+</body>
+</html>

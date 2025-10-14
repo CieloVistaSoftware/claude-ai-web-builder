@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Text Component Demo - Simple ContentEditable Version</title>
+    
+    <!-- Central Styles Import -->
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">    <style>
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--neutral-800);
+            color: var(--neutral-100);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .demo-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .demo-controls {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .demo-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .demo-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .demo-btn--success {
+            background: var(--accent);
+        }
+        
+        .status-indicator {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .edit-mode-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dc2626; /* Red by default */
+            box-shadow: 0 0 8px currentColor;
+            transition: all 0.3s ease;
+        }
+
+        .edit-mode-indicator.active {
+            background: #16a34a; /* Green when active */
+            box-shadow: 0 0 12px #16a34a;
+        }
+        
+        .instructions {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .example-content {
+            margin: 2rem 0;
+        }
+        
+        .example-content h2 {
+            color: var(--primary);
+        }
+        
+        .example-content p {
+            margin: 1rem 0;
+        }
+        
+        .example-list {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .example-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .example-table th,
+        .example-table td {
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+        
+        .example-table th {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+        
+        .log-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+        
+        .log-item {
+            padding: 0.25rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .log-item:last-child {
+            border-bottom: none;
+        }
+        
+        .log-item.edit {
+            color: var(--primary);
+        }
+        
+        .log-item.save {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <wb-demo title="Change Text Component - Simple ContentEditable Demo">
+        <div slot="example">
+            <div class="status-indicator" id="status">
+                <div class="edit-mode-indicator" id="editModeLight"></div>
+                <span id="statusText">Component loading...</span>
+            </div>
+            <div class="demo-controls">
+                <button class="demo-btn demo-btn--success" id="enableEditMode">Enable Edit Mode</button>
+                <button class="demo-btn" id="disableEditMode">Disable Edit Mode</button>
+                <button class="demo-btn" id="saveAll">Save All Edits</button>
+            </div>
+            <div class="instructions">
+                <h3>How to Use:</h3>
+                <ol>
+                    <li>Click "Enable Edit Mode"</li>
+                    <li>Click any text element to edit it directly</li>
+                    <li>Press Enter to save, Escape to cancel</li>
+                    <li>Or click outside to save changes</li>
+                    <li>Ctrl+S also saves the current edit</li>
+                </ol>
+            </div>
+            <div class="example-content">
+                <h2>Example Content to Edit</h2>
+                <p>This is a paragraph of text that you can edit. Just enable edit mode and click on any text to start editing directly inline!</p>
+                <h3>Shopping List</h3>
+                <ul class="example-list">
+                    <li>Milk</li>
+                    <li>Bread</li>
+                    <li>Eggs</li>
+                    <li>Cheese</li>
+                </ul>
+                <h3>Project Status</h3>
+                <table class="example-table">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Design Review</td>
+                            <td>In Progress</td>
+                            <td>Dec 25, 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Development</td>
+                            <td>Not Started</td>
+                            <td>Jan 10, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>Testing</td>
+                            <td>Pending</td>
+                            <td>Jan 20, 2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <h4>Note:</h4>
+                    <p>This component makes text editing as simple as possible. No popups, no modals - just click and type!</p>
+                </div>
+            </div>
+            <div class="demo-section">
+                <h3>Event Log</h3>
+                <div class="log-container" id="eventLog">
+                    <div class="log-item">Waiting for events...</div>
+                </div>
+            </div>
+        </div>
+        <div slot="documentation">
+            <div id="change-text-docs">Loading documentation...</div>
+        </div>
+    </wb-demo>
+    
+    <!-- Documentation will be loaded using WBBaseComponent -->
+    
+    <!-- Load the simple change-text component -->
+    <script src="change-text-simple.js"></script>
+    
+    <script type="module">
+        import { WBBaseComponent } from '../wb-base/wb-base.js';
+        window.addEventListener('DOMContentLoaded', () => {
+            WBBaseComponent.renderMarkdownDoc('change-text.md', document.getElementById('change-text-docs'));
+        });
+    </script>
+    
+    <script>
+        let logCounter = 0;
+        
+        function logEvent(message, type = '') {
+            const log = document.getElementById('eventLog');
+            const item = document.createElement('div');
+            item.className = 'log-item ' + type;
+            item.textContent = `[${++logCounter}] ${new Date().toLocaleTimeString()}: ${message}`;
+            log.insertBefore(item, log.firstChild);
+            
+            // Keep only last 20 items
+            while (log.children.length > 20) {
+                log.removeChild(log.lastChild);
+            }
+        }
+        
+        // Update edit mode indicator
+        function updateEditModeIndicator(isActive) {
+            const indicator = document.getElementById('editModeLight');
+            const statusText = document.getElementById('statusText');
+            
+            if (isActive) {
+                indicator.classList.add('active');
+                statusText.innerHTML = '🟢 Edit Mode: <strong>ON</strong> - Click any text to edit';
+            } else {
+                indicator.classList.remove('active');
+                statusText.innerHTML = '🔴 Edit Mode: <strong>OFF</strong> - Enable edit mode to start editing';
+            }
+        }
+        
+        // Component events
+        document.addEventListener('changeTextReady', function(e) {
+            document.getElementById('statusText').textContent = '✅ Change Text Component (ContentEditable) loaded successfully!';
+            updateEditModeIndicator(false);
+            logEvent('Component ready');
+        });
+        
+        document.addEventListener('changeTextEdit', function(e) {
+            const tagName = e.detail.element.tagName.toLowerCase();
+            logEvent(`Started editing ${tagName}`, 'edit');
+        });
+        
+        document.addEventListener('changeTextSave', function(e) {
+            const tagName = e.detail.element.tagName.toLowerCase();
+            const charCount = e.detail.newContent.length;
+            logEvent(`Saved ${tagName} (${charCount} chars)`, 'save');
+        });
+        
+        document.addEventListener('changeTextCancel', function(e) {
+            const tagName = e.detail.element.tagName.toLowerCase();
+            logEvent(`Cancelled editing ${tagName}`);
+        });
+
+        document.addEventListener('changeTextModeEnabled', function(e) {
+            updateEditModeIndicator(true);
+            logEvent('Edit mode enabled via component', 'edit');
+        });
+
+        document.addEventListener('changeTextModeDisabled', function(e) {
+            updateEditModeIndicator(false);
+            logEvent('Edit mode disabled via component');
+        });
+        
+        // Controls
+        document.getElementById('enableEditMode').addEventListener('click', function() {
+            ChangeText.enable();
+            updateEditModeIndicator(true);
+            logEvent('Edit mode enabled', 'edit');
+        });
+        
+        document.getElementById('disableEditMode').addEventListener('click', function() {
+            ChangeText.disable();
+            updateEditModeIndicator(false);
+            logEvent('Edit mode disabled');
+        });
+        
+        document.getElementById('saveAll').addEventListener('click', function() {
+            ChangeText.saveAll();
+            logEvent('Saved all active edits', 'save');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Component IDE</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #f1f5f9;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ide-header {
+      background: #1e293b;
+      padding: 1rem 2rem;
+      border-bottom: 2px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .ide-header h1 {
+      color: #6366f1;
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: #6366f1;
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: #1e293b;
+      border-right: 2px solid #334155;
+      overflow-y: auto;
+      padding: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar.closed {
+      transform: translateX(-100%);
+    }
+
+    .sidebar h3 {
+      color: #6366f1;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .component-item {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      text-align: left;
+      transition: all 0.2s;
+      font-family: 'Courier New', monospace;
+    }
+
+    .component-item:hover {
+      background: #1e293b;
+      border-color: #6366f1;
+      transform: translateX(4px);
+    }
+
+    .component-item.selected {
+      background: #312e81;
+      border-color: #6366f1;
+    }
+
+    .loading-state {
+      padding: 1rem;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    .editor-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #0f172a;
+      min-width: 0;
+    }
+
+    .editor-toolbar {
+      background: #1e293b;
+      padding: 1rem;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .toolbar-btn {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .toolbar-btn:hover {
+      background: #4f46e5;
+      transform: translateY(-1px);
+    }
+
+    .toolbar-btn.active {
+      background: #312e81;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .editor-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .editor-panel {
+      position: absolute;
+      inset: 0;
+      display: none;
+    }
+
+    .editor-panel.active {
+      display: block;
+    }
+
+    .html-editor {
+      width: 100%;
+      height: 100%;
+      background: #181c20;
+      color: #f0f6fc;
+      border: none;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+      line-height: 1.6;
+      resize: none;
+      outline: none;
+    }
+
+    .preview-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+
+    .docs-viewer {
+      width: 100%;
+      height: 100%;
+      background: #1e293b;
+      color: #f1f5f9;
+      padding: clamp(1rem, 3vw, 2rem);
+      overflow-y: auto;
+    }
+
+    .docs-viewer h1 {
+      color: #6366f1;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #334155;
+      padding-bottom: 0.5rem;
+    }
+
+    .docs-viewer h2 {
+      color: #818cf8;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .docs-viewer h3 {
+      color: #a5b4fc;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .docs-viewer p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .docs-viewer code {
+      background: #0f172a;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+    }
+
+    .docs-viewer pre {
+      background: #0f172a;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .docs-viewer ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .docs-viewer li {
+      margin-bottom: 0.5rem;
+    }
+
+    .status-bar {
+      background: #1e293b;
+      padding: 0.5rem 1rem;
+      border-top: 1px solid #334155;
+      font-size: clamp(0.7rem, 1.5vw, 0.75rem);
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+
+    .insert-hint {
+      position: fixed;
+      bottom: 60px;
+      right: 20px;
+      background: #312e81;
+      color: #a5b4fc;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #6366f1;
+      font-size: 0.85rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      max-width: 300px;
+      z-index: 1000;
+    }
+
+    .insert-hint.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 280px;
+        max-width: 80vw;
+        z-index: 100;
+        box-shadow: 4px 0 8px rgba(0,0,0,0.3);
+      }
+
+      .sidebar.closed {
+        transform: translateX(-100%);
+      }
+
+      .insert-hint {
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        max-width: 90vw;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header class="ide-header">
+    <h1>🎨 WB Component IDE</h1>
+    <button class="mobile-menu-btn" id="menuBtn">☰</button>
+  </header>
+
+  <div class="main-content">
+    <aside class="sidebar" id="sidebar">
+      <h3>Components <span id="componentCount"></span></h3>
+      <div id="componentsList">
+        <div class="loading-state">Loading components...</div>
+      </div>
+    </aside>
+
+    <section class="editor-area">
+      <div class="editor-toolbar">
+        <button class="toolbar-btn active" id="editBtn">📝 Edit</button>
+        <button class="toolbar-btn" id="previewBtn">👁️ Preview</button>
+        <button class="toolbar-btn" id="docsBtn">📖 Documentation</button>
+      </div>
+
+      <div class="editor-container">
+        <div class="editor-panel active" id="editPanel">
+          <textarea class="html-editor" id="htmlEditor"><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Web Component Project</title>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Web Components</h1>
+  </header>
+  
+  <nav>
+    <!-- Navigation will go here -->
+  </nav>
+  
+  <main>
+    <p>Double-click a component to insert it here!</p>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 My Project</p>
+  </footer>
+</body>
+</html></textarea>
+        </div>
+
+        <div class="editor-panel" id="previewPanel">
+          <iframe class="preview-frame" id="previewFrame"></iframe>
+        </div>
+
+        <div class="editor-panel" id="docsPanel">
+          <div class="docs-viewer" id="docsViewer">
+            <h1>Component Documentation</h1>
+            <p>Single-click a component to view its documentation here.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <span id="statusText">Loading components...</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="insert-hint" id="insertHint">
+    ✨ Component inserted! Switch to Preview to see it.
+  </div>
+
+  <script>
+    // State
+    const state = {
+      components: [],
+      selectedComponent: null,
+      currentMode: 'edit',
+      sidebarOpen: true,
+      clickTimer: null,
+      clickCounts: {}
+    };
+
+    // DOM elements
+    const elements = {
+      sidebar: document.getElementById('sidebar'),
+      componentsList: document.getElementById('componentsList'),
+      componentCount: document.getElementById('componentCount'),
+      htmlEditor: document.getElementById('htmlEditor'),
+      previewFrame: document.getElementById('previewFrame'),
+      docsViewer: document.getElementById('docsViewer'),
+      statusText: document.getElementById('statusText'),
+      insertHint: document.getElementById('insertHint'),
+      editBtn: document.getElementById('editBtn'),
+      previewBtn: document.getElementById('previewBtn'),
+      docsBtn: document.getElementById('docsBtn'),
+      menuBtn: document.getElementById('menuBtn'),
+      editPanel: document.getElementById('editPanel'),
+      previewPanel: document.getElementById('previewPanel'),
+      docsPanel: document.getElementById('docsPanel')
+    };
+
+    // Discover components from file system
+    async function discoverComponents() {
+      updateStatus('Discovering components...');
+      
+      try {
+        // Try to fetch components directory listing
+        const response = await fetch('../components/');
+        const text = await response.text();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        const links = Array.from(doc.querySelectorAll('a'));
+        
+        const componentNames = links
+          .map(link => {
+            const href = link.getAttribute('href');
+            const match = href?.match(/^(wb-[^/]+)\/$/);
+            return match ? match[1] : null;
+          })
+          .filter(Boolean)
+          .sort();
+        
+        if (componentNames.length > 0) {
+          state.components = componentNames;
+          renderComponents();
+          updateStatus('Ready • Click component for docs • Double-click to insert');
+          return;
+        }
+      } catch (error) {
+        console.log('Directory listing not available, probing for components...');
+      }
+      
+      // Fallback: Probe for common components
+      const commonComponents = [
+        'wb-button', 'wb-card', 'wb-color-bars', 'wb-control-panel',
+        'wb-event-log', 'wb-footer', 'wb-header', 'wb-hero',
+        'wb-input', 'wb-modal', 'wb-nav', 'wb-select',
+        'wb-slider', 'wb-status', 'wb-table', 'wb-toggle'
+      ];
+      
+      const availableComponents = [];
+      
+      for (const component of commonComponents) {
+        try {
+          const response = await fetch(`../components/${component}/${component}.js`, { method: 'HEAD' });
+          if (response.ok) {
+            availableComponents.push(component);
+          }
+        } catch (e) {
+          // Component doesn't exist
+        }
+      }
+      
+      state.components = availableComponents.sort();
+      renderComponents();
+      
+      if (availableComponents.length > 0) {
+        updateStatus('Ready • Click component for docs • Double-click to insert');
+      } else {
+        updateStatus('No components found in ../components/');
+      }
+    }
+
+    // Render component list
+    function renderComponents() {
+      if (state.components.length === 0) {
+        elements.componentsList.innerHTML = `
+          <div class="loading-state">
+            <p style="margin-bottom: 0.5rem">No components found</p>
+            <p style="font-size: 0.75rem">Check ../components/ directory</p>
+          </div>
+        `;
+        elements.componentCount.textContent = '';
+        return;
+      }
+      
+      elements.componentCount.textContent = `(${state.components.length})`;
+      elements.componentsList.innerHTML = state.components
+        .map(component => `
+          <button 
+            class="component-item ${state.selectedComponent === component ? 'selected' : ''}" 
+            data-component="${component}">
+            ${component}
+          </button>
+        `)
+        .join('');
+      
+      // Attach click listeners
+      elements.componentsList.querySelectorAll('.component-item').forEach(btn => {
+        btn.addEventListener('click', handleComponentClick);
+      });
+    }
+
+    // Handle component click
+    function handleComponentClick(e) {
+      const componentName = e.currentTarget.dataset.component;
+      state.selectedComponent = componentName;
+      
+      // Update UI
+      document.querySelectorAll('.component-item').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.component === componentName);
+      });
+      
+      // Track clicks
+      if (!state.clickCounts[componentName]) {
+        state.clickCounts[componentName] = 0;
+      }
+      state.clickCounts[componentName]++;
+      
+      clearTimeout(state.clickTimer);
+      
+      if (state.clickCounts[componentName] === 1) {
+        // Single click - show docs after delay
+        state.clickTimer = setTimeout(() => {
+          loadDocumentation(componentName);
+          state.clickCounts[componentName] = 0;
+        }, 300);
+      } else if (state.clickCounts[componentName] === 2) {
+        // Double click - insert component
+        clearTimeout(state.clickTimer);
+        insertComponent(componentName);
+        state.clickCounts[componentName] = 0;
+      }
+    }
+
+    // Load documentation
+    async function loadDocumentation(componentName) {
+      updateStatus(`Loading docs for ${componentName}...`);
+      
+      try {
+        const mdPath = `../components/${componentName}/${componentName}.md`;
+        const response = await fetch(mdPath);
+        
+        if (!response.ok) {
+          elements.docsViewer.innerHTML = `
+            <h1>${componentName}</h1>
+            <p>⚠️ Documentation not found for this component.</p>
+            <p>Expected location: <code>${mdPath}</code></p>
+          `;
+          switchMode('docs');
+          updateStatus('Documentation not found');
+          return;
+        }
+        
+        const markdown = await response.text();
+        const html = convertMarkdown(markdown);
+        
+        elements.docsViewer.innerHTML = `
+          <h1>${componentName}</h1>
+          ${html}
+        `;
+        switchMode('docs');
+        updateStatus(`Viewing ${componentName} documentation`);
+        
+      } catch (error) {
+        console.error('Documentation error:', error);
+        elements.docsViewer.innerHTML = `
+          <h1>${componentName}</h1>
+          <p>❌ Error loading documentation: ${error.message}</p>
+        `;
+        switchMode('docs');
+        updateStatus('Documentation error');
+      }
+    }
+
+    // Simple markdown converter
+    function convertMarkdown(text) {
+      return text
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+        .replace(/```[\s\S]*?```/gim, (match) => {
+          const code = match.replace(/```\w*\n?/g, '').replace(/```$/g, '');
+          return `<pre><code>${code}</code></pre>`;
+        })
+        .replace(/`([^`]+)`/gim, '<code>$1</code>')
+        .replace(/^\- (.*$)/gim, '<li>$1</li>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/^(.+)$/gim, '<p>$1</p>')
+        .replace(/<p><h/g, '<h')
+        .replace(/<\/h([1-6])><\/p>/g, '</h$1>')
+        .replace(/<p><pre>/g, '<pre>')
+        .replace(/<\/pre><\/p>/g, '</pre>')
+        .replace(/<p><li>/g, '<li>')
+        .replace(/<\/li><\/p>/g, '</li>')
+        .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    }
+
+    // Insert component
+    async function insertComponent(componentName) {
+      updateStatus(`Inserting ${componentName}...`);
+      
+      try {
+        const schemaPath = `../components/${componentName}/${componentName}.schema.json`;
+        const response = await fetch(schemaPath);
+        
+        let componentHTML;
+        
+        if (response.ok) {
+          const schema = await response.json();
+          componentHTML = generateComponentHTML(componentName, schema);
+        } else {
+          componentHTML = `\n<!-- ${componentName} component -->\n<${componentName}>\n  Component content\n</${componentName}>\n`;
+        }
+        
+        // Insert at cursor position
+        const editor = elements.htmlEditor;
+        const cursorPos = editor.selectionStart;
+        const beforeCursor = editor.value.substring(0, cursorPos);
+        const afterCursor = editor.value.substring(cursorPos);
+        
+        editor.value = beforeCursor + componentHTML + afterCursor;
+        
+        // Set cursor after inserted content
+        const newPos = cursorPos + componentHTML.length;
+        editor.setSelectionRange(newPos, newPos);
+        editor.focus();
+        
+        // Show hint
+        elements.insertHint.classList.add('show');
+        setTimeout(() => elements.insertHint.classList.remove('show'), 2000);
+        
+        updateStatus(`✓ Inserted ${componentName}`);
+        
+      } catch (error) {
+        console.error('Insert error:', error);
+        updateStatus(`Insert failed: ${error.message}`);
+      }
+    }
+
+    // Generate component HTML from schema
+    function generateComponentHTML(componentName, schema) {
+      const tag = schema.tags?.[0];
+      if (!tag) {
+        return `\n<${componentName}></${componentName}>\n`;
+      }
+      
+      const attributes = tag.attributes || [];
+      const attrString = attributes
+        .filter(attr => attr.default)
+        .map(attr => `${attr.name}="${attr.default}"`)
+        .join(' ');
+      
+      const description = tag.description || 'Component content';
+      
+      return `
+<!-- ${componentName}: ${description} -->
+<${componentName}${attrString ? ' ' + attrString : ''}>
+  ${description}
+</${componentName}>
+`;
+    }
+
+    // Switch mode
+    function switchMode(mode) {
+      state.currentMode = mode;
+      
+      // Update buttons
+      [elements.editBtn, elements.previewBtn, elements.docsBtn].forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Update panels
+      [elements.editPanel, elements.previewPanel, elements.docsPanel].forEach(panel => {
+        panel.classList.remove('active');
+      });
+      
+      if (mode === 'edit') {
+        elements.editBtn.classList.add('active');
+        elements.editPanel.classList.add('active');
+        updateStatus('Editing mode');
+      } else if (mode === 'preview') {
+        elements.previewBtn.classList.add('active');
+        elements.previewPanel.classList.add('active');
+        elements.previewFrame.srcdoc = elements.htmlEditor.value;
+        updateStatus('Preview mode');
+      } else if (mode === 'docs') {
+        elements.docsBtn.classList.add('active');
+        elements.docsPanel.classList.add('active');
+        updateStatus(state.selectedComponent ? `Viewing ${state.selectedComponent} documentation` : 'Documentation mode');
+      }
+    }
+
+    // Update status
+    function updateStatus(message) {
+      elements.statusText.textContent = message;
+    }
+
+    // Event listeners
+    elements.editBtn.addEventListener('click', () => switchMode('edit'));
+    elements.previewBtn.addEventListener('click', () => switchMode('preview'));
+    elements.docsBtn.addEventListener('click', () => switchMode('docs'));
+    
+    elements.menuBtn.addEventListener('click', () => {
+      state.sidebarOpen = !state.sidebarOpen;
+      elements.sidebar.classList.toggle('closed', !state.sidebarOpen);
+    });
+    
+    elements.htmlEditor.addEventListener('input', () => {
+      updateStatus('Editing...');
+    });
+
+    // Initialize
+    discoverComponents();
+  </script>
+</body>
+</html>

@@ -70,16 +70,22 @@ class ColorBars extends HTMLElement {
     if (window.WBComponentRegistry) {
       try {
         await window.WBComponentRegistry.waitForComponent('wb-color-bar', 2000);
-        WBEventLog.logInfo('wb-color-bar dependency resolved via registry', { component: 'wb-color-bars', method: 'loadDependencies', line: 74 });
+        if (window.WBEventLog) {
+          WBEventLog.logInfo('wb-color-bar dependency resolved via registry', { component: 'wb-color-bars', method: 'loadDependencies', line: 74 });
+        }
         return;
       } catch (error) {
-        WBEventLog.logWarning('Registry wait failed, falling back to manual loading', { component: 'wb-color-bars', method: 'loadDependencies', line: 77 });
+        if (window.WBEventLog) {
+          WBEventLog.logWarning('Registry wait failed, falling back to manual loading', { component: 'wb-color-bars', method: 'loadDependencies', line: 77 });
+        }
       }
     }
     
     // Check if wb-color-bar is already loaded
     if (customElements.get('wb-color-bar')) {
-      WBEventLog.logInfo('wb-color-bar already loaded', { component: 'wb-color-bars', method: 'loadDependencies', line: 83 });
+      if (window.WBEventLog) {
+        WBEventLog.logInfo('wb-color-bar already loaded', { component: 'wb-color-bars', method: 'loadDependencies', line: 83 });
+      }
       return;
     }
     
@@ -102,25 +108,33 @@ class ColorBars extends HTMLElement {
       }
       
       script.src = scriptPath;
-      WBEventLog.logInfo('Loading wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 106 });
+      if (window.WBEventLog) {
+        WBEventLog.logInfo('Loading wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 106 });
+      }
       document.head.appendChild(script);
       
       return new Promise((resolve, reject) => {
         script.onload = () => {
-          WBEventLog.logSuccess('wb-color-bar dependency loaded successfully', { component: 'wb-color-bars', method: 'loadDependencies', line: 111 });
+          if (window.WBEventLog) {
+            WBEventLog.logSuccess('wb-color-bar dependency loaded successfully', { component: 'wb-color-bars', method: 'loadDependencies', line: 111 });
+          }
           resolve();
         };
         script.onerror = () => {
-          WBEventLog.logWarning('Failed to load wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 115 });
-          // Don't reject - wb-color-bars can work without wb-color-bar dependency
-          // by using embedded fallback sliders
-          WBEventLog.logInfo('wb-color-bars will use embedded slider fallback', { component: 'wb-color-bars', method: 'loadDependencies', line: 118 });
+          if (window.WBEventLog) {
+            WBEventLog.logWarning('Failed to load wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 115 });
+            // Don't reject - wb-color-bars can work without wb-color-bar dependency
+            // by using embedded fallback sliders
+            WBEventLog.logInfo('wb-color-bars will use embedded slider fallback', { component: 'wb-color-bars', method: 'loadDependencies', line: 118 });
+          }
           resolve();
         };
       });
     } catch (error) {
-      WBEventLog.logWarning('Error loading wb-color-bar dependency: ' + error.message, { component: 'wb-color-bars', method: 'loadDependencies', line: 123, error });
-      WBEventLog.logInfo('wb-color-bars will continue without dependency', { component: 'wb-color-bars', method: 'loadDependencies', line: 124 });
+      if (window.WBEventLog) {
+        WBEventLog.logWarning('Error loading wb-color-bar dependency: ' + error.message, { component: 'wb-color-bars', method: 'loadDependencies', line: 123, error });
+        WBEventLog.logInfo('wb-color-bars will continue without dependency', { component: 'wb-color-bars', method: 'loadDependencies', line: 124 });
+      }
       // Don't throw - let the component work with fallback
     }
   }
@@ -130,11 +144,15 @@ class ColorBars extends HTMLElement {
       const script = document.createElement('script');
       script.src = window.WBComponentUtils?.resolve('wb.utils') || '/utils/wb/wb-component-utils.js';
       script.onload = () => {
-        WBEventLog.logSuccess('WBComponentUtils loaded', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 134 });
+        if (window.WBEventLog) {
+          WBEventLog.logSuccess('WBComponentUtils loaded', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 134 });
+        }
         resolve();
       };
       script.onerror = () => {
-        WBEventLog.logError('Failed to load WBComponentUtils', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 138 });
+        if (window.WBEventLog) {
+          WBEventLog.logError('Failed to load WBComponentUtils', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 138 });
+        }
         reject();
       };
       document.head.appendChild(script);
@@ -225,7 +243,9 @@ class ColorBars extends HTMLElement {
       try {
         cssPath = '/components/wb-color-bars/wb-color-bars.css';
       } catch (e) {
-        WBEventLog.logWarning('Could not resolve CSS path, using fallback', { component: 'wb-color-bars', method: 'render', line: 243, error: e });
+        if (window.WBEventLog) {
+          WBEventLog.logWarning('Could not resolve CSS path, using fallback', { component: 'wb-color-bars', method: 'render', line: 243, error: e });
+        }
       }
     }
     
@@ -307,38 +327,38 @@ class ColorBars extends HTMLElement {
       if (textHueBar) {
         textHueBar.addEventListener('colorchange', (e) => this.handleTextHueChange(e));
         textHueBar.addEventListener('colorselect', (e) => this.handleTextHueChange(e));
+        textHueBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'text'));
       }
-      
       if (textSaturationBar) {
         textSaturationBar.addEventListener('colorchange', (e) => this.handleTextSaturationChange(e));
         textSaturationBar.addEventListener('colorselect', (e) => this.handleTextSaturationChange(e));
+        textSaturationBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'text'));
       }
-      
       if (textLightnessBar) {
         textLightnessBar.addEventListener('colorchange', (e) => this.handleTextLightnessChange(e));
         textLightnessBar.addEventListener('colorselect', (e) => this.handleTextLightnessChange(e));
+        textLightnessBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'text'));
       }
-      
       // Set up event listeners for background color bars
       if (bgHueBar) {
         bgHueBar.addEventListener('colorchange', (e) => this.handleBgHueChange(e));
         bgHueBar.addEventListener('colorselect', (e) => this.handleBgHueChange(e));
+        bgHueBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'background'));
       }
-      
       if (bgSaturationBar) {
         bgSaturationBar.addEventListener('colorchange', (e) => this.handleBgSaturationChange(e));
         bgSaturationBar.addEventListener('colorselect', (e) => this.handleBgSaturationChange(e));
+        bgSaturationBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'background'));
       }
-      
       if (bgLightnessBar) {
         bgLightnessBar.addEventListener('colorchange', (e) => this.handleBgLightnessChange(e));
         bgLightnessBar.addEventListener('colorselect', (e) => this.handleBgLightnessChange(e));
+        bgLightnessBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'background'));
       }
-      
       // Copy to clipboard functionality
       const textPreview = this.shadowRoot.querySelector('.text-preview');
       const bgPreview = this.shadowRoot.querySelector('.bg-preview');
-      
+
       if (textPreview) {
         textPreview.addEventListener('click', () => this.copyTextColorToClipboard());
       }
@@ -394,6 +414,50 @@ class ColorBars extends HTMLElement {
     this.updateBgColorBars();
     this.updateDisplay();
     this.dispatchColorChange();
+  }
+  
+  // Listen for harmony events from child bars, aggregate, and propagate
+  handleHarmonyChange(event, source) {
+    event.stopPropagation();
+    // Aggregate current HSL for both text and background
+    const text = {
+      hue: this._textHue,
+      saturation: this._textSaturation,
+      lightness: this._textLightness
+    };
+    const background = {
+      hue: this._bgHue,
+      saturation: this._bgSaturation,
+      lightness: this._bgLightness
+    };
+    // Compute harmony palette for both text and background
+    const textPalette = this.computeHarmonyPalette(text.hue, text.saturation, text.lightness);
+    const bgPalette = this.computeHarmonyPalette(background.hue, background.saturation, background.lightness);
+    // Fire a single event with both palettes
+    this.dispatchEvent(new CustomEvent('wb:color-harmony-change', {
+      detail: {
+        source,
+        text,
+        background,
+        textPalette,
+        bgPalette
+      },
+      bubbles: true
+    }));
+  }
+
+  // Harmony palette logic (from harmonic-color-mixer)
+  computeHarmonyPalette(h, s, l) {
+    // Returns an array of palette colors (complementary, triadic, etc.)
+    const palette = [];
+    palette.push({ name: 'Primary', hue: h, saturation: s, lightness: l });
+    palette.push({ name: 'Complement', hue: (h + 180) % 360, saturation: s, lightness: l });
+    palette.push({ name: 'Triadic 1', hue: (h + 120) % 360, saturation: s, lightness: l });
+    palette.push({ name: 'Triadic 2', hue: (h + 240) % 360, saturation: s, lightness: l });
+    palette.push({ name: 'Analogous -30', hue: (h - 30 + 360) % 360, saturation: s, lightness: l });
+    palette.push({ name: 'Analogous +30', hue: (h + 30) % 360, saturation: s, lightness: l });
+    // Heterodyne/advanced logic could be added here if needed
+    return palette;
   }
   
   updateTextColorBars() {
@@ -500,7 +564,9 @@ class ColorBars extends HTMLElement {
         detail: { type: 'text', hex }
       }));
     }).catch(err => {
-      WBEventLog.logWarning('Failed to copy text color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyTextColorToClipboard', line: 518, error: err });
+      if (window.WBEventLog) {
+        WBEventLog.logWarning('Failed to copy text color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyTextColorToClipboard', line: 518, error: err });
+      }
     });
   }
   
@@ -512,7 +578,9 @@ class ColorBars extends HTMLElement {
         detail: { type: 'background', hex }
       }));
     }).catch(err => {
-      WBEventLog.logWarning('Failed to copy background color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyBgColorToClipboard', line: 530, error: err });
+      if (window.WBEventLog) {
+        WBEventLog.logWarning('Failed to copy background color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyBgColorToClipboard', line: 530, error: err });
+      }
     });
   }
   

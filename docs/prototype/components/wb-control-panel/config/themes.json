@@ -1,0 +1,99 @@
+{
+  "$schema": "../wb-control-panel.schema.json",
+  "description": "Theme configurations for the website builder",
+  "themes": {
+    "dark": {
+      "id": "dark",
+      "name": "Dark Theme",
+      "description": "Professional dark theme with high contrast",
+      "colors": {
+        "primary": "hsl(240, 70%, 50%)",
+        "background": "hsl(220, 25%, 15%)",
+        "surface": "hsl(220, 20%, 20%)",
+        "text": "hsl(0, 0%, 95%)",
+        "textSecondary": "hsl(0, 0%, 70%)",
+        "border": "hsl(220, 20%, 30%)"
+      }
+    },
+    "light": {
+      "id": "light",
+      "name": "Light Theme",
+      "description": "Clean light theme for professional sites",
+      "colors": {
+        "primary": "hsl(240, 70%, 50%)",
+        "background": "hsl(0, 0%, 100%)",
+        "surface": "hsl(0, 0%, 98%)",
+        "text": "hsl(0, 0%, 10%)",
+        "textSecondary": "hsl(0, 0%, 40%)",
+        "border": "hsl(0, 0%, 85%)"
+      }
+    },
+    "auto": {
+      "id": "auto",
+      "name": "Auto (System)",
+      "description": "Follows system dark/light mode preference",
+      "colors": null
+    },
+    "cyberpunk": {
+      "id": "cyberpunk",
+      "name": "Cyberpunk",
+      "description": "Neon-infused futuristic theme",
+      "colors": {
+        "primary": "hsl(320, 100%, 50%)",
+        "background": "hsl(270, 40%, 10%)",
+        "surface": "hsl(270, 35%, 15%)",
+        "text": "hsl(180, 100%, 70%)",
+        "textSecondary": "hsl(320, 80%, 70%)",
+        "border": "hsl(320, 100%, 40%)"
+      }
+    },
+    "ocean": {
+      "id": "ocean",
+      "name": "Ocean Blue",
+      "description": "Calming ocean-inspired blues",
+      "colors": {
+        "primary": "hsl(200, 80%, 50%)",
+        "background": "hsl(200, 40%, 15%)",
+        "surface": "hsl(200, 35%, 20%)",
+        "text": "hsl(200, 20%, 95%)",
+        "textSecondary": "hsl(200, 20%, 70%)",
+        "border": "hsl(200, 30%, 30%)"
+      }
+    },
+    "sunset": {
+      "id": "sunset",
+      "name": "Sunset Orange",
+      "description": "Warm sunset-inspired orange and pink",
+      "colors": {
+        "primary": "hsl(25, 90%, 55%)",
+        "background": "hsl(15, 30%, 15%)",
+        "surface": "hsl(15, 25%, 20%)",
+        "text": "hsl(30, 20%, 95%)",
+        "textSecondary": "hsl(30, 20%, 70%)",
+        "border": "hsl(25, 40%, 30%)"
+      }
+    },
+    "forest": {
+      "id": "forest",
+      "name": "Forest Green",
+      "description": "Natural forest-inspired greens",
+      "colors": {
+        "primary": "hsl(140, 60%, 45%)",
+        "background": "hsl(140, 30%, 12%)",
+        "surface": "hsl(140, 25%, 17%)",
+        "text": "hsl(140, 15%, 95%)",
+        "textSecondary": "hsl(140, 15%, 70%)",
+        "border": "hsl(140, 30%, 25%)"
+      }
+    }
+  },
+  "themeOptions": [
+    { "value": "dark", "label": "Dark Theme" },
+    { "value": "light", "label": "Light Theme" },
+    { "value": "auto", "label": "Auto (System)" },
+    { "value": "cyberpunk", "label": "Cyberpunk" },
+    { "value": "ocean", "label": "Ocean Blue" },
+    { "value": "sunset", "label": "Sunset Orange" },
+    { "value": "forest", "label": "Forest Green" }
+  ]
+}

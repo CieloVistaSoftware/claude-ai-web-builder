@@ -39,6 +39,7 @@
     function loadScript(src) {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
+            script.type = 'module';
             script.src = src;
             script.onload = () => {
                 console.log(`✅ Loaded: ${src}`);
@@ -74,7 +75,7 @@
             infrastructure: ['wb-component-utils.js'],
             styles: ['main.js'],
             dependencies: ['wb-toggle', 'wb-select', 'wb-color-bar', 'wb-color-bars'],
-            components: ['wb-event-log', 'wb-control-panel', 'wb-demo', 'wb-layout', 'wb-nav', 'md-to-html']
+            components: ['wb-event-log', 'wb-control-panel', 'wb-demo', 'wb-layout', 'wb-theme', 'wb-nav', 'md-to-html']
         };
     }
     

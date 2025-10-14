@@ -677,6 +677,91 @@ class ColorBar extends HTMLElement {
       detail: colorData,
       bubbles: true
     }));
+
+    // Emit harmony palette event using harmonic-color-mixer logic
+    const palette = this.generateHarmonyPalette();
+    this.dispatchEvent(new CustomEvent('wb:color-harmony-change', {
+      detail: { base: colorData, palette },
+      bubbles: true,
+      composed: true
+    }));
+  }
+
+  /**
+   * Generate a harmony palette using logic from harmonic-color-mixer
+   * Returns an array of color objects (hue, saturation, lightness, hex, name, role)
+   */
+  generateHarmonyPalette(harmonyType = 'complementary') {
+    // Use current HSL as base
+    const h = Math.round(this._hue);
+    const s = Math.round(this._saturation);
+    const l = Math.round(this._lightness);
+    const palette = [];
+    // Always include the primary color
+    palette.push({
+      name: 'Primary',
+      hue: h,
+      saturation: s,
+      lightness: l,
+      hex: this.hslToHex(h, s, l),
+      role: 'Foundation color'
+    });
+    switch (harmonyType) {
+      case 'monochromatic':
+        palette.push(
+          { name: 'Light', hue: h, saturation: Math.max(10, s - 20), lightness: Math.min(90, l + 25), hex: this.hslToHex(h, Math.max(10, s - 20), Math.min(90, l + 25)), role: 'Lighter variant' },
+          { name: 'Dark', hue: h, saturation: Math.min(100, s + 10), lightness: Math.max(10, l - 25), hex: this.hslToHex(h, Math.min(100, s + 10), Math.max(10, l - 25)), role: 'Darker variant' },
+          { name: 'Muted', hue: h, saturation: Math.max(10, s - 40), lightness: l, hex: this.hslToHex(h, Math.max(10, s - 40), l), role: 'Desaturated variant' }
+        );
+        break;
+      case 'complementary':
+        palette.push({
+          name: 'Complement',
+          hue: (h + 180) % 360,
+          saturation: Math.max(50, s - 10),
+          lightness: l,
+          hex: this.hslToHex((h + 180) % 360, Math.max(50, s - 10), l),
+          role: 'Maximum contrast'
+        });
+        break;
+      case 'analogous':
+        palette.push(
+          { name: 'Analogous -30°', hue: (h - 30 + 360) % 360, saturation: s - 10, lightness: l + 5, hex: this.hslToHex((h - 30 + 360) % 360, s - 10, l + 5), role: 'Harmonious neighbor' },
+          { name: 'Analogous +30°', hue: (h + 30) % 360, saturation: s - 10, lightness: l + 5, hex: this.hslToHex((h + 30) % 360, s - 10, l + 5), role: 'Harmonious neighbor' }
+        );
+        break;
+      case 'triadic':
+        palette.push(
+          { name: 'Triadic 1', hue: (h + 120) % 360, saturation: s - 5, lightness: l, hex: this.hslToHex((h + 120) % 360, s - 5, l), role: '120° spacing' },
+          { name: 'Triadic 2', hue: (h + 240) % 360, saturation: s - 5, lightness: l, hex: this.hslToHex((h + 240) % 360, s - 5, l), role: '240° spacing' }
+        );
+        break;
+      case 'split':
+        palette.push(
+          { name: 'Split 1', hue: (h + 150) % 360, saturation: s - 10, lightness: l, hex: this.hslToHex((h + 150) % 360, s - 10, l), role: 'Split complement' },
+          { name: 'Split 2', hue: (h + 210) % 360, saturation: s - 10, lightness: l, hex: this.hslToHex((h + 210) % 360, s - 10, l), role: 'Split complement' }
+        );
+        break;
+      case 'square':
+        palette.push(
+          { name: 'Square 1', hue: (h + 90) % 360, saturation: s - 5, lightness: l, hex: this.hslToHex((h + 90) % 360, s - 5, l), role: '90° spacing' },
+          { name: 'Square 2', hue: (h + 180) % 360, saturation: s - 5, lightness: l, hex: this.hslToHex((h + 180) % 360, s - 5, l), role: '180° spacing' },
+          { name: 'Square 3', hue: (h + 270) % 360, saturation: s - 5, lightness: l, hex: this.hslToHex((h + 270) % 360, s - 5, l), role: '270° spacing' }
+        );
+        break;
+      default:
+        // Default to complementary
+        palette.push({
+          name: 'Complement',
+          hue: (h + 180) % 360,
+          saturation: Math.max(50, s - 10),
+          lightness: l,
+          hex: this.hslToHex((h + 180) % 360, Math.max(50, s - 10), l),
+          role: 'Maximum contrast'
+        });
+        break;
+    }
+    return palette;
   }
   
   getColorData() {

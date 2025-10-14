@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Input Web Component",
+  "description": "Schema for wb-input custom element attributes",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["text", "email", "password", "number", "tel", "url", "search", "textarea"],
+      "default": "text",
+      "description": "Input type - determines validation and behavior"
+    },
+    "label": {
+      "type": "string",
+      "description": "Label text displayed above the input"
+    },
+    "placeholder": {
+      "type": "string",
+      "description": "Placeholder text shown when input is empty"
+    },
+    "value": {
+      "type": "string",
+      "description": "Initial value of the input"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["small", "standard", "large"],
+      "default": "standard",
+      "description": "Size of the input field"
+    },
+    "help": {
+      "type": "string",
+      "description": "Help text displayed below the input"
+    },
+    "max-length": {
+      "type": "number",
+      "description": "Maximum number of characters allowed"
+    },
+    "min-length": {
+      "type": "number",
+      "description": "Minimum number of characters required"
+    },
+    "pattern": {
+      "type": "string",
+      "description": "Regular expression pattern for validation"
+    },
+    "validation-rules": {
+      "type": "string",
+      "description": "JSON string containing validation rules object",
+      "examples": [
+        "{\"required\": true}",
+        "{\"required\": true, \"type\": \"email\"}",
+        "{\"minLength\": 3, \"maxLength\": 50}"
+      ]
+    },
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the input is required"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the input is disabled"
+    },
+    "readonly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the input is read-only"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the input"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for form submission"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "onchange": {
+      "type": "string",
+      "description": "JavaScript code to execute when value changes"
+    },
+    "oninput": {
+      "type": "string",
+      "description": "JavaScript code to execute on input events"
+    },
+    "onfocus": {
+      "type": "string",
+      "description": "JavaScript code to execute when input gains focus"
+    },
+    "onblur": {
+      "type": "string",
+      "description": "JavaScript code to execute when input loses focus"
+    },
+    "onwb-input:change": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-input:change event"
+    },
+    "onwb-input:validate": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-input:validate event"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this input"
+    },
+    "aria-invalid": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Indicates if the input value is invalid"
+    },
+    "aria-required": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Indicates if the input is required"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    },
+    "autocomplete": {
+      "type": "string",
+      "description": "Hint for browser autocomplete behavior",
+      "examples": ["name", "email", "username", "current-password", "new-password", "off"]
+    },
+    "spellcheck": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Whether to enable spell checking"
+    }
+  }
+}

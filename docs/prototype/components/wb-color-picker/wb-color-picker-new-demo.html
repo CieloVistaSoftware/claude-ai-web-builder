@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Color Picker - New Web Component Demo</title>
+    
+    <!-- WB System with Auto-loader and Claude Issue Tracking -->
+    <script src="/config.js"></script>
+    <script src="/utils/auto-loader.js"></script>
+    
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">    <style>
+        body {
+            padding: var(--space-xl);
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+        }
+
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin: var(--space-2xl) 0;
+            padding: var(--space-xl);
+            border: 1px solid var(--border-color, #404040);
+            border-radius: var(--radius-lg);
+            background: var(--bg-secondary, #2d2d2d);
+        }
+
+        .demo-section h2 {
+            margin-top: 0;
+            color: var(--text-primary, #ffffff);
+            border-bottom: 2px solid var(--primary, #6366f1);
+            padding-bottom: var(--space-sm);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            margin: var(--space-lg) 0;
+        }
+
+        .demo-item {
+            padding: var(--space-lg);
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color, #404040);
+        }
+
+        .demo-item h3 {
+            margin-top: 0;
+            font-size: var(--text-base);
+            font-weight: 600;
+            color: var(--text-primary, #ffffff);
+        }
+
+        .demo-item p {
+            margin: var(--space-sm) 0;
+            font-size: var(--text-sm);
+            color: var(--text-secondary, #b0b0b0);
+        }
+
+        .demo-output {
+            margin-top: var(--space-md);
+            padding: var(--space-md);
+            background: #0f172a;
+            border-radius: var(--radius-base);
+            font-family: var(--font-mono, 'Monaco', 'Consolas', monospace);
+            font-size: var(--text-sm);
+            color: #34d399;
+            border: 1px solid var(--border-color, #404040);
+        }
+
+        .color-demo-box {
+            width: 100%;
+            height: 60px;
+            border-radius: var(--radius-md);
+            margin-top: var(--space-md);
+            border: 1px solid var(--border-color, #404040);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            background: var(--primary, #6366f1);
+        }
+
+        h1 {
+            color: var(--text-primary, #ffffff);
+            background: linear-gradient(135deg, var(--primary, #6366f1), var(--accent, #8b5cf6));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .floating-event-log {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 350px;
+            max-height: 400px;
+            z-index: 99999;
+            background: var(--bg-secondary, #2d2d2d);
+            border: 2px solid var(--primary, #6366f1);
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .floating-event-log-header {
+            background: var(--bg-primary, #1a1a1a);
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color, #404040);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .floating-event-log-title {
+            color: var(--text-primary, #ffffff);
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .floating-event-log-content {
+            height: calc(100% - 45px);
+            overflow: hidden;
+        }
+
+        .component-demo {
+            margin: var(--space-lg) 0;
+            padding: var(--space-md);
+            border: 1px solid var(--accent, #8b5cf6);
+            border-radius: var(--radius-md);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        button {
+            background: var(--primary, #6366f1);
+            color: white;
+            border: none;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            margin: var(--space-xs);
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--primary-dark, #4f46e5);
+        }
+
+        .inline-demo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Floating Event Log -->
+    <div class="floating-event-log" id="floating-event-log">
+        <div class="floating-event-log-header">
+            <h3 class="floating-event-log-title">🎨 Color Picker Events</h3>
+        </div>
+        <div class="floating-event-log-content">
+            <wb-event-log id="color-picker-event-log"></wb-event-log>
+        </div>
+    </div>
+    
+    <!-- Claude Debug Log for Testing Current Directory Saves -->
+    <div style="position: fixed; bottom: 20px; right: 20px; width: 300px; height: 200px; z-index: 10001; background: rgba(26, 26, 26, 0.95); border: 1px solid #444; border-radius: 6px; overflow: hidden;">
+        <div style="background: #007acc; color: white; padding: 4px 8px; font-size: 10px; font-weight: bold;">🔍 Claude Issues (Current Dir Test)</div>
+        <wb-event-log id="claudeColorPickerLog"></wb-event-log>
+    </div>
+
+    <div class="demo-container">
+        <h1>WB Color Picker - New Web Component</h1>
+        <p>Modern Web Component implementation with shadow DOM, accessibility, and event integration.</p>
+
+        <!-- Basic Web Component Usage -->
+        <div class="demo-section">
+            <h2>Basic Web Component Usage</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>Simple HTML Declaration</h3>
+                    <p>Basic color picker using just HTML attributes</p>
+                    <div class="component-demo">
+                        <wb-color-picker 
+                            label="Background Color" 
+                            value="#6366f1"
+                            id="basic-picker">
+                        </wb-color-picker>
+                    </div>
+                    <div class="demo-output" id="basic-output">Value: #6366f1</div>
+                    <div class="color-demo-box" id="basic-demo" style="background: #6366f1;">Live Preview</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>With Alpha Channel</h3>
+                    <p>Color picker with transparency support</p>
+                    <div class="component-demo">
+                        <wb-color-picker 
+                            label="Text Color" 
+                            value="#8b5cf6"
+                            format="rgba"
+                            show-alpha
+                            id="alpha-picker">
+                        </wb-color-picker>
+                    </div>
+                    <div class="demo-output" id="alpha-output">Value: rgba(139, 92, 246, 1)</div>
+                    <div class="color-demo-box" id="alpha-demo" style="background: #8b5cf6;">Alpha Support</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Different Formats</h3>
+                    <p>HSL format with different size</p>
+                    <div class="component-demo">
+                        <wb-color-picker 
+                            label="Theme Color" 
+                            value="#22c55e"
+                            format="hsl"
+                            size="large"
+                            id="hsl-picker">
+                        </wb-color-picker>
+                    </div>
+                    <div class="demo-output" id="hsl-output">Value: hsl(142, 71%, 45%)</div>
+                    <div class="color-demo-box" id="hsl-demo" style="background: #22c55e;">HSL Format</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Minimal Variant</h3>
+                    <p>Compact color picker without presets</p>
+                    <div class="component-demo">
+                        <wb-color-picker 
+                            value="#ef4444"
+                            variant="minimal"
+                            size="small"
+                            id="minimal-picker">
+                        </wb-color-picker>
+                    </div>
+                    <div class="demo-output" id="minimal-output">Value: #ef4444</div>
+                    <div class="color-demo-box" id="minimal-demo" style="background: #ef4444;">Minimal Style</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript API Integration -->
+        <div class="demo-section">
+            <h2>JavaScript API Integration</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3>Programmatic Control</h3>
+                    <p>Control color picker via JavaScript API</p>
+                    <div class="component-demo">
+                        <wb-color-picker 
+                            label="API Test Color" 
+                            value="#f59e0b"
+                            id="api-picker">
+                        </wb-color-picker>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button onclick="setRandomColor()">Random Color</button>
+                        <button onclick="togglePicker()">Toggle Open</button>
+                        <button onclick="toggleDisabled()">Toggle Disabled</button>
+                        <button onclick="cycleFormat()">Cycle Format</button>
+                    </div>
+                    <div class="demo-output" id="api-output">Value: #f59e0b</div>
+                    <div class="color-demo-box" id="api-demo" style="background: #f59e0b;">API Control</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3>Event Listening</h3>
+                    <p>Real-time event monitoring</p>
+                    <div class="component-demo">
+                        <wb-color-picker 
+                            label="Event Monitor" 
+                            value="#ec4899"
+                            id="event-picker">
+                        </wb-color-picker>
+                    </div>
+                    <div class="inline-demo">
+                        <span>Event Count:</span>
+                        <span id="event-count">0</span>
+                        <button onclick="clearEventCount()">Clear</button>
+                    </div>
+                    <div class="demo-output" id="event-output">Last Event: none</div>
+                    <div class="color-demo-box" id="event-demo" style="background: #ec4899;">Event Tracking</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backward Compatibility -->
+        <div class="demo-section">
+            <h2>Backward Compatibility</h2>
+            <div class="demo-item">
+                <h3>Old API Still Works</h3>
+                <p>Legacy JavaScript API using factory method</p>
+                <div class="component-demo" id="legacy-container">
+                    <!-- Legacy picker will be inserted here -->
+                </div>
+                <div class="demo-output" id="legacy-output">Value: #10b981</div>
+                <div class="color-demo-box" id="legacy-demo" style="background: #10b981;">Legacy API</div>
+            </div>
+        </div>
+
+        <!-- Usage Examples -->
+        <div class="demo-section">
+            <h2>Usage Examples</h2>
+            
+            <h3>HTML Usage</h3>
+            <pre><code>&lt;!-- Basic usage --&gt;
+&lt;wb-color-picker label="Background Color" value="#6366f1"&gt;&lt;/wb-color-picker&gt;
+
+&lt;!-- With alpha channel --&gt;
+&lt;wb-color-picker label="Text Color" show-alpha format="rgba"&gt;&lt;/wb-color-picker&gt;
+
+&lt;!-- Different sizes and variants --&gt;
+&lt;wb-color-picker size="large" variant="minimal"&gt;&lt;/wb-color-picker&gt;
+
+&lt;!-- HSL format --&gt;
+&lt;wb-color-picker format="hsl" value="#22c55e"&gt;&lt;/wb-color-picker&gt;</code></pre>
+
+            <h3>JavaScript Usage</h3>
+            <pre><code>// Get color picker element
+const picker = document.querySelector('wb-color-picker');
+
+// Set value programmatically
+picker.value = '#ff0000';
+
+// Get current value
+console.log(picker.value); // "#ff0000"
+
+// Change format
+picker.format = 'hsl';
+
+// Enable/disable
+picker.disabled = true;
+
+// Open/close popup
+picker.open();
+picker.close();
+
+// Listen for changes
+picker.addEventListener('wb-color-picker-change', (e) => {
+    console.log('Color changed:', e.detail.value);
+    console.log('Color object:', e.detail.color);
+});</code></pre>
+
+            <h3>Legacy API (Backward Compatibility)</h3>
+            <pre><code>// Create using factory method (still works)
+const picker = WBColorPicker.create({
+    label: 'Theme Color',
+    value: '#6366f1',
+    onchange: (color) => console.log('Changed to:', color)
+});
+
+// Use legacy API methods
+WBColorPicker.setValue(picker, '#ff0000');
+const value = WBColorPicker.getValue(picker);
+WBColorPicker.setDisabled(picker, true);</code></pre>
+        </div>
+    </div>
+
+    <!-- Load components -->
+    <script src="../wb-component-utils.js"></script>
+    <script src="../wb-event-log/wb-event-log.js"></script>
+    <!-- Component loaded automatically by auto-loader -->
+
+    <script>
+        let eventCount = 0;
+        let currentFormat = 0;
+        const formats = ['hex', 'rgb', 'hsl'];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Basic picker event listeners
+            const basicPicker = document.getElementById('basic-picker');
+            basicPicker.addEventListener('wb-color-picker-change', (e) => {
+                document.getElementById('basic-output').textContent = `Value: ${e.detail.value}`;
+                document.getElementById('basic-demo').style.backgroundColor = e.detail.value;
+            });
+
+            // Alpha picker event listeners
+            const alphaPicker = document.getElementById('alpha-picker');
+            alphaPicker.addEventListener('wb-color-picker-change', (e) => {
+                document.getElementById('alpha-output').textContent = `Value: ${e.detail.value}`;
+                document.getElementById('alpha-demo').style.backgroundColor = e.detail.value;
+            });
+
+            // HSL picker event listeners
+            const hslPicker = document.getElementById('hsl-picker');
+            hslPicker.addEventListener('wb-color-picker-change', (e) => {
+                document.getElementById('hsl-output').textContent = `Value: ${e.detail.value}`;
+                document.getElementById('hsl-demo').style.backgroundColor = e.detail.value;
+            });
+
+            // Minimal picker event listeners
+            const minimalPicker = document.getElementById('minimal-picker');
+            minimalPicker.addEventListener('wb-color-picker-change', (e) => {
+                document.getElementById('minimal-output').textContent = `Value: ${e.detail.value}`;
+                document.getElementById('minimal-demo').style.backgroundColor = e.detail.value;
+            });
+
+            // API picker event listeners
+            const apiPicker = document.getElementById('api-picker');
+            apiPicker.addEventListener('wb-color-picker-change', (e) => {
+                document.getElementById('api-output').textContent = `Value: ${e.detail.value}`;
+                document.getElementById('api-demo').style.backgroundColor = e.detail.value;
+            });
+
+            // Event monitoring picker
+            const eventPicker = document.getElementById('event-picker');
+            eventPicker.addEventListener('wb-color-picker-change', (e) => {
+                eventCount++;
+                document.getElementById('event-count').textContent = eventCount;
+                document.getElementById('event-output').textContent = `Last Event: change (${e.detail.value})`;
+                document.getElementById('event-demo').style.backgroundColor = e.detail.value;
+            });
+
+            eventPicker.addEventListener('wb-color-picker-open', () => {
+                eventCount++;
+                document.getElementById('event-count').textContent = eventCount;
+                document.getElementById('event-output').textContent = 'Last Event: open';
+            });
+
+            eventPicker.addEventListener('wb-color-picker-close', () => {
+                eventCount++;
+                document.getElementById('event-count').textContent = eventCount;
+                document.getElementById('event-output').textContent = 'Last Event: close';
+            });
+
+            // Create legacy picker using old API
+            const legacyPicker = WBColorPicker.create({
+                label: 'Legacy API Color',
+                value: '#10b981',
+                onchange: (color) => {
+                    document.getElementById('legacy-output').textContent = `Value: ${color}`;
+                    document.getElementById('legacy-demo').style.backgroundColor = color;
+                }
+            });
+            document.getElementById('legacy-container').appendChild(legacyPicker);
+        });
+
+        // API demo functions
+        function setRandomColor() {
+            const colors = ['#ef4444', '#f97316', '#f59e0b', '#22c55e', '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            const picker = document.getElementById('api-picker');
+            picker.value = randomColor;
+        }
+
+        function togglePicker() {
+            const picker = document.getElementById('api-picker');
+            picker.toggle();
+        }
+
+        function toggleDisabled() {
+            const picker = document.getElementById('api-picker');
+            picker.disabled = !picker.disabled;
+        }
+
+        function cycleFormat() {
+            const picker = document.getElementById('api-picker');
+            currentFormat = (currentFormat + 1) % formats.length;
+            picker.format = formats[currentFormat];
+        }
+
+        function clearEventCount() {
+            eventCount = 0;
+            document.getElementById('event-count').textContent = eventCount;
+            document.getElementById('event-output').textContent = 'Last Event: cleared';
+        }
+        
+        // Claude Issue Tracking - Test Current Directory Saves
+        setTimeout(() => {
+            WBEventLog.logInfo('wb-color-picker demo initialized', { 
+                source: 'wb-color-picker-demo', 
+                component: 'wb-color-picker',
+                location: window.location.pathname,
+                testNote: 'Testing current directory claude.md saves'
+            });
+            
+            // Check for actual component loading issues instead of test errors
+            
+            // Comprehensive component health check
+            const colorPickers = document.querySelectorAll('wb-color-picker');
+            
+            if (colorPickers.length > 0) {
+                WBEventLog.logSuccess(`Found ${colorPickers.length} wb-color-picker components`, { 
+                    source: 'component-detection', 
+                    component: 'wb-color-picker' 
+                });
+                
+                // Check if components are properly initialized
+                colorPickers.forEach((picker, index) => {
+                    if (picker.shadowRoot) {
+                        WBEventLog.logSuccess(`Color picker ${index} initialized with shadow DOM`, {
+                            source: 'component-health',
+                            component: 'wb-color-picker',
+                            index: index
+                        });
+                    } else {
+                        WBEventLog.logError(`Color picker ${index} missing shadow DOM - initialization failed`, {
+                            source: 'component-health',
+                            component: 'wb-color-picker',
+                            index: index,
+                            issue: 'shadow-dom-missing'
+                        });
+                    }
+                    
+                    // Check for component methods
+                    if (typeof picker.getValue === 'function') {
+                        WBEventLog.logSuccess(`Color picker ${index} API methods available`, {
+                            source: 'component-health',
+                            component: 'wb-color-picker',
+                            currentValue: picker.getValue?.()
+                        });
+                    } else {
+                        WBEventLog.logWarning(`Color picker ${index} API methods not ready yet`, {
+                            source: 'component-health',
+                            component: 'wb-color-picker',
+                            note: 'Methods may load after component initialization'
+                        });
+                    }
+                });
+            } else {
+                WBEventLog.logError('No wb-color-picker components detected on page', { 
+                    source: 'component-detection', 
+                    component: 'wb-color-picker',
+                    issue: 'components-missing',
+                    context: `Page has ${document.querySelectorAll('[class*="color-picker"]').length} color-picker related elements`
+                });
+            }
+            
+            // Check if auto-loader loaded the component files
+            const componentScript = document.querySelector('script[src*="wb-color-picker.js"]');
+            if (componentScript) {
+                WBEventLog.logSuccess('wb-color-picker.js loaded successfully by auto-loader', {
+                    source: 'auto-loader',
+                    component: 'wb-color-picker'
+                });
+            } else {
+                WBEventLog.logError('wb-color-picker.js not loaded by auto-loader', {
+                    source: 'auto-loader',
+                    component: 'wb-color-picker',
+                    issue: 'script-not-loaded'
+                });
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>WB Input Test</title>
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <style>
+        body { padding: 2rem; background: #1a1a1a; color: white; }
+        .test-section { margin: 2rem 0; }
+    </style>
+</head>
+<body data-theme="dark">
+    <h1>WB Input Test</h1>
+    
+    <div class="test-section">
+        <h2>Direct HTML Input (Control)</h2>
+        <input type="text" placeholder="This is a normal input">
+    </div>
+    
+    <div class="test-section">
+        <h2>WB Input Component</h2>
+        <div id="wb-input-test"></div>
+    </div>
+    
+    <script src="wb-input.js"></script>
+    <script>
+        console.log('Testing WB Input...');
+        
+        document.addEventListener('wbInputReady', function() {
+            console.log('WB Input Ready!');
+            const container = document.getElementById('wb-input-test');
+            
+            if (window.WBInput && window.WBInput.create) {
+                const input = window.WBInput.create('text', {
+                    label: 'Test Input',
+                    placeholder: 'Type here...',
+                    id: 'test-input'
+                });
+                
+                container.appendChild(input);
+                console.log('Input created:', input);
+                
+                // Test if we can find the actual input element
+                setTimeout(() => {
+                    const actualInput = input.querySelector('input');
+                    console.log('Actual input element:', actualInput);
+                    if (actualInput) {
+                        console.log('Input disabled?', actualInput.disabled);
+                        console.log('Input readonly?', actualInput.readOnly);
+                        console.log('Input type:', actualInput.type);
+                    }
+                }, 100);
+            } else {
+                console.error('WBInput not available!');
+            }
+        });
+    </script>
+</body>
+</html>

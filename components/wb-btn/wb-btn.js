@@ -19,6 +19,29 @@ class WBBtn extends HTMLElement {
         :host(:hover) {
           background: var(--btn-bg-hover, #4f46e5);
         }
+        :host([variant="secondary"]) {
+          background: var(--btn-bg-secondary, #22223b);
+          color: var(--btn-color-secondary, #fff);
+        }
+        :host([variant="secondary"]:hover) {
+          background: var(--btn-bg-secondary-hover, #393960);
+        }
+        @media (prefers-color-scheme: dark) {
+          :host {
+            background: var(--btn-bg-dark, #393960);
+            color: var(--btn-color-dark, #fff);
+          }
+          :host(:hover) {
+            background: var(--btn-bg-dark-hover, #6366f1);
+          }
+          :host([variant="secondary"]) {
+            background: var(--btn-bg-secondary-dark, #22223b);
+            color: var(--btn-color-secondary-dark, #fff);
+          }
+          :host([variant="secondary"]:hover) {
+            background: var(--btn-bg-secondary-dark-hover, #4f46e5);
+          }
+        }
       </style>
       <slot></slot>
     `;

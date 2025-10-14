@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Nav Component Demo</title>
+    
+    <!-- Central Styles Import -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <!-- Load WB Demo Component -->
+    <script src="../wb-demo/wb-demo.js"></script>
+    
+    <!-- Load wb-nav web component -->
+    <script src="wb-nav.js"></script>
+    <script src="../wb-button/wb-button.js"></script>
+    
+    <!-- Demo-specific popup styles only -->
+    <style>
+        body {
+            margin: 0;
+            padding: var(--space-xl);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        /* wb-tab component margin */
+        wb-tab {
+            margin-bottom: var(--space-lg);
+        }
+        
+        /* Navigation Popup Styles - Demo specific */
+        .nav-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-bg, rgba(0, 0, 0, 0.8));
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-popup-overlay.active {
+            display: flex;
+        }
+        
+        .nav-popup-container {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-xl);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-popup-overlay.active .nav-popup-container {
+            transform: scale(1);
+        }
+        
+        .nav-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-popup-title {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .nav-popup-close {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: var(--space-sm);
+            border-radius: var(--border-radius);
+            transition: background 0.2s ease;
+        }
+        
+        .nav-popup-close:hover {
+            background: var(--hover-bg);
+        }
+        
+        /* Button container for demo - buttons have their own margins */
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            margin: var(--space-md) -0.5rem;
+            align-items: flex-start;
+        }
+        
+        /* Demo specific layout styles */
+        .demo-container {
+            padding: var(--space-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            background: var(--surface-color);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+            border-radius: var(--border-radius-lg);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .status {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            padding: var(--space-md);
+            border-radius: var(--border-radius);
+            margin: var(--space-md) 0;
+            color: var(--success-color);
+            font-size: 0.875rem;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .demo-container {
+                padding: var(--space-md);
+            }
+            
+            .demo-section {
+                padding: var(--space-md);
+            }
+            
+            .nav-popup-container {
+                width: 95%;
+                padding: var(--space-lg);
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <wb-demo>
+        <span slot="title">🧭 WB Nav Component Demo</span>
+        
+        <div slot="documentation">
+            <h2>🧭 WB Nav Component</h2>
+            <p>Comprehensive navigation menu component with responsive layouts, theming, and multiple variants for modern web applications.</p>
+            
+            <h3>🚀 Features</h3>
+            <ul>
+                <li>✅ <strong>Multiple Layouts:</strong> horizontal, vertical, sidebar navigation</li>
+                <li>✅ <strong>Variant Styles:</strong> default, pills, tabs, minimal, gradient</li>
+                <li>✅ <strong>Position Options:</strong> top, left, right positioning</li>
+                <li>✅ <strong>Responsive Design:</strong> mobile-friendly navigation patterns</li>
+                <li>✅ <strong>Dropdown Support:</strong> multi-level navigation menus</li>
+                <li>✅ <strong>Active State Management:</strong> automatic active item highlighting</li>
+                <li>✅ <strong>Keyboard Navigation:</strong> arrow keys, tab, enter support</li>
+                <li>✅ <strong>Theme Integration:</strong> works with dark/light themes</li>
+                <li>✅ <strong>Accessibility:</strong> ARIA compliant with screen reader support</li>
+            </ul>
+            
+            <h3>💻 Basic Usage</h3>
+            <pre><code>&lt;!-- Basic horizontal navigation --&gt;
+&lt;wb-nav layout="horizontal" variant="default"&gt;
+    &lt;ul class="wb-nav-list"&gt;
+        &lt;li class="wb-nav-item wb-nav--active"&gt;
+            &lt;a href="/" class="wb-nav-link"&gt;Home&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="wb-nav-item"&gt;
+            &lt;a href="/about" class="wb-nav-link"&gt;About&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="wb-nav-item"&gt;
+            &lt;a href="/contact" class="wb-nav-link"&gt;Contact&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/wb-nav&gt;</code></pre>
+            
+            <h3>🎯 JavaScript API</h3>
+            <pre><code>// Create navigation programmatically
+const nav = document.createElement('wb-nav');
+nav.setAttribute('layout', 'vertical');
+nav.setAttribute('variant', 'pills');
+
+// Set navigation items
+nav.setItems([
+    { label: 'Dashboard', href: '/dashboard', active: true },
+    { label: 'Users', href: '/users' },
+    { label: 'Settings', href: '/settings' }
+]);
+
+// Update layout dynamically
+nav.updateLayout('horizontal');
+
+// Set active item
+nav.setActiveItem('/users');</code></pre>
+            
+            <h3>📡 Event Handling</h3>
+            <pre><code>// Listen for navigation events
+document.addEventListener('wbNavItemClick', (e) => {
+    console.log('Navigation item clicked:', e.detail);
+});
+
+document.addEventListener('wbNavLayoutChange', (e) => {
+    console.log('Layout changed:', e.detail);
+});
+
+document.addEventListener('wbNavReady', (e) => {
+    console.log('Navigation component ready');
+});</code></pre>
+            
+            <h3>⚙️ Configuration Options</h3>
+            <ul>
+                <li><strong>layout:</strong> "horizontal" | "vertical"</li>
+                <li><strong>variant:</strong> "default" | "pills" | "tabs" | "minimal" | "gradient"</li>
+                <li><strong>position:</strong> "top" | "left" | "right"</li>
+                <li><strong>items:</strong> Array of navigation item configurations</li>
+            </ul>
+            
+            <h3>🎨 Advanced Features</h3>
+            <ul>
+                <li><strong>Dropdown Menus:</strong> Multi-level navigation with submenu support</li>
+                <li><strong>Icon Integration:</strong> Support for icons in navigation items</li>
+                <li><strong>Badge Support:</strong> Show counts or indicators on navigation items</li>
+                <li><strong>Collapsible Navigation:</strong> Mobile-friendly collapsible menu patterns</li>
+                <li><strong>Custom Styling:</strong> CSS custom properties for complete theming control</li>
+            </ul>
+        </div>
+        
+        <div slot="examples">
+            <h2>🎯 Interactive Examples</h2>
+            <p>Click any button below to see live navigation demonstrations in popup overlays. Each demo showcases different navigation patterns and capabilities.</p>
+            
+            <div class="status" id="status">
+                Component loading...
+            </div>
+            
+            <div class="demo-section">
+                <h3>Navigation Menu Popups</h3>
+                <p>Click the buttons below to open navigation menus in popup overlays:</p>
+                
+                <div class="demo-buttons">
+                    <button class="wb-btn wb-btn--primary" onclick="openNavPopup('basic')">
+                        🧭 Basic Navigation
+                    </button>
+                    
+                    <button class="wb-btn wb-btn--primary" onclick="openNavPopup('dropdown')">
+                        📂 Dropdown Navigation
+                    </button>
+                    
+                    <button class="wb-btn wb-btn--success" onclick="openNavPopup('admin')">
+                        ⚙️ Admin Navigation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </wb-demo>
+    
+    <!-- Navigation Popup Overlays -->
+    <div class="nav-popup-overlay" id="basic-nav-popup">
+        <div class="nav-popup-container">
+            <div class="nav-popup-header">
+                <h3 class="nav-popup-title">Basic Navigation</h3>
+                <button class="nav-popup-close" onclick="closeNavPopup('basic')">&times;</button>
+            </div>
+            <nav class="wb-nav wb-nav--vertical" id="basic-nav">
+                <ul class="wb-nav-list">
+                    <li class="wb-nav-item wb-nav--active">
+                        <a href="/" class="wb-nav-link">Home</a>
+                    </li>
+                    <li class="wb-nav-item">
+                        <a href="/about" class="wb-nav-link">About</a>
+                    </li>
+                    <li class="wb-nav-item">
+                        <a href="/services" class="wb-nav-link">Services</a>
+                    </li>
+                    <li class="wb-nav-item">
+                        <a href="/contact" class="wb-nav-link">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="nav-popup-overlay" id="dropdown-nav-popup">
+        <div class="nav-popup-container">
+            <div class="nav-popup-header">
+                <h3 class="nav-popup-title">Navigation with Dropdowns</h3>
+                <button class="nav-popup-close" onclick="closeNavPopup('dropdown')">&times;</button>
+            </div>
+            <nav class="wb-nav wb-nav--vertical" id="dropdown-nav">
+                <ul class="wb-nav-list">
+                    <li class="wb-nav-item">
+                        <a href="/" class="wb-nav-link">Home</a>
+                    </li>
+                    <li class="wb-nav-item wb-nav-dropdown">
+                        <a href="#" class="wb-nav-link">Products</a>
+                        <ul class="wb-nav-submenu">
+                            <li class="wb-nav-item">
+                                <a href="/products/web" class="wb-nav-link">Web Components</a>
+                            </li>
+                            <li class="wb-nav-item">
+                                <a href="/products/mobile" class="wb-nav-link">Mobile Apps</a>
+                            </li>
+                            <li class="wb-nav-item">
+                                <a href="/products/desktop" class="wb-nav-link">Desktop Tools</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="wb-nav-item">
+                        <a href="/pricing" class="wb-nav-link">Pricing</a>
+                    </li>
+                    <li class="wb-nav-item">
+                        <a href="/support" class="wb-nav-link">Support</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="nav-popup-overlay" id="admin-nav-popup">
+        <div class="nav-popup-container">
+            <div class="nav-popup-header">
+                <h3 class="nav-popup-title">Admin Navigation</h3>
+                <button class="nav-popup-close" onclick="closeNavPopup('admin')">&times;</button>
+            </div>
+            <nav class="wb-nav wb-nav--vertical" id="admin-nav">
+                <ul class="wb-nav-list">
+                    <li class="wb-nav-item">
+                        <a href="/dashboard" class="wb-nav-link">📊 Dashboard</a>
+                    </li>
+                    <li class="wb-nav-item wb-nav-dropdown">
+                        <a href="#" class="wb-nav-link">📝 Content</a>
+                        <ul class="wb-nav-submenu">
+                            <li class="wb-nav-item">
+                                <a href="/posts" class="wb-nav-link">Posts</a>
+                            </li>
+                            <li class="wb-nav-item">
+                                <a href="/pages" class="wb-nav-link">Pages</a>
+                            </li>
+                            <li class="wb-nav-item">
+                                <a href="/media" class="wb-nav-link">Media</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="wb-nav-item">
+                        <a href="/users" class="wb-nav-link">👥 Users</a>
+                    </li>
+                    <li class="wb-nav-item">
+                        <a href="/settings" class="wb-nav-link">⚙️ Settings</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Load components -->
+    <script src="../md-to-html/md-to-html.js"></script>
+    <script src="../wb-tab/wb-tab.js"></script>
+    <script src="wb-nav.js"></script>
+    
+    <script>
+        // Component event handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('status').textContent = '✅ WB Nav Menu Component loaded successfully!';
+            initializeNavigation();
+        });
+        
+        function initializeNavigation() {
+            // Add click handlers to navigation links
+            document.querySelectorAll('.wb-nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const label = this.textContent.trim();
+                    console.log('Navigation clicked:', label);
+                    updateStatus(`Navigation: ${label} clicked`);
+                    
+                    // Update active state within the same popup
+                    const popup = this.closest('.nav-popup-overlay');
+                    if (popup) {
+                        popup.querySelectorAll('.wb-nav-item').forEach(item => {
+                            item.classList.remove('wb-nav--active');
+                        });
+                        this.closest('.wb-nav-item').classList.add('wb-nav--active');
+                    }
+                });
+            });
+            
+            // Add dropdown hover effects
+            document.querySelectorAll('.wb-nav-dropdown').forEach(dropdown => {
+                dropdown.addEventListener('mouseenter', function() {
+                    this.classList.add('wb-nav--expanded');
+                });
+                dropdown.addEventListener('mouseleave', function() {
+                    this.classList.remove('wb-nav--expanded');
+                });
+            });
+        }
+        
+        function updateStatus(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            console.log(`[${timestamp}] ${message}`);
+        }
+        
+        // Popup functions
+        function openNavPopup(type) {
+            const popup = document.getElementById(type + '-nav-popup');
+            if (popup) {
+                popup.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scroll
+            }
+        }
+        
+        function closeNavPopup(type) {
+            const popup = document.getElementById(type + '-nav-popup');
+            if (popup) {
+                popup.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scroll
+            }
+        }
+        
+        // Close popup when clicking overlay
+        document.querySelectorAll('.nav-popup-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+        
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.nav-popup-overlay.active').forEach(popup => {
+                    popup.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

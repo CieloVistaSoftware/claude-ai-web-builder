@@ -6,6 +6,10 @@
       "description": "Web component <WB Component Manifest>"
     },
     {
+      "name": "wb-btn",
+      "description": "Web component <wb-btn>"
+    },
+    {
       "name": "WB Button Web Component",
       "description": "Web component <WB Button Web Component>"
     },
@@ -22,12 +26,24 @@
       "description": "Web component <Color Bars Component Schema>"
     },
     {
+      "name": "WB Color Mapper Component",
+      "description": "Web component <WB Color Mapper Component>"
+    },
+    {
       "name": "WB Color Picker Web Component",
       "description": "Web component <WB Color Picker Web Component>"
     },
     {
+      "name": "WB Color Transformer Component",
+      "description": "Web component <WB Color Transformer Component>"
+    },
+    {
       "name": "WB Control Panel Component Schema",
       "description": "Web component <WB Control Panel Component Schema>"
+    },
+    {
+      "name": "wb-demo",
+      "description": "Web component <wb-demo>"
     },
     {
       "name": "WB Event Log Web Component",
@@ -68,6 +84,10 @@
     {
       "name": "WB Select Web Component",
       "description": "Web component <WB Select Web Component>"
+    },
+    {
+      "name": "WB Semantic Elements",
+      "description": "Web component <WB Semantic Elements>"
     },
     {
       "name": "WB Slider Web Component",

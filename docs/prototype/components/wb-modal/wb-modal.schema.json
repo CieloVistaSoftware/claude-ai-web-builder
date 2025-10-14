@@ -1,0 +1,184 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Modal Web Component",
+  "description": "Schema for wb-modal custom element attributes",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Modal title displayed in header"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["small", "standard", "large", "fullscreen", "floating"],
+      "default": "standard",
+      "description": "Size of the modal dialog"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["default", "success", "warning", "danger"],
+      "default": "default",
+      "description": "Visual variant for semantic styling"
+    },
+    "animation": {
+      "type": "string",
+      "enum": ["fadeIn", "slideDown", "slideUp", "slideLeft", "slideRight", "scaleUp"],
+      "default": "fadeIn",
+      "description": "Animation type for modal appearance"
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["top", "right", "bottom", "left"],
+      "default": "bottom",
+      "description": "Direction for slide animations"
+    },
+    "duration": {
+      "type": "number",
+      "default": 1000,
+      "description": "Animation duration in milliseconds"
+    },
+    "bg-color": {
+      "type": "string",
+      "default": "var(--bg-color)",
+      "description": "Modal background color"
+    },
+    "color": {
+      "type": "string",
+      "default": "var(--text-primary)",
+      "description": "Modal text color"
+    },
+    "backdrop": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show backdrop overlay"
+    },
+    "keyboard": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to handle keyboard events (ESC to close)"
+    },
+    "focus": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to manage focus automatically"
+    },
+    "max-width": {
+      "type": "string",
+      "default": "50vw",
+      "description": "Maximum width of the modal"
+    },
+    "offset": {
+      "type": "string",
+      "default": "1rem",
+      "description": "Distance from viewport edges"
+    },
+    "z-index": {
+      "type": "number",
+      "default": 1050,
+      "description": "CSS z-index for modal layering"
+    },
+    "open": {
+      "type": "boolean",
+      "default": false,
+      "description": "Controls modal visibility (read-only)"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the modal"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for the modal"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "onshow": {
+      "type": "string",
+      "description": "JavaScript code to execute when modal is shown"
+    },
+    "onshown": {
+      "type": "string",
+      "description": "JavaScript code to execute after modal animation completes"
+    },
+    "onhide": {
+      "type": "string",
+      "description": "JavaScript code to execute when modal starts hiding"
+    },
+    "onhidden": {
+      "type": "string",
+      "description": "JavaScript code to execute after modal is hidden"
+    },
+    "oncancel": {
+      "type": "string",
+      "description": "JavaScript code to execute when modal is cancelled"
+    },
+    "onconfirm": {
+      "type": "string",
+      "description": "JavaScript code to execute when modal is confirmed"
+    },
+    "onwb-modal:show": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-modal:show event"
+    },
+    "onwb-modal:shown": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-modal:shown event"
+    },
+    "onwb-modal:hide": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-modal:hide event"
+    },
+    "onwb-modal:hidden": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-modal:hidden event"
+    },
+    "onwb-modal:cancel": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-modal:cancel event"
+    },
+    "onwb-modal:confirm": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-modal:confirm event"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this modal"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this modal"
+    },
+    "aria-modal": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "default": "true",
+      "description": "Indicates this is a modal dialog"
+    },
+    "aria-hidden": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "description": "Whether modal is hidden from screen readers (automatically managed)"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["dialog", "alertdialog"],
+      "default": "dialog",
+      "description": "ARIA role for the modal"
+    },
+    "tabindex": {
+      "type": "number",
+      "default": -1,
+      "description": "Tab navigation order"
+    }
+  }
+}

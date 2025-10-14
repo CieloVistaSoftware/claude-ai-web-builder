@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Color Harmony",
+  "description": "A component for visualizing a color harmony palette.",
+  "type": "object",
+  "properties": {
+    "palette": {
+      "type": "array",
+      "description": "Array of color objects with name, hue, saturation, lightness.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "hue": { "type": "number" },
+          "saturation": { "type": "number" },
+          "lightness": { "type": "number" }
+        },
+        "required": ["name", "hue", "saturation", "lightness"]
+      }
+    }
+  },
+  "required": ["palette"]
+}

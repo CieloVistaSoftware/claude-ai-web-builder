@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Footer Component Demo</title>
+
+    <!-- Shared styles -->
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="../../styles/main.css">    <!-- Component styles -->
+    <link rel="stylesheet" href="wb-footer.css">
+    
+    <!-- Load marked library for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: var(--font-family, system-ui, sans-serif);
+            background: var(--bg-primary, #ffffff);
+            color: var(--text-primary, #333333);
+        }
+
+        .demo-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .demo-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Tab Styles */
+        .tab-container {
+            margin-bottom: 2rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border-color, #ddd);
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary, #666);
+            transition: all 0.2s ease;
+        }
+
+        .tab-button.active {
+            color: var(--primary, #007bff);
+            border-bottom-color: var(--primary, #007bff);
+            background: var(--bg-secondary, #f8f9fa);
+        }
+
+        .tab-button:hover {
+            background: var(--bg-secondary, #f8f9fa);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Demo controls for example tab */
+        .demo-controls {
+            background: var(--bg-secondary, #f5f5f5);
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-group {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            min-width: 100px;
+        }
+
+        .control-group select,
+        .control-group button {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 4px;
+            background: var(--bg-primary, #ffffff);
+            color: var(--text-primary, #333333);
+        }
+
+        .control-group button {
+            background: var(--primary, #007bff);
+            color: white;
+            cursor: pointer;
+        }
+
+        .control-group button:hover {
+            background: var(--primary-hover, #0056b3);
+        }
+
+        .test-btn {
+            padding: 0.75rem 1rem;
+            background: var(--accent, #28a745);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .test-btn:hover {
+            background: var(--accent-hover, #218838);
+            transform: translateY(-1px);
+        }
+
+        .test-btn:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            background: var(--bg-primary, #ffffff);
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+
+        /* Documentation styles */
+        .doc-section {
+            margin-bottom: 3rem;
+        }
+
+        .doc-section h2 {
+            border-bottom: 2px solid var(--primary, #007bff);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .code-block {
+            background: var(--bg-secondary, #f8f9fa);
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+        }
+        
+        /* Bright yellow code styling for documentation */
+        #markdown-content pre,
+        #markdown-content code {
+            background: #000000 !important;
+            color: #ffff00 !important;
+            border: 1px solid #ffff00 !important;
+        }
+        
+        #markdown-content pre {
+            padding: 1rem !important;
+            border-radius: 6px !important;
+            border-left: 3px solid #ffff00 !important;
+        }
+        
+        #markdown-content code {
+            padding: 0.2em 0.4em !important;
+            border-radius: 3px !important;
+            font-weight: 500 !important;
+        }
+        
+        #markdown-content pre code {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary, #f8f9fa);
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            color: var(--primary, #007bff);
+        }
+
+        /* Add space when footer is fixed */
+        body.footer-fixed {
+            padding-bottom: 300px;
+        }
+
+        .spacer {
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-secondary, #f5f5f5);
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-container">
+        <div class="demo-content">
+            <h1>WB Footer Component</h1>
+            <p>A responsive footer component with multiple layouts and positioning modes.</p>
+
+            <!-- Tab Navigation -->
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-button" data-tab="documentation">Documentation</button>
+                    <button class="tab-button" data-tab="example">Example</button>
+                </div>
+
+                <!-- Documentation Tab -->
+                <div class="tab-content" id="documentation">
+                    <div id="markdown-content">
+                        <p>Loading documentation...</p>
+                    </div>
+                </div>
+
+                <!-- Example Tab -->
+                <div class="tab-content" id="example">
+                    <!-- Quick Test Buttons -->
+                    <div class="demo-controls">
+                        <h3>Quick Test All Layouts</h3>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                            <button class="test-btn" data-layout="simple" data-position="same-page">Simple Footer</button>
+                            <button class="test-btn" data-layout="standard" data-position="same-page">Standard Footer</button>
+                            <button class="test-btn" data-layout="complex" data-position="same-page">Complex Footer</button>
+                            <button class="test-btn" data-layout="sticky" data-position="bottom">Sticky Footer</button>
+                        </div>
+                        
+                        <h3>Quick Test All Positions</h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                            <button class="test-btn" data-layout="standard" data-position="same-page">Same Page Position</button>
+                            <button class="test-btn" data-layout="standard" data-position="bottom">Fixed Bottom Position</button>
+                            <button class="test-btn" data-layout="standard" data-position="expanded">Expanded Position</button>
+                        </div>
+
+                        <h3>Test Complex Configurations</h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                            <button class="test-btn" data-layout="complex" data-position="same-page" data-social="true" data-newsletter="true">Full Complex</button>
+                            <button class="test-btn" data-layout="complex" data-position="bottom" data-social="true" data-newsletter="false">Complex Fixed</button>
+                            <button class="test-btn" data-layout="standard" data-position="expanded" data-social="false" data-newsletter="false">Standard Expanded</button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Test Demo Area -->
+                    <div id="quick-test-demo-area" style="border: 2px solid #007bff; min-height: 120px; padding: 1rem; margin: 1rem 0; border-radius: 8px; background: #f8f9ff;">
+                        <p style="text-align: center; color: #007bff; margin: 0; font-weight: 600;">Quick Test footers will appear here</p>
+                    </div>
+
+                    <!-- Manual Controls -->
+                    <div class="demo-controls">
+                        <h3>Manual Footer Controls</h3>
+                        <div class="control-group">
+                            <label for="layout-select">Layout:</label>
+                            <select id="layout-select">
+                                <option value="simple">Simple</option>
+                                <option value="standard" selected>Standard</option>
+                                <option value="complex">Complex</option>
+                                <option value="sticky">Sticky</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="position-select">Position:</label>
+                            <select id="position-select">
+                                <option value="same-page" selected>Same Page (flows with content)</option>
+                                <option value="bottom">Fixed Bottom (always visible)</option>
+                                <option value="expanded">Expanded (breaks container width)</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="show-logo">Show Logo:</label>
+                            <input type="checkbox" id="show-logo" checked>
+                        </div>
+                        <div class="control-group">
+                            <label for="show-social">Show Social:</label>
+                            <input type="checkbox" id="show-social">
+                        </div>
+                        <div class="control-group">
+                            <label for="show-newsletter">Show Newsletter:</label>
+                            <input type="checkbox" id="show-newsletter">
+                        </div>
+                        <div class="control-group">
+                            <label for="keep-footer-visible">Keep Footer Visible:</label>
+                            <input type="checkbox" id="keep-footer-visible" checked>
+                            <small style="color: var(--text-secondary, #666); margin-left: 1rem;">
+                                (Forces "Same Page" → "Fixed Bottom")
+                            </small>
+                        </div>
+                        <div class="control-group">
+                            <label>&nbsp;</label>
+                            <button id="create-footer">Create Footer</button>
+                            <button id="remove-footer">Remove Footer</button>
+                        </div>
+                    </div>
+
+                    <!-- Footer Demo Area -->
+                    <div id="footer-demo-area" style="border: 2px dashed #ccc; min-height: 100px; padding: 1rem; margin: 1rem 0; border-radius: 8px; background: #f9f9f9;">
+                        <p style="text-align: center; color: #666; margin: 0;">Footer will appear here when created</p>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="status" id="status">
+                        Ready to create footer...
+                    </div>
+
+                    <!-- Current Configuration -->
+                    <div class="doc-section">
+                        <h3>Current Configuration</h3>
+                        <div class="code-block" id="config-display">
+                            Select options above to see configuration...
+                        </div>
+                    </div>
+
+                    <!-- Spacer for testing -->
+                    <div class="spacer">
+                        <p>Scroll test area - helps test fixed footer positioning</p>
+                    </div>
+
+                    <!-- Anchor sections for footer links -->
+                    <div id="components" class="doc-section">
+                        <h3>Components Section</h3>
+                        <p>This is where the Components page content would be. Footer links can navigate here.</p>
+                    </div>
+
+                    <div id="templates" class="doc-section">
+                        <h3>Templates Section</h3>
+                        <p>This is where the Templates page content would be. Footer links can navigate here.</p>
+                    </div>
+
+                    <div id="about" class="doc-section">
+                        <h3>About Section</h3>
+                        <p>This is where the About page content would be. Footer links can navigate here.</p>
+                    </div>
+
+                    <div id="contact" class="doc-section">
+                        <h3>Contact Section</h3>
+                        <p>This is where the Contact page content would be. Footer links can navigate here.</p>
+                    </div>
+
+                    <div id="privacy" class="doc-section">
+                        <h3>Privacy Policy Section</h3>
+                        <p>This is where the Privacy Policy content would be. Footer links can navigate here.</p>
+                    </div>
+
+                    <div id="terms" class="doc-section">
+                        <h3>Terms of Service Section</h3>
+                        <p>This is where the Terms of Service content would be. Footer links can navigate here.</p>
+                    </div>
+
+                    <!-- Test Navigation Section -->
+                    <div class="doc-section">
+                        <h3>Test Navigation & Back Button</h3>
+                        <p>These links will actually navigate (not prevented) so you can test back button behavior:</p>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0;">
+                            <a href="https://example.com" target="_self" class="test-nav-link" style="padding: 0.75rem; background: var(--primary, #007bff); color: white; text-decoration: none; border-radius: 4px; text-align: center;">Test Page 1</a>
+                            <a href="https://httpbin.org/html" target="_self" class="test-nav-link" style="padding: 0.75rem; background: var(--accent, #28a745); color: white; text-decoration: none; border-radius: 4px; text-align: center;">Test Page 2</a>
+                            <a href="https://jsonplaceholder.typicode.com/" target="_self" class="test-nav-link" style="padding: 0.75rem; background: var(--warning, #ffc107); color: white; text-decoration: none; border-radius: 4px; text-align: center;">Test Page 3</a>
+                        </div>
+                        <p><small>After clicking these links, use browser back button to return to the exact same position.</small></p>
+                    </div>
+
+                    <!-- Event Log -->
+                    <div class="doc-section">
+                        <h3>Event Log</h3>
+                        <div class="status" id="event-log" style="height: 200px; overflow-y: auto; font-family: 'Courier New', monospace; white-space: pre; line-height: 1.4;">
+                            Events will appear here...
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <button id="clear-log">Clear Log</button>
+                            <button id="copy-log" style="background: var(--primary, #007bff); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Copy to Clipboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load components -->
+    <script src="../md-to-html/md-to-html.js"></script>
+    
+    <script src="wb-footer.js"></script>
+
+    <script>
+        let currentFooter = null;
+        let eventLog = JSON.parse(localStorage.getItem('wb-footer-demo-event-log') || '[]');
+
+        // Tab functionality
+        function initTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Restore last active tab from localStorage or default to example
+            const lastActiveTab = localStorage.getItem('wb-footer-demo-active-tab') || 'example';
+            
+            // Set initial tab state
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            const activeButton = document.querySelector(`[data-tab="${lastActiveTab}"]`);
+            const activeContent = document.getElementById(lastActiveTab);
+            
+            if (activeButton && activeContent) {
+                activeButton.classList.add('active');
+                activeContent.classList.add('active');
+            }
+            
+            // Restore on page load (works for back button and refresh)
+            setTimeout(() => {
+                const savedElementId = localStorage.getItem('wb-footer-last-click-element');
+                const savedY = localStorage.getItem('wb-footer-last-click-y');
+                
+                console.log('🔄 CHECKING SAVED STATE:', savedElementId, 'Y:', savedY);
+                
+                if (savedElementId && savedY) {
+                    const targetElement = document.getElementById(savedElementId);
+                    const yPosition = parseInt(savedY);
+                    
+                    console.log('📍 RESTORING - Element:', targetElement, 'Y:', yPosition);
+                    
+                    // First restore scroll position
+                    window.scrollTo(0, yPosition);
+                    
+                    // Then highlight element if found
+                    if (targetElement) {
+                        targetElement.style.outline = '5px solid #ff0000';
+                        targetElement.style.backgroundColor = '#ffff00';
+                        targetElement.style.transform = 'scale(1.1)';
+                        targetElement.style.transition = 'all 0.3s';
+                        
+                        setTimeout(() => {
+                            targetElement.style.outline = '';
+                            targetElement.style.backgroundColor = '';
+                            targetElement.style.transform = '';
+                        }, 4000);
+                        
+                        console.log('✅ RESTORED:', targetElement.textContent?.trim(), 'at Y:', yPosition);
+                        logEvent('✅ RETURNED: Back to "' + targetElement.textContent?.trim() + '" at Y=' + yPosition);
+                        updateStatus('✅ Back to: ' + targetElement.textContent?.trim());
+                    } else {
+                        console.log('✅ RESTORED Y position:', yPosition);
+                        logEvent('✅ RETURNED: Back to page at Y=' + yPosition);
+                    }
+                    
+                    // Clear saved state after use (but NOT the event log)
+                    localStorage.removeItem('wb-footer-last-click-element');
+                    localStorage.removeItem('wb-footer-last-click-y');
+                } else {
+                    console.log('❌ No saved state found');
+                }
+            }, 500);
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.getAttribute('data-tab');
+                    
+                    // Save active tab to localStorage
+                    localStorage.setItem('wb-footer-demo-active-tab', targetTab);
+
+                    // Update active states
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    button.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                    
+                    // Handle footer visibility based on tab
+                    if (targetTab === 'example' && window.WBFooter) {
+                        // Create footer when switching to Example tab
+                        if (!currentFooter) {
+                            createFooter();
+                        }
+                    } else if (targetTab === 'documentation') {
+                        // Remove footer when switching to Documentation tab
+                        removeFooter();
+                    }
+                });
+            });
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = new Date().toLocaleTimeString() + ': ' + message;
+        }
+
+        function logEvent(message) {
+            // Format timestamp to fixed width (HH:MM:SS AM/PM format, padded to 11 chars)
+            const timestamp = new Date().toLocaleTimeString().padEnd(11, ' ');
+            const formattedEvent = timestamp + ': ' + message;
+            
+            eventLog.unshift(formattedEvent);
+            // NEVER clear previous events - accumulate indefinitely
+            
+            // Update display
+            document.getElementById('event-log').textContent = eventLog.join('\n');
+            
+            // Save to localStorage
+            localStorage.setItem('wb-footer-demo-event-log', JSON.stringify(eventLog));
+        }
+
+        function updateConfigDisplay() {
+            const layout = document.getElementById('layout-select').value;
+            const position = document.getElementById('position-select').value;
+            const showLogo = document.getElementById('show-logo').checked;
+            const showSocial = document.getElementById('show-social').checked;
+            const showNewsletter = document.getElementById('show-newsletter').checked;
+            const keepVisible = document.getElementById('keep-footer-visible').checked;
+
+            const config = {
+                layout: layout,
+                positioning: position,
+                showLogo: showLogo,
+                showSocial: showSocial,
+                showNewsletter: showNewsletter,
+                keepFooterVisible: keepVisible
+            };
+
+            document.getElementById('config-display').innerHTML = '<pre>' + JSON.stringify(config, null, 2) + '</pre>';
+        }
+
+        function createFooter(options = null) {
+            // Check if we're on Documentation tab - don't create footer
+            const isDocumentationTab = document.getElementById('documentation').classList.contains('active');
+            if (isDocumentationTab) {
+                return;
+            }
+            
+            // Remove existing footer
+            if (currentFooter) {
+                currentFooter.remove();
+                currentFooter = null;
+                document.body.classList.remove('footer-fixed');
+                
+                // Clear demo area
+                const demoArea = document.getElementById('footer-demo-area');
+                demoArea.innerHTML = '<p style="text-align: center; color: #666; margin: 0;">Footer will appear here when created</p>';
+            }
+
+            let layout, position, showLogo, showSocial, showNewsletter;
+
+            if (options) {
+                // Use provided options
+                layout = options.layout;
+                position = options.position;
+                showLogo = options.showLogo !== undefined ? options.showLogo : true;
+                showSocial = options.showSocial !== undefined ? options.showSocial : false;
+                showNewsletter = options.showNewsletter !== undefined ? options.showNewsletter : false;
+                
+                // Update UI controls to match (but don't change the keep-footer-visible checkbox)
+                document.getElementById('layout-select').value = layout;
+                document.getElementById('position-select').value = position;
+                document.getElementById('show-logo').checked = showLogo;
+                document.getElementById('show-social').checked = showSocial;
+                document.getElementById('show-newsletter').checked = showNewsletter;
+            } else {
+                // Use current UI settings
+                layout = document.getElementById('layout-select').value;
+                position = document.getElementById('position-select').value;
+                showLogo = document.getElementById('show-logo').checked;
+                showSocial = document.getElementById('show-social').checked;
+                showNewsletter = document.getElementById('show-newsletter').checked;
+            }
+
+            // Check if footer should be kept visible
+            const keepVisible = document.getElementById('keep-footer-visible').checked;
+            
+            // Only override position to 'bottom' when keepVisible is checked AND position is 'same-page'
+            // This allows 'expanded' position to work while still making sticky behavior work
+            const finalPosition = (keepVisible && position === 'same-page') ? 'bottom' : position;
+
+            updateStatus('Creating footer with layout: ' + layout + ', position: ' + finalPosition);
+            logEvent('Creating footer with layout: ' + layout + ', position: ' + finalPosition);
+
+            // Debug: Check if WBFooter is available
+            if (!window.WBFooter) {
+                updateStatus('ERROR: window.WBFooter not available');
+                logEvent('ERROR: window.WBFooter not available');
+                return;
+            }
+            
+            if (!window.WBFooter.create) {
+                updateStatus('ERROR: window.WBFooter.create not available');
+                logEvent('ERROR: window.WBFooter.create not available');
+                return;
+            }
+
+            // Create footer with current settings
+            try {
+                currentFooter = window.WBFooter.create({}, {
+                    layout: layout,
+                    positioning: finalPosition,
+                    showLogo: showLogo,
+                    showSocial: showSocial,
+                    showNewsletter: showNewsletter
+                });
+                
+                logEvent('WBFooter.create() returned: ' + (currentFooter ? 'success' : 'null/undefined'));
+            } catch (error) {
+                updateStatus('ERROR creating footer: ' + error.message);
+                logEvent('ERROR creating footer: ' + error.message);
+                return;
+            }
+
+            if (currentFooter) {
+                // Clear the demo area and append footer there
+                const demoArea = document.getElementById('footer-demo-area');
+                demoArea.innerHTML = '';
+                demoArea.appendChild(currentFooter);
+                
+                // Apply body padding if footer positioning requires it
+                if (finalPosition === 'bottom') {
+                    document.body.classList.add('footer-fixed');
+                    logEvent('Footer positioned at bottom with body padding');
+                } else {
+                    document.body.classList.remove('footer-fixed');
+                    logEvent('Footer positioning set to: ' + finalPosition);
+                    
+                    // Log specific behavior for expanded position
+                    if (finalPosition === 'expanded') {
+                        logEvent('Footer will break out of container width constraints');
+                    }
+                }
+                
+                updateStatus('Footer created successfully');
+                logEvent('Footer created successfully');
+                updateConfigDisplay();
+            } else {
+                updateStatus('ERROR: Failed to create footer');
+                logEvent('ERROR: Failed to create footer');
+            }
+        }
+
+        // Quick test footer creation (uses separate demo area)
+        let quickTestFooter = null;
+        function createQuickTestFooter(options = null) {
+            // Remove existing quick test footer
+            if (quickTestFooter) {
+                quickTestFooter.remove();
+                quickTestFooter = null;
+            }
+
+            let layout, position, showLogo, showSocial, showNewsletter;
+            if (options) {
+                // Use provided options
+                layout = options.layout;
+                position = options.position;
+                showLogo = options.showLogo !== undefined ? options.showLogo : true;
+                showSocial = options.showSocial !== undefined ? options.showSocial : true;
+                showNewsletter = options.showNewsletter !== undefined ? options.showNewsletter : false;
+            } else {
+                // Use default values
+                layout = 'standard';
+                position = 'same-page';
+                showLogo = true;
+                showSocial = true;
+                showNewsletter = false;
+            }
+
+            // Create footer element
+            quickTestFooter = window.WBFooter.create({}, {
+                layout: layout,
+                positioning: position,
+                showLogo: showLogo,
+                showSocial: showSocial,
+                showNewsletter: showNewsletter
+            });
+
+            if (quickTestFooter) {
+                // Clear the quick test demo area and append footer there
+                const quickTestArea = document.getElementById('quick-test-demo-area');
+                quickTestArea.innerHTML = '';
+                quickTestArea.appendChild(quickTestFooter);
+                
+                updateStatus(`Quick test footer created: ${layout} layout, ${position} position`);
+                logEvent(`Quick test footer created: ${layout} layout, ${position} position`);
+            } else {
+                updateStatus('ERROR: Failed to create quick test footer');
+                logEvent('ERROR: Failed to create quick test footer');
+            }
+        }
+
+        function removeFooter() {
+            logEvent('removeFooter() called - currentFooter: ' + (currentFooter ? 'exists' : 'null'));
+            
+            if (currentFooter) {
+                try {
+                    currentFooter.remove();
+                    currentFooter = null;
+                    document.body.classList.remove('footer-fixed');
+                    
+                    // Restore demo area placeholder
+                    const demoArea = document.getElementById('footer-demo-area');
+                    demoArea.innerHTML = '<p style="text-align: center; color: #666; margin: 0;">Footer will appear here when created</p>';
+                    
+                    updateStatus('Footer removed');
+                    logEvent('Footer removed successfully');
+                } catch (error) {
+                    updateStatus('ERROR removing footer: ' + error.message);
+                    logEvent('ERROR removing footer: ' + error.message);
+                }
+            } else {
+                updateStatus('No footer to remove');
+                logEvent('No footer to remove - currentFooter is null');
+            }
+        }
+
+        // Load and render markdown documentation using marked
+        async function loadMarkdownDocumentation() {
+            try {
+                const response = await fetch('wb-footer.md');
+                if (!response.ok) {
+                    throw new Error('Failed to load markdown file');
+                }
+                
+                const markdownText = await response.text();
+                console.log('📄 Loaded markdown text:', markdownText.substring(0, 200) + '...');
+                
+                // Wait for marked to be available
+                const waitForMarked = () => {
+                    return new Promise((resolve) => {
+                        if (window.marked && window.marked.parse) {
+                            console.log('✅ Marked library is ready');
+                            resolve();
+                        } else {
+                            console.log('⏳ Waiting for marked library...');
+                            setTimeout(() => waitForMarked().then(resolve), 100);
+                        }
+                    });
+                };
+                
+                await waitForMarked();
+                
+                // Use marked to convert markdown to HTML
+                console.log('🔄 Converting markdown to HTML...');
+                const html = marked.parse(markdownText);
+                console.log('✅ Converted HTML:', html.substring(0, 200) + '...');
+                
+                // Apply additional styling for demo consistency
+                const styledHtml = html
+                    .replace(/<pre>/g, '<div class="code-block"><pre>')
+                    .replace(/<\/pre>/g, '</pre></div>');
+                
+                // Wrap content in doc-section divs at H2 boundaries
+                const sectioned = styledHtml
+                    .split('<h2>')
+                    .map((section, index) => {
+                        if (index === 0) {
+                            return '<div class="doc-section">' + section;
+                        } else {
+                            return '</div><div class="doc-section"><h2>' + section;
+                        }
+                    })
+                    .join('') + '</div>';
+                
+                document.getElementById('markdown-content').innerHTML = sectioned;
+                logEvent('📖 Documentation loaded from wb-footer.md using marked library');
+                
+            } catch (error) {
+                console.error('Failed to load markdown documentation:', error);
+                document.getElementById('markdown-content').innerHTML = `
+                    <div class="doc-section">
+                        <h2>Documentation Error</h2>
+                        <p>Unable to load wb-footer.md file. Error: ${error.message}</p>
+                        <p>Please ensure the wb-footer.md file exists in the same directory as this demo.</p>
+                        <p>Debug info: ${error.stack}</p>
+                    </div>
+                `;
+                logEvent('❌ Failed to load documentation: ' + error.message);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initTabs();
+            loadMarkdownDocumentation();
+            
+            // Restore event log display from localStorage
+            if (eventLog.length > 0) {
+                document.getElementById('event-log').textContent = eventLog.join('\n');
+            }
+            
+            // Setup Clear Log button (should work regardless of footer state)
+            document.getElementById('clear-log').addEventListener('click', () => {
+                eventLog = [];
+                document.getElementById('event-log').textContent = 'Events will appear here...';
+                localStorage.removeItem('wb-footer-demo-event-log');
+                updateStatus('Event log cleared');
+                // Don't call logEvent after clearing - that would add an event back!
+            });
+            
+            // Setup Copy Log button
+            document.getElementById('copy-log').addEventListener('click', async () => {
+                const logContent = document.getElementById('event-log').textContent;
+                
+                try {
+                    await navigator.clipboard.writeText(logContent);
+                    
+                    // Visual feedback
+                    const copyBtn = document.getElementById('copy-log');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✓ Copied!';
+                    copyBtn.style.background = 'var(--success, #28a745)';
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.style.background = 'var(--primary, #007bff)';
+                    }, 2000);
+                    
+                    updateStatus('Event log copied to clipboard');
+                    logEvent('📋 Event log copied to clipboard');
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                    updateStatus('Failed to copy to clipboard');
+                    logEvent('❌ Failed to copy to clipboard: ' + err.message);
+                }
+            });
+            
+            // Setup global error handlers
+            window.addEventListener('error', function(e) {
+                logEvent('❌ JavaScript Error: ' + e.message + ' in ' + e.filename + ':' + e.lineno);
+            });
+            
+            window.addEventListener('unhandledrejection', function(e) {
+                logEvent('❌ Unhandled Promise Rejection: ' + e.reason);
+            });
+            
+            // Intercept fetch requests to log network errors
+            const originalFetch = window.fetch;
+            window.fetch = function(...args) {
+                return originalFetch.apply(this, args)
+                    .then(response => {
+                        if (!response.ok) {
+                            logEvent('❌ Network Error: ' + response.status + ' ' + response.statusText + ' for ' + args[0]);
+                        } else {
+                            logEvent('✅ Network Success: ' + response.status + ' for ' + args[0]);
+                        }
+                        return response;
+                    })
+                    .catch(error => {
+                        logEvent('❌ Network Failure: ' + error.message + ' for ' + args[0]);
+                        throw error;
+                    });
+            };
+            
+            // Intercept console.error to log errors
+            const originalConsoleError = console.error;
+            console.error = function(...args) {
+                logEvent('❌ Console Error: ' + args.join(' '));
+                return originalConsoleError.apply(this, args);
+            };
+            
+            // Intercept console.warn to log warnings
+            const originalConsoleWarn = console.warn;
+            console.warn = function(...args) {
+                logEvent('⚠️ Console Warning: ' + args.join(' '));
+                return originalConsoleWarn.apply(this, args);
+            };
+            
+            // Monitor resource loading errors (CSS, JS, images, etc.)
+            window.addEventListener('error', function(e) {
+                if (e.target !== window) {
+                    // Resource loading error
+                    const element = e.target;
+                    const resourceType = element.tagName.toLowerCase();
+                    const src = element.src || element.href || 'unknown';
+                    logEvent('❌ Resource Failed: ' + resourceType + ' failed to load - ' + src);
+                }
+            }, true);
+            
+            // Monitor for network connectivity issues
+            window.addEventListener('online', function() {
+                logEvent('🟢 Network: Connection restored');
+            });
+            
+            window.addEventListener('offline', function() {
+                logEvent('🔴 Network: Connection lost');
+            });
+            
+            // Check if page itself had loading issues
+            if (document.readyState === 'complete') {
+                // Page loaded successfully
+                logEvent('✅ Page: Loaded successfully');
+            } else {
+                document.addEventListener('DOMContentLoaded', function() {
+                    logEvent('✅ Page: DOM loaded successfully');
+                });
+                
+                window.addEventListener('load', function() {
+                    logEvent('✅ Page: All resources loaded successfully');
+                });
+            }
+            
+            updateStatus('Page loaded, waiting for footer component...');
+            logEvent('Page loaded, waiting for footer component...');
+            
+            // Test network error monitoring by trying to fetch a non-existent resource
+            setTimeout(() => {
+                fetch('/non-existent-test-file.json')
+                    .catch(error => {
+                        // This should be caught by our fetch interceptor above
+                    });
+            }, 2000);
+        });
+
+        document.addEventListener('wbFooterReady', function() {
+            updateStatus('Footer component ready');
+            logEvent('Footer component ready');
+            
+            // Setup quick test buttons
+            document.querySelectorAll('.test-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const layout = this.getAttribute('data-layout');
+                    const position = this.getAttribute('data-position');
+                    const social = this.getAttribute('data-social');
+                    const newsletter = this.getAttribute('data-newsletter');
+                    
+                    const options = {
+                        layout: layout,
+                        position: position,
+                        showLogo: layout !== 'simple',
+                        showSocial: social === 'true',
+                        showNewsletter: newsletter === 'true'
+                    };
+                    
+                    createQuickTestFooter(options);
+                    logEvent('Quick test: ' + this.textContent);
+                });
+            });
+            
+            // Setup manual controls
+            document.getElementById('create-footer').addEventListener('click', () => createFooter());
+            document.getElementById('remove-footer').addEventListener('click', removeFooter);
+            
+            // Setup dropdown and checkbox change handlers
+            ['layout-select', 'position-select', 'show-logo', 'show-social', 'show-newsletter', 'keep-footer-visible'].forEach(id => {
+                document.getElementById(id).addEventListener('change', function() {
+                    const isExampleTab = document.getElementById('example').classList.contains('active');
+                    if (isExampleTab) {
+                        if (id === 'keep-footer-visible') {
+                            // Special handling for sticky toggle
+                            if (this.checked) {
+                                // When enabling sticky, ensure footer exists and recreate with sticky positioning
+                                createFooter();
+                            } else {
+                                // When disabling sticky, recreate with normal positioning
+                                createFooter();
+                            }
+                        } else if (currentFooter) {
+                            createFooter(); // Recreate with new settings
+                        }
+                        updateStatus('Settings changed, footer updated');
+                        logEvent('Settings changed: ' + id);
+                    }
+                });
+            });
+
+            // Only create initial footer if on Example tab
+            if (document.getElementById('example').classList.contains('active')) {
+                createFooter();
+            }
+        });
+
+        // Simple approach: save state on EVERY click, restore on page load
+        document.addEventListener('click', function(e) {
+            const currentY = window.scrollY;
+            const elementId = e.target.id || ('element-' + Date.now());
+            
+            // Assign ID if needed
+            if (!e.target.id) {
+                e.target.id = elementId;
+            }
+            
+            // Always save to localStorage (simpler than history API)
+            localStorage.setItem('wb-footer-last-click-element', elementId);
+            localStorage.setItem('wb-footer-last-click-y', currentY.toString());
+            
+            console.log('🖱️ CLICK SAVED:', elementId, 'Y:', currentY, 'Text:', e.target.textContent?.trim());
+            
+            // If clicking test nav link, it will navigate away
+            const link = e.target.closest('a');
+            if (link && link.classList.contains('test-nav-link')) {
+                console.log('🚀 WILL NAVIGATE to:', link.href);
+                logEvent('🚀 NAVIGATING: Clicked "' + e.target.textContent?.trim() + '" - going to ' + link.href);
+            } else {
+                logEvent('🖱️ Clicked: "' + e.target.textContent?.trim() + '" at Y=' + currentY);
+            }
+        }, true);
+
+        // Handle footer link clicks (separate event listener)
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.closest('.wb-footer')) {
+                const href = link.getAttribute('href');
+                const text = link.textContent;
+                
+                // Allow anchor links within the same page
+                if (href && href.startsWith('#')) {
+                    const targetElement = document.getElementById(href.substring(1));
+                    if (targetElement) {
+                        // Allow the normal anchor behavior to scroll to the element
+                        logEvent('Footer anchor link navigated: ' + text + ' (' + href + ')');
+                        updateStatus('Navigated to section: ' + text);
+                        return; // Don't prevent default
+                    }
+                }
+                
+                // Prevent external navigation
+                e.preventDefault();
+                logEvent('Footer link prevented navigation: ' + text + ' (' + href + ')');
+                updateStatus('Demo mode: Footer link click prevented - ' + text);
+            }
+        });
+
+        // Monitor footer events
+        document.addEventListener('wbFooterLinkClick', function(e) {
+            logEvent('Footer link clicked: ' + e.detail.text);
+        });
+
+        document.addEventListener('wbFooterNewsletterSubmit', function(e) {
+            logEvent('Newsletter signup: ' + e.detail.email);
+        });
+
+        document.addEventListener('wbFooterPositionChange', function(e) {
+            logEvent('Footer position changed: ' + JSON.stringify(e.detail));
+        });
+    </script>
+</body>
+
+</html>

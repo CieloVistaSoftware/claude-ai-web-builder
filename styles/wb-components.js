@@ -5,9 +5,7 @@
 
 // Component loading queue
 const componentQueue = [
-    '../wb-btn/wb-btn.js',
-    '../wb-card/wb-card.js', 
-    '../wb-tab/wb-tab.js'
+    '../components/wb-btn/wb-btn.js'
 ];
 
 // Load scripts sequentially to handle dependencies

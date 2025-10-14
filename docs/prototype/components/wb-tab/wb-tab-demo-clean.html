@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Tab Component Demo</title>
+    
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="wb-tab.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+            line-height: 1.6;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #334155;
+        }
+        
+        .demo-header h1 {
+            color: #e2e8f0;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .demo-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Main demo tabs styling */
+        .main-demo-tabs {
+            margin: 2rem 0;
+            background: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Documentation tab content */
+        .doc-content {
+            padding: 2rem;
+        }
+        
+        .doc-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .doc-section h2 {
+            color: #e2e8f0;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #6366f1;
+            padding-bottom: 0.5rem;
+        }
+        
+        .doc-section h3 {
+            color: #a5b4fc;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background: #334155;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #6366f1;
+        }
+        
+        .feature-card h4 {
+            margin: 0 0 0.75rem 0;
+            color: #e2e8f0;
+            font-size: 1.125rem;
+        }
+        
+        .feature-card p {
+            margin: 0;
+            color: #cbd5e1;
+            font-size: 0.875rem;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        /* Examples tab content */
+        .examples-content {
+            padding: 2rem;
+        }
+        
+        .example-section {
+            background: #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .example-section h3 {
+            color: #e2e8f0;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+        }
+        
+        .demo-button.active {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+        }
+        
+        .example-tabs {
+            background: #475569;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .tab-content-example {
+            padding: 1.5rem;
+            background: #1e293b;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .demo-container {
+                padding: 1rem;
+            }
+            
+            .demo-header h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="demo-container">
+        <!-- Demo Header -->
+        <header class="demo-header">
+            <h1>🗂️ WB Tab Component</h1>
+            <p>A flexible, accessible tabbed interface component with multiple variants and keyboard navigation support.</p>
+        </header>
+        
+        <!-- Main Demo: Two-Tab Structure -->
+        <wb-tab theme="dark" variant="default" active-tab="documentation" class="main-demo-tabs">
+            <!-- Tab Headers -->
+            <wb-tab-item tab-id="documentation" icon="📖">Documentation</wb-tab-item>
+            <wb-tab-item tab-id="examples" icon="🎯">Examples</wb-tab-item>
+            
+            <!-- Documentation Tab Panel -->
+            <wb-tab-panel tab-for="documentation">
+                <div class="doc-content">
+                    <div class="doc-section">
+                        <h2>Overview</h2>
+                        <p>The wb-tab component provides a comprehensive tabbed interface solution with accessibility features, multiple visual variants, and flexible configuration options.</p>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <h4>🎨 Multiple Variants</h4>
+                                <p>Support for default, pills, underline, and card-style tabs</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>♿ Accessible</h4>
+                                <p>Full keyboard navigation and screen reader support</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>📱 Responsive</h4>
+                                <p>Horizontal and vertical orientations with mobile optimization</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>⚡ Performance</h4>
+                                <p>Lazy loading and smooth animations for optimal UX</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="doc-section">
+                        <h2>Basic Usage</h2>
+                        <div class="code-block">
+                            <pre>&lt;wb-tab theme="dark" variant="default" active-tab="tab1"&gt;
+  &lt;!-- Tab Headers --&gt;
+  &lt;wb-tab-item tab-id="tab1" icon="📖"&gt;Documentation&lt;/wb-tab-item&gt;
+  &lt;wb-tab-item tab-id="tab2" icon="🎯"&gt;Examples&lt;/wb-tab-item&gt;
+  
+  &lt;!-- Tab Panels --&gt;
+  &lt;wb-tab-panel tab-for="tab1"&gt;
+    &lt;p&gt;Documentation content here...&lt;/p&gt;
+  &lt;/wb-tab-panel&gt;
+  &lt;wb-tab-panel tab-for="tab2"&gt;
+    &lt;p&gt;Examples content here...&lt;/p&gt;
+  &lt;/wb-tab-panel&gt;
+&lt;/wb-tab&gt;</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="doc-section">
+                        <h2>Configuration</h2>
+                        <div class="code-block">
+                            <pre>Attributes:
+active-tab    - Index or ID of initially active tab
+theme         - light | dark | auto (default: auto)
+orientation   - horizontal | vertical (default: horizontal)
+variant       - default | pills | underline | card
+closable      - Allow tabs to be closed
+lazy-load     - Only render content when tab becomes active
+scrollable    - Enable horizontal scrolling for overflow
+animated      - Enable smooth transitions
+disabled      - Disable the entire component</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="doc-section">
+                        <h2>JavaScript API</h2>
+                        <div class="code-block">
+                            <pre>// Get tab element
+const tabComponent = document.querySelector('wb-tab');
+
+// Switch to a specific tab
+tabComponent.switchTo('tab-id');
+
+// Listen for tab changes
+tabComponent.addEventListener('wb-tab-change', (e) => {
+  console.log('Active tab:', e.detail.activeTab);
+  console.log('Previous tab:', e.detail.previousTab);
+});</pre>
+                        </div>
+                    </div>
+                </div>
+            </wb-tab-panel>
+            
+            <!-- Examples Tab Panel -->
+            <wb-tab-panel tab-for="examples">
+                <div class="examples-content">
+                    <div class="example-section">
+                        <h3>Variant Examples</h3>
+                        <p>Test different visual variants:</p>
+                        
+                        <div class="demo-controls">
+                            <button class="demo-button active" onclick="changeVariant('default')" id="btn-default">Default</button>
+                            <button class="demo-button" onclick="changeVariant('pills')" id="btn-pills">Pills</button>
+                            <button class="demo-button" onclick="changeVariant('underline')" id="btn-underline">Underline</button>
+                            <button class="demo-button" onclick="changeVariant('card')" id="btn-card">Card</button>
+                        </div>
+                        
+                        <div class="example-tabs">
+                            <wb-tab id="variant-example" theme="dark" variant="default" active-tab="home">
+                                <wb-tab-item tab-id="home" icon="🏠">Home</wb-tab-item>
+                                <wb-tab-item tab-id="about" icon="ℹ️">About</wb-tab-item>
+                                <wb-tab-item tab-id="contact" icon="📧">Contact</wb-tab-item>
+                                
+                                <wb-tab-panel tab-for="home">
+                                    <div class="tab-content-example">
+                                        <h4>🏠 Home Tab</h4>
+                                        <p>Welcome to the home tab! This demonstrates the tab functionality with keyboard navigation support.</p>
+                                    </div>
+                                </wb-tab-panel>
+                                
+                                <wb-tab-panel tab-for="about">
+                                    <div class="tab-content-example">
+                                        <h4>ℹ️ About Tab</h4>
+                                        <p>This tab showcases the flexibility of the wb-tab component with different visual variants.</p>
+                                    </div>
+                                </wb-tab-panel>
+                                
+                                <wb-tab-panel tab-for="contact">
+                                    <div class="tab-content-example">
+                                        <h4>📧 Contact Tab</h4>
+                                        <p>The wb-tab component integrates seamlessly with other wb- components.</p>
+                                    </div>
+                                </wb-tab-panel>
+                            </wb-tab>
+                        </div>
+                    </div>
+                    
+                    <div class="example-section">
+                        <h3>Orientation Example</h3>
+                        <p>Switch between horizontal and vertical layouts:</p>
+                        
+                        <div class="demo-controls">
+                            <button class="demo-button active" onclick="changeOrientation('horizontal')" id="btn-horizontal">Horizontal</button>
+                            <button class="demo-button" onclick="changeOrientation('vertical')" id="btn-vertical">Vertical</button>
+                        </div>
+                        
+                        <div class="example-tabs">
+                            <wb-tab id="orientation-example" theme="dark" variant="pills" orientation="horizontal" active-tab="features">
+                                <wb-tab-item tab-id="features" icon="⭐">Features</wb-tab-item>
+                                <wb-tab-item tab-id="settings" icon="⚙️">Settings</wb-tab-item>
+                                
+                                <wb-tab-panel tab-for="features">
+                                    <div class="tab-content-example">
+                                        <h4>⭐ Component Features</h4>
+                                        <ul>
+                                            <li>🎨 Multiple visual variants</li>
+                                            <li>📐 Horizontal and vertical orientations</li>
+                                            <li>🌙 Dark and light theme support</li>
+                                            <li>♿ Full accessibility support</li>
+                                        </ul>
+                                    </div>
+                                </wb-tab-panel>
+                                
+                                <wb-tab-panel tab-for="settings">
+                                    <div class="tab-content-example">
+                                        <h4>⚙️ Configuration Options</h4>
+                                        <p>Customize the tab component behavior with various attributes and settings.</p>
+                                    </div>
+                                </wb-tab-panel>
+                            </wb-tab>
+                        </div>
+                    </div>
+                </div>
+            </wb-tab-panel>
+        </wb-tab>
+    </div>
+    
+    <!-- Component Script -->
+    <script src="wb-tab.js"></script>
+    
+    <script>
+        // Demo control functions
+        function changeVariant(variant) {
+            const exampleTabs = document.getElementById('variant-example');
+            if (exampleTabs) {
+                exampleTabs.setAttribute('variant', variant);
+            }
+            
+            // Update button states
+            document.querySelectorAll('[id^="btn-"]:not([id*="horizontal"]):not([id*="vertical"])').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`btn-${variant}`).classList.add('active');
+            
+            console.log(`🎨 Changed variant to: ${variant}`);
+        }
+        
+        function changeOrientation(orientation) {
+            const orientationTabs = document.getElementById('orientation-example');
+            if (orientationTabs) {
+                orientationTabs.setAttribute('orientation', orientation);
+            }
+            
+            // Update button states
+            document.getElementById('btn-horizontal').classList.remove('active');
+            document.getElementById('btn-vertical').classList.remove('active');
+            document.getElementById(`btn-${orientation}`).classList.add('active');
+            
+            console.log(`📐 Changed orientation to: ${orientation}`);
+        }
+        
+        // Event listeners
+        document.addEventListener('wb-tab-change', (e) => {
+            console.log('🗂️ Tab changed:', {
+                activeTab: e.detail.activeTab,
+                previousTab: e.detail.previousTab,
+                component: e.target
+            });
+        });
+        
+        // Initialize demo
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🗂️ WB Tab Demo initialized');
+            
+            // Log component status
+            setTimeout(() => {
+                const tabComponents = document.querySelectorAll('wb-tab');
+                console.log(`Found ${tabComponents.length} wb-tab components`);
+            }, 100);
+        });
+    </script>
+</body>
+</html>

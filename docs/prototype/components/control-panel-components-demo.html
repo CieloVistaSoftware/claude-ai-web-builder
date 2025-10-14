@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel Components Demo - Redirecting to Working Demo</title>
+    
+    <!-- Central Styles Import -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        body {
+            font-family: var(--font-sans);
+            margin: 0;
+            padding: var(--space-lg);
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            color: var(--text-primary);
+        }
+        
+        .header h1 {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-sm);
+            color: var(--primary);
+        }
+        
+        .header p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+        }
+        
+        .component-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .component-section h2 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: var(--space-lg);
+            font-size: var(--text-2xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-2xl);
+            margin-top: var(--space-2xl);
+        }
+        
+        .component-demo {
+            padding: var(--space-lg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-tertiary);
+        }
+        
+        .component-demo h3 {
+            margin-top: 0;
+            color: var(--text-primary);
+            font-size: var(--text-base);
+            margin-bottom: var(--space-md);
+        }
+        
+        .component-placeholder {
+            min-height: 60px;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: var(--space-md) 0;
+        }
+        
+        .controls {
+            background: var(--bg-primary);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .control-group input,
+        .control-group select,
+        .control-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        .control-group input:focus,
+        .control-group select:focus,
+        .control-group textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .btn {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #64748b;
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .status.success {
+            background: #dcfce7;
+            border: 1px solid #16a34a;
+            color: #15803d;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            border: 1px solid #dc2626;
+            color: #dc2626;
+        }
+        
+        .status.info {
+            background: #dbeafe;
+            border: 1px solid #2563eb;
+            color: #1d4ed8;
+        }
+        
+        .code-preview {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        
+        .icon {
+            font-size: 1.2em;
+        }
+        
+        /* CSS Variables for theming */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4338ca;
+            --accent: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --neutral-100: #f8f9fa;
+            --neutral-200: #e9ecef;
+            --neutral-300: #dee2e6;
+            --neutral-400: #ced4da;
+            --neutral-500: #adb5bd;
+            --neutral-600: #6c757d;
+            --neutral-700: #495057;
+            --neutral-800: #343a40;
+            --neutral-900: #212529;
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+        }
+        /* Dark mode styles for redirect page */
+        :root[data-theme="dark"], 
+        html[data-theme="dark"],
+        body[data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --primary: #6366f1;
+            --border-color: #334155;
+        }
+        
+        body {
+            background: var(--bg-primary, #0f172a) !important;
+            color: var(--text-primary, #f1f5f9) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .redirect-container {
+            text-align: center;
+            max-width: 600px;
+            background: var(--bg-secondary, #1e293b);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color, #334155);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .redirect-container h1 {
+            color: var(--primary, #6366f1);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        
+        .redirect-container p {
+            color: var(--text-secondary, #94a3b8);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .redirect-btn {
+            display: inline-block;
+            background: var(--primary, #6366f1);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            margin: 10px;
+        }
+        
+        .redirect-btn:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .countdown {
+            color: var(--primary, #6366f1);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="redirect-container">
+        <h1>🎛️ Control Panel Demo</h1>
+        <p>This demo has been moved to the working control panel demo with full functionality including theme controls, color sliders, layout options, and edit mode.</p>
+        
+        <a href="wb-control-panel/wb-control-panel-demo.html" class="redirect-btn">
+            🚀 Go to Working Control Panel Demo
+        </a>
+        
+        <div class="countdown" id="countdown">
+            Redirecting in 5 seconds...
+        </div>
+    </div>
+    
+    <script>
+        // Auto-redirect to working demo after 5 seconds
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                countdownElement.textContent = `Redirecting in ${countdown} seconds...`;
+            } else {
+                countdownElement.textContent = 'Redirecting now...';
+                clearInterval(timer);
+                window.location.href = 'wb-control-panel/wb-control-panel-demo.html';
+            }
+        }, 1000);
+        
+        // Log for debugging
+        console.log('🎛️ Control Panel Components Demo - Redirecting to working demo');
+        console.log('Working demo URL: wb-control-panel/wb-control-panel-demo.html');
+    </script>
+</body>
+</html>

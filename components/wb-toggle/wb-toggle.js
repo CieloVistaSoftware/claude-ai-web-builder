@@ -1,8 +1,11 @@
+
 // WB Toggle Component - Pure Web Component
 // Toggle switch component with accessibility and theming support
-import { WBBaseComponent } from '../wb-base/wb-base.js';
+// Note: WBBaseComponent import removed to avoid ES6 module syntax errors
+// Component will check for WBBaseComponent availability at runtime
 
-class WBToggle extends WBBaseComponent {
+import { reflectPropAttr, dispatchComponentEvent } from '../component-utils.js';
+class WBToggle extends HTMLElement {
     constructor() {
         super();
         this.config = null;
@@ -10,8 +13,11 @@ class WBToggle extends WBBaseComponent {
         this._input = null;
         this._slider = null;
         this._labelElement = null;
-        
-    // ...removed WBSafeLogger.debug...
+
+        // Use utility to reflect checked, disabled, and label
+        reflectPropAttr(this, 'checked', 'checked');
+        reflectPropAttr(this, 'disabled', 'disabled');
+        reflectPropAttr(this, 'label', 'label');
     }
     
     static get observedAttributes() {
@@ -30,12 +36,7 @@ class WBToggle extends WBBaseComponent {
             this.render();
             this.setupEventListeners();
             this.setupColorResponseHandler();
-            
-            this.dispatchEvent(new CustomEvent('wbToggleReady', {
-                bubbles: true,
-                detail: { component: this, config: this.config }
-            }));
-            
+            dispatchComponentEvent(this, 'wbToggleReady', { component: this, config: this.config });
             console.log('🔘 WB Toggle: Web Component initialized successfully');
         } catch (error) {
             // ...removed WBSafeLogger.error...
@@ -218,40 +219,33 @@ class WBToggle extends WBBaseComponent {
     
     setupEventListeners() {
         if (!this._input || !this._slider) return;
-        
+
         // Input change event
         this._input.addEventListener('change', (e) => {
             this.updateCheckedState();
-            
-            // Dispatch custom event
-            const changeEvent = new CustomEvent(this.config.events.change, {
-                detail: {
-                    toggle: this,
-                    input: this._input,
-                    checked: this._input.checked,
-                    id: this._input.id
-                },
-                bubbles: true
+            dispatchComponentEvent(this, this.config.events.change, {
+                toggle: this,
+                input: this._input,
+                checked: this._input.checked,
+                id: this._input.id
             });
-            this.dispatchEvent(changeEvent);
         });
-        
+
         // Input focus/blur events
         this._input.addEventListener('focus', (e) => {
             this.classList.add(this.config.classes.states.focused);
         });
-        
         this._input.addEventListener('blur', (e) => {
             this.classList.remove(this.config.classes.states.focused);
         });
-        
+
         // Make slider clickable
         this._slider.addEventListener('click', (e) => {
             if (!this._input.disabled) {
                 this._input.click();
             }
         });
-        
+
         // Keyboard support for slider
         this._slider.addEventListener('keydown', (e) => {
             if (!this._input.disabled && (e.key === 'Enter' || e.key === ' ')) {

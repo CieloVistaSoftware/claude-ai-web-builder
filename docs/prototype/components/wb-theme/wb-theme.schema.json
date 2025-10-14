@@ -1,0 +1,148 @@
+{
+  "name": "wb-theme",
+  "version": "1.0.0",
+  "description": "Theme management component with dark/light modes and custom theme support",
+  "category": "utility",
+  "tags": ["theme", "dark-mode", "styling", "customization"],
+  "author": "WB Components",
+  "license": "MIT",
+  "dependencies": [],
+  "attributes": {
+    "default-theme": {
+      "type": "string",
+      "enum": ["dark", "light", "auto"],
+      "default": "dark",
+      "description": "Default theme to apply"
+    },
+    "storage-key": {
+      "type": "string",
+      "default": "wb-theme",
+      "description": "localStorage key for theme persistence"
+    },
+    "auto-detect": {
+      "type": "boolean",
+      "default": true,
+      "description": "Auto-detect system theme preference"
+    },
+    "transition": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable smooth transitions when switching themes"
+    },
+    "custom-themes": {
+      "type": "string",
+      "description": "JSON string of custom theme definitions"
+    }
+  },
+  "events": [
+    {
+      "name": "wb-theme-ready",
+      "description": "Fired when theme manager is initialized"
+    },
+    {
+      "name": "wb-theme-changed",
+      "description": "Fired when theme changes",
+      "detail": {
+        "oldTheme": "string",
+        "newTheme": "string",
+        "source": "string"
+      }
+    },
+    {
+      "name": "wb-theme-auto-detected",
+      "description": "Fired when system theme is auto-detected",
+      "detail": {
+        "theme": "string"
+      }
+    }
+  ],
+  "methods": [
+    {
+      "name": "setTheme",
+      "params": ["theme: string"],
+      "description": "Set the current theme"
+    },
+    {
+      "name": "getTheme",
+      "returns": "string",
+      "description": "Get the current theme"
+    },
+    {
+      "name": "toggleTheme",
+      "description": "Toggle between dark and light themes"
+    },
+    {
+      "name": "addCustomTheme",
+      "params": ["name: string", "definition: object"],
+      "description": "Add a custom theme"
+    },
+    {
+      "name": "removeCustomTheme",
+      "params": ["name: string"],
+      "description": "Remove a custom theme"
+    },
+    {
+      "name": "getAvailableThemes",
+      "returns": "array",
+      "description": "Get list of available themes"
+    },
+    {
+      "name": "resetToDefault",
+      "description": "Reset to default theme"
+    }
+  ],
+  "builtInThemes": {
+    "dark": "Dark theme with dark backgrounds",
+    "light": "Light theme with light backgrounds",
+    "auto": "Follows system preference"
+  },
+  "cssCustomProperties": {
+    "--wb-theme-transition": "color 0.3s ease, background-color 0.3s ease",
+    "--wb-theme-bg-primary": "var(--bg-primary)",
+    "--wb-theme-bg-secondary": "var(--bg-secondary)",
+    "--wb-theme-text-primary": "var(--text-primary)",
+    "--wb-theme-text-secondary": "var(--text-secondary)",
+    "--wb-theme-accent": "var(--primary)"
+  },
+  "customThemeSchema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "required": true
+      },
+      "cssVariables": {
+        "type": "object",
+        "description": "CSS custom properties to set"
+      },
+      "bodyClass": {
+        "type": "string",
+        "description": "CSS class to add to body"
+      },
+      "htmlAttributes": {
+        "type": "object",
+        "description": "Attributes to set on html element"
+      }
+    }
+  },
+  "accessibility": {
+    "features": [
+      "Respects prefers-color-scheme media query",
+      "High contrast mode detection",
+      "Focus visibility optimization per theme",
+      "Screen reader theme announcements"
+    ]
+  },
+  "examples": {
+    "basic": "<wb-theme default-theme=\"dark\"></wb-theme>",
+    "autoDetect": "<wb-theme default-theme=\"auto\" auto-detect></wb-theme>",
+    "customThemes": "<wb-theme custom-themes='[{\"name\":\"blue\",\"cssVariables\":{\"--primary\":\"#0066cc\"}}]'></wb-theme>"
+  },
+  "files": {
+    "js": "wb-theme-manager.js",
+    "css": "wb-theme-manager.css",
+    "demo": "wb-theme-demo.html",
+    "docs": "wb-theme.md",
+    "schema": "wb-theme.schema.json"
+  }
+}

@@ -1,4 +1,14 @@
 # Control Panel - Current Status & Issues
+First I want to implement a differtend control for color control in control panel its found here http://127.0.0.1:8083/tests/harmonic/harmonic-color-mixer.html
+
+This will mean updating all tests in control panel and code in color-bars or color bar using parts of the harmonic-color-mixer. Then all the control-panel.* demos must be updated too. 
+
+Once you are done will all of this work notify me via a message in the chat window. 
+
+We've spent weeks with issues in curent code and must take a new approach.
+
+Past Error Log: after putting in new color-mixer, test and make sure none of these are happening.
+
 wb-component-utils.js:13 🔧 WB Component Utils: Initializing...
 wb-component-utils.js:1002 🔧 WB Component Utils: Initialized successfully
 wb-component-utils.js:1003 🔧 Available utilities: Array(23)

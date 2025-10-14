@@ -102,7 +102,6 @@ class WBStatus extends HTMLElement {
             const configPath = window.WBComponentUtils.getPath('wb-status.js', '../components/wb-status/') + 'wb-status.schema.json';
             this.config = await window.WBComponentUtils.loadConfig(configPath, fallbackConfig, 'WB Status');
         } else {
-            console.warn('📊 WB Status: Component utils not available, using fallback config');
             this.config = fallbackConfig;
         }
         return this.config;
@@ -130,17 +129,28 @@ class WBStatus extends HTMLElement {
         console.log('📊 WB Status: Rendering status bar');
         
         // Safety check for config
-        if (!this.config || !this.config.classes) {
-            console.warn('📊 WB Status: Config not available in render, using fallback');
-            this.config = this.config || {};
-            this.config.classes = this.config.classes || {
-                container: 'wb-status-bar',
-                left: 'wb-status-left',
-                right: 'wb-status-right',
-                events: 'wb-status-events',
-                event: 'wb-status-event',
-                settings: 'wb-status-settings',
-                setting: 'wb-status-setting'
+        if (!this.config || !this.config.classes || !this.config.events) {
+            // Full fallback config (must match loadConfig)
+            this.config = {
+                classes: {
+                    base: 'wb-status',
+                    container: 'wb-status-bar',
+                    left: 'wb-status-left',
+                    right: 'wb-status-right',
+                    events: 'wb-status-events',
+                    event: 'wb-status-event',
+                    settings: 'wb-status-settings',
+                    setting: 'wb-status-setting'
+                },
+                defaults: {
+                    height: '1rem',
+                    maxEvents: 1,
+                    eventDuration: 4000,
+                    fadeDelay: 2000,
+                    queueDelay: 100,
+                    showDuplicates: false
+                },
+                events: { ready: 'wbStatusReady', eventAdded: 'wbStatusEventAdded' }
             };
         }
         

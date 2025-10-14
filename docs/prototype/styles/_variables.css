@@ -1,0 +1,521 @@
+/**
+ * Global CSS Variables - Website Builder System
+ * HARMONIC COLOR SYSTEM (HCS) - HSL-Based Color Theory Implementation
+ * Consolidated from all component files to eliminate duplication
+ * Single source of truth for design tokens using mathematical color relationships
+ */
+
+:root {
+  /* ===== HARMONIC COLOR SYSTEM (HCS) ===== */
+  
+  /* === PRIMARY COLOR FOUNDATION === */
+  /* Material Blue - Base hue for all color relationships */
+  --hue-primary: 240;
+  --saturation-primary: 70;
+  --lightness-primary: 50;
+  --primary: hsl(var(--hue-primary), var(--saturation-primary)%, var(--lightness-primary)%);
+  --primary-dark: hsl(var(--hue-primary), var(--saturation-primary)%, calc(var(--lightness-primary)% - 15%));
+  --primary-light: hsl(var(--hue-primary), calc(var(--saturation-primary)% - 20%), calc(var(--lightness-primary)% + 25%));
+  --primary-rgb: 99, 102, 241; /* Legacy fallback */
+  
+  /* === COMPLEMENTARY COLOR HARMONY === */
+  /* Accent colors calculated as complementary (180° opposite) */
+  --hue-accent: calc(var(--hue-primary) + 180); /* 60° - Orange complement to blue */
+  --saturation-accent: calc(var(--saturation-primary) - 10); /* 60% - Slightly muted for balance */
+  --lightness-accent: var(--lightness-primary); /* 50% - Same lightness for visual weight */
+  --accent: hsl(var(--hue-accent), var(--saturation-accent)%, var(--lightness-accent)%);
+  --accent-light: hsl(var(--hue-accent), calc(var(--saturation-accent)% - 15%), calc(var(--lightness-accent)% + 20%));
+  --accent-dark: hsl(var(--hue-accent), var(--saturation-accent)%, calc(var(--lightness-accent)% - 15%));
+  
+  /* === ANALOGOUS COLOR HARMONY === */
+  /* Secondary colors using analogous relationships (±30° from primary) */
+  --hue-secondary-1: calc(var(--hue-primary) - 30); /* 210° - Blue-cyan analogous */
+  --hue-secondary-2: calc(var(--hue-primary) + 30); /* 270° - Blue-purple analogous */
+  --secondary: hsl(var(--hue-secondary-1), calc(var(--saturation-primary) - 20%), calc(var(--lightness-primary) + 5%));
+  --secondary-light: hsl(var(--hue-secondary-1), calc(var(--saturation-primary) - 30%), calc(var(--lightness-primary) + 20%));
+  --secondary-dark: hsl(var(--hue-secondary-1), calc(var(--saturation-primary) - 15%), calc(var(--lightness-primary) - 15%));
+  
+  /* === SEMANTIC STATE COLORS (COLOR PSYCHOLOGY) === */
+  /* Green - Success/Growth (120°) */
+  --success-color: hsl(120, 65%, 45%);
+  --success-color-light: hsl(120, 65%, 60%);
+  --success-color-dark: hsl(120, 65%, 30%);
+  --success-color-rgb: 46, 184, 92; /* Legacy fallback */
+  
+  /* Orange - Warning/Attention (35°) */
+  --warning-color: hsl(35, 85%, 55%);
+  --warning-color-light: hsl(35, 85%, 70%);
+  --warning-color-dark: hsl(35, 85%, 40%);
+  --warning-color-rgb: 245, 158, 11; /* Legacy fallback */
+  
+  /* Red - Error/Danger (0°) */
+  --error-color: hsl(0, 75%, 55%);
+  --error-color-light: hsl(0, 75%, 70%);
+  --error-color-dark: hsl(0, 75%, 40%);
+  --error-color-rgb: 239, 107, 107; /* Legacy fallback */
+  
+  /* Blue - Info/Trust (200°) - Analogous to primary */
+  --info-color: hsl(200, 75%, 55%);
+  --info-color-light: hsl(200, 75%, 70%);
+  --info-color-dark: hsl(200, 75%, 40%);
+  --info-color-rgb: 69, 162, 207; /* Legacy fallback */
+  
+  /* === MONOCHROMATIC NEUTRAL SCALE === */
+  /* Neutral grays with slight blue tint (maintaining primary hue) */
+  --neutral-50: hsl(var(--hue-primary), 5%, 98%);   /* Near white with blue hint */
+  --neutral-100: hsl(var(--hue-primary), 10%, 95%); /* Very light gray-blue */
+  --neutral-200: hsl(var(--hue-primary), 15%, 85%); /* Light gray-blue */
+  --neutral-300: hsl(var(--hue-primary), 20%, 75%); /* Medium-light gray-blue */
+  --neutral-400: hsl(var(--hue-primary), 25%, 65%); /* Medium gray-blue */
+  --neutral-500: hsl(var(--hue-primary), 30%, 50%); /* True middle gray-blue */
+  --neutral-600: hsl(var(--hue-primary), 35%, 35%); /* Medium-dark gray-blue */
+  --neutral-700: hsl(var(--hue-primary), 40%, 25%); /* Dark gray-blue */
+  --neutral-800: hsl(var(--hue-primary), 45%, 15%); /* Very dark gray-blue */
+  --neutral-900: hsl(var(--hue-primary), 50%, 8%);  /* Near black with blue hint */
+  
+  /* === SEMANTIC BACKGROUND COLORS === */
+  /* Dark theme optimized using monochromatic neutral scale */
+  --bg-color: var(--neutral-900);        /* Near black with blue hint */
+  --bg-primary: var(--neutral-800);      /* Very dark gray-blue */
+  --bg-primary-rgb: 30, 34, 46;          /* Calculated RGB for var(--neutral-800) */
+  --bg-secondary: var(--neutral-700);    /* Dark gray-blue */
+  --bg-secondary-rgb: 51, 58, 78;        /* Calculated RGB for var(--neutral-700) */
+  --bg-tertiary: var(--neutral-600);     /* Medium-dark gray-blue */
+  
+  /* === SEMANTIC TEXT COLORS === */
+  /* High contrast text using inverted lightness scale */
+  --text-primary: var(--neutral-50);     /* Near white with blue hint */
+  --text-primary-rgb: 249, 250, 251;     /* Calculated RGB for var(--neutral-50) */
+  --text-secondary: var(--neutral-200);  /* Light gray-blue */
+  --text-secondary-rgb: 203, 213, 232;   /* Calculated RGB for var(--neutral-200) */
+  --text-tertiary: var(--neutral-300);   /* Medium-light gray-blue */
+  --text-muted: var(--neutral-400);      /* Medium gray-blue */
+  
+  /* === SEMANTIC BORDER COLORS === */
+  /* Harmonious borders using mid-range neutrals */
+  --border-color: var(--neutral-600);    /* Medium-dark gray-blue */
+  --border-light: var(--neutral-500);    /* True middle gray-blue */
+  --border-dark: var(--neutral-700);     /* Dark gray-blue */
+  
+  /* Focus Colors */
+  --focus-color: var(--primary);
+  --focus-ring: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+  --focus-ring-error: 0 0 0 3px rgba(var(--error-color-rgb), 0.1);
+  --focus-ring-success: 0 0 0 3px rgba(var(--success-color-rgb), 0.1);
+  --focus-ring-warning: 0 0 0 3px rgba(var(--warning-color-rgb), 0.1);
+  
+  /* ===== SPACING SYSTEM ===== */
+  
+  --space-xs: 0.25rem;    /* 4px */
+  --space-sm: 0.5rem;     /* 8px */
+  --space-md: 1rem;       /* 16px */
+  --space-lg: 1.5rem;     /* 24px */
+  --space-xl: 2rem;       /* 32px */
+  --space-2xl: 3rem;      /* 48px */
+  --space-3xl: 4rem;      /* 64px */
+  
+  /* ===== TYPOGRAPHY SYSTEM ===== */
+  
+  /* Font Sizes */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  
+  /* Font Weights */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  
+  /* Font Families */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", Monaco, Inconsolata, "Roboto Mono", "Courier New", monospace;
+  
+  /* ===== BORDER RADIUS SYSTEM ===== */
+  
+  --radius-none: 0;
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-base: 0.25rem;  /* 4px */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-full: 9999px;   /* Circle */
+  
+  /* ===== SHADOW SYSTEM ===== */
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* ===== TRANSITION SYSTEM ===== */
+  
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* Common Transition Properties */
+  --transition-colors: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  --transition-transform: transform 0.2s ease;
+  --transition-opacity: opacity 0.2s ease;
+  --transition-all: all 0.2s ease;
+  
+  /* ===== Z-INDEX SYSTEM ===== */
+  
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+  
+  /* ===== COMPONENT-SPECIFIC VARIABLES ===== */
+  
+  /* Button System */
+  --btn-height-sm: 2rem;
+  --btn-height-base: 2.5rem;
+  --btn-height-lg: 3rem;
+  --btn-padding-x-sm: 0.75rem;
+  --btn-padding-x-base: 1rem;
+  --btn-padding-x-lg: 1.5rem;
+  --btn-font-size-sm: var(--text-sm);
+  --btn-font-size-base: var(--text-base);
+  --btn-font-size-lg: var(--text-lg);
+  --btn-border-radius: var(--radius-md);
+  
+  /* Input System */
+  --input-height-sm: 2rem;
+  --input-height-base: 2.5rem;
+  --input-height-lg: 3rem;
+  --input-padding-x: 0.75rem;
+  --input-padding-y: 0.5rem;
+  --input-border-radius: var(--radius-md);
+  --input-border-width: 1px;
+  --input-font-size: var(--text-sm);
+  
+  /* Modal System */
+  --modal-backdrop: rgba(0, 0, 0, 0.5);
+  --modal-border-radius: var(--radius-lg);
+  --modal-padding: var(--space-lg);
+  --modal-max-width: 32rem;
+  
+  /* Control Panel System */
+  --panel-width: 320px;
+  --panel-header-height: 3.5rem;
+  --panel-border-radius: var(--radius-lg);
+  --panel-backdrop: rgba(0, 0, 0, 0.1);
+  
+  /* Toggle System */
+  --toggle-width: 3rem;
+  --toggle-height: 1.5rem;
+  --toggle-padding: 0.125rem;
+  --toggle-border-radius: var(--radius-full);
+  
+  /* Slider System */
+  --slider-height: 0.5rem;
+  --slider-thumb-size: 1.25rem;
+  --slider-track-radius: var(--radius-full);
+  --slider-thumb-radius: var(--radius-full);
+  
+  /* Select System */
+  --select-arrow-size: 0.5rem;
+  --select-option-padding: var(--space-sm) var(--space-md);
+  --select-max-height: 12rem;
+  
+  /* Color Picker System */
+  --color-picker-size: 2rem;
+  --color-picker-border-radius: var(--radius-base);
+  --color-picker-palette-size: 1.5rem;
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* Inverted lightness scale maintaining color harmony relationships */
+
+[data-theme="light"] {
+  /* === LIGHT THEME BACKGROUND COLORS === */
+  /* Inverted neutral scale for light backgrounds */
+  --bg-primary: var(--neutral-50);       /* Near white with blue hint */
+  --bg-secondary: var(--neutral-100);    /* Very light gray-blue */
+  --bg-tertiary: var(--neutral-200);     /* Light gray-blue */
+  
+  /* === LIGHT THEME TEXT COLORS === */
+  /* Inverted text colors for proper contrast on light backgrounds */
+  --text-primary: var(--neutral-800);    /* Very dark gray-blue */
+  --text-secondary: var(--neutral-600);  /* Medium-dark gray-blue */
+  --text-tertiary: var(--neutral-500);   /* True middle gray-blue */
+  --text-muted: var(--neutral-400);      /* Medium gray-blue */
+  
+  /* === LIGHT THEME BORDER COLORS === */
+  /* Subtle borders for light theme */
+  --border-color: var(--neutral-300);    /* Medium-light gray-blue */
+  --border-light: var(--neutral-200);    /* Light gray-blue */
+  --border-dark: var(--neutral-400);     /* Medium gray-blue */
+  
+  /* Override neutral scale RGB values for legacy compatibility */
+  --neutral-100-rgb: 242, 244, 247;      /* Light theme calculations */
+  --neutral-200-rgb: 226, 232, 240;
+  --neutral-300-rgb: 203, 213, 232;
+  --neutral-400-rgb: 148, 163, 184;
+  --neutral-500-rgb: 100, 116, 139;
+  --neutral-600-rgb: 71, 85, 105;
+  --neutral-700-rgb: 51, 65, 85;
+  --neutral-800-rgb: 30, 41, 59;
+  --neutral-900-rgb: 15, 23, 42;
+}
+
+/* ===== CUSTOM THEME VARIANTS ===== */
+
+[data-theme="cyberpunk"] {
+  /* === CYBERPUNK THEME === */
+  /* High contrast neon colors with dark backgrounds */
+  --primary: hsl(300, 100%, 60%);        /* Neon magenta */
+  --primary-dark: hsl(300, 100%, 45%);
+  --primary-light: hsl(300, 100%, 75%);
+  
+  --secondary: hsl(180, 100%, 50%);      /* Neon cyan */
+  --secondary-dark: hsl(180, 100%, 35%);
+  --secondary-light: hsl(180, 100%, 65%);
+  
+  --accent: hsl(60, 100%, 50%);          /* Neon yellow */
+  --accent-dark: hsl(60, 100%, 35%);
+  --accent-light: hsl(60, 100%, 65%);
+  
+  --bg-primary: hsl(260, 20%, 8%);       /* Very dark purple-black */
+  --bg-secondary: hsl(260, 15%, 12%);    /* Dark purple-gray */
+  --bg-tertiary: hsl(260, 10%, 16%);     /* Medium dark purple-gray */
+  
+  --text-primary: hsl(300, 100%, 85%);   /* Bright neon text */
+  --text-secondary: hsl(180, 80%, 70%);  /* Cyan secondary text */
+  --text-tertiary: hsl(60, 60%, 60%);    /* Yellow tertiary text */
+  
+  --border-color: hsl(300, 60%, 30%);    /* Magenta borders */
+  --success-color: hsl(120, 100%, 50%);  /* Neon green */
+  --error-color: hsl(0, 100%, 60%);      /* Neon red */
+  --warning-color: hsl(30, 100%, 60%);   /* Neon orange */
+}
+
+[data-theme="ocean"] {
+  /* === OCEAN BLUE THEME === */
+  /* Cool blues and teals inspired by ocean depths */
+  --primary: hsl(200, 85%, 55%);         /* Ocean blue */
+  --primary-dark: hsl(200, 85%, 40%);
+  --primary-light: hsl(200, 85%, 70%);
+  
+  --secondary: hsl(180, 70%, 45%);       /* Teal */
+  --secondary-dark: hsl(180, 70%, 30%);
+  --secondary-light: hsl(180, 70%, 60%);
+  
+  --accent: hsl(220, 100%, 60%);         /* Bright blue accent */
+  --accent-dark: hsl(220, 100%, 45%);
+  --accent-light: hsl(220, 100%, 75%);
+  
+  --bg-primary: hsl(210, 25%, 12%);      /* Deep ocean dark */
+  --bg-secondary: hsl(210, 20%, 16%);    /* Ocean depths */
+  --bg-tertiary: hsl(210, 15%, 20%);     /* Ocean medium */
+  
+  --text-primary: hsl(200, 30%, 85%);    /* Light ocean text */
+  --text-secondary: hsl(180, 25%, 70%);  /* Teal text */
+  --text-tertiary: hsl(200, 20%, 60%);   /* Ocean gray text */
+  
+  --border-color: hsl(200, 40%, 25%);    /* Ocean borders */
+  --success-color: hsl(160, 70%, 50%);   /* Sea green */
+  --error-color: hsl(350, 80%, 60%);     /* Coral red */
+  --warning-color: hsl(40, 90%, 60%);    /* Sandy yellow */
+}
+
+[data-theme="sunset"] {
+  /* === SUNSET ORANGE THEME === */
+  /* Warm oranges, reds, and yellows like a sunset */
+  --primary: hsl(25, 90%, 55%);          /* Sunset orange */
+  --primary-dark: hsl(25, 90%, 40%);
+  --primary-light: hsl(25, 90%, 70%);
+  
+  --secondary: hsl(10, 85%, 50%);        /* Sunset red */
+  --secondary-dark: hsl(10, 85%, 35%);
+  --secondary-light: hsl(10, 85%, 65%);
+  
+  --accent: hsl(45, 100%, 60%);          /* Golden yellow */
+  --accent-dark: hsl(45, 100%, 45%);
+  --accent-light: hsl(45, 100%, 75%);
+  
+  --bg-primary: hsl(15, 30%, 10%);       /* Dark burnt orange */
+  --bg-secondary: hsl(15, 25%, 14%);     /* Darker warm brown */
+  --bg-tertiary: hsl(15, 20%, 18%);      /* Medium warm brown */
+  
+  --text-primary: hsl(40, 40%, 85%);     /* Warm light text */
+  --text-secondary: hsl(30, 30%, 70%);   /* Warm secondary text */
+  --text-tertiary: hsl(25, 25%, 60%);    /* Warm tertiary text */
+  
+  --border-color: hsl(25, 50%, 25%);     /* Warm borders */
+  --success-color: hsl(80, 60%, 50%);    /* Warm green */
+  --error-color: hsl(0, 90%, 60%);       /* Bright red */
+  --warning-color: hsl(50, 100%, 55%);   /* Bright yellow */
+}
+
+[data-theme="forest"] {
+  /* === FOREST GREEN THEME === */
+  /* Deep greens and earth tones like a forest */
+  --primary: hsl(140, 60%, 45%);         /* Forest green */
+  --primary-dark: hsl(140, 60%, 30%);
+  --primary-light: hsl(140, 60%, 60%);
+  
+  --secondary: hsl(80, 50%, 40%);        /* Moss green */
+  --secondary-dark: hsl(80, 50%, 25%);
+  --secondary-light: hsl(80, 50%, 55%);
+  
+  --accent: hsl(30, 70%, 50%);           /* Earth brown accent */
+  --accent-dark: hsl(30, 70%, 35%);
+  --accent-light: hsl(30, 70%, 65%);
+  
+  --bg-primary: hsl(120, 20%, 8%);       /* Deep forest dark */
+  --bg-secondary: hsl(120, 15%, 12%);    /* Forest depths */
+  --bg-tertiary: hsl(120, 10%, 16%);     /* Forest medium */
+  
+  --text-primary: hsl(140, 20%, 85%);    /* Light forest text */
+  --text-secondary: hsl(120, 15%, 70%);  /* Forest secondary text */
+  --text-tertiary: hsl(100, 10%, 60%);   /* Forest tertiary text */
+  
+  --border-color: hsl(140, 30%, 20%);    /* Forest borders */
+  --success-color: hsl(120, 70%, 50%);   /* Bright green */
+  --error-color: hsl(0, 70%, 55%);       /* Forest red */
+  --warning-color: hsl(45, 80%, 55%);    /* Golden warning */
+}
+
+/* ===== HARMONIC SEMANTIC TOKENS ===== */
+/* Component-specific tokens leveraging color theory relationships */
+
+:root {
+  /* === FORM COMPONENTS === */
+  /* High contrast, accessible form styling */
+  --form-control-bg: var(--bg-primary);
+  --form-control-border: var(--border-color);
+  --form-control-text: var(--text-primary);
+  --form-control-placeholder: var(--text-secondary);
+  --form-control-focus-border: var(--primary);
+  --form-control-focus-ring: var(--focus-ring);
+  --form-control-error-border: var(--error-color);
+  --form-control-success-border: var(--success-color);
+  
+  /* === BUTTON COMPONENTS === */
+  /* Hierarchical button system using color harmonies */
+  --btn-primary-bg: var(--primary);
+  --btn-primary-text: var(--neutral-50);           /* High contrast white */
+  --btn-primary-hover: var(--primary-dark);
+  --btn-primary-active: hsl(var(--hue-primary), var(--saturation-primary)%, calc(var(--lightness-primary)% - 20%));
+  
+  --btn-secondary-bg: var(--secondary);
+  --btn-secondary-text: var(--neutral-50);
+  --btn-secondary-hover: var(--secondary-dark);
+  --btn-secondary-active: hsl(var(--hue-secondary-1), calc(var(--saturation-primary) - 15%), calc(var(--lightness-primary) - 20%));
+  
+  --btn-accent-bg: var(--accent);                  /* Complementary color for CTAs */
+  --btn-accent-text: var(--neutral-900);          /* Dark text on orange background */
+  --btn-accent-hover: var(--accent-dark);
+  --btn-accent-active: hsl(var(--hue-accent), var(--saturation-accent)%, calc(var(--lightness-accent)% - 20%));
+  
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: var(--text-primary);
+  --btn-ghost-border: var(--border-color);
+  --btn-ghost-hover: var(--bg-secondary);
+  
+  /* === STATUS COMPONENTS === */
+  /* Psychology-based semantic colors with harmony considerations */
+  --status-success-bg: var(--success-color);
+  --status-success-text: var(--neutral-50);
+  --status-success-border: var(--success-color-dark);
+  
+  --status-warning-bg: var(--warning-color);
+  --status-warning-text: var(--neutral-900);       /* Dark text on orange */
+  --status-warning-border: var(--warning-color-dark);
+  
+  --status-error-bg: var(--error-color);
+  --status-error-text: var(--neutral-50);
+  --status-error-border: var(--error-color-dark);
+  
+  --status-info-bg: var(--info-color);
+  --status-info-text: var(--neutral-50);
+  --status-info-border: var(--info-color-dark);
+  
+  /* === SURFACE COMPONENTS === */
+  /* Layered depth using monochromatic progression */
+  --surface-base: var(--bg-primary);              /* Base layer */
+  --surface-raised: var(--bg-secondary);          /* Cards, panels */
+  --surface-overlay: var(--bg-tertiary);          /* Modals, dropdowns */
+  --surface-floating: var(--neutral-600);         /* Tooltips, highest elevation */
+  
+  /* === INTERACTIVE COMPONENTS === */
+  /* Consistent interactive states across all components */
+  --interactive-hover: var(--bg-secondary);
+  --interactive-active: var(--bg-tertiary);
+  --interactive-focus: var(--primary);
+  --interactive-disabled: var(--neutral-600);
+  --interactive-disabled-text: var(--text-muted);
+  
+  /* === LINK COMPONENTS === */
+  /* Accessible link styling with color theory */
+  --link-primary: var(--primary);
+  --link-primary-hover: var(--primary-light);
+  --link-secondary: var(--accent);                /* Complementary for variety */
+  --link-secondary-hover: var(--accent-light);
+  --link-muted: var(--text-secondary);
+  --link-muted-hover: var(--text-primary);
+}
+
+/* ===== CSS CUSTOM PROPERTY FALLBACKS ===== */
+/* Ensure graceful degradation for older browsers using HSL values */
+
+:root {
+  /* Fallback values for critical properties using calculated HSL */
+  color: hsl(240, 5%, 98%);           /* --neutral-50 fallback */
+  background-color: hsl(240, 45%, 15%); /* --neutral-800 fallback */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ===== HARMONIC COLOR SYSTEM DOCUMENTATION ===== */
+/*
+HARMONIC COLOR SYSTEM (HCS) Implementation Summary:
+
+COLOR THEORY PRINCIPLES APPLIED:
+✅ HSL-based calculations for mathematical color relationships
+✅ Complementary harmony (Primary Blue ↔ Accent Orange)
+✅ Analogous harmony (Secondary colors ±30° from primary)
+✅ Monochromatic neutrals (Single hue with varying saturation/lightness)
+✅ Color psychology for semantic states (Red=Error, Green=Success, etc.)
+
+PRIMARY FOUNDATION:
+- Base: hsl(240°, 70%, 50%) - Material Blue
+- Calculations: All colors mathematically derived from this base
+
+COLOR RELATIONSHIPS:
+- Accent: hsl(60°, 60%, 50%) - Complementary orange (240° + 180°)
+- Secondary: hsl(210°, 50%, 55%) - Analogous blue-cyan (240° - 30°)
+- Neutrals: hsl(240°, 5-50%, 8-98%) - Monochromatic scale
+
+ACCESSIBILITY:
+- High contrast ratios maintained in light/dark themes
+- Consistent lightness relationships for visual hierarchy
+- Color-blind friendly semantic color choices
+
+USAGE:
+- Change --hue-primary to shift entire color scheme
+- Modify --saturation-primary to adjust color intensity
+- Adjust --lightness-primary to change overall brightness
+*/

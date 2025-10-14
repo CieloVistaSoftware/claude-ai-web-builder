@@ -175,24 +175,36 @@ class WBDemo extends HTMLElement {
     async _renderMarkdownDocIfNeeded() {
         const mdUrl = this.getAttribute('markdown');
         console.log('🎯 WB Demo: Checking markdown attribute:', mdUrl);
-        if (!mdUrl) return;
-        
-        // Find the documentation slot element
+        const docsPanel = this.shadowRoot.getElementById('docs-panel');
+        if (!docsPanel) return;
+
+        // Check for a documentation slot in the light DOM
         let docSlot = null;
-        // Try to find a direct child with slot="documentation"
         for (const node of this.children) {
             if (node.getAttribute && node.getAttribute('slot') === 'documentation') {
                 docSlot = node;
                 break;
             }
         }
-        console.log('🎯 WB Demo: Found documentation slot:', !!docSlot);
-        if (!docSlot) return;
-        // Use WBBaseComponent.renderMarkdownDoc if available, else fallback
+
+        if (docSlot && mdUrl) {
+            // Both slot and markdown attribute present: error
+            console.error('WB Demo: Don\'t use markdown attribute and slot. Only one documentation source is allowed.');
+        }
+
+        if (docSlot) {
+            // If slot is present, show its content in the docs panel
+            docsPanel.innerHTML = '';
+            docsPanel.appendChild(docSlot.cloneNode(true));
+            return;
+        }
+
+        // If no slot, but markdown is set, render markdown
+        if (!mdUrl) return;
+        docsPanel.innerHTML = '';
         if (window.WBBaseComponent && typeof window.WBBaseComponent.renderMarkdownDoc === 'function') {
-            await window.WBBaseComponent.renderMarkdownDoc(mdUrl, docSlot);
+            await window.WBBaseComponent.renderMarkdownDoc(mdUrl, docsPanel);
         } else {
-            // Fallback: load marked.js and render
             function loadMarked() {
                 if (window.marked) return Promise.resolve(window.marked);
                 return new Promise((resolve, reject) => {
@@ -211,9 +223,9 @@ class WBDemo extends HTMLElement {
                 if (!response.ok) throw new Error('Failed to load markdown: ' + mdUrl);
                 const markdown = await response.text();
                 const html = markedLib.parse(markdown);
-                docSlot.innerHTML = html;
+                docsPanel.innerHTML = html;
             } catch (error) {
-                docSlot.innerHTML = '<p>Error loading documentation: ' + error.message + '</p>';
+                docsPanel.innerHTML = '<p>Error loading documentation: ' + error.message + '</p>';
             }
         }
     }

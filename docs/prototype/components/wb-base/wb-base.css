@@ -1,0 +1,12 @@
+
+/* Only add styles unique to wb-base component here. All other styles come from main/base styles. */
+.demo-base-message {
+  background: #181c3a;
+  color: #fff;
+  font-size: 2rem;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  margin: 1rem 0;
+  text-align: center;
+  font-family: monospace;
+}

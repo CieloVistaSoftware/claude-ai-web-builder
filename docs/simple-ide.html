@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Component IDE</title>
+  <link rel="stylesheet" href="simple-ide.css">
+</head>
+<body>
+  <header class="ide-header">
+    <h1>🎨 WB Component IDE</h1>
+    <button class="mobile-menu-btn" id="menuBtn">☰</button>
+  </header>
+
+  <div class="main-content">
+    <aside class="sidebar" id="sidebar">
+      <h3>Components <span id="componentCount"></span></h3>
+      <div id="componentsList">
+        <div class="loading-state">Loading components...</div>
+      </div>
+    </aside>
+
+    <section class="editor-area">
+      <div class="editor-toolbar">
+        <button class="toolbar-btn active" id="editBtn">📝 Edit</button>
+        <button class="toolbar-btn" id="previewBtn">👁️ Preview</button>
+        <button class="toolbar-btn" id="docsBtn">📖 Documentation</button>
+      </div>
+
+      <div class="editor-container">
+        <div class="editor-panel active" id="editPanel">
+          <textarea class="html-editor" id="htmlEditor"><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Web Component Project</title>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Web Components</h1>
+  </header>
+  
+  <nav>
+    <!-- Navigation will go here -->
+  </nav>
+  
+  <main>
+    <p>Double-click a component to insert it here!</p>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 My Project</p>
+  </footer>
+</body>
+</html></textarea>
+        </div>
+
+        <div class="editor-panel" id="previewPanel">
+          <iframe class="preview-frame" id="previewFrame"></iframe>
+        </div>
+
+        <div class="editor-panel" id="docsPanel">
+          <div class="docs-viewer" id="docsViewer">
+            <h1>Component Documentation</h1>
+            <p>Single-click a component to view its documentation here.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <span id="statusText">Loading components...</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="insert-hint" id="insertHint">
+    ✨ Component inserted! Switch to Preview to see it.
+  </div>
+
+  <script src="simple-ide.js"></script>
+</body>
+</html>

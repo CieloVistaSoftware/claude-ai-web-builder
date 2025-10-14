@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Inject Test - Demo</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="wb-inject-test-demo.css">
+</head>
+<body>
+
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🧪 WB Inject Test Component Demo</h1>
+            <p>Runtime JavaScript injection and testing tool for DOM elements</p>
+        </div>
+
+        <div class="demo-grid">
+            <!-- Test Elements Section -->
+            <div class="demo-section">
+                <h2>Test Elements</h2>
+                <p class="demo-description">These are example elements you can test on</p>
+
+                <div class="test-item">
+                    <label>Button:</label>
+                    <button id="test-button">Click Me</button>
+                </div>
+
+                <div class="test-item">
+                    <label>Input:</label>
+                    <input type="text" id="test-input" placeholder="Type something...">
+                </div>
+
+                <div class="test-item">
+                    <label>List:</label>
+                    <ul id="test-list">
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                    </ul>
+                </div>
+
+                <div class="test-item">
+                    <label>Div with Data:</label>
+                    <div id="test-div" data-value="42" data-name="test">
+                        <span>Content inside div</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inject Test Component -->
+            <div class="demo-section">
+                <h2>JavaScript Injector</h2>
+                <wb-inject-test></wb-inject-test>
+            </div>
+        </div>
+
+        <!-- Example Tests Section -->
+        <div class="demo-section example-section">
+            <h2>📚 Example Test Scripts</h2>
+            <p class="demo-description">Click to copy and paste into the code editor above</p>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h3>Inspect Element Properties</h3>
+                    <pre>console.log('Tag:', element.tagName);
+console.log('ID:', element.id);
+console.log('Classes:', element.className);
+console.log('Children:', element.children.length);</pre>
+                </div>
+
+                <div class="example-card">
+                    <h3>Modify Element Style</h3>
+                    <pre>element.style.background = '#10b981';
+element.style.color = 'white';
+element.style.padding = '1rem';
+console.log('Styled!', element);</pre>
+                </div>
+
+                <div class="example-card">
+                    <h3>Add Event Listener</h3>
+                    <pre>element.addEventListener('click', () => {
+    console.log('Element clicked!');
+    alert('Test click event!');
+});
+console.log('Event listener added');</pre>
+                </div>
+
+                <div class="example-card">
+                    <h3>Get Element Dimensions</h3>
+                    <pre>const rect = element.getBoundingClientRect();
+console.log('Width:', rect.width);
+console.log('Height:', rect.height);
+console.log('Position:', {x: rect.x, y: rect.y});</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load components -->
+    <script src="../../utils/wb/wb-component-utils.js"></script>
+    <script src="../wb-event-log/wb-event-log.js"></script>
+    <link rel="stylesheet" href="../wb-event-log/wb-event-log.css">
+    <script src="../wb-resize/wb-resize.js"></script>
+    <link rel="stylesheet" href="../wb-resize/wb-resize.css">
+    <script src="wb-inject-test.js"></script>
+
+    <script>
+        // Add some interactivity to test elements
+        document.getElementById('test-button').addEventListener('click', function() {
+            console.log('Test button clicked!');
+            this.textContent = this.textContent === 'Click Me' ? 'Clicked!' : 'Click Me';
+        });
+    </script>
+</body>
+</html>

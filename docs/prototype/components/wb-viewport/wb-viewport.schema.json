@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Viewport Web Component",
+  "description": "Schema for wb-viewport custom element attributes",
+  "type": "object",
+  "properties": {
+    "viewport": {
+      "type": "string",
+      "enum": ["auto", "mobile", "tablet", "desktop", "wide"],
+      "default": "auto",
+      "description": "Current viewport size setting"
+    },
+    "width": {
+      "type": "number",
+      "description": "Custom width in pixels (for custom viewports)"
+    },
+    "show-controls": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show viewport control buttons"
+    },
+    "position": {
+      "type": "string",
+      "enum": ["top", "bottom", "left", "right"],
+      "default": "top",
+      "description": "Position of viewport controls"
+    },
+    "overlay": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show viewport overlay indicator"
+    },
+    "transition-duration": {
+      "type": "string",
+      "default": "0.3s",
+      "description": "Duration of viewport transition animations"
+    },
+    "custom-viewports": {
+      "type": "string",
+      "description": "JSON string containing custom viewport definitions",
+      "examples": [
+        "[{\"name\":\"custom\",\"width\":1400,\"icon\":\"💻\",\"color\":\"#3b82f6\"}]"
+      ]
+    },
+    "label": {
+      "type": "string",
+      "description": "Label text for the viewport simulator"
+    },
+    "help": {
+      "type": "string",
+      "description": "Help text describing viewport functionality"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the viewport controls are disabled"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the viewport"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for the viewport"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "title": {
+      "type": "string",
+      "description": "Tooltip text shown on hover"
+    },
+    "onchange": {
+      "type": "string",
+      "description": "JavaScript code to execute when viewport changes"
+    },
+    "onreset": {
+      "type": "string",
+      "description": "JavaScript code to execute when viewport is reset"
+    },
+    "onwb-viewport:change": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-viewport:change event"
+    },
+    "onwb-viewport:reset": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-viewport:reset event"
+    },
+    "onwb-viewport:ready": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-viewport:ready event"
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this viewport"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this viewport"
+    },
+    "aria-live": {
+      "type": "string",
+      "enum": ["off", "polite", "assertive"],
+      "default": "polite",
+      "description": "How screen readers announce viewport changes"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["region", "toolbar", "group"],
+      "default": "region",
+      "description": "ARIA role for the viewport component"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    }
+  }
+}

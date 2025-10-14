@@ -123,7 +123,7 @@
          * @param {number} timeout - Timeout in milliseconds
          * @returns {Promise} Component instance
          */
-        waitForComponent(name, timeout = 10000) {
+        waitForComponent(name, timeout = 2000) {
             return new Promise((resolve, reject) => {
                 const timeoutId = setTimeout(() => {
                     reject(new Error(`Timeout waiting for component: ${name}`));

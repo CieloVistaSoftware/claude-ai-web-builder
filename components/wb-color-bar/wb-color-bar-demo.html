@@ -168,41 +168,61 @@
         
         <!-- Tab Navigation -->
         <div class="tabs">
-            <button class="tab active" onclick="showTab('examples')">🎨 Examples</button>
-            <button class="tab" onclick="showTab('documentation')">📚 Documentation</button>
+            <button class="tab active" onclick="showTab('documentation')">📚 Documentation</button>
+            <button class="tab" onclick="showTab('examples')">🎨 Examples</button>
         </div>
         
+        <!-- Documentation Tab -->
+        <div class="tab-content active" id="documentation-tab">
+            <div class="demo-section">
+                <h3>📚 Documentation</h3>
+                <p>Complete documentation for the Color Bar Web Component.</p>
+                <div class="output documentation-output">
+                    <strong>Note:</strong> Full documentation is available in <code>README.md</code>
+                    <h4>Quick Reference:</h4>
+                    <strong>Basic Usage:</strong>
+                    &lt;wb-color-bar hue="240" saturation="70" lightness="50"&gt;&lt;/wb-color-bar&gt;
+                    <strong>Events:</strong>
+                    • colorchange - Fires during color selection
+                    • colorselect - Fires when selection is complete
+                    • wb:color-harmony-change - Fires with a full harmony palette
+                    <strong>Properties:</strong>
+                    • hue (0-360) - Color hue in degrees
+                    • saturation (0-100) - Color saturation percentage  
+                    • lightness (0-100) - Color lightness percentage
+                    • theme - 'light' or 'dark' theme
+                    <strong>Keyboard Controls:</strong>
+                    • Arrow keys - Adjust hue by 1° (Shift+arrow for 10°)
+                    • Home/End - Jump to red (0°/360°)
+                    <strong>API Methods:</strong>
+                    • setColor(hue, saturation, lightness)
+                    • color property - Get current color data
+                </div>
+            </div>
+        </div>
         <!-- Examples Tab -->
-        <div class="tab-content active" id="examples-tab">
+        <div class="tab-content" id="examples-tab">
+            <!-- Harmony Palette Visualization -->
+            <div class="demo-section">
+                <h3>Harmony Palette Visualization</h3>
+                <p>Live palette generated from the current color bar:</p>
+                <wb-color-harmony id="harmony-visual"></wb-color-harmony>
+            </div>
             <!-- Hue Color Bar -->
             <div class="demo-section">
                 <h3>Hue Color Bar</h3>
                 <p>Color spectrum bar for hue selection:</p>
-                <p><strong>Keyboard Controls:</strong> Click on the color bar to focus it, then use:</p>
-                <ul>
-                    <li><strong>Arrow Keys</strong> - Adjust hue by 1° (hold <kbd>Shift</kbd> for 10°)
-                        <ul>
-                            <li><kbd>←</kbd> / <kbd>↓</kbd> - Decrease hue</li>
-                            <li><kbd>→</kbd> / <kbd>↑</kbd> - Increase hue</li>
-                        </ul>
-                    </li>
-                    <li><kbd>Home</kbd> - Jump to red (0°)</li>
-                    <li><kbd>End</kbd> - Jump to red (360°)</li>
-                </ul>
                 <wb-color-bar id="hue-color-bar" type="hue" hue="240" saturation="70" lightness="50" theme="dark">
                     <span slot="label">Hue Spectrum</span>
                 </wb-color-bar>
             </div>
-            
             <!-- Saturation Grayscale Bar -->
             <div class="demo-section">
                 <h3>Saturation Grayscale Bar</h3>
                 <p>Grayscale bar for saturation selection (from gray to full color):</p>
-                                <wb-color-bar id="saturation-bar" type="saturation" hue="240" saturation="70" lightness="50" value="70" theme="dark">
-                    <!-- Fallback content -->
+                <wb-color-bar id="saturation-bar" type="saturation" hue="240" saturation="70" lightness="50" value="70" theme="dark">
                 </wb-color-bar>
             </div>
-            
             <!-- Lightness Grayscale Bar -->
             <div class="demo-section">
                 <h3>Lightness Grayscale Bar</h3>
@@ -211,86 +231,43 @@
                     <span slot="label">Lightness</span>
                 </wb-color-bar>
             </div>
-            
             <!-- Global Page Event Log -->
             <div class="demo-section">
                 <h3>Global Page Event Log</h3>
                 <p>All events from all color bars on this page are logged below:</p>
-                
                 <h4>Page-Wide Event Log</h4>
                 <div class="output" id="global-event-log">All page events will appear here...</div>
                 <button onclick="clearEventLog()" style="margin-top: 10px; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">Clear Log</button>
             </div>
-            
             <!-- Code Examples -->
             <div class="demo-section">
                 <h3>💻 Code Examples</h3>
                 <p>Here's the HTML code used to create the color bars on this page:</p>
-                
                 <h4>Basic Hue Color Bar</h4>
                 <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">&lt;wb-color-bar id="hue-color-bar" type="hue" hue="240" saturation="70" lightness="50" theme="dark"&gt;
     &lt;span slot="label"&gt;Hue Spectrum&lt;/span&gt;
 &lt;/wb-color-bar&gt;</pre>
-                
                 <h4>Saturation Color Bar</h4>
                 <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">&lt;wb-color-bar id="saturation-bar" type="saturation" hue="240" saturation="70" lightness="50" value="70" theme="dark"&gt;
     &lt;!-- Fallback content --&gt;
 &lt;/wb-color-bar&gt;</pre>
-                
                 <h4>Lightness Color Bar</h4>
                 <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">&lt;wb-color-bar id="lightness-bar" type="lightness" hue="240" saturation="70" lightness="50" value="50" theme="dark"&gt;
     &lt;span slot="label"&gt;Lightness&lt;/span&gt;
 &lt;/wb-color-bar&gt;</pre>
-                
                 <h4>Event Listeners (JavaScript)</h4>
                 <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">// Listen for color changes
 document.getElementById('hue-color-bar').addEventListener('colorchange', (e) => {
     console.log('Color changed:', e.detail.hex);
     console.log('HSL values:', e.detail.hue, e.detail.saturation, e.detail.lightness);
 });
-
 // Listen for color selection complete
 document.getElementById('hue-color-bar').addEventListener('colorselect', (e) => {
     console.log('Color selected:', e.detail.hex);
 });</pre>
-                
                 <h4>Component Import</h4>
                 <pre class="output" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg-secondary); padding: 15px; border-radius: var(--radius-base); overflow-x: auto;">&lt;!-- Load the color bar component --&gt;
 &lt;script src="wb-color-bar.js"&gt;&lt;/script&gt;</pre>
-            </div>
-        </div>
-        
-        <!-- Documentation Tab -->
-        <div class="tab-content" id="documentation-tab">
-            <div class="demo-section">
-                <h3>📚 Documentation</h3>
-                <p>Complete documentation for the Color Bar Web Component.</p>
-                <div class="output documentation-output">
-                    <strong>Note:</strong> Full documentation is available in <code>color-bar.md</code>
-                    
-                    <h4>Quick Reference:</h4>
-                    
-                    <strong>Basic Usage:</strong>
-                    &lt;wb-color-bar hue="240" saturation="70" lightness="50"&gt;&lt;/wb-color-bar&gt;
-                    
-                    <strong>Events:</strong>
-                    • colorchange - Fires during color selection
-                    • colorselect - Fires when selection is complete
-                    
-                    <strong>Properties:</strong>
-                    • hue (0-360) - Color hue in degrees
-                    • saturation (0-100) - Color saturation percentage  
-                    • lightness (0-100) - Color lightness percentage
-                    • theme - 'light' or 'dark' theme
-                    
-                    <strong>Keyboard Controls:</strong>
-                    • Arrow keys - Adjust hue by 1° (Shift+arrow for 10°)
-                    • Home/End - Jump to red (0°/360°)
-                    
-                    <strong>API Methods:</strong>
-                    • setColor(hue, saturation, lightness)
-                    • color property - Get current color data
-                </div>
             </div>
         </div>
     </div>
@@ -298,17 +275,14 @@ document.getElementById('hue-color-bar').addEventListener('colorselect', (e) => 
     <!-- Load components -->
     <script src="../../styles/main.js"></script>
     <script src="wb-color-bar-bundle.js"></script>
-    
+    <script src="../wb-color-harmony/wb-color-harmony.js"></script>
     <script>
         let currentTheme = 'dark';
-        
         // Global page event logging - captures ALL events from ALL color bars
         function logEvent(eventType, event, elementId) {
             const logDiv = document.getElementById('global-event-log');
             const timestamp = new Date().toLocaleTimeString();
-            
             let logEntry = `${timestamp} [${elementId}] ${eventType}: `;
-            
             if (event.detail) {
                 if (event.detail.hex) {
                     logEntry += `Color: ${event.detail.hex}`;
@@ -325,45 +299,46 @@ document.getElementById('hue-color-bar').addEventListener('colorselect', (e) => 
                 if (event.detail.value !== undefined) {
                     logEntry += ` Value:${event.detail.value}%`;
                 }
+                if (event.detail.palette) {
+                    logEntry += `\nPalette: ` + JSON.stringify(event.detail.palette);
+                }
             }
-            
             const isSelect = eventType === 'colorselect';
             const logHtml = isSelect ? `<strong>${logEntry}</strong>` : logEntry;
-            
             logDiv.innerHTML = logHtml + '<br>' + logDiv.innerHTML;
-            
             // Keep only last 50 entries to prevent memory issues
             const lines = logDiv.innerHTML.split('<br>');
             if (lines.length > 50) {
                 logDiv.innerHTML = lines.slice(0, 50).join('<br>');
             }
         }
-        
         // Function to clear the event log
         function clearEventLog() {
             document.getElementById('global-event-log').innerHTML = 'Event log cleared...';
         }
-        
         // Add global event listeners to all color bars on the page
         function setupGlobalEventLogging() {
             document.querySelectorAll('wb-color-bar').forEach(colorBar => {
                 const elementId = colorBar.id || 'unnamed-color-bar';
-                
                 colorBar.addEventListener('colorchange', (e) => {
                     logEvent('colorchange', e, elementId);
                 });
-                
                 colorBar.addEventListener('colorselect', (e) => {
                     logEvent('colorselect', e, elementId);
                 });
-                
                 // Also log any other custom events
                 colorBar.addEventListener('wb:info', (e) => {
                     logEvent('wb:info', e, elementId);
                 });
+                // Listen for harmony palette events and update the visualizer
+                colorBar.addEventListener('wb:color-harmony-change', (e) => {
+                    if (e.detail && e.detail.palette) {
+                        document.getElementById('harmony-visual').palette = e.detail.palette;
+                        logEvent('wb:color-harmony-change', e, elementId);
+                    }
+                });
             });
         }
-        
         // Tab switching
         function showTab(tabName) {
             // Hide all tab contents
@@ -371,52 +346,42 @@ document.getElementById('hue-color-bar').addEventListener('colorselect', (e) => 
                 tab.classList.remove('active');
                 tab.style.display = 'none';
             });
-            
             // Remove active class from all tab buttons
             document.querySelectorAll('.tab').forEach(button => {
                 button.classList.remove('active');
             });
-            
             // Show selected tab content
             const targetTab = document.getElementById(tabName + '-tab');
             if (targetTab) {
                 targetTab.classList.add('active');
                 targetTab.style.display = 'block';
             }
-            
             // Add active class to clicked button
             event.target.classList.add('active');
         }
-        
         // Theme toggle
         function toggleTheme() {
             document.body.classList.toggle('light');
             const isLight = document.body.classList.contains('light');
             currentTheme = isLight ? 'light' : 'dark';
-            
             // Update theme toggle button
             const button = document.querySelector('.theme-toggle');
             button.textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
-            
             // Update all color bars
             document.querySelectorAll('wb-color-bar').forEach(colorBar => {
                 colorBar.setAttribute('theme', currentTheme);
             });
-            
             // Update md-to-html
             document.querySelectorAll('md-to-html').forEach(mdElement => {
                 mdElement.setAttribute('theme', currentTheme);
             });
         }
-        
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             // Setup global event logging for all color bars
             setupGlobalEventLogging();
-            
             // Log initialization
             document.getElementById('global-event-log').innerHTML = 'Demo initialized - all color bar events will be logged here...';
-            
             document.dispatchEvent(new CustomEvent('wb:info', {
                 detail: { 
                     message: 'Color Bar Demo: Components loaded and ready',

@@ -14,6 +14,25 @@ import {
   setupExceptionHandling,
   createTimeoutLoopDetector 
 } from '../universal-loop-detection.js';
+import { spawn } from 'child_process';
+
+let serverProcess: any;
+
+test.beforeAll(async () => {
+  // Start static server for test HTML/demo files
+  serverProcess = spawn('npx', ['serve', '-l', '8081', '../../'], {
+    stdio: 'inherit',
+    shell: true
+  });
+  // Wait for server to be ready
+  await new Promise(res => setTimeout(res, 3000));
+});
+
+test.afterAll(async () => {
+  if (serverProcess) {
+    serverProcess.kill();
+  }
+});
 
 test.describe('Control Panel Universal Testing', () => {
   

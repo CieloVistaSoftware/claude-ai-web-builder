@@ -1,0 +1,251 @@
+/* ===== WB TOGGLE COMPONENT ===== */
+/* Toggle switch component with accessibility and theming */
+
+:root {
+    --wb-toggle-width: 3rem;
+    --wb-toggle-height: 1.5rem;
+    --wb-toggle-thumb-size: 1.25rem;
+    --wb-toggle-border-radius: 1rem;
+    --wb-toggle-transition: all 0.2s ease;
+    --wb-toggle-gap: 0.5rem;
+}
+
+/* Toggle Wrapper */
+.wb-toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wb-toggle-gap);
+    cursor: pointer;
+    user-select: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.wb-toggle-wrapper:hover .wb-toggle-slider {
+    background-color: var(--neutral-600, #475569);
+}
+
+.wb-toggle-wrapper:hover .wb-toggle--checked .wb-toggle-slider {
+    background-color: var(--primary-dark, #4338ca);
+}
+
+/* Hidden Input */
+.wb-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Toggle Slider Track */
+.wb-toggle-slider {
+    position: relative;
+    width: var(--wb-toggle-width);
+    height: var(--wb-toggle-height);
+    background-color: var(--neutral-700, #334155);
+    border: 2px solid var(--neutral-600, #475569);
+    border-radius: var(--wb-toggle-border-radius);
+    transition: var(--wb-toggle-transition);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* Toggle Thumb */
+.wb-toggle-thumb {
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    width: var(--wb-toggle-thumb-size);
+    height: var(--wb-toggle-thumb-size);
+    background-color: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    transition: var(--wb-toggle-transition);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Checked State */
+.wb-toggle--checked .wb-toggle-slider {
+    background-color: var(--primary, #6366f1);
+    border-color: var(--primary, #6366f1);
+}
+
+.wb-toggle--checked .wb-toggle-thumb {
+    left: calc(100% - var(--wb-toggle-thumb-size) - 2px);
+}
+
+/* Focus State */
+.wb-toggle-input:focus + .wb-toggle-slider {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 2px;
+}
+
+.wb-toggle-input:focus-visible + .wb-toggle-slider {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 2px;
+}
+
+/* Disabled State */
+.wb-toggle--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.wb-toggle--disabled .wb-toggle-slider {
+    cursor: not-allowed;
+    background-color: var(--neutral-600, #475569);
+}
+
+.wb-toggle--disabled .wb-toggle-thumb {
+    background-color: var(--neutral-300, #cbd5e1);
+}
+
+/* Loading State */
+.wb-toggle--loading .wb-toggle-thumb {
+    animation: wb-toggle-pulse 1s infinite;
+}
+
+@keyframes wb-toggle-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Toggle Label */
+.wb-toggle-label {
+    color: var(--text-primary, #1e293b);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+    cursor: pointer;
+}
+
+.wb-toggle--disabled .wb-toggle-label {
+    color: var(--text-secondary, #64748b);
+    cursor: not-allowed;
+}
+
+/* Label Positions */
+.wb-toggle--label-left {
+    flex-direction: row-reverse;
+}
+
+.wb-toggle--label-right {
+    flex-direction: row;
+}
+
+.wb-toggle--label-top {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+}
+
+.wb-toggle--label-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Sizes */
+.wb-toggle--small {
+    --wb-toggle-width: 2.5rem;
+    --wb-toggle-height: 1.25rem;
+    --wb-toggle-thumb-size: 1rem;
+    --wb-toggle-gap: 0.375rem;
+}
+
+.wb-toggle--small .wb-toggle-label {
+    font-size: 0.75rem;
+}
+
+.wb-toggle--large {
+    --wb-toggle-width: 3.5rem;
+    --wb-toggle-height: 1.75rem;
+    --wb-toggle-thumb-size: 1.5rem;
+    --wb-toggle-gap: 0.625rem;
+}
+
+.wb-toggle--large .wb-toggle-label {
+    font-size: 1rem;
+}
+
+/* Variants */
+.wb-toggle--success.wb-toggle--checked .wb-toggle-slider {
+    background-color: var(--accent, #10b981);
+    border-color: var(--accent, #10b981);
+}
+
+.wb-toggle--success:hover .wb-toggle--checked .wb-toggle-slider {
+    background-color: #059669;
+}
+
+.wb-toggle--warning.wb-toggle--checked .wb-toggle-slider {
+    background-color: #f59e0b;
+    border-color: #f59e0b;
+}
+
+.wb-toggle--warning:hover .wb-toggle--checked .wb-toggle-slider {
+    background-color: #d97706;
+}
+
+.wb-toggle--error.wb-toggle--checked .wb-toggle-slider {
+    background-color: #ef4444;
+    border-color: #ef4444;
+}
+
+.wb-toggle--error:hover .wb-toggle--checked .wb-toggle-slider {
+    background-color: #dc2626;
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] .wb-toggle-label {
+    color: var(--neutral-100, #f1f5f9);
+}
+
+[data-theme="dark"] .wb-toggle--disabled .wb-toggle-label {
+    color: var(--neutral-500, #64748b);
+}
+
+[data-theme="dark"] .wb-toggle-slider {
+    background-color: var(--neutral-600, #475569);
+    border-color: var(--neutral-500, #64748b);
+}
+
+[data-theme="dark"] .wb-toggle--disabled .wb-toggle-slider {
+    background-color: var(--neutral-700, #334155);
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .wb-toggle-slider {
+        border-width: 3px;
+    }
+    
+    .wb-toggle-thumb {
+        border: 2px solid var(--neutral-900, #0f172a);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .wb-toggle-slider,
+    .wb-toggle-thumb {
+        transition: none;
+    }
+}
+
+/* Custom Element Support */
+wb-toggle {
+    display: inline-block;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .wb-toggle--label-top,
+    .wb-toggle--label-bottom {
+        width: 100%;
+    }
+    
+    .wb-toggle--label-top .wb-toggle-label,
+    .wb-toggle--label-bottom .wb-toggle-label {
+        width: 100%;
+    }
+}

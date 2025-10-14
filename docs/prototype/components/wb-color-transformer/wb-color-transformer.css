@@ -1,0 +1,63 @@
+/* WB Color Transformer Component Styles */
+
+/* Component is hidden - it's just a controller */
+wb-color-transformer {
+    display: none !important;
+}
+
+/* Debug mode styles */
+wb-color-transformer[debug="true"] {
+    display: block !important;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background: var(--bg-secondary, #ffffff);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 12px;
+    z-index: 99999;
+    max-width: 250px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+wb-color-transformer[debug="true"]::before {
+    content: "🎨 Color Transformer";
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-primary, #1e293b);
+}
+
+wb-color-transformer[debug="true"]::after {
+    content: "Hue Shift: " attr(hue-shift) "°";
+    display: block;
+    color: var(--text-secondary, #64748b);
+    font-family: monospace;
+}
+
+/* WordPress environment indicator */
+wb-color-transformer[debug="true"][data-wordpress="true"]::after {
+    content: "WordPress: ✓ | Hue: " attr(hue-shift) "°";
+}
+
+/* Visual color preview in debug mode */
+wb-color-transformer[debug="true"] .color-preview {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+wb-color-transformer[debug="true"] .color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    border: 1px solid var(--border-color, #e2e8f0);
+    cursor: help;
+    transition: transform 0.2s;
+}
+
+wb-color-transformer[debug="true"] .color-swatch:hover {
+    transform: scale(1.2);
+}

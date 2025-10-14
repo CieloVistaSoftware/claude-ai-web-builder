@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Inject Test Component",
+  "description": "Runtime JavaScript injection and testing component for DOM elements",
+  "type": "object",
+  "properties": {
+    "target": {
+      "type": "string",
+      "description": "CSS selector for the target element to inject code into",
+      "default": "#element-id"
+    }
+  },
+  "attributes": [
+    {
+      "name": "target",
+      "type": "string",
+      "description": "CSS selector for the target element",
+      "default": "#element-id"
+    }
+  ],
+  "events": [
+    {
+      "name": "wb:inject-test:ready",
+      "description": "Fired when component is initialized and ready",
+      "detail": {}
+    },
+    {
+      "name": "wb:inject-test:executed",
+      "description": "Fired when test code is successfully executed",
+      "detail": {
+        "code": "string",
+        "result": "any",
+        "logs": "array"
+      }
+    },
+    {
+      "name": "wb:inject-test:error",
+      "description": "Fired when test execution fails",
+      "detail": {
+        "code": "string",
+        "error": "string"
+      }
+    }
+  ],
+  "methods": [
+    {
+      "name": "selectTarget",
+      "description": "Select a target element using CSS selector",
+      "parameters": [],
+      "returns": "void"
+    },
+    {
+      "name": "runTest",
+      "description": "Execute the JavaScript code on the target element",
+      "parameters": [],
+      "returns": "void"
+    },
+    {
+      "name": "clear",
+      "description": "Clear the code editor and results",
+      "parameters": [],
+      "returns": "void"
+    },
+    {
+      "name": "copyCode",
+      "description": "Copy the current code to clipboard",
+      "parameters": [],
+      "returns": "void"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "code": "<wb-inject-test target=\"#my-element\"></wb-inject-test>"
+    },
+    {
+      "title": "With Event Listener",
+      "code": "<wb-inject-test target=\".my-class\"></wb-inject-test>\n<script>\n  document.querySelector('wb-inject-test').addEventListener('wb:inject-test:executed', (e) => {\n    console.log('Test executed:', e.detail);\n  });\n</script>"
+    }
+  ]
+}

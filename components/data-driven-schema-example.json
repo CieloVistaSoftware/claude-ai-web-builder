@@ -1,0 +1,35 @@
+{
+  "name": "wb-card",
+  "template": {
+    "structure": [
+      {
+        "tag": "div",
+        "attributes": { "class": "wb-card" },
+        "children": [
+          { "tag": "h3", "content": "{{title}}" },
+          { "tag": "h4", "content": "{{subtitle}}", "if": "subtitle" },
+          { "tag": "img", "attributes": { "src": "{{image}}", "alt": "Card image" }, "if": "image" },
+          { "tag": "p", "content": "{{content}}" },
+          { "tag": "ul", "children": [
+            { "tag": "li", "content": "{{tag}}", "for": "tags" }
+          ], "if": "tags" },
+          { "tag": "div", "attributes": { "class": "actions" }, "children": [
+            { "tag": "button", "content": "{{actionLabel}}", "for": "actions", "attributes": { "data-action": "{{actionId}}", "class": "btn btn-{{actionVariant}}" } }
+          ], "if": "actions" }
+        ]
+      }
+    ]
+  },
+  "defaults": {
+    "title": "Dynamic Card Title",
+    "subtitle": "Created from data",
+    "content": "This card component is generated entirely from a JSON definition. Change the values above to see it update in real-time!",
+    "image": "",
+    "variant": "elevated",
+    "tags": ["Data-Driven", "Dynamic", "Component"],
+    "actions": [
+      { "actionId": "view", "actionLabel": "View Details", "actionVariant": "primary" },
+      { "actionId": "edit", "actionLabel": "Edit", "actionVariant": "secondary" }
+    ]
+  }
+}

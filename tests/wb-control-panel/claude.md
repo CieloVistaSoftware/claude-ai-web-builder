@@ -1,4 +1,13 @@
 # ./tests/wb-control-panel/claude.md - wb-control-panel Testing Documentation
+We've spent countless hours failing control-panel fixes.
+
+This file below shows a perfect and desired color control system. I want you to copy it's logic to all control panel code and then write tests to prove it works: 
+
+http://127.0.0.1:8083/tests/harmonic/harmonic-color-mixer.html
+
+Create a wb-harmonic-colormixer WC following all our guidlines, then
+refactor all our compnents to use it for colors.
+
 
 ## ✅ OCTOBER 7, 2025 - COMPREHENSIVE TESTING IMPLEMENTATION
 For more than one test in any area e.g. control-panel-hue1, control-panel-hue2, control-panel-hue3... review all tests and remove duplicate logic, consider a base class that can be injected.

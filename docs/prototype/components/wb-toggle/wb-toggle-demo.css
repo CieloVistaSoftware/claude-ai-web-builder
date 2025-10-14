@@ -1,0 +1,120 @@
+/* WB Toggle Demo Styles */
+body {
+    margin: 0;
+    padding: var(--space-xl);
+}
+
+h1 {
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+}
+
+.demo-section {
+    background: var(--bg-secondary);
+    padding: var(--space-lg);
+    margin: var(--space-md) 0;
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--primary);
+    border: 1px solid var(--border-color);
+}
+
+.demo-section h2 {
+    margin-top: 0;
+    color: var(--primary);
+}
+
+.demo-section h3 {
+    color: var(--accent);
+}
+
+.demo-grid {
+    display: grid;
+    gap: var(--space-md);
+    margin: var(--space-md) 0;
+}
+
+.demo-grid-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.demo-grid-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.demo-buttons {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin: var(--space-md) 0;
+}
+
+.status-box {
+    background: rgba(var(--success-color-rgb), 0.1);
+    border: 1px solid rgba(var(--success-color-rgb), 0.3);
+    padding: var(--space-md);
+    border-radius: var(--radius-base);
+    margin: var(--space-md) 0;
+    color: var(--text-primary);
+}
+
+code {
+    background: var(--bg-tertiary);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.feature-list li:last-child {
+    border-bottom: none;
+}
+
+.toggle-demo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin: var(--space-md) 0;
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+}
+
+.btn {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    transition: var(--transition-colors);
+}
+
+.btn:hover {
+    background: var(--btn-primary-hover);
+}
+
+.btn-secondary {
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+}
+
+.btn-secondary:hover {
+    background: var(--btn-secondary-hover);
+}

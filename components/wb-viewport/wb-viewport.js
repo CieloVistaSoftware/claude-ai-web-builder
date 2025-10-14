@@ -215,7 +215,7 @@
             }
             
             // Create controls if enabled
-            if (config.configuration.showControls) {
+            if (config && config.configuration && config.configuration.showControls) {
                 createControls();
                 setupKeyboardShortcuts();
             }
@@ -280,14 +280,14 @@
             setTimeout(() => {
                 console.log('📱 WB Viewport: Component initialized successfully');
                 
-                const eventName = config.events.ready;
+                const eventName = config?.events?.ready || 'wbViewportReady';
                 const event = new CustomEvent(eventName, {
                     detail: { component: 'wb-viewport', config: config }
                 });
                 document.dispatchEvent(event);
                 
                 // Auto-init if controls are enabled by default
-                if (config.configuration.showControls) {
+                if (config && config.configuration && config.configuration.showControls) {
                     window.WBViewport.init();
                 }
             }, 100);

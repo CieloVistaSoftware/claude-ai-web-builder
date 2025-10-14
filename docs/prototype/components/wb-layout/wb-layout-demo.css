@@ -1,0 +1,650 @@
+/* WB Layout Demo Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    background: #0f172a;
+    color: #f1f5f9;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #60a5fa;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.demo-section {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.demo-section h2 {
+    color: #e2e8f0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.layout-selector {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.layout-selector label {
+    display: block;
+    color: #e2e8f0;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.layout-selector select {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: #e2e8f0;
+    padding: 0.75rem;
+    font-size: 1rem;
+    width: 250px;
+    margin-bottom: 1rem;
+}
+
+.layout-selector select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.layout-selector .status {
+    margin: 1rem 0 0 0;
+}
+
+.btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.btn.active {
+    background: #10b981;
+}
+
+.layout-preview {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 1rem 0;
+    min-height: 300px;
+}
+
+.status {
+    background: #065f46;
+    border: 1px solid #059669;
+    padding: 1rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    color: #6ee7b7;
+}
+
+.code-block {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+.code-block code {
+    color: #e5e7eb;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    white-space: pre;
+    display: block;
+}
+
+.code-block::before {
+    content: 'HTML';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: #374151;
+    color: #9ca3af;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-family: inherit;
+}
+
+/* Main content areas */
+.wb-main-content {
+    padding: 2rem;
+    background: #1e293b;
+    min-height: 200px;
+    flex: 1;
+}
+
+.wb-main-content h2 {
+    color: #e2e8f0;
+    margin-bottom: 1rem;
+}
+
+.wb-main-content p {
+    color: #d1d5db;
+}
+
+/* Header and footer styling */
+.wb-layout-header {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #334155;
+}
+
+.wb-layout-header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.wb-layout-header p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.wb-layout-footer {
+    background: #0f172a;
+    color: #94a3b8;
+    padding: 1rem 2rem;
+    border-top: 1px solid #334155;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.wb-layout-footer p {
+    margin: 0;
+}
+
+/* Layout containers */
+.wb-layout-demo {
+    border: 2px solid #334155;
+    border-radius: 8px;
+    margin: 1rem 0;
+    min-height: 300px;
+    background: #0f172a;
+}
+
+/* wb-layout component base styling */
+.wb-layout-component {
+    width: 100%;
+    min-height: 250px;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    background-color: #0f172a;
+}
+
+/* Demo-specific theming for wb-layout context - components handle their own layout */
+wb-layout[layout="top-nav"] wb-nav {
+    background: #1e40af;
+    color: white;
+}
+
+/* Apply to ANY wb-nav with vertical classes, not just inside specific layouts */
+wb-nav.wb-nav--vertical,
+wb-layout[layout="left-nav"] wb-nav {
+    background: #059669;
+    color: white;
+    width: 200px;
+    flex-shrink: 0;
+}
+
+wb-nav.wb-nav--vertical .wb-nav-container,
+wb-layout[layout="left-nav"] wb-nav .wb-nav-container {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    height: 100% !important;
+}
+
+wb-nav.wb-nav--vertical .wb-nav-list,
+wb-layout[layout="left-nav"] wb-nav .wb-nav-list {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+}
+
+wb-nav.wb-nav--vertical .wb-nav-brand,
+wb-layout[layout="left-nav"] wb-nav .wb-nav-brand {
+    margin-right: 0 !important;
+    margin-bottom: 1rem !important;
+    text-align: center !important;
+}
+
+wb-nav.wb-nav--vertical .wb-nav-link,
+wb-layout[layout="left-nav"] wb-nav .wb-nav-link {
+    width: 100% !important;
+    justify-content: flex-start !important;
+}
+
+wb-nav.wb-nav--vertical.wb-nav--right,
+wb-layout[layout="right-nav"] wb-nav {
+    background: #7c2d12;
+    color: white;
+    width: 200px;
+    flex-shrink: 0;
+}
+
+wb-nav.wb-nav--vertical.wb-nav--right .wb-nav-container,
+wb-layout[layout="right-nav"] wb-nav .wb-nav-container {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    height: 100% !important;
+}
+
+wb-nav.wb-nav--vertical.wb-nav--right .wb-nav-list,
+wb-layout[layout="right-nav"] wb-nav .wb-nav-list {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+}
+
+wb-nav.wb-nav--vertical.wb-nav--right .wb-nav-brand,
+wb-layout[layout="right-nav"] wb-nav .wb-nav-brand {
+    margin-right: 0 !important;
+    margin-bottom: 1rem !important;
+    text-align: center !important;
+}
+
+wb-nav.wb-nav--vertical.wb-nav--right .wb-nav-link,
+wb-layout[layout="right-nav"] wb-nav .wb-nav-link {
+    width: 100% !important;
+    justify-content: flex-start !important;
+}
+
+wb-layout[layout="ad-layout"] wb-nav {
+    background: #6366f1;
+    color: white;
+}
+
+/* Fallback for when wb-nav doesn't render properly */
+wb-nav {
+    display: block;
+}
+
+wb-nav .wb-nav-container {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+
+wb-nav .wb-nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1rem;
+}
+
+wb-nav .wb-nav-item {
+    display: list-item;
+}
+
+wb-nav .wb-nav-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+wb-nav .wb-nav-brand {
+    font-weight: bold;
+    margin-right: 2rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Navigation content styling within wb-nav */
+wb-nav .nav-brand {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+wb-nav .nav-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+wb-nav .nav-item {
+    margin: 0.25rem 0;
+}
+
+wb-nav .nav-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+wb-nav .nav-link:hover {
+    opacity: 0.8;
+}
+
+wb-nav .nav-items-inline {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+wb-nav .nav-items-inline .nav-link {
+    font-size: 0.9rem;
+}
+
+/* Vertical navigation for left/right nav layouts */
+wb-nav .nav-item .nav-link {
+    display: block;
+    padding: 0.5rem 0;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+wb-nav .nav-item:last-child .nav-link {
+    border-bottom: none;
+}
+
+/* Aside/sidebar styling */
+.wb-aside-ads {
+    background: #7c2d12;
+    color: white;
+    padding: 1rem;
+    width: 160px;
+}
+
+.wb-aside-ads #demo-ads-title {
+    margin-bottom: 1rem;
+}
+
+.wb-ad-space {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    background: rgba(0,0,0,0.3);
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.wb-cta-button {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.wb-extra-content {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.tabs {
+    border-bottom: 1px solid #334155;
+    margin-bottom: 2rem;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 0;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.tab-btn:hover {
+    color: #e5e7eb;
+    background: #1e293b;
+}
+
+.tab-btn.active {
+    color: #60a5fa;
+    border-bottom-color: #3b82f6;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+ul {
+    color: #d1d5db;
+    margin-left: 1.5rem;
+}
+
+ul li {
+    margin-bottom: 0.5rem;
+}
+
+p {
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+.layout-example h3 {
+    color: #60a5fa;
+    margin-bottom: 1rem;
+    scroll-margin-top: 2rem;
+}
+
+.layout-example {
+    scroll-margin-top: 2rem;
+    transition: all 0.3s ease;
+}
+
+.layout-example.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* wb-layout component styles */
+wb-layout {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background: #0f172a;
+}
+
+/* Layout-specific flex directions */
+wb-layout.wb-layout-top-nav {
+    flex-direction: column;
+}
+
+wb-layout.wb-layout-left-nav {
+    flex-direction: row;
+}
+
+wb-layout.wb-layout-right-nav {
+    flex-direction: row-reverse;
+}
+
+wb-layout.wb-layout-ad-layout {
+    flex-direction: column;
+}
+
+/* Content column for sidebar layouts */
+.wb-content-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Ensure main content in sidebar layouts fills remaining space */
+wb-layout.wb-layout-left-nav .wb-content-column main,
+wb-layout.wb-layout-right-nav .wb-content-column main {
+    flex: 1;
+}
+
+/* Ensure header and footer don't grow */
+wb-layout.wb-layout-left-nav .wb-content-column header,
+wb-layout.wb-layout-right-nav .wb-content-column header,
+wb-layout.wb-layout-left-nav .wb-content-column footer,
+wb-layout.wb-layout-right-nav .wb-content-column footer {
+    flex-shrink: 0;
+}
+
+/* Ensure content is visible even if components don't load */
+wb-layout {
+    display: flex !important;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+wb-nav {
+    display: block;
+    background: #1e40af;
+    color: white;
+    padding: 1rem;
+    min-height: 60px;
+}
+
+header, main, footer {
+    display: block;
+}
+
+main {
+    flex: 1;
+}
+
+/* Debug styles to make components visible */
+wb-layout:not(:defined) {
+    border: 2px solid #ef4444;
+    background: #7f1d1d;
+}
+
+wb-layout:not(:defined)::before {
+    content: "wb-layout component not loaded";
+    color: #fca5a5;
+    padding: 1rem;
+    display: block;
+}
+
+wb-nav:not(:defined) {
+    border: 2px solid #ef4444;
+    background: #7f1d1d;
+}
+
+wb-nav:not(:defined)::before {
+    content: "wb-nav component not loaded";
+    color: #fca5a5;
+    padding: 0.5rem;
+    display: block;
+    font-size: 0.8rem;
+}
+
+.layout-example h4 {
+    color: #60a5fa;
+    margin: 1.5rem 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Main demo layout styling */
+#main-demo-layout {
+    background: #0f172a;
+    color: #f1f5f9;
+    min-height: 100vh;
+}
+
+#main-demo-nav {
+    background: #1e40af;
+    color: white;
+    flex-shrink: 0;
+}
+
+/* Ensure the main content area fills properly */
+#demo-main-content {
+    flex: 1;
+    padding: 2rem;
+    background: #0f172a;
+    min-height: 0; /* Allow flex child to shrink */
+}
+
+/* Header and footer styling within wb-layout */
+#demo-main-header {
+    flex-shrink: 0;
+}
+
+#demo-main-footer {
+    flex-shrink: 0;
+}
+
+/* Dynamic layout container should be contained within the main content */
+.wb-layout-demo {
+    border: 2px solid #334155;
+    border-radius: 8px;
+    margin: 1rem 0;
+    min-height: 300px;
+    background: #1e293b;
+    position: relative;
+}
+
+/* Ensure dynamic wb-layout components fit properly */
+.wb-layout-demo wb-layout {
+    min-height: 300px;
+    height: auto;
+    border: 1px solid #475569;
+}
+
+/* Components should handle their own layout styling */

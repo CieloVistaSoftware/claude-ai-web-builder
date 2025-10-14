@@ -1,0 +1,236 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Footer Web Component",
+  "description": "Schema for wb-footer custom element attributes",
+  "type": "object",
+  "properties": {
+    "layout": {
+      "type": "string",
+      "enum": ["simple", "standard", "complex", "sticky"],
+      "default": "standard",
+      "description": "Footer layout variant"
+    },
+    "theme": {
+      "type": "string",
+      "enum": ["light", "dark", "auto"],
+      "default": "auto",
+      "description": "Visual theme for the footer"
+    },
+    "columns": {
+      "type": "number",
+      "enum": [1, 2, 3, 4],
+      "default": 3,
+      "description": "Number of columns for navigation groups"
+    },
+    "alignment": {
+      "type": "string",
+      "enum": ["left", "center", "right"],
+      "default": "left",
+      "description": "Text alignment for footer content"
+    },
+    "positioning": {
+      "type": "string",
+      "enum": ["same-page", "bottom", "expanded"],
+      "default": "same-page",
+      "description": "Footer positioning mode"
+    },
+    "show-logo": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to display company logo"
+    },
+    "show-social": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to display social media links"
+    },
+    "show-newsletter": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to display newsletter signup"
+    },
+    "responsive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to enable responsive behavior"
+    },
+    "collapsible": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether navigation groups are collapsible on mobile"
+    },
+    "sticky": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to enable sticky footer behavior"
+    },
+    "fixed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to fix footer to bottom of viewport"
+    },
+    "sticky-breakpoint": {
+      "type": "string",
+      "default": "768px",
+      "description": "Breakpoint for sticky behavior activation"
+    },
+    "company-name": {
+      "type": "string",
+      "description": "Company name to display"
+    },
+    "company-tagline": {
+      "type": "string",
+      "description": "Company tagline or description"
+    },
+    "logo-src": {
+      "type": "string",
+      "description": "URL or path to company logo image"
+    },
+    "logo-alt": {
+      "type": "string",
+      "description": "Alt text for company logo"
+    },
+    "copyright": {
+      "type": "string",
+      "description": "Copyright text to display"
+    },
+    "navigation": {
+      "type": "string",
+      "description": "JSON string containing navigation groups and links",
+      "examples": [
+        "[{\"title\":\"Products\",\"links\":[{\"text\":\"Components\",\"href\":\"/components\"}]}]"
+      ]
+    },
+    "social": {
+      "type": "string",
+      "description": "JSON string containing social media links",
+      "examples": [
+        "[{\"platform\":\"GitHub\",\"url\":\"https://github.com/company\",\"icon\":\"github\"}]"
+      ]
+    },
+    "legal": {
+      "type": "string",
+      "description": "JSON string containing legal links",
+      "examples": [
+        "[{\"text\":\"Privacy Policy\",\"href\":\"/privacy\"},{\"text\":\"Terms\",\"href\":\"/terms\"}]"
+      ]
+    },
+    "newsletter-title": {
+      "type": "string",
+      "description": "Newsletter signup section title"
+    },
+    "newsletter-description": {
+      "type": "string",
+      "description": "Newsletter signup description text"
+    },
+    "newsletter-placeholder": {
+      "type": "string",
+      "default": "Enter your email address",
+      "description": "Placeholder text for newsletter email input"
+    },
+    "newsletter-button-text": {
+      "type": "string",
+      "default": "Subscribe",
+      "description": "Text for newsletter submit button"
+    },
+    "contact-email": {
+      "type": "string",
+      "description": "Contact email address"
+    },
+    "contact-phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "contact-address": {
+      "type": "string",
+      "description": "Company address"
+    },
+    "config": {
+      "type": "string",
+      "description": "JSON string containing complete footer configuration"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the footer"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name attribute for the footer"
+    },
+    "class": {
+      "type": "string",
+      "description": "Additional CSS classes"
+    },
+    "style": {
+      "type": "string",
+      "description": "Inline CSS styles"
+    },
+    "onlink-click": {
+      "type": "string",
+      "description": "JavaScript code to execute when a footer link is clicked"
+    },
+    "onsocial-click": {
+      "type": "string",
+      "description": "JavaScript code to execute when a social link is clicked"
+    },
+    "onnewsletter-submit": {
+      "type": "string",
+      "description": "JavaScript code to execute when newsletter form is submitted"
+    },
+    "onlayout-change": {
+      "type": "string",
+      "description": "JavaScript code to execute when layout changes"
+    },
+    "onposition-change": {
+      "type": "string",
+      "description": "JavaScript code to execute when positioning changes"
+    },
+    "onwb-footer:link-click": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-footer:link-click event"
+    },
+    "onwb-footer:social-click": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-footer:social-click event"
+    },
+    "onwb-footer:newsletter-submit": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-footer:newsletter-submit event"
+    },
+    "onwb-footer:layout-change": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-footer:layout-change event"
+    },
+    "onwb-footer:position-change": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-footer:position-change event"
+    },
+    "onwb-footer:ready": {
+      "type": "string",
+      "description": "JavaScript code for custom wb-footer:ready event"
+    },
+    "aria-label": {
+      "type": "string",
+      "default": "Site footer",
+      "description": "Accessible label for screen readers"
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "description": "ID of element that labels this footer"
+    },
+    "aria-describedby": {
+      "type": "string",
+      "description": "ID of element that describes this footer"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["contentinfo", "region"],
+      "default": "contentinfo",
+      "description": "ARIA role for the footer"
+    },
+    "tabindex": {
+      "type": "number",
+      "description": "Tab navigation order"
+    }
+  }
+}

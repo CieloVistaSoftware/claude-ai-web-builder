@@ -1,3 +1,5 @@
+// Register all global WB custom elements here (one-time, one-place)
+import '../components/wb-btn/wb-btn.js';
 /**
  * Website Builder - Main JavaScript Entry Point
  * 

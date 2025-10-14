@@ -1,0 +1,134 @@
+/* WB Inject Test Demo Styles */
+
+body {
+    padding: 2rem;
+    background: var(--bg-primary, #0f172a);
+}
+
+.demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.demo-header {
+    margin-bottom: 2rem;
+}
+
+.demo-header h1 {
+    color: var(--text-primary, #f1f5f9);
+    margin: 0 0 0.5rem 0;
+}
+
+.demo-header p {
+    color: var(--text-secondary, #cbd5e1);
+    margin: 0;
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.demo-section {
+    background: var(--bg-secondary, #1e293b);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #334155);
+}
+
+.demo-section h2 {
+    color: var(--text-primary, #f1f5f9);
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+}
+
+.demo-description {
+    color: var(--text-muted, #94a3b8);
+    margin-bottom: 1rem;
+}
+
+/* Test Elements */
+.test-item {
+    margin-bottom: 1.5rem;
+}
+
+.test-item label {
+    color: var(--text-secondary, #cbd5e1);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+#test-button {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary, #6366f1);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#test-button:hover {
+    background: var(--primary-hover, #4f46e5);
+}
+
+#test-input {
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--bg-primary, #0f172a);
+    border: 1px solid var(--border-color, #334155);
+    border-radius: 6px;
+    color: var(--text-primary, #f1f5f9);
+}
+
+#test-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+#test-list li {
+    padding: 0.5rem;
+    background: var(--bg-primary, #0f172a);
+    margin: 0.25rem 0;
+    border-radius: 4px;
+    color: var(--text-secondary, #cbd5e1);
+}
+
+#test-div {
+    padding: 0.5rem;
+    background: var(--bg-primary, #0f172a);
+    border-radius: 4px;
+    color: var(--text-secondary, #cbd5e1);
+}
+
+/* Example Section */
+.example-section {
+    margin-top: 2rem;
+}
+
+.example-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.example-card {
+    background: var(--bg-primary, #0f172a);
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.example-card h3 {
+    color: var(--text-primary, #f1f5f9);
+    font-size: 0.875rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.example-card pre {
+    color: var(--text-muted, #94a3b8);
+    font-size: 0.75rem;
+    margin: 0;
+    overflow-x: auto;
+}

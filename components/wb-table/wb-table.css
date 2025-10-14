@@ -1,3 +1,14 @@
+/* DEBUG: Force table and cell visibility */
+.wb-table {
+    border: 4px solid red !important;
+    background: white !important;
+}
+.wb-table td, .wb-table th {
+    border: 2px solid blue !important;
+    color: black !important;
+    background: yellow !important;
+    font-size: 18px !important;
+}
 /* ===== WB TABLE COMPONENT ===== */
 /* Simple, reusable table component for Website Builder */
 
@@ -56,6 +67,7 @@
 .wb-table-body tr {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: background-color 0.15s ease;
+    background: #23243a;
 }
 
 .wb-table-body tr:hover {
@@ -71,7 +83,7 @@
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     vertical-align: top;
     line-height: 1.3;
-    color: var(--wb-table-text);
+    color: white;
     font-size: 11px;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Component IDE</title>
+  <link rel="stylesheet" href="simple-ide.css">
+  <!-- Import global WB styles and components -->
+  <link rel="stylesheet" href="../../../styles/main.css">
+  <script type="module" src="../../../styles/wb-components.js"></script>
+</head>
+<body>
+  <header class="ide-header">
+    <h1>🎨 WB Component IDE</h1>
+    <button class="mobile-menu-btn" id="menuBtn">☰</button>
+  </header>
+
+  <div class="main-content">
+    <aside class="sidebar" id="sidebar">
+      <h3>Components <span id="componentCount"></span></h3>
+      <div id="componentsList">
+        <div class="loading-state">Loading components...</div>
+      </div>
+    </aside>
+
+    <section class="editor-area">
+      <div class="editor-toolbar">
+        <button class="toolbar-btn active" id="editBtn">📝 Edit</button>
+        <button class="toolbar-btn" id="previewBtn">👁️ Preview</button>
+        <button class="toolbar-btn" id="docsBtn">📖 Documentation</button>
+      </div>
+
+      <div class="editor-container">
+        <div class="editor-panel active" id="editPanel">
+          <textarea class="html-editor" id="htmlEditor"><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Web Component Project</title>
+  
+  <!-- WB Styles System - Foundation for all components -->
+  <link rel="stylesheet" href="../../styles/main.css">
+  
+  <style>
+    /* Page-specific styles */
+    body {
+      padding: 2rem;
+    }
+    
+    header {
+      padding: 2rem;
+      margin-bottom: 2rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+    }
+    
+    nav {
+      padding: 1rem 2rem;
+      margin-bottom: 2rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+    }
+    
+    main {
+      padding: 2rem;
+      margin-bottom: 2rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      min-height: 200px;
+    }
+    
+    footer {
+      padding: 1rem 2rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body data-theme="dark" data-layout="top-nav">
+  <header>
+    <h1>Welcome to Web Components</h1>
+    <p>Using WB Styles System with CSS Variables</p>
+  </header>
+  
+  <nav>
+    <p>Navigation • <a href="#home">Home</a> • <a href="#about">About</a></p>
+  </nav>
+  
+  <main>
+    <h2>Double-click a component to insert it here!</h2>
+    <p>The preview uses the WB styles system automatically.</p>
+    <p>All components will inherit CSS variables like:</p>
+    <ul style="margin-left: 2rem; margin-top: 1rem;">
+      <li>--primary, --secondary, --accent colors</li>
+      <li>--bg-primary, --bg-secondary backgrounds</li>
+      <li>--text-primary, --text-secondary text colors</li>
+      <li>--space-*, --radius-*, --shadow-* utilities</li>
+    </ul>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 My Project • Built with WB Component System</p>
+  </footer>
+</body>
+</html></textarea>
+        </div>
+
+        <div class="editor-panel" id="previewPanel">
+          <iframe class="preview-frame" id="previewFrame"></iframe>
+        </div>
+
+        <div class="editor-panel" id="docsPanel">
+          <div class="docs-viewer" id="docsViewer">
+            <h1>Component Documentation</h1>
+            <p>Single-click a component to view its documentation here.</p>
+            
+            <h2>WB Styles System</h2>
+            <p>All components use the centralized styles system:</p>
+            <ul>
+              <li><strong>main.css</strong> - Entry point (imports all foundation styles)</li>
+              <li><strong>_variables.css</strong> - CSS custom properties and design tokens</li>
+              <li><strong>_base.css</strong> - Reset and foundational styles</li>
+              <li><strong>_utilities.css</strong> - Utility classes</li>
+              <li><strong>layouts.css</strong> - Layout system</li>
+            </ul>
+            
+            <h2>Component Structure</h2>
+            <p>Each component has its own folder with:</p>
+            <ul>
+              <li><code>wb-component.js</code> - Web Component code</li>
+              <li><code>wb-component.css</code> - Component-specific styles</li>
+              <li><code>wb-component.md</code> - Documentation</li>
+              <li><code>wb-component.schema.json</code> - Schema definition</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <span id="statusText">Loading components...</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="insert-hint" id="insertHint">
+    ✨ Component inserted! Switch to Preview to see it.
+  </div>
+
+  <script src="simple-ide.js"></script>
+</body>
+</html>

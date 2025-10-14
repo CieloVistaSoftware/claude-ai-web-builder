@@ -144,36 +144,78 @@
             }
         }
         
-        // Listen for control panel events
-        document.addEventListener('wb:theme-changed', (e) => {
-            addEvent(`🎨 Theme changed to: ${e.detail.theme}`, 'success');
-            console.log('Theme changed:', e.detail);
+        // Listen for control panel events on document
+        [
+            'wb:theme-changed',
+            'wb:layout-changed',
+            'wb:color-changed',
+            'colorchange',
+            'wb:control-panel-ready',
+            'controlPanelReady',
+            'wb:edit-mode-changed',
+            'editModeChanged',
+            'wb:footer-mode-changed',
+            'controlPanelMinimized',
+            'controlPanelHide',
+            'controlPanelShow',
+            'wb:layout-structure-changed',
+            'wb:error',
+            'wb:info',
+            'wb:success',
+            'wb:warning'
+        ].forEach(eventName => {
+            document.addEventListener(eventName, (e) => {
+                addEvent(`[doc] ${eventName}: ${JSON.stringify(e.detail)}`, 'info');
+                console.log(`[doc] ${eventName}:`, e.detail);
+            });
         });
         
-        document.addEventListener('wb:layout-changed', (e) => {
-            addEvent(`📐 Layout changed to: ${e.detail.layout}`, 'success');
-            console.log('Layout changed:', e.detail);
-        });
+        // Also listen directly on the control panel element for any custom events
+        function attachPanelListeners(panel) {
+            [
+                'wb:theme-changed',
+                'wb:layout-changed',
+                'wb:color-changed',
+                'colorchange',
+                'wb:control-panel-ready',
+                'controlPanelReady',
+                'wb:edit-mode-changed',
+                'editModeChanged',
+                'wb:footer-mode-changed',
+                'controlPanelMinimized',
+                'controlPanelHide',
+                'controlPanelShow',
+                'wb:layout-structure-changed',
+                'wb:error',
+                'wb:info',
+                'wb:success',
+                'wb:warning'
+            ].forEach(eventName => {
+                panel.addEventListener(eventName, (e) => {
+                    addEvent(`[panel] ${eventName}: ${JSON.stringify(e.detail)}`, 'info');
+                    console.log(`[panel] ${eventName}:`, e.detail);
+                });
+            });
+        }
         
-        document.addEventListener('wb:color-changed', (e) => {
-            addEvent(`🌈 Color changed: ${JSON.stringify(e.detail)}`, 'success');
-            console.log('Color changed:', e.detail);
-        });
-        
-        // Listen for colorchange events from wb-color-bars
-        document.addEventListener('colorchange', (e) => {
-            addEvent(`🎨 Color bars changed: ${e.detail.text?.hex || 'N/A'}`, 'info');
-            console.log('Color bars changed:', e.detail);
-        });
-        
-        // Monitor control panel initialization
-        document.addEventListener('wb:control-panel-ready', (e) => {
-            addEvent(`🎛️ Control panel ready!`, 'success');
-        });
-        
-        document.addEventListener('controlPanelReady', (e) => {
-            addEvent(`🎛️ Control panel ready (legacy event)!`, 'success');
-        });
+        // Wait for wb-control-panel to be defined and attached
+        function waitForPanelAndAttach() {
+            const panel = document.querySelector('wb-control-panel');
+            if (panel) {
+                attachPanelListeners(panel);
+            } else {
+                // Use MutationObserver to wait for it
+                const observer = new MutationObserver(() => {
+                    const panelNow = document.querySelector('wb-control-panel');
+                    if (panelNow) {
+                        attachPanelListeners(panelNow);
+                        observer.disconnect();
+                    }
+                });
+                observer.observe(document.body, { childList: true, subtree: true });
+            }
+        }
+        waitForPanelAndAttach();
         
         // Error monitoring
         window.addEventListener('error', (e) => {

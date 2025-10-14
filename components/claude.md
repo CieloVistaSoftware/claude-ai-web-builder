@@ -1,3 +1,9 @@
+## Web Component Upgrade Best Practice
+
+**2025-10-13**
+- When upgrading or refactoring WB custom elements, always assign references to elements (e.g., via `getElementById` or direct creation) after the DOM is ready (e.g., in `DOMContentLoaded`).
+- Avoid repeated DOM lookups or using selectors in multiple places; use a single variable reference for all method/property access.
+- This ensures you always interact with the fully upgraded custom element, prevents timing issues, and is the recommended pattern for all WB components and demos.
 Always read this before creating or updating a new webcomponent. 
 
 Scan all wb compnents for hard coded paths. We want the paths to be discovered at runtime so they are always correct, similar to a compiler. 

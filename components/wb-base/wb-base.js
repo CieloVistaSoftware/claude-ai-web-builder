@@ -1,35 +1,4 @@
-// --- DEMO LOGIC FOR wb-base-demo.html ---
-// Defines <wb-demo-base> and attaches demo event/hover logic
-export class WBDemoBase extends WBBaseComponent {
-    constructor() {
-        super();
-        this._message = 'WBBaseComponent is working!';
-        this._render();
-    }
-    get message() {
-        return this._message;
-    }
-    set message(val) {
-        if (this._message !== val) {
-            this._message = val;
-            this._render();
-        }
-    }
-    _render() {
-        if (!this.shadowRoot) return;
-        this.shadowRoot.innerHTML = `
-            <div class="demo-base-message">${this._message}</div>
-        `;
-    }
-    connectedCallback() {
-        super.connectedCallback();
-        this.logInfo('WBDemoBase connected', { component: 'WBDemoBase' });
-    }
-}
-if (!customElements.get('wb-demo-base')) {
-    customElements.define('wb-demo-base', WBDemoBase);
-}
-}
+// WBDemoBase will be defined after WBBaseComponent
 // Helper to inject event log tab into all wb-demo components if enabled in config
 let _eventLogTabInjected = false;
 async function injectEventLogTabIfEnabled() {
@@ -68,10 +37,18 @@ const WBEventLogState = new Proxy({ entries: [] }, {
     }
 });
 
+
 // wb-base.js
 // Enhanced base class for all WB Web Components
+import {
+    addTrackedEventListener,
+    reflectAttribute,
+    getAttributeOrDefault,
+    dispatchWBEvent,
+    defineObservedAttributes
+} from '../component-utils.js';
 
-export class WBBaseComponent extends HTMLElement {
+class WBBaseComponent extends HTMLElement {
     constructor() {
         super();
         // Attach shadow root if not already present
@@ -122,14 +99,9 @@ export class WBBaseComponent extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    // Utility: Fire a custom event
+    // Utility: Fire a custom event (now uses shared util)
     fireEvent(name, detail = {}, options = {}) {
-        this.dispatchEvent(new CustomEvent(name, {
-            detail,
-            bubbles: options.bubbles ?? true,
-            composed: options.composed ?? true,
-            cancelable: options.cancelable ?? false
-        }));
+        dispatchWBEvent(this, name, detail, options.bubbles ?? true, options.composed ?? true);
     }
 
     // Logging helpers
@@ -159,8 +131,8 @@ export class WBBaseComponent extends HTMLElement {
         this.fireEvent('wb:error', { error, context });
     }
 
-    // Attribute/property reflection helpers
-    static get observedAttributes() { return []; }
+    // Attribute/property reflection helpers (now uses shared util)
+    static get observedAttributes() { return defineObservedAttributes([]); }
     attributeChangedCallback(name, oldValue, newValue) {
         // Override in subclass if needed
     }
@@ -177,16 +149,12 @@ export class WBBaseComponent extends HTMLElement {
         document.removeEventListener('wb:theme-changed', this._themeChangeHandler);
     }
 
-    // Utility: Set/get attribute as property
+    // Utility: Set/get attribute as property (now uses shared utils)
     setAttr(name, value) {
-        if (value === false || value === undefined || value === null) {
-            this.removeAttribute(name);
-        } else {
-            this.setAttribute(name, value === true ? '' : value);
-        }
+        reflectAttribute(this, name, value);
     }
-    getAttr(name) {
-        return this.hasAttribute(name) ? this.getAttribute(name) : null;
+    getAttr(name, defaultValue = null) {
+        return getAttributeOrDefault(this, name, defaultValue);
     }
 
     // Slot/content helpers
@@ -278,5 +246,41 @@ export class WBBaseComponent extends HTMLElement {
     static get version() { return '1.0.0'; }
 }
 
-// Usage: import { WBBaseComponent } from './wb-base/wb-base.js';
-// class MyComponent extends WBBaseComponent { ... }
+// Make WBBaseComponent available globally and as ES module export
+window.WBBaseComponent = WBBaseComponent;
+export { WBBaseComponent };
+
+// --- DEMO LOGIC FOR wb-base-demo.html ---
+// Defines <wb-demo-base> and attaches demo event/hover logic
+class WBDemoBase extends WBBaseComponent {
+    constructor() {
+        super();
+        this._message = 'WBBaseComponent is working!';
+        this._render();
+    }
+    get message() {
+        return this._message;
+    }
+    set message(val) {
+        if (this._message !== val) {
+            this._message = val;
+            this._render();
+        }
+    }
+    _render() {
+        if (!this.shadowRoot) return;
+        this.shadowRoot.innerHTML = `
+            <div class="demo-base-message">${this._message}</div>
+        `;
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        this.logInfo('WBDemoBase connected', { component: 'WBDemoBase' });
+    }
+}
+if (!customElements.get('wb-demo-base')) {
+    customElements.define('wb-demo-base', WBDemoBase);
+}
+
+// Make WBDemoBase available globally
+window.WBDemoBase = WBDemoBase;
