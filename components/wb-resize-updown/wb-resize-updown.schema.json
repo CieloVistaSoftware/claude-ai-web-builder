@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "wb-resize-updown",
+  "title": "WB Resize UpDown Component Schema",
+  "version": "1.2.0",
+  "description": "Vertical resize handle for dragging panels up/down",
+  "type": "component",
+  "category": "interaction",
+  "tags": ["resize", "drag", "vertical", "panel", "ux"],
+  
+  "component": {
+    "name": "wb-resize-updown",
+    "class": "WBResizeUpDown",
+    "extends": "HTMLElement",
+    "shadowDOM": true,
+    "file": "wb-resize-updown.js"
+  },
+  
+  "attributes": {
+    "storage-key": {
+      "type": "string",
+      "description": "localStorage key to persist height between sessions",
+      "default": null,
+      "required": false,
+      "example": "my-panel-height"
+    },
+    "min-height": {
+      "type": "number",
+      "description": "Minimum height in pixels",
+      "default": 100,
+      "required": false,
+      "min": 0,
+      "example": 150
+    },
+    "max-height": {
+      "type": "number",
+      "description": "Maximum height in pixels",
+      "default": 600,
+      "required": false,
+      "example": 800
+    },
+    "handle-height": {
+      "type": "string",
+      "description": "Height of draggable handle area",
+      "default": "40px",
+      "required": false,
+      "pattern": "^\\d+px$",
+      "example": "50px"
+    },
+    "target": {
+      "type": "string",
+      "description": "CSS selector of element to resize (defaults to parent)",
+      "default": null,
+      "required": false,
+      "example": "#custom-panel"
+    }
+  },
+  
+  "properties": {
+    "isResizing": {
+      "type": "boolean",
+      "description": "Whether currently dragging",
+      "readonly": true
+    },
+    "targetElement": {
+      "type": "HTMLElement",
+      "description": "Element being resized",
+      "readonly": true
+    },
+    "minHeight": {
+      "type": "number",
+      "description": "Minimum height constraint"
+    },
+    "maxHeight": {
+      "type": "number",
+      "description": "Maximum height constraint"
+    },
+    "storageKey": {
+      "type": "string",
+      "description": "localStorage key"
+    }
+  },
+  
+  "methods": {
+    "setMinHeight": {
+      "description": "Set minimum height constraint",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Minimum height in pixels"
+        }
+      ],
+      "returns": "void"
+    },
+    "setMaxHeight": {
+      "description": "Set maximum height constraint",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Maximum height in pixels"
+        }
+      ],
+      "returns": "void"
+    },
+    "setTarget": {
+      "description": "Change target element to resize",
+      "parameters": [
+        {
+          "name": "selector",
+          "type": "string",
+          "description": "CSS selector"
+        }
+      ],
+      "returns": "void"
+    },
+    "getTargetHeight": {
+      "description": "Get current height of target",
+      "parameters": [],
+      "returns": "number"
+    },
+    "loadSavedHeight": {
+      "description": "Load height from localStorage",
+      "parameters": [],
+      "returns": "void",
+      "private": true
+    }
+  },
+  
+  "events": {
+    "wb:resize-start": {
+      "description": "Fired when drag starts",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "startHeight": "number - Initial height in pixels",
+        "startY": "number - Initial mouse Y coordinate"
+      }
+    },
+    "wb:resizing": {
+      "description": "Fired continuously while dragging",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "height": "number - Current height in pixels",
+        "deltaY": "number - Change from start position"
+      }
+    },
+    "wb:resize-end": {
+      "description": "Fired when drag ends",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "finalHeight": "number - Final height in pixels"
+      }
+    }
+  },
+  
+  "cssVariables": {},
+  
+  "cssParts": {
+    "handle": "The draggable resize handle"
+  },
+  
+  "slots": {},
+  
+  "dependencies": [],
+  
+  "usage": {
+    "basic": "<wb-resize-updown storage-key=\"panel-height\" min-height=\"100\" max-height=\"600\"></wb-resize-updown>",
+    "advanced": "<div id=\"panel\" style=\"position: relative; height: 250px;\">\n  <wb-resize-updown storage-key=\"panel-height\" min-height=\"100\" max-height=\"600\" handle-height=\"40px\"></wb-resize-updown>\n  <div class=\"content\">Content</div>\n</div>"
+  },
+  
+  "examples": [
+    {
+      "title": "Basic Panel",
+      "code": "<div id=\"panel\">\n  <wb-resize-updown storage-key=\"my-panel\"></wb-resize-updown>\n  <div>Content</div>\n</div>"
+    },
+    {
+      "title": "Event Log",
+      "code": "<div id=\"log\" style=\"height: 250px;\">\n  <wb-resize-updown storage-key=\"event-log\" min-height=\"100\" max-height=\"600\"></wb-resize-updown>\n  <div class=\"log-entries\"></div>\n</div>"
+    },
+    {
+      "title": "With Events",
+      "code": "const resizer = document.querySelector('wb-resize-updown');\nresizer.addEventListener('wb:resize-end', (e) => {\n  console.log('New height:', e.detail.finalHeight);\n});"
+    }
+  ],
+  
+  "accessibility": {
+    "role": "separator",
+    "keyboard": false,
+    "screenReader": "Draggable resize handle",
+    "notes": "Mouse-only interaction. Keyboard support not implemented."
+  },
+  
+  "browser": {
+    "chrome": "90+",
+    "firefox": "88+",
+    "safari": "14+",
+    "edge": "90+"
+  },
+  
+  "notes": [
+    "Drag UP increases height, DOWN decreases height",
+    "Target defaults to parent element",
+    "Includes automatic scroll prevention on load",
+    "Works best in flexbox layouts"
+  ]
+}

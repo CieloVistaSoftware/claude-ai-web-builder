@@ -57,6 +57,20 @@
 				"focus": false,
 				"panel": "new"
 			}
+		},
+		{
+			"label": "Open in Vite Browser",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"${workspaceFolder}/scripts/open-in-vite.js",
+				"${file}"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "never"
+			},
+			"group": "test"
 		}
 	]
 }

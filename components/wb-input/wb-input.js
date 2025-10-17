@@ -17,10 +17,7 @@
  * @author Website Builder Team
  */
 
-(function() {
-    'use strict';
-    
-    if (window.WBEventLog) {
+if (window.WBEventLog) {
         WBEventLog.logInfo('WB Input Web Component: Starting initialization...', { 
             component: 'wb-input', 
             method: 'moduleLoad', 
@@ -913,10 +910,16 @@
         });
     }
     
+    // Compositional Namespace
+    if (!window.WB) window.WB = { components: {}, utils: {} };
+    window.WB.components.WBInput = WBInput;
+    
     // Expose for backward compatibility
     window.WBInput = WBInput;    // Dispatch component loaded event
     document.dispatchEvent(new CustomEvent('wbInputReady', {
         detail: { component: 'wb-input', version: '2.0.0' }
     }));
 
-})();
+// ES6 Module Exports
+export { WBInput };
+export default WBInput;

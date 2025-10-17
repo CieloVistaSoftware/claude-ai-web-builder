@@ -1,0 +1,344 @@
+{
+  "$schema": "../wb-control-panel.schema.json",
+  "description": "HCS-powered theme configurations - all colors mathematically derived",
+  "version": "2.0.0",
+  "hcsEnabled": true,
+  "themes": {
+    "dark": {
+      "id": "dark",
+      "name": "Dark Theme",
+      "description": "Professional dark theme with high contrast",
+      "category": "standard",
+      "hcsConfig": {
+        "baseHue": 240,
+        "baseSaturation": 70,
+        "baseLightness": 50,
+        "harmonyMode": "complementary",
+        "modeBase": "dark"
+      },
+      "preview": {
+        "primary": "hsl(240, 70%, 50%)",
+        "accent": "hsl(60, 70%, 50%)",
+        "background": "hsl(220, 25%, 15%)"
+      }
+    },
+    "light": {
+      "id": "light",
+      "name": "Light Theme",
+      "description": "Clean light theme for professional sites",
+      "category": "standard",
+      "hcsConfig": {
+        "baseHue": 240,
+        "baseSaturation": 70,
+        "baseLightness": 50,
+        "harmonyMode": "complementary",
+        "modeBase": "light"
+      },
+      "preview": {
+        "primary": "hsl(240, 70%, 50%)",
+        "accent": "hsl(60, 70%, 50%)",
+        "background": "hsl(0, 0%, 98%)"
+      }
+    },
+    "cyberpunk": {
+      "id": "cyberpunk",
+      "name": "Cyberpunk",
+      "description": "Neon-infused futuristic theme with magenta and cyan",
+      "category": "vibrant",
+      "hcsConfig": {
+        "baseHue": 320,
+        "baseSaturation": 100,
+        "baseLightness": 50,
+        "harmonyMode": "complementary",
+        "modeBase": "dark"
+      },
+      "preview": {
+        "primary": "hsl(320, 100%, 50%)",
+        "accent": "hsl(180, 100%, 50%)",
+        "background": "hsl(270, 40%, 10%)"
+      }
+    },
+    "ocean": {
+      "id": "ocean",
+      "name": "Ocean Blue",
+      "description": "Calming ocean-inspired blues with analogous harmony",
+      "category": "calm",
+      "hcsConfig": {
+        "baseHue": 200,
+        "baseSaturation": 80,
+        "baseLightness": 50,
+        "harmonyMode": "analogous",
+        "modeBase": "dark"
+      },
+      "preview": {
+        "primary": "hsl(200, 80%, 50%)",
+        "accent": "hsl(230, 80%, 50%)",
+        "background": "hsl(200, 40%, 15%)"
+      }
+    },
+    "sunset": {
+      "id": "sunset",
+      "name": "Sunset Orange",
+      "description": "Warm sunset with triadic harmony",
+      "category": "warm",
+      "hcsConfig": {
+        "baseHue": 25,
+        "baseSaturation": 90,
+        "baseLightness": 55,
+        "harmonyMode": "triadic",
+        "modeBase": "dark"
+      },
+      "preview": {
+        "primary": "hsl(25, 90%, 55%)",
+        "accent": "hsl(145, 90%, 55%)",
+        "background": "hsl(15, 30%, 15%)"
+      }
+    },
+    "forest": {
+      "id": "forest",
+      "name": "Forest Green",
+      "description": "Natural forest greens with split-complementary harmony",
+      "category": "natural",
+      "hcsConfig": {
+        "baseHue": 140,
+        "baseSaturation": 60,
+        "baseLightness": 45,
+        "harmonyMode": "splitComplementary",
+        "modeBase": "dark"
+      },
+      "preview": {
+        "primary": "hsl(140, 60%, 45%)",
+        "accent": "hsl(320, 60%, 45%)",
+        "background": "hsl(140, 30%, 12%)"
+      }
+    },
+    "neon-dreams": {
+      "id": "neon-dreams",
+      "name": "Neon Dreams",
+      "description": "Purple neon with wave-based beat pattern harmony",
+      "category": "wave-based",
+      "hcsConfig": {
+        "baseHue": 280,
+        "baseSaturation": 95,
+        "baseLightness": 55,
+        "harmonyMode": "beatPattern",
+        "modeBase": "dark"
+      },
+      "preview": {
+        "primary": "hsl(280, 95%, 55%)",
+        "accent": "hsl(320, 95%, 55%)",
+        "background": "hsl(270, 35%, 12%)"
+      }
+    },
+    "retro-wave": {
+      "id": "retro-wave",
+      "name": "Retro Wave",
+      "description": "80s inspired with harmonic series",
+      "category": "wave-based",
+      "hcsConfig": {
+        "baseHue": 330,
+        "baseSaturation": 85,
+        "baseLightness": 60,
+        "harmonyMode": "harmonicSeries",
+        "modeBase": "dark"
+      },
+      "preview": {
+        "primary": "hsl(330, 85%, 60%)",
+        "accent": "hsl(300, 85%, 60%)",
+        "background": "hsl(260, 30%, 15%)"
+      }
+    },
+    "arctic": {
+      "id": "arctic",
+      "name": "Arctic Ice",
+      "description": "Cool arctic blues with doppler shift harmony",
+      "category": "wave-based",
+      "hcsConfig": {
+        "baseHue": 190,
+        "baseSaturation": 75,
+        "baseLightness": 65,
+        "harmonyMode": "dopplerShift",
+        "modeBase": "light"
+      },
+      "preview": {
+        "primary": "hsl(190, 75%, 65%)",
+        "accent": "hsl(210, 75%, 65%)",
+        "background": "hsl(190, 20%, 95%)"
+      }
+    },
+    "desert": {
+      "id": "desert",
+      "name": "Desert Sand",
+      "description": "Warm desert tones with standing wave harmony",
+      "category": "wave-based",
+      "hcsConfig": {
+        "baseHue": 35,
+        "baseSaturation": 65,
+        "baseLightness": 60,
+        "harmonyMode": "standingWave",
+        "modeBase": "light"
+      },
+      "preview": {
+        "primary": "hsl(35, 65%, 60%)",
+        "accent": "hsl(45, 65%, 60%)",
+        "background": "hsl(40, 25%, 92%)"
+      }
+    },
+    "midnight": {
+      "id": "midnight",
+      "name": "Midnight Blue",
+      "description": "Deep midnight blue with monochromatic harmony",
+      "category": "calm",
+      "hcsConfig": {
+        "baseHue": 230,
+        "baseSaturation": 85,
+        "baseLightness": 35,
+        "harmonyMode": "monochromatic",
+        "modeBase": "dark"
+      },
+      "preview": {
+        "primary": "hsl(230, 85%, 35%)",
+        "accent": "hsl(230, 85%, 55%)",
+        "background": "hsl(230, 40%, 8%)"
+      }
+    },
+    "sakura": {
+      "id": "sakura",
+      "name": "Sakura Pink",
+      "description": "Japanese cherry blossom with tetradic harmony",
+      "category": "elegant",
+      "hcsConfig": {
+        "baseHue": 340,
+        "baseSaturation": 70,
+        "baseLightness": 70,
+        "harmonyMode": "tetradic",
+        "modeBase": "light"
+      },
+      "preview": {
+        "primary": "hsl(340, 70%, 70%)",
+        "accent": "hsl(70, 70%, 70%)",
+        "background": "hsl(350, 25%, 96%)"
+      }
+    }
+  },
+  "themeOptions": [
+    { 
+      "value": "dark", 
+      "label": "Dark Theme",
+      "group": "Standard",
+      "icon": "🌙"
+    },
+    { 
+      "value": "light", 
+      "label": "Light Theme",
+      "group": "Standard",
+      "icon": "☀️"
+    },
+    { 
+      "value": "cyberpunk", 
+      "label": "Cyberpunk",
+      "group": "Vibrant",
+      "icon": "🌃"
+    },
+    { 
+      "value": "ocean", 
+      "label": "Ocean Blue",
+      "group": "Calm",
+      "icon": "🌊"
+    },
+    { 
+      "value": "sunset", 
+      "label": "Sunset Orange",
+      "group": "Warm",
+      "icon": "🌅"
+    },
+    { 
+      "value": "forest", 
+      "label": "Forest Green",
+      "group": "Natural",
+      "icon": "🌲"
+    },
+    { 
+      "value": "midnight", 
+      "label": "Midnight Blue",
+      "group": "Calm",
+      "icon": "🌌"
+    },
+    { 
+      "value": "sakura", 
+      "label": "Sakura Pink",
+      "group": "Elegant",
+      "icon": "🌸"
+    },
+    { 
+      "value": "arctic", 
+      "label": "Arctic Ice",
+      "group": "Wave-Based",
+      "icon": "❄️"
+    },
+    { 
+      "value": "desert", 
+      "label": "Desert Sand",
+      "group": "Wave-Based",
+      "icon": "🏜️"
+    },
+    { 
+      "value": "neon-dreams", 
+      "label": "Neon Dreams",
+      "group": "Wave-Based",
+      "icon": "💜"
+    },
+    { 
+      "value": "retro-wave", 
+      "label": "Retro Wave",
+      "group": "Wave-Based",
+      "icon": "🌈"
+    }
+  ],
+  "categories": {
+    "standard": {
+      "name": "Standard",
+      "description": "Classic professional themes"
+    },
+    "vibrant": {
+      "name": "Vibrant",
+      "description": "Bold, high-energy themes"
+    },
+    "calm": {
+      "name": "Calm",
+      "description": "Soothing, relaxing themes"
+    },
+    "warm": {
+      "name": "Warm",
+      "description": "Warm, inviting themes"
+    },
+    "natural": {
+      "name": "Natural",
+      "description": "Nature-inspired themes"
+    },
+    "elegant": {
+      "name": "Elegant",
+      "description": "Refined, sophisticated themes"
+    },
+    "wave-based": {
+      "name": "Wave-Based",
+      "description": "Mathematical wave harmony patterns"
+    }
+  },
+  "metadata": {
+    "hcsVersion": "1.0.0",
+    "totalThemes": 12,
+    "harmonyModes": [
+      "complementary",
+      "analogous",
+      "triadic",
+      "splitComplementary",
+      "tetradic",
+      "monochromatic",
+      "beatPattern",
+      "harmonicSeries",
+      "dopplerShift",
+      "standingWave"
+    ]
+  }
+}

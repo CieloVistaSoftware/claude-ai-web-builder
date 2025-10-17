@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-layout="top-nav">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Control Panel Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 2rem; 
+            background: var(--bg-primary, #1a1a1a); 
+            color: var(--text-primary, white); 
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-section { 
+            margin: 2rem 0; 
+            padding: 1rem; 
+            border: 2px solid var(--primary-color, #6366f1); 
+            border-radius: 8px; 
+            background: var(--bg-secondary, #2d3748);
+            transition: all 0.3s ease;
+        }
+        
+        .color-demo {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            background: var(--primary-color, #6366f1);
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status { 
+            padding: 0.5rem; 
+            margin: 0.5rem 0; 
+            border-radius: 4px; 
+        }
+        .success { background: #0f5132; color: #d1e7dd; }
+        .error { background: #842029; color: #f8d7da; }
+        .warning { background: #664d03; color: #fff3cd; }
+        .info { background: #055160; color: #b6effb; }
+        
+        h1, h2, h3 { color: var(--text-primary, white); }
+        
+        /* Theme variations */
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #1a202c;
+            --border-color: #e2e8f0;
+        }
+        
+        [data-theme="cyberpunk"] {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a2e;
+            --text-primary: #00ff41;
+            --primary-color: #ff0080;
+            --border-color: #ff0080;
+        }
+        
+        [data-theme="ocean"] {
+            --bg-primary: #0f3460;
+            --bg-secondary: #16537e;
+            --text-primary: #ffffff;
+            --primary-color: #00bcd4;
+            --border-color: #00bcd4;
+        }
+    </style>
+    
+    <!-- Load index.css for additional theme support -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1>🎛️ Simple Control Panel Test</h1>
+    <p>This page tests if the control panel can affect the entire page with themes, layouts, and colors.</p>
+    
+    <!-- WB Event Log for diagnostics -->
+    <wb-event-log style="position:fixed;top:10px;left:10px;width:300px;height:150px;z-index:9999;"></wb-event-log>
+    
+    <!-- WB Components for reactivity -->
+    <wb-theme-manager></wb-theme-manager>
+    <wb-layout></wb-layout>
+    <wb-control-panel></wb-control-panel>
+    
+    <div class="demo-section">
+        <h2>🎨 Theme Test</h2>
+        <p>This section should change colors when you select different themes in the control panel:</p>
+        <ul>
+            <li><strong>Dark:</strong> Dark background, light text</li>
+            <li><strong>Light:</strong> Light background, dark text</li>
+            <li><strong>Cyberpunk:</strong> Black/purple with green text and magenta accents</li>
+            <li><strong>Ocean:</strong> Blue background with cyan accents</li>
+        </ul>
+        
+        <div class="color-demo">
+            Primary Color Demo Box - Should change color with color sliders
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📐 Layout Test</h2>
+        <p>This section tests if layout changes affect the page structure. Try changing layouts in the control panel.</p>
+        <p>Current layout should be applied to the <code>&lt;body&gt;</code> and <code>&lt;html&gt;</code> elements via data attributes.</p>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🌈 Color Test</h2>
+        <p>These elements should change color when you adjust the color sliders:</p>
+        
+        <div style="padding: 1rem; margin: 1rem 0; background: var(--primary-color, #6366f1); color: white; border-radius: 8px;">
+            Primary Color Background
+        </div>
+        
+        <div style="padding: 1rem; margin: 1rem 0; border: 3px solid var(--primary-color, #6366f1); border-radius: 8px;">
+            Primary Color Border
+        </div>
+        
+        <div style="padding: 1rem; margin: 1rem 0; color: var(--primary-color, #6366f1); font-weight: bold; font-size: 1.2em;">
+            Primary Color Text
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📊 Event Monitoring</h2>
+        <p>This section shows events fired by the control panel:</p>
+        <div id="event-display"></div>
+    </div>
+    
+    <script type="module" src="test-simple-control-panel.js"></script>
+    
+    <!-- Load all components -->
+    <script src="index.js"></script>
+</body>
+</html>

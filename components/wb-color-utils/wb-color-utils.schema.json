@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB Color Utils",
+  "description": "Shared utility module for wave modulation and audio analysis",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "const": "wb-color-utils"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "exports": {
+      "type": "object",
+      "properties": {
+        "WaveModulation": {
+          "type": "object",
+          "description": "Wave modulation functions for color animation",
+          "properties": {
+            "pm": {
+              "type": "string",
+              "const": "function",
+              "description": "Phase Modulation - modulates HUE"
+            },
+            "fm": {
+              "type": "string",
+              "const": "function",
+              "description": "Frequency Modulation - modulates RATE"
+            },
+            "am": {
+              "type": "string",
+              "const": "function",
+              "description": "Amplitude Modulation - modulates SATURATION"
+            },
+            "combined": {
+              "type": "string",
+              "const": "function",
+              "description": "Combined modulation (PM+FM+AM)"
+            },
+            "getWaveValue": {
+              "type": "string",
+              "const": "function",
+              "description": "Generate wave shapes (sine, triangle, sawtooth, square)"
+            },
+            "cascade": {
+              "type": "string",
+              "const": "function",
+              "description": "Phase-shifted ripple effect"
+            }
+          }
+        },
+        "AudioAnalyzer": {
+          "type": "object",
+          "description": "Audio frequency analysis for color mapping",
+          "properties": {
+            "analyzeFrequencies": {
+              "type": "string",
+              "const": "function",
+              "description": "Split audio into bass/mids/highs"
+            },
+            "mapToColor": {
+              "type": "string",
+              "const": "function",
+              "description": "Map audio frequencies to HSL color"
+            },
+            "getEnergy": {
+              "type": "string",
+              "const": "function",
+              "description": "Calculate overall audio intensity"
+            },
+            "hasAudio": {
+              "type": "string",
+              "const": "function",
+              "description": "Detect if audio is present"
+            }
+          }
+        },
+        "Heterodyne": {
+          "type": "object",
+          "description": "Wave mixing for color harmony",
+          "properties": {
+            "mix": {
+              "type": "string",
+              "const": "function",
+              "description": "Heterodyne mix two frequencies"
+            },
+            "generatePalette": {
+              "type": "string",
+              "const": "function",
+              "description": "Generate 8-color palette from heterodyne mixing"
+            }
+          }
+        },
+        "ColorConversion": {
+          "type": "object",
+          "description": "Color format conversion utilities",
+          "properties": {
+            "hslToHex": {
+              "type": "string",
+              "const": "function",
+              "description": "Convert HSL to HEX"
+            },
+            "hslToRgb": {
+              "type": "string",
+              "const": "function",
+              "description": "Convert HSL to RGB"
+            },
+            "toHslString": {
+              "type": "string",
+              "const": "function",
+              "description": "Create HSL string from values"
+            }
+          }
+        }
+      }
+    },
+    "usedBy": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Components that import from this module",
+      "examples": [
+        "wb-color-organ",
+        "wb-color-harmony",
+        "wb-control-panel"
+      ]
+    },
+    "waveFormulas": {
+      "type": "object",
+      "description": "Mathematical formulas used in wave modulation",
+      "properties": {
+        "pm": {
+          "type": "string",
+          "description": "modulatedHue = baseHue + (depth * waveValue)"
+        },
+        "fm": {
+          "type": "string",
+          "description": "modulatedHue = baseHue + (depth * sin(time * instantFreq * 5))"
+        },
+        "am": {
+          "type": "string",
+          "description": "modulatedSat = baseSat + (depth * waveValue)"
+        }
+      }
+    },
+    "audioMapping": {
+      "type": "object",
+      "description": "Standard audio frequency to color mapping",
+      "properties": {
+        "bass": {
+          "type": "string",
+          "description": "0-15% frequency spectrum → Hue shifts (±60°)"
+        },
+        "mids": {
+          "type": "string",
+          "description": "15-50% frequency spectrum → Saturation boosts (+30%)"
+        },
+        "highs": {
+          "type": "string",
+          "description": "50-100% frequency spectrum → Lightness changes (±10%)"
+        }
+      }
+    }
+  }
+}

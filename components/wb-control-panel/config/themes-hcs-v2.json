@@ -1,0 +1,328 @@
+{
+  "$schema": "../wb-control-panel.schema.json",
+  "description": "HCS-powered theme configurations - Mode-independent color definitions",
+  "version": "2.0.0",
+  "hcsEnabled": true,
+  
+  "modes": {
+    "dark": {
+      "id": "dark",
+      "name": "Dark Mode",
+      "description": "Dark base with light text",
+      "baseConfig": {
+        "backgroundLightness": 10,
+        "surfaceLightness": 15,
+        "textLightness": 95,
+        "textSecondaryLightness": 70,
+        "borderOpacity": 0.3
+      }
+    },
+    "light": {
+      "id": "light",
+      "name": "Light Mode",
+      "description": "Light base with dark text",
+      "baseConfig": {
+        "backgroundLightness": 98,
+        "surfaceLightness": 95,
+        "textLightness": 10,
+        "textSecondaryLightness": 40,
+        "borderOpacity": 0.2
+      }
+    }
+  },
+  
+  "themeTypes": {
+    "custom": {
+      "id": "custom",
+      "name": "Custom",
+      "description": "Manually configure HSL sliders and harmony mode",
+      "showSliders": true,
+      "showHarmonySelector": true
+    },
+    "namedTheme": {
+      "id": "namedTheme",
+      "name": "Named Theme",
+      "description": "Choose from pre-configured theme palettes",
+      "showThemeGrid": true
+    }
+  },
+  
+  "namedThemes": {
+    "default": {
+      "id": "default",
+      "name": "Default Blue",
+      "description": "Professional blue with complementary accent",
+      "category": "standard",
+      "icon": "💼",
+      "hcsConfig": {
+        "baseHue": 240,
+        "baseSaturation": 70,
+        "baseLightness": 50,
+        "harmonyMode": "complementary"
+      }
+    },
+    "cyberpunk": {
+      "id": "cyberpunk",
+      "name": "Cyberpunk",
+      "description": "Neon magenta and cyan",
+      "category": "vibrant",
+      "icon": "🌃",
+      "hcsConfig": {
+        "baseHue": 320,
+        "baseSaturation": 100,
+        "baseLightness": 50,
+        "harmonyMode": "complementary"
+      }
+    },
+    "ocean": {
+      "id": "ocean",
+      "name": "Ocean",
+      "description": "Calming analogous blues",
+      "category": "calm",
+      "icon": "🌊",
+      "hcsConfig": {
+        "baseHue": 200,
+        "baseSaturation": 80,
+        "baseLightness": 50,
+        "harmonyMode": "analogous"
+      }
+    },
+    "sunset": {
+      "id": "sunset",
+      "name": "Sunset",
+      "description": "Warm triadic oranges",
+      "category": "warm",
+      "icon": "🌅",
+      "hcsConfig": {
+        "baseHue": 25,
+        "baseSaturation": 90,
+        "baseLightness": 55,
+        "harmonyMode": "triadic"
+      }
+    },
+    "forest": {
+      "id": "forest",
+      "name": "Forest",
+      "description": "Natural split-complementary greens",
+      "category": "natural",
+      "icon": "🌲",
+      "hcsConfig": {
+        "baseHue": 140,
+        "baseSaturation": 60,
+        "baseLightness": 45,
+        "harmonyMode": "splitComplementary"
+      }
+    },
+    "lavender": {
+      "id": "lavender",
+      "name": "Lavender",
+      "description": "Soft monochromatic purple",
+      "category": "elegant",
+      "icon": "💜",
+      "hcsConfig": {
+        "baseHue": 270,
+        "baseSaturation": 65,
+        "baseLightness": 60,
+        "harmonyMode": "monochromatic"
+      }
+    },
+    "sakura": {
+      "id": "sakura",
+      "name": "Sakura",
+      "description": "Cherry blossom tetradic",
+      "category": "elegant",
+      "icon": "🌸",
+      "hcsConfig": {
+        "baseHue": 340,
+        "baseSaturation": 70,
+        "baseLightness": 70,
+        "harmonyMode": "tetradic"
+      }
+    },
+    "midnight": {
+      "id": "midnight",
+      "name": "Midnight",
+      "description": "Deep blue monochromatic",
+      "category": "calm",
+      "icon": "🌌",
+      "hcsConfig": {
+        "baseHue": 230,
+        "baseSaturation": 85,
+        "baseLightness": 35,
+        "harmonyMode": "monochromatic"
+      }
+    },
+    "neonDreams": {
+      "id": "neonDreams",
+      "name": "Neon Dreams",
+      "description": "Wave-based beat pattern",
+      "category": "wave",
+      "icon": "✨",
+      "hcsConfig": {
+        "baseHue": 280,
+        "baseSaturation": 95,
+        "baseLightness": 55,
+        "harmonyMode": "beatPattern"
+      }
+    },
+    "retroWave": {
+      "id": "retroWave",
+      "name": "Retro Wave",
+      "description": "80s harmonic series",
+      "category": "wave",
+      "icon": "🌈",
+      "hcsConfig": {
+        "baseHue": 330,
+        "baseSaturation": 85,
+        "baseLightness": 60,
+        "harmonyMode": "harmonicSeries"
+      }
+    },
+    "arctic": {
+      "id": "arctic",
+      "name": "Arctic",
+      "description": "Cool doppler shift blues",
+      "category": "wave",
+      "icon": "❄️",
+      "hcsConfig": {
+        "baseHue": 190,
+        "baseSaturation": 75,
+        "baseLightness": 65,
+        "harmonyMode": "dopplerShift"
+      }
+    },
+    "desert": {
+      "id": "desert",
+      "name": "Desert",
+      "description": "Warm standing wave tones",
+      "category": "wave",
+      "icon": "🏜️",
+      "hcsConfig": {
+        "baseHue": 35,
+        "baseSaturation": 65,
+        "baseLightness": 60,
+        "harmonyMode": "standingWave"
+      }
+    },
+    "emerald": {
+      "id": "emerald",
+      "name": "Emerald",
+      "description": "Rich green analogous",
+      "category": "natural",
+      "icon": "💎",
+      "hcsConfig": {
+        "baseHue": 150,
+        "baseSaturation": 75,
+        "baseLightness": 45,
+        "harmonyMode": "analogous"
+      }
+    },
+    "ruby": {
+      "id": "ruby",
+      "name": "Ruby",
+      "description": "Bold red complementary",
+      "category": "vibrant",
+      "icon": "💃",
+      "hcsConfig": {
+        "baseHue": 0,
+        "baseSaturation": 80,
+        "baseLightness": 50,
+        "harmonyMode": "complementary"
+      }
+    },
+    "amber": {
+      "id": "amber",
+      "name": "Amber",
+      "description": "Golden triadic warmth",
+      "category": "warm",
+      "icon": "🍯",
+      "hcsConfig": {
+        "baseHue": 45,
+        "baseSaturation": 85,
+        "baseLightness": 55,
+        "harmonyMode": "triadic"
+      }
+    },
+    "slate": {
+      "id": "slate",
+      "name": "Slate",
+      "description": "Professional gray-blue",
+      "category": "standard",
+      "icon": "🗂️",
+      "hcsConfig": {
+        "baseHue": 210,
+        "baseSaturation": 25,
+        "baseLightness": 45,
+        "harmonyMode": "complementary"
+      }
+    }
+  },
+  
+  "categories": {
+    "standard": {
+      "name": "Standard",
+      "description": "Professional themes for business",
+      "order": 1
+    },
+    "vibrant": {
+      "name": "Vibrant",
+      "description": "Bold, high-energy themes",
+      "order": 2
+    },
+    "calm": {
+      "name": "Calm",
+      "description": "Soothing, relaxing themes",
+      "order": 3
+    },
+    "warm": {
+      "name": "Warm",
+      "description": "Warm, inviting themes",
+      "order": 4
+    },
+    "natural": {
+      "name": "Natural",
+      "description": "Nature-inspired themes",
+      "order": 5
+    },
+    "elegant": {
+      "name": "Elegant",
+      "description": "Refined, sophisticated themes",
+      "order": 6
+    },
+    "wave": {
+      "name": "Wave-Based",
+      "description": "Mathematical wave harmony",
+      "order": 7
+    }
+  },
+  
+  "dropdownOptions": {
+    "mode": [
+      { "value": "dark", "label": "Dark Mode", "icon": "🌙" },
+      { "value": "light", "label": "Light Mode", "icon": "☀️" }
+    ],
+    "themeType": [
+      { "value": "custom", "label": "Custom (HSL Sliders)", "icon": "🎨" },
+      { "value": "namedTheme", "label": "Named Theme", "icon": "🎭" }
+    ]
+  },
+  
+  "metadata": {
+    "hcsVersion": "1.0.0",
+    "totalNamedThemes": 16,
+    "modes": 2,
+    "harmonyModes": [
+      "complementary",
+      "analogous",
+      "triadic",
+      "splitComplementary",
+      "tetradic",
+      "monochromatic",
+      "beatPattern",
+      "harmonicSeries",
+      "dopplerShift",
+      "standingWave"
+    ],
+    "note": "Mode (dark/light) is independent of theme. Any named theme works in both modes."
+  }
+}

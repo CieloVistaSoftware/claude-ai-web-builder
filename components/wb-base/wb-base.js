@@ -1,3 +1,11 @@
+// @ts-check
+
+// TypeScript declarations for global objects
+/**
+ * @typedef {typeof WBBaseComponent} WBBaseComponentConstructor
+ * @typedef {typeof WBDemoBase} WBDemoBaseConstructor
+ */
+
 // WBDemoBase will be defined after WBBaseComponent
 // Helper to inject event log tab into all wb-demo components if enabled in config
 let _eventLogTabInjected = false;
@@ -49,6 +57,19 @@ import {
 } from '../component-utils.js';
 
 class WBBaseComponent extends HTMLElement {
+    // Default static styleUrl property to avoid missing property errors
+    /**
+     * @type {string|null}
+     */
+    static styleUrl = null;
+    /**
+     * Safely cast any variable to HTMLElement if possible, else returns null
+     * @param {any} el - The variable to check
+     * @returns {HTMLElement|null}
+     */
+    asHTMLElement(el) {
+        return el instanceof HTMLElement ? el : null;
+    }
     constructor() {
         super();
         // Attach shadow root if not already present
@@ -56,8 +77,9 @@ class WBBaseComponent extends HTMLElement {
             this.attachShadow({ mode: 'open' });
         }
         // Optionally, auto-load styles if a static styleUrl is defined
-        if (this.constructor.styleUrl) {
-            this._loadStyles(this.constructor.styleUrl);
+        const ctor = /** @type {typeof WBBaseComponent} */ (this.constructor);
+        if (ctor.styleUrl) {
+            this._loadStyles(ctor.styleUrl);
         }
         // Theme handling
         this._themeChangeHandler = this._onThemeChange.bind(this);
@@ -90,6 +112,7 @@ class WBBaseComponent extends HTMLElement {
         return WBEventLogState.entries;
     }
 
+
     // Utility: Load external CSS into shadow root
     _loadStyles(url) {
         if (!url) return;
@@ -99,6 +122,17 @@ class WBBaseComponent extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
+    /**
+     * Safely set style properties if the element is an HTMLElement
+     * @param {any} el - The element or variable to style
+     * @param {Object} styleProps - An object of style properties and values
+     */
+    setStyleIfHTMLElement(el, styleProps) {
+        if (el instanceof HTMLElement && el.style) {
+            Object.assign(el.style, styleProps);
+        }
+    }
+
     // Utility: Fire a custom event (now uses shared util)
     fireEvent(name, detail = {}, options = {}) {
         dispatchWBEvent(this, name, detail, options.bubbles ?? true, options.composed ?? true);
@@ -106,22 +140,22 @@ class WBBaseComponent extends HTMLElement {
 
     // Logging helpers
     logInfo(msg, ctx) {
-        if (window.WBEventLog && WBEventLog.logInfo) {
-            WBEventLog.logInfo(msg, ctx);
+        if (window.WBEventLog && window.WBEventLog.logInfo) {
+            window.WBEventLog.logInfo(msg, ctx);
         } else {
             console.info('[WB]', msg, ctx);
         }
     }
     logError(msg, ctx) {
-        if (window.WBEventLog && WBEventLog.logError) {
-            WBEventLog.logError(msg, ctx);
+        if (window.WBEventLog && window.WBEventLog.logError) {
+            window.WBEventLog.logError(msg, ctx);
         } else {
             console.error('[WB]', msg, ctx);
         }
     }
     logDebug(msg, ctx) {
-        if (window.WBEventLog && WBEventLog.logDebug) {
-            WBEventLog.logDebug(msg, ctx);
+        if (window.WBEventLog && window.WBEventLog.logDebug) {
+            window.WBEventLog.logDebug(msg, ctx);
         } else {
             console.debug('[WB]', msg, ctx);
         }
@@ -159,8 +193,8 @@ class WBBaseComponent extends HTMLElement {
 
     // Slot/content helpers
     getSlotNodes(name) {
-        const slot = this.shadowRoot.querySelector(`slot[name="${name}"]`);
-        return slot ? slot.assignedNodes({ flatten: true }) : [];
+    const slot = this.shadowRoot.querySelector(`slot[name="${name}"]`);
+    return slot && slot instanceof HTMLSlotElement ? slot.assignedNodes({ flatten: true }) : [];
     }
     isSlotEmpty(name) {
         const nodes = this.getSlotNodes(name);
@@ -175,11 +209,11 @@ class WBBaseComponent extends HTMLElement {
     static async renderMarkdownDoc(mdUrl, target) {
         // Helper to load marked if not present
         function loadMarked() {
-            if (window.marked) return Promise.resolve(window.marked);
+            if (window['marked']) return Promise.resolve(window['marked']);
             return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
                 script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-                script.onload = () => resolve(window.marked);
+                script.onload = () => resolve(window['marked']);
                 script.onerror = reject;
                 document.head.appendChild(script);
             });
@@ -194,17 +228,28 @@ class WBBaseComponent extends HTMLElement {
             const html = markedLib.parse(markdown);
             let el = target;
             if (typeof target === 'string') {
-                el = document.querySelector(target);
+                const foundEl = document.querySelector(target);
+                if (foundEl instanceof HTMLElement) {
+                    el = foundEl;
+                } else {
+                    console.error('Target element not found or not an HTMLElement:', target);
+                    return;
+                }
             }
-            if (el) {
+            if (el instanceof HTMLElement) {
                 el.innerHTML = html;
             }
         } catch (error) {
             let el = target;
             if (typeof target === 'string') {
-                el = document.querySelector(target);
+                const foundEl = document.querySelector(target);
+                if (foundEl instanceof HTMLElement) {
+                    el = foundEl;
+                } else {
+                    return; // silently fail in error handler
+                }
             }
-            if (el) {
+            if (el instanceof HTMLElement) {
                 el.innerHTML = '<p>Error loading documentation: ' + error.message + '</p>';
             }
         }
@@ -221,11 +266,15 @@ class WBBaseComponent extends HTMLElement {
     }
 
     // Schema/config loading (stub for override)
+    /**
+     * @returns {string|null}
+     */
     static get schemaUrl() { return null; }
     async loadSchema() {
-        if (!this.constructor.schemaUrl) return null;
+        const ctor = /** @type {typeof WBBaseComponent} */ (this.constructor);
+        if (!ctor.schemaUrl) return null;
         try {
-            const resp = await fetch(this.constructor.schemaUrl);
+            const resp = await fetch(ctor.schemaUrl);
             if (!resp.ok) throw new Error('Failed to load schema');
             return await resp.json();
         } catch (e) {
@@ -246,9 +295,7 @@ class WBBaseComponent extends HTMLElement {
     static get version() { return '1.0.0'; }
 }
 
-// Make WBBaseComponent available globally and as ES module export
-window.WBBaseComponent = WBBaseComponent;
-export { WBBaseComponent };
+// Export moved to end of file after WBDemoBase definition
 
 // --- DEMO LOGIC FOR wb-base-demo.html ---
 // Defines <wb-demo-base> and attaches demo event/hover logic
@@ -283,4 +330,18 @@ if (!customElements.get('wb-demo-base')) {
 }
 
 // Make WBDemoBase available globally
-window.WBDemoBase = WBDemoBase;
+if (typeof window !== 'undefined') {
+    /** @type {any} */ (window).WBDemoBase = WBDemoBase;
+}
+
+// Make WBBaseComponent available globally
+window['WBBaseComponent'] = WBBaseComponent;
+
+// Compositional Namespace
+if (!window['WB']) window['WB'] = { components: {}, utils: {} };
+window['WB'].components.WBBaseComponent = WBBaseComponent;
+window['WB'].components.WBDemoBase = WBDemoBase;
+
+// ES6 Module Exports
+export { WBBaseComponent, WBDemoBase };
+export default WBBaseComponent;

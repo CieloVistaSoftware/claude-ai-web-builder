@@ -1,9 +1,17 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "wb-demo",
-  "description": "Schema for the wb-demo web component, which displays documentation and live examples for a component. Documentation is loaded from a Markdown file and rendered to HTML using the base class logic.",
+  "description": "Schema for the wb-demo web component, which displays documentation and live examples for a component.",
   "type": "object",
   "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title for the demo/documentation panel."
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the component or demo."
+    },
     "markdown": {
       "type": "string",
       "description": "Path to the Markdown (.md) file containing documentation to be loaded and rendered."
@@ -17,20 +25,28 @@
       "description": "Slot for rendered documentation HTML (auto-generated from the .md file by the base class)."
     }
   },
-  "required": ["markdown"],
+  "required": [],
   "slots": {
-    "examples": {
+    "demo": {
       "description": "Slot for live example HTML content."
     },
-    "documentation": {
-      "description": "Slot for rendered documentation HTML (auto-generated from the .md file by the base class)."
+    "docs": {
+      "description": "Slot for rendered documentation HTML."
+    },
+    "code": {
+      "description": "Slot for code sample HTML."
+    }
+  },
+  "events": {
+    "tabchange": {
+      "description": "Fired when the user switches tabs in the demo panel."
     }
   },
   "examples": [
     {
-      "markdown": "./wb-button.md",
-      "examples": "<wb-button variant=\"primary\">Primary</wb-button>",
-      "documentation": "<h1>WB Button Component</h1>..."
+      "title": "Button Demo",
+      "description": "A demo of the wb-button component.",
+      "markdown": "./wb-button.md"
     }
   ]
 }

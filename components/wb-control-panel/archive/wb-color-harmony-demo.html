@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave-Based Color Harmony Demo</title>
+    
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        .demo-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            height: 100vh;
+            gap: 0;
+        }
+        
+        .sidebar {
+            background: var(--surface-raised);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-primary);
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            margin: 0 0 0.25rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .controls {
+            padding: 1rem;
+            flex: 1;
+        }
+        
+        .control-group {
+            margin-bottom: 1rem;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-primary);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .control-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        
+        .control-group input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: none;
+        }
+        
+        .value-display {
+            float: right;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+        
+        .color-preview-panel {
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .color-preview-panel h3 {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+        
+        .preview-swatches {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .preview-swatch {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .preview-swatch:hover {
+            transform: scale(1.05);
+        }
+        
+        .main-content {
+            padding: 2rem;
+            overflow-y: auto;
+            background: var(--bg-color);
+        }
+        
+        .harmony-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .harmony-card {
+            background: var(--surface-raised);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .harmony-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .harmony-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .harmony-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .harmony-theory {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+        
+        .color-swatches {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+        
+        .swatch {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            border: 2px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 2px;
+        }
+        
+        .swatch:hover {
+            transform: scale(1.15);
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .swatch-label {
+            font-size: 0.55rem;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            font-weight: 600;
+        }
+        
+        .info-panel {
+            background: var(--surface-raised);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-panel h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        
+        .info-panel p {
+            margin: 0;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .wave-indicator {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        .traditional {
+            color: #6366f1;
+        }
+        
+        .wave-based {
+            color: #10b981;
+        }
+        
+        /* Color Organ Mode */
+        #color-organ {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-auto-rows: 1fr;
+            gap: 0;
+            background: #000;
+        }
+        
+        #color-organ.active {
+            display: grid;
+        }
+        
+        .organ-block {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.8);
+            transition: transform 0.05s, filter 0.05s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .organ-block::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+        }
+        
+        .organ-block.pulse {
+            transform: scale(1.05);
+            filter: brightness(1.3);
+        }
+        
+        @media (max-width: 1024px) {
+            .demo-layout {
+                grid-template-columns: 280px 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .demo-layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+            
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                max-height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-layout">
+        <!-- Sidebar with controls -->
+        <div class="sidebar">
+            <div class="header">
+                <h1>🌊 Wave-Based Color Harmony</h1>
+                <p>Color Theory + Radio Waves</p>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>
+                        Base Hue
+                        <span class="value-display" id="hue-display">240°</span>
+                    </label>
+                    <input type="range" id="base-hue" min="0" max="360" value="240">
+                </div>
+                
+                <div class="control-group">
+                    <label>
+                        Saturation
+                        <span class="value-display" id="sat-display">70%</span>
+                    </label>
+                    <input type="range" id="saturation" min="0" max="100" value="70">
+                </div>
+                
+                <div class="control-group">
+                    <label>
+                        Lightness
+                        <span class="value-display" id="light-display">50%</span>
+                    </label>
+                    <input type="range" id="lightness" min="0" max="100" value="50">
+                </div>
+                
+                <div class="control-group" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <label style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>🌊 Modulation Engine</span>
+                        <input type="checkbox" id="animation-toggle" style="width: auto; height: auto;">
+                    </label>
+                    <p style="font-size: 0.65rem; color: var(--text-muted); margin: 0.25rem 0 0.5rem 0;">Wave-based color animation system</p>
+                    
+                    <div id="modulation-controls" style="display: none; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <label style="font-size: 0.7rem; margin-bottom: 0.5rem;">Modulation Type</label>
+                        <select id="mod-type" style="width: 100%; padding: 0.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-primary); font-size: 0.75rem; margin-bottom: 0.75rem;">
+                            <option value="pm">PM - Phase Modulation</option>
+                            <option value="fm">FM - Frequency Modulation</option>
+                            <option value="am">AM - Amplitude Modulation</option>
+                            <option value="combined">Combined (PM+FM+AM)</option>
+                        </select>
+                        
+                        <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.7rem; margin-top: 0.5rem;">
+                            <span>📺 Color Organ View</span>
+                            <input type="checkbox" id="color-organ-toggle" style="width: auto; height: auto;">
+                        </label>
+                        <p style="font-size: 0.6rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">Full-screen color blocks</p>
+                        
+                        <label style="font-size: 0.7rem; margin-bottom: 0.25rem;">
+                            Depth
+                            <span class="value-display" id="depth-display" style="font-size: 0.7rem;">15°</span>
+                        </label>
+                        <input type="range" id="mod-depth" min="5" max="45" value="15" step="5" style="width: 100%; margin-bottom: 0.75rem;">
+                        
+                        <label style="font-size: 0.7rem; margin-bottom: 0.25rem;">
+                            Rate
+                            <span class="value-display" id="rate-display" style="font-size: 0.7rem;">0.19 Hz</span>
+                        </label>
+                        <input type="range" id="mod-rate" min="0.01" max="0.1" value="0.02" step="0.01" style="width: 100%; margin-bottom: 0.75rem;">
+                        
+                        <label style="font-size: 0.7rem; margin-bottom: 0.5rem;">Wave Shape</label>
+                        <select id="wave-shape" style="width: 100%; padding: 0.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-primary); font-size: 0.75rem; margin-bottom: 0.75rem;">
+                            <option value="sine">Sine (smooth)</option>
+                            <option value="triangle">Triangle (linear)</option>
+                            <option value="sawtooth">Sawtooth (ramp)</option>
+                            <option value="square">Square (steps)</option>
+                        </select>
+                        
+                        <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.7rem; margin-top: 0.5rem;">
+                            <span>🌊 Cascade Effect</span>
+                            <input type="checkbox" id="cascade-toggle" style="width: auto; height: auto;">
+                        </label>
+                        <p style="font-size: 0.6rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">Colors ripple through swatches</p>
+                    </div>
+                </div>
+                
+                <div class="control-group" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <label style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>🎵 Audio Reactive Mode</span>
+                        <input type="checkbox" id="audio-toggle" style="width: auto; height: auto;">
+                    </label>
+                    <p style="font-size: 0.65rem; color: var(--text-muted); margin: 0.25rem 0 0.5rem 0;">Drive colors with audio input</p>
+                    
+                    <div id="audio-controls" style="display: none; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <label style="font-size: 0.7rem; margin-bottom: 0.5rem;">Audio Source</label>
+                        <select id="audio-source" style="width: 100%; padding: 0.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-primary); font-size: 0.75rem; margin-bottom: 0.75rem;">
+                            <option value="tab">Browser Tab Audio (Recommended)</option>
+                            <option value="mic">Microphone</option>
+                        </select>
+                        <p style="font-size: 0.6rem; color: var(--text-muted); margin: 0 0 0.75rem 0;">Tab audio captures music playing in browser</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <div>
+                                <label style="font-size: 0.65rem; color: var(--text-muted);">Bass</label>
+                                <div id="bass-meter" style="height: 4px; background: var(--bg-primary); border-radius: 2px; overflow: hidden;">
+                                    <div style="height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #f59e0b); transition: width 0.1s;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label style="font-size: 0.65rem; color: var(--text-muted);">Treble</label>
+                                <div id="treble-meter" style="height: 4px; background: var(--bg-primary); border-radius: 2px; overflow: hidden;">
+                                    <div style="height: 100%; width: 0%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); transition: width 0.1s;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <label style="font-size: 0.7rem; margin-bottom: 0.25rem;">
+                            Sensitivity
+                            <span class="value-display" id="sensitivity-display" style="font-size: 0.7rem;">5x</span>
+                        </label>
+                        <input type="range" id="audio-sensitivity" min="1" max="10" value="5" step="1" style="width: 100%;">
+                    </div>
+                </div>
+                
+                <button id="export-btn" style="width: 100%; padding: 0.75rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 1rem; transition: background 0.2s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">
+                    💾 Export Palette
+                </button>
+            </div>
+            
+            <div class="color-preview-panel">
+                <h3>🎨 Current Colors</h3>
+                <div class="preview-swatches">
+                    <div class="preview-swatch" id="preview-primary">Primary</div>
+                    <div class="preview-swatch" id="preview-accent">Accent</div>
+                    <div class="preview-swatch" id="preview-secondary">Secondary</div>
+                    <div class="preview-swatch" id="preview-neutral">Neutral</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main content area -->
+        <div class="main-content">
+            <div id="harmony-display" class="harmony-display">
+                <!-- Harmony cards will be generated here -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="wb-color-harmony.js"></script>
+    <script>
+        // Initialize the harmony system
+        const harmonySystem = new WBColorHarmony();
+        
+        // Get controls
+        const hueSlider = document.getElementById('base-hue');
+        const satSlider = document.getElementById('saturation');
+        const lightSlider = document.getElementById('lightness');
+        
+        const hueDisplay = document.getElementById('hue-display');
+        const satDisplay = document.getElementById('sat-display');
+        const lightDisplay = document.getElementById('light-display');
+        
+        // All harmony modes
+        const harmonyModes = [
+            'complementary',
+            'splitComplementary', 
+            'triadic',
+            'tetradic',
+            'analogous',
+            'beatPattern',
+            'harmonicSeries',
+            'dopplerShift',
+            'standingWave'
+        ];
+        
+        // Update display
+        function updateHarmonies() {
+            const hue = parseInt(hueSlider.value);
+            const sat = parseInt(satSlider.value);
+            const light = parseInt(lightSlider.value);
+            
+            // Update displays
+            hueDisplay.textContent = `${hue}°`;
+            satDisplay.textContent = `${sat}%`;
+            lightDisplay.textContent = `${light}%`;
+            
+            // Update preview swatches in sidebar
+            const primaryColor = `hsl(${hue}, ${sat}%, ${light}%)`;
+            const accentHue = (hue + 180) % 360;
+            const accentColor = `hsl(${accentHue}, ${sat - 10}%, ${light}%)`;
+            const secondaryHue = (hue - 30 + 360) % 360;
+            const secondaryColor = `hsl(${secondaryHue}, ${sat - 20}%, ${light + 5}%)`;
+            const neutralColor = `hsl(${hue}, 5%, ${light}%)`;
+            
+            document.getElementById('preview-primary').style.backgroundColor = primaryColor;
+            document.getElementById('preview-accent').style.backgroundColor = accentColor;
+            document.getElementById('preview-secondary').style.backgroundColor = secondaryColor;
+            document.getElementById('preview-neutral').style.backgroundColor = neutralColor;
+            
+            // Generate all harmonies
+            const container = document.getElementById('harmony-display');
+            container.innerHTML = '';
+            
+            harmonyModes.forEach(mode => {
+                const palette = harmonySystem.generatePalette(hue, mode, sat, light);
+                const info = harmonySystem.getHarmonyInfo(mode);
+                
+                const card = createHarmonyCard(mode, palette, info);
+                container.appendChild(card);
+            });
+        }
+        
+        function createHarmonyCard(mode, palette, info) {
+            const card = document.createElement('div');
+            card.className = 'harmony-card';
+            
+            const isWaveBased = ['beatPattern', 'harmonicSeries', 'dopplerShift', 'standingWave', 'phaseModulation'].includes(mode);
+            const indicator = isWaveBased ? 
+                '<span class="wave-indicator wave-based">🌊</span>' : 
+                '<span class="wave-indicator traditional">🎨</span>';
+            
+            card.innerHTML = `
+                <div class="harmony-header">
+                    <div>
+                        ${indicator}
+                        <span class="harmony-name">${info.name}</span>
+                    </div>
+                </div>
+                <div class="harmony-theory">${info.theory}</div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                    ${info.description}
+                </p>
+                <div class="color-swatches">
+                    ${palette.map((color, i) => `
+                        <div class="swatch" 
+                             style="background: ${color.hsl};"
+                             title="${color.hue}° - ${color.hex}">
+                            <div class="swatch-label">${color.hue}°</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Modulation Engine System
+        let animationEnabled = false;
+        let animationFrame = null;
+        let animationTime = 0;
+        
+        // Modulation parameters
+        let modulationType = 'pm';
+        let modulationDepth = 15;
+        let modulationRate = 0.02;
+        let waveShape = 'sine';
+        let cascadeEnabled = false;
+        const cascadePhaseShift = Math.PI / 4; // 45° phase shift between swatches
+        
+        // Audio reactive system
+        let audioEnabled = false;
+        let audioContext = null;
+        let analyser = null;
+        let microphone = null;
+        let audioDataArray = null;
+        let audioSensitivity = 5;
+        
+        const animationToggle = document.getElementById('animation-toggle');
+        const modulationControls = document.getElementById('modulation-controls');
+        const modTypeSelect = document.getElementById('mod-type');
+        const modDepthSlider = document.getElementById('mod-depth');
+        const modRateSlider = document.getElementById('mod-rate');
+        const waveShapeSelect = document.getElementById('wave-shape');
+        const cascadeToggle = document.getElementById('cascade-toggle');
+        const depthDisplay = document.getElementById('depth-display');
+        const rateDisplay = document.getElementById('rate-display');
+        
+        // Audio controls
+        const audioToggle = document.getElementById('audio-toggle');
+        const audioControls = document.getElementById('audio-controls');
+        const audioSourceSelect = document.getElementById('audio-source');
+        const audioSensitivitySlider = document.getElementById('audio-sensitivity');
+        const sensitivityDisplay = document.getElementById('sensitivity-display');
+        const bassMeter = document.getElementById('bass-meter');
+        const trebleMeter = document.getElementById('treble-meter');
+        
+        // Show/hide controls when toggle changes
+        animationToggle.addEventListener('change', (e) => {
+            animationEnabled = e.target.checked;
+            modulationControls.style.display = animationEnabled ? 'block' : 'none';
+            
+            if (animationEnabled) {
+                startAnimation();
+                console.log(`🌊 Modulation engine started: ${modulationType.toUpperCase()}`);
+            } else {
+                stopAnimation();
+                updateHarmonies(); // Reset to base values
+                console.log('⏸️ Animation stopped');
+            }
+        });
+        
+        // Modulation type change
+        modTypeSelect.addEventListener('change', (e) => {
+            modulationType = e.target.value;
+            console.log(`🎵 Modulation type: ${modulationType.toUpperCase()}`);
+        });
+        
+        // Depth slider
+        modDepthSlider.addEventListener('input', (e) => {
+            modulationDepth = parseInt(e.target.value);
+            depthDisplay.textContent = `${modulationDepth}°`;
+        });
+        
+        // Rate slider
+        modRateSlider.addEventListener('input', (e) => {
+            modulationRate = parseFloat(e.target.value);
+            const frequency = modulationRate * 60 / (2 * Math.PI);
+            rateDisplay.textContent = `${frequency.toFixed(2)} Hz`;
+        });
+        
+        // Wave shape change
+        waveShapeSelect.addEventListener('change', (e) => {
+            waveShape = e.target.value;
+            console.log(`🌊 Wave shape: ${waveShape}`);
+        });
+        
+        // Cascade toggle
+        cascadeToggle.addEventListener('change', (e) => {
+            cascadeEnabled = e.target.checked;
+            console.log(`🌊 Cascade effect: ${cascadeEnabled ? 'ON' : 'OFF'}`);
+        });
+        
+        // Audio reactive toggle
+        audioToggle.addEventListener('change', async (e) => {
+            audioEnabled = e.target.checked;
+            audioControls.style.display = audioEnabled ? 'block' : 'none';
+            
+            if (audioEnabled) {
+                await startAudio();
+            } else {
+                stopAudio();
+            }
+        });
+        
+        // Audio sensitivity
+        audioSensitivitySlider.addEventListener('input', (e) => {
+            audioSensitivity = parseInt(e.target.value);
+            sensitivityDisplay.textContent = `${audioSensitivity}x`;
+        });
+        
+        // Audio system functions
+        async function startAudio() {
+            const audioSource = audioSourceSelect.value;
+            
+            try {
+                let stream;
+                
+                if (audioSource === 'tab') {
+                    // Capture browser tab audio using getDisplayMedia
+                    // NOTE: Chrome requires video:true even if we only want audio
+                    stream = await navigator.mediaDevices.getDisplayMedia({
+                        video: true, // Required by Chrome, but we'll ignore it
+                        audio: {
+                            echoCancellation: false,
+                            noiseSuppression: false,
+                            autoGainControl: false
+                        }
+                    });
+                    
+                    // Stop the video track immediately (we only want audio)
+                    const videoTrack = stream.getVideoTracks()[0];
+                    if (videoTrack) {
+                        videoTrack.stop();
+                        stream.removeTrack(videoTrack);
+                    }
+                    
+                    console.log('🎵 Capturing tab audio - play music in another tab!');
+                } else {
+                    // Capture microphone audio
+                    stream = await navigator.mediaDevices.getUserMedia({ 
+                        audio: {
+                            echoCancellation: false,
+                            noiseSuppression: false,
+                            autoGainControl: false
+                        }
+                    });
+                    console.log('🎤 Capturing microphone audio');
+                }
+                
+                // Create audio context
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(stream);
+                
+                // Configure analyser
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                audioDataArray = new Uint8Array(bufferLength);
+                
+                // Connect audio graph
+                microphone.connect(analyser);
+                
+                console.log('🎵 Audio reactive mode started!');
+                console.log('  🎸 Bass (low freq) → Hue shifts');
+                console.log('  🎤 Mids (vocals) → Saturation');
+                console.log('  🎼 Highs (treble) → Lightness');
+                if (audioSource === 'tab') {
+                    console.log('  📡 Open Spotify/YouTube in another tab and play music!');
+                }
+                
+                // Enable animation if not already on
+                if (!animationEnabled) {
+                    animationToggle.checked = true;
+                    animationEnabled = true;
+                    modulationControls.style.display = 'block';
+                    startAnimation();
+                }
+            } catch (error) {
+                console.error('❌ Audio access denied:', error);
+                const sourceText = audioSourceSelect.value === 'tab' ? 'Tab audio' : 'Microphone';
+                alert(`${sourceText} access required for audio reactive mode!
+
+For Tab Audio:
+1. Click the toggle
+2. Select "Browser Tab"
+3. Choose the tab with your music
+4. Check "Share audio"
+5. Click Share`);
+                audioToggle.checked = false;
+                audioEnabled = false;
+                audioControls.style.display = 'none';
+            }
+        }
+        
+        function stopAudio() {
+            if (microphone) {
+                microphone.disconnect();
+                microphone = null;
+            }
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+            analyser = null;
+            audioDataArray = null;
+            console.log('⏸️ Audio reactive mode stopped');
+        }
+        
+        function analyzeAudio() {
+            if (!analyser || !audioDataArray) return { bass: 0, mids: 0, highs: 0 };
+            
+            analyser.getByteFrequencyData(audioDataArray);
+            
+            const bufferLength = audioDataArray.length;
+            
+            // Split frequency spectrum into bass, mids, highs
+            const bassEnd = Math.floor(bufferLength * 0.15);      // 0-15%
+            const midsEnd = Math.floor(bufferLength * 0.5);       // 15-50%
+            // highs = 50-100%
+            
+            let bassSum = 0, midsSum = 0, highsSum = 0;
+            
+            for (let i = 0; i < bufferLength; i++) {
+                const value = audioDataArray[i];
+                
+                if (i < bassEnd) {
+                    bassSum += value;
+                } else if (i < midsEnd) {
+                    midsSum += value;
+                } else {
+                    highsSum += value;
+                }
+            }
+            
+            // Normalize to 0-1 range
+            const bass = (bassSum / (bassEnd * 255)) * audioSensitivity / 5;
+            const mids = (midsSum / ((midsEnd - bassEnd) * 255)) * audioSensitivity / 5;
+            const highs = (highsSum / ((bufferLength - midsEnd) * 255)) * audioSensitivity / 5;
+            
+            // Update visual meters
+            const bassBar = bassMeter.querySelector('div');
+            const trebleBar = trebleMeter.querySelector('div');
+            if (bassBar) bassBar.style.width = `${Math.min(100, bass * 100)}%`;
+            if (trebleBar) trebleBar.style.width = `${Math.min(100, highs * 100)}%`;
+            
+            return { 
+                bass: Math.min(1, bass), 
+                mids: Math.min(1, mids), 
+                highs: Math.min(1, highs) 
+            };
+        }
+        
+        function startAnimation() {
+            animationTime = 0;
+            animate();
+        }
+        
+        function stopAnimation() {
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+        }
+        
+        // Wave shape functions
+        function getWaveValue(time, shape) {
+            const t = time % (2 * Math.PI);
+            
+            switch(shape) {
+                case 'sine':
+                    return Math.sin(t);
+                    
+                case 'triangle':
+                    // Triangle wave: linear up, linear down
+                    return (2 / Math.PI) * Math.asin(Math.sin(t));
+                    
+                case 'sawtooth':
+                    // Sawtooth: ramp up, instant drop
+                    return 2 * (t / (2 * Math.PI) - Math.floor(t / (2 * Math.PI) + 0.5));
+                    
+                case 'square':
+                    // Square wave: instant transitions
+                    return Math.sin(t) >= 0 ? 1 : -1;
+                    
+                default:
+                    return Math.sin(t);
+            }
+        }
+        
+        function animate() {
+            if (!animationEnabled) return;
+            
+            animationTime += modulationRate;
+            
+            const baseHue = parseInt(hueSlider.value);
+            const baseSat = parseInt(satSlider.value);
+            const baseLight = parseInt(lightSlider.value);
+            
+            let modulatedHue = baseHue;
+            let modulatedSat = baseSat;
+            let modulatedLight = baseLight;
+            let displayText = '';
+            
+            // 🎵 AUDIO REACTIVE: Analyze audio and apply to colors
+            let audioData = { bass: 0, mids: 0, highs: 0 };
+            if (audioEnabled && analyser) {
+                audioData = analyzeAudio();
+                
+                // Bass drives HUE (low frequencies shift colors)
+                const bassHueShift = audioData.bass * 60; // Up to ±60°
+                modulatedHue = baseHue + bassHueShift;
+                
+                // Mids drive SATURATION (vocals make colors more intense)
+                const midsSatShift = audioData.mids * 30; // Up to +30%
+                modulatedSat = Math.max(0, Math.min(100, baseSat + midsSatShift));
+                
+                // Highs drive LIGHTNESS (treble makes colors brighter)
+                const highsLightShift = (audioData.highs - 0.5) * 20; // ±10%
+                modulatedLight = Math.max(20, Math.min(80, baseLight + highsLightShift));
+                
+                displayText = `🎵 H:${Math.round(modulatedHue)}° S:${Math.round(modulatedSat)}% L:${Math.round(modulatedLight)}% [AUDIO]`;
+            } else {
+                // Regular modulation (non-audio)
+                // Get wave value for current time
+                const waveValue = getWaveValue(animationTime, waveShape);
+                
+                switch(modulationType) {
+                    case 'pm': // Phase Modulation - modulates HUE
+                        modulatedHue = baseHue + (modulationDepth * waveValue);
+                        displayText = `${Math.round(modulatedHue)}° [PM]`;
+                        break;
+                        
+                    case 'fm': // Frequency Modulation - modulates RATE OF CHANGE
+                        // FM: frequency changes over time
+                        const fmModulator = Math.sin(animationTime * 0.3); // Slow modulation of frequency
+                        const instantFreq = modulationRate * (1 + fmModulator);
+                        modulatedHue = baseHue + (modulationDepth * Math.sin(animationTime * instantFreq * 5));
+                        displayText = `${Math.round(modulatedHue)}° [FM]`;
+                        break;
+                        
+                    case 'am': // Amplitude Modulation - modulates SATURATION
+                        modulatedSat = Math.max(0, Math.min(100, baseSat + (20 * waveValue)));
+                        displayText = `S:${Math.round(modulatedSat)}% [AM]`;
+                        break;
+                        
+                    case 'combined': // All three at once!
+                        // PM on hue
+                        modulatedHue = baseHue + (modulationDepth * 0.7 * waveValue);
+                        // AM on saturation
+                        modulatedSat = Math.max(0, Math.min(100, baseSat + (15 * Math.sin(animationTime * 1.3))));
+                        // FM effect on lightness
+                        const fmEffect = Math.sin(animationTime * 0.5);
+                        modulatedLight = Math.max(20, Math.min(80, baseLight + (10 * Math.sin(animationTime * (1 + fmEffect)))));
+                        displayText = `H:${Math.round(modulatedHue)}° S:${Math.round(modulatedSat)}% L:${Math.round(modulatedLight)}% [COMBINED]`;
+                        break;
+                }
+            }
+            
+            // Normalize hue
+            modulatedHue = (modulatedHue + 360) % 360;
+            
+            // Update display
+            hueDisplay.textContent = displayText;
+            
+            // Update preview swatches
+            const primaryColor = `hsl(${modulatedHue}, ${modulatedSat}%, ${modulatedLight}%)`;
+            const accentHue = (modulatedHue + 180) % 360;
+            const accentColor = `hsl(${accentHue}, ${modulatedSat - 10}%, ${modulatedLight}%)`;
+            const secondaryHue = (modulatedHue - 30 + 360) % 360;
+            const secondaryColor = `hsl(${secondaryHue}, ${modulatedSat - 20}%, ${modulatedLight + 5}%)`;
+            const neutralColor = `hsl(${modulatedHue}, 5%, ${modulatedLight}%)`;
+            
+            document.getElementById('preview-primary').style.backgroundColor = primaryColor;
+            document.getElementById('preview-accent').style.backgroundColor = accentColor;
+            document.getElementById('preview-secondary').style.backgroundColor = secondaryColor;
+            document.getElementById('preview-neutral').style.backgroundColor = neutralColor;
+            
+            // Update harmony cards with CASCADE effect
+            const container = document.getElementById('harmony-display');
+            container.innerHTML = '';
+            
+            harmonyModes.forEach((mode, modeIndex) => {
+                const palette = harmonySystem.generatePalette(modulatedHue, mode, modulatedSat, modulatedLight);
+                const info = harmonySystem.getHarmonyInfo(mode);
+                
+                // Apply cascade: each swatch gets progressively phase-shifted colors
+                if (cascadeEnabled) {
+                    palette.forEach((color, swatchIndex) => {
+                        // Calculate phase-shifted time for this swatch
+                        const phaseShiftedTime = animationTime - (swatchIndex * cascadePhaseShift);
+                        const cascadeWaveValue = getWaveValue(phaseShiftedTime, waveShape);
+                        
+                        // Recalculate hue for this specific swatch based on its phase
+                        let cascadeHue = baseHue;
+                        
+                        switch(modulationType) {
+                            case 'pm':
+                                cascadeHue = baseHue + (modulationDepth * cascadeWaveValue);
+                                break;
+                            case 'fm':
+                                const fmMod = Math.sin(phaseShiftedTime * 0.3);
+                                const instFreq = modulationRate * (1 + fmMod);
+                                cascadeHue = baseHue + (modulationDepth * Math.sin(phaseShiftedTime * instFreq * 5));
+                                break;
+                            case 'am':
+                                // For AM, keep hue but vary saturation in cascade
+                                const cascadeSat = Math.max(0, Math.min(100, baseSat + (20 * cascadeWaveValue)));
+                                color.saturation = cascadeSat;
+                                color.hsl = `hsl(${color.hue}, ${cascadeSat}%, ${color.lightness}%)`;
+                                color.hex = harmonySystem.hslToHex(color.hue, cascadeSat, color.lightness);
+                                break;
+                            case 'combined':
+                                cascadeHue = baseHue + (modulationDepth * 0.7 * cascadeWaveValue);
+                                const combinedSat = Math.max(0, Math.min(100, baseSat + (15 * Math.sin(phaseShiftedTime * 1.3))));
+                                color.saturation = combinedSat;
+                                break;
+                        }
+                        
+                        // Update the color in the palette (except for AM which already did it)
+                        if (modulationType !== 'am') {
+                            cascadeHue = (cascadeHue + 360) % 360;
+                            color.hue = Math.round(cascadeHue);
+                            color.hsl = `hsl(${Math.round(cascadeHue)}, ${color.saturation}%, ${color.lightness}%)`;
+                            color.hex = harmonySystem.hslToHex(cascadeHue, color.saturation, color.lightness);
+                        }
+                    });
+                }
+                
+                const card = createHarmonyCard(mode, palette, info);
+                container.appendChild(card);
+            });
+            
+            animationFrame = requestAnimationFrame(animate);
+        }
+        
+        // Export functionality
+        const exportBtn = document.getElementById('export-btn');
+        exportBtn.addEventListener('click', () => {
+            const hue = parseInt(hueSlider.value);
+            const sat = parseInt(satSlider.value);
+            const light = parseInt(lightSlider.value);
+            
+            // Generate all harmonies
+            const exportData = {
+                metadata: {
+                    name: 'Wave-Based Color Harmony Palette',
+                    generated: new Date().toISOString(),
+                    baseColor: {
+                        hue: hue,
+                        saturation: sat,
+                        lightness: light,
+                        hsl: `hsl(${hue}, ${sat}%, ${light}%)`,
+                        hex: harmonySystem.hslToHex(hue, sat, light)
+                    }
+                },
+                harmonies: {}
+            };
+            
+            // Generate each harmony type
+            harmonyModes.forEach(mode => {
+                const palette = harmonySystem.generatePalette(hue, mode, sat, light);
+                const info = harmonySystem.getHarmonyInfo(mode);
+                
+                exportData.harmonies[mode] = {
+                    name: info.name,
+                    description: info.description,
+                    theory: info.theory,
+                    colors: palette
+                };
+            });
+            
+            // Export as JSON
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `color-harmony-${hue}deg-${Date.now()}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            
+            console.log('💾 Palette exported!', exportData);
+            
+            // Visual feedback
+            const originalText = exportBtn.textContent;
+            exportBtn.textContent = '✅ Exported!';
+            exportBtn.style.background = 'var(--success-color)';
+            setTimeout(() => {
+                exportBtn.textContent = originalText;
+                exportBtn.style.background = 'var(--primary)';
+            }, 2000);
+        });
+        
+        // Event listeners
+        hueSlider.addEventListener('input', () => {
+            if (!animationEnabled) {
+                updateHarmonies();
+            }
+        });
+        
+        satSlider.addEventListener('input', () => {
+            if (!animationEnabled) {
+                updateHarmonies();
+            }
+        });
+        
+        lightSlider.addEventListener('input', () => {
+            if (!animationEnabled) {
+                updateHarmonies();
+            }
+        });
+        
+        // Initial render
+        updateHarmonies();
+        
+        console.log('🎨 Wave-Based Color Harmony Demo Ready!');
+        console.log('🌊 Drag the sliders to see all harmony modes update in real-time!');
+        console.log('✨ Full Modulation Engine:');
+        console.log('  🟦 PM (Phase) - Hue oscillation');
+        console.log('  🟩 FM (Frequency) - Sweeping effect');
+        console.log('  🟪 AM (Amplitude) - Saturation pulsing');
+        console.log('  🌊 Combined - All three at once!');
+        console.log('  🎵 4 wave shapes: Sine, Triangle, Sawtooth, Square');
+        console.log('  💫 CASCADE EFFECT - Colors ripple through swatches!');
+        console.log('  🎵 AUDIO REACTIVE - Dance to music!');
+        console.log('    📡 Tab Audio (direct) or 🎤 Microphone');
+        console.log('    🎸 Bass → Hue | 🎤 Mids → Saturation | 🎼 Highs → Lightness');
+        console.log('  ⏱️ Adjustable depth, rate & sensitivity');
+        console.log('  💾 Export all palettes as JSON');
+    </script>
+</body>
+</html>

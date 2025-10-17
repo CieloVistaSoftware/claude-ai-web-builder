@@ -961,3 +961,16 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         priority: 5
     });
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBTab = WBTab;
+window.WB.components.WBTabPanel = WBTabPanel;
+
+// Expose globally (backward compatibility)
+window.WBTab = WBTab;
+window.WBTabPanel = WBTabPanel;
+
+// ES6 Module Exports
+export { WBTab, WBTabPanel };
+export default WBTab;

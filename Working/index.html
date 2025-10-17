@@ -8,6 +8,9 @@
     <link rel="apple-touch-icon" href="C:\Users\jwpmi\Downloads\Images\Photos\Small\zia.png">
     <link rel="stylesheet" href="styles.css" />
 
+    <!-- WB Component Registry - MUST load before components -->
+    <script src="../utils/wb/wb-component-registry.js"></script>
+
     <!-- JSZip Library for file operations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
@@ -49,8 +52,8 @@
       });
     </script>
 
-    <!-- Control Panel Web Component (content loaded from ControlPanelContent.html) -->
-    <script type="module" src="./components/ControlPanel.js"></script>
+    <!-- Control Panel Web Component -->
+    <script type="module" src="../components/wb-control-panel/wb-control-panel.js"></script>
   </head>
   <body data-theme="default" data-mode="dark" data-layout="top-nav">
     <!-- Site Container -->
@@ -129,9 +132,9 @@
     </div>
 
     <!-- Control Panel Component -->
-    <control-panel id="control-panel">
+    <wb-control-panel id="control-panel">
       <span slot="title">Website Builder Controls</span>
-    </control-panel>
+    </wb-control-panel>
 
     <!-- Dev plugins loader (for development only) -->
     <script src="dev-plugins/dev-plugin-loader.js"></script>
@@ -149,7 +152,7 @@
         
         // Wait for control panel component to load
         function waitForControlPanel() {
-          const controlPanel = document.querySelector('control-panel');
+          const controlPanel = document.querySelector('wb-control-panel');
           if (controlPanel && controlPanel.shadowRoot) {
             initializeControlPanelFunctionality();
           } else {
@@ -518,7 +521,7 @@
       // Load ControlPanelContent.html into the control-panel default slot
       loadContentViaSocketOrFetch("./ControlPanelContent.html")
         .then((html) => {
-          const controlPanel = document.querySelector("control-panel");
+          const controlPanel = document.querySelector("wb-control-panel");
           if (controlPanel) {
             console.log('Inserting control panel content');
             

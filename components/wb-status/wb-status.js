@@ -514,4 +514,15 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
     });
 }
 
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBStatus = WBStatus;
+
+// Expose globally (backward compatibility)
+window.WBStatus = WBStatus;
+
+// ES6 Module Exports
+export { WBStatus };
+export default WBStatus;
+
 console.log('📊 WB Status: Pure Web Component registered');

@@ -15,6 +15,7 @@
 			"*.html": "html"
 		},
 		"liveServer.settings.port": 8083,
-		"liveServer.settings.multiRootWorkspaceName": "wb"
+		"liveServer.settings.multiRootWorkspaceName": "wb",
+		"customElementScanner.mode": "manual"
 	}
 }

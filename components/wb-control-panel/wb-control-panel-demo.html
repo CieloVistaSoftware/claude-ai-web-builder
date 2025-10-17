@@ -1,133 +1,298 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark" data-layout="top-nav">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Control Panel - Complete Demo</title>
-    
-    <!-- Load Foundation CSS -->
-    <link rel="stylesheet" href="../../styles/main.css">
-    
-    <!-- ✅ CRITICAL: Load wb-component-utils FIRST -->
-    <script src="../../utils/wb/wb-component-utils.js"></script>
-    
-    <!-- Load Component Registry System -->
-    <script src="../../utils/wb/wb-component-registry.js"></script>
-    
-    <!-- Load Layout Manager -->
-    <script src="../../styles/layout-manager.js"></script>
-    
-    <!-- Load Web Components - Load dependencies first -->
-    <script src="../wb-event-log/wb-event-log.js"></script>
-    <script src="../wb-color-bar/wb-color-bar.js"></script>
-    <script src="../wb-color-bars/wb-color-bars.js"></script>
-    <script src="../wb-select/wb-select.js"></script>
-    <script src="../wb-toggle/wb-toggle.js"></script>
-    <script src="../wb-button/wb-button.js"></script>
-    <script src="../wb-demo/wb-demo.js"></script>
-    <script src="../wb-nav/wb-nav.js"></script>
-    <script src="../wb-card/wb-card.js"></script>
-    <script src="wb-control-panel.js"></script>
-    
-    <style>
-        /* Keep demo body styles minimal */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-        }
-        
-        /* Override control panel positioning for demo context */
-        wb-control-panel#main-control-panel {
-            position: fixed !important;
-            top: 1rem !important;
-            right: 1rem !important;
-            z-index: 10000 !important;
-            width: 280px !important;
-        }
-    </style>
-</head>
-<body>
-    <wb-demo markdown="./wb-control-panel.md">
-        <div slot="documentation"></div>
-        <div slot="examples" style="position: relative; width: 100%; height: 80vh; background: var(--bg-primary, #1e293b); overflow: auto;">
-            <!-- Navigation -->
-            <wb-nav id="site-nav" 
-                   style="position: sticky; top: 0; z-index: 100;"
-                   items='[
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WB Control Panel - Complete Demo</title>
+
+        <!-- ✅ Load Foundation CSS -->
+        <link rel="stylesheet" href="../../styles/main.css">
+
+        <!-- ✅ Single centralized loader - loads ALL components -->
+        <script src="../../index.js"></script>
+
+        <style>
+            /* Keep demo body styles minimal */
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Ensure main content grows */
+            main {
+                flex: 1 0 auto;
+            }
+
+            /* Footer stays at bottom */
+            footer {
+                flex-shrink: 0;
+            }
+
+            /* Override control panel positioning for demo context */
+            wb-control-panel#main-control-panel {
+                position: fixed !important;
+                top: 1rem !important;
+                right: 1rem !important;
+                z-index: 10000 !important;
+                width: 280px !important;
+            }
+
+            /* Main content area - no height constraint */
+            #main-content-area {
+                width: 100%;
+            }
+
+            /* Event log always at bottom after footer - pushes content up */
+            #event-log-panel {
+                position: relative;
+                height: 250px;
+                min-height: 100px;
+                max-height: 600px;
+                background: var(--bg-primary);
+                border-top: 2px solid var(--border-color);
+                display: block;
+                width: 100%;
+                flex-shrink: 0;
+                order: 9999;
+            }
+
+            /* Drag area integrated into event log toolbar - HIGHLY VISIBLE FOR TESTING */
+            #event-log-drag-area {
+                position: absolute;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 32px;
+                cursor: ns-resize;
+                z-index: 99999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 1;
+                transition: opacity 0.2s, background 0.2s;
+                background: rgba(99, 102, 241, 0.8);
+                border: 2px solid var(--primary, #6366f1);
+                border-radius: 6px;
+                pointer-events: auto;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            #event-log-drag-area:hover {
+                opacity: 1;
+                background: var(--primary, #6366f1);
+                transform: translateX(-50%) scale(1.05);
+            }
+
+            /* Vertical resize icon */
+            #event-log-drag-area::before {
+                content: '↕';
+                font-size: 1.5rem;
+                color: white;
+                font-weight: bold;
+                line-height: 1;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Navigation -->
+        <wb-nav id="site-nav" style="position: sticky; top: 0; z-index: 100;" items='[
                        {"id":"home","text":"Home","href":"#","active":true},
                        {"id":"about","text":"About","href":"#about"},
                        {"id":"services","text":"Services","href":"#services"},
                        {"id":"contact","text":"Contact","href":"#contact"}
                    ]'>
-            </wb-nav>
-            
-            <!-- Main content -->
-            <main style="padding: 2rem;">
-                <h1>Sample Website</h1>
-                <p>This is a sample website to demonstrate the control panel functionality.</p>
-                
-                <section style="margin: 2rem 0;">
-                    <h2>About Us</h2>
-                    <p>We create amazing websites with powerful control panels that allow real-time customization.</p>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
-                        <wb-card>
-                            <h3>Feature One</h3>
-                            <p>Description of our first amazing feature that makes websites better.</p>
-                            <wb-button variant="primary">Learn More</wb-button>
-                        </wb-card>
-                        
-                        <wb-card>
-                            <h3>Feature Two</h3>
-                            <p>Another great feature that enhances the user experience significantly.</p>
-                            <wb-button variant="secondary">Get Started</wb-button>
-                        </wb-card>
-                        
-                        <wb-card>
-                            <h3>Feature Three</h3>
-                            <p>The third feature that completes our comprehensive solution offering.</p>
-                            <wb-button variant="success">Try Now</wb-button>
-                        </wb-card>
-                    </div>
-                </section>
-                
-                <section style="margin: 2rem 0;">
-                    <h2>Contact Information</h2>
-                    <p>Get in touch with us for more information about our services.</p>
-                    <p>Email: info@example.com | Phone: (555) 123-4567</p>
-                </section>
-            </main>
-            
-            <!-- Footer -->
-            <footer style="padding: 1rem 2rem; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1)); text-align: center; background: var(--bg-secondary, rgba(255,255,255,0.02));">
-                <p>&copy; 2025 Sample Website. All rights reserved.</p>
-            </footer>
-            
-            <!-- Control Panel floating -->
-            <wb-control-panel id="main-control-panel"></wb-control-panel>
+        </wb-nav>
+
+        <!-- Main content -->
+        <main style="padding: 2rem;">
+            <h1>Sample Website</h1>
+            <p>This is a sample website to demonstrate the control panel functionality.</p>
+
+            <section style="margin: 2rem 0;">
+                <h2>About Us</h2>
+                <p>We create amazing websites with powerful control panels that allow real-time customization.</p>
+
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    <wb-card>
+                        <h3>Feature One</h3>
+                        <p>Description of our first amazing feature that makes websites better.</p>
+                        <wb-button variant="primary">Learn More</wb-button>
+                    </wb-card>
+
+                    <wb-card>
+                        <h3>Feature Two</h3>
+                        <p>Another great feature that enhances the user experience significantly.</p>
+                        <wb-button variant="secondary">Get Started</wb-button>
+                    </wb-card>
+
+                    <wb-card>
+                        <h3>Feature Three</h3>
+                        <p>The third feature that completes our comprehensive solution offering.</p>
+                        <wb-button variant="success">Try Now</wb-button>
+                    </wb-card>
+                </div>
+            </section>
+
+            <section style="margin: 2rem 0;">
+                <h2>Contact Information</h2>
+                <p>Get in touch with us for more information about our services.</p>
+                <p>Email: info@example.com | Phone: (555) 123-4567</p>
+            </section>
+        </main>
+
+        <wb-log-error></wb-log-error>
+
+        <!-- Footer -->
+        <footer
+            style="padding: 1rem 2rem; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1)); text-align: center; background: var(--bg-secondary, rgba(255,255,255,0.02));">
+            <p>&copy; 2025 Sample Website. All rights reserved.</p>
+        </footer>
+
+        <!-- Event Log Panel - Always after footer at bottom of page -->
+        <div id="event-log-panel">
+            <!-- Drag area overlays toolbar - shows icon on hover -->
+            <div id="event-log-drag-area" title="Drag up/down to resize"></div>
+            <wb-event-log id="demo-event-log" max-events="50" auto-scroll="true" show-timestamps="true"
+                show-source="true" style="width: 100%; height: 100%; display: block;">
+            </wb-event-log>
         </div>
-    </wb-demo>
 
-    <script>
-        // Initialize demo after components load
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Get component references
-            const components = {
-                controlPanel: document.getElementById('main-control-panel'),
-                nav: document.getElementById('site-nav')
-            };
+        <!-- Control Panel floating -->
+        <wb-control-panel id="main-control-panel"></wb-control-panel>
 
-            // Make debug controls available globally
-            window.demoControls = components;
+        <script>
+            // Debug: Check if elements exist
+            console.log('🔍 Checking elements...');
+            console.log('Event log panel:', document.getElementById('event-log-panel'));
+            console.log('Drag area:', document.getElementById('event-log-drag-area'));
+            console.log('Event log component:', document.getElementById('demo-event-log'));
+            
+            // Resizable event log functionality
+            (function() {
+                const eventLogPanel = document.getElementById('event-log-panel');
+                const dragArea = document.getElementById('event-log-drag-area');
+                let isResizing = false;
+                let startY = 0;
+                let startHeight = 0;
 
-            // Log success
-            if (window.WBEventLog) {
-                WBEventLog.logSuccess('Control Panel Demo Loaded', { 
-                    component: 'wb-control-panel-demo'
+                // Load saved height from localStorage
+                const savedHeight = localStorage.getItem('wb-event-log-height');
+                if (savedHeight) {
+                    eventLogPanel.style.height = savedHeight + 'px';
+                }
+
+                dragArea.addEventListener('mousedown', (e) => {
+                    isResizing = true;
+                    startY = e.clientY;
+                    startHeight = eventLogPanel.offsetHeight;
+                    
+                    // Add grabbing cursor to body
+                    document.body.style.cursor = 'ns-resize';
+                    document.body.style.userSelect = 'none';
+                    dragArea.style.opacity = '1';
+                    
+                    e.preventDefault();
                 });
-            }
-        });
-    </script>
-</body>
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isResizing) return;
+
+                    // Calculate new height (dragging UP increases height, dragging DOWN decreases)
+                    // Since event log is at bottom, dragging up = expanding upward into page
+                    const deltaY = startY - e.clientY;  // Reversed: UP is positive
+                    const newHeight = startHeight + deltaY;
+
+                    // Get min and max heights
+                    const minHeight = 100;
+                    const maxHeight = 600;
+
+                    // Constrain height
+                    const constrainedHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+                    
+                    eventLogPanel.style.height = constrainedHeight + 'px';
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isResizing) {
+                        isResizing = false;
+                        document.body.style.cursor = '';
+                        document.body.style.userSelect = '';
+                        
+                        // Save height to localStorage
+                        const currentHeight = eventLogPanel.offsetHeight;
+                        localStorage.setItem('wb-event-log-height', currentHeight);
+                        
+                        console.log('📐 Event log height saved:', currentHeight + 'px');
+                    }
+                });
+
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    const currentHeight = eventLogPanel.offsetHeight;
+                    const maxHeight = 600;
+                    
+                    if (currentHeight > maxHeight) {
+                        eventLogPanel.style.height = maxHeight + 'px';
+                    }
+                });
+
+                console.log('✅ Resizable event log initialized');
+                console.log('👆 Hover over event log toolbar to see drag icon');
+                console.log('↕️ Drag up/down to resize (100px - 600px)');
+                console.log('💾 Height persists to localStorage');
+            })();
+
+            // Initialize demo after components load
+            document.addEventListener('DOMContentLoaded', async () => {
+                // Get component references
+                const components = {
+                    controlPanel: document.getElementById('main-control-panel'),
+                    nav: document.getElementById('site-nav')
+                };
+
+                // Make debug controls available globally
+                window.demoControls = components;
+
+                // Listen for theme changes from control panel
+                document.addEventListener('wb:theme-changed', (e) => {
+                    const theme = e.detail.theme;
+                    console.log('🎨 Theme change received:', theme);
+
+                    // Apply theme to html element
+                    document.documentElement.setAttribute('data-theme', theme);
+                    document.body.setAttribute('data-theme', theme);
+
+                    console.log('✅ Theme applied to page:', theme);
+                });
+
+                // Listen for layout changes from control panel
+                document.addEventListener('wb:layout-changed', (e) => {
+                    const layout = e.detail.layout;
+                    console.log('🎯 Layout change received:', layout);
+
+                    // Apply layout to html element
+                    document.documentElement.setAttribute('data-layout', layout);
+                    document.body.setAttribute('data-layout', layout);
+
+                    console.log('✅ Layout applied to page:', layout);
+                });
+
+                // Log success
+                if (window.WBEventLog) {
+                    WBEventLog.logSuccess('Control Panel Demo Loaded', {
+                        component: 'wb-control-panel-demo'
+                    });
+                }
+            });
+        </script>
+    </body>
+
 </html>

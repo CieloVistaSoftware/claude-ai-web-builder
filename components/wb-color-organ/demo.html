@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Color Organ Demo 🎵🎨</title>
+    
+    <!-- Main styles -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="../../styles/wb-color-organ.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .demo-header h1 {
+            font-size: 3rem;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .demo-header p {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            margin: 0;
+        }
+        
+        .demo-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .control-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .control-card h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.25rem;
+            color: #8b5cf6;
+        }
+        
+        .control-group {
+            margin-bottom: 1rem;
+        }
+        
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .control-group button {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .info-panel {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-panel h3 {
+            margin: 0 0 1rem 0;
+            color: #8b5cf6;
+        }
+        
+        .info-panel ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .info-panel li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .keyboard-shortcuts {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1rem 2rem;
+            margin-top: 1rem;
+        }
+        
+        .key {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+        
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: white;
+            font-size: 0.875rem;
+        }
+        
+        select option {
+            background: #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🎵 Color Organ Demo 🎨</h1>
+            <p>Audio-reactive full-screen color visualization</p>
+        </div>
+        
+        <div class="info-panel">
+            <h3>ℹ️ How to Use</h3>
+            <ul>
+                <li><strong>Step 1:</strong> Click "Activate Color Organ" below</li>
+                <li><strong>Step 2:</strong> Choose your audio source (Browser Tab or Microphone)</li>
+                <li><strong>Step 3:</strong> Grant audio permissions when prompted</li>
+                <li><strong>Step 4:</strong> Play music in another tab or speak into your mic</li>
+                <li><strong>Step 5:</strong> Watch the colors dance to the music! 🎵</li>
+            </ul>
+            
+            <h3 style="margin-top: 1.5rem;">⌨️ Keyboard Shortcuts</h3>
+            <div class="keyboard-shortcuts">
+                <div><span class="key">ESC</span></div>
+                <div>Close Color Organ</div>
+                
+                <div><span class="key">Ctrl</span> + <span class="key">O</span></div>
+                <div>Toggle Color Organ (requires control panel)</div>
+            </div>
+        </div>
+        
+        <div class="demo-controls">
+            <div class="control-card">
+                <h3>🎨 Activation</h3>
+                <div class="control-group">
+                    <button class="btn-primary" id="activate-btn">
+                        🎵 Activate Color Organ
+                    </button>
+                </div>
+                <div class="control-group">
+                    <button class="btn-secondary" id="deactivate-btn">
+                        ⏹️ Deactivate
+                    </button>
+                </div>
+            </div>
+            
+            <div class="control-card">
+                <h3>🎭 Visual Mode</h3>
+                <div class="control-group">
+                    <label>Visualization Style</label>
+                    <select id="mode-select">
+                        <option value="blocks">Color Blocks</option>
+                        <option value="cracked-ice">❄️ Cracked Ice (Acrylic)</option>
+                        <option value="laser">🌀 Spiraling Circles (Rainbow)</option>
+                        <option value="gradient">Gradient Flow</option>
+                        <option value="pulse">Pulse Effect</option>
+                        <option value="wave">Wave Motion</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Number of Colors</label>
+                    <select id="color-count-select">
+                        <option value="4">4 Colors</option>
+                        <option value="6">6 Colors</option>
+                        <option value="8" selected>8 Colors</option>
+                        <option value="12">12 Colors</option>
+                        <option value="16">16 Colors</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="control-card">
+                <h3>🌊 Color Harmony</h3>
+                <div class="control-group">
+                    <label>Harmony Algorithm</label>
+                    <select id="harmony-select">
+                        <optgroup label="Traditional">
+                            <option value="complementary" selected>Complementary</option>
+                            <option value="splitComplementary">Split Complementary</option>
+                            <option value="triadic">Triadic</option>
+                            <option value="tetradic">Tetradic</option>
+                            <option value="analogous">Analogous</option>
+                        </optgroup>
+                        <optgroup label="Wave Theory">
+                            <option value="beatPattern">Beat Pattern</option>
+                            <option value="harmonicSeries">Harmonic Series</option>
+                            <option value="dopplerShift">Doppler Shift</option>
+                            <option value="standingWave">Standing Wave</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <h3>🎵 Audio Reactive Features</h3>
+            <ul>
+                <li><strong>Bass (Low Frequencies):</strong> Drives hue shifts - makes colors rotate</li>
+                <li><strong>Mids (Vocals/Instruments):</strong> Controls saturation - makes colors more intense</li>
+                <li><strong>Treble (High Frequencies):</strong> Adjusts lightness - makes colors brighter/darker</li>
+                <li><strong>Beat Detection:</strong> Triggers pulse effects on strong beats</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Color Organ Component -->
+    <wb-color-organ></wb-color-organ>
+    
+    <!-- Load Color Harmony System -->
+    <script src="../../components/wb-control-panel/wb-color-harmony.js"></script>
+    
+    <!-- Load Color Organ Component -->
+    <script src="../../components/wb-color-organ/wb-color-organ.js"></script>
+    
+    <!-- Demo Controls -->
+    <script>
+        // Get component
+        const colorOrgan = document.querySelector('wb-color-organ');
+        
+        // Activation controls
+        document.getElementById('activate-btn').addEventListener('click', () => {
+            // Simulate control panel event
+            document.dispatchEvent(new CustomEvent('wb:color-organ-toggle', {
+                detail: { enabled: true, source: 'demo' },
+                bubbles: true
+            }));
+            
+            console.log('🎵 Color Organ activated from demo');
+        });
+        
+        document.getElementById('deactivate-btn').addEventListener('click', () => {
+            colorOrgan.hide();
+        });
+        
+        // Mode control
+        document.getElementById('mode-select').addEventListener('change', (e) => {
+            colorOrgan.setMode(e.target.value);
+        });
+        
+        // Color count control
+        document.getElementById('color-count-select').addEventListener('change', (e) => {
+            colorOrgan.setColorCount(parseInt(e.target.value));
+        });
+        
+        // Harmony mode control
+        document.getElementById('harmony-select').addEventListener('change', (e) => {
+            colorOrgan.setHarmonyMode(e.target.value);
+        });
+        
+        // REAL AUDIO CAPTURE SYSTEM - Browser Tab Audio
+        class AudioReactiveSystem {
+            constructor() {
+                this.audioContext = null;
+                this.analyser = null;
+                this.sourceNode = null;
+                this.audioDataArray = null;
+                this.animationFrame = null;
+                this.isActive = false;
+                this.lastBeatTime = 0;
+                this.beatThreshold = 0.7;
+            }
+            
+            async startTabAudio() {
+                try {
+                    console.log('🎵 Requesting tab audio access...');
+                    console.log('📺 SELECT THE TAB with Spotify/YouTube/etc');
+                    console.log('✅ Make sure to CHECK "Share audio" checkbox!');
+                    
+                    // Capture browser tab audio
+                    const stream = await navigator.mediaDevices.getDisplayMedia({
+                        video: true,  // Required by Chrome
+                        audio: {
+                            echoCancellation: false,
+                            noiseSuppression: false,
+                            autoGainControl: false
+                        }
+                    });
+                    
+                    // Stop video track immediately (we only want audio)
+                    const videoTrack = stream.getVideoTracks()[0];
+                    if (videoTrack) {
+                        videoTrack.stop();
+                        stream.removeTrack(videoTrack);
+                    }
+                    
+                    // Create audio context
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.analyser = this.audioContext.createAnalyser();
+                    this.sourceNode = this.audioContext.createMediaStreamSource(stream);
+                    
+                    // Configure analyzer for better frequency resolution
+                    this.analyser.fftSize = 2048;
+                    this.analyser.smoothingTimeConstant = 0.3;
+                    
+                    const bufferLength = this.analyser.frequencyBinCount;
+                    this.audioDataArray = new Uint8Array(bufferLength);
+                    
+                    // Connect audio graph
+                    this.sourceNode.connect(this.analyser);
+                    
+                    this.isActive = true;
+                    console.log('✅ TAB AUDIO CAPTURE STARTED!');
+                    console.log('   🎸 Bass → Hue shifts');
+                    console.log('   🎤 Mids → Saturation');
+                    console.log('   🎼 Treble → Lightness');
+                    console.log('   🔥 Play music in the selected tab!');
+                    
+                    // Start analysis loop
+                    this.analyze();
+                    
+                } catch (error) {
+                    console.error('❌ Tab audio capture failed:', error);
+                    
+                    alert('❌ Audio capture failed!\n\n' +
+                          '📺 To capture tab audio:\n' +
+                          '1. Click "Activate Color Organ"\n' +
+                          '2. Select the tab with your music\n' +
+                          '3. CHECK "Share audio" checkbox\n' +
+                          '4. Click Share\n\n' +
+                          '🎵 Works with Spotify, YouTube, SoundCloud, etc!');
+                }
+            }
+            
+            stop() {
+                if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+                if (this.sourceNode) this.sourceNode.disconnect();
+                if (this.audioContext) this.audioContext.close();
+                
+                this.isActive = false;
+                console.log('⏸️ Audio capture stopped');
+            }
+            
+            analyze() {
+                if (!this.isActive) return;
+                
+                this.analyser.getByteFrequencyData(this.audioDataArray);
+                
+                const bufferLength = this.audioDataArray.length;
+                const bassEnd = Math.floor(bufferLength * 0.1);
+                const midsEnd = Math.floor(bufferLength * 0.4);
+                
+                let bassSum = 0, midsSum = 0, trebleSum = 0;
+                
+                for (let i = 0; i < bufferLength; i++) {
+                    const value = this.audioDataArray[i];
+                    
+                    if (i < bassEnd) {
+                        bassSum += value;
+                    } else if (i < midsEnd) {
+                        midsSum += value;
+                    } else {
+                        trebleSum += value;
+                    }
+                }
+                
+                const bass = bassSum / (bassEnd * 255);
+                const mids = midsSum / ((midsEnd - bassEnd) * 255);
+                const treble = trebleSum / ((bufferLength - midsEnd) * 255);
+                
+                // Dispatch REAL audio data
+                document.dispatchEvent(new CustomEvent('wb:audio-data', {
+                    detail: { bass, mids, treble, timestamp: Date.now() },
+                    bubbles: true
+                }));
+                
+                // Beat detection
+                const now = Date.now();
+                if (bass > this.beatThreshold && (now - this.lastBeatTime) > 200) {
+                    this.lastBeatTime = now;
+                    
+                    document.dispatchEvent(new CustomEvent('wb:color-beat', {
+                        detail: { intensity: bass },
+                        bubbles: true
+                    }));
+                }
+                
+                this.animationFrame = requestAnimationFrame(() => this.analyze());
+            }
+        }
+        
+        // Initialize audio system
+        const audioSystem = new AudioReactiveSystem();
+        
+        // When color organ activates, start tab audio capture
+        document.addEventListener('wb:color-organ-shown', async () => {
+            console.log('🎵 Color Organ activated!');
+            console.log('📺 Preparing to capture audio from another tab...');
+            
+            // Start tab audio capture
+            await audioSystem.startTabAudio();
+        });
+        
+        document.addEventListener('wb:color-organ-hidden', () => {
+            console.log('🎵 Color Organ hidden - stopping audio');
+            audioSystem.stop();
+        });
+        
+        console.log('🎵 Color Organ Demo Ready!');
+        console.log('💡 Tip: For real audio, integrate with wb-control-panel audio system');
+    </script>
+</body>
+</html>

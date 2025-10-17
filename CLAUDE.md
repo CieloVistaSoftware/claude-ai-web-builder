@@ -1,4 +1,9 @@
+Because this entire project is javascript, are we better of adding all properites and functions to the prototypes of our modules? that does follow the favor composistion over inheritance principle because properties are alway compositional in nature.  
+
 # Module Import/Export Discovery (October 14, 2025)
+final-ecosystem-test does not work for Component Integration Tests
+
+claude-json-files.json => remove all refs containing node_modules from current file, then write an .html file that shows have columns fullname, name, lenght, and lastwritetime.  All columns are adjustaable in width
 
 While integrating the demo for `wb-color-harmony`, we encountered a browser error: `The requested module './wb-color-harmony.js' does not provide an export named 'PALETTE_KEYS'`. This occurred because the component file is not a module and does not export `PALETTE_KEYS`.
 

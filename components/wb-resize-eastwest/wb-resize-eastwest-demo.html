@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wb-resize-eastwest Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #1e293b;
+            color: #e2e8f0;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Left Sidebar */
+        #left-sidebar {
+            position: relative;
+            width: 300px;
+            background: #0f172a;
+            border-right: 2px solid #6366f1;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid #6366f1;
+        }
+
+        /* Main Content */
+        #main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .content-block {
+            background: #0f172a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #334155;
+        }
+
+        .content-block h2 {
+            margin-bottom: 0.75rem;
+            color: #60a5fa;
+        }
+
+        .highlight {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+        }
+
+        code {
+            background: rgba(99, 102, 241, 0.2);
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        .instructions {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Sidebar with resize handle -->
+    <div id="left-sidebar">
+        <wb-resize-eastwest 
+            storage-key="demo-sidebar-width"
+            min-width="200"
+            max-width="600"
+            side="right"
+            handle-width="8px">
+        </wb-resize-eastwest>
+        
+        <div class="sidebar-header">
+            <h2>📐 Resizable Sidebar</h2>
+            <p style="font-size: 0.875rem; color: #94a3b8;">Drag the right edge to resize</p>
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="sidebar-item">
+                <strong>🏠 Home</strong>
+            </div>
+            <div class="sidebar-item">
+                <strong>📁 Projects</strong>
+            </div>
+            <div class="sidebar-item">
+                <strong>📊 Analytics</strong>
+            </div>
+            <div class="sidebar-item">
+                <strong>⚙️ Settings</strong>
+            </div>
+            <div class="sidebar-item">
+                <strong>👤 Profile</strong>
+            </div>
+            <div class="sidebar-item">
+                <strong>❓ Help</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="main-content">
+        <h1>🚀 wb-resize-eastwest Demo</h1>
+        
+        <div class="content-block highlight">
+            <h2>📐 How It Works</h2>
+            <div class="instructions">
+                <p><strong>✅ Hover over the right edge of the sidebar</strong></p>
+                <p style="margin-top: 0.5rem;">You'll see the resize cursor (↔️). Drag left or right to resize the sidebar.</p>
+            </div>
+            <ul style="margin-left: 1.5rem; margin-top: 1rem; line-height: 1.8;">
+                <li><code>side="right"</code> - Handle is on the right edge</li>
+                <li><code>min-width="200"</code> - Sidebar can't be smaller than 200px</li>
+                <li><code>max-width="600"</code> - Sidebar can't be larger than 600px</li>
+                <li><code>storage-key</code> - Width persists to localStorage</li>
+            </ul>
+        </div>
+
+        <div class="content-block">
+            <h2>🎯 Usage</h2>
+            <p>Add the component inside the element you want to resize:</p>
+            <pre style="background: #0f172a; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto;"><code>&lt;div id="sidebar" style="position: relative; width: 300px;"&gt;
+    &lt;wb-resize-eastwest 
+        storage-key="sidebar-width"
+        min-width="200"
+        max-width="600"
+        side="right"
+        handle-width="8px"&gt;
+    &lt;/wb-resize-eastwest&gt;
+    
+    &lt;div class="sidebar-content"&gt;
+        &lt;!-- Your content --&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div class="content-block">
+            <h2>⚙️ Attributes</h2>
+            <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                <li><code>storage-key</code> - localStorage key to persist width</li>
+                <li><code>min-width</code> - Minimum width in pixels (default: 200)</li>
+                <li><code>max-width</code> - Maximum width in pixels (default: 1200)</li>
+                <li><code>handle-width</code> - Width of drag area (default: 8px)</li>
+                <li><code>side</code> - Handle position: "left" or "right" (default: "right")</li>
+                <li><code>target</code> - CSS selector of element to resize (default: parent)</li>
+            </ul>
+        </div>
+
+        <div class="content-block">
+            <h2>📡 Events</h2>
+            <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                <li><code>wb:resize-start</code> - Fired when dragging starts</li>
+                <li><code>wb:resizing</code> - Fired continuously while dragging</li>
+                <li><code>wb:resize-end</code> - Fired when dragging ends</li>
+            </ul>
+        </div>
+
+        <div class="content-block">
+            <h2>💡 Common Use Cases</h2>
+            <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                <li><strong>Navigation Sidebars</strong> - Left or right side navigation panels</li>
+                <li><strong>Inspector Panels</strong> - DevTools-style inspector panes</li>
+                <li><strong>File Browsers</strong> - File tree explorers</li>
+                <li><strong>Chat Panels</strong> - Messaging or notification sidebars</li>
+                <li><strong>Settings Panels</strong> - Configuration or preferences panes</li>
+            </ul>
+        </div>
+
+        <div class="content-block">
+            <h2>🎨 Try It!</h2>
+            <p>Open your browser's DevTools console to see resize events:</p>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+                <li>Drag the sidebar edge to see <code>wb:resizing</code> events</li>
+                <li>Release to see the <code>wb:resize-end</code> event with final width</li>
+                <li>Refresh the page - your sidebar width is saved!</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Load the component -->
+    <script type="module" src="./wb-resize-eastwest.js"></script>
+    
+    <script>
+        // Listen to resize events
+        const sidebar = document.getElementById('left-sidebar');
+        
+        sidebar.addEventListener('wb:resize-start', (e) => {
+            console.log('🖱️ Resize started:', e.detail);
+        });
+        
+        sidebar.addEventListener('wb:resizing', (e) => {
+            // Uncomment to see continuous updates:
+            // console.log('↔️ Resizing:', e.detail.width + 'px');
+        });
+        
+        sidebar.addEventListener('wb:resize-end', (e) => {
+            console.log('✅ Resize ended. Final width:', e.detail.finalWidth + 'px');
+        });
+    </script>
+</body>
+</html>

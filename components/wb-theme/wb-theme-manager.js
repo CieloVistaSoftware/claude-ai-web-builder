@@ -6,10 +6,7 @@
  * @author Website Builder Components
  */
 
-(function() {
-    'use strict';
-
-    class WBThemeManager extends HTMLElement {
+class WBThemeManager extends HTMLElement {
         constructor() {
             super();
             
@@ -404,5 +401,11 @@
     
     // Make class globally available
     window.WBThemeManager = WBThemeManager;
-    
-})();
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBThemeManager = WBThemeManager;
+
+// ES6 Module Exports
+export { WBThemeManager };
+export default WBThemeManager;

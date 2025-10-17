@@ -9,10 +9,7 @@
  * - ad-layout: Advertisement optimized with enhanced navigation
  */
 
-(function() {
-    'use strict';
-
-    class WBLayout extends HTMLElement {
+class WBLayout extends HTMLElement {
         constructor() {
             super();
             // Cache DOM elements during initialization
@@ -573,4 +570,19 @@
         }
     };
 
-})();
+// Register custom element
+if (!customElements.get('wb-layout')) {
+    customElements.define('wb-layout', WBLayout);
+}
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBLayout = WBLayout;
+window.WB.utils.WBLayoutAPI = window.WBLayoutAPI;
+
+// Expose globally (backward compatibility)
+window.WBLayout = WBLayout;
+
+// ES6 Module Exports
+export { WBLayout };
+export default WBLayout;

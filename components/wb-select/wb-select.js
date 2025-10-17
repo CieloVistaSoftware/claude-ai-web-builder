@@ -28,10 +28,7 @@
  * @author Website Builder Team
  */
 
-(function() {
-    'use strict';
-
-    if (window.WBEventLog) {
+if (window.WBEventLog) {
         WBEventLog.logInfo('WB Select Web Component: Starting initialization...', { 
             component: 'wb-select', 
             method: 'moduleLoad', 
@@ -1145,7 +1142,13 @@
         }
     }
 
+    // Compositional Namespace
+    if (!window.WB) window.WB = { components: {}, utils: {} };
+    window.WB.components.WBSelect = WBSelect;
+    
     // Expose for backward compatibility
     window.WBSelect = WBSelect;
 
-})();
+// ES6 Module Exports
+export { WBSelect };
+export default WBSelect;

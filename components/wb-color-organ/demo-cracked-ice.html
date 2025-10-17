@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❄️ Cracked Ice Demo - Color Organ</title>
+    
+    <!-- Main styles -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="../../styles/wb-color-organ.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #000;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+        }
+        
+        .overlay-controls {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10002;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 90vw;
+        }
+        
+        .control-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .control-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: #6366f1;
+        }
+        
+        .info-panel {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10002;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            max-width: 90vw;
+            text-align: center;
+        }
+        
+        .info-panel h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .info-panel p {
+            margin: 0;
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .overlay-controls {
+                top: 1rem;
+                gap: 0.5rem;
+            }
+            
+            .control-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+            
+            .info-panel {
+                bottom: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+            
+            .info-panel h2 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay-controls">
+        <button class="control-btn" id="toggle-btn">❄️ Toggle Cracked Ice</button>
+        <button class="control-btn" id="harmony-btn">🎨 Change Harmony</button>
+        <button class="control-btn" id="simulate-audio-btn">🎵 Simulate Audio</button>
+    </div>
+    
+    <div class="info-panel">
+        <h2>✨ Cracked Ice Mode ✨</h2>
+        <p><span id="light-count" style="color: #60a5fa; font-weight: 700; font-size: 1.2rem;">500</span> bright dancing lights • All synchronized to music • Press ESC to close</p>
+    </div>
+    
+    <!-- Color Organ Component -->
+    <wb-color-organ mode="cracked-ice"></wb-color-organ>
+    
+    <!-- Load Color Harmony System -->
+    <script src="../../components/wb-control-panel/wb-color-harmony.js"></script>
+    
+    <!-- Load Color Organ Component -->
+    <script src="../../components/wb-color-organ/wb-color-organ.js"></script>
+    
+    <!-- Demo Controls -->
+    <script>
+        const colorOrgan = document.querySelector('wb-color-organ');
+        
+        // Harmony modes to cycle through
+        const harmonyModes = [
+            'complementary',
+            'triadic',
+            'tetradic',
+            'splitComplementary',
+            'analogous',
+            'beatPattern',
+            'harmonicSeries',
+            'dopplerShift',
+            'standingWave'
+        ];
+        let currentHarmonyIndex = 0;
+        
+        // Shard counts to cycle through
+        const shardCounts = [8, 12, 16, 20, 24];
+        let currentShardIndex = 2; // Start at 16 (index 2)
+        
+        // Audio simulation
+        let audioSimulation = null;
+        let audioSimulationActive = false;
+        
+        // Toggle cracked ice
+        document.getElementById('toggle-btn').addEventListener('click', () => {
+            if (colorOrgan.state.enabled) {
+                colorOrgan.hide();
+                document.getElementById('toggle-btn').classList.remove('active');
+            } else {
+                colorOrgan.show();
+                document.getElementById('toggle-btn').classList.add('active');
+            }
+        });
+        
+        // Change harmony mode
+        document.getElementById('harmony-btn').addEventListener('click', () => {
+            currentHarmonyIndex = (currentHarmonyIndex + 1) % harmonyModes.length;
+            const mode = harmonyModes[currentHarmonyIndex];
+            colorOrgan.setHarmonyMode(mode);
+            
+            // Visual feedback
+            const btn = document.getElementById('harmony-btn');
+            btn.textContent = `🎨 ${mode}`;
+            setTimeout(() => {
+                btn.textContent = '🎨 Change Harmony';
+            }, 2000);
+            
+            console.log(`🎨 Harmony mode: ${mode}`);
+        });
+        
+        // Simulate audio
+        document.getElementById('simulate-audio-btn').addEventListener('click', () => {
+            audioSimulationActive = !audioSimulationActive;
+            const btn = document.getElementById('simulate-audio-btn');
+            
+            if (audioSimulationActive) {
+                btn.classList.add('active');
+                btn.textContent = '⏹️ Stop Audio';
+                startAudioSimulation();
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '🎵 Simulate Audio';
+                stopAudioSimulation();
+            }
+        });
+        
+        function startAudioSimulation() {
+            console.log('🎵 Starting SUPER REACTIVE audio simulation');
+            
+            audioSimulation = setInterval(() => {
+                const time = Date.now() * 0.001;
+                
+                // Create DRAMATIC audio patterns with strong peaks
+                const bassWave = Math.abs(Math.sin(time * 0.5));
+                const midsWave = Math.abs(Math.sin(time * 0.9));
+                const trebleWave = Math.abs(Math.sin(time * 1.8));
+                
+                // Add strong random spikes for dramatic effect
+                const bassSpike = Math.random() > 0.92 ? 0.6 : 0;
+                const midsSpike = Math.random() > 0.94 ? 0.5 : 0;
+                const trebleSpike = Math.random() > 0.96 ? 0.4 : 0;
+                
+                // Combine waves with noise and spikes for very reactive feel
+                const bass = Math.min(1, (bassWave * 0.85 + Math.random() * 0.15 + bassSpike));
+                const mids = Math.min(1, (midsWave * 0.75 + Math.random() * 0.15 + midsSpike));
+                const treble = Math.min(1, (trebleWave * 0.65 + Math.random() * 0.15 + trebleSpike));
+                
+                // Dispatch audio data
+                document.dispatchEvent(new CustomEvent('wb:audio-data', {
+                    detail: { bass, mids, treble, timestamp: Date.now() },
+                    bubbles: true
+                }));
+                
+                // Trigger beat on strong bass hits (more frequent)
+                if (bass > 0.75 || bassSpike > 0) {
+                    document.dispatchEvent(new CustomEvent('wb:color-beat', {
+                        detail: { intensity: bass, timestamp: Date.now() },
+                        bubbles: true
+                    }));
+                }
+            }, 30); // Faster update rate for more reactive feel
+        }
+        
+        function stopAudioSimulation() {
+            if (audioSimulation) {
+                clearInterval(audioSimulation);
+                audioSimulation = null;
+            }
+            console.log('⏹️ Audio simulation stopped');
+        }
+        
+        // Auto-show on load
+        setTimeout(() => {
+            colorOrgan.show();
+            document.getElementById('toggle-btn').classList.add('active');
+            console.log('❄️ Cracked Ice mode activated!');
+        }, 500);
+        
+        // Start audio simulation by default
+        setTimeout(() => {
+            audioSimulationActive = true;
+            document.getElementById('simulate-audio-btn').classList.add('active');
+            document.getElementById('simulate-audio-btn').textContent = '⏹️ Stop Audio';
+            startAudioSimulation();
+        }, 1000);
+        
+        // Update shard count display
+        setTimeout(() => {
+            const count = colorOrgan.state.colorCount;
+            const shardCount = Math.floor(count * 2.5);
+            document.getElementById('shard-count').textContent = shardCount;
+        }, 600);
+        
+        // Listen for color organ events
+        document.addEventListener('wb:color-organ-shown', () => {
+            console.log('❄️ Cracked Ice visualization shown');
+        });
+        
+        document.addEventListener('wb:color-organ-hidden', () => {
+            console.log('❄️ Cracked Ice visualization hidden');
+            // Stop audio simulation when hidden
+            if (audioSimulationActive) {
+                audioSimulationActive = false;
+                document.getElementById('simulate-audio-btn').classList.remove('active');
+                document.getElementById('simulate-audio-btn').textContent = '🎵 Simulate Audio';
+                stopAudioSimulation();
+            }
+        });
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Spacebar') {
+                e.preventDefault();
+                document.getElementById('toggle-btn').click();
+            }
+            if (e.key === 'h' || e.key === 'H') {
+                e.preventDefault();
+                document.getElementById('harmony-btn').click();
+            }
+            if (e.key === 'c' || e.key === 'C') {
+                e.preventDefault();
+                document.getElementById('color-count-btn').click();
+            }
+            if (e.key === 'a' || e.key === 'A') {
+                e.preventDefault();
+                document.getElementById('simulate-audio-btn').click();
+            }
+        });
+        
+        console.log('✨ Cracked Ice Demo Ready!');
+        console.log('💡 500 bright dancing lights - ALL dancing to the music!');
+        console.log('✨ NO independent blinking - pure audio sync');
+        console.log('🎵 Lights grouped by frequency:');
+        console.log('   33% respond to BASS (low frequencies)');
+        console.log('   33% respond to MIDS (vocals/instruments)');
+        console.log('   33% respond to TREBLE (high frequencies)');
+        console.log('🎹 Keyboard shortcuts:');
+        console.log('  SPACE - Toggle visualization');
+        console.log('  H - Change harmony mode');
+        console.log('  A - Toggle audio simulation');
+        console.log('  ESC - Close');
+        
+        // Log light info after generation
+        setTimeout(() => {
+            if (colorOrgan.lightSources && colorOrgan.lightSources.length > 0) {
+                console.log(`✨ Generated ${colorOrgan.lightSources.length} dancing lights`);
+                console.log('   All lights:');
+                console.log('   - Dance together with music (no individual blinks)');
+                console.log('   - Brighter base intensity (0.7-1.0)');
+                console.log('   - Respond to one of 3 frequency bands');
+                console.log('   - Intense glow effects on audio peaks');
+                console.log('   - Scale up to 1.5x on strong beats');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

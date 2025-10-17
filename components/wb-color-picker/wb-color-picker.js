@@ -666,3 +666,14 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         priority: 5 // Color picker component depends on infrastructure
     });
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBColorPicker = WBColorPicker;
+
+// Expose globally (backward compatibility)
+window.WBColorPicker = WBColorPicker;
+
+// ES6 Module Exports
+export { WBColorPicker };
+export default WBColorPicker;

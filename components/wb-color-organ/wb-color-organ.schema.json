@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WB Color Organ Component Schema",
+  "description": "Audio-reactive full-screen color visualization component",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "component": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "wb-color-organ"
+        },
+        "version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["visualization", "audio-reactive", "display"]
+        },
+        "category": {
+          "type": "string",
+          "enum": ["visualization", "multimedia"]
+        },
+        "description": {
+          "type": "string",
+          "const": "Full-screen audio-reactive color visualization system"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "const": "wb-color-organ"
+          },
+          "extends": {
+            "type": "string",
+            "const": "HTMLElement"
+          }
+        }
+      }
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": ["mode", "harmony-mode", "color-count", "base-hue", "saturation", "lightness"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["string", "number"]
+          },
+          "default": {
+            "type": ["string", "number"]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "default": [
+        {
+          "name": "mode",
+          "type": "string",
+          "default": "blocks",
+          "description": "Visualization mode (blocks, gradient, pulse, wave)"
+        },
+        {
+          "name": "harmony-mode",
+          "type": "string",
+          "default": "complementary",
+          "description": "Color harmony algorithm to use"
+        },
+        {
+          "name": "color-count",
+          "type": "number",
+          "default": 8,
+          "description": "Number of color blocks to display"
+        },
+        {
+          "name": "base-hue",
+          "type": "number",
+          "default": 240,
+          "description": "Base hue for color generation (0-360)"
+        },
+        {
+          "name": "saturation",
+          "type": "number",
+          "default": 70,
+          "description": "Color saturation (0-100)"
+        },
+        {
+          "name": "lightness",
+          "type": "number",
+          "default": 50,
+          "description": "Color lightness (0-100)"
+        }
+      ]
+    },
+    "events": {
+      "type": "object",
+      "properties": {
+        "emits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "detail": {
+                "type": "object"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "default": [
+            {
+              "name": "wb:color-organ-shown",
+              "detail": {
+                "mode": "string"
+              },
+              "description": "Fired when color organ becomes visible"
+            },
+            {
+              "name": "wb:color-organ-hidden",
+              "detail": {},
+              "description": "Fired when color organ is hidden"
+            },
+            {
+              "name": "wb:color-organ-ready",
+              "detail": {
+                "component": "WBColorOrgan"
+              },
+              "description": "Fired when component is initialized"
+            }
+          ]
+        },
+        "listens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "default": [
+            {
+              "name": "wb:color-organ-toggle",
+              "source": "wb-control-panel",
+              "description": "Enable/disable color organ display"
+            },
+            {
+              "name": "wb:audio-data",
+              "source": "wb-control-panel",
+              "description": "Real-time audio frequency data (bass, mids, treble)"
+            },
+            {
+              "name": "wb:color-beat",
+              "source": "wb-control-panel",
+              "description": "Beat detection events for pulse effects"
+            },
+            {
+              "name": "colorchange",
+              "source": "wb-color-bars",
+              "description": "Color changes from control panel"
+            }
+          ]
+        }
+      }
+    },
+    "methods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "array"
+          },
+          "returns": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "default": [
+        {
+          "name": "show",
+          "parameters": [],
+          "returns": "void",
+          "description": "Display the color organ full screen"
+        },
+        {
+          "name": "hide",
+          "parameters": [],
+          "returns": "void",
+          "description": "Hide the color organ"
+        },
+        {
+          "name": "setMode",
+          "parameters": ["mode: string"],
+          "returns": "void",
+          "description": "Set visualization mode (blocks, gradient, pulse, wave)"
+        },
+        {
+          "name": "setHarmonyMode",
+          "parameters": ["mode: string"],
+          "returns": "void",
+          "description": "Set color harmony algorithm"
+        },
+        {
+          "name": "setColorCount",
+          "parameters": ["count: number"],
+          "returns": "void",
+          "description": "Set number of color blocks (2-16)"
+        },
+        {
+          "name": "getState",
+          "parameters": [],
+          "returns": "object",
+          "description": "Get current component state"
+        }
+      ]
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["wb-color-harmony"]
+        },
+        "integrations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["wb-control-panel", "wb-color-bars"]
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "properties": {
+        "js": {
+          "type": "string",
+          "const": "components/wb-color-organ/wb-color-organ.js"
+        },
+        "css": {
+          "type": "string",
+          "const": "styles/wb-color-organ.css"
+        },
+        "schema": {
+          "type": "string",
+          "const": "components/wb-color-organ/wb-color-organ.schema.json"
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [
+        "audio-reactive",
+        "full-screen-visualization",
+        "color-harmony-integration",
+        "real-time-animation",
+        "beat-detection",
+        "responsive-design",
+        "keyboard-controls"
+      ]
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "basic": {
+          "type": "string",
+          "const": "<wb-color-organ></wb-color-organ>"
+        },
+        "withAttributes": {
+          "type": "string",
+          "const": "<wb-color-organ mode=\"blocks\" harmony-mode=\"triadic\" color-count=\"8\"></wb-color-organ>"
+        }
+      }
+    }
+  }
+}

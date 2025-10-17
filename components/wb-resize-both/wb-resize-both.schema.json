@@ -1,0 +1,268 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "wb-resize-both",
+  "title": "WB Resize Both Component Schema",
+  "version": "1.0.0",
+  "description": "Corner resize handle for dragging panels in both directions (width and height)",
+  "type": "component",
+  "category": "interaction",
+  "tags": ["resize", "drag", "diagonal", "corner", "window", "modal", "ux"],
+  
+  "component": {
+    "name": "wb-resize-both",
+    "class": "WBResizeBoth",
+    "extends": "HTMLElement",
+    "shadowDOM": true,
+    "file": "wb-resize-both.js"
+  },
+  
+  "attributes": {
+    "storage-key": {
+      "type": "string",
+      "description": "localStorage key to persist dimensions between sessions",
+      "default": null,
+      "required": false,
+      "example": "window-size"
+    },
+    "min-width": {
+      "type": "number",
+      "description": "Minimum width in pixels",
+      "default": 200,
+      "required": false,
+      "min": 0,
+      "example": 300
+    },
+    "max-width": {
+      "type": "number",
+      "description": "Maximum width in pixels",
+      "default": 1200,
+      "required": false,
+      "example": 1000
+    },
+    "min-height": {
+      "type": "number",
+      "description": "Minimum height in pixels",
+      "default": 100,
+      "required": false,
+      "min": 0,
+      "example": 200
+    },
+    "max-height": {
+      "type": "number",
+      "description": "Maximum height in pixels",
+      "default": 800,
+      "required": false,
+      "example": 900
+    },
+    "corner": {
+      "type": "string",
+      "description": "Handle position corner",
+      "default": "bottom-right",
+      "required": false,
+      "enum": ["bottom-right", "bottom-left", "top-right", "top-left"],
+      "example": "bottom-right"
+    },
+    "size": {
+      "type": "string",
+      "description": "Size of corner handle (width & height)",
+      "default": "16px",
+      "required": false,
+      "pattern": "^\\d+px$",
+      "example": "20px"
+    },
+    "target": {
+      "type": "string",
+      "description": "CSS selector of element to resize (defaults to parent)",
+      "default": null,
+      "required": false,
+      "example": "#custom-window"
+    }
+  },
+  
+  "properties": {
+    "isResizing": {
+      "type": "boolean",
+      "description": "Whether currently dragging",
+      "readonly": true
+    },
+    "targetElement": {
+      "type": "HTMLElement",
+      "description": "Element being resized",
+      "readonly": true
+    },
+    "minWidth": {
+      "type": "number",
+      "description": "Minimum width constraint"
+    },
+    "maxWidth": {
+      "type": "number",
+      "description": "Maximum width constraint"
+    },
+    "minHeight": {
+      "type": "number",
+      "description": "Minimum height constraint"
+    },
+    "maxHeight": {
+      "type": "number",
+      "description": "Maximum height constraint"
+    },
+    "storageKey": {
+      "type": "string",
+      "description": "localStorage key"
+    }
+  },
+  
+  "methods": {
+    "setMinWidth": {
+      "description": "Set minimum width constraint",
+      "parameters": [
+        {
+          "name": "width",
+          "type": "number",
+          "description": "Minimum width in pixels"
+        }
+      ],
+      "returns": "void"
+    },
+    "setMaxWidth": {
+      "description": "Set maximum width constraint",
+      "parameters": [
+        {
+          "name": "width",
+          "type": "number",
+          "description": "Maximum width in pixels"
+        }
+      ],
+      "returns": "void"
+    },
+    "setMinHeight": {
+      "description": "Set minimum height constraint",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Minimum height in pixels"
+        }
+      ],
+      "returns": "void"
+    },
+    "setMaxHeight": {
+      "description": "Set maximum height constraint",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Maximum height in pixels"
+        }
+      ],
+      "returns": "void"
+    },
+    "setTarget": {
+      "description": "Change target element to resize",
+      "parameters": [
+        {
+          "name": "selector",
+          "type": "string",
+          "description": "CSS selector"
+        }
+      ],
+      "returns": "void"
+    },
+    "getTargetSize": {
+      "description": "Get current dimensions of target",
+      "parameters": [],
+      "returns": "object - {width: number, height: number}"
+    },
+    "loadSavedSize": {
+      "description": "Load dimensions from localStorage",
+      "parameters": [],
+      "returns": "void",
+      "private": true
+    }
+  },
+  
+  "events": {
+    "wb:resize-start": {
+      "description": "Fired when drag starts",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "startWidth": "number - Initial width in pixels",
+        "startHeight": "number - Initial height in pixels",
+        "startX": "number - Initial mouse X coordinate",
+        "startY": "number - Initial mouse Y coordinate"
+      }
+    },
+    "wb:resizing": {
+      "description": "Fired continuously while dragging",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "width": "number - Current width in pixels",
+        "height": "number - Current height in pixels",
+        "deltaX": "number - Change from start X position",
+        "deltaY": "number - Change from start Y position"
+      }
+    },
+    "wb:resize-end": {
+      "description": "Fired when drag ends",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "finalWidth": "number - Final width in pixels",
+        "finalHeight": "number - Final height in pixels"
+      }
+    }
+  },
+  
+  "cssVariables": {},
+  
+  "cssParts": {
+    "handle": "The draggable corner resize handle"
+  },
+  
+  "slots": {},
+  
+  "dependencies": [],
+  
+  "usage": {
+    "basic": "<wb-resize-both storage-key=\"window-size\" corner=\"bottom-right\"></wb-resize-both>",
+    "advanced": "<div id=\"window\" style=\"position: relative; width: 500px; height: 400px;\">\n  <wb-resize-both storage-key=\"window-size\" corner=\"bottom-right\" min-width=\"400\" max-width=\"1200\" min-height=\"300\" max-height=\"900\" size=\"20px\"></wb-resize-both>\n  <div class=\"content\">Content</div>\n</div>"
+  },
+  
+  "examples": [
+    {
+      "title": "Floating Window",
+      "code": "<div class=\"window\" style=\"position: fixed; width: 500px; height: 400px;\">\n  <wb-resize-both storage-key=\"float-window\" corner=\"bottom-right\"></wb-resize-both>\n  <div>Window content</div>\n</div>"
+    },
+    {
+      "title": "Resizable Modal",
+      "code": "<div class=\"modal\" style=\"position: relative; width: 600px; height: 400px;\">\n  <wb-resize-both storage-key=\"modal-size\" corner=\"bottom-right\" size=\"20px\"></wb-resize-both>\n  <div>Modal content</div>\n</div>"
+    },
+    {
+      "title": "With Events",
+      "code": "const resizer = document.querySelector('wb-resize-both');\nresizer.addEventListener('wb:resize-end', (e) => {\n  console.log('New size:', e.detail.finalWidth, 'x', e.detail.finalHeight);\n});"
+    }
+  ],
+  
+  "accessibility": {
+    "role": "separator",
+    "keyboard": false,
+    "screenReader": "Draggable corner resize handle",
+    "notes": "Mouse-only interaction. Keyboard support not implemented."
+  },
+  
+  "browser": {
+    "chrome": "90+",
+    "firefox": "88+",
+    "safari": "14+",
+    "edge": "90+"
+  },
+  
+  "notes": [
+    "Parent element requires position: relative, absolute, or fixed",
+    "Can add multiple handles to different corners of same element",
+    "Resizes both width and height simultaneously",
+    "Cursor style automatically matches corner position"
+  ]
+}

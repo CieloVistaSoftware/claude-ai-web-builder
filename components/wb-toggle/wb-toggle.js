@@ -4,7 +4,38 @@
 // Note: WBBaseComponent import removed to avoid ES6 module syntax errors
 // Component will check for WBBaseComponent availability at runtime
 
-import { reflectPropAttr, dispatchComponentEvent } from '../component-utils.js';
+// Import utilities if not already available globally
+let reflectPropAttr, dispatchComponentEvent;
+if (typeof window.reflectPropAttr === 'function') {
+    reflectPropAttr = window.reflectPropAttr;
+    dispatchComponentEvent = window.dispatchComponentEvent;
+} else {
+    // Functions will be defined inline as fallback
+    reflectPropAttr = function(element, prop, attr) {
+        Object.defineProperty(element, prop, {
+            get() {
+                return this.hasAttribute(attr) ? this.getAttribute(attr) : null;
+            },
+            set(val) {
+                if (val === null || val === undefined || val === false) {
+                    this.removeAttribute(attr);
+                } else {
+                    this.setAttribute(attr, val);
+                }
+            }
+        });
+    };
+    
+    dispatchComponentEvent = function(element, name, detail = {}, options = {}) {
+        element.dispatchEvent(new CustomEvent(name, {
+            detail,
+            bubbles: options.bubbles !== false,
+            composed: options.composed !== false,
+            cancelable: options.cancelable === true
+        }));
+    };
+}
+
 class WBToggle extends HTMLElement {
     constructor() {
         super();
@@ -333,5 +364,16 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         priority: 4 // UI component depends on infrastructure
     });
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBToggle = WBToggle;
+
+// Expose globally (backward compatibility)
+window.WBToggle = WBToggle;
+
+// ES6 Module Exports
+export { WBToggle };
+export default WBToggle;
 
 console.log('🔘 WB Toggle: Pure Web Component registered');

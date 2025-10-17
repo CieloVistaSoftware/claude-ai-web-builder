@@ -1026,3 +1026,14 @@ if (window.WBComponentRegistry) {
         attributes: ['type', 'hue', 'saturation', 'lightness', 'value', 'disabled', 'theme']
     });
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBColorBar = WBColorBar;
+
+// Expose globally (backward compatibility)
+window.WBColorBar = WBColorBar;
+
+// ES6 Module Exports
+export { WBColorBar };
+export default WBColorBar;

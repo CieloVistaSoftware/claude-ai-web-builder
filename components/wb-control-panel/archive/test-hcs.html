@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCS Control Panel - Full Test</title>
+    
+    <!-- Load your Harmonic Color System -->
+    <link rel="stylesheet" href="../../styles/main.css?v=123456">
+    
+    <style>
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 2rem;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: var(--text-4xl);
+            font-weight: var(--font-bold);
+        }
+        
+        h2 {
+            color: var(--text-primary);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-md);
+        }
+        
+        p {
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+            margin-bottom: var(--space-md);
+        }
+        
+        .card {
+            background: var(--surface-raised);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            transition: all 0.3s ease;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: var(--font-semibold);
+        }
+        
+        .accent {
+            color: var(--accent);
+            font-weight: var(--font-semibold);
+        }
+        
+        .secondary {
+            color: var(--secondary);
+            font-weight: var(--font-semibold);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            margin-top: var(--space-lg);
+        }
+        
+        .btn {
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--btn-border-radius);
+            font-size: var(--btn-font-size-base);
+            font-weight: var(--font-medium);
+            cursor: pointer;
+            transition: var(--transition-all);
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+        }
+        
+        .btn-primary:hover {
+            background: var(--btn-primary-hover);
+        }
+        
+        .btn-accent {
+            background: var(--btn-accent-bg);
+            color: var(--btn-accent-text);
+        }
+        
+        .btn-accent:hover {
+            background: var(--btn-accent-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--btn-secondary-hover);
+        }
+        
+        .status-badges {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            margin-top: var(--space-lg);
+        }
+        
+        .badge {
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+        }
+        
+        .badge-success {
+            background: var(--status-success-bg);
+            color: var(--status-success-text);
+        }
+        
+        .badge-warning {
+            background: var(--status-warning-bg);
+            color: var(--status-warning-text);
+        }
+        
+        .badge-error {
+            background: var(--status-error-bg);
+            color: var(--status-error-text);
+        }
+        
+        .badge-info {
+            background: var(--status-info-bg);
+            color: var(--status-info-text);
+        }
+        
+        .color-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+        
+        .color-box {
+            height: 100px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        code {
+            background: var(--bg-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Harmonic Color System Control Panel</h1>
+    
+    <div class="card">
+        <h2>✨ How HCS Works</h2>
+        <p>Your <span class="highlight">Harmonic Color System</span> uses mathematical color theory:</p>
+        <ul style="margin-left: 2rem; line-height: 2;">
+            <li><strong class="highlight">Primary:</strong> Base hue (default: 240° blue)</li>
+            <li><strong class="accent">Accent:</strong> Complementary (+180° = orange)</li>
+            <li><strong class="secondary">Secondary:</strong> Analogous (±30° = blue-cyan)</li>
+            <li><strong>Neutrals:</strong> Monochromatic (same hue, varying lightness)</li>
+        </ul>
+        
+        <p style="margin-top: var(--space-lg);">
+            <strong>🎯 The Magic:</strong> Change <code>--hue-primary</code> and watch the entire color scheme recalculate automatically!
+        </p>
+    </div>
+    
+    <div class="card">
+        <h2>🧪 Test Instructions</h2>
+        <p><strong>1. Change the Hue:</strong></p>
+        <p>Move the "Hue (0-360°)" slider in the control panel → Watch ALL colors shift harmoniously!</p>
+        
+        <p style="margin-top: var(--space-lg);"><strong>2. Try Theme Presets:</strong></p>
+        <p>Select different themes → See custom color harmonies for each theme</p>
+        
+        <p style="margin-top: var(--space-lg);"><strong>3. Adjust Saturation/Lightness:</strong></p>
+        <p>Fine-tune the color intensity and brightness</p>
+    </div>
+    
+    <div class="card">
+        <h2>🎨 Color Harmony Demo</h2>
+        <p>These buttons use HCS semantic colors:</p>
+        
+        <div class="button-group">
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-accent">Accent (Complementary)</button>
+            <button class="btn btn-secondary">Secondary (Analogous)</button>
+        </div>
+        
+        <p style="margin-top: var(--space-xl);">Status badges using color psychology:</p>
+        
+        <div class="status-badges">
+            <span class="badge badge-success">✓ Success</span>
+            <span class="badge badge-warning">⚠ Warning</span>
+            <span class="badge badge-error">✕ Error</span>
+            <span class="badge badge-info">ℹ Info</span>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>🌈 Live Color Swatches</h2>
+        <p>Watch these colors update in real-time as you adjust the sliders:</p>
+        
+        <div class="color-demo">
+            <div class="color-box" style="background: var(--primary);">PRIMARY</div>
+            <div class="color-box" style="background: var(--accent);">ACCENT</div>
+            <div class="color-box" style="background: var(--secondary);">SECONDARY</div>
+            <div class="color-box" style="background: var(--primary-dark);">PRIMARY DARK</div>
+            <div class="color-box" style="background: var(--accent-light);">ACCENT LIGHT</div>
+            <div class="color-box" style="background: var(--secondary-light);">SECONDARY LIGHT</div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>📊 Current HCS Values</h2>
+        <p>Hue: <span class="highlight" id="current-hue">240°</span></p>
+        <p>Saturation: <span class="highlight" id="current-sat">70%</span></p>
+        <p>Lightness: <span class="highlight" id="current-light">50%</span></p>
+        <p>Primary: <span class="highlight" id="current-primary">hsl(240, 70%, 50%)</span></p>
+        <p>Accent: <span class="accent" id="current-accent">hsl(60, 60%, 50%)</span></p>
+        <p>Secondary: <span class="secondary" id="current-secondary">hsl(210, 50%, 55%)</span></p>
+    </div>
+
+    <!-- HCS-Compatible Control Panel -->
+    <wb-control-panel-hcs></wb-control-panel-hcs>
+
+    <script src="wb-control-panel-hcs.js"></script>
+    
+    <script>
+        // Monitor HCS variable changes
+        const root = document.documentElement;
+        
+        function updateDisplay() {
+            const styles = getComputedStyle(root);
+            
+            const hue = styles.getPropertyValue('--hue-primary').trim();
+            const sat = styles.getPropertyValue('--saturation-primary').trim();
+            const light = styles.getPropertyValue('--lightness-primary').trim();
+            const primary = styles.getPropertyValue('--primary').trim();
+            const accent = styles.getPropertyValue('--accent').trim();
+            const secondary = styles.getPropertyValue('--secondary').trim();
+            
+            document.getElementById('current-hue').textContent = hue + '°';
+            document.getElementById('current-sat').textContent = sat + '%';
+            document.getElementById('current-light').textContent = light + '%';
+            document.getElementById('current-primary').textContent = primary;
+            document.getElementById('current-accent').textContent = accent;
+            document.getElementById('current-secondary').textContent = secondary;
+        }
+        
+        // Update display every 100ms to catch changes
+        setInterval(updateDisplay, 100);
+        updateDisplay();
+    </script>
+</body>
+</html>

@@ -375,3 +375,14 @@ if (document.readyState === 'loading') {
 } else {
   wbSlider.initializeExistingSliders();
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBSlider = WBSlider;
+
+// Expose globally (backward compatibility)
+window.WBSlider = WBSlider;
+
+// ES6 Module Exports
+export { WBSlider };
+export default WBSlider;

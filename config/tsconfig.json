@@ -34,7 +34,9 @@
     "dev-plugins/**/*",
     "tests/**/*",
     "types/**/*",
-    "**/*.ts"
+    "**/*.ts",
+    "custom-elements.d.ts",
+    "components/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",

@@ -1,3 +1,51 @@
+
+/* Fallback for old browsers */
+.slider-block input[type="range"].color-range {
+  background: #fff;
+  border-radius: 4px;
+}
+/* Chrome, Safari, Edge */
+.slider-block input[type="range"].color-range::-webkit-slider-runnable-track {
+  background: linear-gradient(to right,
+    hsl(0, 100%, 50%) 0%,
+    hsl(60, 100%, 50%) 17%,
+    hsl(120, 100%, 50%) 33%,
+    hsl(180, 100%, 50%) 50%,
+    hsl(240, 100%, 50%) 67%,
+    hsl(300, 100%, 50%) 83%,
+    hsl(360, 100%, 50%) 100%
+  );
+  border-radius: 4px;
+  height: 0.7em;
+}
+/* Firefox */
+.slider-block input[type="range"].color-range::-moz-range-track {
+  background: linear-gradient(to right,
+    hsl(0, 100%, 50%) 0%,
+    hsl(60, 100%, 50%) 17%,
+    hsl(120, 100%, 50%) 33%,
+    hsl(180, 100%, 50%) 50%,
+    hsl(240, 100%, 50%) 67%,
+    hsl(300, 100%, 50%) 83%,
+    hsl(360, 100%, 50%) 100%
+  );
+  border-radius: 4px;
+  height: 0.7em;
+}
+/* IE/Edge Legacy */
+.slider-block input[type="range"].color-range::-ms-fill-lower,
+.slider-block input[type="range"].color-range::-ms-fill-upper {
+  background: linear-gradient(to right,
+    hsl(0, 100%, 50%) 0%,
+    hsl(60, 100%, 50%) 17%,
+    hsl(120, 100%, 50%) 33%,
+    hsl(180, 100%, 50%) 50%,
+    hsl(240, 100%, 50%) 67%,
+    hsl(300, 100%, 50%) 83%,
+    hsl(360, 100%, 50%) 100%
+  );
+  border-radius: 4px;
+}
 .controls input[type="range"] {
   max-width: 10rem;
   width: 100%;

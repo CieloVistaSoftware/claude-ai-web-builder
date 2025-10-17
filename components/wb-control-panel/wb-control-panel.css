@@ -672,3 +672,84 @@ control-panel .control-label {
     }
 }
 
+/* ===== THEME OVERRIDES FOR CONTROL PANEL ===== */
+/* Light theme */
+wb-control-panel[data-theme="light"] {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: hsl(0, 0%, 10%);
+}
+
+wb-control-panel[data-theme="light"] .control-panel-header {
+    background: hsl(0, 0%, 98%);
+    border-bottom-color: hsl(0, 0%, 85%);
+}
+
+wb-control-panel[data-theme="light"] .control-panel-header h3 {
+    color: hsl(0, 0%, 10%);
+}
+
+wb-control-panel[data-theme="light"] .control-btn {
+    color: hsl(0, 0%, 20%);
+}
+
+wb-control-panel[data-theme="light"] .control-btn:hover {
+    background: hsl(0, 0%, 90%);
+    color: hsl(0, 0%, 10%);
+}
+
+wb-control-panel[data-theme="light"] .control-section {
+    background: hsl(0, 0%, 100%);
+    border-color: hsl(0, 0%, 85%);
+}
+
+wb-control-panel[data-theme="light"] .section-title {
+    background: hsl(0, 0%, 98%);
+    border-bottom-color: hsl(0, 0%, 85%);
+    color: hsl(0, 0%, 10%);
+}
+
+wb-control-panel[data-theme="light"] .control-label {
+    color: hsl(0, 0%, 30%);
+}
+
+wb-control-panel[data-theme="light"] .slider-label {
+    color: hsl(0, 0%, 50%);
+}
+
+wb-control-panel[data-theme="light"] .slider-value {
+    color: hsl(0, 0%, 10%);
+}
+
+wb-control-panel[data-theme="light"] .control-panel-body {
+    color: hsl(0, 0%, 20%);
+}
+
+/* Dark theme (default) */
+wb-control-panel[data-theme="dark"],
+wb-control-panel:not([data-theme]) {
+    background: rgba(17, 24, 39, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: hsl(0, 0%, 90%);
+}
+
+wb-control-panel[data-theme="dark"] .control-panel-header h3,
+wb-control-panel:not([data-theme]) .control-panel-header h3 {
+    color: hsl(0, 0%, 90%);
+}
+
+wb-control-panel[data-theme="dark"] .control-btn,
+wb-control-panel:not([data-theme]) .control-btn {
+    color: hsl(0, 0%, 90%);
+}
+
+wb-control-panel[data-theme="dark"] .section-title,
+wb-control-panel:not([data-theme]) .section-title {
+    color: hsl(0, 0%, 70%);
+}
+
+wb-control-panel[data-theme="dark"] .control-label,
+wb-control-panel:not([data-theme]) .control-label {
+    color: hsl(0, 0%, 80%);
+}
+

@@ -7,11 +7,8 @@
  * @author Website Builder Components
  */
 
-(function() {
-    'use strict';
-
-    // Load component configuration
-    let componentConfig = {};
+// Load component configuration
+let componentConfig = {};
     
     class WBEventLog extends HTMLElement {
         constructor() {
@@ -81,14 +78,14 @@
         }
         
         getComponentPath() {
-            if (typeof WBComponentUtils !== 'undefined' && WBComponentUtils.getComponentPath) {
-                return WBComponentUtils.getComponentPath('wb-event-log');
+            if (typeof window.WBComponentUtils !== 'undefined' && window.WBComponentUtils.getComponentPath) {
+                return window.WBComponentUtils.getComponentPath('wb-event-log.js', './components/wb-event-log/');
             }
             
             // Fallback path detection
             const scripts = document.querySelectorAll('script[src*="wb-event-log"]');
             if (scripts.length > 0) {
-                const scriptSrc = scripts[0].src;
+                const scriptSrc = (scripts[0] instanceof HTMLScriptElement ? scripts[0].src : '');
                 return scriptSrc.substring(0, scriptSrc.lastIndexOf('/'));
             }
             
@@ -98,12 +95,16 @@
         loadCSS() {
             const cssPath = this.getComponentPath() + '/wb-event-log.css';
             
-            if (typeof WBComponentUtils !== 'undefined' && WBComponentUtils.loadComponentCSS) {
-                WBComponentUtils.loadComponentCSS('wb-event-log', cssPath);
+            // Only call loadComponentCSS if it exists, otherwise fallback
+            if (
+                typeof window.WBComponentUtils !== 'undefined' &&
+                window.WBComponentUtils &&
+                typeof window.WBComponentUtils['loadComponentCSS'] === 'function'
+            ) {
+                window.WBComponentUtils['loadComponentCSS']('wb-event-log', cssPath);
             } else {
                 // Fallback CSS loading
                 const existingLink = document.querySelector(`link[href*="wb-event-log.css"]`);
-                
                 if (!existingLink) {
                     const link = document.createElement('link');
                     link.rel = 'stylesheet';
@@ -2892,7 +2893,15 @@ ${event.message}`;
         });
     }
     
-    // Make static methods globally available
-    window.WBEventLog = WBEventLog;
+    // Compositional Namespace
+    if (!window.WB) window.WB = { components: {}, utils: {} };
+    window.WB.components.WBEventLog = WBEventLog;
     
-})();
+    // Make static methods globally available (backward compatibility)
+    window.WBEventLog = WBEventLog;
+
+// ES6 Module Exports
+export { WBEventLog };
+export default WBEventLog;
+    
+console.log('🔧 WB Event Log: Component registered');

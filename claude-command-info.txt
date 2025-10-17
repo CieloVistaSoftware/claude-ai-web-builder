@@ -1,0 +1,75 @@
+
+HelpUri            : 
+Path               : C:\Users\jwpmi\AppData\Roaming\npm\claude.ps1
+Definition         : C:\Users\jwpmi\AppData\Roaming\npm\claude.ps1
+Source             : C:\Users\jwpmi\AppData\Roaming\npm\claude.ps1
+Visibility         : Public
+ScriptBlock        : #!/usr/bin/env pwsh
+                     $basedir=Split-Path $MyInvocation.MyCommand.Definition -Parent
+                     
+                     $exe=""
+                     if ($PSVersionTable.PSVersion -lt "6.0" -or $IsWindows) {
+                       # Fix case when both the Windows and Linux builds of Node
+                       # are installed in the same directory
+                       $exe=".exe"
+                     }
+                     $ret=0
+                     if (Test-Path "$basedir/node$exe") {
+                       # Support pipeline input
+                       if ($MyInvocation.ExpectingInput) {
+                         $input | & "$basedir/node$exe"  "$basedir/node_modules/@anthropic-ai/claude-code/cli.js" $args
+                       } else {
+                         & "$basedir/node$exe"  "$basedir/node_modules/@anthropic-ai/claude-code/cli.js" $args
+                       }
+                       $ret=$LASTEXITCODE
+                     } else {
+                       # Support pipeline input
+                       if ($MyInvocation.ExpectingInput) {
+                         $input | & "node$exe"  "$basedir/node_modules/@anthropic-ai/claude-code/cli.js" $args
+                       } else {
+                         & "node$exe"  "$basedir/node_modules/@anthropic-ai/claude-code/cli.js" $args
+                       }
+                       $ret=$LASTEXITCODE
+                     }
+                     exit $ret
+                     
+OutputType         : {}
+ScriptContents     : #!/usr/bin/env pwsh
+                     $basedir=Split-Path $MyInvocation.MyCommand.Definition -Parent
+                     
+                     $exe=""
+                     if ($PSVersionTable.PSVersion -lt "6.0" -or $IsWindows) {
+                       # Fix case when both the Windows and Linux builds of Node
+                       # are installed in the same directory
+                       $exe=".exe"
+                     }
+                     $ret=0
+                     if (Test-Path "$basedir/node$exe") {
+                       # Support pipeline input
+                       if ($MyInvocation.ExpectingInput) {
+                         $input | & "$basedir/node$exe"  "$basedir/node_modules/@anthropic-ai/claude-code/cli.js" $args
+                       } else {
+                         & "$basedir/node$exe"  "$basedir/node_modules/@anthropic-ai/claude-code/cli.js" $args
+                       }
+                       $ret=$LASTEXITCODE
+                     } else {
+                       # Support pipeline input
+                       if ($MyInvocation.ExpectingInput) {
+                         $input | & "node$exe"  "$basedir/node_modules/@anthropic-ai/claude-code/cli.js" $args
+                       } else {
+                         & "node$exe"  "$basedir/node_modules/@anthropic-ai/claude-code/cli.js" $args
+                       }
+                       $ret=$LASTEXITCODE
+                     }
+                     exit $ret
+                     
+OriginalEncoding   : System.Text.UTF8Encoding+UTF8EncodingSealed
+Name               : claude.ps1
+CommandType        : ExternalScript
+Version            : 
+ModuleName         : 
+Module             : 
+RemotingCapability : PowerShell
+Parameters         : {}
+ParameterSets      : {}
+

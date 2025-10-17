@@ -521,5 +521,16 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         priority: 3 // Navigation component depends on logging
     });
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBNav = WBNav;
+
+// Expose globally (backward compatibility)
 window.WBNav = WBNav;
+
+// ES6 Module Exports
+export { WBNav };
+export default WBNav;
+
 } // <-- End of typeof WBNav === 'undefined' guard

@@ -33,3 +33,90 @@
  * <link rel="stylesheet" href="../../styles/main.css">
  * <link rel="stylesheet" href="wb-component.css">
  */
+
+/* ===== THEME SYSTEM ===== */
+/* Light theme (default) */
+:root,
+[data-theme="light"] {
+  /* Override color variables for light theme */
+  --bg-color: hsl(0, 0%, 100%);              /* White background */
+  --bg-primary: hsl(0, 0%, 98%);             /* Very light gray */
+  --bg-secondary: hsl(0, 0%, 95%);           /* Light gray */
+  --bg-tertiary: hsl(0, 0%, 90%);            /* Medium-light gray */
+  
+  --text-primary: hsl(0, 0%, 10%);           /* Near black */
+  --text-secondary: hsl(0, 0%, 30%);         /* Dark gray */
+  --text-tertiary: hsl(0, 0%, 50%);          /* Medium gray */
+  --text-muted: hsl(0, 0%, 60%);             /* Light gray */
+  
+  --border-color: hsl(0, 0%, 85%);           /* Light border */
+  --border-light: hsl(0, 0%, 90%);           /* Very light border */
+  --border-dark: hsl(0, 0%, 70%);            /* Medium border */
+  
+  --surface-base: hsl(0, 0%, 100%);          /* White */
+  --surface-raised: hsl(0, 0%, 98%);         /* Cards */
+  --surface-overlay: hsl(0, 0%, 95%);        /* Modals */
+  --surface-floating: hsl(0, 0%, 92%);       /* Tooltips */
+  
+  /* Keep primary colors the same but adjust for light background */
+  --primary: hsl(240, 70%, 50%);
+  --primary-dark: hsl(240, 70%, 40%);
+  --primary-light: hsl(240, 60%, 65%);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  /* Use the existing dark color system from _variables.css */
+  --bg-color: hsl(240, 50%, 8%);             /* Near black with blue hint */
+  --bg-primary: hsl(240, 45%, 15%);          /* Very dark gray-blue */
+  --bg-secondary: hsl(240, 40%, 25%);        /* Dark gray-blue */
+  --bg-tertiary: hsl(240, 35%, 35%);         /* Medium-dark gray-blue */
+  
+  --text-primary: hsl(240, 5%, 98%);         /* Near white with blue hint */
+  --text-secondary: hsl(240, 15%, 85%);      /* Light gray-blue */
+  --text-tertiary: hsl(240, 20%, 75%);       /* Medium-light gray-blue */
+  --text-muted: hsl(240, 25%, 65%);          /* Medium gray-blue */
+  
+  --border-color: hsl(240, 35%, 35%);        /* Medium-dark gray-blue */
+  --border-light: hsl(240, 30%, 50%);        /* True middle gray-blue */
+  --border-dark: hsl(240, 40%, 25%);         /* Dark gray-blue */
+  
+  --surface-base: hsl(240, 45%, 15%);        /* Base layer */
+  --surface-raised: hsl(240, 40%, 25%);      /* Cards, panels */
+  --surface-overlay: hsl(240, 35%, 35%);     /* Modals, dropdowns */
+  --surface-floating: hsl(240, 35%, 35%);    /* Tooltips */
+}
+
+/* Apply theme colors to body */
+body {
+  background: var(--bg-color);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Apply to common elements */
+header,
+main,
+footer,
+article,
+aside,
+section {
+  background-color: var(--bg-primary, var(--bg-color));
+  color: var(--text-primary);
+}
+
+/* Links */
+a {
+  color: var(--primary);
+}
+
+a:hover {
+  color: var(--primary-light);
+}
+
+/* Borders */
+hr,
+.border,
+[class*="border"] {
+  border-color: var(--border-color);
+}

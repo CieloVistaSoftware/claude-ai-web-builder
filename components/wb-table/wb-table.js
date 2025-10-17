@@ -256,4 +256,15 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
     });
 }
 
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBTable = WBTable;
+
+// Expose globally (backward compatibility)
+window.WBTable = WBTable;
+
+// ES6 Module Exports
+export { WBTable };
+export default WBTable;
+
 console.log('📊 WB Table Web Component: Ready!');

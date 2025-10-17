@@ -752,3 +752,14 @@ if (window.WBEventLog) {
 } else {
     console.log('🦶 WB Footer: Pure Web Component registered');
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBFooter = WBFooter;
+
+// Expose globally (backward compatibility)
+window.WBFooter = WBFooter;
+
+// ES6 Module Exports
+export { WBFooter };
+export default WBFooter;

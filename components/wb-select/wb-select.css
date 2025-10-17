@@ -402,3 +402,53 @@
     font-family: 'Courier New', monospace;
     font-size: 14px;
 }
+
+/* ===== THEME SUPPORT ===== */
+/* Light theme for wb-select inside light-themed containers */
+wb-control-panel[data-theme="light"] .wb-select-trigger,
+[data-theme="light"] .wb-select-trigger {
+    background: hsl(0, 0%, 100%);
+    border-color: hsl(0, 0%, 85%);
+    color: hsl(0, 0%, 10%);
+}
+
+wb-control-panel[data-theme="light"] .wb-select-value,
+[data-theme="light"] .wb-select-value {
+    color: hsl(0, 0%, 10%);
+}
+
+wb-control-panel[data-theme="light"] .wb-select-placeholder,
+[data-theme="light"] .wb-select-placeholder {
+    color: hsl(0, 0%, 50%);
+}
+
+wb-control-panel[data-theme="light"] .wb-select-dropdown,
+[data-theme="light"] .wb-select-dropdown {
+    background: hsl(0, 0%, 100%);
+    border-color: hsl(0, 0%, 85%);
+}
+
+wb-control-panel[data-theme="light"] .wb-select-search,
+[data-theme="light"] .wb-select-search {
+    background: hsl(0, 0%, 98%);
+    color: hsl(0, 0%, 10%);
+    border-bottom-color: hsl(0, 0%, 85%);
+}
+
+wb-control-panel[data-theme="light"] .wb-select-option,
+[data-theme="light"] .wb-select-option {
+    color: hsl(0, 0%, 10%);
+}
+
+wb-control-panel[data-theme="light"] .wb-select-option:hover,
+wb-control-panel[data-theme="light"] .wb-select-option--highlighted,
+[data-theme="light"] .wb-select-option:hover,
+[data-theme="light"] .wb-select-option--highlighted {
+    background: rgba(99, 102, 241, 0.1);
+    color: hsl(240, 70%, 50%);
+}
+
+wb-control-panel[data-theme="light"] .wb-select-icon,
+[data-theme="light"] .wb-select-icon {
+    color: hsl(0, 0%, 50%);
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel v2 - Full Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary, #0f172a);
+            color: var(--text-primary, #94a3b8);
+            padding: 2rem;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        /* Theme styles */
+        body[data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --text-primary: #1e293b;
+        }
+        
+        body[data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --text-primary: #94a3b8;
+        }
+        
+        body[data-theme="cyberpunk"] {
+            --bg-primary: #0a0e27;
+            --text-primary: #00ff9f;
+        }
+        
+        body[data-theme="ocean"] {
+            --bg-primary: #0c4a6e;
+            --text-primary: #7dd3fc;
+        }
+        
+        body[data-theme="sunset"] {
+            --bg-primary: #451a03;
+            --text-primary: #fb923c;
+        }
+        
+        h1 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        p {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        body[data-theme="light"] .card {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h2 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .highlight {
+            color: var(--primary, #6366f1);
+            font-weight: 600;
+        }
+        
+        .code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        body[data-theme="light"] .code {
+            background: rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Control Panel v2 🎉</h1>
+    
+    <div class="card">
+        <h2>✅ What's Fixed</h2>
+        <p>1. <strong>Theme changes work</strong> - Select different themes and watch the page change!</p>
+        <p>2. <strong>Panel scrolls properly</strong> - Added background color controls, everything scrolls smoothly</p>
+        <p>3. <strong>Hue/Sat/Light all work</strong> - Move any slider, see immediate results</p>
+    </div>
+    
+    <div class="card">
+        <h2>🎨 Custom CSS Variables</h2>
+        <p>You can customize which CSS variables the control panel updates:</p>
+        <p class="code">&lt;wb-control-panel-v2 css-primary="--my-color"&gt;&lt;/wb-control-panel-v2&gt;</p>
+        <p>Attributes available:</p>
+        <ul style="margin-left: 2rem; margin-top: 1rem;">
+            <li style="margin-bottom: 0.5rem;"><span class="code">css-primary</span> - Main color variable (default: <span class="highlight">--primary</span>)</li>
+            <li style="margin-bottom: 0.5rem;"><span class="code">css-hue</span> - Hue variable (default: <span class="highlight">--text-primary</span>)</li>
+            <li style="margin-bottom: 0.5rem;"><span class="code">css-sat</span> - Saturation variable (default: <span class="highlight">--text-primary</span>)</li>
+            <li style="margin-bottom: 0.5rem;"><span class="code">css-light</span> - Lightness variable (default: <span class="highlight">--text-primary</span>)</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>🧪 Test Instructions</h2>
+        <p><strong>Theme Test:</strong></p>
+        <p>1. Open control panel (top right) →</p>
+        <p>2. Change theme dropdown</p>
+        <p>3. Watch this entire page change colors!</p>
+        
+        <p style="margin-top: 1.5rem;"><strong>Color Test:</strong></p>
+        <p>1. Move the <span class="highlight">"Hue"</span> slider</p>
+        <p>2. Watch this text change color immediately!</p>
+        <p>3. Try "Saturation" and "Lightness" too</p>
+        
+        <p style="margin-top: 1.5rem;"><strong>Background Test:</strong></p>
+        <p>1. Scroll down in the control panel</p>
+        <p>2. Find "Background Color" section</p>
+        <p>3. Move the "BG Hue" slider</p>
+        <p>4. Watch the page background change!</p>
+    </div>
+    
+    <div class="card">
+        <h2>📊 Current State</h2>
+        <p>Theme: <span class="highlight" id="current-theme">dark</span></p>
+        <p>Primary Color: <span class="highlight" id="current-color">hsl(240, 70%, 50%)</span></p>
+        <p>Background: <span class="highlight" id="current-bg">hsl(220, 25%, 15%)</span></p>
+    </div>
+
+    <!-- Default usage - applies to standard CSS variables -->
+    <wb-control-panel-v2></wb-control-panel-v2>
+
+    <!-- Example with custom CSS variable names:
+    <wb-control-panel-v2 
+        css-primary="--my-custom-color"
+        css-hue="--my-hue"
+        css-sat="--my-saturation"
+        css-light="--my-lightness">
+    </wb-control-panel-v2>
+    -->
+
+    <script src="wb-control-panel-v2.js"></script>
+    
+    <script>
+        const panel = document.querySelector('wb-control-panel-v2');
+        
+        // Update display when theme changes
+        panel.addEventListener('theme-change', (e) => {
+            document.getElementById('current-theme').textContent = e.detail.theme;
+            console.log('✅ Theme changed to:', e.detail.theme);
+        });
+        
+        // Monitor CSS variable changes
+        const observer = new MutationObserver(() => {
+            const primary = getComputedStyle(document.documentElement)
+                .getPropertyValue('--text-primary').trim();
+            const bg = getComputedStyle(document.documentElement)
+                .getPropertyValue('--bg-primary').trim();
+            
+            if (primary) {
+                document.getElementById('current-color').textContent = primary;
+            }
+            if (bg) {
+                document.getElementById('current-bg').textContent = bg;
+            }
+        });
+        
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['style']
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wb-resize-updown - Push Content Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #1e293b;
+            color: #e2e8f0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Main scrollable content area */
+        #main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            background: #1e293b;
+            min-height: 0; /* Critical: allows flex item to shrink below content size */
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .content-block {
+            background: #0f172a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 2px solid #334155;
+        }
+
+        /* Event log panel at bottom */
+        #event-log-panel {
+            position: relative;
+            height: 250px;
+            background: #0f172a;
+            border-top: 2px solid #6366f1;
+            flex-shrink: 0;
+        }
+
+        #event-log-content {
+            padding: 3rem 1rem 1rem 1rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            background: #1e293b;
+            border-left: 3px solid #6366f1;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+        }
+
+        .highlight {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main scrollable content - WILL BE PUSHED UP -->
+    <div id="main-content">
+        <h1>🚀 wb-resize-updown - Content Push Demo</h1>
+        
+        <div class="content-block">
+            <h2>📐 How It Works</h2>
+            <p><strong>✅ This content stays anchored to the top!</strong></p>
+            <p style="margin-top: 0.5rem;">When the event log expands upward, this content area shrinks but stays anchored at the top of the viewport.</p>
+            <p style="margin-top: 0.5rem;">The page uses flexbox layout:</p>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li><code>body</code> is a flex container with <code>flex-direction: column</code></li>
+                <li><code>#main-content</code> has <code>flex: 1</code> (takes available space)</li>
+                <li><code>#event-log-panel</code> has <code>flex-shrink: 0</code> (fixed)</li>
+            </ul>
+            <p style="margin-top: 0.5rem;">
+                <span class="badge">✅ Result</span>
+                When the event log grows, this content area shrinks!
+            </p>
+        </div>
+
+        <div class="content-block">
+            <h2>🎯 Try It</h2>
+            <p>Hover over the <strong>top edge</strong> of the event log at the bottom.</p>
+            <p style="margin-top: 0.5rem;">You'll see the resize cursor (↕️). Drag upward to expand the event log.</p>
+            <p style="margin-top: 0.5rem;"><strong>Watch this content get pushed up as the event log expands!</strong></p>
+        </div>
+
+        <div class="content-block">
+            <h2>📝 Sample Content</h2>
+            <p>This is scrollable content that demonstrates the push behavior.</p>
+            <p style="margin-top: 0.5rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>🌟 More Content</h2>
+            <p>As you expand the event log, you'll see less of this content area.</p>
+            <p style="margin-top: 0.5rem;">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>⚡ Even More Content</h2>
+            <p>The content area will scroll if there's too much content to fit.</p>
+            <p style="margin-top: 0.5rem;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>🎨 Final Block</h2>
+            <p>This demonstrates that the content area is fully scrollable even when the event log is expanded.</p>
+            <p style="margin-top: 0.5rem;">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+    </div>
+
+    <!-- Event log panel at bottom - EXPANDS UPWARD -->
+    <div id="event-log-panel">
+        <wb-resize-updown 
+            storage-key="demo-event-log-height"
+            min-height="100"
+            max-height="600"
+            handle-height="40px">
+        </wb-resize-updown>
+        
+        <div id="event-log-content">
+            <div class="log-entry highlight">
+                <strong>👆 Hover over the top edge to resize!</strong>
+            </div>
+            <div class="log-entry">
+                🔍 Event log initialized
+            </div>
+            <div class="log-entry">
+                ✅ wb-resize-updown component loaded
+            </div>
+            <div class="log-entry">
+                📐 <strong>Drag UP</strong> = Event log gets taller (pushes content up)
+            </div>
+            <div class="log-entry">
+                📐 <strong>Drag DOWN</strong> = Event log gets shorter (more content visible)
+            </div>
+            <div class="log-entry">
+                💾 Height persists to localStorage automatically
+            </div>
+            <div class="log-entry">
+                🎯 Watch the content area above shrink as you expand this!
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the component -->
+    <script type="module" src="./wb-resize-updown.js"></script>
+    
+    <script>
+        // Listen to resize events
+        const eventLog = document.getElementById('event-log-panel');
+        const eventLogContent = document.getElementById('event-log-content');
+        
+        eventLog.addEventListener('wb:resize-start', (e) => {
+            console.log('🖱️ Resize started:', e.detail);
+            addLogEntry('🖱️ Started resizing...');
+            
+            // Keep main content scrolled to top during resize
+            const mainContent = document.getElementById('main-content');
+            mainContent.scrollTop = 0;
+        });
+        
+        eventLog.addEventListener('wb:resizing', (e) => {
+            // Keep anchored to top while resizing
+            const mainContent = document.getElementById('main-content');
+            mainContent.scrollTop = 0;
+        });
+        
+        eventLog.addEventListener('wb:resize-end', (e) => {
+            console.log('✅ Resize ended. Final height:', e.detail.finalHeight + 'px');
+            addLogEntry(`✅ Resized to ${e.detail.finalHeight}px`);
+        });
+
+        function addLogEntry(text) {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = text;
+            eventLogContent.appendChild(entry);
+            // REMOVED: eventLogContent.scrollTop = eventLogContent.scrollHeight; - No auto-scroll
+        }
+
+        // Add a welcome message
+        setTimeout(() => {
+            addLogEntry('👋 Welcome! Try resizing by dragging the top edge of this panel.');
+        }, 1000);
+    </script>
+</body>
+</html>

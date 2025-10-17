@@ -1,0 +1,218 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "wb-resize-eastwest",
+  "title": "WB Resize EastWest Component Schema",
+  "version": "1.0.0",
+  "description": "Horizontal resize handle for dragging panels left/right",
+  "type": "component",
+  "category": "interaction",
+  "tags": ["resize", "drag", "horizontal", "sidebar", "panel", "ux"],
+  
+  "component": {
+    "name": "wb-resize-eastwest",
+    "class": "WBResizeEastWest",
+    "extends": "HTMLElement",
+    "shadowDOM": true,
+    "file": "wb-resize-eastwest.js"
+  },
+  
+  "attributes": {
+    "storage-key": {
+      "type": "string",
+      "description": "localStorage key to persist width between sessions",
+      "default": null,
+      "required": false,
+      "example": "sidebar-width"
+    },
+    "min-width": {
+      "type": "number",
+      "description": "Minimum width in pixels",
+      "default": 200,
+      "required": false,
+      "min": 0,
+      "example": 250
+    },
+    "max-width": {
+      "type": "number",
+      "description": "Maximum width in pixels",
+      "default": 1200,
+      "required": false,
+      "example": 800
+    },
+    "handle-width": {
+      "type": "string",
+      "description": "Width of draggable handle area",
+      "default": "8px",
+      "required": false,
+      "pattern": "^\\d+px$",
+      "example": "12px"
+    },
+    "side": {
+      "type": "string",
+      "description": "Handle position: 'left' or 'right'",
+      "default": "right",
+      "required": false,
+      "enum": ["left", "right"],
+      "example": "left"
+    },
+    "target": {
+      "type": "string",
+      "description": "CSS selector of element to resize (defaults to parent)",
+      "default": null,
+      "required": false,
+      "example": "#custom-sidebar"
+    }
+  },
+  
+  "properties": {
+    "isResizing": {
+      "type": "boolean",
+      "description": "Whether currently dragging",
+      "readonly": true
+    },
+    "targetElement": {
+      "type": "HTMLElement",
+      "description": "Element being resized",
+      "readonly": true
+    },
+    "minWidth": {
+      "type": "number",
+      "description": "Minimum width constraint"
+    },
+    "maxWidth": {
+      "type": "number",
+      "description": "Maximum width constraint"
+    },
+    "storageKey": {
+      "type": "string",
+      "description": "localStorage key"
+    }
+  },
+  
+  "methods": {
+    "setMinWidth": {
+      "description": "Set minimum width constraint",
+      "parameters": [
+        {
+          "name": "width",
+          "type": "number",
+          "description": "Minimum width in pixels"
+        }
+      ],
+      "returns": "void"
+    },
+    "setMaxWidth": {
+      "description": "Set maximum width constraint",
+      "parameters": [
+        {
+          "name": "width",
+          "type": "number",
+          "description": "Maximum width in pixels"
+        }
+      ],
+      "returns": "void"
+    },
+    "setTarget": {
+      "description": "Change target element to resize",
+      "parameters": [
+        {
+          "name": "selector",
+          "type": "string",
+          "description": "CSS selector"
+        }
+      ],
+      "returns": "void"
+    },
+    "getTargetWidth": {
+      "description": "Get current width of target",
+      "parameters": [],
+      "returns": "number"
+    },
+    "loadSavedWidth": {
+      "description": "Load width from localStorage",
+      "parameters": [],
+      "returns": "void",
+      "private": true
+    }
+  },
+  
+  "events": {
+    "wb:resize-start": {
+      "description": "Fired when drag starts",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "startWidth": "number - Initial width in pixels",
+        "startX": "number - Initial mouse X coordinate"
+      }
+    },
+    "wb:resizing": {
+      "description": "Fired continuously while dragging",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "width": "number - Current width in pixels",
+        "deltaX": "number - Change from start position"
+      }
+    },
+    "wb:resize-end": {
+      "description": "Fired when drag ends",
+      "bubbles": true,
+      "composed": true,
+      "detail": {
+        "finalWidth": "number - Final width in pixels"
+      }
+    }
+  },
+  
+  "cssVariables": {},
+  
+  "cssParts": {
+    "handle": "The draggable resize handle"
+  },
+  
+  "slots": {},
+  
+  "dependencies": [],
+  
+  "usage": {
+    "basic": "<wb-resize-eastwest storage-key=\"sidebar-width\" min-width=\"200\" max-width=\"800\"></wb-resize-eastwest>",
+    "advanced": "<div id=\"sidebar\" style=\"position: relative; width: 300px;\">\n  <wb-resize-eastwest storage-key=\"sidebar-width\" side=\"right\" min-width=\"200\" max-width=\"600\"></wb-resize-eastwest>\n  <div class=\"content\">Content</div>\n</div>"
+  },
+  
+  "examples": [
+    {
+      "title": "Left Sidebar",
+      "code": "<div id=\"sidebar\" style=\"position: relative; width: 300px;\">\n  <wb-resize-eastwest storage-key=\"left-sidebar\" side=\"right\"></wb-resize-eastwest>\n  <div>Sidebar content</div>\n</div>"
+    },
+    {
+      "title": "Right Panel",
+      "code": "<div id=\"panel\" style=\"position: relative; width: 350px;\">\n  <wb-resize-eastwest storage-key=\"right-panel\" side=\"left\"></wb-resize-eastwest>\n  <div>Panel content</div>\n</div>"
+    },
+    {
+      "title": "With Events",
+      "code": "const resizer = document.querySelector('wb-resize-eastwest');\nresizer.addEventListener('wb:resize-end', (e) => {\n  console.log('New width:', e.detail.finalWidth);\n});"
+    }
+  ],
+  
+  "accessibility": {
+    "role": "separator",
+    "keyboard": false,
+    "screenReader": "Draggable resize handle",
+    "notes": "Mouse-only interaction. Keyboard support not implemented."
+  },
+  
+  "browser": {
+    "chrome": "90+",
+    "firefox": "88+",
+    "safari": "14+",
+    "edge": "90+"
+  },
+  
+  "notes": [
+    "Use side='right' for left sidebars, side='left' for right panels",
+    "Target defaults to parent element",
+    "Works best in flexbox layouts",
+    "Handle width is small (8px) by default - increase if needed"
+  ]
+}

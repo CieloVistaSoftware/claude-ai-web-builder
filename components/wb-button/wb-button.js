@@ -258,3 +258,14 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         priority: 4 // UI component depends on infrastructure
     });
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBButton = WBButton;
+
+// Expose globally (backward compatibility)
+window.WBButton = WBButton;
+
+// ES6 Module Exports
+export { WBButton };
+export default WBButton;

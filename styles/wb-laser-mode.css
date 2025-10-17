@@ -1,0 +1,48 @@
+/**
+ * WB Color Organ - LASER Mode Styles
+ * Shocking bright laser beams
+ * Version: 1.0.0
+ */
+
+/* Laser mode container with perspective */
+.wb-color-organ-grid.laser-mode {
+    position: relative;
+    background: #000;
+    overflow: visible;
+    perspective: 1000px; /* Add depth perspective */
+}
+
+/* Individual laser beams with expansion effect */
+.wb-laser-beam {
+    position: absolute;
+    pointer-events: none;
+    z-index: 50;
+    transition: none; /* INSTANT updates */
+    will-change: opacity, height, background, box-shadow, filter, transform;
+    mix-blend-mode: screen; /* Additive blending for ultra-bright crossings */
+    transform-style: preserve-3d; /* Maintain 3D context */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .wb-laser-beam {
+        /* Slightly less intense on mobile */
+        opacity: 0.9 !important;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .wb-laser-beam {
+        transition: opacity 0.3s, height 0.3s !important;
+        animation: none !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .wb-laser-beam {
+        filter: brightness(1) !important;
+        mix-blend-mode: normal !important;
+    }
+}

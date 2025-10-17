@@ -764,3 +764,14 @@ if (window.WBEventLog) {
 } else {
   document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'Color Bars component loaded successfully', component: 'wb-color-bars', line: 702 } }));
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBColorBars = WBColorBars;
+
+// Expose globally (backward compatibility)
+window.WBColorBars = WBColorBars;
+
+// ES6 Module Exports
+export { WBColorBars };
+export default WBColorBars;

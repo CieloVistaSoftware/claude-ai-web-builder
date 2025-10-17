@@ -191,8 +191,9 @@
                     reject(new Error(`Timeout loading component: ${name}`));
                 }, timeout);
                 
-                // Create script element
+                // Create script element as ES6 module
                 const script = document.createElement('script');
+                script.type = 'module'; // Load as ES6 module to support imports
                 
                 // Use WBComponentUtils for path resolution if available
                 let scriptPath;

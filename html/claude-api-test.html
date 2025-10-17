@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Events API Test Client</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            <h1>🤖 Claude Events API Test Client</h1>
+            <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">
+                🌙 Dark Mode
+            </button>
+        </div>
+        <p>Test API endpoints that AI assistants can use to access claude.md event logs</p>
+        <div id="apiStatus" class="status info">Checking API status...</div>
+    </div>
+
+    <div class="api-section">
+        <h2>🏥 Health Check</h2>
+        <p>Check if the API server is running and get available endpoints.</p>
+        <button class="btn btn-primary" onclick="testEndpoint('/api/health')">
+            GET /api/health
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📊 All Events</h2>
+        <p>Get all events from all claude.md files in the project.</p>
+        <button class="btn btn-primary" onclick="testEndpoint('/api/events')">
+            GET /api/events
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>🚨 Error Events Only</h2>
+        <p>Get only error-level events - what AI assistants need to fix.</p>
+        <button class="btn btn-danger" onclick="testEndpoint('/api/errors')">
+            GET /api/errors
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>⏰ Recent Events</h2>
+        <p>Get events from the last N hours.</p>
+        <div class="input-group">
+            <label>Hours back:</label>
+            <input type="number" id="hoursInput" value="24" min="1" max="168">
+        </div>
+        <button class="btn btn-primary" onclick="testRecentEvents()">
+            GET /api/recent/N
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📁 Directory-Specific Events</h2>
+        <p>Get events from a specific directory's claude.md file.</p>
+        <div class="input-group">
+            <label>Directory path:</label>
+            <input type="text" id="directoryInput" value="components/wb-color-picker" placeholder="components/wb-button">
+        </div>
+        <button class="btn btn-primary" onclick="testDirectoryEvents()">
+            GET /api/events/directory
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>💾 Save Event Log</h2>
+        <p>Save new content to a claude.md file (AI assistants can document fixes).</p>
+        <div class="input-group">
+            <label>Directory:</label>
+            <input type="text" id="saveDirectory" value="." placeholder="components/wb-button">
+        </div>
+        <div class="input-group">
+            <label>Content:</label>
+            <textarea id="saveContent" rows="6"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="testSaveEvent()">
+            POST /api/save-claude-log
+        </button>
+    </div>
+
+    <div class="api-section">
+        <h2>📋 API Response</h2>
+        <div id="responseArea" class="response-area">No requests made yet. Click an endpoint button above to test the API.
+
+🚀 Instructions for AI Assistants:
+- Use GET /api/errors to see what's currently broken
+- Use GET /api/events/dir?path=components/wb-tab to debug specific components  
+- Use GET /api/recent/1 to get the latest issues
+- Use POST /api/save-claude-log to document fixes</div>
+    </div>
+
+    <script type="module" src="claude-api-test.js"></script>
+</body>
+</html>

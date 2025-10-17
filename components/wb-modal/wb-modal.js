@@ -2,10 +2,7 @@
 // Website Builder modal dialog Web Component - Working Implementation
 // Extracted from wb_modal_webcomponent.html
 
-(function () {
-    'use strict';
-
-    console.log('🪟 WB Modal Component: Starting initialization...');
+console.log('🪟 WB Modal Component: Starting initialization...');
 
     // WB Modal Web Component Class
     class WBModal extends HTMLElement {
@@ -435,3 +432,14 @@
     }
 
 })();
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBModal = WBModal;
+
+// Expose globally (backward compatibility)
+window.WBModal = WBModal;
+
+// ES6 Module Exports
+export { WBModal };
+export default WBModal;

@@ -31,92 +31,12 @@ class WBDemo extends HTMLElement {
         linkElem.setAttribute('rel', 'stylesheet');
         // Use simple relative path that works from component subdirectories
         linkElem.setAttribute('href', '../wb-demo/wb-demo.css');
-        const styleElem = document.createElement('style');
-        styleElem.textContent = `
-            wb-example, wb-demo-section, wb-demo-grid, wb-demo-item, wb-demo-output {
-                display: block;
-                font-family: inherit;
-                font-size: inherit;
-                color: inherit;
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-            }
-            wb-demo-section h1, wb-demo-section h2, wb-demo-section h3, wb-demo-section h4, wb-demo-section h5, wb-demo-section h6,
-            wb-demo-item h1, wb-demo-item h2, wb-demo-item h3, wb-demo-item h4, wb-demo-item h5, wb-demo-item h6 {
-                display: block;
-                font-family: inherit;
-                font-weight: 700;
-                margin: 1.5rem 0 1rem 0;
-                color: var(--primary-color);
-                line-height: 1.2;
-            }
-            wb-demo-section h2, wb-demo-item h2 {
-                font-size: 2rem;
-                border-bottom: 2px solid var(--primary-color);
-                padding-bottom: 0.5rem;
-            }
-            wb-demo-section h3, wb-demo-item h3 {
-                font-size: 1.25rem;
-            }
-            wb-demo-section p, wb-demo-item p {
-                display: block;
-                font-family: inherit;
-                font-size: 1rem;
-                color: var(--text-secondary);
-                margin: 0 0 1rem 0;
-            }
-            wb-demo-section pre, wb-demo-item pre, wb-demo-section code, wb-demo-item code {
-                display: block;
-                background: var(--bg-tertiary);
-                color: var(--text-primary);
-                padding: 1rem;
-                border-radius: 6px;
-                font-family: var(--font-mono, 'Courier New', monospace);
-                font-size: 1rem;
-                margin: 1rem 0;
-                border: 1px solid var(--border-color);
-                overflow-x: auto;
-            }
-            wb-demo-grid {
-                display: grid;
-                gap: 2rem;
-                margin: 1.5rem 0;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-            wb-demo-item {
-                background: var(--bg-primary);
-                border-radius: 8px;
-                box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05));
-                border: 1px solid var(--border-color);
-                padding: 1.5rem;
-                margin-bottom: 1.5rem;
-            }
-            wb-demo-item > h3 {
-                margin-top: 0;
-                font-size: 1.25rem;
-                font-weight: 600;
-                color: var(--primary-color);
-            }
-            wb-demo-output {
-                margin-top: 1rem;
-                padding: 1rem;
-                background: var(--bg-tertiary);
-                border-radius: 6px;
-                font-family: var(--font-mono, 'Courier New', monospace);
-                font-size: 1rem;
-                color: var(--text-primary);
-                border: 1px solid var(--border-color);
-                text-align: right;
-            }
-        `;
-    this.shadowRoot.appendChild(linkElem);
-    this.shadowRoot.appendChild(styleElem);
-    this.shadowRoot.innerHTML += `
+        // Only use external stylesheet for styling
+        this.shadowRoot.appendChild(linkElem);
+        // Use a placeholder for the title, to be filled in after construction
+        this.shadowRoot.innerHTML += `
             <div class="demo-container">
-                <h1 class="demo-title">
-                    <slot name="title">Component Demo</slot>
-                </h1>
+                <h1 class="demo-title" id="demo-title"></h1>
                 <div class="tab-container">
                     <div class="tab-buttons">
                         <button class="tab-button active" data-tab="0">📖 Documentation</button>
@@ -170,6 +90,9 @@ class WBDemo extends HTMLElement {
         `;
         
         console.log('🎯 WB Demo: Constructor completed, shadow DOM created');
+
+        // Set up slotchange listener for title slot
+        // This will be called in connectedCallback after shadow DOM is ready
     }
 
     async _renderMarkdownDocIfNeeded() {
@@ -466,19 +389,73 @@ class WBDemo extends HTMLElement {
     
     connectedCallback() {
         console.log('🎯 WB Demo: connectedCallback called');
-        
+
         // Set up tab switching functionality
         this.setupTabSwitching();
-        
+
         // Render markdown doc again in case slot is added after construction
         this._renderMarkdownDocIfNeeded();
-        
+
         // Auto-wrap examples content with wb-resize for interactive demos
         setTimeout(() => {
             this.wrapExamplesWithResize();
         }, 100);
-        
+
+        // Set up MutationObserver for attribute changes (title attribute)
+        if (!this._attrObserver) {
+            this._attrObserver = new MutationObserver(() => {
+                this._updateDemoTitle();
+                this._updateDocumentTitle();
+            });
+            this._attrObserver.observe(this, { attributes: true, attributeFilter: ['title'] });
+        }
+
+        // Initial set
+        this._updateDemoTitle();
+        this._updateDocumentTitle();
+
         console.log('🎯 WB Demo: connectedCallback completed');
+    }
+
+    _updateDemoTitle() {
+        // If a slot[name=title] is present and has content, use it. Otherwise, use the title attribute.
+        // (But we no longer use a slot in the template.)
+        const h1 = this.shadowRoot.getElementById('demo-title');
+        let titleText = this.getAttribute('title') || 'Component Demo';
+        h1.textContent = titleText;
+    }
+
+    disconnectedCallback() {
+        // Clean up observers
+        if (this._attrObserver) {
+            this._attrObserver.disconnect();
+        }
+    }
+
+    _updateDocumentTitle() {
+        // Priority: slot content > title attribute > fallback
+        let titleText = '';
+        const titleSlot = this.shadowRoot.querySelector('slot[name="title"]');
+        if (titleSlot) {
+            const nodes = titleSlot.assignedNodes({ flatten: true });
+            // Find first non-empty text node or element textContent
+            for (const node of nodes) {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                    titleText = node.textContent.trim();
+                    break;
+                } else if (node.nodeType === Node.ELEMENT_NODE && node.textContent.trim()) {
+                    titleText = node.textContent.trim();
+                    break;
+                }
+            }
+        }
+        if (!titleText) {
+            // Fallback to attribute
+            titleText = this.getAttribute('title') || 'Component Demo';
+        }
+        if (typeof document !== 'undefined' && document.title !== titleText) {
+            document.title = titleText;
+        }
     }
 
     wrapExamplesWithResize() {
@@ -530,3 +507,14 @@ if (!customElements.get('wb-demo')) {
 } else {
     console.log('⚠️ WB Demo: Component already registered');
 }
+
+// Compositional Namespace
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBDemo = WBDemo;
+
+// Expose globally (backward compatibility)
+window.WBDemo = WBDemo;
+
+// ES6 Module Exports
+export { WBDemo };
+export default WBDemo;
