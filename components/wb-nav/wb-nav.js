@@ -529,8 +529,6 @@ window.WB.components.WBNav = WBNav;
 // Expose globally (backward compatibility)
 window.WBNav = WBNav;
 
-// ES6 Module Exports
-export { WBNav };
-export default WBNav;
-
 } // <-- End of typeof WBNav === 'undefined' guard
+
+console.log('✅ wb-nav loaded successfully');

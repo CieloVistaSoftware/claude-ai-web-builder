@@ -1,0 +1,829 @@
+/* Professional-Developer-HCS-System.css */
+/* Styles for the Professional Developer HCS System demo */
+
+/* Fallback CSS variables in case main.css doesn't load */
+:root {
+  --background: #1a1f2e;
+  --text-primary: #ffffff;
+  --text-secondary: #a0aec0;
+  --primary: #4299e1;
+  --border-color: #2d3748;
+  --surface-raised: #2d3748;
+  --bg-primary: #1a202c;
+  --secondary: #f6ad55;
+  --accent: #ed8936;
+  --highlight: #fbd38d;
+  --foreground: #e2e8f0;
+  --border: #4a5568;
+  /* Fixed colors that should NOT change when themes are applied */
+  --fixed-background: #1a1f2e;
+  --fixed-foreground: #e2e8f0;
+  --fixed-border: #4a5568;
+  --plus30: #667eea;
+  --plus45: #9f7aea;
+  --plus60: #b794f4;
+  --plus90: #d6bcfa;
+  --minus30: #38b2ac;
+  --minus45: #4fd1c5;
+  --minus60: #81e6d9;
+  --minus90: #b2f5ea;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  background: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease;
+}
+
+.header-section {
+  padding: 2rem;
+  text-align: center;
+  background: var(--bg-primary);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.company-info {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+.company-name {
+  color: var(--primary);
+}
+
+.linkedin-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.linkedin-link:hover {
+  text-decoration: underline;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.controls-section {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: var(--surface-raised);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.mode-controls,
+.theme-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mode-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.ace-info {
+  background: var(--surface-raised);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+}
+
+.ace-info h3 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.ace-info code {
+  background: var(--bg-primary);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+#event-log {
+  background: var(--bg-primary);
+  padding: 1rem;
+  border-radius: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+.event-entry {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.event-timestamp {
+  color: var(--text-secondary);
+}
+
+.event-message {
+  color: var(--text-primary);
+}
+
+.event-data {
+  margin-top: 0.25rem;
+  color: var(--accent);
+  font-size: 0.75rem;
+}
+
+.event-placeholder {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 2rem;
+}
+
+h1 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.color-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-raised);
+}
+
+.color-swatch {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.color-info {
+  padding: 1rem;
+}
+
+.color-example {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.8125rem;
+}
+
+.color-example h4,
+.color-example p,
+.color-example blockquote,
+.color-example section,
+.color-example div {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  text-align: center;
+}
+
+/* Color-specific example styles */
+.example-primary { color: var(--primary); }
+.example-secondary { color: var(--secondary); }
+.example-accent { 
+  background: var(--accent); 
+  color: white; 
+  padding: 0.25rem;
+}
+.example-highlight-border { border-left: 3px solid var(--highlight); }
+.example-highlight-text { color: var(--highlight); }
+.example-background { background: var(--fixed-background); padding: 0.5rem; border-radius: 4px; }
+.example-foreground { color: var(--fixed-foreground); padding: 0.5rem; border-radius: 4px; }
+.example-border { border: 2px solid var(--fixed-border); padding: 0.5rem; border-radius: 4px; }
+.example-plus30 { color: var(--plus30); }
+.example-plus45 { color: var(--plus45); }
+.example-plus60 { color: var(--plus60); }
+.example-plus90 { color: var(--plus90); }
+.example-minus30 { color: var(--minus30); }
+.example-minus45 { color: var(--minus45); }
+.example-minus60 { color: var(--minus60); }
+.example-minus90 { color: var(--minus90); }
+
+/* Tab Navigation */
+.tab-navigation {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 2rem 0 2rem;
+  background: var(--background);
+  border-bottom: 2px solid var(--border);
+}
+
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-button:hover {
+  color: var(--text-primary);
+  background: var(--surface-raised);
+}
+
+.tab-button.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* Tab Content */
+.spa-container {
+  display: block;
+}
+
+.demo-section,
+.docs-section {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+}
+
+/* Layout with left sidebar */
+/* Two-column page using flex: 1/3 sidebar, 2/3 main */
+.layout {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.sidebar {
+  /* fixed narrow sidebar to make navigator slim and consistent */
+    flex: 0 0 175px; /* increased sidebar width (25% wider): 175px */
+    max-width: 175px;
+    min-width: 175px;
+    padding: 0; /* keep zero outer padding so buttons align with edge */
+  height: auto;
+  box-sizing: border-box;
+    background: var(--surface-raised); /* ensure sidebar and buttons share base background */
+}
+
+.spa-container {
+  flex: 1 1 83.5%;
+}
+
+/* Navigator buttons: full width, one per row */
+.sidebar .controls-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* no gaps between rows; each element occupies its own row */
+  padding: 0; /* remove inner padding so buttons fill exactly */
+  margin: 0;
+  width: 100%;
+}
+
+.controls-section .toggle-label,
+.controls-section .mode-label span,
+.controls-section #theme-select {
+  display: block;
+  width: 100%;
+}
+
+.nav-group { display: flex; flex-direction: column; gap: 0.1rem; }
+.sidebar .nav-label { color: var(--text-secondary); font-weight: 700; margin: 0; text-align: left; padding: 6px 8px; }
+
+/* Force sidebar-scoped buttons to be flush with the sidebar width */
+.sidebar .nav-btn {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important; /* show the sidebar background so button appears flush */
+  color: var(--text-primary) !important;
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  text-align: left !important;
+  padding: 10px 12px !important;
+  margin: 0 !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  font-weight: 600 !important;
+}
+.sidebar .nav-btn:hover,
+.sidebar .nav-btn:focus {
+  background: rgba(255,255,255,0.02) !important;
+}
+.sidebar .nav-btn:active {
+  background: rgba(255,255,255,0.03) !important;
+}
+
+/* When a nav-group should be hidden because it does not apply (e.g. viewing docs) */
+.sidebar .nav-group.hidden {
+  display: none !important;
+}
+
+/* When docs are prioritized, move the docs section to the top of the main flow
+   and allow it to take the primary focus. We add a class on <body> when docs view
+   is active. This keeps DOM changes minimal and relies on CSS only. */
+body.docs-priority main#spa-container {
+  display: flex;
+  flex-direction: column;
+}
+
+body.docs-priority main#spa-container > #docs-section {
+  order: -1; /* visually bring docs above demo */
+}
+
+/* Active indicator for clicked nav buttons */
+.sidebar .nav-btn.active {
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)) !important;
+  border-left: 4px solid var(--primary) !important;
+  padding-left: 8px !important;
+}
+
+/* Full width docs wrapper styles */
+#fullwidth-docs-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--background);
+  color: var(--text-primary);
+  padding: 1rem 2rem;
+}
+
+/* When docs are detached (moved to #fullwidth-docs-wrapper) hide the SPA container to avoid duplication */
+body.docs-detached #spa-container { display: none !important; }
+
+/* Also hide the entire sidebar when docs are detached so the docs area is truly full-width */
+body.docs-detached aside.sidebar { display: none !important; }
+
+/* Ensure fullwidth wrapper sits beneath the header and spans the remaining space */
+#fullwidth-docs-wrapper {
+  width: calc(100% - 0px);
+  margin: 0 auto;
+  max-width: 1400px;
+}
+
+/* Primary left border for selected theme buttons (strong visual indicator) */
+.sidebar .nav-btn.active[data-theme] {
+  border-left: 6px solid var(--primary) !important;
+  padding-left: 10px !important;
+}
+
+/* Docs back button style inside fullwidth wrapper */
+.docs-back-btn {
+  display: inline-block;
+  margin-bottom: 1rem;
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border: 1px solid var(--fixed-border);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.docs-back-btn:hover { background: rgba(255,255,255,0.02); }
+
+.theme-list { display: flex; flex-direction: column; gap: 0.25rem; max-height: none; overflow: visible; }
+
+/* Scoped view rules - only one view visible at a time */
+.spa-container.view-code .code-section { display: block; }
+.spa-container.view-code .docs-section { display: none; }
+.spa-container.view-docs .code-section { display: none; }
+.spa-container.view-docs .docs-section { display: block; }
+
+/* Strong overrides to ensure sidebar nav buttons are visually full-width and flush */
+.sidebar, .sidebar * {
+  box-sizing: border-box !important;
+}
+.sidebar {
+  padding: 0 !important;
+}
+.sidebar .controls-section,
+.sidebar .nav-group {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  background: transparent !important; /* ensure no inner rounded box */
+  border-radius: 0 !important;
+}
+.sidebar .nav-btn {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 8px 0 !important; /* zero horizontal padding so visual edge-to-edge */
+  border: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  align-self: stretch !important;
+}
+.sidebar .nav-btn + .nav-btn {
+  border-top: 1px solid var(--border-color) !important;
+}
+.sidebar .nav-label {
+  padding: 8px 12px !important;
+}
+
+/* Small screens: stack sidebar above content */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+}
+
+/* Documentation Styles */
+.docs-container {
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+#markdown-content {
+  color: var(--text-primary);
+}
+
+#markdown-content h1 {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+  margin-top: 2rem;
+}
+
+#markdown-content h2 {
+  color: var(--accent);
+  margin-top: 2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+#markdown-content h3 {
+  color: var(--highlight);
+  margin-top: 1.5rem;
+}
+
+#markdown-content h4 {
+  color: var(--secondary);
+  margin-top: 1rem;
+}
+
+#markdown-content code {
+  background: var(--surface-raised);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 0.9em;
+}
+
+#markdown-content pre {
+  background: var(--surface-raised);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  border-left: 4px solid var(--primary);
+}
+
+#markdown-content pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--foreground);
+}
+
+#markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+#markdown-content th,
+#markdown-content td {
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+#markdown-content th {
+  background: var(--surface-raised);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+#markdown-content blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin-left: 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+#markdown-content a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+#markdown-content a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+#markdown-content ul,
+#markdown-content ol {
+  padding-left: 2rem;
+}
+
+#markdown-content li {
+  margin: 0.5rem 0;
+}
+
+#markdown-content hr {
+  border: none;
+  border-top: 2px solid var(--border);
+  margin: 2rem 0;
+}
+
+.color-name {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-family: monospace;
+  color: var(--text-primary);
+}
+
+.color-usage {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+}
+
+code {
+  background: var(--surface-raised);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  color: var(--accent);
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-section h1 {
+  margin-bottom: 0.5rem;
+}
+
+.header-section .subtitle {
+  margin-bottom: 0.5rem;
+}
+
+.company-info {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.company-name {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.linkedin-link {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.linkedin-link:hover {
+  opacity: 0.8;
+}
+
+.controls-section {
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.mode-controls,
+.theme-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* View toggle styles */
+.view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 1rem;
+}
+.view-toggle input[type="radio"] {
+  display: none;
+}
+.toggle-label {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.view-toggle input[type="radio"]:checked + .toggle-label,
+.toggle-label:active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Sections visibility controlled by classes toggled from JS */
+.code-hidden .code-section { display: none !important; }
+.docs-hidden .docs-section { display: none !important; }
+
+.mode-controls span,
+.theme-controls label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.mode-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.mode-label input {
+  cursor: pointer;
+}
+
+.mode-label span {
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+#theme-select {
+  padding: 0.5rem 1rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.ace-info {
+  background: var(--surface-raised);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.ace-info h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.ace-info p {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+#event-log {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+.event-placeholder {
+  color: var(--text-muted);
+}
+
+.event-entry {
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+  border-left: 3px solid var(--primary);
+  background: var(--surface-raised);
+  border-radius: 4px;
+}
+
+.event-timestamp {
+  color: var(--text-muted);
+}
+
+.event-message {
+  color: var(--text-primary);
+}
+
+.event-data {
+  margin-top: 0.25rem;
+  padding-left: 1rem;
+  color: var(--accent);
+  font-size: 0.8125rem;
+}
+
+/* Final, ultra-specific overrides to guarantee absolutely flush sidebar buttons
+   These selectors are intentionally very specific and placed last so they win
+   against global stylesheets like /styles/main.css or any bundled CSS. */
+.layout > aside.sidebar, .layout > .sidebar {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: var(--surface-raised) !important;
+  box-shadow: none !important;
+}
+
+.layout > aside.sidebar .controls-section,
+.layout > aside.sidebar .controls-section *,
+.layout > aside.sidebar .nav-group,
+.layout > aside.sidebar .nav-group * {
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Most-specific button rule to defeat any other button rules */
+.layout > aside.sidebar .controls-section > .nav-group > .nav-btn,
+.layout > aside.sidebar .controls-section > .nav-group > .theme-list > .nav-btn,
+.layout > aside.sidebar .nav-btn {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 8px 12px !important; /* keep small inset for text but full-bleed visual */
+  background: var(--surface-raised) !important; /* exact same as sidebar so edges look flush */
+  color: var(--text-primary) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  text-align: left !important;
+  align-self: stretch !important;
+}
+
+/* Remove any mysterious left/right inner dividers that can create the appearance of gaps */
+.layout > aside.sidebar .controls-section > .nav-group,
+.layout > aside.sidebar .controls-section > .nav-group > * {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* Ensure no extra spacing between the sidebar content and its edges */
+.layout > aside.sidebar .nav-label { padding-left: 12px !important; padding-right: 12px !important; }
+
+/* Force left border indicator for active nav buttons with maximum specificity */
+.layout > aside.sidebar .controls-section > .nav-group > .nav-btn.active,
+.layout > aside.sidebar .controls-section > .nav-group > .theme-list > .nav-btn.active,
+.layout > aside.sidebar .nav-btn.active {
+  border-left: 6px solid var(--primary) !important;
+  padding-left: 10px !important;
+}
+

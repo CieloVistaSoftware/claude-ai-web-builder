@@ -26,6 +26,7 @@ Coding standards, domain knowledge, and preferences that AI should follow.
 17. **Stop all tests on first error and fix the problem**
 18. "No code can be changed without a reson which is logged in Fixes.md"
 19. Delete all artifacts, do not leave any files behind. E.G. INDEX.NEW.HTML VS INDEX.HTML.
+20. **MANDATORY: All new HTML pages MUST use the base template from /templates/base-template.html** - Copy it and modify it, never create HTML from scratch. This prevents dark mode issues, wrong CSS paths, and inline code violations.
 
 ## Proper Debugging Techniques
 1. **If we repeatedly see the same error, YOU MUST TAKE THIS APPROACH**.

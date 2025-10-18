@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Control Panel Demo - Separation of Concerns</title>
+    
+    <!-- Main styles with theme variables -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <!-- Demo page styles (separate from component) -->
+    <link rel="stylesheet" href="wb-control-panel-demo.css">
+    
+    <!-- Theme listener automatically applies changes -->
+    <script src="../../styles/wb-theme-listener.js"></script>
+</head>
+<body data-theme="dark">
+    <div class="container">
+        <h1>🎨 Clean Control Panel</h1>
+        <p class="subtitle">Separation of Concerns - No Inline Styles/Scripts</p>
+        
+        <div class="info-panel">
+            <h3>✨ Architecture</h3>
+            <ul>
+                <li><strong>Component JS:</strong> wb-control-panel-advanced.js (logic only)</li>
+                <li><strong>Shadow CSS:</strong> wb-control-panel-shadow.css (component styles)</li>
+                <li><strong>Demo JS:</strong> wb-control-panel-demo.js (page logic)</li>
+                <li><strong>Demo CSS:</strong> wb-control-panel-demo.css (page styles)</li>
+                <li><strong>Theme Listener:</strong> wb-theme-listener.js (event handler)</li>
+            </ul>
+        </div>
+        
+        <div class="demo-grid">
+            <div class="demo-card primary-card">
+                <h2>🎨 Primary</h2>
+                <p>Main brand color that updates with theme selection.</p>
+            </div>
+            
+            <div class="demo-card accent-card">
+                <h2>✨ Accent</h2>
+                <p>Complementary color calculated automatically.</p>
+            </div>
+            
+            <div class="demo-card secondary-card">
+                <h2>🌊 Secondary</h2>
+                <p>Supporting color for depth.</p>
+            </div>
+            
+            <div class="demo-card success-card">
+                <h2>✅ Success</h2>
+                <p>Positive actions and confirmations.</p>
+            </div>
+            
+            <div class="demo-card warning-card">
+                <h2>⚠️ Warning</h2>
+                <p>Caution and alerts.</p>
+            </div>
+            
+            <div class="demo-card danger-card">
+                <h2>🚨 Danger</h2>
+                <p>Errors and destructive actions.</p>
+            </div>
+            
+            <div class="demo-card info-card">
+                <h2>ℹ️ Info</h2>
+                <p>Helpful information.</p>
+            </div>
+            
+            <div class="demo-card neutral-card">
+                <h2>⚪ Neutral</h2>
+                <p>Balanced UI elements.</p>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <h3>🎯 No Inline Styles or Scripts!</h3>
+            <p><strong>✅ Separated:</strong> All styles in CSS files, all scripts in JS files</p>
+            <p><strong>✅ Maintainable:</strong> Each file has one responsibility</p>
+            <p><strong>✅ Reusable:</strong> Files can be used independently</p>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <h4>📊 Current Settings</h4>
+        <div class="status-item">
+            <span>Mode:</span>
+            <span class="status-value" id="status-mode">Dark</span>
+        </div>
+        <div class="status-item">
+            <span>Theme:</span>
+            <span class="status-value" id="status-theme">Default</span>
+        </div>
+        <div class="status-item">
+            <span>Category:</span>
+            <span class="status-value" id="status-category">Named</span>
+        </div>
+    </div>
+    
+    <!-- Load demo logic as ES6 Module (no inline script!) -->
+    <script type="module" src="wb-control-panel-demo.js"></script>
+</body>
+</html>

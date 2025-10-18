@@ -431,15 +431,8 @@ console.log('🪟 WB Modal Component: Starting initialization...');
         }
     }
 
-})();
-
 // Compositional Namespace
 if (!window.WB) window.WB = { components: {}, utils: {} };
-window.WB.components.WBModal = WBModal;
+window.WB.components.WBModal = window.WBModal;
 
-// Expose globally (backward compatibility)
-window.WBModal = WBModal;
-
-// ES6 Module Exports
-export { WBModal };
-export default WBModal;
+console.log('✅ wb-modal loaded successfully');

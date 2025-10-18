@@ -11,7 +11,7 @@ function loadScript(src) {
         // Check if script already loaded
         const existing = document.querySelector(`script[src="${src}"]`);
         if (existing) {
-            WBEventLog.logInfo(`Script already loaded: ${src}`, { component: 'wb-color-bars-semantic-bundle', line: 13 });
+            console.log(`Script already loaded: ${src}`);
             resolve();
             return;
         }
@@ -20,11 +20,11 @@ function loadScript(src) {
         script.src = src;
         script.async = true;
         script.onload = () => {
-            WBEventLog.logSuccess(`Script loaded: ${src}`, { component: 'wb-color-bars-semantic-bundle', src, line: 22 });
+            console.log(`Script loaded: ${src}`);
             resolve();
         };
         script.onerror = (error) => {
-            WBEventLog.logError(`Failed to load script: ${src}`, { component: 'wb-color-bars-semantic-bundle', src, error, line: 26 });
+            console.error(`Failed to load script: ${src}`, error);
             reject(new Error(`Failed to load ${src}`));
         };
         document.head.appendChild(script);
@@ -34,7 +34,7 @@ function loadScript(src) {
 // Function to load semantic demo bundle
 async function loadColorBarsSemanticBundle() {
     try {
-        WBEventLog.logInfo('Starting semantic bundle load...', { component: 'wb-color-bars-semantic-bundle', line: 36 });
+        console.log('Starting semantic bundle load...');
 
         // Load wb-color-bar component FIRST (dependency of wb-color-bars)
         await loadScript('../wb-color-bar/wb-color-bar.js');
@@ -43,7 +43,7 @@ async function loadColorBarsSemanticBundle() {
         await new Promise(resolve => {
             const checkDefined = () => {
                 if (customElements.get('wb-color-bar')) {
-                    WBEventLog.logSuccess('wb-color-bar component defined', { component: 'wb-color-bars-semantic-bundle', line: 45 });
+                    console.log('wb-color-bar component defined');
                     resolve();
                 } else {
                     setTimeout(checkDefined, 50);
@@ -59,7 +59,7 @@ async function loadColorBarsSemanticBundle() {
         await new Promise(resolve => {
             const checkDefined = () => {
                 if (customElements.get('wb-color-bars')) {
-                    WBEventLog.logSuccess('wb-color-bars component defined', { component: 'wb-color-bars-semantic-bundle', line: 61 });
+                    console.log('wb-color-bars component defined');
                     resolve();
                 } else {
                     setTimeout(checkDefined, 50);
@@ -71,18 +71,13 @@ async function loadColorBarsSemanticBundle() {
         // Load semantic demo functionality
         await loadScript('wb-color-bars-semantic-demo.js');
 
-        WBEventLog.logSuccess('WB Color Bars Semantic Bundle: All components ready', { component: 'wb-color-bars-semantic-bundle', line: 73 });
+        console.log('WB Color Bars Semantic Bundle: All components ready');
         
         // Dispatch bundle ready event
         window.dispatchEvent(new CustomEvent('wb-color-bars-semantic-ready'));
 
     } catch (error) {
-        WBEventLog.logError('Failed to load WB Color Bars semantic bundle', { 
-            component: 'wb-color-bars-semantic-bundle',
-            error: error.message,
-            stack: error.stack,
-            line: 82 
-        });
+        console.error('Failed to load WB Color Bars semantic bundle', error);
     }
 }
 

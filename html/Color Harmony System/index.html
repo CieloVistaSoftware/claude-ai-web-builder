@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave-Based Color Harmony System Demo</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <style>
+        body {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .harmony-card {
+            background: var(--surface-raised);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .harmony-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .harmony-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary);
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .harmony-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-wave {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .badge-traditional {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+        }
+
+        .harmony-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .harmony-image {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        .theory-section {
+            background: var(--surface-raised);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .theory-section h2 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent);
+        }
+
+        .code-example {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .code-example pre {
+            margin: 0;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Live Harmony Preview Styles */
+        #live-harmony-cards {
+            display: contents;
+        }
+
+        /* WB Card overrides for harmony gallery */
+        wb-card {
+            display: block;
+        }
+
+        wb-card .harmony-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        wb-card .harmony-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        wb-card .harmony-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .live-preview {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .live-preview-header {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .mini-ui {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .mini-section {
+            background: var(--surface-raised);
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .mini-section-title {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .mini-color-swatches {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .mini-swatch {
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mini-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .mini-message {
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mini-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .mini-button {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .mini-button:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .mini-values {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        .updating {
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Theme Harmony Matrix Styles */
+        #theme-harmony-matrix {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .theme-section {
+            background: var(--surface-raised);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 2px solid var(--border-color);
+        }
+
+        .theme-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .theme-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .theme-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .theme-default { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .theme-cyberpunk { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white; }
+        .theme-ocean { background: linear-gradient(135deg, #06b6d4, #3b82f6); color: white; }
+        .theme-sunset { background: linear-gradient(135deg, #f59e0b, #ef4444); color: white; }
+        .theme-forest { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .compact-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .compact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .compact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .compact-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .compact-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .compact-swatches {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.25rem;
+        }
+
+        .compact-swatch {
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .compact-buttons {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .compact-button {
+            flex: 1;
+            padding: 0.4rem;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+        }
+
+        .compact-values {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-align: center;
+            font-family: monospace;
+            margin-top: 0.25rem;
+        }
+
+        /* Animation Toggle Button */
+        #animation-toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #animation-toggle-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <wb-demo>
+        <span slot="title">🌊 Wave-Based Color Harmony System</span>
+        
+        <div slot="documentation">
+            <div class="theory-section">
+                <h2>🎯 What is Wave-Based Color Harmony?</h2>
+                <p>
+                    Wave-Based Color Harmony applies principles from radio wave engineering and physics to color theory. 
+                    By treating hue as a wave frequency, we can use concepts like phase modulation, beat patterns, 
+                    and Doppler shifts to generate mathematically harmonious and perceptually pleasing color palettes.
+                </p>
+                <p style="margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 6px; border-left: 3px solid var(--accent);">
+                    <strong>🎮 Try It Live!</strong> Use the <strong>Control Panel</strong> in the top-right corner to adjust colors in real-time. 
+                    Change the base hue, saturation, and lightness to see how the harmony system responds. 
+                    You can also switch between light/dark modes and try different theme presets!
+                </p>
+            </div>
+
+            <h2>🔬 The Science</h2>
+            <p>
+                Radio waves and visible light are both electromagnetic radiation—they operate on the same physical principles, 
+                just at different frequencies. By applying wave theory to the HSL color space:
+            </p>
+            <ul>
+                <li><strong>Hue</strong> → Wave Frequency (0-360°)</li>
+                <li><strong>Saturation</strong> → Wave Amplitude</li>
+                <li><strong>Lightness</strong> → Wave Intensity</li>
+            </ul>
+
+            <h2>🌊 Wave-Based Harmony Modes</h2>
+            
+            <h3>1. Beat Pattern</h3>
+            <p>
+                When two frequencies are very close, they create periodic amplitude variations—"beats." 
+                In color, this means hues at nearly identical positions create subtle, rhythmic visual patterns.
+            </p>
+            <div class="code-example">
+                <pre>f_beat = |f1 - f2|
+colors: 240°, 245°, 250°, 255° (gentle oscillation)</pre>
+            </div>
+
+            <h3>2. Doppler Shift</h3>
+            <p>
+                Moving wave sources create frequency shifts. Applied to color, this creates smooth, directional 
+                hue progressions—perfect for gradients and transitions.
+            </p>
+            <div class="code-example">
+                <pre>f_observed = f_source × (1 + v/c)
+colors shift progressively in one direction</pre>
+            </div>
+
+            <h3>3. Amplitude Modulation (AM)</h3>
+            <p>
+                Modulating amplitude creates pulsing effects. In color space, this modulates saturation, 
+                creating breathing, dynamic color variations.
+            </p>
+            <div class="code-example">
+                <pre>saturation = base + (depth × sin(time))
+creates pulsing intensity effects</pre>
+            </div>
+
+            <h3>4. Wave Superposition</h3>
+            <p>
+                When multiple waves combine, they create interference patterns with stable nodes and antinodes. 
+                Results in balanced, evenly-distributed color palettes.
+            </p>
+            <div class="code-example">
+                <pre>combined_wave = wave1 + wave2 + wave3
+creates stable, balanced patterns</pre>
+            </div>
+
+            <h2>🎨 Traditional Modes</h2>
+            
+            <h3>Split Complementary</h3>
+            <p>
+                Base color plus two colors adjacent to its complement. Creates high contrast with more nuance 
+                than pure complementary harmony.
+            </p>
+
+            <h3>Analogous</h3>
+            <p>
+                Adjacent colors on the wheel (±30°). Creates smooth, harmonious, cohesive color schemes.
+            </p>
+
+            <h2>💡 Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>🌊 Modulation Engine</h4>
+                    <p>Real-time PM, FM, AM modulation for dynamic color animation</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎵 Audio Reactive</h4>
+                    <p>Colors respond to music frequencies in real-time</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💫 Cascade Effect</h4>
+                    <p>Phase-shifted waves ripple through color swatches</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📊 9 Harmony Modes</h4>
+                    <p>5 traditional + 4 wave-based approaches</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💾 Export Palettes</h4>
+                    <p>Save palettes as JSON for reuse</p>
+                </div>
+                <div class="feature-card">
+                    <h4>⚡ Pure JavaScript</h4>
+                    <p>No dependencies, works anywhere</p>
+                </div>
+            </div>
+
+            <h2>🎯 Usage Example</h2>
+            <div class="code-example">
+                <pre>// Initialize the harmony system
+const harmonySystem = new WBColorHarmony();
+
+// Generate a palette using beat pattern harmony
+const palette = harmonySystem.generatePalette(
+    240,              // base hue (blue)
+    'beatPattern',    // harmony mode
+    70,               // saturation %
+    50                // lightness %
+);
+
+// Returns array of color objects:
+// [{ hue: 240, saturation: 70, lightness: 50, hsl: '...', hex: '...' }, ...]</pre>
+            </div>
+
+            <h2>📚 Resources</h2>
+            <ul>
+                <li><a href="../../docs/wave-based-color-harmony-article.md">Complete Article</a></li>
+                <li><a href="../../docs/harmony-modes-complete-guide.md">Harmony Modes Guide</a></li>
+                <li><a href="../../components/wb-color-harmony-demo.html">Interactive Demo</a></li>
+                <li><a href="../../components/wb-color-harmony.js">Source Code</a></li>
+            </ul>
+        </div>
+        
+        <div slot="examples">
+            <h2>🎨 Harmony Mode Gallery</h2>
+            <p>
+                <strong>🎮 Live Interactive Demo!</strong> Each card below shows the <strong>current page colors</strong> 
+                in real-time. Use the control panel to adjust colors and watch all harmony modes update instantly!
+            </p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                💡 <strong>Tip:</strong> Change the harmony mode in the control panel to see how different wave-based 
+                calculations affect the color relationships below.
+            </p>
+
+            <div class="gallery-grid">
+                <!-- Live Harmony Cards - Will be generated by JavaScript -->
+                <div id="live-harmony-cards">
+                    <!-- Cards will be inserted here by index.js -->
+                </div>
+            </div>
+
+            <div class="theory-section" style="margin-top: 3rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; gap: 2rem;">
+                    <h2 style="margin: 0;">🌈 Complete Theme × Harmony Matrix</h2>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <!-- Animation Speed Control -->
+                        <div style="display: flex; align-items: center; gap: 0.75rem; background: var(--surface-raised); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                            <label for="animation-speed" style="font-size: 0.85rem; font-weight: 600; color: white; white-space: nowrap;">
+                                🎸 Speed:
+                            </label>
+                            <input type="range" id="animation-speed" min="0.01" max="1000" value="20" step="0.01" 
+                                   style="width: 150px; cursor: pointer;">
+                            <span id="speed-display" style="font-size: 0.85rem; font-weight: 600; color: white; min-width: 65px; text-align: right;">
+                                20.00/s
+                            </span>
+                        </div>
+                        <!-- Pause/Resume Button -->
+                        <button id="animation-toggle-btn" style="
+                            padding: 0.75rem 1.5rem;
+                            background: var(--primary);
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            transition: all 0.2s;
+                            font-size: 0.9rem;
+                        ">
+                            <span id="animation-icon">⏸️</span>
+                            <span id="animation-text">Pause Animation</span>
+                        </button>
+                    </div>
+                </div>
+                <p>
+                    <strong>📊 Comprehensive Comparison:</strong> Below you'll see EVERY combination of themes and harmony modes. 
+                    This matrix shows how each of the 5 theme presets looks across all 9 harmony modes - that's <strong>45 unique combinations!</strong>
+                </p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.75rem;">
+                    💡 <strong>Use this to:</strong> Compare themes side-by-side, find perfect color combinations, 
+                    understand how harmony modes affect different color bases, and export your favorites.
+                </p>
+                <p style="font-size: 0.9rem; color: var(--accent); margin-top: 0.75rem; font-weight: 600;">
+                    🌊 <strong>Live Animation:</strong> Watch colors slowly oscillate using sine wave modulation - 
+                    demonstrating smooth, wave-based color transitions in real-time!
+                </p>
+                
+                <!-- Theme Comparison Grid - Will be generated by JavaScript -->
+                <div id="theme-harmony-matrix" style="margin-top: 2rem;">
+                    <!-- Matrix will be inserted here -->
+                </div>
+            </div>
+
+            <div class="theory-section">
+                <h2>🔄 Comparison: Traditional vs Wave-Based</h2>
+                
+                <div class="comparison-grid">
+                    <div>
+                        <h3>🎨 Traditional Color Theory</h3>
+                        <ul>
+                            <li><strong>Approach:</strong> Geometric relationships on color wheel</li>
+                            <li><strong>Strength:</strong> High contrast, proven combinations</li>
+                            <li><strong>Best for:</strong> Bold designs, clear visual hierarchy</li>
+                            <li><strong>Examples:</strong> Complementary, Triadic, Split Comp</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3>🌊 Wave-Based Theory</h3>
+                        <ul>
+                            <li><strong>Approach:</strong> Physics-based wave relationships</li>
+                            <li><strong>Strength:</strong> Subtle harmony, natural transitions</li>
+                            <li><strong>Best for:</strong> Sophisticated, organic color systems</li>
+                            <li><strong>Examples:</strong> Beat Pattern, Doppler, AM, Superposition</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p>
+                    <strong>💡 Pro Tip:</strong> Use traditional modes for maximum contrast and wave-based modes 
+                    for subtle sophistication. Combine both approaches for rich, complex color systems!
+                </p>
+            </div>
+
+            <div class="theory-section">
+                <h2>🔄 Comparison: Traditional vs Wave-Based</h2>
+                
+                <div class="comparison-grid">
+                    <div>
+                        <h3>🎨 Traditional Color Theory</h3>
+                        <ul>
+                            <li><strong>Approach:</strong> Geometric relationships on color wheel</li>
+                            <li><strong>Strength:</strong> High contrast, proven combinations</li>
+                            <li><strong>Best for:</strong> Bold designs, clear visual hierarchy</li>
+                            <li><strong>Examples:</strong> Complementary, Triadic, Split Comp</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3>🌊 Wave-Based Theory</h3>
+                        <ul>
+                            <li><strong>Approach:</strong> Physics-based wave relationships</li>
+                            <li><strong>Strength:</strong> Subtle harmony, natural transitions</li>
+                            <li><strong>Best for:</strong> Sophisticated, organic color systems</li>
+                            <li><strong>Examples:</strong> Beat Pattern, Doppler, AM, Superposition</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p>
+                    <strong>💡 Pro Tip:</strong> Use traditional modes for maximum contrast and wave-based modes 
+                    for subtle sophistication. Combine both approaches for rich, complex color systems!
+                </p>
+            </div>
+        </div>
+    </wb-demo>
+
+    <!-- Load WB Components -->
+    <script type="module" src="../../components/wb-demo/wb-demo.js"></script>
+    <script src="../../components/wb-card/wb-card.js"></script>
+    <script type="module">
+        // Load wb-color-harmony and expose WBColorHarmony globally
+        import WBColorHarmony from '../../components/wb-color-harmony/wb-color-harmony.js';
+        window.WBColorHarmony = WBColorHarmony;
+        console.log('✅ WBColorHarmony exposed globally');
+    </script>
+
+    <!-- WB Control Panel for live color adjustment -->
+    <wb-control-panel-hcs></wb-control-panel-hcs>
+
+    <script type="module" src="index.js"></script>
+</body>
+</html>

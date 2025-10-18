@@ -103,6 +103,43 @@ aside,
 section {
   background-color: var(--bg-primary, var(--bg-color));
   color: var(--text-primary);
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+/* ===== DEFAULT LAYOUT STRUCTURE ===== */
+/* These are defaults that can be overridden by control panel or components */
+
+/* Header defaults */
+header {
+  width: 100%;
+  background: var(--header-bg, var(--bg-primary));
+  color: var(--header-color, var(--text-primary));
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.6s ease;
+}
+
+/* Main content defaults */
+main {
+  min-height: 50vh;
+  padding: var(--main-padding, 2rem);
+  background: var(--main-bg, var(--bg-color));
+  color: var(--main-color, var(--text-primary));
+  /* margin-top handled by wb-layout via --content-margin-top */
+  transition: all 0.6s ease;
+}
+
+/* Footer defaults */
+footer {
+  width: 100%;
+  padding: var(--footer-padding, 1rem 2rem);
+  background: var(--footer-bg, var(--bg-secondary));
+  color: var(--footer-color, var(--text-secondary));
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  box-sizing: border-box;
+  /* Position can be overridden by control panel */
+  position: var(--footer-position, relative);
+  transition: all 0.6s ease;
 }
 
 /* Links */

@@ -767,11 +767,12 @@ if (window.WBEventLog) {
 
 // Compositional Namespace
 if (!window.WB) window.WB = { components: {}, utils: {} };
-window.WB.components.WBColorBars = WBColorBars;
+window.WB.components.ColorBars = ColorBars;
 
 // Expose globally (backward compatibility)
-window.WBColorBars = WBColorBars;
+window.ColorBars = ColorBars;
+window.WBColorBars = ColorBars; // Alias for consistency
 
 // ES6 Module Exports
-export { WBColorBars };
-export default WBColorBars;
+export { ColorBars, ColorBars as WBColorBars };
+export default ColorBars;

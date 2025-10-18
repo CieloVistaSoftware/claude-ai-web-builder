@@ -1,34 +1,252 @@
-/* WB Layout Component Styles */
+/* WB Layout Component Styles - GRID BASED */
+/* Following LayoutSystem.md specification */
 
 :root {
-  /* Layout variables - set by wb-layout component */
-  --nav-width: 100%;
+  /* Layout variables */
+  --nav-width: 200px;
   --nav-height: 60px;
-  --content-margin-left: 0;
-  --content-margin-top: 60px;
-  --content-margin-right: 0;
+  --layout-gap: 0;
+  --layout-sidebar-width: 200px;
 }
 
-/* Layout-specific body classes and main content positioning */
-.layout-top-nav main {
-  margin-top: var(--content-margin-top);
+/* ===== TOP NAVIGATION LAYOUT ===== */
+/* Grid Areas Implementation */
+.layout-top-nav,
+body[data-layout="top-nav"] {
+    display: grid;
+    grid-template-areas: 
+        "header"
+        "nav"
+        "main"
+        "footer";
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    gap: var(--layout-gap);
 }
 
-.layout-left-nav main {
-  margin-left: var(--content-margin-left);
-  max-width: calc(100vw - var(--content-margin-left) - 40px);
+/* Assign grid areas - Semantic HTML */
+.layout-top-nav header,
+body[data-layout="top-nav"] header,
+.layout-top-nav wb-header,
+body[data-layout="top-nav"] wb-header { 
+    grid-area: header; 
 }
 
-.layout-right-nav main {
-  margin-right: var(--content-margin-right);
-  max-width: calc(100vw - var(--content-margin-right) - 40px);
+.layout-top-nav nav,
+body[data-layout="top-nav"] nav,
+.layout-top-nav wb-nav,
+body[data-layout="top-nav"] wb-nav { 
+    grid-area: nav; 
 }
 
-.layout-ad-layout main {
-  margin-top: var(--content-margin-top);
+.layout-top-nav main,
+body[data-layout="top-nav"] main { 
+    grid-area: main; 
 }
 
-/* Layout control styling */
+.layout-top-nav footer,
+body[data-layout="top-nav"] footer,
+.layout-top-nav wb-footer,
+body[data-layout="top-nav"] wb-footer { 
+    grid-area: footer;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    grid-column: 1 / -1;
+}
+
+/* ===== LEFT NAVIGATION LAYOUT ===== */
+.layout-left-nav,
+body[data-layout="left-nav"] {
+    display: grid;
+    grid-template-areas: 
+        "nav header"
+        "nav main"
+        "nav footer";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: var(--layout-sidebar-width) 1fr;
+    min-height: 100vh;
+    gap: var(--layout-gap);
+}
+
+/* Assign grid areas */
+.layout-left-nav nav,
+body[data-layout="left-nav"] nav,
+.layout-left-nav wb-nav,
+body[data-layout="left-nav"] wb-nav { 
+    grid-area: nav;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+.layout-left-nav header,
+body[data-layout="left-nav"] header { 
+    grid-area: header; 
+}
+
+.layout-left-nav main,
+body[data-layout="left-nav"] main { 
+    grid-area: main; 
+}
+
+.layout-left-nav footer,
+body[data-layout="left-nav"] footer { 
+    grid-area: footer; 
+}
+
+/* ===== RIGHT NAVIGATION LAYOUT ===== */
+.layout-right-nav,
+body[data-layout="right-nav"] {
+    display: grid;
+    grid-template-areas: 
+        "header nav"
+        "main nav"
+        "footer nav";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr var(--layout-sidebar-width);
+    min-height: 100vh;
+    gap: var(--layout-gap);
+}
+
+/* Assign grid areas */
+.layout-right-nav header,
+body[data-layout="right-nav"] header { 
+    grid-area: header; 
+}
+
+.layout-right-nav main,
+body[data-layout="right-nav"] main { 
+    grid-area: main; 
+}
+
+.layout-right-nav footer,
+body[data-layout="right-nav"] footer { 
+    grid-area: footer; 
+}
+
+.layout-right-nav nav,
+body[data-layout="right-nav"] nav,
+.layout-right-nav wb-nav,
+body[data-layout="right-nav"] wb-nav { 
+    grid-area: nav;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+/* ===== ADVERTISEMENT LAYOUT ===== */
+.layout-ad-layout,
+body[data-layout="ad-layout"] {
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "nav main ads"
+        "footer footer footer";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 200px 1fr 180px;
+    min-height: 100vh;
+    gap: 10px;
+    padding: 10px;
+}
+
+/* Assign grid areas */
+.layout-ad-layout header,
+body[data-layout="ad-layout"] header { 
+    grid-area: header; 
+}
+
+.layout-ad-layout nav,
+body[data-layout="ad-layout"] nav,
+.layout-ad-layout wb-nav,
+body[data-layout="ad-layout"] wb-nav { 
+    grid-area: nav; 
+}
+
+.layout-ad-layout main,
+body[data-layout="ad-layout"] main { 
+    grid-area: main; 
+}
+
+.layout-ad-layout footer,
+body[data-layout="ad-layout"] footer { 
+    grid-area: footer; 
+}
+
+.layout-ad-layout aside,
+body[data-layout="ad-layout"] aside { 
+    grid-area: ads; 
+}
+
+/* ===== SEMANTIC ELEMENT STYLING ===== */
+/* Header */
+header {
+  width: 100%;
+  background: var(--header-bg, var(--bg-primary));
+  color: var(--header-color, var(--text-primary));
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+}
+
+/* Navigation */
+nav,
+wb-nav {
+  width: 100%;
+  background: var(--nav-bg, var(--bg-secondary));
+  color: var(--nav-color, var(--text-primary));
+  box-sizing: border-box;
+}
+
+/* Main content */
+main {
+  width: 100%;
+  padding: 2rem;
+  background: var(--main-bg, var(--bg-color));
+  color: var(--main-color, var(--text-primary));
+  box-sizing: border-box;
+}
+
+/* Footer - ALWAYS 100% WIDTH via Grid */
+footer {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: var(--footer-bg, var(--bg-secondary));
+  color: var(--footer-color, var(--text-secondary));
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* ===== RESPONSIVE - MOBILE ===== */
+@media (max-width: 768px) {
+    /* Convert all layouts to single column on mobile */
+    .layout-left-nav,
+    .layout-right-nav,
+    .layout-ad-layout,
+    body[data-layout="left-nav"],
+    body[data-layout="right-nav"],
+    body[data-layout="ad-layout"] {
+        grid-template-areas: 
+            "header"
+            "nav"
+            "main"
+            "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+    }
+    
+    /* Hide ads on mobile */
+    .layout-ad-layout aside,
+    body[data-layout="ad-layout"] aside {
+        display: none;
+    }
+}
+
+/* ===== LAYOUT CONTROL UI ===== */
 .wb-layout-control {
   display: flex;
   align-items: center;
@@ -62,93 +280,6 @@
   box-shadow: 0 0 0 2px var(--primary-alpha, rgba(99, 102, 241, 0.2));
 }
 
-.wb-layout-control select option {
-  background: var(--surface-elevated, #363636);
-  color: var(--text-primary, #f1f5f9);
-}
-
-/* Layout-managed navigation positioning */
-/* wb-layout component manages wb-nav positioning */
-
-.layout-top-nav wb-nav,
-.layout-ad-layout wb-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--nav-height);
-  width: 100%;
-  z-index: 1000;
-}
-
-.layout-left-nav wb-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: var(--nav-width);
-  height: 100vh;
-  z-index: 1000;
-}
-
-.layout-right-nav wb-nav {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: var(--nav-width);
-  height: 100vh;
-  z-index: 1000;
-}
-
-/* Ensure wb-nav receives layout context */
-.layout-top-nav wb-nav,
-.layout-ad-layout wb-nav {
-  --wb-nav-layout-type: horizontal;
-}
-
-.layout-left-nav wb-nav,
-.layout-right-nav wb-nav {
-  --wb-nav-layout-type: vertical;
-}
-
-/* Responsive layout adjustments */
-@media (max-width: 768px) {
-  .layout-left-nav,
-  .layout-right-nav {
-    /* On mobile, convert sidebar layouts to top nav */
-    --nav-width: 100%;
-    --nav-height: 60px;
-    --content-margin-left: 0;
-    --content-margin-right: 0;
-    --content-margin-top: 60px;
-  }
-
-  .layout-left-nav wb-nav,
-  .layout-right-nav wb-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: var(--nav-height);
-  }
-
-  .layout-left-nav main,
-  .layout-right-nav main {
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: var(--content-margin-top);
-  }
-}
-
-/* Layout transitions */
-main {
-  transition: margin 0.3s ease;
-}
-
-wb-nav {
-  transition: all 0.3s ease;
-}
-
 /* Layout control visibility */
 wb-layout .wb-layout-control {
   display: none;
@@ -158,32 +289,22 @@ wb-layout[show-control] .wb-layout-control {
   display: flex;
 }
 
-/* Layout coordination - wb-nav styling when managed by wb-layout */
-.wb-layout-managed wb-nav {
-  /* Ensure wb-nav adapts to layout management */
-  --wb-nav-layout-managed: true;
+/* Smooth transitions */
+.layout-top-nav,
+.layout-left-nav,
+.layout-right-nav,
+.layout-ad-layout,
+body[data-layout] {
+  transition: grid-template-columns 0.3s ease, grid-template-rows 0.3s ease;
 }
 
-/* Prevent wb-nav from using standalone positioning when layout-managed */
-body[data-layout] wb-nav.wb-nav--standalone {
-  position: static;
-  top: auto;
-  left: auto;
-  right: auto;
-  width: auto;
-  height: auto;
-}
-
-/* Override wb-nav responsive behavior when layout-managed */
-@media (max-width: 768px) {
-  body[data-layout="left-nav"] wb-nav,
-  body[data-layout="right-nav"] wb-nav {
-    /* Layout component handles mobile conversion */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: var(--nav-height);
-  }
+/* ===== HIDE WB-IMAGE-INSERT OVERLAY ===== */
+/* This component is NOT in manifest and should not appear */
+#imageInsertOverlay,
+.image-insert-overlay,
+.image-insert-modal {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }

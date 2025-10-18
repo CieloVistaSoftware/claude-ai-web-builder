@@ -1,13 +1,14 @@
 // WB Resize Component
 // Provides drag and resize functionality for any container element
 
-import WBBaseComponent from "@components/wb-base/wb-base";
+// Use WBBaseComponent from window if available, otherwise extend HTMLElement
+const BaseClass = window.WBBaseComponent || HTMLElement;
 
  
 
 
 
-    class WBResizePanel extends WBBaseComponent {
+    class WBResizePanel extends BaseClass {
         constructor() {
             super();
             

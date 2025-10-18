@@ -1,298 +1,338 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark" data-layout="top-nav">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WB Control Panel - Complete Demo</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Control Panel - Complete Demo</title>
 
-        <!-- ✅ Load Foundation CSS -->
-        <link rel="stylesheet" href="../../styles/main.css">
+    <!-- ✅ Load Foundation CSS -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <!-- ✅ Load WB Layout CSS -->
+    <link rel="stylesheet" href="../wb-layout/wb-layout.css">
+    
+    <!-- ✅ Load Demo-Specific CSS -->
+    <link rel="stylesheet" href="wb-control-panel-demo.css">
 
-        <!-- ✅ Single centralized loader - loads ALL components -->
-        <script src="../../index.js"></script>
+    <!-- ✅ Single centralized loader - loads ALL components -->
+    <script src="../../index.js"></script>
+    
+    <!-- ✅ Load Demo-Specific JavaScript -->
+    <script src="wb-control-panel-demo.js" defer></script>
+</head>
 
-        <style>
-            /* Keep demo body styles minimal */
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-            }
-
-            /* Ensure main content grows */
-            main {
-                flex: 1 0 auto;
-            }
-
-            /* Footer stays at bottom */
-            footer {
-                flex-shrink: 0;
-            }
-
-            /* Override control panel positioning for demo context */
-            wb-control-panel#main-control-panel {
-                position: fixed !important;
-                top: 1rem !important;
-                right: 1rem !important;
-                z-index: 10000 !important;
-                width: 280px !important;
-            }
-
-            /* Main content area - no height constraint */
-            #main-content-area {
-                width: 100%;
-            }
-
-            /* Event log always at bottom after footer - pushes content up */
-            #event-log-panel {
-                position: relative;
-                height: 250px;
-                min-height: 100px;
-                max-height: 600px;
-                background: var(--bg-primary);
-                border-top: 2px solid var(--border-color);
-                display: block;
-                width: 100%;
-                flex-shrink: 0;
-                order: 9999;
-            }
-
-            /* Drag area integrated into event log toolbar - HIGHLY VISIBLE FOR TESTING */
-            #event-log-drag-area {
-                position: absolute;
-                top: 8px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 80px;
-                height: 32px;
-                cursor: ns-resize;
-                z-index: 99999;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                opacity: 1;
-                transition: opacity 0.2s, background 0.2s;
-                background: rgba(99, 102, 241, 0.8);
-                border: 2px solid var(--primary, #6366f1);
-                border-radius: 6px;
-                pointer-events: auto;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            }
-
-            #event-log-drag-area:hover {
-                opacity: 1;
-                background: var(--primary, #6366f1);
-                transform: translateX(-50%) scale(1.05);
-            }
-
-            /* Vertical resize icon */
-            #event-log-drag-area::before {
-                content: '↕';
-                font-size: 1.5rem;
-                color: white;
-                font-weight: bold;
-                line-height: 1;
-            }
-        </style>
-    </head>
-
-    <body>
-        <!-- Navigation -->
-        <wb-nav id="site-nav" style="position: sticky; top: 0; z-index: 100;" items='[
-                       {"id":"home","text":"Home","href":"#","active":true},
-                       {"id":"about","text":"About","href":"#about"},
-                       {"id":"services","text":"Services","href":"#services"},
-                       {"id":"contact","text":"Contact","href":"#contact"}
-                   ]'>
+<body>
+    <!-- ✅ WB Layout Component - Wraps EVERYTHING -->
+    <wb-layout layout="top-nav" auto-apply="true">
+        <!-- ✅ WB Header Component -->
+        <wb-header brand-text="WB Control Panel" theme="dark"></wb-header>
+        
+        <!-- Navigation (automatically positioned by layout) -->
+        <wb-nav id="site-nav" items='[
+            {"id":"home","text":"Home","href":"#","active":true},
+            {"id":"about","text":"About","href":"#about"},
+            {"id":"services","text":"Services","href":"#services"},
+            {"id":"contact","text":"Contact","href":"#contact"}
+        ]'>
         </wb-nav>
 
-        <!-- Main content -->
-        <main style="padding: 2rem;">
-            <h1>Sample Website</h1>
-            <p>This is a sample website to demonstrate the control panel functionality.</p>
+    <!-- Main content -->
+    <main>
+        <h1>WB Control Panel - HCS Theme Showcase</h1>
+        <p class="lead">Experience the power of Harmonic Color System with wave-theory based palettes. Switch between themes to see colors harmonize across all elements.</p>
 
-            <section style="margin: 2rem 0;">
-                <h2>About Us</h2>
-                <p>We create amazing websites with powerful control panels that allow real-time customization.</p>
-
-                <div
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
-                    <wb-card>
-                        <h3>Feature One</h3>
-                        <p>Description of our first amazing feature that makes websites better.</p>
-                        <wb-button variant="primary">Learn More</wb-button>
-                    </wb-card>
-
-                    <wb-card>
-                        <h3>Feature Two</h3>
-                        <p>Another great feature that enhances the user experience significantly.</p>
-                        <wb-button variant="secondary">Get Started</wb-button>
-                    </wb-card>
-
-                    <wb-card>
-                        <h3>Feature Three</h3>
-                        <p>The third feature that completes our comprehensive solution offering.</p>
-                        <wb-button variant="success">Try Now</wb-button>
-                    </wb-card>
-                </div>
-            </section>
-
-            <section style="margin: 2rem 0;">
-                <h2>Contact Information</h2>
-                <p>Get in touch with us for more information about our services.</p>
-                <p>Email: info@example.com | Phone: (555) 123-4567</p>
-            </section>
-        </main>
-
-        <wb-log-error></wb-log-error>
-
-        <!-- Footer -->
-        <footer
-            style="padding: 1rem 2rem; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1)); text-align: center; background: var(--bg-secondary, rgba(255,255,255,0.02));">
-            <p>&copy; 2025 Sample Website. All rights reserved.</p>
-        </footer>
-
-        <!-- Event Log Panel - Always after footer at bottom of page -->
-        <div id="event-log-panel">
-            <!-- Drag area overlays toolbar - shows icon on hover -->
-            <div id="event-log-drag-area" title="Drag up/down to resize"></div>
-            <wb-event-log id="demo-event-log" max-events="50" auto-scroll="true" show-timestamps="true"
-                show-source="true" style="width: 100%; height: 100%; display: block;">
-            </wb-event-log>
-        </div>
-
-        <!-- Control Panel floating -->
-        <wb-control-panel id="main-control-panel"></wb-control-panel>
-
-        <script>
-            // Debug: Check if elements exist
-            console.log('🔍 Checking elements...');
-            console.log('Event log panel:', document.getElementById('event-log-panel'));
-            console.log('Drag area:', document.getElementById('event-log-drag-area'));
-            console.log('Event log component:', document.getElementById('demo-event-log'));
+        <!-- Color Showcase Section -->
+        <section style="margin: 2rem 0;">
+            <h2>🎨 Color System Preview</h2>
+            <p>All colors automatically harmonize based on wave theory and color psychology.</p>
             
-            // Resizable event log functionality
-            (function() {
-                const eventLogPanel = document.getElementById('event-log-panel');
-                const dragArea = document.getElementById('event-log-drag-area');
-                let isResizing = false;
-                let startY = 0;
-                let startHeight = 0;
+            <div class="color-showcase" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                <div style="padding: 1.5rem; background: var(--primary); color: white; border-radius: 8px; text-align: center;">
+                    <strong>Primary</strong>
+                    <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">Main brand color</p>
+                </div>
+                <div style="padding: 1.5rem; background: var(--secondary); color: white; border-radius: 8px; text-align: center;">
+                    <strong>Secondary</strong>
+                    <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">Supporting color</p>
+                </div>
+                <div style="padding: 1.5rem; background: var(--accent); color: white; border-radius: 8px; text-align: center;">
+                    <strong>Accent</strong>
+                    <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">Emphasis & highlights</p>
+                </div>
+            </div>
+        </section>
 
-                // Load saved height from localStorage
-                const savedHeight = localStorage.getItem('wb-event-log-height');
-                if (savedHeight) {
-                    eventLogPanel.style.height = savedHeight + 'px';
-                }
+        <!-- Semantic State Colors -->
+        <section style="margin: 2rem 0;">
+            <h2>💬 Semantic Messages</h2>
+            <p>State colors based on color psychology for intuitive user communication.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0;">
+                <div style="padding: 1rem; background: var(--success-color); color: white; border-radius: 6px; border-left: 4px solid var(--success-color-dark);">
+                    <strong>✅ Success:</strong> Your changes have been saved successfully!
+                </div>
+                <div style="padding: 1rem; background: var(--info-color); color: white; border-radius: 6px; border-left: 4px solid var(--info-color-dark);">
+                    <strong>ℹ️ Info:</strong> HCS themes use wave theory for perfect color harmony.
+                </div>
+                <div style="padding: 1rem; background: var(--warning-color); color: white; border-radius: 6px; border-left: 4px solid var(--warning-color-dark);">
+                    <strong>⚠️ Warning:</strong> Some settings may require a page refresh.
+                </div>
+                <div style="padding: 1rem; background: var(--error-color); color: white; border-radius: 6px; border-left: 4px solid var(--error-color-dark);">
+                    <strong>❌ Error:</strong> Unable to save. Please check your connection.
+                </div>
+            </div>
+        </section>
 
-                dragArea.addEventListener('mousedown', (e) => {
-                    isResizing = true;
-                    startY = e.clientY;
-                    startHeight = eventLogPanel.offsetHeight;
-                    
-                    // Add grabbing cursor to body
-                    document.body.style.cursor = 'ns-resize';
-                    document.body.style.userSelect = 'none';
-                    dragArea.style.opacity = '1';
-                    
-                    e.preventDefault();
-                });
+        <!-- Interactive Elements -->
+        <section style="margin: 2rem 0;">
+            <h2>🔘 Interactive Components</h2>
+            <p>Buttons and links styled with HCS color system.</p>
 
-                document.addEventListener('mousemove', (e) => {
-                    if (!isResizing) return;
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0;">
+                <button style="padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">
+                    Primary Button
+                </button>
+                <button style="padding: 0.75rem 1.5rem; background: var(--secondary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--secondary-dark)'" onmouseout="this.style.background='var(--secondary)'">
+                    Secondary Button
+                </button>
+                <button style="padding: 0.75rem 1.5rem; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--accent-dark)'" onmouseout="this.style.background='var(--accent)'">
+                    Accent Button
+                </button>
+                <button style="padding: 0.75rem 1.5rem; background: var(--success-color); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--success-color-dark)'" onmouseout="this.style.background='var(--success-color)'">
+                    Success Action
+                </button>
+            </div>
+            
+            <div style="margin: 1rem 0;">
+                <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600; margin-right: 1rem;">Primary Link</a>
+                <a href="#" style="color: var(--secondary); text-decoration: none; font-weight: 600; margin-right: 1rem;">Secondary Link</a>
+                <a href="#" style="color: var(--accent); text-decoration: none; font-weight: 600;">Accent Link</a>
+            </div>
+        </section>
 
-                    // Calculate new height (dragging UP increases height, dragging DOWN decreases)
-                    // Since event log is at bottom, dragging up = expanding upward into page
-                    const deltaY = startY - e.clientY;  // Reversed: UP is positive
-                    const newHeight = startHeight + deltaY;
+        <!-- Cards with Different Styles -->
+        <section style="margin: 2rem 0;">
+            <h2>📦 HCS Harmony Modes</h2>
+            <p>Explore different wave-theory based color harmony systems in action.</p>
 
-                    // Get min and max heights
-                    const minHeight = 100;
-                    const maxHeight = 600;
+            <div class="demo-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+                <div style="padding: 1.5rem; background: var(--bg-primary); border: 2px solid var(--primary); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                    <h3 style="color: var(--primary); margin: 0 0 0.5rem 0;">🌊 Wave Theory</h3>
+                    <p style="color: var(--text-secondary); margin: 0 0 1rem 0;">Harmonies based on radio wave principles: Beat Pattern, Doppler Shift, Standing Waves.</p>
+                    <button id="explore-wave-btn" style="padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Explore Wave Theory</button>
+                </div>
 
-                    // Constrain height
-                    const constrainedHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
-                    
-                    eventLogPanel.style.height = constrainedHeight + 'px';
-                });
+                <div style="padding: 1.5rem; background: var(--bg-primary); border: 2px solid var(--secondary); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                    <h3 style="color: var(--secondary); margin: 0 0 0.5rem 0;">🎵 Harmonic Series</h3>
+                    <p style="color: var(--text-secondary); margin: 0 0 1rem 0;">Musical harmonic ratios applied to hue for mathematically perfect color relationships.</p>
+                    <button id="explore-harmonic-btn" style="padding: 0.5rem 1rem; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Explore Harmonics</button>
+                </div>
 
-                document.addEventListener('mouseup', () => {
-                    if (isResizing) {
-                        isResizing = false;
-                        document.body.style.cursor = '';
-                        document.body.style.userSelect = '';
-                        
-                        // Save height to localStorage
-                        const currentHeight = eventLogPanel.offsetHeight;
-                        localStorage.setItem('wb-event-log-height', currentHeight);
-                        
-                        console.log('📐 Event log height saved:', currentHeight + 'px');
-                    }
-                });
+                <div style="padding: 1.5rem; background: var(--bg-primary); border: 2px solid var(--accent); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                    <h3 style="color: var(--accent); margin: 0 0 0.5rem 0;">📡 Phase Modulation</h3>
+                    <p style="color: var(--text-secondary); margin: 0 0 1rem 0;">Dynamic phase shifts creating interference patterns in color space.</p>
+                    <button id="explore-phase-btn" style="padding: 0.5rem 1rem; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Explore Phase Mod</button>
+                </div>
+            </div>
+            
+            <!-- Exploration Panels (hidden by default) -->
+            <div id="wave-panel" style="display: none; margin-top: 2rem; padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--primary);">
+                <h3 style="color: var(--primary);">🌊 Wave Theory Harmonies</h3>
+                <p>Wave theory harmonies use radio wave principles to create unique color relationships:</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                    <div style="padding: 1rem; background: hsl(240, 75%, 50%); color: white; border-radius: 8px;">
+                        <strong>Beat Pattern</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">240° + 8° interference</p>
+                    </div>
+                    <div style="padding: 1rem; background: hsl(248, 72%, 52%); color: white; border-radius: 8px;">
+                        <strong>Primary Beat</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">248° constructive</p>
+                    </div>
+                    <div style="padding: 1rem; background: hsl(232, 73%, 48%); color: white; border-radius: 8px;">
+                        <strong>Counter Beat</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">232° destructive</p>
+                    </div>
+                    <div style="padding: 1rem; background: hsl(256, 70%, 54%); color: white; border-radius: 8px;">
+                        <strong>Harmonic</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">256° 2nd harmonic</p>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <h4>Doppler Shift Example</h4>
+                    <div style="display: flex; gap: 1rem; margin: 1rem 0;">
+                        <div style="flex: 1; padding: 1rem; background: hsl(260, 75%, 55%); color: white; border-radius: 8px;">
+                            <strong>Blueshift +20°</strong>
+                            <p style="font-size: 0.875rem;">Moving toward observer</p>
+                        </div>
+                        <div style="flex: 1; padding: 1rem; background: hsl(240, 70%, 50%); color: white; border-radius: 8px;">
+                            <strong>Source 240°</strong>
+                            <p style="font-size: 0.875rem;">Original frequency</p>
+                        </div>
+                        <div style="flex: 1; padding: 1rem; background: hsl(220, 65%, 45%); color: white; border-radius: 8px;">
+                            <strong>Redshift -20°</strong>
+                            <p style="font-size: 0.875rem;">Moving away</p>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="document.getElementById('wave-panel').style.display='none'" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+            </div>
+            
+            <div id="harmonic-panel" style="display: none; margin-top: 2rem; padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--secondary);">
+                <h3 style="color: var(--secondary);">🎵 Harmonic Series</h3>
+                <p>Musical harmonic ratios create mathematically perfect color relationships based on frequency division:</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                    <div style="padding: 1.5rem; background: hsl(240, 70%, 50%); color: white; border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: 700;">1st</div>
+                        <strong>Fundamental</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">240° base frequency</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: hsl(120, 70%, 50%); color: white; border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: 700;">2nd</div>
+                        <strong>Octave ÷2</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">120° = 240÷2</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: hsl(80, 70%, 50%); color: white; border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: 700;">3rd</div>
+                        <strong>Perfect 5th ÷3</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">80° = 240÷3</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: hsl(60, 85%, 55%); color: white; border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: 700;">4th</div>
+                        <strong>2 Octaves ÷4</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">60° = 240÷4</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: hsl(48, 75%, 50%); color: white; border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: 700;">5th</div>
+                        <strong>Major 3rd ÷5</strong>
+                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">48° = 240÷5</p>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <h4>Why Harmonics Work</h4>
+                    <p>Just like musical notes that are mathematically related sound pleasant together, colors with harmonic frequency relationships create visual harmony. The ratios 1:2, 1:3, 1:4, 1:5 are the same ratios found in musical intervals!</p>
+                </div>
+                <button onclick="document.getElementById('harmonic-panel').style.display='none'" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+            </div>
+            
+            <div id="phase-panel" style="display: none; margin-top: 2rem; padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--accent);">
+                <h3 style="color: var(--accent);">📡 Phase Modulation</h3>
+                <p>Phase modulation creates dynamic color shifts and interference patterns:</p>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0;">
+                    <div>
+                        <h4 style="color: var(--accent);">PM - Phase Mod</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div style="padding: 1rem; background: hsl(240, 70%, 50%); color: white; border-radius: 6px;">Carrier 240°</div>
+                            <div style="padding: 1rem; background: hsl(250, 70%, 50%); color: white; border-radius: 6px;">+10° shift</div>
+                            <div style="padding: 1rem; background: hsl(230, 70%, 50%); color: white; border-radius: 6px;">-10° shift</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent);">FM - Frequency Mod</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div style="padding: 1rem; background: hsl(240, 70%, 50%); color: white; border-radius: 6px;">Carrier 240°</div>
+                            <div style="padding: 1rem; background: hsl(260, 70%, 50%); color: white; border-radius: 6px;">Upper sideband</div>
+                            <div style="padding: 1rem; background: hsl(220, 70%, 50%); color: white; border-radius: 6px;">Lower sideband</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent);">AM - Amplitude Mod</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div style="padding: 1rem; background: hsl(240, 85%, 50%); color: white; border-radius: 6px;">Peak 85%</div>
+                            <div style="padding: 1rem; background: hsl(240, 70%, 50%); color: white; border-radius: 6px;">Carrier 70%</div>
+                            <div style="padding: 1rem; background: hsl(240, 55%, 50%); color: white; border-radius: 6px;">Trough 55%</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <h4>Wave Interference</h4>
+                    <p>When multiple waves interact, they create interference patterns. Phase modulation shifts the wave's phase, frequency modulation creates sidebands, and amplitude modulation varies intensity - all creating unique color harmonies!</p>
+                </div>
+                <button onclick="document.getElementById('phase-panel').style.display='none'" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+            </div>
+        </section>
 
-                // Handle window resize
-                window.addEventListener('resize', () => {
-                    const currentHeight = eventLogPanel.offsetHeight;
-                    const maxHeight = 600;
-                    
-                    if (currentHeight > maxHeight) {
-                        eventLogPanel.style.height = maxHeight + 'px';
-                    }
-                });
+        <!-- Typography Showcase -->
+        <section style="margin: 2rem 0;">
+            <h2>✍️ Typography Hierarchy</h2>
+            <h1 style="color: var(--primary);">Heading 1 - Primary Color</h1>
+            <h2 style="color: var(--secondary);">Heading 2 - Secondary Color</h2>
+            <h3 style="color: var(--accent);">Heading 3 - Accent Color</h3>
+            <p style="color: var(--text-primary);">Primary text uses the main text color for maximum readability.</p>
+            <p style="color: var(--text-secondary);">Secondary text provides a subtle hierarchy in body content.</p>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">Muted text for less important information like captions and footnotes.</p>
+        </section>
 
-                console.log('✅ Resizable event log initialized');
-                console.log('👆 Hover over event log toolbar to see drag icon');
-                console.log('↕️ Drag up/down to resize (100px - 600px)');
-                console.log('💾 Height persists to localStorage');
-            })();
+        <!-- Data Display -->
+        <section style="margin: 2rem 0;">
+            <h2>📊 Data Visualization Elements</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                <div style="padding: 1rem; background: var(--bg-secondary); border-left: 4px solid var(--primary); border-radius: 4px;">
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">1.2K</div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Active Users</div>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-secondary); border-left: 4px solid var(--secondary); border-radius: 4px;">
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">89%</div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Satisfaction</div>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-secondary); border-left: 4px solid var(--accent); border-radius: 4px;">
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">42</div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Projects</div>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-secondary); border-left: 4px solid var(--success-color); border-radius: 4px;">
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--success-color);">+24%</div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Growth</div>
+                </div>
+            </div>
+        </section>
 
-            // Initialize demo after components load
-            document.addEventListener('DOMContentLoaded', async () => {
-                // Get component references
-                const components = {
-                    controlPanel: document.getElementById('main-control-panel'),
-                    nav: document.getElementById('site-nav')
-                };
+        <!-- Instructions -->
+        <section style="margin: 2rem 0; padding: 1.5rem; background: var(--bg-secondary); border-radius: 8px; border: 2px solid var(--border-color);">
+            <h2 style="margin-top: 0;">🎮 How to Use</h2>
+            <ol style="line-height: 1.8;">
+                <li><strong>Open Control Panel</strong> - Find the floating control panel on the right side</li>
+                <li><strong>Switch to HCS Category</strong> - Select "🌊 HCS (Harmonic Color System)" from Theme Category dropdown</li>
+                <li><strong>Try Different Themes</strong> - Choose from 15 wave-theory based palettes:
+                    <ul style="margin: 0.5rem 0;">
+                        <li>Traditional: Complementary, Triadic, Tetradic, Analogous, Split Complementary</li>
+                        <li>Wave Theory: Beat Pattern, Harmonic Series, Doppler Shift, Standing Wave</li>
+                        <li>Radio: Phase 30°, Phase 45°, PM, FM, AM, Wave Superposition</li>
+                    </ul>
+                </li>
+                <li><strong>Watch Colors Harmonize</strong> - See how all 8 colors (primary, secondary, accent, success, warning, danger, info, neutral) work together</li>
+            </ol>
+        </section>
+    </main>
 
-                // Make debug controls available globally
-                window.demoControls = components;
+    <!-- ✅ WB Footer Component (inside wb-layout) -->
+    <wb-footer 
+        layout="simple" 
+        positioning="same-page"
+        company-name="WB Control Panel Demo"
+        copyright="© 2025 Website Builder. All rights reserved."
+        theme="dark">
+    </wb-footer>
+    
+    </wb-layout>
+    <!-- End of wb-layout -->
+    
+    <wb-log-error></wb-log-error>
 
-                // Listen for theme changes from control panel
-                document.addEventListener('wb:theme-changed', (e) => {
-                    const theme = e.detail.theme;
-                    console.log('🎨 Theme change received:', theme);
+    <!-- Event Log Panel with Resize Handle - Always after footer at bottom of page -->
+    <div id="event-log-panel">
+        <!-- Resize handle at top of event log -->
+        <wb-resize-updown 
+            target="#event-log-panel"
+            min-height="100"
+            max-height="600"
+            storage-key="wb-event-log-height"
+            handle-height="32px"
+            title="Drag up/down to resize event log">
+        </wb-resize-updown>
+    </div>
 
-                    // Apply theme to html element
-                    document.documentElement.setAttribute('data-theme', theme);
-                    document.body.setAttribute('data-theme', theme);
-
-                    console.log('✅ Theme applied to page:', theme);
-                });
-
-                // Listen for layout changes from control panel
-                document.addEventListener('wb:layout-changed', (e) => {
-                    const layout = e.detail.layout;
-                    console.log('🎯 Layout change received:', layout);
-
-                    // Apply layout to html element
-                    document.documentElement.setAttribute('data-layout', layout);
-                    document.body.setAttribute('data-layout', layout);
-
-                    console.log('✅ Layout applied to page:', layout);
-                });
-
-                // Log success
-                if (window.WBEventLog) {
-                    WBEventLog.logSuccess('Control Panel Demo Loaded', {
-                        component: 'wb-control-panel-demo'
-                    });
-                }
-            });
-        </script>
-    </body>
+    <!-- Control Panel floating (always visible, resizable) -->
+    <wb-control-panel id="main-control-panel"></wb-control-panel>
+</body>
 
 </html>

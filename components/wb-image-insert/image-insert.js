@@ -14,7 +14,7 @@
     // Load CSS file if not already present
     function loadCSS() {
         if (window.WBComponentUtils) {
-            const cssPath = window.WBComponentUtils.getPath('image-insert.js', '../components/image-insert/') + 'image-insert.css';
+            const cssPath = window.WBComponentUtils.getPath('image-insert.js', '../components/wb-image-insert/') + 'image-insert.css';
             window.WBComponentUtils.loadCSS('image-insert', cssPath);
         } else {
             // Fallback for when WBComponentUtils is not available
@@ -27,7 +27,7 @@
             const link = document.createElement('link');
             link.id = 'image-insert-styles';
             link.rel = 'stylesheet';
-            link.href = '../components/image-insert/image-insert.css';
+            link.href = '../components/wb-image-insert/image-insert.css';
             document.head.appendChild(link);
         }
     }

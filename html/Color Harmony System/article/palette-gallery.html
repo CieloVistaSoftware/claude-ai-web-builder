@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Named Palette Gallery - All Colors</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: #0f172a;
+      color: #f1f5f9;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .header p {
+      font-size: 1rem;
+      color: #94a3b8;
+      margin: 0;
+    }
+    
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    
+    .palette-card {
+      background: #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+    }
+    
+    .palette-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .palette-header {
+      padding: 1.5rem;
+      min-width: 250px;
+      max-width: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      background: #1e293b;
+    }
+    
+    .palette-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .palette-icon {
+      font-size: 1.5rem;
+    }
+    
+    .palette-description {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .palette-info {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .palette-badge {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #818cf8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .palette-swatches {
+      display: flex;
+      gap: 0;
+      padding: 1rem 0;
+      background: #1e293b;
+    }
+    
+    .swatch {
+      width: 100px;
+      height: 100%;
+      min-height: 150px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0.5rem;
+    }
+    
+    .swatch:hover {
+      transform: scale(1.05);
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+    
+    .swatch-label {
+      font-size: 0.5rem;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      margin-bottom: 0.25rem;
+      text-align: center;
+    }
+    
+    .swatch-value {
+      font-size: 0.45rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      font-family: monospace;
+    }
+    
+    .color-names-section {
+      padding: 1.5rem;
+      background: #1e293b;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .color-names-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .color-names-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+    }
+    
+    .color-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    
+    .named-color {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    
+    .named-color:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+    
+    .named-color-swatch {
+      width: 100%;
+      height: 40px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+    }
+    
+    .named-color-info {
+      width: 100%;
+      text-align: center;
+    }
+    
+    .named-color-name {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 0.25rem;
+    }
+    
+    .named-color-hex {
+      font-size: 0.6rem;
+      font-family: monospace;
+      color: #94a3b8;
+    }
+    
+    .row-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .semantic-demo {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .semantic-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .semantic-sample {
+      font-size: 0.7rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+    
+    .semantic-sample header {
+      margin-bottom: 0.75rem;
+    }
+    
+    .semantic-sample h4 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-primary, #f1f5f9);
+      margin: 0 0 0.25rem 0;
+    }
+    
+    .semantic-meta {
+      font-size: 0.65rem;
+      color: #64748b;
+      margin: 0;
+    }
+    
+    .semantic-sample section {
+      margin-bottom: 0.75rem;
+    }
+    
+    .semantic-sample p {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.7rem;
+    }
+    
+    .semantic-sample strong {
+      font-weight: 700;
+    }
+    
+    .semantic-sample em {
+      font-style: italic;
+    }
+    
+    .semantic-sample mark {
+      padding: 0.1rem 0.25rem;
+      border-radius: 2px;
+    }
+    
+    .semantic-sample blockquote {
+      margin: 0.5rem 0;
+      padding-left: 0.75rem;
+      border-left: 2px solid;
+      font-style: italic;
+      color: #94a3b8;
+    }
+    
+    .semantic-sample cite {
+      font-weight: 600;
+      font-style: normal;
+    }
+    
+    .semantic-aside {
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin: 0.75rem 0;
+    }
+    
+    .semantic-sample small {
+      font-size: 0.65rem;
+      color: #64748b;
+    }
+    
+    .semantic-footer {
+      margin-top: 0.75rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid;
+    }
+    
+    .semantic-sample a {
+      text-decoration: underline;
+      font-size: 0.7rem;
+      transition: opacity 0.2s;
+    }
+    
+    .semantic-sample a:hover {
+      opacity: 0.8;
+    }
+    
+    .category-section {
+      margin-bottom: 3rem;
+    }
+    
+    .category-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .category-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem 0;
+      color: #6366f1;
+    }
+    
+    .category-description {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      margin: 0;
+    }
+    
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #f1f5f9;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .filter-btn:hover {
+      background: #6366f1;
+      border-color: #6366f1;
+    }
+    
+    .filter-btn.active {
+      background: #6366f1;
+      border-color: #6366f1;
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .palette-card {
+        flex-direction: column;
+      }
+      
+      .palette-header {
+        min-width: auto;
+        max-width: 100%;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .color-row {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🎨 Named Palette Gallery</h1>
+    <p>All predefined color themes with complete named color sets</p>
+  </div>
+  
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-category="all">All Themes</button>
+  </div>
+  
+  <div id="gallery-container"></div>
+  
+  <script>
+    // Embedded themes data
+    const themesConfig = {
+      namedThemes: {
+        default: {
+          id: "default",
+          name: "Default Blue",
+          description: "Professional blue with complementary accent",
+          category: "standard",
+          icon: "💼",
+          hcsConfig: { baseHue: 240, baseSaturation: 70, baseLightness: 50, harmonyMode: "complementary" }
+        },
+        cyberpunk: {
+          id: "cyberpunk",
+          name: "Cyberpunk",
+          description: "Neon magenta and cyan",
+          category: "vibrant",
+          icon: "🌃",
+          hcsConfig: { baseHue: 320, baseSaturation: 100, baseLightness: 50, harmonyMode: "complementary" }
+        },
+        ocean: {
+          id: "ocean",
+          name: "Ocean",
+          description: "Calming analogous blues",
+          category: "calm",
+          icon: "🌊",
+          hcsConfig: { baseHue: 200, baseSaturation: 80, baseLightness: 50, harmonyMode: "analogous" }
+        },
+        sunset: {
+          id: "sunset",
+          name: "Sunset",
+          description: "Warm triadic oranges",
+          category: "warm",
+          icon: "🌅",
+          hcsConfig: { baseHue: 25, baseSaturation: 90, baseLightness: 55, harmonyMode: "triadic" }
+        },
+        forest: {
+          id: "forest",
+          name: "Forest",
+          description: "Natural split-complementary greens",
+          category: "natural",
+          icon: "🌲",
+          hcsConfig: { baseHue: 140, baseSaturation: 60, baseLightness: 45, harmonyMode: "splitComplementary" }
+        },
+        lavender: {
+          id: "lavender",
+          name: "Lavender",
+          description: "Soft monochromatic purple",
+          category: "elegant",
+          icon: "💜",
+          hcsConfig: { baseHue: 270, baseSaturation: 65, baseLightness: 60, harmonyMode: "monochromatic" }
+        },
+        sakura: {
+          id: "sakura",
+          name: "Sakura",
+          description: "Cherry blossom tetradic",
+          category: "elegant",
+          icon: "🌸",
+          hcsConfig: { baseHue: 340, baseSaturation: 70, baseLightness: 70, harmonyMode: "tetradic" }
+        },
+        midnight: {
+          id: "midnight",
+          name: "Midnight",
+          description: "Deep blue monochromatic",
+          category: "calm",
+          icon: "🌌",
+          hcsConfig: { baseHue: 230, baseSaturation: 85, baseLightness: 35, harmonyMode: "monochromatic" }
+        },
+        neonDreams: {
+          id: "neonDreams",
+          name: "Neon Dreams",
+          description: "Wave-based beat pattern",
+          category: "wave",
+          icon: "✨",
+          hcsConfig: { baseHue: 280, baseSaturation: 95, baseLightness: 55, harmonyMode: "beatPattern" }
+        },
+        retroWave: {
+          id: "retroWave",
+          name: "Retro Wave",
+          description: "80s harmonic series",
+          category: "wave",
+          icon: "🌈",
+          hcsConfig: { baseHue: 330, baseSaturation: 85, baseLightness: 60, harmonyMode: "harmonicSeries" }
+        },
+        arctic: {
+          id: "arctic",
+          name: "Arctic",
+          description: "Cool doppler shift blues",
+          category: "wave",
+          icon: "❄️",
+          hcsConfig: { baseHue: 190, baseSaturation: 75, baseLightness: 65, harmonyMode: "dopplerShift" }
+        },
+        desert: {
+          id: "desert",
+          name: "Desert",
+          description: "Warm standing wave tones",
+          category: "wave",
+          icon: "🏜️",
+          hcsConfig: { baseHue: 35, baseSaturation: 65, baseLightness: 60, harmonyMode: "standingWave" }
+        },
+        emerald: {
+          id: "emerald",
+          name: "Emerald",
+          description: "Rich green analogous",
+          category: "natural",
+          icon: "💎",
+          hcsConfig: { baseHue: 150, baseSaturation: 75, baseLightness: 45, harmonyMode: "analogous" }
+        },
+        ruby: {
+          id: "ruby",
+          name: "Ruby",
+          description: "Bold red complementary",
+          category: "vibrant",
+          icon: "💃",
+          hcsConfig: { baseHue: 0, baseSaturation: 80, baseLightness: 50, harmonyMode: "complementary" }
+        },
+        amber: {
+          id: "amber",
+          name: "Amber",
+          description: "Golden triadic warmth",
+          category: "warm",
+          icon: "🍯",
+          hcsConfig: { baseHue: 45, baseSaturation: 85, baseLightness: 55, harmonyMode: "triadic" }
+        },
+        slate: {
+          id: "slate",
+          name: "Slate",
+          description: "Professional gray-blue",
+          category: "standard",
+          icon: "🗂️",
+          hcsConfig: { baseHue: 210, baseSaturation: 25, baseLightness: 45, harmonyMode: "complementary" }
+        }
+      },
+      categories: {
+        standard: { name: "Standard", description: "Professional themes for business", order: 1 },
+        vibrant: { name: "Vibrant", description: "Bold, high-energy themes", order: 2 },
+        calm: { name: "Calm", description: "Soothing, relaxing themes", order: 3 },
+        warm: { name: "Warm", description: "Warm, inviting themes", order: 4 },
+        natural: { name: "Natural", description: "Nature-inspired themes", order: 5 },
+        elegant: { name: "Elegant", description: "Refined, sophisticated themes", order: 6 },
+        wave: { name: "Wave-Based", description: "Mathematical wave harmony", order: 7 }
+      }
+    };
+    
+    const { namedThemes, categories } = themesConfig;
+    
+    // Helper functions
+    function hslToHex(h, s, l) {
+      l /= 100;
+      const a = s * Math.min(l, 1 - l) / 100;
+      const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+      };
+      return `#${f(0)}${f(8)}${f(4)}`;
+    }
+    
+    // Generate all named colors from a base hue
+    function generateAllNamedColors(baseHue, baseSat, baseLight) {
+      const colors = {};
+      
+      // Core colors
+      colors.primary = { hue: baseHue, sat: baseSat, light: baseLight };
+      colors.secondary = { hue: (baseHue + 180) % 360, sat: baseSat, light: baseLight };
+      colors.accent = { hue: (baseHue + 90) % 360, sat: baseSat, light: baseLight };
+      colors.highlight = { hue: (baseHue + 45) % 360, sat: baseSat, light: baseLight };
+      
+      // Backgrounds and foregrounds
+      colors.background = { hue: (baseHue + 210) % 360, sat: Math.max(10, baseSat - 50), light: Math.min(95, baseLight + 40) };
+      colors.foreground = { hue: baseHue, sat: Math.max(0, baseSat - 60), light: Math.max(10, baseLight - 30) };
+      colors.border = { hue: (baseHue + 120) % 360, sat: baseSat, light: Math.max(30, baseLight - 20) };
+      
+      // Angle variations
+      colors.plus30 = { hue: (baseHue + 30) % 360, sat: baseSat, light: baseLight };
+      colors.plus45 = { hue: (baseHue + 45) % 360, sat: baseSat, light: baseLight };
+      colors.plus60 = { hue: (baseHue + 60) % 360, sat: baseSat, light: baseLight };
+      colors.plus90 = { hue: (baseHue + 90) % 360, sat: baseSat, light: baseLight };
+      colors.minus30 = { hue: (baseHue - 30 + 360) % 360, sat: baseSat, light: baseLight };
+      colors.minus45 = { hue: (baseHue - 45 + 360) % 360, sat: baseSat, light: baseLight };
+      colors.minus60 = { hue: (baseHue - 60 + 360) % 360, sat: baseSat, light: baseLight };
+      colors.minus90 = { hue: (baseHue - 90 + 360) % 360, sat: baseSat, light: baseLight };
+      
+      return colors;
+    }
+    
+    function generateHarmonyColors(baseHue, baseSat, baseLight, harmonyMode) {
+      // Always return the same named colors, regardless of harmony mode
+      // The harmony mode determines the HUE values, but the NAMES stay consistent
+      const colors = [
+        { name: 'primary', hue: baseHue, sat: baseSat, light: baseLight },
+        { name: 'secondary', hue: (baseHue + 180) % 360, sat: baseSat - 10, light: baseLight },
+        { name: 'accent', hue: (baseHue + 90) % 360, sat: baseSat, light: baseLight },
+        { name: 'highlight', hue: (baseHue + 45) % 360, sat: baseSat, light: baseLight }
+      ];
+      
+      return colors;
+    }
+    
+    function createPaletteCard(themeId, theme) {
+      const { hcsConfig } = theme;
+      const colors = generateHarmonyColors(
+        hcsConfig.baseHue,
+        hcsConfig.baseSaturation,
+        hcsConfig.baseLightness,
+        hcsConfig.harmonyMode
+      );
+      
+      const card = document.createElement('div');
+      card.className = 'palette-card';
+      card.id = `palette-card-${themeId}`;
+      card.dataset.category = theme.category;
+      
+      const swatchesHTML = colors.map((color, i) => {
+        const hsl = `hsl(${color.hue}, ${color.sat}%, ${color.light}%)`;
+        const hex = hslToHex(color.hue, color.sat, color.light);
+        
+        return `
+          <div class="swatch" 
+               id="swatch-${themeId}-${i}"
+               style="background: ${hsl};"
+               title="${color.name}: ${hex}">
+            <div class="swatch-label" id="swatch-label-${themeId}-${i}">${color.name}</div>
+            <div class="swatch-value" id="swatch-value-${themeId}-${i}">${hex}</div>
+          </div>
+        `;
+      }).join('');
+      
+      // Generate all named colors
+      const allNamedColors = generateAllNamedColors(
+        hcsConfig.baseHue,
+        hcsConfig.baseSaturation,
+        hcsConfig.baseLightness
+      );
+      
+      // Organize named colors into rows
+      const coreAndUIColors = ['primary', 'secondary', 'accent', 'highlight', 'background', 'foreground', 'border'];
+      const plusAngles = ['plus30', 'plus45', 'plus60', 'plus90'];
+      const minusAngles = ['minus30', 'minus45', 'minus60', 'minus90'];
+      
+      const createColorRow = (colorNames, label, rowType) => {
+        const colors = colorNames.map((name, i) => {
+          const color = allNamedColors[name];
+          const hsl = `hsl(${color.hue}, ${color.sat}%, ${color.light}%)`;
+          const hex = hslToHex(color.hue, color.sat, color.light);
+          
+          return `
+            <div class="named-color" id="named-${themeId}-${rowType}-${i}" title="${name}: ${hex}">
+              <div class="named-color-swatch" id="named-swatch-${themeId}-${rowType}-${i}" style="background: ${hsl};"></div>
+              <div class="named-color-info" id="named-info-${themeId}-${rowType}-${i}">
+                <div class="named-color-name" id="named-name-${themeId}-${rowType}-${i}">${name}</div>
+                <div class="named-color-hex" id="named-hex-${themeId}-${rowType}-${i}">${hex}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        
+        return `
+          <div id="color-row-container-${themeId}-${rowType}">
+            <div class="row-label" id="row-label-${themeId}-${rowType}">${label}</div>
+            <div class="color-row" id="color-row-${themeId}-${rowType}">${colors}</div>
+          </div>
+        `;
+      };
+      
+      const namedColorsHTML = [
+        createColorRow(coreAndUIColors, '🎨 Core & UI Colors', 'core'),
+        createColorRow(plusAngles, '➕ Positive Angles', 'plus'),
+        createColorRow(minusAngles, '➖ Negative Angles', 'minus')
+      ].join('');
+      
+      card.innerHTML = `
+        <div class="palette-header" id="header-${themeId}">
+          <div class="palette-name" id="name-${themeId}">
+            <span class="palette-icon" id="icon-${themeId}">${theme.icon}</span>
+            ${theme.name}
+          </div>
+          <div class="palette-description" id="description-${themeId}">${theme.description}</div>
+          <div class="palette-info" id="info-${themeId}">
+            <span class="palette-badge" id="badge-mode-${themeId}">${hcsConfig.harmonyMode}</span>
+            <span class="palette-badge" id="badge-category-${themeId}">${categories[theme.category].name}</span>
+          </div>
+        </div>
+        <div class="palette-swatches" id="swatches-${themeId}">
+          ${swatchesHTML}
+        </div>
+        <div class="color-names-section" id="names-section-${themeId}">
+          <div class="color-names-title" id="names-title-${themeId}">📋 All Named Colors (${Object.keys(allNamedColors).length} total)</div>
+          <div class="color-names-grid" id="names-grid-${themeId}">
+            ${namedColorsHTML}
+          </div>
+          
+          <div class="semantic-demo" id="semantic-demo-${themeId}">
+            <h3 class="semantic-title" id="semantic-title-${themeId}">Semantic Usage Examples</h3>
+            
+            <article class="semantic-sample" id="semantic-article-${themeId}">
+              <section id="semantic-section-${themeId}">
+                <p id="semantic-p1-${themeId}"><strong id="semantic-strong-${themeId}" style="color: ${hslToHex(allNamedColors.primary.hue, allNamedColors.primary.sat, allNamedColors.primary.light)}">primary:</strong> Lorem ipsum dolor sit amet.</p>
+                
+                <p id="semantic-p2-${themeId}"><em id="semantic-em-${themeId}" style="color: ${hslToHex(allNamedColors.secondary.hue, allNamedColors.secondary.sat, allNamedColors.secondary.light)}">secondary:</em> Consectetur adipiscing elit sed do.</p>
+                
+                <p id="semantic-p3-${themeId}"><mark id="semantic-mark-${themeId}" style="background: hsl(${allNamedColors.accent.hue}, ${allNamedColors.accent.sat}%, ${allNamedColors.accent.light}%, 0.2); color: ${hslToHex(allNamedColors.accent.hue, allNamedColors.accent.sat, allNamedColors.accent.light)}">accent:</mark> Eiusmod tempor incididunt labore.</p>
+                
+                <p id="semantic-p4-${themeId}"><cite id="semantic-cite-${themeId}" style="color: ${hslToHex(allNamedColors.highlight.hue, allNamedColors.highlight.sat, allNamedColors.highlight.light)}">highlight:</cite> Et dolore magna aliqua enim.</p>
+                
+                <p id="semantic-p5-${themeId}" style="background: hsl(${allNamedColors.background.hue}, ${allNamedColors.background.sat}%, ${allNamedColors.background.light}%, 0.3); padding: 0.5rem; border-radius: 4px;"><small id="semantic-small-${themeId}">background:</small> Ut enim ad minim veniam quis.</p>
+                
+                <p id="semantic-p6-${themeId}"><span style="color: ${hslToHex(allNamedColors.foreground.hue, allNamedColors.foreground.sat, allNamedColors.foreground.light)}">foreground:</span> Nostrud exercitation ullamco laboris.</p>
+                
+                <p id="semantic-p7-${themeId}" style="border: 1px solid ${hslToHex(allNamedColors.border.hue, allNamedColors.border.sat, allNamedColors.border.light)}; padding: 0.5rem; border-radius: 4px;"><span style="color: ${hslToHex(allNamedColors.border.hue, allNamedColors.border.sat, allNamedColors.border.light)}">border:</span> Nisi ut aliquip ex ea commodo.</p>
+                
+                <p id="semantic-p8-${themeId}"><span style="color: ${hslToHex(allNamedColors.plus30.hue, allNamedColors.plus30.sat, allNamedColors.plus30.light)}">plus30:</span> Consequat duis aute irure dolor.</p>
+                
+                <p id="semantic-p9-${themeId}"><span style="color: ${hslToHex(allNamedColors.plus45.hue, allNamedColors.plus45.sat, allNamedColors.plus45.light)}">plus45:</span> In reprehenderit in voluptate velit.</p>
+                
+                <p id="semantic-p10-${themeId}"><span style="color: ${hslToHex(allNamedColors.plus60.hue, allNamedColors.plus60.sat, allNamedColors.plus60.light)}">plus60:</span> Esse cillum dolore eu fugiat.</p>
+                
+                <p id="semantic-p11-${themeId}"><span style="color: ${hslToHex(allNamedColors.plus90.hue, allNamedColors.plus90.sat, allNamedColors.plus90.light)}">plus90:</span> Nulla pariatur excepteur sint occaecat.</p>
+                
+                <p id="semantic-p12-${themeId}"><span style="color: ${hslToHex(allNamedColors.minus30.hue, allNamedColors.minus30.sat, allNamedColors.minus30.light)}">minus30:</span> Cupidatat non proident sunt in.</p>
+                
+                <p id="semantic-p13-${themeId}"><span style="color: ${hslToHex(allNamedColors.minus45.hue, allNamedColors.minus45.sat, allNamedColors.minus45.light)}">minus45:</span> Culpa qui officia deserunt mollit.</p>
+                
+                <p id="semantic-p14-${themeId}"><span style="color: ${hslToHex(allNamedColors.minus60.hue, allNamedColors.minus60.sat, allNamedColors.minus60.light)}">minus60:</span> Anim id est laborum sed ut.</p>
+                
+                <p id="semantic-p15-${themeId}"><span style="color: ${hslToHex(allNamedColors.minus90.hue, allNamedColors.minus90.sat, allNamedColors.minus90.light)}">minus90:</span> Perspiciatis unde omnis iste natus.</p>
+              </section>
+            </article>
+          </div>
+        </div>
+      `;
+      
+      return card;
+    }
+    
+    // Render gallery by category
+    function renderGallery(filterCategory = 'all') {
+      const container = document.getElementById('gallery-container');
+      container.innerHTML = '';
+      
+      // Group themes by category
+      const categorizedThemes = {};
+      
+      Object.entries(namedThemes).forEach(([id, theme]) => {
+        if (filterCategory !== 'all' && theme.category !== filterCategory) return;
+        
+        if (!categorizedThemes[theme.category]) {
+          categorizedThemes[theme.category] = [];
+        }
+        categorizedThemes[theme.category].push({ id, ...theme });
+      });
+      
+      // Sort categories by order
+      const sortedCategories = Object.keys(categorizedThemes).sort((a, b) => {
+        return (categories[a]?.order || 999) - (categories[b]?.order || 999);
+      });
+      
+      // Render each category section
+      sortedCategories.forEach(categoryId => {
+        const category = categories[categoryId];
+        const themes = categorizedThemes[categoryId];
+        
+        const section = document.createElement('div');
+        section.className = 'category-section';
+        section.id = `category-${categoryId}`;
+        
+        section.innerHTML = `
+          <div class="category-header" id="category-header-${categoryId}">
+            <h2 class="category-title" id="category-title-${categoryId}">${category.name}</h2>
+            <p class="category-description" id="category-desc-${categoryId}">${category.description}</p>
+          </div>
+          <div class="gallery" id="gallery-${categoryId}"></div>
+        `;
+        
+        const gallery = section.querySelector(`#gallery-${categoryId}`);
+        themes.forEach(theme => {
+          const card = createPaletteCard(theme.id, theme);
+          gallery.appendChild(card);
+        });
+        
+        container.appendChild(section);
+      });
+    }
+    
+    // Create filter buttons
+    function setupFilters() {
+      const filtersContainer = document.getElementById('filters');
+      
+      // Add category filter buttons
+      Object.entries(categories)
+        .sort((a, b) => a[1].order - b[1].order)
+        .forEach(([id, category]) => {
+          const btn = document.createElement('button');
+          btn.className = 'filter-btn';
+          btn.id = `filter-btn-${id}`;
+          btn.dataset.category = id;
+          btn.textContent = category.name;
+          
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderGallery(id);
+          });
+          
+          filtersContainer.appendChild(btn);
+        });
+      
+      // Setup "All Themes" button
+      const allBtn = filtersContainer.querySelector('[data-category="all"]');
+      allBtn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        allBtn.classList.add('active');
+        renderGallery('all');
+      });
+    }
+    
+    // Initialize
+    setupFilters();
+    renderGallery('all');
+    
+    console.log('🎨 Palette Gallery loaded!');
+    console.log(`📊 Total themes: ${Object.keys(namedThemes).length}`);
+    console.log(`🏷️ Categories: ${Object.keys(categories).length}`);
+    console.log(`🎨 Each palette shows all named colors: primary, secondary, accent, highlight, background, foreground, border, plus30-90, minus30-90`);
+  </script>
+</body>
+</html>

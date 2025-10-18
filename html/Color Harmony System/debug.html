@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-mode="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave-Based Color Harmony - Debug</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: system-ui, sans-serif;
+            padding: 2rem;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .status {
+            background: #2a2a3e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .warning { color: #f59e0b; }
+
+        #test-output {
+            background: #0a0a1e;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .test-card {
+            background: #2a2a3e;
+            border: 1px solid #3a3a4e;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .color-preview {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .swatch {
+            width: 100px;
+            height: 60px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Color Harmony System Diagnostic</h1>
+    
+    <div class="status">
+        <h2>Loading Status:</h2>
+        <div id="status-log"></div>
+    </div>
+
+    <div id="test-output"></div>
+
+    <div id="test-cards"></div>
+
+    <!-- Load WB Color Harmony -->
+    <script src="../../components/wb-color-harmony/wb-color-harmony.js"></script>
+
+    <script>
+        const statusLog = document.getElementById('status-log');
+        const testOutput = document.getElementById('test-output');
+        const testCards = document.getElementById('test-cards');
+
+        function log(message, type = 'info') {
+            const className = type === 'success' ? 'success' : type === 'error' ? 'error' : type === 'warning' ? 'warning' : '';
+            statusLog.innerHTML += `<div class="${className}">• ${message}</div>`;
+            testOutput.textContent += `[${type.toUpperCase()}] ${message}\n`;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        // Test 1: Check if WBColorHarmony loaded
+        log('Checking for WBColorHarmony...', 'info');
+        
+        setTimeout(() => {
+            if (typeof WBColorHarmony !== 'undefined') {
+                log('✅ WBColorHarmony loaded successfully!', 'success');
+                
+                try {
+                    // Test 2: Create instance
+                    const harmony = new WBColorHarmony();
+                    log('✅ WBColorHarmony instance created', 'success');
+                    
+                    // Test 3: Generate palette
+                    const palette = harmony.generatePalette(240, 'complementary', 70, 50);
+                    log(`✅ Generated palette with ${palette.length} colors`, 'success');
+                    log(`First color: ${JSON.stringify(palette[0])}`, 'info');
+                    
+                    // Test 4: Display test card
+                    testCards.innerHTML = `
+                        <div class="test-card">
+                            <h3>Test Palette - Complementary Mode</h3>
+                            <p>Base: 240° (Blue), Saturation: 70%, Lightness: 50%</p>
+                            <div class="color-preview">
+                                ${palette.slice(0, 3).map((color, i) => `
+                                    <div class="swatch" style="background: ${color.hsl};">
+                                        ${color.hue}°
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    
+                    log('✅ Test card rendered successfully', 'success');
+                    log('---', 'info');
+                    log('ALL TESTS PASSED! ✨', 'success');
+                    log('WBColorHarmony is working correctly.', 'success');
+                    log('The issue may be with wb-demo or wb-card components.', 'warning');
+                    
+                } catch (error) {
+                    log(`❌ Error creating instance: ${error.message}`, 'error');
+                    log(`Stack: ${error.stack}`, 'error');
+                }
+                
+            } else {
+                log('❌ WBColorHarmony NOT FOUND', 'error');
+                log('Check if wb-color-harmony.js path is correct', 'error');
+                log('Expected path: ../../components/wb-color-harmony/wb-color-harmony.js', 'info');
+            }
+        }, 500);
+
+        // Test 5: Check for wb-card
+        setTimeout(() => {
+            log('---', 'info');
+            log('Checking for wb-card component...', 'info');
+            if (typeof customElements.get('wb-card') !== 'undefined') {
+                log('✅ wb-card component registered', 'success');
+            } else {
+                log('⚠️ wb-card component NOT registered', 'warning');
+                log('This is likely why cards aren\'t showing in main page', 'warning');
+            }
+        }, 1000);
+
+        // Test 6: Check for wb-demo
+        setTimeout(() => {
+            log('Checking for wb-demo component...', 'info');
+            if (typeof customElements.get('wb-demo') !== 'undefined') {
+                log('✅ wb-demo component registered', 'success');
+            } else {
+                log('⚠️ wb-demo component NOT registered', 'warning');
+                log('This is likely why the main page structure isn\'t working', 'warning');
+            }
+        }, 1500);
+    </script>
+</body>
+</html>

@@ -3,6 +3,16 @@
  * HARMONIC COLOR SYSTEM (HCS) - HSL-Based Color Theory Implementation
  * Consolidated from all component files to eliminate duplication
  * Single source of truth for design tokens using mathematical color relationships
+ * 
+ * TOTAL COLORS AVAILABLE: 15 Named Colors
+ * - primary, secondary, accent, highlight (4 core)
+ * - background, foreground, border (3 UI)
+ * - plus30, plus45, plus60, plus90 (4 positive angles)
+ * - minus30, minus45, minus60, minus90 (4 negative angles)
+ * 
+ * NOTE: All 15 colors auto-calculate when --hue-primary changes!
+ * Control panel only shows primary/secondary/accent to end users,
+ * but developers have access to ALL 15 via CSS variables.
  */
 
 :root {
@@ -17,9 +27,19 @@
   --primary-light: hsl(var(--hue-primary), calc((var(--saturation-primary) - 20) * 1%), calc((var(--lightness-primary) + 25) * 1%));
   --primary-rgb: 99, 102, 241;
 
-  /* === COMPLEMENTARY COLOR HARMONY === */
+  /* === COMPLEMENTARY COLOR HARMONY (Secondary) === */
   /* Pre-calculate intermediate values for browser compatibility */
-  --accent-hue: calc(var(--hue-primary) + 180);
+  --secondary-hue: calc(var(--hue-primary) + 180);
+  --secondary-sat: calc(var(--saturation-primary) - 10);
+  --secondary-light: var(--lightness-primary);
+
+  --secondary: hsl(var(--secondary-hue), calc(var(--secondary-sat) * 1%), calc(var(--secondary-light) * 1%));
+  --secondary-light-var: hsl(var(--secondary-hue), calc((var(--secondary-sat) - 10) * 1%), calc((var(--secondary-light) + 15) * 1%));
+  --secondary-dark: hsl(var(--secondary-hue), calc(var(--secondary-sat) * 1%), calc((var(--secondary-light) - 10) * 1%));
+
+  /* === ANALOGOUS COLOR HARMONY (Accent) === */
+  /* Pre-calculate intermediate values for browser compatibility */
+  --accent-hue: calc(var(--hue-primary) - 30);
   --accent-sat: calc(var(--saturation-primary) - 10);
   --accent-light: var(--lightness-primary);
 
@@ -27,15 +47,30 @@
   --accent-light-var: hsl(var(--accent-hue), calc((var(--accent-sat) - 15) * 1%), calc((var(--accent-light) + 20) * 1%));
   --accent-dark: hsl(var(--accent-hue), calc(var(--accent-sat) * 1%), calc((var(--accent-light) - 15) * 1%));
 
-  /* === ANALOGOUS COLOR HARMONY === */
-  /* Pre-calculate intermediate values for browser compatibility */
-  --secondary-hue: calc(var(--hue-primary) - 30);
-  --secondary-sat: calc(var(--saturation-primary) - 20);
-  --secondary-light: calc(var(--lightness-primary) + 5);
-
-  --secondary: hsl(var(--secondary-hue), calc(var(--secondary-sat) * 1%), calc(var(--secondary-light) * 1%));
-  --secondary-light-var: hsl(var(--secondary-hue), calc((var(--secondary-sat) - 10) * 1%), calc((var(--secondary-light) + 15) * 1%));
-  --secondary-dark: hsl(var(--secondary-hue), calc(var(--secondary-sat) * 1%), calc((var(--secondary-light) - 10) * 1%));
+  /* === EXTENDED PALETTE (DEVELOPER ACE IN THE HOLE) === */
+  /* Additional colors calculated from primary hue - available for developers */
+  /* End users don't see these in control panel, but they're auto-calculated */
+  
+  /* HIGHLIGHT - 45° rotation */
+  --highlight-hue: calc(var(--hue-primary) + 45);
+  --highlight: hsl(var(--highlight-hue), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  
+  /* UI SEMANTIC COLORS */
+  --background: hsl(calc(var(--hue-primary) + 210), calc((var(--saturation-primary) - 50) * 1%), calc((var(--lightness-primary) + 40) * 1%));
+  --foreground: hsl(var(--hue-primary), calc((var(--saturation-primary) - 60) * 1%), calc((var(--lightness-primary) - 30) * 1%));
+  --border: hsl(calc(var(--hue-primary) + 120), calc(var(--saturation-primary) * 1%), calc((var(--lightness-primary) - 20) * 1%));
+  
+  /* POSITIVE ANGLE VARIATIONS (Clockwise) */
+  --plus30: hsl(calc(var(--hue-primary) + 30), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  --plus45: hsl(calc(var(--hue-primary) + 45), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  --plus60: hsl(calc(var(--hue-primary) + 60), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  --plus90: hsl(calc(var(--hue-primary) + 90), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  
+  /* NEGATIVE ANGLE VARIATIONS (Counter-clockwise) */
+  --minus30: hsl(calc(var(--hue-primary) - 30), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  --minus45: hsl(calc(var(--hue-primary) - 45), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  --minus60: hsl(calc(var(--hue-primary) - 60), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  --minus90: hsl(calc(var(--hue-primary) - 90), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
 
   /* === NEUTRAL COLORS === */
   --neutral-50: hsl(var(--hue-primary), 1%, 99%);
