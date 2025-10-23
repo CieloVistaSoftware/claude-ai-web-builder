@@ -1,9 +1,19 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // wb-resize-eastwest.js
 // Horizontal resize handle component for resizing parent containers left/right
 
 class WBResizeEastWest extends HTMLElement {
     constructor() {
         super();
+    }
+
+    async connectedCallback() {
+        await loadComponentCSS(this, 'wb-resize-eastwest.css');
+        this.init();
+    }
+
+    init() {
         this.attachShadow({ mode: 'open' });
         
         // State

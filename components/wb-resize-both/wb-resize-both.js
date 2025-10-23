@@ -1,9 +1,19 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // wb-resize-both.js
 // Corner resize handle component for resizing parent containers in both directions
 
 class WBResizeBoth extends HTMLElement {
     constructor() {
         super();
+    }
+
+    async connectedCallback() {
+        await loadComponentCSS(this, 'wb-resize-both.css');
+        this.init();
+    }
+
+    init() {
         this.attachShadow({ mode: 'open' });
         
         // State

@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WB COMPONENT-NAME Configuration",
+  "description": "Configuration schema for wb-COMPONENT-NAME web component",
+  "type": "object",
+  "properties": {
+    "component": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "wb-COMPONENT-NAME"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "version"]
+    },
+    "classes": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "string",
+          "description": "Base CSS class for the component"
+        },
+        "variants": {
+          "type": "object",
+          "properties": {
+            "primary": { "type": "string" },
+            "secondary": { "type": "string" }
+          }
+        },
+        "states": {
+          "type": "object",
+          "properties": {
+            "active": { "type": "string" },
+            "disabled": { "type": "string" }
+          }
+        }
+      },
+      "required": ["base", "variants", "states"]
+    },
+    "defaults": {
+      "type": "object",
+      "properties": {
+        "variant": {
+          "type": "string",
+          "enum": ["primary", "secondary"]
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["variant", "value"]
+    },
+    "events": {
+      "type": "object",
+      "properties": {
+        "ready": {
+          "type": "string",
+          "const": "wb-COMPONENT-NAME:ready"
+        },
+        "change": {
+          "type": "string",
+          "const": "wb-COMPONENT-NAME:change"
+        }
+      },
+      "required": ["ready", "change"]
+    }
+  },
+  "required": ["component", "classes", "defaults", "events"]
+}

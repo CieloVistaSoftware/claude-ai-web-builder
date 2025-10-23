@@ -1,108 +1,132 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // wb-semanticElements.js
-// Web component that ensures all required semantic HTML5 elements exist on the page
-// and creates them if missing. Elements: <nav>, <header>, <main>, <footer>
+// Web component that injects a complete set of semantic HTML5 elements with Lorem Ipsum content
+// for demonstration and testing purposes
 
 class WBSemanticElements extends HTMLElement {
   constructor() {
     super();
-    this.loadCSS();
   }
 
-  loadCSS() {
-    if (!document.querySelector('link[href*="wb-semanticElements.css"]')) {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      // Use current script path to resolve CSS file
-      const currentScript = document.currentScript || document.querySelector('script[src*="wb-semanticElements"]');
-      const basePath = currentScript ? currentScript.src.replace(/\/[^\/]*$/, '/') : './';
-      link.href = basePath + 'wb-semanticElements.css';
-      document.head.appendChild(link);
+  async connectedCallback() {
+    await loadComponentCSS(this, 'wb-semanticElements.css');
+    this.injectSemanticElements();
+    
+    // REPORT WHERE THIS FILE IS BEING LOADED FROM
+    const scriptElements = document.querySelectorAll('script[src*="wb-semanticElements"]');
+    if (scriptElements.length > 0) {
+      console.log('🏗️ WB Semantic Elements: Component registered');
+      console.log('📄 LOADED FROM:', scriptElements[0].src);
+    } else {
+      console.log('🏗️ WB Semantic Elements: Component registered');
+      console.log('📄 LOADED FROM: inline or module import');
     }
   }
 
-  connectedCallback() {
-    this.ensureSemanticElements();
-  }
-
-  ensureSemanticElements() {
-    var tags = [
-      "nav", "header", "main", "footer",
-      "section", "article", "aside", "figure", "figcaption",
-      "details", "summary", "mark", "time", "address"
-    ];
-    var localContainer = this.querySelector('.wb-semantic-demo-area');
-    var target = localContainer || document.body;
-    tags.forEach(function(tag) {
-      if (!target.querySelector(tag)) {
-        var el = document.createElement(tag);
-        el.setAttribute("data-wb-semantic", "true");
-        var info = '', mdn = '';
-        switch(tag) {
-          case 'nav':
-            info = 'Defines navigation links for the site.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav';
-            break;
-          case 'header':
-            info = 'Introductory content, typically site or section heading.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header';
-            break;
-          case 'main':
-            info = 'Main content unique to this page.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main';
-            break;
-          case 'footer':
-            info = 'Footer for its nearest sectioning content or root.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer';
-            break;
-          case 'section':
-            info = 'A standalone section of related content.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section';
-            break;
-          case 'article':
-            info = 'A self-contained composition in a document.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article';
-            break;
-          case 'aside':
-            info = 'Content tangentially related to the main content.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside';
-            break;
-          case 'figure':
-            info = 'Illustration, diagram, photo, code listing, etc.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure';
-            break;
-          case 'figcaption':
-            info = 'Caption or legend for a figure.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption';
-            break;
-          case 'details':
-            info = 'Disclosure widget for additional information.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details';
-            break;
-          case 'summary':
-            info = 'Summary, heading for a details element.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary';
-            break;
-          case 'mark':
-            info = 'Highlights text for reference or relevance.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark';
-            break;
-          case 'time':
-            info = 'Represents a specific period in time.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time';
-            break;
-          case 'address':
-            info = 'Contact information for a person or organization.';
-            mdn = 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address';
-            break;
-        }
-        el.innerHTML = `<span class=\"wb-sem-label\">&lt;${tag}&gt; (auto)</span><br><span class=\"wb-sem-info\">${info} <a href=\"${mdn}\" target=\"_blank\" rel=\"noopener\" class=\"wb-sem-mdn\">[MDN]</a></span>`;
-        target.appendChild(el);
-      }
-    });
+  injectSemanticElements() {
+    // Create a container for all semantic elements
+    const container = document.createElement('div');
+    container.className = 'wb-semantic-container';
+    container.setAttribute('data-wb-semantic-demo', 'true');
+    
+    // NAV element
+    const nav = document.createElement('nav');
+    nav.setAttribute('data-wb-semantic', 'true');
+    nav.innerHTML = `
+      <h2>Navigation</h2>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    `;
+    
+    // HEADER element
+    const header = document.createElement('header');
+    header.setAttribute('data-wb-semantic', 'true');
+    header.innerHTML = `
+      <h1>Lorem Ipsum Dolor Sit Amet</h1>
+      <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    `;
+    
+    // MAIN element with sections, articles, etc.
+    const main = document.createElement('main');
+    main.setAttribute('data-wb-semantic', 'true');
+    main.innerHTML = `
+      <section data-wb-semantic="true">
+        <h2>Section: Introduction</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      </section>
+      
+      <article data-wb-semantic="true">
+        <header>
+          <h2>Article: Understanding Semantic HTML</h2>
+          <p><time datetime="2025-10-20">October 20, 2025</time> by <strong>John Doe</strong></p>
+        </header>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit.</p>
+        <p>Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.</p>
+      </article>
+      
+      <section data-wb-semantic="true">
+        <h2>Section: Features</h2>
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+        
+        <figure data-wb-semantic="true">
+          <svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="200" fill="#6366f1" rx="8"/>
+            <text x="200" y="100" text-anchor="middle" fill="white" font-size="24" font-family="Arial">
+              Placeholder Image
+            </text>
+            <text x="200" y="130" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="16" font-family="Arial">
+              400 x 200
+            </text>
+          </svg>
+          <figcaption data-wb-semantic="true">Figure caption: Lorem ipsum dolor sit amet consectetur adipiscing elit.</figcaption>
+        </figure>
+      </section>
+      
+      <aside data-wb-semantic="true">
+        <h3>Related Information</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante.</p>
+        <ul>
+          <li>Related Link 1</li>
+          <li>Related Link 2</li>
+          <li>Related Link 3</li>
+        </ul>
+      </aside>
+      
+      <details data-wb-semantic="true">
+        <summary data-wb-semantic="true">Click to expand: Lorem Ipsum Details</summary>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+      </details>
+    `;
+    
+    // FOOTER element
+    const footer = document.createElement('footer');
+    footer.setAttribute('data-wb-semantic', 'true');
+    footer.innerHTML = `
+      <p>&copy; 2025 Lorem Ipsum. All rights reserved.</p>
+      <address data-wb-semantic="true">
+        <a href="mailto:info@loremipsum.com">info@loremipsum.com</a><br>
+        123 Lorem Street, Ipsum City, LI 12345
+      </address>
+    `;
+    
+    // Append all elements to container
+    container.appendChild(nav);
+    container.appendChild(header);
+    container.appendChild(main);
+    container.appendChild(footer);
+    
+    // Append container to this component
+    this.appendChild(container);
+    
+    console.log('✅ Semantic elements injected with Lorem Ipsum content');
   }
 }
+
 if (!customElements.get('wb-semantic-elements')) {
   customElements.define('wb-semantic-elements', WBSemanticElements);
 }
-
-

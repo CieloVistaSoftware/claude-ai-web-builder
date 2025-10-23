@@ -3,30 +3,21 @@
  * A customizable range slider with accessibility and theming support
  */
 
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 class WBSlider {
   constructor() {
     this.sliders = new Map();
     this.init();
   }
 
-  init() {
-    this.loadCSS();
+  async init() {
+    await this.loadCSS();
     this.initializeExistingSliders();
   }
 
-  loadCSS() {
-    if (window.WBComponentUtils) {
-      const cssPath = window.WBComponentUtils.getPath('wb-slider.js', '../components/wb-slider/') + 'wb-slider.css';
-      window.WBComponentUtils.loadCSS('wb-slider', cssPath);
-    } else {
-      // Fallback for when WBComponentUtils is not available
-      if (!document.querySelector('link[href*="wb-slider.css"]')) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'wb-slider.css';
-        document.head.appendChild(link);
-      }
-    }
+  async loadCSS() {
+    await loadComponentCSS(this, 'wb-slider.css');
   }
 
   initializeExistingSliders() {

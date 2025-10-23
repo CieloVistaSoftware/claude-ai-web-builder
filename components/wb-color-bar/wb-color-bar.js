@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 /**
  * Color Bar Web Component
  * A reusable color picker component based on the Material Design Color Picker
@@ -21,6 +23,14 @@
 class ColorBar extends HTMLElement {
   constructor() {
     super();
+  }
+
+  async connectedCallback() {
+    await loadComponentCSS(this, 'wb-color-bar.css');
+    this.init();
+  }
+
+  init() {
     this.attachShadow({ mode: 'open' });
     
     // Default values

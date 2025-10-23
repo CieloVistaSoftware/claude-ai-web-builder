@@ -1,438 +1,884 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-mode="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Components - Component Library</title>
-    <link rel="stylesheet" href="../styles/main.css">
-    <link rel="stylesheet" href="index.css">
+    <title>WB Framework - Component Directory</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-color, #0f1419);
+            color: var(--text-primary, #f8f8f2);
+            padding: 0;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary, #6366f1), var(--primary-dark, #4338ca));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-secondary, #1e1e1e);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary, #6366f1);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary, #6366f1);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary, #a0a0a0);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        /* Search and Filter */
+        .search-section {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            margin: 2rem 0;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--border-color, #333);
+            border-radius: 8px;
+            background: var(--bg-primary, #0f1419);
+            color: var(--text-primary, #f8f8f2);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary, #6366f1);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--border-color, #333);
+            background: var(--bg-secondary, #1e1e1e);
+            color: var(--text-primary, #f8f8f2);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary, #6366f1);
+            background: var(--primary, #6366f1);
+            color: white;
+        }
+
+        .filter-btn.active {
+            border-color: var(--primary, #6366f1);
+            background: var(--primary, #6366f1);
+            color: white;
+        }
+
+        /* Components Table */
+        .components-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--bg-secondary, #1e1e1e);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin: 2rem 0;
+        }
+
+        .components-table thead {
+            background: var(--bg-tertiary, #2a2a2a);
+            border-bottom: 2px solid var(--primary, #6366f1);
+        }
+
+        .components-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            color: var(--text-primary, #f8f8f2);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .components-table tbody tr {
+            border-bottom: 1px solid var(--border-color, #333);
+            transition: background-color 0.3s ease;
+        }
+
+        .components-table tbody tr:hover {
+            background: var(--bg-tertiary, #2a2a2a);
+        }
+
+        .components-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .components-table td {
+            padding: 1rem;
+            color: var(--text-secondary, #a0a0a0);
+        }
+
+        /* Component Link Column */
+        .component-name {
+            font-weight: 700;
+            color: var(--primary, #6366f1);
+        }
+
+        .component-link {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary, #6366f1);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .component-link:hover {
+            background: var(--primary-dark, #4338ca);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Description Column */
+        .component-description {
+            color: var(--text-secondary, #a0a0a0);
+            font-size: 0.95rem;
+            max-width: 600px;
+        }
+
+        .component-description em {
+            color: var(--text-tertiary, #7a7a7a);
+            font-style: italic;
+        }
+
+        /* Documentation Link Column */
+        .doc-link {
+            text-align: center;
+        }
+
+        .doc-link a {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--accent, #10b981);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .doc-link a:hover {
+            background: var(--accent-dark, #059669);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .doc-link a.no-doc {
+            background: var(--border-color, #333);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .doc-link a.no-doc:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.core {
+            background: var(--primary, #6366f1);
+            color: white;
+        }
+
+        .status-badge.layout {
+            background: var(--accent, #10b981);
+            color: white;
+        }
+
+        .status-badge.utility {
+            background: var(--warning-color, #f59e0b);
+            color: white;
+        }
+
+        .status-badge.experimental {
+            background: var(--error-color, #ef4444);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--bg-tertiary, #2a2a2a);
+            border-radius: 12px;
+            text-align: center;
+            border-top: 2px solid var(--primary, #6366f1);
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary, #a0a0a0);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--primary, #6366f1);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary, #a0a0a0);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            margin: 1rem 0 0.5rem 0;
+            color: var(--text-primary, #f8f8f2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .search-section {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                width: 100%;
+            }
+
+            .components-table {
+                font-size: 0.9rem;
+            }
+
+            .components-table th,
+            .components-table td {
+                padding: 0.75rem;
+            }
+
+            .component-description {
+                max-width: none;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
     <div class="header">
-        <h1>WB Components</h1>
-        <p>Complete library of Website Builder components</p>
-        
-        <!-- Tab Navigation -->
-        <div class="tab-navigation">
-            <button class="tab-btn" data-tab="control-panel">🎛️ Control Panel Demo</button>
-            <button class="tab-btn active" data-tab="components">📚 Component Library</button>
-            <button class="tab-btn" data-tab="event-log">📋 Event Log Demo</button>
-        </div>
+        <h1>🎨 WB Framework Components</h1>
+        <p>Complete component directory with documentation and live links</p>
     </div>
 
-    <!-- Control Panel Demo Tab -->
-    <div class="tab-content full-screen" id="control-panel-tab" style="display: none;">
-        <iframe 
-            src="wb-control-panel/wb-control-panel-demo.html" 
-            width="100%" 
-            height="100%" 
-            style="border: none; display: block;">
-        </iframe>
-    </div>
-
-    <!-- Event Log Demo Tab -->
-    <div class="tab-content" id="event-log-tab" style="display: none;">
-        <div class="demo-header">
-            <h2>📋 WB Event Log Demo</h2>
-            <p>Interactive demo of the wb-event-log component with real-time error tracking, search, filtering, and claude.md auto-save</p>
-        </div>
-        
-        <div class="event-log-demo-container">
-            <!-- Event Log Controls -->
-            <div class="demo-controls">
-                <h3>Test Event Log Features</h3>
-                <div class="control-buttons">
-                    <button class="demo-btn" onclick="testInfo()">📝 Test Info Event</button>
-                    <button class="demo-btn" onclick="testWarning()">⚠️ Test Warning</button>
-                    <button class="demo-btn" onclick="testError()">❌ Test Error</button>
-                    <button class="demo-btn" onclick="testSuccess()">✅ Test Success</button>
-                    <button class="demo-btn" onclick="clearEvents()">🗑️ Clear Events</button>
-                    <button class="demo-btn" onclick="simulateErrors()">🔥 Simulate Multiple Errors</button>
-                </div>
-            </div>
-            
-            <!-- Live Event Log Component -->
-            <div class="event-log-container">
-                <h3>Live Event Log</h3>
-                <wb-event-log 
-                    id="demo-event-log"
-                    max-events="100"
-                    auto-scroll="true"
-                    show-timestamps="true"
-                    show-source="true"
-                    expandable-details="true"
-                    toolbar="true"
-                    search="true"
-                    filters="true"
-                    export="true"
-                    auto-save-claude="true"
-                    style="height: 400px; width: 100%; border: 1px solid var(--border-color, #334155); border-radius: 8px; background: var(--bg-secondary, #1e293b);">
-                </wb-event-log>
-            </div>
-            
-            <!-- Feature Documentation -->
-            <div class="feature-docs">
-                <h3>wb-event-log Features</h3>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h4>🔍 Real-time Monitoring</h4>
-                        <p>Captures JavaScript errors, promise rejections, and custom events in real-time</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>🔎 Search & Filter</h4>
-                        <p>Built-in search functionality and filtering by event type (info, warning, error, success)</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>📁 Auto-Save to claude.md</h4>
-                        <p>Automatically saves error logs to claude.md file for development debugging</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>📊 Event Details</h4>
-                        <p>Expandable event details with stack traces, timestamps, and source information</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>📤 Export Options</h4>
-                        <p>Export logs as JSON, CSV, or text format for external analysis</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>⚡ High Performance</h4>
-                        <p>Efficient virtual scrolling for handling large numbers of events</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Component Library Tab -->
-    <div class="tab-content" id="components-tab">
-        <div class="container">
-        <!-- Statistics -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number stat-total">25</div>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">41</div>
                 <div class="stat-label">Total Components</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number stat-complete">17</div>
-                <div class="stat-label">Complete</div>
+            <div class="stat-item">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Core Dependencies</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number stat-progress">3</div>
-                <div class="stat-label">In Progress</div>
+            <div class="stat-item">
+                <div class="stat-number">37</div>
+                <div class="stat-label">Custom Elements</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number stat-broken">5</div>
-                <div class="stat-label">Need Fixes</div>
-            </div>
-        </div>
-
-        <!-- Quick Start -->
-        <div class="quick-start">
-            <h3>Quick Start</h3>
-            <p>Include any component in your project:</p>
-            <pre><code>&lt;!-- Web Component (Recommended) --&gt;
-&lt;script src="components/wb-table/wb-table-webcomponent.js"&gt;&lt;/script&gt;
-&lt;wb-table striped hover data-json='[{"name":"John","age":30}]'&gt;&lt;/wb-table&gt;
-
-&lt;!-- Legacy Component --&gt;
-&lt;script src="components/wb-button/wb-button.js"&gt;&lt;/script&gt;
-&lt;div id="my-button"&gt;&lt;/div&gt;
-&lt;script&gt;WBButton.create('my-button', {variant: 'primary'});&lt;/script&gt;</code></pre>
-        </div>
-
-        <!-- Search -->
-        <input type="text" class="search-box" placeholder="Search components..." id="searchBox">
-
-        <!-- Filters -->
-        <div class="filter-tabs">
-            <div class="filter-tab active" data-filter="all">All Components</div>
-            <div class="filter-tab" data-filter="complete">Complete</div>
-            <div class="filter-tab" data-filter="web-component">Web Components</div>
-            <div class="filter-tab" data-filter="broken">Need Fixes</div>
-            <div class="filter-tab" data-filter="ui">UI Components</div>
-            <div class="filter-tab" data-filter="data">Data Display</div>
-        </div>
-
-        <!-- UI Components -->
-        <div class="section">
-            <h2 class="section-title">UI Components</h2>
-            <div class="component-grid" id="ui-components">
-                <!-- Components will be loaded here -->
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Documented</div>
             </div>
         </div>
 
-        <!-- Data Display Components -->
-        <div class="section">
-            <h2 class="section-title">Data Display Components</h2>
-            <div class="component-grid" id="data-components">
-                <!-- Components will be loaded here -->
+        <!-- Search and Filter -->
+        <div class="search-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search components by name or description..."
+                    autocomplete="off"
+                >
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="core">Core</button>
+                <button class="filter-btn" data-filter="layout">Layout</button>
+                <button class="filter-btn" data-filter="utility">Utility</button>
             </div>
         </div>
 
-        <!-- Layout Components -->
-        <div class="section">
-            <h2 class="section-title">Layout Components</h2>
-            <div class="component-grid" id="layout-components">
-                <!-- Components will be loaded here -->
-            </div>
+        <!-- Components Table -->
+        <table class="components-table" id="componentsTable">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Component Name</th>
+                    <th style="width: 50%;">Description</th>
+                    <th style="width: 15%;">Type</th>
+                    <th style="width: 20%;">Documentation</th>
+                </tr>
+            </thead>
+            <tbody id="componentsBody">
+                <!-- Populated by JavaScript -->
+            </tbody>
+        </table>
+
+        <!-- Empty State (hidden by default) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">🔍</div>
+            <h3>No components found</h3>
+            <p>Try adjusting your search or filter criteria</p>
         </div>
 
-        <!-- Content Components -->
-        <div class="section">
-            <h2 class="section-title">Content Components</h2>
-            <div class="component-grid" id="content-components">
-                <!-- Components will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Utility Components -->
-        <div class="section">
-            <h2 class="section-title">Utility Components</h2>
-            <div class="component-grid" id="utility-components">
-                <!-- Components will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Event Log Component -->
-        <div class="section">
-            <h2 class="section-title">Event Log & Debugging</h2>
-            <div class="event-log-section">
-                <div class="event-log-info">
-                    <h3>📋 WB Event Log Component</h3>
-                    <p>Real-time error tracking, event monitoring, and debugging component with search, filtering, and auto-save to claude.md</p>
-                    
-                    <div class="usage-example">
-                        <h4>Usage Example:</h4>
-                        <pre><code>&lt;wb-event-log 
-    max-events="100"
-    auto-scroll="true"
-    show-timestamps="true"
-    show-source="true"
-    expandable-details="true"
-    toolbar="true"
-    search="true"
-    filters="true"
-    export="true"
-    auto-save-claude="true"&gt;
-&lt;/wb-event-log&gt;</code></pre>
-                    </div>
-                </div>
-                
-                <div class="live-event-log">
-                    <h4>Live Event Log:</h4>
-                    <wb-event-log 
-                        id="library-event-log"
-                        max-events="50"
-                        auto-scroll="true"
-                        show-timestamps="true"
-                        show-source="true"
-                        expandable-details="true"
-                        toolbar="true"
-                        search="true"
-                        filters="true"
-                        export="true"
-                        style="height: 300px; width: 100%; border: 1px solid var(--border-color, #475569); border-radius: 8px; background: var(--bg-secondary, #1e293b);">
-                    </wb-event-log>
-                </div>
-            </div>
+        <!-- Footer -->
+        <div class="footer">
+            <p>📚 <strong>All components</strong> are part of the WB Framework ecosystem</p>
+            <p>🔗 Click on component names to view demo | Click 📖 to view documentation</p>
+            <p>🚀 <a href="wb.html">View Main Demo</a> | <a href="./docs/HTML-FILES-GUIDE.md">HTML Files Guide</a> | <a href="./docs/architecture/WB%20Framework%20-%20Event-Driven%20Color%20System%20Architecture.md">Architecture Guide</a></p>
         </div>
     </div>
-    </div>
 
-    <script src="index.js"></script>
     <script>
-        // Tab switching functionality
-        function initTabs() {
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
+        // Component Data
+        const components = [
+            // Core Components
+            {
+                name: 'wb-base',
+                description: 'Base component providing foundational styling and utilities for all WB components',
+                type: 'core',
+                demo: 'components/wb-base/demo.html',
+                doc: 'components/wb-base/wb-base.md'
+            },
+            {
+                name: 'wb-button',
+                description: 'Standardized button component with consistent styling, responsive text sizing, and multiple variants',
+                type: 'core',
+                demo: 'components/wb-button/wb-button-demo.html',
+                doc: 'components/wb-button/wb-button.md'
+            },
+            {
+                name: 'wb-control-panel',
+                description: 'Interactive control panel for managing themes, layouts, and colors across the entire application',
+                type: 'core',
+                demo: 'html/debug-control-panel.html',
+                doc: 'components/wb-control-panel/wb-control-panel.md'
+            },
+            {
+                name: 'wb-color-bar',
+                description: 'Visual color display component showing individual color values with harmony relationships',
+                type: 'core',
+                demo: 'html/test-color-bars.html',
+                doc: 'components/wb-color-bar/wb-color-bar.md'
+            },
+            {
+                name: 'wb-color-bars',
+                description: 'Collection of color bars displaying the complete harmonic color palette',
+                type: 'core',
+                demo: 'html/test-color-bars.html',
+                doc: 'components/wb-color-bars/wb-color-bars.md'
+            },
+            {
+                name: 'wb-color-harmony',
+                description: 'Mathematical color harmony system generating complementary and analogous colors',
+                type: 'core',
+                demo: 'html/wave-based-color-harmony-article.html',
+                doc: 'components/wb-color-harmony/wb-color-harmony.md'
+            },
+            {
+                name: 'wb-event-log',
+                description: 'Event logging system for debugging and tracking component interactions',
+                type: 'core',
+                demo: null,
+                doc: 'components/wb-event-log/wb-event-log.md'
+            },
+            {
+                name: 'wb-input',
+                description: 'Form input component with consistent styling and validation support',
+                type: 'core',
+                demo: null,
+                doc: 'components/wb-input/wb-input.md'
+            },
+            {
+                name: 'wb-select',
+                description: 'Dropdown select component with keyboard navigation and accessibility features',
+                type: 'core',
+                demo: null,
+                doc: 'components/wb-select/wb-select.md'
+            },
+            {
+                name: 'wb-slider',
+                description: 'Range slider component for numerical input with visual feedback',
+                type: 'core',
+                demo: 'html/test-simple-control-panel.html',
+                doc: 'components/wb-slider/wb-slider.md'
+            },
+            {
+                name: 'wb-toggle',
+                description: 'Toggle switch component for boolean state management',
+                type: 'core',
+                demo: 'html/test-simple-control-panel.html',
+                doc: 'components/wb-toggle/wb-toggle.md'
+            },
+
+            // Layout Components
+            {
+                name: 'wb-layout',
+                description: 'Master layout component that organizes page structure with flexible positioning',
+                type: 'layout',
+                demo: 'index.html',
+                doc: 'components/wb-layout/wb-layout.md'
+            },
+            {
+                name: 'wb-grid',
+                description: 'CSS Grid-based layout component for responsive content organization',
+                type: 'layout',
+                demo: 'index.html',
+                doc: 'components/wb-grid/wb-grid.md'
+            },
+            {
+                name: 'wb-nav',
+                description: 'Navigation component with horizontal and vertical layout options',
+                type: 'layout',
+                demo: 'index.html',
+                doc: 'components/wb-nav/wb-nav.md'
+            },
+            {
+                name: 'wb-hero',
+                description: 'Hero section component with large hero imagery and call-to-action',
+                type: 'layout',
+                demo: 'index.html',
+                doc: 'components/wb-hero/wb-hero.md'
+            },
+            {
+                name: 'wb-header',
+                description: 'Page header component providing site identity and primary navigation',
+                type: 'layout',
+                demo: 'index.html',
+                doc: 'components/wb-header/wb-header.md'
+            },
+            {
+                name: 'wb-footer',
+                description: 'Footer component with contact information and secondary navigation',
+                type: 'layout',
+                demo: 'index.html',
+                doc: 'components/wb-footer/wb-footer.md'
+            },
+            {
+                name: 'wb-card',
+                description: 'Card component for content grouping with consistent styling and spacing',
+                type: 'layout',
+                demo: 'index.html',
+                doc: 'components/wb-card/wb-card.md'
+            },
+            {
+                name: 'wb-modal',
+                description: 'Modal dialog component for overlay content and user interactions',
+                type: 'layout',
+                demo: null,
+                doc: 'components/wb-modal/wb-modal.md'
+            },
+            {
+                name: 'wb-table',
+                description: 'Data table component with sorting and pagination support',
+                type: 'layout',
+                demo: 'index.html',
+                doc: 'components/wb-table/wb-table.md'
+            },
+            {
+                name: 'wb-tab',
+                description: 'Tab component for organizing content into separate panels',
+                type: 'layout',
+                demo: null,
+                doc: 'components/wb-tab/wb-tab.md'
+            },
+
+            // Utility Components
+            {
+                name: 'wb-color-picker',
+                description: 'Interactive color picker for precise color selection with HSL controls',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-color-picker/wb-color-picker.md'
+            },
+            {
+                name: 'wb-color-transformer',
+                description: 'Color transformation utility for adjusting hue, saturation, and lightness',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-color-transformer/wb-color-transformer.md'
+            },
+            {
+                name: 'wb-color-mapper',
+                description: 'Maps colors to semantic meanings (success, warning, error, info)',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-color-mapper/wb-color-mapper.md'
+            },
+            {
+                name: 'wb-color-organ',
+                description: 'Comprehensive color organization and management system',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-color-organ/wb-color-organ.md'
+            },
+            {
+                name: 'wb-color-utils',
+                description: 'Utility functions for color calculations and conversions',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-color-utils/wb-color-utils.md'
+            },
+            {
+                name: 'wb-search',
+                description: 'Search component with debouncing and result highlighting',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-search/wb-search.md'
+            },
+            {
+                name: 'wb-status',
+                description: 'Status indicator component showing system health and notifications',
+                type: 'utility',
+                demo: 'index.html',
+                doc: 'components/wb-status/wb-status.md'
+            },
+            {
+                name: 'wb-theme',
+                description: 'Theme management component for applying color schemes and mode switching',
+                type: 'utility',
+                demo: 'index.html',
+                doc: 'components/wb-theme/wb-theme.md'
+            },
+            {
+                name: 'wb-viewport',
+                description: 'Viewport management component for responsive design control',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-viewport/wb-viewport.md'
+            },
+            {
+                name: 'wb-keyboard-manager',
+                description: 'Keyboard event management for accessibility and shortcuts',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-keyboard-manager/wb-keyboard-manager.md'
+            },
+            {
+                name: 'wb-log-viewer',
+                description: 'Log viewer component displaying event logs and debug information',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-log-viewer/wb-log-viewer.md'
+            },
+            {
+                name: 'wb-log-error',
+                description: 'Error logging component for capturing and displaying errors',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-log-error/wb-log-error.md'
+            },
+            {
+                name: 'wb-change-text',
+                description: 'Text manipulation component for content editing and transformation',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-change-text/wb-change-text.md'
+            },
+            {
+                name: 'wb-image-insert',
+                description: 'Image insertion component with preview and metadata editing',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-image-insert/wb-image-insert.md'
+            },
+            {
+                name: 'wb-css-loader',
+                description: 'Dynamic CSS loading component for runtime stylesheet injection',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-css-loader/wb-css-loader.md'
+            },
+
+            // Resize Components
+            {
+                name: 'wb-resize-panel',
+                description: 'Base resizable panel component providing drag-to-resize functionality',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-resize-panel/wb-resize-panel.md'
+            },
+            {
+                name: 'wb-resize-both',
+                description: 'Resizable component supporting both horizontal and vertical resizing',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-resize-both/wb-resize-both.md'
+            },
+            {
+                name: 'wb-resize-eastwest',
+                description: 'Resizable component supporting left-right resizing',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-resize-eastwest/wb-resize-eastwest.md'
+            },
+            {
+                name: 'wb-resize-updown',
+                description: 'Resizable component supporting top-bottom resizing',
+                type: 'utility',
+                demo: null,
+                doc: 'components/wb-resize-updown/wb-resize-updown.md'
+            },
+
+            // Testing & Development
+            {
+                name: 'wb-inject-test',
+                description: 'Testing component for injecting and testing HTML and components',
+                type: 'experimental',
+                demo: 'html/component-diagnosis.html',
+                doc: null
+            },
+            {
+                name: 'wb-dev-toolbox',
+                description: 'Development toolbox with debugging and testing utilities',
+                type: 'experimental',
+                demo: null,
+                doc: null
+            },
+            {
+                name: 'wb-demo',
+                description: 'Demo component template for showcasing component features',
+                type: 'experimental',
+                demo: null,
+                doc: null
+            },
+            {
+                name: 'wb-semanticElements',
+                description: 'Wrapper for semantic HTML5 elements with enhanced styling',
+                type: 'utility',
+                demo: 'index.html',
+                doc: 'components/wb-semanticElements/wb-semanticElements.md'
+            },
+            {
+                name: 'wb-rag',
+                description: 'Retrieval-Augmented Generation component for AI-powered search',
+                type: 'experimental',
+                demo: null,
+                doc: 'components/wb-rag/wb-rag.md'
+            },
+            {
+                name: 'wb-chatbot',
+                description: 'Chatbot component for AI-powered conversations',
+                type: 'experimental',
+                demo: null,
+                doc: 'components/wb-chatbot/wb-chatbot.md'
+            },
+            {
+                name: 'wb-1rem',
+                description: 'Utility component for 1rem sizing and spacing system',
+                type: 'utility',
+                demo: null,
+                doc: null
+            },
+            {
+                name: 'wb-xtest',
+                description: 'Extended testing component for comprehensive test scenarios',
+                type: 'experimental',
+                demo: null,
+                doc: null
+            }
+        ];
+
+        // Sort components alphabetically
+        components.sort((a, b) => a.name.localeCompare(b.name));
+
+        // Filter and render components
+        function renderComponents(filter = 'all', search = '') {
+            const tbody = document.getElementById('componentsBody');
+            const emptyState = document.getElementById('emptyState');
             
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const targetTab = btn.dataset.tab;
-                    
-                    // Remove active class from all tabs
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    tabContents.forEach(content => content.style.display = 'none');
-                    
-                    // Add active class to clicked tab
-                    btn.classList.add('active');
-                    const targetTabElement = document.getElementById(targetTab + '-tab');
-                    targetTabElement.style.display = 'block';
-                    
-                    // Handle full-screen mode for control panel
-                    if (targetTab === 'control-panel') {
-                        document.body.style.overflow = 'hidden';
-                        // Hide header when in control panel mode
-                        document.querySelector('.header').style.display = 'none';
-                    } else {
-                        document.body.style.overflow = 'auto';
-                        // Show header for other tabs
-                        document.querySelector('.header').style.display = 'block';
-                    }
-                    
-                    console.log(`Switched to ${targetTab} tab`);
-                });
+            let filtered = components;
+
+            // Filter by type
+            if (filter !== 'all') {
+                filtered = filtered.filter(c => c.type === filter);
+            }
+
+            // Filter by search
+            if (search.trim()) {
+                const searchLower = search.toLowerCase();
+                filtered = filtered.filter(c => 
+                    c.name.toLowerCase().includes(searchLower) ||
+                    c.description.toLowerCase().includes(searchLower)
+                );
+            }
+
+            // Clear table
+            tbody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            // Render rows
+            filtered.forEach(comp => {
+                const row = document.createElement('tr');
+                
+                // Component name with link
+                const nameCell = document.createElement('td');
+                nameCell.innerHTML = comp.demo 
+                    ? `<span class="component-name"><a href="${comp.demo}" class="component-link" target="_blank">${comp.name}</a></span>`
+                    : `<span class="component-name">${comp.name}</span>`;
+                
+                // Description
+                const descCell = document.createElement('td');
+                descCell.className = 'component-description';
+                descCell.textContent = comp.description;
+                
+                // Type badge
+                const typeCell = document.createElement('td');
+                typeCell.innerHTML = `<span class="status-badge ${comp.type}">${comp.type}</span>`;
+                
+                // Documentation link
+                const docCell = document.createElement('td');
+                docCell.className = 'doc-link';
+                docCell.innerHTML = comp.doc
+                    ? `<a href="${comp.doc}" target="_blank" title="View documentation">📖 Docs</a>`
+                    : `<a class="no-doc" title="Documentation not available">📖 N/A</a>`;
+                
+                row.appendChild(nameCell);
+                row.appendChild(descCell);
+                row.appendChild(typeCell);
+                row.appendChild(docCell);
+                
+                tbody.appendChild(row);
             });
         }
-        
-        // Initialize tabs when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            initTabs();
-            loadEventLogComponent();
-            loadLibraryEventLog();
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            renderComponents(activeFilter, e.target.value);
         });
-        
-        // Load wb-event-log component
-        async function loadEventLogComponent() {
-            try {
-                // Load the wb-event-log component
-                const script = document.createElement('script');
-                script.type = 'module';
-                script.src = 'wb-event-log/wb-event-log.js';
-                document.head.appendChild(script);
-                
-                // Wait for component to load
-                await new Promise(resolve => {
-                    script.onload = resolve;
-                    script.onerror = () => {
-                        console.warn('wb-event-log component not found, using fallback');
-                        resolve();
-                    };
-                });
-                
-                console.log('✅ wb-event-log component loaded');
-            } catch (error) {
-                console.warn('Failed to load wb-event-log:', error);
-            }
-        }
-        
-        // Event Log Demo Functions
-        function testInfo() {
-            document.dispatchEvent(new CustomEvent('wb:info', {
-                detail: {
-                    message: 'This is a test info message',
-                    source: 'demo-controls',
-                    timestamp: new Date().toISOString(),
-                    data: { testType: 'info', demoAction: true }
-                }
-            }));
-        }
-        
-        function testWarning() {
-            document.dispatchEvent(new CustomEvent('wb:warning', {
-                detail: {
-                    message: 'This is a test warning message',
-                    source: 'demo-controls',
-                    timestamp: new Date().toISOString(),
-                    data: { testType: 'warning', severity: 'medium' }
-                }
-            }));
-        }
-        
-        function testError() {
-            document.dispatchEvent(new CustomEvent('wb:error', {
-                detail: {
-                    message: 'This is a test error message',
-                    source: 'demo-controls',
-                    timestamp: new Date().toISOString(),
-                    data: { 
-                        testType: 'error', 
-                        stack: 'Error: Test error\\n    at testError (demo:1:1)',
-                        severity: 'high'
-                    }
-                }
-            }));
-        }
-        
-        function testSuccess() {
-            document.dispatchEvent(new CustomEvent('wb:success', {
-                detail: {
-                    message: 'This is a test success message',
-                    source: 'demo-controls',
-                    timestamp: new Date().toISOString(),
-                    data: { testType: 'success', operation: 'demo-test' }
-                }
-            }));
-        }
-        
-        function clearEvents() {
-            const eventLog = document.getElementById('demo-event-log');
-            if (eventLog && typeof eventLog.clear === 'function') {
-                eventLog.clear();
-            } else {
-                console.log('Event log clear method not available');
-            }
-        }
-        
-        function simulateErrors() {
-            const errors = [
-                { type: 'error', message: 'Failed to load component: wb-missing-component' },
-                { type: 'warning', message: 'Deprecated API usage detected in legacy-component.js' },
-                { type: 'error', message: 'Network request failed: 404 Not Found' },
-                { type: 'info', message: 'Component registry updated with 3 new components' },
-                { type: 'warning', message: 'Performance warning: Large DOM tree detected' },
-                { type: 'success', message: 'All components loaded successfully' }
-            ];
-            
-            errors.forEach((error, index) => {
-                setTimeout(() => {
-                    document.dispatchEvent(new CustomEvent(`wb:${error.type}`, {
-                        detail: {
-                            message: error.message,
-                            source: 'error-simulator',
-                            timestamp: new Date().toISOString(),
-                            data: { simulationIndex: index, batch: 'multi-error-test' }
-                        }
-                    }));
-                }, index * 500); // Stagger the events
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const searchValue = document.getElementById('searchInput').value;
+                renderComponents(btn.dataset.filter, searchValue);
             });
-        }
-        
-        // Load wb-event-log for Component Library tab
-        async function loadLibraryEventLog() {
-            try {
-                // Load the wb-event-log component if not already loaded
-                if (!customElements.get('wb-event-log')) {
-                    const script = document.createElement('script');
-                    script.type = 'module';
-                    script.src = 'wb-event-log/wb-event-log.js';
-                    document.head.appendChild(script);
-                    
-                    await new Promise(resolve => {
-                        script.onload = resolve;
-                        script.onerror = () => {
-                            console.warn('wb-event-log component not found for library tab');
-                            resolve();
-                        };
-                    });
-                }
-                
-                // Add some demo events to the library event log
-                setTimeout(() => {
-                    document.dispatchEvent(new CustomEvent('wb:info', {
-                        detail: {
-                            message: 'Component Library initialized successfully',
-                            source: 'component-library',
-                            timestamp: new Date().toISOString(),
-                            data: { totalComponents: 25, loadedComponents: 17 }
-                        }
-                    }));
-                    
-                    document.dispatchEvent(new CustomEvent('wb:success', {
-                        detail: {
-                            message: 'wb-event-log component loaded and ready',
-                            source: 'component-library',
-                            timestamp: new Date().toISOString(),
-                            data: { componentType: 'utility', version: '1.0.0' }
-                        }
-                    }));
-                }, 1000);
-                
-                console.log('✅ wb-event-log component loaded for Component Library');
-            } catch (error) {
-                console.warn('Failed to load wb-event-log for library:', error);
-            }
-        }
+        });
+
+        // Initial render
+        renderComponents();
     </script>
 </body>
 </html>

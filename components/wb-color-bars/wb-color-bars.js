@@ -24,9 +24,19 @@
  * - colorselect: Fired when user finishes selecting a color
  */
 
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 class ColorBars extends HTMLElement {
   constructor() {
     super();
+  }
+
+  async connectedCallback() {
+    await loadComponentCSS(this, 'wb-color-bars.css');
+    this.init();
+  }
+
+  init() {
     this.attachShadow({ mode: 'open' });
     
     // Initialize text color HSL values

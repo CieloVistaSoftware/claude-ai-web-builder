@@ -7,7 +7,10 @@
     
     <!-- Central Styles Import -->
     <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
-    <link rel="stylesheet" href="../../styles/main.css">    <style>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <!-- Ensure wb-status styles are loaded before component renders -->
+    <link rel="stylesheet" href="wb-status.css">
+    <style>
         body {
             padding: var(--space-lg);
             display: flex;
@@ -290,7 +293,6 @@
     </style>
 </head>
 <body data-theme="dark">
-    <div id="status" style="margin-bottom: 1rem; color: var(--primary, #6366f1); font-size: 1rem;"></div>
     <div id="status-docs" style="margin-bottom: 2rem;"></div>
     <wb-demo title="WB Status Component Demo">
         <div slot="example">
@@ -512,18 +514,18 @@
     
     <!-- Top Status Bar -->
     <div id="top-status-container" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); min-height: 2rem; padding: 4px;">
-        <wb-status id="main-top-status" style="display: block; min-height: 1.5rem; background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; padding: 4px 8px; color: #f1f5f9; font-size: 12px;">Loading top status bar...</wb-status>
+        <wb-status id="main-top-status" data-event-duration="6000" data-fade-duration="1500" style="display: block; min-height: 1.5rem; background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; padding: 4px 8px; color: #f1f5f9; font-size: 12px;">Loading top status bar...</wb-status>
     </div>
     
     <!-- Bottom Status Bar -->
     <div id="bottom-status-container" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; min-height: 2rem; padding: 4px;">
-        <wb-status id="main-bottom-status" class="wb-status-bar--custom" style="display: block; min-height: 1.5rem; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border: 1px solid #764ba2; padding: 4px 8px; color: #ffffff; font-size: 12px;">Loading bottom status bar...</wb-status>
+        <wb-status id="main-bottom-status" class="wb-status-bar--custom" data-position="bottom" data-theme="gradient" data-auto-hide="true" data-show-settings="true" data-max-events="10" data-event-duration="6000" data-fade-duration="1500" data-group-similar="true" style="display: block; min-height: 1.5rem; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border: 1px solid #764ba2; padding: 4px 8px; color: #ffffff; font-size: 12px;">Loading bottom status bar...</wb-status>
     </div>
     
 </body>
 <!-- Move all <script> tags here, after the closing </body> tag, to ensure DOM is ready -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="wb-status.js"></script>
+    <script type="module" src="wb-status.js"></script>
 <script>
         // Load and render markdown documentation
         async function loadStatusDocs() {
@@ -556,12 +558,13 @@
         let topExampleStatus = null;
         let bottomExampleStatus = null;
         
-        function log(message) {
-            const logElement = document.getElementById('event-log');
-            eventCounter++;
-            const timestamp = new Date().toLocaleTimeString();
-            logElement.innerHTML = `[${eventCounter}] ${timestamp}: ${message}<br>` + logElement.innerHTML;
-        }
+        // Helper to show status/debug output in the top status bar
+function showTopStatusBarMessage(message, type = 'info') {
+    const topStatus = document.getElementById('main-top-status');
+    if (topStatus && (topStatus._wbStatusManager || topStatus.addEvent)) {
+        (topStatus._wbStatusManager || topStatus).addEvent(message, type);
+    }
+}
         
         // Global error handler for debugging
         window.addEventListener('error', function(e) {
@@ -933,7 +936,7 @@
         }
         
         // Update status immediately to show we're trying to load
-        document.getElementById('status').innerHTML = '⏳ Loading WB Status Component...';
+        showTopStatusBarMessage('⏳ Loading WB Status Component...', 'info');
         
         // Function to initialize the demo
         function initializeDemo() {
@@ -952,14 +955,14 @@
                 // Check if they have content or are initialized
                 if (topStatus.innerHTML.trim() || bottomStatus.innerHTML.trim()) {
                     statusMessage += '✅ Status bars have content';
-                    document.getElementById('status').innerHTML = statusMessage;
+                    showTopStatusBarMessage(statusMessage, 'info');
                 } else {
                     statusMessage += '❌ Status bars are empty - wb-status component not working';
-                    document.getElementById('status').innerHTML = statusMessage;
+                    showTopStatusBarMessage(statusMessage, 'error');
                 }
             } else {
                 statusMessage += '❌ Status bar HTML elements not found';
-                document.getElementById('status').innerHTML = statusMessage;
+                showTopStatusBarMessage(statusMessage, 'error');
             }
             
             console.log('WB Status Component check:', statusMessage);
@@ -1040,82 +1043,49 @@
         }
         
         // Multiple initialization strategies to ensure wb-status components are ready
-        let initializationAttempts = 0;
-        const maxAttempts = 5;
-        
-        function attemptInitialization() {
-            initializationAttempts++;
-            console.log(`🔄 Initialization attempt ${initializationAttempts}/${maxAttempts}`);
-            
-            const topElement = document.getElementById('main-top-status');
-            const bottomElement = document.getElementById('main-bottom-status');
-            
-            if (topElement && bottomElement) {
-                console.log('✅ Status bar elements found');
-                console.log('Top element:', topElement.tagName, topElement._wbStatusManager ? 'has manager' : 'no manager');
-                console.log('Bottom element:', bottomElement.tagName, bottomElement._wbStatusManager ? 'has manager' : 'no manager');
-                
-                // Check if custom elements are defined
-                if (customElements.get('wb-status')) {
-                    console.log('✅ wb-status custom element is registered');
-                    initializeDemo();
-                    return true;
-                } else {
-                    console.log('⚠️ wb-status custom element not yet registered');
-                }
-            } else {
-                console.log('❌ Status bar elements not found in DOM');
-            }
-            
-            // Try again if we haven't exceeded max attempts
-            if (initializationAttempts < maxAttempts) {
-                setTimeout(attemptInitialization, 500);
-            } else {
-                console.error('❌ Failed to initialize after maximum attempts');
-                document.getElementById('status').innerHTML = '❌ Component initialization failed after 5 attempts';
-            }
-            
-            return false;
-        }
-        
-        // Listen for component ready events
+        // Primary: use customElements.whenDefined which fires as soon as the element is registered.
+        // Fallbacks remain in place to handle edge cases where whenDefined isn't available.
+
+        // Listen for component ready events (fired by each wb-status instance)
         document.addEventListener('wbStatusReady', function(e) {
             console.log('📡 wbStatusReady event received:', e.detail);
             initializeDemo();
         });
-        
-        // Start attempting initialization
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', attemptInitialization);
-        } else {
-            attemptInitialization();
-        }
-        
-        // Fallback initialization in case wbStatusReady event doesn't fire
-        setTimeout(() => {
-            if (document.getElementById('status').innerHTML.includes('Component loading') || document.getElementById('status').innerHTML.includes('Loading WB Status')) {
-                console.warn('WB Status Component did not fire ready event');
-                
-                // Try to initialize anyway
-                if (window.WBStatus) {
-                    console.log('WB Status object found, attempting manual initialization');
+
+        // If the browser supports whenDefined, initialize immediately when wb-status is registered
+        if (customElements && typeof customElements.whenDefined === 'function') {
+            customElements.whenDefined('wb-status').then(() => {
+                console.log('📦 customElements.whenDefined: wb-status is defined - initializing demo');
+                try {
                     initializeDemo();
-                } else {
-                    document.getElementById('status').innerHTML = '❌ WB Status Component failed to load. Check if wb-status.js exists.';
-                    console.error('WB Status object not found. Make sure wb-status.js is loaded.');
-                    
-                    // Create fallback status message
-                    const topContainer = document.getElementById('top-status-container');
-                    const bottomContainer = document.getElementById('bottom-status-container');
-                    if (topContainer) {
-                        topContainer.innerHTML = '<div style="padding: 8px; color: #f87171; font-size: 12px;">⚠️ wb-status.js not loaded</div>';
-                    }
-                    if (bottomContainer) {
-                        bottomContainer.innerHTML = '<div style="padding: 8px; color: #f87171; font-size: 12px;">⚠️ wb-status.js not loaded</div>';
-                    }
+                } catch (err) {
+                    console.warn('Initialization via whenDefined failed, will fall back to other strategies', err);
                 }
+                // Temporary automated test: call an example function to verify events are shown
+                setTimeout(() => {
+                    try {
+                        console.log('🔬 Automated test: calling testBasicExample()');
+                        if (typeof testBasicExample === 'function') {
+                            testBasicExample();
+                        } else {
+                            console.warn('testBasicExample not available yet');
+                        }
+                    } catch (e) {
+                        console.error('Automated test failed', e);
+                    }
+                }, 800);
+            }).catch(err => {
+                console.warn('customElements.whenDefined promise rejected', err);
+            });
+        } else {
+            // Fallback: attempt initialization on DOMContentLoaded and via existing timeouts
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeDemo);
+            } else {
+                // Try to initialize now; if wb-status isn't ready the demo's internal checks will retry
+                setTimeout(initializeDemo, 100);
             }
-        }, 2000);
+        }
         
         // Listen for status events
         document.addEventListener('wbStatusEventAdded', function(event) {

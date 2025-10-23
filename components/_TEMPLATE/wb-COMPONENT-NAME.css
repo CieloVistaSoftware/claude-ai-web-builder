@@ -1,0 +1,41 @@
+/* WB COMPONENT-NAME Styles */
+
+:root {
+    --wb-component-padding: 1rem;
+    --wb-component-border-radius: 8px;
+}
+
+.wb-component {
+    padding: var(--wb-component-padding);
+    border-radius: var(--wb-component-border-radius);
+    background: var(--bg-secondary, #f5f5f5);
+    color: var(--text-primary, #1a1a1a);
+    border: 1px solid var(--border-color, #e0e0e0);
+    transition: all 0.2s ease;
+}
+
+.wb-component--primary {
+    background: var(--primary, #6366f1);
+    color: var(--text-primary-inverse, #ffffff);
+}
+
+.wb-component--secondary {
+    background: var(--bg-tertiary, #e0e0e0);
+    color: var(--text-primary, #1a1a1a);
+}
+
+/* CRITICAL: Dark mode using data-mode, NOT @media! */
+:host([data-mode="dark"]) .wb-component,
+:host([data-theme*="dark"]) .wb-component {
+    background: var(--bg-secondary-dark, #2a2a2a);
+    color: var(--text-primary-dark, #ffffff);
+    border-color: var(--border-color-dark, #404040);
+}
+
+:host([data-mode="dark"]) .wb-component--primary {
+    background: var(--primary-dark, #4f46e5);
+}
+
+:host {
+    display: block;
+}

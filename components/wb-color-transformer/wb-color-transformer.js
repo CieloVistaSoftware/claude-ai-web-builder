@@ -2,7 +2,9 @@
  * WB Color Transformer Component
  * Web Component that transforms WordPress color schemes based on hue shift
  */
-class WBColorTransformer extends HTMLElement {
+import { WBBaseComponent } from '../wb-base/wb-base.js';
+
+class WBColorTransformer extends WBBaseComponent {
     constructor() {
         super();
         this.initialized = false;
@@ -72,7 +74,7 @@ class WBColorTransformer extends HTMLElement {
     }
     
     init() {
-        console.log('🎨 WB Color Transformer: Initializing...');
+        this.logInfo('🎨 WB Color Transformer: Initializing...');
         
         // Hide the component - it's just a controller
         this.style.display = 'none';
@@ -81,7 +83,7 @@ class WBColorTransformer extends HTMLElement {
         this.isWordPress = this.detectWordPress();
         
         if (this.isWordPress) {
-            console.log('🎨 WB Color Transformer: WordPress environment detected');
+            this.logInfo('🎨 WB Color Transformer: WordPress environment detected');
         }
         
         // Setup event listeners
@@ -106,15 +108,12 @@ class WBColorTransformer extends HTMLElement {
         this.initialized = true;
         
         // Dispatch ready event
-        this.dispatchEvent(new CustomEvent('wb-color-transformer-ready', {
-            bubbles: true,
-            detail: { 
-                component: this,
-                isWordPress: this.isWordPress
-            }
-        }));
+        this.fireEvent('wb-color-transformer-ready', {
+            component: this,
+            isWordPress: this.isWordPress
+        });
         
-        console.log('🎨 WB Color Transformer: Ready!');
+        this.logInfo('🎨 WB Color Transformer: Ready!');
     }
     
     cleanup() {
@@ -310,13 +309,10 @@ class WBColorTransformer extends HTMLElement {
         this.applyTransformToDocument(transformedColors);
         
         // Dispatch event
-        this.dispatchEvent(new CustomEvent('wb-color-transformer-applied', {
-            bubbles: true,
-            detail: { 
-                hueShift: hueDiff,
-                colors: transformedColors
-            }
-        }));
+        this.fireEvent('wb-color-transformer-applied', {
+            hueShift: hueDiff,
+            colors: transformedColors
+        });
     }
     
     // Apply the transformed colors to the document
@@ -325,13 +321,10 @@ class WBColorTransformer extends HTMLElement {
         this.applyTransformToDocument(transformedColors);
         
         // Dispatch event
-        this.dispatchEvent(new CustomEvent('wb-color-transformer-applied', {
-            bubbles: true,
-            detail: { 
-                primaryColor: primaryHex,
-                colors: transformedColors
-            }
-        }));
+        this.fireEvent('wb-color-transformer-applied', {
+            primaryColor: primaryHex,
+            colors: transformedColors
+        });
     }
     
     // Apply transformed colors to document
@@ -386,7 +379,7 @@ class WBColorTransformer extends HTMLElement {
         }
         
         if (currentPrimary && currentPrimary !== this.originalPrimary) {
-            console.log(`🎨 Auto-detected primary color: ${currentPrimary}`);
+            this.logInfo(`🎨 Auto-detected primary color: ${currentPrimary}`);
             this.applyToDocument(currentPrimary);
         }
     }
@@ -408,9 +401,7 @@ class WBColorTransformer extends HTMLElement {
         this.applyTransformToDocument(this.wpColors);
         
         // Dispatch reset event
-        this.dispatchEvent(new CustomEvent('wb-color-transformer-reset', {
-            bubbles: true
-        }));
+        this.fireEvent('wb-color-transformer-reset');
     }
 }
 

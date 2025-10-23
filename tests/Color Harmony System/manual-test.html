@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Style Verification</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 2rem;
+      background: #1a1a1a;
+      color: white;
+    }
+    
+    h1 { margin-bottom: 2rem; }
+    
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: #2a2a2a;
+      border-radius: 8px;
+    }
+    
+    .test-section h2 {
+      margin-top: 0;
+      color: #6366f1;
+    }
+    
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 2px solid #444;
+      border-radius: 4px;
+      background: white;
+    }
+    
+    .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+    
+    .result.pass {
+      background: #065f46;
+      border: 1px solid #10b981;
+    }
+    
+    .result.fail {
+      background: #7f1d1d;
+      border: 1px solid #ef4444;
+    }
+    
+    button {
+      padding: 0.75rem 1.5rem;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+    
+    button:hover {
+      background: #4f46e5;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Button Style Verification Test</h1>
+  
+  <div class="test-section">
+    <h2>Test 1: Visual Inspection</h2>
+    <p>Load the page and visually inspect the sidebar buttons:</p>
+    <button onclick="loadPage()">Load Page</button>
+    <button onclick="runButtonTest()">Run Button Test</button>
+    <div id="iframe-container"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test 2: Computed Styles</h2>
+    <button onclick="checkButtonStyles()">Check Button Styles</button>
+    <div id="style-results"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test 3: Static Toggle</h2>
+    <button onclick="testStaticToggle()">Test Static Toggle</button>
+    <div id="toggle-results"></div>
+  </div>
+
+  <script>
+    let iframe;
+    
+    function loadPage() {
+      const container = document.getElementById('iframe-container');
+      container.innerHTML = '<iframe id="test-frame" src="file:///C:/Users/jwpmi/Downloads/AI/wb/html/Color%20Harmony%20System/article/Professional-Developer-HCS-System.html"></iframe>';
+      iframe = document.getElementById('test-frame');
+      
+      iframe.onload = () => {
+        console.log('✅ Page loaded');
+      };
+    }
+    
+    function runButtonTest() {
+      if (!iframe) {
+        alert('Please load the page first!');
+        return;
+      }
+      
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      const buttons = doc.querySelectorAll('.sidebar button.nav-btn');
+      
+      console.log(`Found ${buttons.length} buttons`);
+      
+      const styles = Array.from(buttons).map(btn => {
+        const computed = window.getComputedStyle(btn);
+        return {
+          text: btn.textContent.trim(),
+          backgroundColor: computed.backgroundColor,
+          color: computed.color,
+          padding: computed.padding
+        };
+      });
+      
+      console.table(styles);
+    }
+    
+    function checkButtonStyles() {
+      if (!iframe) {
+        alert('Please load the page first!');
+        return;
+      }
+      
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      const buttons = doc.querySelectorAll('.sidebar button.nav-btn');
+      
+      const resultsDiv = document.getElementById('style-results');
+      
+      if (buttons.length === 0) {
+        resultsDiv.innerHTML = '<div class="result fail">❌ No buttons found!</div>';
+        return;
+      }
+      
+      const firstButton = buttons[0];
+      const refStyle = window.getComputedStyle(firstButton);
+      const refBg = refStyle.backgroundColor;
+      
+      let allMatch = true;
+      let results = `<div class="result">Found ${buttons.length} buttons</div>`;
+      results += `<div class="result">Reference background: ${refBg}</div>`;
+      
+      buttons.forEach((btn, i) => {
+        const style = window.getComputedStyle(btn);
+        const bg = style.backgroundColor;
+        const match = bg === refBg;
+        
+        if (!match) allMatch = false;
+        
+        results += `<div class="result ${match ? 'pass' : 'fail'}">
+          Button ${i} ("${btn.textContent.trim()}"): ${bg} ${match ? '✅' : '❌'}
+        </div>`;
+      });
+      
+      results += `<div class="result ${allMatch ? 'pass' : 'fail'}">
+        ${allMatch ? '✅ ALL BUTTONS MATCH!' : '❌ BUTTONS DO NOT MATCH'}
+      </div>`;
+      
+      resultsDiv.innerHTML = results;
+    }
+    
+    function testStaticToggle() {
+      if (!iframe) {
+        alert('Please load the page first!');
+        return;
+      }
+      
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      const toggle = doc.getElementById('static-colors-toggle');
+      const bgSwatch = doc.querySelector('.color-card:has(.color-swatch[style*="--background"]) .color-swatch');
+      
+      const resultsDiv = document.getElementById('toggle-results');
+      
+      if (!toggle || !bgSwatch) {
+        resultsDiv.innerHTML = '<div class="result fail">❌ Toggle or swatch not found!</div>';
+        return;
+      }
+      
+      // Test dynamic mode
+      toggle.checked = false;
+      setTimeout(() => {
+        const dynamicColor = window.getComputedStyle(bgSwatch).backgroundColor;
+        
+        // Test static mode
+        toggle.checked = true;
+        setTimeout(() => {
+          const staticColor = window.getComputedStyle(bgSwatch).backgroundColor;
+          
+          resultsDiv.innerHTML = `
+            <div class="result">Dynamic color: ${dynamicColor}</div>
+            <div class="result">Static color: ${staticColor}</div>
+            <div class="result ${staticColor === 'rgb(26, 31, 46)' ? 'pass' : 'fail'}">
+              ${staticColor === 'rgb(26, 31, 46)' ? '✅ Static color correct!' : '❌ Static color wrong!'}
+            </div>
+          `;
+        }, 500);
+      }, 500);
+    }
+  </script>
+</body>
+</html>

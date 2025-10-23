@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // WB Status Component - Pure Web Component
 // Website Builder status bar component for displaying events and settings
 // Note: Converted from ES6 import to regular syntax to avoid module loading issues
@@ -31,9 +33,10 @@ class WBStatus extends HTMLElement {
         console.log('📊 WB Status: Connected to DOM');
         
         try {
-            // Load config first, then everything else
+            // Load CSS first
+            await loadComponentCSS(this, 'wb-status.css');
+            // Load config second, then everything else
             await this.loadConfig();
-            this.loadCSS();
             this.render();
             this.setupGlobalAPI();
             this.init();

@@ -27,6 +27,8 @@ if (window.WBEventLog) {
         console.log('📝 WB Input Web Component: Starting initialization...');
     }
 
+    import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
     // Configuration fallback - used if JSON loading fails
     const fallbackConfig = {
         component: {
@@ -250,10 +252,7 @@ if (window.WBEventLog) {
         }
 
         async loadCSS() {
-            if (this.utils) {
-                const cssPath = this.utils.getPath('wb-input.js', '../components/wb-input/') + 'wb-input.css';
-                await this.utils.loadCSS('wb-input', cssPath);
-            }
+            await loadComponentCSS(this, 'wb-input.css');
         }
 
         initializeComponent() {

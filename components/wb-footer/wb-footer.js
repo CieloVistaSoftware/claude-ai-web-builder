@@ -3,6 +3,8 @@
 // Note: WBBaseComponent import removed to avoid ES6 module syntax errors
 // Component will check for WBBaseComponent availability at runtime
 
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 class WBFooter extends HTMLElement {
     constructor() {
         super();
@@ -40,8 +42,8 @@ class WBFooter extends HTMLElement {
         }
         
         try {
+            await loadComponentCSS(this, 'wb-footer.css');
             await this.loadConfig();
-            this.loadCSS();
             this.render();
             this.setupEventListeners();
             

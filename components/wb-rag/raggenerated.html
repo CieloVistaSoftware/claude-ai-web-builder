@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My WB Framework Website</title>
+    
+    <!-- WB Framework Styles -->
+    <link rel="stylesheet" href="..\..\\styles\\main.css">
+
+    <!-- WB Components -->
+    <script src="..\\wb-semanticElements\\wb-semanticElements-demo.html" defer></script>
+    <script src="..\\wb-control-panel\\wb-control-panel.js" defer></script>
+</head>
+<body>
+    <!-- WB Control Panel for editing -->
+    <wb-control-panel></wb-control-panel>
+    
+    <!-- Semantic Elements Component ensures proper structure -->
+    <wb-semanticElements></wb-semanticElements>
+    
+    <!-- Page Content using Semantic HTML -->
+    <header>
+        <h1>Welcome to My Website</h1>
+        <p>Built with WB Framework semantic elements</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section id="home">
+            <h2>Home Section</h2>
+            <p>This is the main content area of the website. The wb-semanticElements component ensures all required semantic elements exist.</p>
+        </section>
+        
+        <section id="about">
+            <h2>About Us</h2>
+            <p>Learn more about our company and mission.</p>
+        </section>
+        
+        <article>
+            <h3>Latest News</h3>
+            <p>Here's some important news and updates.</p>
+        </article>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 My Website. Built with WB Framework.</p>
+    </footer>
+</body>
+</html>

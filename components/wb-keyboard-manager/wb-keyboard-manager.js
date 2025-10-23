@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 /**
  * WB Keyboard Manager Component
  * Centralized keyboard event management for Website Builder
@@ -12,7 +14,14 @@
     class WBKeyboardManager extends HTMLElement {
         constructor() {
             super();
-            
+        }
+
+        async connectedCallback() {
+            await loadComponentCSS(this, 'wb-keyboard-manager.css');
+            this.init();
+        }
+
+        init() {
             this.shortcuts = new Map();
             this.contexts = new Set(['global']);
             this.activeContext = 'global';

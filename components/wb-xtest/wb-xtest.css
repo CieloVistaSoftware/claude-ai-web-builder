@@ -1,0 +1,44 @@
+/* WB xtest Styles */
+
+:host {
+    display: inline-block;
+}
+
+.wb-component {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    background: var(--bg-secondary, #f5f5f5);
+    color: var(--text-primary, #1a1a1a);
+    border: 1px solid var(--border-color, #e0e0e0);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.wb-component:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.wb-component--primary {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+}
+
+.wb-component--primary:hover {
+    background: #5558e3;
+}
+
+.wb-component--secondary {
+    background: #e0e0e0;
+    color: #1a1a1a;
+    border-color: #d0d0d0;
+}
+
+.wb-component--secondary:hover {
+    background: #d0d0d0;
+}

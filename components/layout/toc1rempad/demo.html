@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>toc1rempad Demo</title>
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="toc1rempad.css">
+  <style>
+    body { background: var(--bg-color, #18181b); color: var(--text-primary, #fff); min-height: 100vh; }
+    .demo-box {
+      background: var(--surface-raised, #23232b);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      margin: 2rem auto;
+      max-width: 500px;
+      min-height: 120px;
+      border: 1px solid var(--border-color, #333);
+    }
+  </style>
+</head>
+<body>
+  <h1>toc1rempad Demo</h1>
+  <div class="demo-box">
+    <toc1rempad>
+      <div slot="header">Header Title (1rem from top/left/right)</div>
+      <div slot="content">
+        <p>This content is padded 1rem from the left and right. The header is always at the top, separated by 1rem from the top edge.</p>
+        <p>All text inside both header and content is padded 1rem left/right.</p>
+      </div>
+    </toc1rempad>
+  </div>
+  <script src="toc1rempad.js"></script>
+</body>
+</html>

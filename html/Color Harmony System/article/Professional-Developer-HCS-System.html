@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-mode="dark">
+<html lang="en" data-theme="default" data-mode="dark">
 
   <head>
     <meta charset="UTF-8">
@@ -8,269 +8,298 @@
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="Professional-Developer-HCS-System.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../../components/wb-nav/wb-nav.js"></script>
   </head>
 
   <body>
-    <!-- Header stays outside tabs -->
-    <div class="header-section">
+    <!-- Header - Full Width -->
+    <header class="header-section">
       <h1>🎨 Professional Developer (HCS System)</h1>
       <p class="subtitle">Developer Reference - All available CSS color variables</p>
-      <p class="company-info">
-        <strong class="company-name">Cielo Vista Software</strong> |
-        <a href="https://www.linkedin.com/in/mr-john-peters/" target="_blank" rel="noopener noreferrer"
-          class="linkedin-link">🔗 Mr. John Peters | LinkedIn</a>
-      </p>
-    </div>
+    </header>
 
     <!-- Single Page App layout: Sidebar + Main -->
-    <!-- Full-width docs wrapper (used when Docs is active to take full page width) -->
-    <div id="fullwidth-docs-wrapper" style="display:none;"></div>
     <div class="layout">
-      <aside class="sidebar">
-        <div class="controls-section">
-          <div class="nav-group nav-group--mode">
-            <div class="nav-label">Mode</div>
-            <button type="button" class="nav-btn" data-mode="dark">🌙 Dark</button>
-            <button type="button" class="nav-btn" data-mode="light">☀️ Light</button>
-          </div>
-
-          <div class="nav-group nav-group--view">
-            <div class="nav-label">View</div>
-            <button type="button" class="nav-btn" data-view="code">💻 Code</button>
-            <button type="button" class="nav-btn" data-view="docs">📚 Docs</button>
-          </div>
-
-          <div class="nav-group nav-group--theme">
-            <div class="nav-label">Theme</div>
-            <div class="theme-list">
-              <button type="button" class="nav-btn" data-theme="default">💼 Default Blue</button>
-              <button type="button" class="nav-btn" data-theme="cyberpunk">🌃 Cyberpunk</button>
-              <button type="button" class="nav-btn" data-theme="ocean">🌊 Ocean</button>
-              <button type="button" class="nav-btn" data-theme="sunset">🌅 Sunset</button>
-              <button type="button" class="nav-btn" data-theme="forest">🌲 Forest</button>
-              <button type="button" class="nav-btn" data-theme="lavender">💜 Lavender</button>
-              <button type="button" class="nav-btn" data-theme="sakura">🌸 Sakura</button>
-              <button type="button" class="nav-btn" data-theme="midnight">🌌 Midnight</button>
-              <button type="button" class="nav-btn" data-theme="neonDreams">✨ Neon Dreams</button>
-              <button type="button" class="nav-btn" data-theme="retroWave">🌈 Retro Wave</button>
-              <button type="button" class="nav-btn" data-theme="arctic">❄️ Arctic</button>
-              <button type="button" class="nav-btn" data-theme="desert">🏜️ Desert</button>
-              <button type="button" class="nav-btn" data-theme="emerald">💎 Emerald</button>
-              <button type="button" class="nav-btn" data-theme="ruby">💃 Ruby</button>
-              <button type="button" class="nav-btn" data-theme="amber">🍯 Amber</button>
-              <button type="button" class="nav-btn" data-theme="slate">🗂️ Slate</button>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <wb-nav id="main-nav" layout="vertical" items='[
+        {"text": "🌙 Dark", "id": "mode-dark", "data-mode": "dark"},
+        {"text": "☀️ Light", "id": "mode-light", "data-mode": "light"},
+        {"text": "💻 Code", "id": "view-code", "data-view": "code"},
+        {"text": "📚 Docs", "id": "view-docs", "data-view": "docs"},
+        {"text": "🎸 Enable Audio", "id": "audio-modulation-toggle"},
+        {"text": "💼 Default Blue", "id": "theme-default", "data-theme": "default"},
+        {"text": "🌃 Cyberpunk", "id": "theme-cyberpunk", "data-theme": "cyberpunk"},
+        {"text": "🌊 Ocean", "id": "theme-ocean", "data-theme": "ocean"},
+        {"text": "🌅 Sunset", "id": "theme-sunset", "data-theme": "sunset"},
+        {"text": "🌲 Forest", "id": "theme-forest", "data-theme": "forest"},
+        {"text": "💜 Lavender", "id": "theme-lavender", "data-theme": "lavender"},
+        {"text": "🌸 Sakura", "id": "theme-sakura", "data-theme": "sakura"},
+        {"text": "🌌 Midnight", "id": "theme-midnight", "data-theme": "midnight"},
+        {"text": "✨ Neon Dreams", "id": "theme-neonDreams", "data-theme": "neonDreams"},
+        {"text": "🌈 Retro Wave", "id": "theme-retroWave", "data-theme": "retroWave"},
+        {"text": "❄️ Arctic", "id": "theme-arctic", "data-theme": "arctic"},
+        {"text": "🏜️ Desert", "id": "theme-desert", "data-theme": "desert"},
+        {"text": "💎 Emerald", "id": "theme-emerald", "data-theme": "emerald"},
+        {"text": "💃 Ruby", "id": "theme-ruby", "data-theme": "ruby"},
+        {"text": "🍯 Amber", "id": "theme-amber", "data-theme": "amber"},
+        {"text": "🗂️ Slate", "id": "theme-slate", "data-theme": "slate"}
+      ]'></wb-nav>
 
       <main class="spa-container" id="spa-container">
+        <!-- Documentation Section - FIRST so it appears at top -->
+        <section id="docs-section" class="docs-section">
+          <div class="docs-container">
+            <div id="markdown-content">Loading documentation...</div>
+            <!-- claude.md will be loaded into this supporting todo container -->
+            <div id="claude-todo" style="margin-top:2rem; padding-top:1rem; border-top:1px dashed var(--border);">
+              <h3 style="color:var(--primary);">📋 Section TODO (claude.md)</h3>
+              <div id="claude-content">Loading TODOs...</div>
+            </div>
+          </div>
+        </section>
+
         <!-- Demo Section -->
         <section id="demo-section" class="demo-section">
 
-        <div class="section">
-          <h2 class="section-title">📘 Core Colors (4)</h2>
-          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Main brand colors</p>
-          <div class="color-grid">
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--primary);">Primary</div>
-              <div class="color-info">
-                <div class="color-name">var(--primary)</div>
-                <div class="color-usage">Base brand color</div>
-                <article class="color-example">
-                  <h4 class="example-primary">Primary: Lorem Ipsum Dolor</h4>
-                </article>
+          <div id="audio-controls"
+            style="display: none; margin-bottom: 1rem; padding: 1rem; background: var(--surface-raised); border-radius: 8px;">
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0.5rem 0;">Bass → Hue | Mids → Saturation |
+              Treble → Lightness</p>
+            <button type="button" class="nav-btn" id="capture-tab-audio" style="font-size: 0.8rem;">🎧 Capture Browser
+              Tab</button>
+            <div style="margin-top:0.5rem; display:flex; flex-direction:column; gap:0.25rem;">
+              <label style="font-size:0.75rem; color:var(--text-secondary); margin:0;">Input Gain: <span
+                  id="input-gain-value">1.00</span>x</label>
+              <input id="input-gain" type="range" min="0" max="3" step="0.01" value="1" />
+              <label style="font-size:0.75rem; color:var(--text-secondary); margin:0;">Bass Gain: <span
+                  id="bass-gain-value">1.00</span>x</label>
+              <input id="bass-gain" type="range" min="0" max="3" step="0.01" value="1" />
+              <label style="font-size:0.75rem; color:var(--text-secondary); margin:0;">Mids Gain: <span
+                  id="mids-gain-value">1.00</span>x</label>
+              <input id="mids-gain" type="range" min="0" max="3" step="0.01" value="1" />
+              <label style="font-size:0.75rem; color:var(--text-secondary); margin:0;">Treble Gain: <span
+                  id="treble-gain-value">1.00</span>x</label>
+              <input id="treble-gain" type="range" min="0" max="3" step="0.01" value="1" />
+              <div id="audio-status"
+                style="font-size: 0.7rem; color: var(--text-muted); padding: 0.5rem; display: none;"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section-title">📘 Core Colors (4)</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Main brand colors</p>
+            <div class="color-grid">
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--primary);">Primary</div>
+                <div class="color-info">
+                  <div class="color-name">var(--primary)</div>
+                  <div class="color-usage">Base brand color</div>
+                  <article class="color-example">
+                    <h4 class="example-primary">Primary: Lorem Ipsum Dolor</h4>
+                  </article>
+                </div>
               </div>
-            </div>
 
-            <div class="color-card">
-            <div class="color-swatch" style="background: var(--secondary);">Secondary</div>
-            <div class="color-info">
-            <div class="color-name">var(--secondary)</div>
-            <div class="color-usage">Complementary (180Â°)</div>
-            <article class="color-example">
-            <p><em class="example-secondary">Secondary: Adipiscing elit sed do eiusmod</em></p>
-            </article>
-            </div>
-            </div>
-            
-            <div class="color-card">
-            <div class="color-swatch" style="background: var(--accent);">Accent</div>
-            <div class="color-info">
-            <div class="color-name">var(--accent)</div>
-            <div class="color-usage">Analogous (-30Â°)</div>
-            <article class="color-example">
-            <p><mark class="example-accent">Accent: Tempor incididunt ut labore</mark></p>
-            </article>
-            </div>
-            </div>
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--secondary);">Secondary</div>
+                <div class="color-info">
+                  <div class="color-name">var(--secondary)</div>
+                  <div class="color-usage">Complementary (180Â°)</div>
+                  <article class="color-example">
+                    <p><em class="example-secondary">Secondary: Adipiscing elit sed do eiusmod</em></p>
+                  </article>
+                </div>
+              </div>
 
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--highlight);">Highlight</div>
-              <div class="color-info">
-                <div class="color-name">var(--highlight)</div>
-                <div class="color-usage">Special emphasis (45°)</div>
-                <article class="color-example">
-                  <blockquote class="example-highlight-border">
-                    <cite class="example-highlight-text">Highlight: Ut labore et dolore magna aliqua</cite>
-                  </blockquote>
-                </article>
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--accent);">Accent</div>
+                <div class="color-info">
+                  <div class="color-name">var(--accent)</div>
+                  <div class="color-usage">Analogous (-30Â°)</div>
+                  <article class="color-example">
+                    <p><mark class="example-accent">Accent: Tempor incididunt ut labore</mark></p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--highlight);">Highlight</div>
+                <div class="color-info">
+                  <div class="color-name">var(--highlight)</div>
+                  <div class="color-usage">Special emphasis (45°)</div>
+                  <article class="color-example">
+                    <blockquote class="example-highlight-border">
+                      <cite class="example-highlight-text">Highlight: Ut labore et dolore magna aliqua</cite>
+                    </blockquote>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="section">
-          <h2 class="section-title">🖼️ UI Semantic Colors (3)</h2>
-          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Interface elements</p>
-          <div class="color-grid">
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--fixed-background);">Background</div>
-              <div class="color-info">
-                <div class="color-name">var(--background)</div>
-                <div class="color-usage">Panels, cards</div>
-                <article class="color-example">
-                  <section class="example-background">
-                    <p>Background: Lorem ipsum dolor sit amet</p>
-                  </section>
-                </article>
-              </div>
+          <div class="section">
+            <h2 class="section-title">🖼️ UI Semantic Colors (3)</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Interface elements</p>
+
+            <!-- Fixed/Non-Fixed Toggle -->
+            <div
+              style="margin-bottom: 1rem; padding: 1rem; background: var(--surface-raised); border-radius: 8px; border-left: 4px solid var(--accent);">
+              <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="checkbox" id="static-colors-toggle" style="width: 20px; height: 20px; cursor: pointer;">
+                <span style="font-weight: 600; color: var(--text-primary);">🔒 Use Fixed Colors (Static)</span>
+              </label>
+              <p style="margin: 0.5rem 0 0 0; font-size: 0.875rem; color: var(--text-secondary);">When checked,
+                Background/Foreground/Border won't change with theme colors</p>
             </div>
 
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--fixed-foreground);">Foreground</div>
-              <div class="color-info">
-                <div class="color-name">var(--foreground)</div>
-                <div class="color-usage">Text, icons</div>
-                <article class="color-example">
-                  <div class="example-foreground">
-                    <p>Foreground: Consectetur adipiscing elit</p>
-                  </div>
-                </article>
+            <div class="color-grid">
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--background);">Background</div>
+                <div class="color-info">
+                  <div class="color-name" id="bg-var-name">var(--background)</div>
+                  <div class="color-usage">Panels, cards</div>
+                  <article class="color-example">
+                    <section class="example-background">
+                      <p>Background: Lorem ipsum dolor sit amet</p>
+                    </section>
+                  </article>
+                </div>
               </div>
-            </div>
 
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--fixed-border);">Border</div>
-              <div class="color-info">
-                <div class="color-name">var(--border)</div>
-                <div class="color-usage">Borders, dividers</div>
-                <article class="color-example">
-                  <div class="example-border">
-                    <small>Border: Sed do eiusmod tempor</small>
-                  </div>
-                </article>
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--foreground);">Foreground</div>
+                <div class="color-info">
+                  <div class="color-name" id="fg-var-name">var(--foreground)</div>
+                  <div class="color-usage">Text, icons</div>
+                  <article class="color-example">
+                    <div class="example-foreground">
+                      <p>Foreground: Consectetur adipiscing elit</p>
+                    </div>
+                  </article>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="section">
-          <h2 class="section-title">➕ Positive Angles (4)</h2>
-          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Clockwise color wheel rotations</p>
-          <div class="color-grid">
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--plus30);">+30°</div>
-              <div class="color-info">
-                <div class="color-name">var(--plus30)</div>
-                <div class="color-usage">30° clockwise</div>
-                <article class="color-example">
-                  <p class="example-plus30"><strong>+30°: Incididunt ut labore et dolore</strong></p>
-                </article>
-              </div>
-            </div>
-
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--plus45);">+45°</div>
-              <div class="color-info">
-                <div class="color-name">var(--plus45)</div>
-                <div class="color-usage">45° clockwise</div>
-                <article class="color-example">
-                  <p class="example-plus45"><em>+45°: Et dolore magna aliqua</em></p>
-                </article>
-              </div>
-            </div>
-
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--plus60);">+60°</div>
-              <div class="color-info">
-                <div class="color-name">var(--plus60)</div>
-                <div class="color-usage">60° clockwise</div>
-                <article class="color-example">
-                  <p><span class="example-plus60">+60°: Aliqua ut enim ad minim</span></p>
-                </article>
-              </div>
-            </div>
-
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--plus90);">+90°</div>
-              <div class="color-info">
-                <div class="color-name">var(--plus90)</div>
-                <div class="color-usage">90° clockwise</div>
-                <article class="color-example">
-                  <p class="example-plus90"><code>+90°: Ad minim veniam quis</code></p>
-                </article>
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--border);">Border</div>
+                <div class="color-info">
+                  <div class="color-name" id="border-var-name">var(--border)</div>
+                  <div class="color-usage">Borders, dividers</div>
+                  <article class="color-example">
+                    <div class="example-border">
+                      <small>Border: Sed do eiusmod tempor</small>
+                    </div>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="section">
-          <h2 class="section-title">➖ Negative Angles (4)</h2>
-          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Counter-clockwise color wheel rotations</p>
-          <div class="color-grid">
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--minus30);">-30°</div>
-              <div class="color-info">
-                <div class="color-name">var(--minus30)</div>
-                <div class="color-usage">30° counter-clockwise</div>
-                <article class="color-example">
-                  <p class="example-minus30"><strong>-30°: Quis nostrud exercitation ullamco</strong></p>
-                </article>
+          <div class="section">
+            <h2 class="section-title">➕ Positive Angles (4)</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Clockwise color wheel rotations</p>
+            <div class="color-grid">
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--plus30);">+30°</div>
+                <div class="color-info">
+                  <div class="color-name">var(--plus30)</div>
+                  <div class="color-usage">30° clockwise</div>
+                  <article class="color-example">
+                    <p class="example-plus30"><strong>+30°: Incididunt ut labore et dolore</strong></p>
+                  </article>
+                </div>
               </div>
-            </div>
 
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--minus45);">-45°</div>
-              <div class="color-info">
-                <div class="color-name">var(--minus45)</div>
-                <div class="color-usage">45° counter-clockwise</div>
-                <article class="color-example">
-                  <p class="example-minus45"><em>-45°: Ullamco laboris nisi ut</em></p>
-                </article>
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--plus45);">+45°</div>
+                <div class="color-info">
+                  <div class="color-name">var(--plus45)</div>
+                  <div class="color-usage">45° clockwise</div>
+                  <article class="color-example">
+                    <p class="example-plus45"><em>+45°: Et dolore magna aliqua</em></p>
+                  </article>
+                </div>
               </div>
-            </div>
 
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--minus60);">-60°</div>
-              <div class="color-info">
-                <div class="color-name">var(--minus60)</div>
-                <div class="color-usage">60° counter-clockwise</div>
-                <article class="color-example">
-                  <p><span class="example-minus60">-60°: Ut aliquip ex ea commodo</span></p>
-                </article>
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--plus60);">+60°</div>
+                <div class="color-info">
+                  <div class="color-name">var(--plus60)</div>
+                  <div class="color-usage">60° clockwise</div>
+                  <article class="color-example">
+                    <p><span class="example-plus60">+60°: Aliqua ut enim ad minim</span></p>
+                  </article>
+                </div>
               </div>
-            </div>
 
-            <div class="color-card">
-              <div class="color-swatch" style="background: var(--minus90);">-90°</div>
-              <div class="color-info">
-                <div class="color-name">var(--minus90)</div>
-                <div class="color-usage">90° counter-clockwise</div>
-                <article class="color-example">
-                  <p class="example-minus90"><code>-90°: Commodo consequat duis aute</code></p>
-                </article>
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--plus90);">+90°</div>
+                <div class="color-info">
+                  <div class="color-name">var(--plus90)</div>
+                  <div class="color-usage">90° clockwise</div>
+                  <article class="color-example">
+                    <p class="example-plus90"><code>+90°: Ad minim veniam quis</code></p>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="section">
-          <h2 class="section-title">💡 Usage Examples</h2>
-          <div
-              class="code-section" style="background: var(--surface-raised); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary);">
-            <h3 style="color: var(--primary); margin-bottom: 1rem;">In Your CSS:</h3>
-            <pre style="background: var(--bg-primary); padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>.my-button {
+          <div class="section">
+            <h2 class="section-title">➖ Negative Angles (4)</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Counter-clockwise color wheel rotations</p>
+            <div class="color-grid">
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--minus30);">-30°</div>
+                <div class="color-info">
+                  <div class="color-name">var(--minus30)</div>
+                  <div class="color-usage">30° counter-clockwise</div>
+                  <article class="color-example">
+                    <p class="example-minus30"><strong>-30°: Quis nostrud exercitation ullamco</strong></p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--minus45);">-45°</div>
+                <div class="color-info">
+                  <div class="color-name">var(--minus45)</div>
+                  <div class="color-usage">45° counter-clockwise</div>
+                  <article class="color-example">
+                    <p class="example-minus45"><em>-45°: Ullamco laboris nisi ut</em></p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--minus60);">-60°</div>
+                <div class="color-info">
+                  <div class="color-name">var(--minus60)</div>
+                  <div class="color-usage">60° counter-clockwise</div>
+                  <article class="color-example">
+                    <p><span class="example-minus60">-60°: Ut aliquip ex ea commodo</span></p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="color-card">
+                <div class="color-swatch" style="background: var(--minus90);">-90°</div>
+                <div class="color-info">
+                  <div class="color-name">var(--minus90)</div>
+                  <div class="color-usage">90° counter-clockwise</div>
+                  <article class="color-example">
+                    <p class="example-minus90"><code>-90°: Commodo consequat duis aute</code></p>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section-title">💡 Usage Examples</h2>
+            <div class="code-section"
+              style="background: var(--surface-raised); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary);">
+              <h3 style="color: var(--primary); margin-bottom: 1rem;">In Your CSS:</h3>
+              <pre style="background: var(--bg-primary); padding: 1rem; border-radius: 4px; overflow-x: auto;">
+<code>.my-button {
   background: var(--primary);
   color: white;
   border: 2px solid var(--border);
@@ -285,50 +314,47 @@
   background: var(--plus45);
 }</code></pre>
 
-            <h3 style="color: var(--accent); margin: 1.5rem 0 1rem 0;">In Your HTML:</h3>
-            <pre style="background: var(--bg-primary); padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div style="color: var(--highlight)"&gt;
+              <h3 style="color: var(--accent); margin: 1.5rem 0 1rem 0;">In Your HTML:</h3>
+              <pre style="background: var(--bg-primary); padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div style="color: var(--highlight)"&gt;
   Highlighted text!
 &lt;/div&gt;
 
 &lt;span style="background: var(--minus30); padding: 0.5rem"&gt;
   Custom colored badge
-&lt;/span&gt;</code></pre>
+&lt;/span&gt;
+</code></pre>
+            </div>
           </div>
-        </div>
 
-        <div class="section">
-          <div class="ace-info">
-            <h3>🎯 The Ace in the Hole</h3>
-            <p>
-              End users adjust <code>--hue-primary</code> via the control panel and see only <strong>primary</strong>,
-              <strong>secondary</strong>, and <strong>accent</strong>.
-              But as a developer, you have access to <strong>all 15 colors</strong> that automatically harmonize with
-              whatever theme the user picks! 🚀
-            </p>
+          <div class="section">
+            <div class="ace-info">
+              <h3>🎯 The Ace in the Hole</h3>
+              <p>
+                End users adjust <code>--hue-primary</code> via the control panel and see only <strong>primary</strong>,
+                <strong>secondary</strong>, and <strong>accent</strong>.
+                But as a developer, you have access to <strong>all 15 colors</strong> that automatically harmonize with
+                whatever theme the user picks! 🚀
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div class="section">
-          <h2 class="section-title">📜 Event Log</h2>
-          <div id="event-log">
-            <div class="event-placeholder">Waiting for events...</div>
+          <div class="section">
+            <h2 class="section-title">📜 Event Log</h2>
+            <div id="event-log">
+              <div class="event-placeholder">Waiting for events...</div>
+            </div>
           </div>
-        </div>
-      </div>
-      <!-- End Demo Tab -->
+        </section>
+      </main>
+    </div>
 
-      <!-- Documentation Section -->
-      <section id="docs-section" class="docs-section">
-        <div class="docs-container">
-          <div id="markdown-content">Loading documentation...</div>
-          <!-- claude.md will be loaded into this supporting todo container -->
-          <div id="claude-todo" style="margin-top:2rem; padding-top:1rem; border-top:1px dashed var(--border);">
-            <h3 style="color:var(--primary);">📋 Section TODO (claude.md)</h3>
-            <div id="claude-content">Loading TODOs...</div>
-          </div>
-        </div>
-      </section>
-    </main>
+    <!-- Footer - Full Width -->
+    <footer
+      style="width: 100%; padding: 2rem; text-align: center; background: var(--surface-raised); border-top: 1px solid var(--border-color); margin-top: 0;">
+      <p style="margin: 0; color: var(--text-secondary);">
+        © 2025 Cielo Vista Software | Built with HCS (Harmonic Color System)
+      </p>
+    </footer>
 
     <script src="Professional-Developer-HCS-System.js"></script>
   </body>

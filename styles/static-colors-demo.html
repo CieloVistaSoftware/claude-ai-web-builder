@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All System Colors Demo</title>
+  <link rel="stylesheet" href="../index.css">
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bg-color, #f8f9fa);
+      color: var(--text-primary, #222);
+      margin: 0;
+      padding: 2rem;
+    }
+    .theme-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .color-section {
+      margin-bottom: 2.5rem;
+    }
+    .color-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      margin-top: 2rem;
+      color: var(--primary, #6366f1);
+    }
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .color-swatch {
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      padding: 1rem;
+      background: var(--surface-base, #fff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid var(--border-color, #eee);
+      min-width: 0;
+    }
+    .swatch {
+      width: 64px;
+      height: 64px;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--border-color, #ccc);
+      box-sizing: border-box;
+    }
+    .color-label {
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    .color-value {
+      font-size: 0.85rem;
+      color: var(--text-muted, #666);
+      word-break: break-all;
+      text-align: center;
+    }
+    .semantic-demo {
+      margin-top: 0.5rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .demo-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: 4px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 0.25rem;
+    }
+    .demo-alert {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+      width: 100%;
+      text-align: center;
+    }
+    .demo-link {
+      color: var(--link-primary, var(--primary));
+      text-decoration: underline;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    .theme-controls label {
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
+    .theme-controls select, .theme-controls button {
+      font-size: 1rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color, #ccc);
+      background: var(--surface-base, #fff);
+      color: var(--text-primary, #222);
+      cursor: pointer;
+    }
+    .theme-controls button.active {
+      background: var(--primary, #6366f1);
+      color: #fff;
+      border-color: var(--primary, #6366f1);
+    }
+    @media (max-width: 600px) {
+      .color-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+      .swatch {
+        width: 48px;
+        height: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>All System Colors Demo</h1>
+  <p>This page demonstrates <b>every color variable</b> in our CSS system, including core, semantic, neutral, and theme-specific colors. Use the controls below to preview all data-theme variants and modes. Semantic colors are shown with relevant HTML elements.</p>
+  <div class="theme-controls">
+    <label for="theme-select">Theme:</label>
+    <select id="theme-select">
+      <option value="default">Default</option>
+      <option value="cyberpunk">Cyberpunk</option>
+      <option value="ocean">Ocean</option>
+      <option value="sunset">Sunset</option>
+      <option value="forest">Forest</option>
+    </select>
+    <button id="mode-light" type="button">Light</button>
+    <button id="mode-dark" type="button">Dark</button>
+  </div>
+
+  <div class="color-section">
+    <h2>Core Palette</h2>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch" style="background: var(--primary);"></div><div class="color-label">Primary</div><div class="color-value">--primary</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--primary-dark);"></div><div class="color-label">Primary Dark</div><div class="color-value">--primary-dark</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--primary-light);"></div><div class="color-label">Primary Light</div><div class="color-value">--primary-light</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--secondary);"></div><div class="color-label">Secondary</div><div class="color-value">--secondary</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--secondary-dark);"></div><div class="color-label">Secondary Dark</div><div class="color-value">--secondary-dark</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--secondary-light-var);"></div><div class="color-label">Secondary Light</div><div class="color-value">--secondary-light-var</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--accent);"></div><div class="color-label">Accent</div><div class="color-value">--accent</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--accent-dark);"></div><div class="color-label">Accent Dark</div><div class="color-value">--accent-dark</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--accent-light-var);"></div><div class="color-label">Accent Light</div><div class="color-value">--accent-light-var</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--highlight);"></div><div class="color-label">Highlight</div><div class="color-value">--highlight</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--plus30);"></div><div class="color-label">Plus 30°</div><div class="color-value">--plus30</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--plus45);"></div><div class="color-label">Plus 45°</div><div class="color-value">--plus45</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--plus60);"></div><div class="color-label">Plus 60°</div><div class="color-value">--plus60</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--plus90);"></div><div class="color-label">Plus 90°</div><div class="color-value">--plus90</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--minus30);"></div><div class="color-label">Minus 30°</div><div class="color-value">--minus30</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--minus45);"></div><div class="color-label">Minus 45°</div><div class="color-value">--minus45</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--minus60);"></div><div class="color-label">Minus 60°</div><div class="color-value">--minus60</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--minus90);"></div><div class="color-label">Minus 90°</div><div class="color-value">--minus90</div></div>
+    </div>
+  </div>
+
+  <div class="color-section">
+    <h2>Semantic State Colors</h2>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch" style="background: var(--success-color);"></div><div class="color-label">Success</div><div class="color-value">--success-color</div><div class="semantic-demo"><button class="demo-btn" style="background: var(--success-color); color: var(--btn-primary-text);">Success Button</button></div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--success-color-light);"></div><div class="color-label">Success Light</div><div class="color-value">--success-color-light</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--success-color-dark);"></div><div class="color-label">Success Dark</div><div class="color-value">--success-color-dark</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--warning-color);"></div><div class="color-label">Warning</div><div class="color-value">--warning-color</div><div class="semantic-demo"><div class="demo-alert" style="background: var(--warning-color); color: var(--status-warning-text);">Warning Alert</div></div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--warning-color-light);"></div><div class="color-label">Warning Light</div><div class="color-value">--warning-color-light</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--warning-color-dark);"></div><div class="color-label">Warning Dark</div><div class="color-value">--warning-color-dark</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--error-color);"></div><div class="color-label">Error</div><div class="color-value">--error-color</div><div class="semantic-demo"><div class="demo-alert" style="background: var(--error-color); color: var(--status-error-text);">Error Alert</div></div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--error-color-light);"></div><div class="color-label">Error Light</div><div class="color-value">--error-color-light</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--error-color-dark);"></div><div class="color-label">Error Dark</div><div class="color-value">--error-color-dark</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--info-color);"></div><div class="color-label">Info</div><div class="color-value">--info-color</div><div class="semantic-demo"><a class="demo-link" href="#" style="color: var(--info-color);">Info Link</a></div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--info-color-light);"></div><div class="color-label">Info Light</div><div class="color-value">--info-color-light</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--info-color-dark);"></div><div class="color-label">Info Dark</div><div class="color-value">--info-color-dark</div></div>
+    </div>
+  </div>
+
+  <div class="color-section">
+    <h2>UI & Surface Colors</h2>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch" style="background: var(--background);"></div><div class="color-label">Background</div><div class="color-value">--background</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--foreground);"></div><div class="color-label">Foreground</div><div class="color-value">--foreground</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--bg-color);"></div><div class="color-label">BG Color</div><div class="color-value">--bg-color</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--bg-primary);"></div><div class="color-label">BG Primary</div><div class="color-value">--bg-primary</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--bg-secondary);"></div><div class="color-label">BG Secondary</div><div class="color-value">--bg-secondary</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--bg-tertiary);"></div><div class="color-label">BG Tertiary</div><div class="color-value">--bg-tertiary</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--surface-base);"></div><div class="color-label">Surface Base</div><div class="color-value">--surface-base</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--surface-raised);"></div><div class="color-label">Surface Raised</div><div class="color-value">--surface-raised</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--surface-overlay);"></div><div class="color-label">Surface Overlay</div><div class="color-value">--surface-overlay</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--surface-floating);"></div><div class="color-label">Surface Floating</div><div class="color-value">--surface-floating</div></div>
+    </div>
+  </div>
+
+  <div class="color-section">
+    <h2>Text Colors</h2>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch" style="background: var(--text-primary);"></div><div class="color-label">Text Primary</div><div class="color-value">--text-primary</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--text-secondary);"></div><div class="color-label">Text Secondary</div><div class="color-value">--text-secondary</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--text-tertiary);"></div><div class="color-label">Text Tertiary</div><div class="color-value">--text-tertiary</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--text-muted);"></div><div class="color-label">Text Muted</div><div class="color-value">--text-muted</div></div>
+    </div>
+  </div>
+
+  <div class="color-section">
+    <h2>Border Colors</h2>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch" style="background: var(--border-color);"></div><div class="color-label">Border</div><div class="color-value">--border-color</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--border-light);"></div><div class="color-label">Border Light</div><div class="color-value">--border-light</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--border-dark);"></div><div class="color-label">Border Dark</div><div class="color-value">--border-dark</div></div>
+    </div>
+  </div>
+
+  <div class="color-section">
+    <h2>Neutral Palette</h2>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-50);"></div><div class="color-label">Neutral 50</div><div class="color-value">--neutral-50</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-100);"></div><div class="color-label">Neutral 100</div><div class="color-value">--neutral-100</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-200);"></div><div class="color-label">Neutral 200</div><div class="color-value">--neutral-200</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-300);"></div><div class="color-label">Neutral 300</div><div class="color-value">--neutral-300</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-400);"></div><div class="color-label">Neutral 400</div><div class="color-value">--neutral-400</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-500);"></div><div class="color-label">Neutral 500</div><div class="color-value">--neutral-500</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-600);"></div><div class="color-label">Neutral 600</div><div class="color-value">--neutral-600</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-700);"></div><div class="color-label">Neutral 700</div><div class="color-value">--neutral-700</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-800);"></div><div class="color-label">Neutral 800</div><div class="color-value">--neutral-800</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-900);"></div><div class="color-label">Neutral 900</div><div class="color-value">--neutral-900</div></div>
+    </div>
+  </div>
+
+  <div class="color-section">
+    <h2>Fixed Neutral Palette</h2>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-50);"></div><div class="color-label">Fixed 50</div><div class="color-value">--neutral-fixed-50</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-100);"></div><div class="color-label">Fixed 100</div><div class="color-value">--neutral-fixed-100</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-200);"></div><div class="color-label">Fixed 200</div><div class="color-value">--neutral-fixed-200</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-300);"></div><div class="color-label">Fixed 300</div><div class="color-value">--neutral-fixed-300</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-400);"></div><div class="color-label">Fixed 400</div><div class="color-value">--neutral-fixed-400</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-500);"></div><div class="color-label">Fixed 500</div><div class="color-value">--neutral-fixed-500</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-600);"></div><div class="color-label">Fixed 600</div><div class="color-value">--neutral-fixed-600</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-700);"></div><div class="color-label">Fixed 700</div><div class="color-value">--neutral-fixed-700</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-800);"></div><div class="color-label">Fixed 800</div><div class="color-value">--neutral-fixed-800</div></div>
+      <div class="color-swatch"><div class="swatch" style="background: var(--neutral-fixed-900);"></div><div class="color-label">Fixed 900</div><div class="color-value">--neutral-fixed-900</div></div>
+    </div>
+  </div>
+
+  <script>
+    // Theme and mode switching logic
+    const themeSelect = document.getElementById('theme-select');
+    const modeLight = document.getElementById('mode-light');
+    const modeDark = document.getElementById('mode-dark');
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+    function setMode(mode) {
+      document.body.setAttribute('data-mode', mode);
+      document.documentElement.setAttribute('data-mode', mode);
+      modeLight.classList.toggle('active', mode === 'light');
+      modeDark.classList.toggle('active', mode === 'dark');
+    }
+    themeSelect.addEventListener('change', e => setTheme(e.target.value));
+    modeLight.addEventListener('click', () => setMode('light'));
+    modeDark.addEventListener('click', () => setMode('dark'));
+    // Default: system mode
+    setTheme('default');
+    setMode('light');
+  </script>
+</body>
+</html>

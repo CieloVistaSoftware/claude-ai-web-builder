@@ -5,8 +5,9 @@
  * NOW USES SHARED wb-color-utils FOR AUDIO ANALYSIS
  * Version: 2.0.0
  */
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 
-class WBColorOrgan extends HTMLElement {
+class WBColorOrgan extends WBBaseComponent {
     constructor() {
         super();
         
@@ -51,7 +52,7 @@ class WBColorOrgan extends HTMLElement {
     }
     
     connectedCallback() {
-        console.log('🎵 WB Color Organ: Connected to DOM');
+        this.logInfo('🎵 WB Color Organ: Connected to DOM');
         
         // Load CSS
         this.loadCSS();
@@ -61,7 +62,7 @@ class WBColorOrgan extends HTMLElement {
     }
     
     disconnectedCallback() {
-        console.log('🎵 WB Color Organ: Disconnecting - cleaning up');
+        this.logInfo('🎵 WB Color Organ: Disconnecting - cleaning up');
         
         // Stop animations
         if (this.animationFrame) {
@@ -86,7 +87,7 @@ class WBColorOrgan extends HTMLElement {
             }
         });
         
-        console.log('✅ WB Color Organ: Cleanup complete');
+        this.logInfo('✅ WB Color Organ: Cleanup complete');
     }
     
     loadCSS() {
@@ -101,7 +102,7 @@ class WBColorOrgan extends HTMLElement {
         link.href = '../../styles/wb-color-organ.css';
         document.head.appendChild(link);
         
-        console.log('✅ WB Color Organ: CSS loaded');
+        this.logInfo('✅ WB Color Organ: CSS loaded');
     }
     
     async init() {
@@ -118,18 +119,20 @@ class WBColorOrgan extends HTMLElement {
         this.applyInitialSettings();
         
         // Dispatch ready event
-        document.dispatchEvent(new CustomEvent('wb:color-organ-ready', {
-            detail: { component: this },
-            bubbles: true
-        }));
+                this.fireEvent('wb:color-organ-ready', {
+            detail: {
+                component: this,
+                state: this.state
+            }
+        });
         
-        console.log('✅ WB Color Organ: Initialized');
+        this.logInfo('✅ WB Color Organ: Initialized');
     }
     
     async loadColorHarmonySystem() {
         if (window.WBColorHarmony) {
             this.harmonySystem = new window.WBColorHarmony();
-            console.log('✅ WB Color Organ: Color harmony system loaded');
+            this.logInfo('✅ WB Color Organ: Color harmony system loaded');
         } else {
             console.warn('⚠️ WBColorHarmony not found - using basic complementary colors');
         }
@@ -196,7 +199,7 @@ class WBColorOrgan extends HTMLElement {
             grid.appendChild(block);
         });
         
-        console.log(`🎨 Generated ${colors.length} color blocks`);
+        this.logInfo(`🎨 Generated ${colors.length} color blocks`);
     }
     
     generateCrackedIceShards() {
@@ -211,7 +214,7 @@ class WBColorOrgan extends HTMLElement {
         // Generate 500 small dancing lights - NO large shards in cracked ice mode
         this.generateLightSources(500, colors);
         
-        console.log(`✨ Generated ${this.lightSources.length} dancing lights (Cracked Ice Mode)`);
+        this.logInfo(`✨ Generated ${this.lightSources.length} dancing lights (Cracked Ice Mode)`);
     }
     
     generateLaserBeams() {
@@ -331,7 +334,7 @@ class WBColorOrgan extends HTMLElement {
         // Start laser animation
         this.startLaserAnimation();
         
-        console.log(`🌀 Generated ${this.laserBeams.length} spiraling circles with rainbow colors (SPIRAL MODE)`);
+        this.logInfo(`🌀 Generated ${this.laserBeams.length} spiraling circles with rainbow colors (SPIRAL MODE)`);
     }
     
     startLaserAnimation() {
@@ -694,12 +697,12 @@ class WBColorOrgan extends HTMLElement {
                 if (modeIndicator) {
                     const currentDisplay = window.getComputedStyle(modeIndicator).display;
                     modeIndicator.style.display = currentDisplay === 'none' ? 'flex' : 'none';
-                    console.log(`Mode indicator: ${currentDisplay === 'none' ? 'SHOWN' : 'HIDDEN'}`);
+                    this.logInfo(`Mode indicator: ${currentDisplay === 'none' ? 'SHOWN' : 'HIDDEN'}`);
                 }
             }
         });
         
-        console.log('✅ WB Color Organ: Event listeners attached');
+        this.logInfo('✅ WB Color Organ: Event listeners attached');
     }
     
     handleToggle(e) {
@@ -877,13 +880,12 @@ class WBColorOrgan extends HTMLElement {
         // Start animation loop
         this.startAnimation();
         
-        console.log('🎵 Color Organ: Activated');
+        this.logInfo('🎵 Color Organ: Activated');
         
         // Dispatch event
-        document.dispatchEvent(new CustomEvent('wb:color-organ-shown', {
-            detail: { mode: this.state.mode },
-            bubbles: true
-        }));
+        this.fireEvent('wb:color-organ-shown', {
+            mode: this.state.mode
+        });
     }
     
     hide() {
@@ -906,18 +908,16 @@ class WBColorOrgan extends HTMLElement {
             this.laserAnimationFrame = null;
         }
         
-        console.log('🎵 Color Organ: Deactivated');
+        this.logInfo('🎵 Color Organ: Deactivated');
         
         // Dispatch event
-        document.dispatchEvent(new CustomEvent('wb:color-organ-hidden', {
-            bubbles: true
-        }));
+        this.fireEvent('wb:color-organ-hidden');
         
         // Tell control panel to disable
-        document.dispatchEvent(new CustomEvent('wb:color-organ-toggle', {
-            detail: { enabled: false, source: 'color-organ' },
-            bubbles: true
-        }));
+        this.fireEvent('wb:color-organ-toggle', {
+            enabled: false,
+            source: 'color-organ'
+        });
     }
     
     startAnimation() {
@@ -939,7 +939,7 @@ class WBColorOrgan extends HTMLElement {
         this.state.mode = savedMode;
         this.state.harmonyMode = savedHarmony;
         
-        console.log(`🎨 Color Organ: Mode=${savedMode}, Harmony=${savedHarmony}`);
+        this.logInfo(`🎨 Color Organ: Mode=${savedMode}, Harmony=${savedHarmony}`);
     }
     
     // Public API
@@ -981,7 +981,7 @@ class WBColorOrgan extends HTMLElement {
             this.generateColorBlocks();
         }
         
-        console.log(`🎨 Color Organ: Mode changed to ${mode}`);
+        this.logInfo(`🎨 Color Organ: Mode changed to ${mode}`);
     }
     
     setHarmonyMode(mode) {
@@ -992,7 +992,7 @@ class WBColorOrgan extends HTMLElement {
             this.generateColorBlocks();
         }
         
-        console.log(`🎨 Color Organ: Harmony mode changed to ${mode}`);
+        this.logInfo(`🎨 Color Organ: Harmony mode changed to ${mode}`);
     }
     
     setColorCount(count) {

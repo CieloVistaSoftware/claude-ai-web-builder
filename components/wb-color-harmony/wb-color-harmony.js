@@ -6,6 +6,7 @@
  */
 import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { Heterodyne, ColorConversion } from '../wb-color-utils/wb-color-utils.js';
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 // Export palette keys for use in demos and integration
 export const PALETTE_KEYS = [
@@ -43,8 +44,9 @@ class WBColorHarmony extends WBBaseComponent {
     return ['hue', 'saturation', 'lightness', 'harmony-mode', 'modulator-hue', 'mixing-depth'];
   }
   
-  connectedCallback() {
+  async connectedCallback() {
     super.connectedCallback();
+    await loadComponentCSS(this, 'wb-color-harmony.css');
     this.updatePalette();
     this.render();
   }

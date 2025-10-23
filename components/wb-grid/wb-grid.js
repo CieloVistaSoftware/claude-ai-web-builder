@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // wb-grid.js
 // A simple, flexible grid web component for layout
 
@@ -9,6 +11,10 @@ class WBGrid extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+  }
+
+  async connectedCallback() {
+    await loadComponentCSS(this, 'wb-grid.css');
     this._render();
   }
 

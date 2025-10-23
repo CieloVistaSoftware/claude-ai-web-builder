@@ -18,7 +18,11 @@ class WBThemeManager extends HTMLElement {
         }
         
         async init() {
-            WBEventLog.logInfo('WB Theme Manager: Initializing...', { component: 'wb-theme-manager', method: 'init', line: 24 });
+            if (typeof WBEventLog !== 'undefined' && WBEventLog.logInfo) {
+                WBEventLog.logInfo('WB Theme Manager: Initializing...', { component: 'wb-theme-manager', method: 'init', line: 24 });
+            } else {
+                console.log('🎨 WB Theme Manager: Initializing...');
+            }
             
             // Load global theme CSS first
             this.loadGlobalTheme();
@@ -38,7 +42,11 @@ class WBThemeManager extends HTMLElement {
             // Setup reactive event listeners
             this.setupReactiveListeners();
             
-            WBEventLog.logSuccess('WB Theme Manager: Ready', { component: 'wb-theme-manager', method: 'init', line: 41 });
+            if (typeof WBEventLog !== 'undefined' && WBEventLog.logSuccess) {
+                WBEventLog.logSuccess('WB Theme Manager: Ready', { component: 'wb-theme-manager', method: 'init', line: 41 });
+            } else {
+                console.log('✅ WB Theme Manager: Ready');
+            }
         }
         
         loadGlobalTheme() {
@@ -53,7 +61,9 @@ class WBThemeManager extends HTMLElement {
                     link.rel = 'stylesheet';
                     link.href = cssPath;
                     document.head.appendChild(link);
-                    WBEventLog.logSuccess('Global theme CSS loaded', { component: 'wb-theme-manager', method: 'loadGlobalTheme', line: 56 });
+                    if (typeof WBEventLog !== 'undefined' && WBEventLog.logSuccess) {
+                        WBEventLog.logSuccess('Global theme CSS loaded', { component: 'wb-theme-manager', method: 'loadGlobalTheme', line: 56 });
+                    }
                 }
             }
         }
@@ -123,16 +133,36 @@ class WBThemeManager extends HTMLElement {
         }
         
         setupReactiveListeners() {
+            // Listen to wb:color-changed events from control panel
+            document.addEventListener('wb:color-changed', (event) => {
+                const { hue, saturation, lightness, harmonyMode } = event.detail;
+                console.log('🎨 WB Theme Manager: Color change received', event.detail);
+                
+                // Calculate ALL colors from primary using HCS formulas
+                this.applyHCSColors(hue, saturation, lightness, harmonyMode);
+                
+                console.log('✅ All HCS colors calculated and applied');
+                
+                // Dispatch notification that colors have been applied
+                document.dispatchEvent(new CustomEvent('wb:colors-applied', {
+                    detail: { hue, saturation, lightness, harmonyMode, source: 'wb-theme-manager' }
+                }));
+            });
+            
             // Listen to wb:theme-changed events from control panel and other components
             document.addEventListener('wb:theme-changed', (event) => {
                 const { theme, source } = event.detail;
-                WBEventLog.logInfo(`Received theme change request: ${theme}`, {
-                    component: 'wb-theme-manager',
-                    method: 'setupReactiveListeners',
-                    source: source,
-                    theme: theme,
-                    line: 131
-                });
+                if (typeof WBEventLog !== 'undefined' && WBEventLog.logInfo) {
+                    WBEventLog.logInfo(`Received theme change request: ${theme}`, {
+                        component: 'wb-theme-manager',
+                        method: 'setupReactiveListeners',
+                        source: source,
+                        theme: theme,
+                        line: 131
+                    });
+                } else {
+                    console.log(`🎨 Received theme change request: ${theme}`);
+                }
                 
                 // Apply the theme (don't save if it came from external source to avoid loops)
                 this.setTheme(theme, true);
@@ -141,13 +171,17 @@ class WBThemeManager extends HTMLElement {
             // Listen to wb:theme-change-request events (alternative event name)
             document.addEventListener('wb:theme-change-request', (event) => {
                 const { theme, source } = event.detail;
-                WBEventLog.logInfo(`Received theme change request: ${theme}`, {
-                    component: 'wb-theme-manager',
-                    method: 'setupReactiveListeners',
-                    source: source,
-                    theme: theme,
-                    line: 144
-                });
+                if (typeof WBEventLog !== 'undefined' && WBEventLog.logInfo) {
+                    WBEventLog.logInfo(`Received theme change request: ${theme}`, {
+                        component: 'wb-theme-manager',
+                        method: 'setupReactiveListeners',
+                        source: source,
+                        theme: theme,
+                        line: 144
+                    });
+                } else {
+                    console.log(`🎨 Received theme change request: ${theme}`);
+                }
                 
                 // Apply the theme
                 this.setTheme(theme, true);
@@ -176,9 +210,13 @@ class WBThemeManager extends HTMLElement {
             }
             
             // Dispatch theme change event
-            this.dispatchThemeChanged(effectiveTheme);
+            this.dispatchThemeChangeEvent(effectiveTheme, theme);
             
-            WBEventLog.logInfo(`Theme applied: ${effectiveTheme} (mode: ${theme})`, { component: 'wb-theme-manager', method: 'applyTheme', line: 149, theme: effectiveTheme });
+            if (typeof WBEventLog !== 'undefined' && WBEventLog.logInfo) {
+                WBEventLog.logInfo(`Theme applied: ${effectiveTheme} (mode: ${theme})`, { component: 'wb-theme-manager', method: 'applyTheme', line: 149, theme: effectiveTheme });
+            } else {
+                console.log(`✅ Theme applied: ${effectiveTheme} (mode: ${theme})`);
+            }
         }
         
         updateMetaThemeColor(theme) {
@@ -210,6 +248,64 @@ class WBThemeManager extends HTMLElement {
                     source: 'wb-theme-manager'
                 }
             }));
+        }
+        
+        applyHCSColors(hue, saturation, lightness, harmonyMode = 'complementary') {
+            // Calculate ALL colors from primary using HCS formulas
+            const root = document.documentElement;
+            
+            // PRIMARY COLOR FOUNDATION
+            root.style.setProperty('--hue-primary', hue);
+            root.style.setProperty('--saturation-primary', saturation);
+            root.style.setProperty('--lightness-primary', lightness);
+            
+            // PRIMARY COLOR
+            root.style.setProperty('--primary', `hsl(${hue}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--primary-dark', `hsl(${hue}, ${saturation}%, ${Math.max(lightness - 15, 0)}%)`);
+            root.style.setProperty('--primary-light', `hsl(${hue}, ${Math.max(saturation - 20, 0)}%, ${Math.min(lightness + 25, 100)}%)`);
+            
+            // SECONDARY COLOR (Complementary - 180°)
+            const secondaryHue = (hue + 180) % 360;
+            const secondarySat = Math.max(saturation - 10, 0);
+            root.style.setProperty('--secondary', `hsl(${secondaryHue}, ${secondarySat}%, ${lightness}%)`);
+            root.style.setProperty('--secondary-dark', `hsl(${secondaryHue}, ${secondarySat}%, ${Math.max(lightness - 10, 0)}%)`);
+            root.style.setProperty('--secondary-light', `hsl(${secondaryHue}, ${Math.max(secondarySat - 10, 0)}%, ${Math.min(lightness + 15, 100)}%)`);
+            
+            // ACCENT COLOR (Analogous - 30°)
+            const accentHue = (hue - 30 + 360) % 360;
+            const accentSat = Math.max(saturation - 10, 0);
+            root.style.setProperty('--accent', `hsl(${accentHue}, ${accentSat}%, ${lightness}%)`);
+            root.style.setProperty('--accent-dark', `hsl(${accentHue}, ${accentSat}%, ${Math.max(lightness - 15, 0)}%)`);
+            root.style.setProperty('--accent-light', `hsl(${accentHue}, ${Math.max(accentSat - 15, 0)}%, ${Math.min(lightness + 20, 100)}%)`);
+            
+            // EXTENDED PALETTE
+            root.style.setProperty('--highlight', `hsl(${(hue + 45) % 360}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--plus30', `hsl(${(hue + 30) % 360}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--plus45', `hsl(${(hue + 45) % 360}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--plus60', `hsl(${(hue + 60) % 360}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--plus90', `hsl(${(hue + 90) % 360}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--minus30', `hsl(${(hue - 30 + 360) % 360}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--minus45', `hsl(${(hue - 45 + 360) % 360}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--minus60', `hsl(${(hue - 60 + 360) % 360}, ${saturation}%, ${lightness}%)`);
+            root.style.setProperty('--minus90', `hsl(${(hue - 90 + 360) % 360}, ${saturation}%, ${lightness}%)`);
+            
+            // NEUTRAL SCALE (with subtle hue tint)
+            root.style.setProperty('--neutral-50', `hsl(${hue}, 1%, 99%)`);
+            root.style.setProperty('--neutral-100', `hsl(${hue}, 1%, 97%)`);
+            root.style.setProperty('--neutral-200', `hsl(${hue}, 2%, 92%)`);
+            root.style.setProperty('--neutral-300', `hsl(${hue}, 2%, 85%)`);
+            root.style.setProperty('--neutral-400', `hsl(${hue}, 3%, 75%)`);
+            root.style.setProperty('--neutral-500', `hsl(${hue}, 4%, 50%)`);
+            root.style.setProperty('--neutral-600', `hsl(${hue}, 6%, 35%)`);
+            root.style.setProperty('--neutral-700', `hsl(${hue}, 8%, 30%)`);
+            root.style.setProperty('--neutral-800', `hsl(${hue}, 10%, 22%)`);
+            root.style.setProperty('--neutral-900', `hsl(${hue}, 12%, 12%)`);
+            
+            console.log('🎨 HCS Colors Applied:', {
+                primary: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
+                secondary: `hsl(${secondaryHue}, ${secondarySat}%, ${lightness}%)`,
+                accent: `hsl(${accentHue}, ${accentSat}%, ${lightness}%)`
+            });
         }
         
         toggleTheme() {
@@ -312,7 +408,16 @@ class WBThemeManager extends HTMLElement {
     
     // Register component
     customElements.define('wb-theme-manager', WBThemeManager);
-    WBEventLog.logSuccess('WB Theme Manager: Component registered', { component: 'wb-theme-manager', line: 284 });
+    
+    // REPORT WHERE THIS FILE IS BEING LOADED FROM
+    const scriptElements = document.querySelectorAll('script[src*="wb-theme-manager"]');
+    if (scriptElements.length > 0) {
+        console.log('✅ WB Theme Manager: Component registered');
+        console.log('📍 LOADED FROM:', scriptElements[0].src);
+    } else {
+        console.log('✅ WB Theme Manager: Component registered');
+        console.log('📍 LOADED FROM: inline or module import');
+    }
     
     // Also create fallback if component doesn't render    // Register with WBComponentRegistry if available
     if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
@@ -333,8 +438,12 @@ class WBThemeManager extends HTMLElement {
     
     // Auto-initialize if added to document
     const autoInit = () => {
-        if (!document.querySelector('wb-theme-manager') && !document.querySelector('#wb-theme-manager-fallback')) {
-            WBEventLog.logInfo('Creating fallback theme manager to avoid createElement issues', { component: 'wb-theme-manager', line: 307 });
+    if (!document.querySelector('wb-theme-manager') && !document.querySelector('#wb-theme-manager-fallback')) {
+    if (typeof WBEventLog !== 'undefined' && WBEventLog.logInfo) {
+                    WBEventLog.logInfo('Creating fallback theme manager to avoid createElement issues', { component: 'wb-theme-manager', line: 307 });
+                } else {
+                    console.log('🎨 Creating fallback theme manager to avoid createElement issues');
+                }
             
             // Create minimal theme manager
             // Skip createElement entirely and use fallback approach

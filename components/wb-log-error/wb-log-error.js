@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 /**
  * WB Log Error Web Component - Reactive Version
  * 
@@ -9,6 +11,10 @@
 class WBLogError extends HTMLElement {
     constructor() {
         super();
+    }
+
+    async connectedCallback() {
+        await loadComponentCSS(this, 'wb-log-error.css');
         this.attachShadow({ mode: 'open' });
         
         // Create reactive state

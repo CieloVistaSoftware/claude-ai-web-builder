@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wb-1rem Demo</title>
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="wb-1rem.css">
+  <style>
+    body {
+      background: var(--bg-color, #18181b);
+      color: var(--text-primary, #fff);
+      min-height: 100vh;
+    }
+
+    .demo-box {
+      background: var(--surface-raised, #23232b);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      margin: 2rem auto;
+      max-width: 500px;
+      min-height: 120px;
+      border: 1px solid var(--border-color, #333);
+    }
+
+    .demo-content {
+      background: var(--primary, #6366f1);
+      color: #fff;
+      border-radius: 4px;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <wb-demo title="wb-1rem Demo">
+    <div class="demo-box" slot="examples">
+      <wb-1rem>
+        <div class="demo-content">This content is padded 1rem on top, left, and right (no bottom padding).</div>
+        <div class="demo-content">Try resizing or adding more content!</div>
+      </wb-1rem>
+    </div>
+  </wb-demo>
+  <script src="wb-1rem.js"></script>
+</body>
+
+</html>

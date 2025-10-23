@@ -2,15 +2,14 @@
  * WB Color Mapper Component
  * Web Component that maps existing color variables to match WB theme system
  */
-class WBColorMapper extends HTMLElement {
+import { WBBaseComponent } from '../wb-base/wb-base.js';
+
+class WBColorMapper extends WBBaseComponent {
     constructor() {
         super();
         this.originalValues = {};
         this.initialized = false;
         this.observer = null;
-        
-        // Bind methods
-        this.handleThemeChange = this.handleThemeChange.bind(this);
     }
     
     static get observedAttributes() {
@@ -47,7 +46,7 @@ class WBColorMapper extends HTMLElement {
     }
     
     init() {
-        console.log('🎨 WB Color Mapper: Initializing...');
+        this.logInfo('WB Color Mapper: Initializing...');
         
         // Hide the component - it's just a controller
         this.style.display = 'none';
@@ -59,17 +58,14 @@ class WBColorMapper extends HTMLElement {
         this.mapThemeColors(currentTheme);
         
         // Setup theme change observers
-        this.observeThemeChanges();
+        // Note: WBBaseComponent handles theme changes automatically via _onThemeChange
         
         this.initialized = true;
         
         // Dispatch ready event
-        this.dispatchEvent(new CustomEvent('wb-color-mapper-ready', {
-            bubbles: true,
-            detail: { component: this }
-        }));
+        this.fireEvent('wb-color-mapper-ready', { component: this });
         
-        console.log('🎨 WB Color Mapper: Ready!');
+        this.logInfo('WB Color Mapper: Ready!');
     }
     
     cleanup() {
@@ -78,10 +74,6 @@ class WBColorMapper extends HTMLElement {
             this.observer.disconnect();
             this.observer = null;
         }
-        
-        // Remove event listeners
-        document.removeEventListener('wb-theme-changed', this.handleThemeChange);
-        document.removeEventListener('wb:theme-changed', this.handleThemeChange);
         
         // Remove styles
         const style = document.getElementById('wb-color-mapper');
@@ -112,13 +104,10 @@ class WBColorMapper extends HTMLElement {
         });
         
         // Dispatch event
-        this.dispatchEvent(new CustomEvent('wb-color-mapper-stored', {
-            bubbles: true,
-            detail: { 
-                valuesCount: Object.keys(this.originalValues).length,
-                originalValues: this.originalValues 
-            }
-        }));
+        this.fireEvent('wb-color-mapper-stored', { 
+            valuesCount: Object.keys(this.originalValues).length,
+            originalValues: this.originalValues 
+        });
     }
     
     mapThemeColors(theme) {
@@ -133,7 +122,7 @@ class WBColorMapper extends HTMLElement {
         const mappings = this.getThemeMappings();
         
         if (!mappings[theme]) {
-            console.error(`Theme not found in mappings: ${theme}`);
+            this.logError(`Theme not found in mappings: ${theme}`);
             return;
         }
         
@@ -144,10 +133,7 @@ class WBColorMapper extends HTMLElement {
         this.applyDirectCSSVariables(theme, mappings[theme]);
         
         // Dispatch event
-        this.dispatchEvent(new CustomEvent('wb-color-mapper-applied', {
-            bubbles: true,
-            detail: { theme }
-        }));
+        this.fireEvent('wb-color-mapper-applied', { theme });
     }
     
     getThemeMappings() {
@@ -528,6 +514,7 @@ class WBColorMapper extends HTMLElement {
         
         // Apply to both documentElement and body
         [document.documentElement, document.body].forEach(element => {
+            /** @type {HTMLElement} */ const htmlElement = element;
             for (const [siteVar, ourVar] of Object.entries(themeVars)) {
                 // If the value is a var() reference, try to resolve it
                 if (typeof ourVar === 'string' && ourVar.startsWith('var(')) {
@@ -536,21 +523,21 @@ class WBColorMapper extends HTMLElement {
                         const computedValue = getComputedStyle(document.documentElement)
                             .getPropertyValue(varName).trim();
                         if (computedValue) {
-                            element.style.setProperty(siteVar, computedValue);
+                            htmlElement.style.setProperty(siteVar, computedValue);
                             continue;
                         }
                     }
                 }
                 // Use the raw value
-                element.style.setProperty(siteVar, ourVar);
+                htmlElement.style.setProperty(siteVar, ourVar);
             }
             
             // For non-CSS variable styles
             if (themeVars['color']) {
-                element.style.color = themeVars['color'];
+                htmlElement.style.color = themeVars['color'];
             }
             if (themeVars['background-color']) {
-                element.style.backgroundColor = themeVars['background-color'];
+                htmlElement.style.backgroundColor = themeVars['background-color'];
             }
         });
         
@@ -593,36 +580,6 @@ class WBColorMapper extends HTMLElement {
                     }
                 });
             });
-        }
-    }
-    
-    observeThemeChanges() {
-        // Set up mutation observer
-        this.observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'attributes' && 
-                    mutation.attributeName === 'data-theme') {
-                    const newTheme = mutation.target.getAttribute('data-theme');
-                    if (newTheme) {
-                        this.mapThemeColors(newTheme);
-                    }
-                }
-            });
-        });
-        
-        // Observe both html and body
-        this.observer.observe(document.documentElement, { attributes: true });
-        this.observer.observe(document.body, { attributes: true });
-        
-        // Listen for theme change events
-        document.addEventListener('wb-theme-changed', this.handleThemeChange);
-        document.addEventListener('wb:theme-changed', this.handleThemeChange);
-    }
-    
-    handleThemeChange(event) {
-        const theme = event.detail?.theme;
-        if (theme) {
-            this.mapThemeColors(theme);
         }
     }
     
@@ -680,7 +637,7 @@ class WBColorMapper extends HTMLElement {
         const allElements = document.querySelectorAll('*');
         const ignoreClasses = ['wb-controller', 'control-panel', 'wb-color-mapper'];
         
-        allElements.forEach(el => {
+        /** @type {NodeListOf<HTMLElement>} */ (allElements).forEach(/** @type {HTMLElement} */ el => {
             if (ignoreClasses.some(cls => el.classList.contains(cls))) return;
             
             const styles = getComputedStyle(el);
@@ -722,4 +679,5 @@ if (!customElements.get('wb-color-mapper')) {
 }
 
 // Export for use in other modules
+// @ts-ignore
 window.WBColorMapper = WBColorMapper;

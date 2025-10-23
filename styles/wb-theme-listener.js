@@ -20,9 +20,11 @@
         const { mode } = e.detail;
         console.log(`🌓 Mode changed to: ${mode}`);
         
-        // Apply to document
+        // Apply to document - set both data-theme and data-mode for CSS compatibility
         document.body.setAttribute('data-theme', mode);
+        document.body.setAttribute('data-mode', mode);
         document.documentElement.setAttribute('data-theme', mode);
+        document.documentElement.setAttribute('data-mode', mode);
     });
     
     // ============================================
@@ -56,6 +58,21 @@
         root.style.setProperty('--primary', `hsl(${hue}, ${saturation}%, ${lightness}%)`);
         root.style.setProperty('--primary-dark', `hsl(${hue}, ${saturation}%, ${lightness - 10}%)`);
         root.style.setProperty('--primary-light', `hsl(${hue}, ${saturation - 15}%, ${lightness + 15}%)`);
+    });
+    
+    // ============================================
+    // BACKGROUND COLOR CHANGED (Manual slider adjustment)
+    // ============================================
+    document.addEventListener('wb:background-color-changed', (e) => {
+        const { hue, saturation, lightness } = e.detail;
+        console.log(`🎨 Background color changed: H:${hue} S:${saturation}% L:${lightness}%`);
+        
+        // Apply background color
+        const root = document.documentElement;
+        root.style.setProperty('--hue-background', hue);
+        root.style.setProperty('--saturation-background', saturation);
+        root.style.setProperty('--lightness-background', lightness);
+        root.style.setProperty('--background', `hsl(${hue}, ${saturation}%, ${lightness}%)`);
     });
     
     // ============================================

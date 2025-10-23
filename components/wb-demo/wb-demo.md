@@ -33,10 +33,16 @@ components/wb-demo/
 </wb-demo>
 ```
 
-**Note:** There are two exclusive modes for documentation:
 
-1. If the `markdown` attribute is set and no documentation slot is present, the documentation tab displays the referenced markdown file as rendered HTML.
-2. If a `<div slot="documentation">...</div>` is specified, its HTML markup is displayed in the documentation tab (as-is), and the markdown attribute is ignored. Use this slot to hard code documentation directly in the demo file.
+**Documentation Loading Behavior:**
+
+1. If the `doc-url` attribute is set, the documentation tab displays the referenced file as rendered HTML (highest priority).
+2. If the `markdown` attribute is set and no documentation slot is present, the documentation tab displays the referenced markdown file as rendered HTML.
+3. If a `<div slot="documentation">...</div>` is specified, its HTML markup is displayed in the documentation tab (as-is), and the markdown attribute is ignored. Use this slot to hard code documentation directly in the demo file.
+4. If neither attribute is set, the component will automatically search for a `.md` file matching the folder name (e.g., `wb-demo.md`) and display it as documentation.
+
+**Override:**
+Users can always override the auto-detection by specifying either the `doc-url` or `markdown` attribute, or by providing a documentation slot.
 
 ## Standards Compliance
 - ✅ **wb- prefix**: wb-demo

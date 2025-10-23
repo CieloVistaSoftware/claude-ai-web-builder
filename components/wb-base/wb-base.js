@@ -54,7 +54,7 @@ import {
     getAttributeOrDefault,
     dispatchWBEvent,
     defineObservedAttributes
-} from '../component-utils.js';
+} from '../archive/component-utils/component-utils.js';
 
 class WBBaseComponent extends HTMLElement {
     // Default static styleUrl property to avoid missing property errors
@@ -140,6 +140,7 @@ class WBBaseComponent extends HTMLElement {
 
     // Logging helpers
     logInfo(msg, ctx) {
+        WBBaseComponent.logEvent(msg, 'info');
         if (window.WBEventLog && window.WBEventLog.logInfo) {
             window.WBEventLog.logInfo(msg, ctx);
         } else {
@@ -147,13 +148,15 @@ class WBBaseComponent extends HTMLElement {
         }
     }
     logError(msg, ctx) {
-        if (window.WBEventLog && window.WBEventLog.logError) {
+        WBBaseComponent.logEvent(msg, 'error');
+        if (window.WBEventLog && typeof window.WBEventLog.logError === 'function') {
             window.WBEventLog.logError(msg, ctx);
         } else {
             console.error('[WB]', msg, ctx);
         }
     }
     logDebug(msg, ctx) {
+        WBBaseComponent.logEvent(msg, 'debug');
         if (window.WBEventLog && window.WBEventLog.logDebug) {
             window.WBEventLog.logDebug(msg, ctx);
         } else {
@@ -173,6 +176,10 @@ class WBBaseComponent extends HTMLElement {
 
     // Lifecycle hooks
     connectedCallback() {
+        // Set global mode to dark for all WB components
+        document.documentElement.setAttribute('data-mode', 'dark');
+        document.body.setAttribute('data-mode', 'dark');
+
         // Theme event listener
         document.addEventListener('wb:theme-changed', this._themeChangeHandler);
 

@@ -159,7 +159,12 @@
             // Detect responsive mode
             this._detectResponsiveMode();
 
-            WBEventLog.logSuccess('WB Layout component initialized with reactive architecture', { component: 'wb-layout', method: '_initializeComponent', line: 175 });
+            // Log initialization (with fallback if WBEventLog not loaded yet)
+            if (typeof WBEventLog !== 'undefined' && WBEventLog.logSuccess) {
+                WBEventLog.logSuccess('WB Layout component initialized with reactive architecture', { component: 'wb-layout', method: '_initializeComponent', line: 175 });
+            } else {
+                console.log('✅ WB Layout component initialized with reactive architecture');
+            }
             this.dispatchEvent(new CustomEvent('wb-layout-ready', {
                 detail: { component: this, layout: this._state.currentLayout }
             }));

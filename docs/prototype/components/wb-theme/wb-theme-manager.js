@@ -179,7 +179,7 @@
             }
             
             // Dispatch theme change event
-            this.dispatchThemeChanged(effectiveTheme);
+            this.dispatchThemeChangeEvent(effectiveTheme, theme);
             
             WBEventLog.logInfo(`Theme applied: ${effectiveTheme} (mode: ${theme})`, { component: 'wb-theme-manager', method: 'applyTheme', line: 149, theme: effectiveTheme });
         }

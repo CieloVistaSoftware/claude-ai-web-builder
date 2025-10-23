@@ -1,6 +1,8 @@
 // WB Card Web Component
 // Website Builder card component with flexible layouts and variants
 
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // Minimal reactive store for state
 function createSignal(initial) {
   let value = initial;
@@ -95,7 +97,8 @@ class WBCard extends HTMLElement {
     this.onLoading(() => this.render());
   }
 
-  connectedCallback() {
+  async connectedCallback() {
+    await loadComponentCSS(this, 'wb-card.css');
     this.render();
     this.dispatchEvent(new CustomEvent('wbCardReady', { 
       bubbles: true,

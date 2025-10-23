@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // WB Viewport Component
 // Viewport simulator for testing responsive designs
 
@@ -220,8 +222,8 @@ window.WBViewport = {
 // Define the custom element
 class WBViewportElement extends HTMLElement {
     async connectedCallback() {
+        await loadComponentCSS(this, 'wb-viewport.css');
         await loadConfig();
-        loadViewportCSS();
         setTimeout(() => {
             console.log('📱 WB Viewport: Component initialized successfully');
             const eventName = config?.events?.ready || 'wbViewportReady';

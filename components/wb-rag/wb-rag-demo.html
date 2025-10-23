@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB RAG Assistant - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow: hidden;
+        }
+        
+        wb-rag {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <wb-rag id="rag-assistant"></wb-rag>
+    
+    <script type="module" src="./wb-rag.js"></script>
+    <script>
+        // Example: Listen to events
+        const rag = document.getElementById('rag-assistant');
+        
+        rag.addEventListener('wb-rag-ready', (e) => {
+            console.log('✅ RAG Assistant Ready!', e.detail);
+        });
+        
+        rag.addEventListener('wb-rag-search', (e) => {
+            console.log('🔍 Search:', e.detail.query, 'Results:', e.detail.results.length);
+        });
+        
+        rag.addEventListener('wb-rag-response', (e) => {
+            console.log('💬 Response received with', e.detail.sources.length, 'sources');
+        });
+        
+        rag.addEventListener('wb-rag-error', (e) => {
+            console.error('❌ Error:', e.detail.error);
+        });
+    </script>
+</body>
+</html>

@@ -1,6 +1,12 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 class WBLogViewer extends HTMLElement {
   constructor() {
     super();
+  }
+
+  async connectedCallback() {
+    await loadComponentCSS(this, 'wb-log-viewer.css');
     this.attachShadow({ mode: 'open' });
     
     // Create reactive state using Proxy

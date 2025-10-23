@@ -7,6 +7,7 @@ if (!('currentScript' in document) || (document.currentScript && document.curren
 // WB Table Web Component
 // True web component that binds to data and uses first row as headers
 import { WBBaseComponent } from '../wb-base/wb-base.js';
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 class WBTable extends WBBaseComponent {
     constructor() {
@@ -19,9 +20,9 @@ class WBTable extends WBBaseComponent {
         return ['data-source', 'data-json', 'striped', 'hover', 'bordered'];
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         this.render();
-        this.loadCSS();
+        await this.loadCSS();
         
         // Handle JSON data attribute
         const jsonData = this.getAttribute('data-json');
@@ -47,19 +48,8 @@ class WBTable extends WBBaseComponent {
         }
     }
 
-    loadCSS() {
-        if (window.WBComponentUtils) {
-            const cssPath = window.WBComponentUtils.getPath('wb-table.js', '../components/wb-table/') + 'wb-table.css';
-            window.WBComponentUtils.loadCSS('wb-table', cssPath);
-        } else {
-            // Check if CSS is already loaded
-            if (document.querySelector('link[href*="wb-table"]')) return;
-            
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = this.getComponentPath() + 'wb-table.css';
-            document.head.appendChild(link);
-        }
+    async loadCSS() {
+        await loadComponentCSS(this, 'wb-table.css');
     }
 
     getComponentPath() {

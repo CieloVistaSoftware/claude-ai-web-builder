@@ -2,6 +2,8 @@
 // Website Builder modal dialog Web Component - Working Implementation
 // Extracted from wb_modal_webcomponent.html
 
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 console.log('🪟 WB Modal Component: Starting initialization...');
 
     // WB Modal Web Component Class
@@ -17,7 +19,8 @@ console.log('🪟 WB Modal Component: Starting initialization...');
             return ['title', 'size', 'variant', 'duration', 'bg-color', 'color', 'open'];
         }
 
-        connectedCallback() {
+        async connectedCallback() {
+            await loadComponentCSS(this, 'wb-modal.css');
             this.setAttribute('role', 'dialog');
             this.setAttribute('aria-modal', 'true');
             this.setAttribute('aria-hidden', 'true');

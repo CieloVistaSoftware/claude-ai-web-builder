@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Framework RAG Assistant</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            overflow: hidden;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { animation: spin 1s linear infinite; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
+        
+        // Icons
+        const Send = ({size = 20, ...props}) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        );
+        
+        const Loader = ({size = 20, className = '', ...props}) => (
+            <svg className={`spinner ${className}`} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
+                <line x1="12" y1="2" x2="12" y2="6"></line>
+                <line x1="12" y1="18" x2="12" y2="22"></line>
+                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                <line x1="2" y1="12" x2="6" y2="12"></line>
+                <line x1="18" y1="12" x2="22" y2="12"></line>
+                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+            </svg>
+        );
+        
+        const Database = ({size = 20}) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+        );
+        
+        const Book = ({size = 20}) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+        );
+
+        // STEP 2: Smart Search & Retrieval System
+        class RAGSearchEngine {
+            constructor(knowledgeBase) {
+                this.kb = knowledgeBase;
+            }
+
+            // Tokenize and normalize query
+            tokenize(text) {
+                return text.toLowerCase()
+                    .replace(/[^\w\s-]/g, ' ')
+                    .split(/\s+/)
+                    .filter(t => t.length > 2);
+            }
+
+            // Calculate relevance score
+            calculateScore(item, tokens) {
+                let score = 0;
+                const text = JSON.stringify(item).toLowerCase();
+                
+                tokens.forEach(token => {
+                    // Exact matches in important fields
+                    if (item.name?.toLowerCase().includes(token)) score += 10;
+                    if (item.title?.toLowerCase().includes(token)) score += 8;
+                    if (item.keywords?.some(k => k.includes(token))) score += 5;
+                    
+                    // Partial matches in content
+                    const regex = new RegExp(token, 'gi');
+                    const matches = (text.match(regex) || []).length;
+                    score += matches * 2;
+                });
+                
+                return score;
+            }
+
+            // Search across all knowledge
+            search(query, maxResults = 5) {
+                const tokens = this.tokenize(query);
+                if (tokens.length === 0) return [];
+
+                const results = [];
+
+                // Search components
+                this.kb.components.forEach(comp => {
+                    const score = this.calculateScore(comp, tokens);
+                    if (score > 0) {
+                        results.push({
+                            type: 'component',
+                            score,
+                            data: comp
+                        });
+                    }
+                });
+
+                // Search documentation
+                this.kb.documentation.forEach(doc => {
+                    const score = this.calculateScore(doc, tokens);
+                    if (score > 0) {
+                        results.push({
+                            type: 'documentation',
+                            score,
+                            data: doc
+                        });
+                    }
+                });
+
+                // Sort by score and return top results
+                return results
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, maxResults);
+            }
+
+            // Build context for Claude
+            buildContext(searchResults) {
+                let context = "# WB Framework Knowledge Context\n\n";
+                
+                searchResults.forEach((result, idx) => {
+                    if (result.type === 'component') {
+                        const comp = result.data;
+                        context += `## Component: ${comp.name}\n`;
+                        context += `${comp.description}\n\n`;
+                        if (comp.usage) context += `Usage: \`${comp.usage}\`\n\n`;
+                        if (comp.methods.length > 0) context += `Methods: ${comp.methods.join(', ')}\n\n`;
+                        if (comp.events.length > 0) context += `Events: ${comp.events.join(', ')}\n\n`;
+                        if (comp.codeExamples.length > 0) {
+                            context += `Example:\n\`\`\`${comp.codeExamples[0].language}\n${comp.codeExamples[0].code}\n\`\`\`\n\n`;
+                        }
+                    } else if (result.type === 'documentation') {
+                        const doc = result.data;
+                        context += `## Document: ${doc.title}\n`;
+                        context += `${doc.summary}\n\n`;
+                        if (doc.codeBlocks.length > 0) {
+                            context += `\`\`\`${doc.codeBlocks[0].language}\n${doc.codeBlocks[0].code}\n\`\`\`\n\n`;
+                        }
+                    }
+                    context += "---\n\n";
+                });
+
+                return context;
+            }
+        }
+
+        // STEP 3: Claude API Integration (via proxy server)
+        class ClaudeAPI {
+            async chat(userMessage, context) {
+                try {
+                    const response = await fetch("/api/claude", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            userMessage,
+                            context
+                        })
+                    });
+
+                    if (!response.ok) {
+                        let errorText = await response.text();
+                        let errorMsg = `API error: ${response.status}`;
+                        try {
+                            const errorData = JSON.parse(errorText);
+                            errorMsg = errorData.error || errorMsg;
+                        } catch {}
+                        throw new Error(errorMsg + '\n\nIf you see this error, the backend server may not be running.\nTo start it, run: npm run start:api or node server/start-api.js');
+                    }
+
+                    const text = await response.text();
+                    let data;
+                    try {
+                        data = JSON.parse(text);
+                    } catch (e) {
+                        throw new Error('Invalid JSON response from Claude API.\n\nThis usually means the backend server is not running or returned an empty response.\nTo start it, run: npm run start:api or node server/start-api.js');
+                    }
+                    if (!data.success) {
+                        throw new Error((data.error || 'Unknown error') + '\n\nIf you see this error, the backend server may not be running.\nTo start it, run: npm run start:api or node server/start-api.js');
+                    }
+                    return data.response;
+                } catch (error) {
+                    console.error('Claude API Error:', error);
+                    throw error;
+                }
+            }
+        }
+
+        // STEP 4: Beautiful UI Component
+        const WBRAGAssistant = () => {
+            const [knowledgeBase, setKnowledgeBase] = useState(null);
+            const [messages, setMessages] = useState([]);
+            const [input, setInput] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [kbLoading, setKbLoading] = useState(true);
+            const [searchEngine, setSearchEngine] = useState(null);
+            const [claudeAPI] = useState(new ClaudeAPI());
+            const messagesEndRef = useRef(null);
+            const inputRef = useRef(null);
+
+            useEffect(() => {
+                loadKnowledgeBase();
+            }, []);
+
+            useEffect(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }, [messages]);
+
+            const loadKnowledgeBase = async () => {
+                try {
+                    const response = await fetch('/knowledge-base.json');
+                    if (!response.ok) {
+                        throw new Error('Knowledge base not found');
+                    }
+                    const kb = await response.json();
+                    setKnowledgeBase(kb);
+                    setSearchEngine(new RAGSearchEngine(kb));
+                    
+                    setMessages([{
+                        role: 'assistant',
+                        content: `🎉 **WB Framework RAG Assistant Ready!**
+
+I have full access to:
+- 📚 ${kb.metadata.totalDocs} Documentation files
+- 🧩 ${kb.metadata.totalComponents} Components
+- 💻 ${kb.metadata.totalExamples} Code examples
+
+Ask me anything about the WB Framework!`
+                    }]);
+                    
+                    setKbLoading(false);
+                } catch (error) {
+                    setMessages([{
+                        role: 'assistant',
+                        content: `⚠️ **Knowledge base not found!**
+
+Please run: \`npm run build:kb\`
+
+This will index all your documentation and components.`
+                    }]);
+                    setKbLoading(false);
+                }
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (!input.trim() || loading || !searchEngine) return;
+
+                const userMessage = input.trim();
+                setInput('');
+                
+                // Add user message
+                setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+                setLoading(true);
+
+                try {
+                    // STEP 2: Search for relevant context
+                    const searchResults = searchEngine.search(userMessage, 5);
+                    const context = searchEngine.buildContext(searchResults);
+                    
+                    console.log('🔍 Search Results:', searchResults);
+                    console.log('📄 Context Length:', context.length);
+
+                    // STEP 3: Send to Claude with context
+                    const response = await claudeAPI.chat(userMessage, context);
+                    
+                    // Add assistant response
+                    setMessages(prev => [...prev, { 
+                        role: 'assistant', 
+                        content: response,
+                        sources: searchResults.map(r => ({
+                            type: r.type,
+                            name: r.data.name || r.data.title,
+                            score: r.score
+                        }))
+                    }]);
+
+                } catch (error) {
+                    setMessages(prev => [...prev, { 
+                        role: 'assistant', 
+                        content: `❌ Error: ${error.message}\n\nMake sure the assistant is running with proper API access.`
+                    }]);
+                }
+
+                setLoading(false);
+            };
+
+            const markdownToHtml = (md) => {
+                if (!md) return '';
+                return md
+                    .replace(/```(\w+)?\n([\s\S]*?)```/g, 
+                        '<pre style="background:#1e1e2e;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;border:1px solid #3f3f46"><code style="color:#e4e4e7;font-size:13px;font-family:Consolas,Monaco,monospace;line-height:1.5">$2</code></pre>')
+                    .replace(/`([^`]+)`/g, 
+                        '<code style="background:rgba(139,92,246,0.2);padding:2px 6px;border-radius:4px;font-size:13px;color:#a78bfa;font-family:Consolas,monospace">$1</code>')
+                    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#a78bfa">$1</strong>')
+                    .replace(/^### (.+)$/gm, '<h3 style="color:#a78bfa;font-size:18px;margin-top:15px;margin-bottom:8px">$1</h3>')
+                    .replace(/^## (.+)$/gm, '<h2 style="color:#c4b5fd;font-size:20px;margin-top:15px;margin-bottom:8px">$1</h2>')
+                    .replace(/^# (.+)$/gm, '<h1 style="color:#ddd6fe;font-size:24px;margin-top:15px;margin-bottom:8px">$1</h1>')
+                    .replace(/^\- (.+)$/gm, '<li style="margin-left:20px;margin-bottom:5px">$1</li>')
+                    .replace(/(<li.*?<\/li>\s*)+/g, '<ul style="margin:8px 0">$&</ul>')
+                    .replace(/\n\n/g, '<br/><br/>')
+                    .replace(/\n/g, '<br/>');
+            };
+
+            if (kbLoading) {
+                return (
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100vh',
+                        color: 'white',
+                        gap: '20px'
+                    }}>
+                        <Loader size={48} />
+                        <div style={{fontSize: '24px', fontWeight: '500'}}>
+                            Loading WB Framework Knowledge Base...
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100vh',
+                    maxWidth: '1200px',
+                    margin: '0 auto',
+                    padding: '20px',
+                    gap: '20px'
+                }}>
+                    {/* Header */}
+                    <div style={{
+                        background: 'rgba(255,255,255,0.1)',
+                        backdropFilter: 'blur(10px)',
+                        borderRadius: '16px',
+                        padding: '20px 30px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '15px',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+                    }}>
+                        <Database size={32} style={{color: '#a78bfa'}} />
+                        <div style={{flex: 1}}>
+                            <h1 style={{
+                                color: 'white',
+                                fontSize: '24px',
+                                fontWeight: '600',
+                                marginBottom: '5px'
+                            }}>
+                                WB Framework RAG Assistant
+                            </h1>
+                            <p style={{color: 'rgba(255,255,255,0.7)', fontSize: '14px'}}>
+                                Powered by Claude + Your Complete Documentation
+                            </p>
+                        </div>
+                        {knowledgeBase && (
+                            <div style={{
+                                display: 'flex',
+                                gap: '15px',
+                                fontSize: '13px',
+                                color: 'rgba(255,255,255,0.7)'
+                            }}>
+                                <span>📚 {knowledgeBase.metadata.totalDocs} Docs</span>
+                                <span>🧩 {knowledgeBase.metadata.totalComponents} Components</span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Messages */}
+                    <div style={{
+                        flex: 1,
+                        overflowY: 'auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '15px',
+                        padding: '10px'
+                    }}>
+                        {messages.map((msg, idx) => (
+                            <div key={idx} className="fade-in" style={{
+                                display: 'flex',
+                                justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start'
+                            }}>
+                                <div style={{
+                                    maxWidth: '85%',
+                                    background: msg.role === 'user' 
+                                        ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                                        : 'rgba(255,255,255,0.1)',
+                                    backdropFilter: 'blur(10px)',
+                                    borderRadius: '16px',
+                                    padding: '16px 20px',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
+                                }}>
+                                    <div 
+                                        style={{color: 'white', lineHeight: '1.6'}}
+                                        dangerouslySetInnerHTML={{__html: markdownToHtml(msg.content)}}
+                                    />
+                                    {msg.sources && msg.sources.length > 0 && (
+                                        <div style={{
+                                            marginTop: '12px',
+                                            paddingTop: '12px',
+                                            borderTop: '1px solid rgba(255,255,255,0.2)',
+                                            fontSize: '12px',
+                                            color: 'rgba(255,255,255,0.7)'
+                                        }}>
+                                            <strong style={{color: '#a78bfa'}}>📚 Sources:</strong>{' '}
+                                            {msg.sources.map((s, i) => (
+                                                <span key={i}>
+                                                    {s.name}
+                                                    {i < msg.sources.length - 1 && ', '}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                        
+                        {loading && (
+                            <div className="fade-in" style={{
+                                display: 'flex',
+                                justifyContent: 'flex-start'
+                            }}>
+                                <div style={{
+                                    background: 'rgba(255,255,255,0.1)',
+                                    backdropFilter: 'blur(10px)',
+                                    borderRadius: '16px',
+                                    padding: '16px 20px',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '10px',
+                                    color: 'white'
+                                }}>
+                                    <Loader size={18} />
+                                    <span>Searching knowledge base and thinking...</span>
+                                </div>
+                            </div>
+                        )}
+                        
+                        <div ref={messagesEndRef} />
+                    </div>
+
+                    {/* Input */}
+                    <form onSubmit={handleSubmit} style={{
+                        background: 'rgba(255,255,255,0.1)',
+                        backdropFilter: 'blur(10px)',
+                        borderRadius: '16px',
+                        padding: '15px',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        display: 'flex',
+                        gap: '10px',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+                    }}>
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="Ask about WB Framework components, architecture, patterns..."
+                            disabled={loading || !searchEngine}
+                            style={{
+                                flex: 1,
+                                background: 'rgba(0,0,0,0.3)',
+                                border: '1px solid rgba(255,255,255,0.2)',
+                                borderRadius: '12px',
+                                padding: '12px 16px',
+                                color: 'white',
+                                fontSize: '15px',
+                                outline: 'none'
+                            }}
+                        />
+                        <button
+                            type="submit"
+                            disabled={loading || !input.trim() || !searchEngine}
+                            style={{
+                                background: loading ? 'rgba(102,126,234,0.5)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                border: 'none',
+                                borderRadius: '12px',
+                                padding: '12px 24px',
+                                color: 'white',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                fontWeight: '500',
+                                transition: 'transform 0.2s',
+                                fontSize: '15px'
+                            }}
+                            onMouseEnter={(e) => !loading && (e.target.style.transform = 'scale(1.05)')}
+                            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                        >
+                            {loading ? <Loader size={18} /> : <Send size={18} />}
+                            Send
+                        </button>
+                    </form>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<WBRAGAssistant />, document.getElementById('root'));
+    </script>
+</body>
+</html>

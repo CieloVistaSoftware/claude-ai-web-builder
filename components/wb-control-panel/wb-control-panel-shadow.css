@@ -159,14 +159,41 @@ select option {
 
 input[type="range"] {
     height: 6px;
-    background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
     outline: none;
     -webkit-appearance: none;
     margin: 0.5rem 0;
 }
 
-:host([data-mode="light"]) input[type="range"] {
+/* Hue sliders show full color spectrum */
+#hue-slider,
+#bg-hue-slider {
+    background: linear-gradient(to right, 
+        hsl(0, 100%, 50%),
+        hsl(30, 100%, 50%),
+        hsl(60, 100%, 50%),
+        hsl(120, 100%, 50%),
+        hsl(180, 100%, 50%),
+        hsl(220, 100%, 50%),
+        hsl(240, 100%, 50%),
+        hsl(280, 100%, 50%),
+        hsl(320, 100%, 50%),
+        hsl(360, 100%, 50%)
+    );
+}
+
+/* Saturation and Lightness sliders - standard backgrounds */
+#sat-slider,
+#light-slider,
+#bg-sat-slider,
+#bg-light-slider {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+:host([data-mode="light"]) #sat-slider,
+:host([data-mode="light"]) #light-slider,
+:host([data-mode="light"]) #bg-sat-slider,
+:host([data-mode="light"]) #bg-light-slider {
     background: rgba(0, 0, 0, 0.1);
 }
 

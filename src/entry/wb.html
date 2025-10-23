@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-mode="dark">
+  <head>
+    <!-- Core Meta Tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+    <!-- Title & Description -->
+    <title>CieloVistaSoftware AI - Professional Web Solutions</title>
+    <meta name="description" content="Create professional websites with advanced layouts, themes, and animations. Built with modern web components and glassmorphism design." />
+    <meta name="keywords" content="website, template, professional, glassmorphism, animation, web components" />
+    <meta name="author" content="CieloVistaSoftware" />
+    
+    <!-- Theme & Appearance -->
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="color-scheme" content="dark light" />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./ziasymbol.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./ziasymbol.svg" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./styles/main.css">
+    
+    <!-- Theme Listener - Handles Control Panel Events -->
+    <script src="./styles/wb-theme-listener.js" defer></script>
+    
+    <!-- External Libraries (async loading) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <!-- WB Component Loader - Module Imports -->
+    <script type="module" src="wb.js" defer></script>
+    <script type="module" src="index.js" defer></script>
+  </head>
+  <body>
+    <wb-control-panel></wb-control-panel>
+    <wb-theme></wb-theme>
+    <wb-layout id="main-wb-layout" layout="top-nav">
+      <wb-nav items='[{"id":"home","text":"Home","href":"#home","icon":"🏠","active":true},{"id":"about","text":"About","href":"#about","icon":"ℹ️"},{"id":"services","text":"Services","href":"#services","icon":"⚙️"},{"id":"blog","text":"Blog","href":"#blog","icon":"📝"},{"id":"contact","text":"Contact","href":"#contact","icon":"📧"}]'></wb-nav>
+      <header style="text-align: center;">
+        <h1>Your Amazing Website</h1>
+        <p>Build something beautiful today</p>
+      </header>
+      <main>
+        <wb-semanticElements>
+          <article>
+            <h2>Latest News & Updates</h2>
+            <div>
+              <h3>Product Launch: AI Dashboard 2.0</h3>
+              <p>We're excited to announce the launch of our new AI-powered dashboard that revolutionizes data visualization...</p>
+              <span>Published: March 15, 2025</span>
+            </div>
+            <div>
+              <h3>Company Expansion to European Markets</h3>
+              <p>TechCorp is proud to announce our expansion into European markets, bringing our innovative solutions...</p>
+              <span>Published: March 12, 2025</span>
+            </div>
+          </article>
+          <aside>
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#">📊 Analytics Dashboard</a></li>
+              <li><a href="#">🔒 Security Center</a></li>
+              <li><a href="#">📞 Support Portal</a></li>
+              <li><a href="#">📖 Documentation</a></li>
+            </ul>
+          </aside>
+        </wb-semanticElements>
+      </main>
+      <wb-footer></wb-footer>
+    </wb-layout>
+    <wb-status></wb-status>
+  </body>
+</html>

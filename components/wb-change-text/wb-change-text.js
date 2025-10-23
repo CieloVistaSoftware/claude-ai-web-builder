@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 /**
  * WB Change Text Component
  * Web Component for direct inline text editing using contenteditable
@@ -24,8 +26,9 @@ class WBChangeText extends HTMLElement {
         return ['edit-mode', 'target-selectors'];
     }
     
-    connectedCallback() {
+    async connectedCallback() {
         if (!this.initialized) {
+            await loadComponentCSS(this, 'wb-change-text.css');
             this.init();
         }
     }
@@ -53,8 +56,7 @@ class WBChangeText extends HTMLElement {
         try {
             console.log('✏️ WB Change Text: Starting initialization...');
             
-            // Load CSS
-            this.loadCSS();
+            // CSS already loaded in connectedCallback
             
             // Setup component
             this.setupComponent();

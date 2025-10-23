@@ -1,0 +1,40 @@
+{
+  "CriticalCount": 2,
+  "HighCount": 1,
+  "Timestamp": "2025-10-19 21:06:37",
+  "CurrentCount": 0,
+  "Total": 3,
+  "Critical": [
+    {
+      "Count": 10,
+      "Keywords": [
+        "CRITICAL",
+        "BLOCKER",
+        "BROKEN",
+        "SECURITY",
+        "ERROR",
+        "NOT WORKING",
+        "DOWN",
+        "BLOCKS",
+        "BLOCKING",
+        "EMERGENCY"
+      ],
+      "Path": "\\claude.🔴.md"
+    },
+    {
+      "Count": 1,
+      "Keywords": [
+        "ERROR"
+      ],
+      "Path": "\\claude.validationErrors.md"
+    }
+  ],
+  "High": {
+    "Count": 2,
+    "Keywords": [
+      "REQUIRED",
+      "MUST"
+    ],
+    "Path": "\\claude.🟡.md"
+  }
+}

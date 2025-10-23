@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&lt;wb-xtest&gt; - Demo</title>
+    
+    <!-- Marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- WB System Styles -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="./wb-xtest.css">
+    
+    <style>
+        body {
+            background: var(--bg-color, #18181b);
+            color: var(--text-primary, #fff);
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            padding: 2rem;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        
+        h1 code {
+            color: #6366f1;
+            background: #2d2d35;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 2.25rem;
+            font-weight: 600;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #333;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1rem;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+        
+        .tab-button:hover {
+            color: #fff;
+        }
+        
+        .tab-button.active {
+            color: #6366f1;
+            border-bottom-color: #6366f1;
+        }
+        
+        .tab-panel {
+            display: none;
+        }
+        
+        .tab-panel.active {
+            display: block;
+        }
+        
+        .demo-section {
+            background: #23232b;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-section h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+        }
+        
+        .demo-row {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            background: #2d2d35;
+            border-radius: 6px;
+        }
+        
+        .code-block {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-top: 1rem;
+            border: 1px solid #333;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .code-block code {
+            color: #e0e0e0;
+        }
+        
+        .code-label {
+            color: #999;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        /* Event Log Styles */
+        .event-log {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .event-log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .event-entry {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            background: #2d2d35;
+            border-left: 3px solid #6366f1;
+            position: relative;
+        }
+        
+        .event-entry.ready {
+            border-left-color: #10b981;
+        }
+        
+        .event-entry.click {
+            border-left-color: #f59e0b;
+        }
+        
+        .event-entry.change {
+            border-left-color: #8b5cf6;
+        }
+        
+        .event-entry.error {
+            border-left-color: #ef4444;
+            background: #3d2d2d;
+        }
+        
+        .event-timestamp {
+            color: #999;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .event-type {
+            color: #6366f1;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .event-entry.ready .event-type {
+            color: #10b981;
+        }
+        
+        .event-entry.click .event-type {
+            color: #f59e0b;
+        }
+        
+        .event-entry.change .event-type {
+            color: #8b5cf6;
+        }
+        
+        .event-entry.error .event-type {
+            color: #ef4444;
+        }
+        
+        .event-details {
+            color: #e0e0e0;
+            margin-top: 0.25rem;
+            font-size: 0.85rem;
+        }
+        
+        .stack-trace-toggle {
+            color: #6366f1;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+            text-decoration: underline;
+            user-select: none;
+        }
+        
+        .stack-trace-toggle:hover {
+            color: #8b8cf5;
+        }
+        
+        .stack-trace {
+            display: none;
+            background: #0d0d0d;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: #999;
+            max-height: 250px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+        
+        .stack-trace.visible {
+            display: block;
+        }
+        
+        .stack-trace-line {
+            display: block;
+            padding: 0.25rem 0;
+        }
+        
+        .stack-trace-line.highlight {
+            background: #3d2d2d;
+            color: #fbbf24;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            margin: 0.25rem -0.5rem;
+            border-left: 3px solid #fbbf24;
+        }
+        
+        /* Copy Toast Notification */
+        .copy-toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s;
+            pointer-events: none;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+        
+        .error-test-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .error-test-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+        
+        .clear-log-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        
+        .clear-log-btn:hover {
+            background: #dc2626;
+        }
+        
+        .event-count {
+            color: #999;
+            font-size: 0.85rem;
+        }
+        
+        #doc-content {
+            background: #23232b;
+            padding: 2rem;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+        
+        #doc-content h1,
+        #doc-content h2,
+        #doc-content h3 {
+            color: #e0e0e0;
+            margin-top: 2rem;
+        }
+        
+        #doc-content h1:first-child,
+        #doc-content h2:first-child,
+        #doc-content h3:first-child {
+            margin-top: 0;
+        }
+        
+        #doc-content code {
+            background: #1a1a1a;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        #doc-content pre {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        
+        #doc-content pre code {
+            background: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="demo-container">
+        <h1><code>&lt;wb-xtest&gt;</code> Demo</h1>
+        
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="showTab('docs')">📖 Documentation</button>
+            <button class="tab-button" onclick="showTab('examples')">🎯 Examples</button>
+        </div>
+        
+        <div class="tab-panel active" id="docs-panel">
+            <div id="doc-content">Loading documentation...</div>
+        </div>
+        
+        <div class="tab-panel" id="examples-panel">
+            <div class="demo-section">
+                <h2>🎯 Basic Usage</h2>
+                <div class="demo-row">
+                    <wb-xtest variant="primary">Primary</wb-xtest>
+                    <wb-xtest variant="secondary">Secondary</wb-xtest>
+                </div>
+                <span class="code-label">💻 Code</span>
+                <div class="code-block">
+                    <pre><code>&lt;wb-xtest variant="primary"&gt;Primary&lt;/wb-xtest&gt;
+&lt;wb-xtest variant="secondary"&gt;Secondary&lt;/wb-xtest&gt;</code></pre>
+                </div>
+            </div>
+            
+            <div class="demo-section">
+                <h2>🎨 More Examples</h2>
+                <div class="demo-row">
+                    <wb-xtest variant="primary">Click Me</wb-xtest>
+                    <wb-xtest variant="secondary">Save</wb-xtest>
+                    <wb-xtest variant="primary">Cancel</wb-xtest>
+                </div>
+                <span class="code-label">💻 Code</span>
+                <div class="code-block">
+                    <pre><code>&lt;wb-xtest variant="primary"&gt;Click Me&lt;/wb-xtest&gt;
+&lt;wb-xtest variant="secondary"&gt;Save&lt;/wb-xtest&gt;
+&lt;wb-xtest variant="primary"&gt;Cancel&lt;/wb-xtest&gt;</code></pre>
+                </div>
+            </div>
+            
+            <div class="demo-section">
+                <h2>🔄 Mixed Variants</h2>
+                <div class="demo-row">
+                    <wb-xtest variant="primary">Primary Button</wb-xtest>
+                    <wb-xtest variant="secondary">Secondary Button</wb-xtest>
+                    <wb-xtest variant="primary">Another Primary</wb-xtest>
+                    <wb-xtest variant="secondary">Another Secondary</wb-xtest>
+                </div>
+                <span class="code-label">💻 Code</span>
+                <div class="code-block">
+                    <pre><code>&lt;wb-xtest variant="primary"&gt;Primary Button&lt;/wb-xtest&gt;
+&lt;wb-xtest variant="secondary"&gt;Secondary Button&lt;/wb-xtest&gt;
+&lt;wb-xtest variant="primary"&gt;Another Primary&lt;/wb-xtest&gt;
+&lt;wb-xtest variant="secondary"&gt;Another Secondary&lt;/wb-xtest&gt;</code></pre>
+                </div>
+            </div>
+            
+            <div class="demo-section">
+                <h2>💥 Error Testing</h2>
+                <p style="color: #999; margin-bottom: 1rem;">
+                    Test error handling and see the full stack trace in the event log below. <strong>Click "View Stack Trace" to copy it to clipboard!</strong>
+                </p>
+                <div class="demo-row">
+                    <button class="error-test-btn" onclick="throwTestError()">💥 Throw Test Error</button>
+                </div>
+                <span class="code-label">💻 Code</span>
+                <div class="code-block">
+                    <pre><code>function throwTestError() {
+  try {
+    // Simulate a deeply nested error
+    function level3() {
+      throw new Error('Test error from level 3!');
+    }
+    function level2() {
+      level3();
+    }
+    function level1() {
+      level2();
+    }
+    level1();
+  } catch (error) {
+    logEvent('ERROR', error.message, 'error');
+  }
+}</code></pre>
+                </div>
+            </div>
+            
+            <!-- Event Monitor Section - Now at the bottom -->
+            <div class="demo-section">
+                <h2>📡 Event Monitor</h2>
+                <p style="color: #999; margin-bottom: 1rem;">
+                    Click any component above to see events in real-time with full stack traces
+                </p>
+                
+                <span class="code-label">💻 How to Listen for Events</span>
+                <div class="code-block" style="margin-bottom: 1.5rem;">
+                    <pre><code>// Listen for component ready event
+document.addEventListener('wb-xtest:ready', (e) => {
+  console.log('Component ready:', e.target);
+  console.log('Variant:', e.target.getAttribute('variant'));
+});
+
+// Listen for variant change event
+document.addEventListener('wb-xtest:change', (e) => {
+  console.log('Variant changed:', e.detail);
+});
+
+// Listen for clicks on wb-xtest components
+document.addEventListener('click', (e) => {
+  const component = e.target.closest('wb-xtest');
+  if (component) {
+    console.log('Clicked:', component.textContent);
+  }
+});</code></pre>
+                </div>
+                
+                <span class="code-label">🔴 Live Event Log</span>
+                <div class="event-log-header">
+                    <span class="event-count">Events: <span id="event-count">0</span></span>
+                    <button class="clear-log-btn" onclick="clearEventLog()">🗑️ Clear Log</button>
+                </div>
+                <div class="event-log" id="event-log">
+                    <div style="color: #666; text-align: center; padding: 2rem;">
+                        Waiting for events...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Load components as modules -->
+    <script type="module">
+        import './wb-xtest.js';
+        
+        console.log('✅ Component loaded');
+        
+        // Load and parse markdown documentation
+        async function loadDocs() {
+            try {
+                const response = await fetch('./wb-xtest.md');
+                const markdown = await response.text();
+                
+                if (window.marked) {
+                    document.getElementById('doc-content').innerHTML = marked.parse(markdown);
+                } else {
+                    document.getElementById('doc-content').textContent = markdown;
+                }
+            } catch (e) {
+                document.getElementById('doc-content').innerHTML = 
+                    `<p style="color: #ef4444;">Error loading documentation: ${e.message}</p>`;
+            }
+        }
+        
+        loadDocs();
+        
+        // Show copy toast notification
+        function showCopyToast() {
+            // Remove any existing toast
+            const existingToast = document.querySelector('.copy-toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            // Create and show new toast
+            const toast = document.createElement('div');
+            toast.className = 'copy-toast';
+            toast.innerHTML = '✅ Stack trace copied to clipboard!';
+            document.body.appendChild(toast);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        // Make showCopyToast available globally
+        window.showCopyToast = showCopyToast;
+        
+        // Event logging system with stack trace
+        let eventCounter = 0;
+        
+        function logEvent(type, details, className = '') {
+            eventCounter++;
+            
+            const log = document.getElementById('event-log');
+            const now = new Date();
+            const timestamp = now.toLocaleTimeString() + '.' + now.getMilliseconds().toString().padStart(3, '0');
+            
+            // Capture stack trace
+            const stack = new Error().stack;
+            const stackLines = stack.split('\n').slice(2); // Remove "Error" and logEvent lines
+            
+            // Format stack trace with highlighting
+            let formattedStack = '';
+            stackLines.forEach((line, index) => {
+                // Highlight the first real function call (where the error likely originated)
+                if (index === 0 && className === 'error') {
+                    formattedStack += `<span class="stack-trace-line highlight">👉 ${line.trim()}</span>\n`;
+                } else {
+                    formattedStack += `<span class="stack-trace-line">${line.trim()}</span>\n`;
+                }
+            });
+            
+            // Plain text version for clipboard
+            const plainStack = stackLines.join('\n');
+            
+            // Remove the "waiting" message if it exists
+            if (eventCounter === 1) {
+                log.innerHTML = '';
+            }
+            
+            const entry = document.createElement('div');
+            entry.className = `event-entry ${className}`;
+            
+            const stackId = `stack-${eventCounter}`;
+            entry.innerHTML = `
+                <div class="event-timestamp">⏱️ ${timestamp}</div>
+                <div class="event-type">${type}</div>
+                <div class="event-details">${details}</div>
+                <div class="stack-trace-toggle" onclick="window.toggleStackAndCopy('${stackId}')">📋 View Stack Trace (Click to Copy)</div>
+                <div class="stack-trace" id="${stackId}" data-plain-stack="${encodeURIComponent(plainStack)}">${formattedStack || 'No stack trace available'}</div>
+            `;
+            
+            // Add to top of log
+            log.insertBefore(entry, log.firstChild);
+            
+            // Update counter
+            document.getElementById('event-count').textContent = eventCounter;
+            
+            // Keep only last 50 entries
+            const entries = log.querySelectorAll('.event-entry');
+            if (entries.length > 50) {
+                entries[entries.length - 1].remove();
+            }
+        }
+        
+        // Make functions available globally
+        window.logEvent = logEvent;
+        
+        window.toggleStackAndCopy = async function(stackId) {
+            const stackElement = document.getElementById(stackId);
+            if (!stackElement) return;
+            
+            // Get plain text stack trace
+            const plainStack = decodeURIComponent(stackElement.getAttribute('data-plain-stack'));
+            
+            // Copy to clipboard
+            try {
+                await navigator.clipboard.writeText(plainStack);
+                showCopyToast();
+            } catch (err) {
+                console.error('Failed to copy stack trace:', err);
+            }
+            
+            // Toggle visibility
+            stackElement.classList.toggle('visible');
+        };
+        
+        // Error test function with auto-scroll and history
+        window.throwTestError = function() {
+            try {
+                // Simulate a deeply nested error with multiple call levels
+                function level3() {
+                    throw new Error('Test error from level 3! This is a simulated error for debugging.');
+                }
+                function level2() {
+                    level3();
+                }
+                function level1() {
+                    level2();
+                }
+                level1();
+            } catch (error) {
+                logEvent('ERROR', `${error.name}: ${error.message}`, 'error');
+                
+                // Push to history before scrolling
+                const currentPosition = window.pageYOffset;
+                history.pushState(
+                    { scrollPosition: currentPosition }, 
+                    '', 
+                    '#event-log'
+                );
+                
+                // Scroll to event log after a brief delay to let the event render
+                setTimeout(() => {
+                    const eventLog = document.getElementById('event-log');
+                    if (eventLog) {
+                        eventLog.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }
+                }, 100);
+            }
+        };
+        
+        // Handle browser back/forward navigation
+        window.addEventListener('popstate', (event) => {
+            if (event.state && typeof event.state.scrollPosition === 'number') {
+                // Restore previous scroll position
+                window.scrollTo({
+                    top: event.state.scrollPosition,
+                    behavior: 'smooth'
+                });
+            } else {
+                // No state, scroll to top
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        });
+        
+        // Listen for wb-xtest:ready events
+        document.addEventListener('wb-xtest:ready', (e) => {
+            const component = e.target;
+            const variant = component.getAttribute('variant') || 'default';
+            const text = component.textContent.trim();
+            logEvent(
+                'READY',
+                `Component initialized: "${text}" (variant: ${variant})`,
+                'ready'
+            );
+        });
+        
+        // Listen for wb-xtest:change events
+        document.addEventListener('wb-xtest:change', (e) => {
+            const detail = e.detail || {};
+            logEvent(
+                'CHANGE',
+                `Variant changed to: ${detail.variant || 'unknown'}`,
+                'change'
+            );
+        });
+        
+        // Add click listeners to all wb-xtest components
+        document.addEventListener('click', (e) => {
+            const component = e.target.closest('wb-xtest');
+            if (component) {
+                const variant = component.getAttribute('variant') || 'default';
+                const text = component.textContent.trim();
+                logEvent(
+                    'CLICK',
+                    `Clicked: "${text}" (variant: ${variant})`,
+                    'click'
+                );
+            }
+        });
+        
+        // Make clearEventLog available globally
+        window.clearEventLog = function() {
+            document.getElementById('event-log').innerHTML = `
+                <div style="color: #666; text-align: center; padding: 2rem;">
+                    Log cleared. Waiting for events...
+                </div>
+            `;
+            eventCounter = 0;
+            document.getElementById('event-count').textContent = '0';
+            logEvent('SYSTEM', 'Event log cleared', 'ready');
+        };
+    </script>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all panels
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected panel
+            document.getElementById(tabName + '-panel').classList.add('active');
+            
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

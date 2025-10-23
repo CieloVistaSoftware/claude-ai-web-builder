@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="../../styles/main.css">
     
     <!-- Load WB Demo Component -->
-    <script src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
     
     <!-- Load wb-nav web component -->
     <script src="wb-nav.js"></script>
-    <script src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
     
     <!-- Demo-specific popup styles only -->
     <style>
@@ -236,214 +236,331 @@ document.addEventListener('wbNavReady', (e) => {
         
         <div slot="examples">
             <h2>🎯 Interactive Examples</h2>
-            <p>Click any button below to see live navigation demonstrations in popup overlays. Each demo showcases different navigation patterns and capabilities.</p>
+            <p>Click any button below to see live wb-nav component demonstrations. Each demo showcases different navigation patterns and capabilities using the actual wb-nav web component.</p>
             
             <div class="status" id="status">
                 Component loading...
             </div>
             
             <div class="demo-section">
-                <h3>Navigation Menu Popups</h3>
-                <p>Click the buttons below to open navigation menus in popup overlays:</p>
+                <h3>Navigation Component Demos</h3>
+                <p>Click the buttons below to open interactive wb-nav component demonstrations:</p>
                 
                 <div class="demo-buttons">
-                    <button class="wb-btn wb-btn--primary" onclick="openNavPopup('basic')">
+                    <button class="wb-btn wb-btn--primary" onclick="openNavDemo('basic')">
                         🧭 Basic Navigation
                     </button>
                     
-                    <button class="wb-btn wb-btn--primary" onclick="openNavPopup('dropdown')">
-                        📂 Dropdown Navigation
+                    <button class="wb-btn wb-btn--primary" onclick="openNavDemo('variants')">
+                        🎨 Navigation Variants
                     </button>
                     
-                    <button class="wb-btn wb-btn--success" onclick="openNavPopup('admin')">
-                        ⚙️ Admin Navigation
+                    <button class="wb-btn wb-btn--success" onclick="openNavDemo('layouts')">
+                        📐 Layout Options
+                    </button>
+                    
+                    <button class="wb-btn wb-btn--secondary" onclick="openNavDemo('interactive')">
+                        ⚡ Interactive Features
                     </button>
                 </div>
             </div>
         </div>
     </wb-demo>
     
-    <!-- Navigation Popup Overlays -->
+    <section style="padding:1rem; border-top:1px solid #eee; margin-top:1rem;">
+        <h3>Simplified Markup Example</h3>
+        <p>You can author a <code>&lt;wb-nav&gt;</code> using light DOM children. The component will parse
+        either custom <code>&lt;wb-list-item&gt;</code> elements or legacy <code>&lt;ul&gt;&lt;li&gt;</code> lists.
+        Example:</p>
+        <pre><code>&lt;wb-nav layout="horizontal" variant="default"&gt;
+  &lt;wb-list-item data-id="home" href="/"&gt;Home&lt;/wb-list-item&gt;
+  &lt;wb-list-item data-id="about" href="/about"&gt;About&lt;/wb-list-item&gt;
+  &lt;wb-list-item data-id="contact" href="/contact"&gt;Contact&lt;/wb-list-item&gt;
+&lt;/wb-nav&gt;</code></pre>
+        <p>The demo below uses the programmatic API to show the same behavior.</p>
+    </section>
+    <!-- Navigation Demo Popups -->
     <div class="nav-popup-overlay" id="basic-nav-popup">
         <div class="nav-popup-container">
             <div class="nav-popup-header">
-                <h3 class="nav-popup-title">Basic Navigation</h3>
-                <button class="nav-popup-close" onclick="closeNavPopup('basic')">&times;</button>
+                <h3 class="nav-popup-title">Basic Navigation Component</h3>
+                <button class="nav-popup-close" onclick="closeNavDemo('basic')">&times;</button>
             </div>
-            <nav class="wb-nav wb-nav--vertical" id="basic-nav">
-                <ul class="wb-nav-list">
-                    <li class="wb-nav-item wb-nav--active">
-                        <a href="/" class="wb-nav-link">Home</a>
-                    </li>
-                    <li class="wb-nav-item">
-                        <a href="/about" class="wb-nav-link">About</a>
-                    </li>
-                    <li class="wb-nav-item">
-                        <a href="/services" class="wb-nav-link">Services</a>
-                    </li>
-                    <li class="wb-nav-item">
-                        <a href="/contact" class="wb-nav-link">Contact</a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="demo-content">
+                <p>This demonstrates a basic horizontal wb-nav component with programmatic item setting.</p>
+                
+                <wb-nav id="basic-nav" layout="horizontal" variant="default"></wb-nav>
+                
+                <div class="demo-controls" style="margin-top: 1rem;">
+                    <button class="wb-btn wb-btn--secondary" onclick="setBasicNavItems()">Set Items</button>
+                    <button class="wb-btn wb-btn--secondary" onclick="addNavItem('basic-nav')">Add Item</button>
+                    <button class="wb-btn wb-btn--secondary" onclick="clearNavItems('basic-nav')">Clear</button>
+                </div>
+                
+                <div class="demo-log" id="basic-nav-log" style="margin-top: 1rem; padding: 1rem; background: var(--surface-raised); border-radius: 4px; font-family: monospace; font-size: 0.875rem;">
+                    Click "Set Items" to initialize the navigation...
+                </div>
+            </div>
         </div>
     </div>
     
-    <div class="nav-popup-overlay" id="dropdown-nav-popup">
+    <div class="nav-popup-overlay" id="variants-nav-popup">
         <div class="nav-popup-container">
             <div class="nav-popup-header">
-                <h3 class="nav-popup-title">Navigation with Dropdowns</h3>
-                <button class="nav-popup-close" onclick="closeNavPopup('dropdown')">&times;</button>
+                <h3 class="nav-popup-title">Navigation Variants</h3>
+                <button class="nav-popup-close" onclick="closeNavDemo('variants')">&times;</button>
             </div>
-            <nav class="wb-nav wb-nav--vertical" id="dropdown-nav">
-                <ul class="wb-nav-list">
-                    <li class="wb-nav-item">
-                        <a href="/" class="wb-nav-link">Home</a>
-                    </li>
-                    <li class="wb-nav-item wb-nav-dropdown">
-                        <a href="#" class="wb-nav-link">Products</a>
-                        <ul class="wb-nav-submenu">
-                            <li class="wb-nav-item">
-                                <a href="/products/web" class="wb-nav-link">Web Components</a>
-                            </li>
-                            <li class="wb-nav-item">
-                                <a href="/products/mobile" class="wb-nav-link">Mobile Apps</a>
-                            </li>
-                            <li class="wb-nav-item">
-                                <a href="/products/desktop" class="wb-nav-link">Desktop Tools</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="wb-nav-item">
-                        <a href="/pricing" class="wb-nav-link">Pricing</a>
-                    </li>
-                    <li class="wb-nav-item">
-                        <a href="/support" class="wb-nav-link">Support</a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="demo-content">
+                <p>Explore different wb-nav component variants and styles.</p>
+                
+                <div class="variant-demo">
+                    <h4>Default Variant</h4>
+                    <wb-nav id="default-nav" layout="horizontal" variant="default"></wb-nav>
+                    
+                    <h4>Pills Variant</h4>
+                    <wb-nav id="pills-nav" layout="horizontal" variant="pills"></wb-nav>
+                    
+                    <h4>Minimal Variant</h4>
+                    <wb-nav id="minimal-nav" layout="horizontal" variant="minimal"></wb-nav>
+                </div>
+                
+                <div class="demo-controls" style="margin-top: 1rem;">
+                    <button class="wb-btn wb-btn--secondary" onclick="setVariantNavItems()">Load All Variants</button>
+                    <button class="wb-btn wb-btn--secondary" onclick="setActiveItem('default-nav', 1)">Set Active (Default)</button>
+                    <button class="wb-btn wb-btn--secondary" onclick="setActiveItem('pills-nav', 2)">Set Active (Pills)</button>
+                </div>
+            </div>
         </div>
     </div>
     
-    <div class="nav-popup-overlay" id="admin-nav-popup">
+    <div class="nav-popup-overlay" id="layouts-nav-popup">
         <div class="nav-popup-container">
             <div class="nav-popup-header">
-                <h3 class="nav-popup-title">Admin Navigation</h3>
-                <button class="nav-popup-close" onclick="closeNavPopup('admin')">&times;</button>
+                <h3 class="nav-popup-title">Layout Options</h3>
+                <button class="nav-popup-close" onclick="closeNavDemo('layouts')">&times;</button>
             </div>
-            <nav class="wb-nav wb-nav--vertical" id="admin-nav">
-                <ul class="wb-nav-list">
-                    <li class="wb-nav-item">
-                        <a href="/dashboard" class="wb-nav-link">📊 Dashboard</a>
-                    </li>
-                    <li class="wb-nav-item wb-nav-dropdown">
-                        <a href="#" class="wb-nav-link">📝 Content</a>
-                        <ul class="wb-nav-submenu">
-                            <li class="wb-nav-item">
-                                <a href="/posts" class="wb-nav-link">Posts</a>
-                            </li>
-                            <li class="wb-nav-item">
-                                <a href="/pages" class="wb-nav-link">Pages</a>
-                            </li>
-                            <li class="wb-nav-item">
-                                <a href="/media" class="wb-nav-link">Media</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="wb-nav-item">
-                        <a href="/users" class="wb-nav-link">👥 Users</a>
-                    </li>
-                    <li class="wb-nav-item">
-                        <a href="/settings" class="wb-nav-link">⚙️ Settings</a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="demo-content">
+                <p>Demonstrate different wb-nav layout configurations.</p>
+                
+                <div class="layout-demo" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <h4>Horizontal Layout</h4>
+                        <wb-nav id="horizontal-nav" layout="horizontal" variant="default"></wb-nav>
+                    </div>
+                    
+                    <div>
+                        <h4>Vertical Layout</h4>
+                        <wb-nav id="vertical-nav" layout="vertical" variant="default"></wb-nav>
+                    </div>
+                </div>
+                
+                <div class="demo-controls" style="margin-top: 1rem;">
+                    <button class="wb-btn wb-btn--secondary" onclick="setLayoutNavItems()">Load Layouts</button>
+                    <button class="wb-btn wb-btn--secondary" onclick="changeLayout('horizontal-nav', 'vertical')">Horizontal → Vertical</button>
+                    <button class="wb-btn wb-btn--secondary" onclick="changeLayout('vertical-nav', 'horizontal')">Vertical → Horizontal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-popup-overlay" id="interactive-nav-popup">
+        <div class="nav-popup-container">
+            <div class="nav-popup-header">
+                <h3 class="nav-popup-title">Interactive Features</h3>
+                <button class="nav-popup-close" onclick="closeNavDemo('interactive')">&times;</button>
+            </div>
+            <div class="demo-content">
+                <p>Explore wb-nav interactive features including dynamic item management and event handling.</p>
+                
+                <wb-nav id="interactive-nav" layout="horizontal" variant="pills"></wb-nav>
+                
+                <div class="demo-controls" style="margin-top: 1rem;">
+                    <button class="wb-btn wb-btn--primary" onclick="initializeInteractiveNav()">Initialize</button>
+                    <button class="wb-btn wb-btn--secondary" onclick="addRandomItem()">Add Random Item</button>
+                    <button class="wb-btn wb-btn--secondary" onclick="removeLastItem()">Remove Last Item</button>
+                    <button class="wb-btn wb-btn--success" onclick="toggleActiveState()">Toggle Active</button>
+                </div>
+                
+                <div class="demo-log" id="interactive-nav-log" style="margin-top: 1rem; padding: 1rem; background: var(--surface-raised); border-radius: 4px; font-family: monospace; font-size: 0.875rem; max-height: 200px; overflow-y: auto;">
+                    Click "Initialize" to start the interactive demo...
+                </div>
+            </div>
         </div>
     </div>
     
     <!-- Load components -->
     <script src="../md-to-html/md-to-html.js"></script>
-    <script src="../wb-tab/wb-tab.js"></script>
+    <script type="module" src="../wb-tab/wb-tab.js"></script>
     <script src="wb-nav.js"></script>
     
     <script>
-        // Component event handlers
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('status').textContent = '✅ WB Nav Menu Component loaded successfully!';
-            initializeNavigation();
-        });
+        // Navigation Demo Functions
+        function openNavDemo(type) {
+            const popup = document.getElementById(`${type}-nav-popup`);
+            if (popup) {
+                popup.style.display = 'flex';
+            }
+        }
         
-        function initializeNavigation() {
-            // Add click handlers to navigation links
-            document.querySelectorAll('.wb-nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const label = this.textContent.trim();
-                    console.log('Navigation clicked:', label);
-                    updateStatus(`Navigation: ${label} clicked`);
-                    
-                    // Update active state within the same popup
-                    const popup = this.closest('.nav-popup-overlay');
-                    if (popup) {
-                        popup.querySelectorAll('.wb-nav-item').forEach(item => {
-                            item.classList.remove('wb-nav--active');
-                        });
-                        this.closest('.wb-nav-item').classList.add('wb-nav--active');
-                    }
-                });
-            });
+        function closeNavDemo(type) {
+            const popup = document.getElementById(`${type}-nav-popup`);
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }
+        
+        // Basic Navigation Demo
+        function setBasicNavItems() {
+            const nav = document.getElementById('basic-nav');
+            if (nav) {
+                const items = [
+                    { id: 'home', text: 'Home', href: '/', active: true },
+                    { id: 'about', text: 'About', href: '/about' },
+                    { id: 'services', text: 'Services', href: '/services' },
+                    { id: 'contact', text: 'Contact', href: '/contact' }
+                ];
+                nav.setItems(items);
+                logToDemo('basic-nav-log', 'Basic navigation items set successfully');
+            }
+        }
+        
+        function addNavItem(navId) {
+            const nav = document.getElementById(navId);
+            if (nav) {
+                const newItem = {
+                    id: `item-${Date.now()}`,
+                    text: `New Item ${nav.children.length + 1}`,
+                    href: '#'
+                };
+                nav.addItem(newItem);
+                logToDemo('basic-nav-log', `Added new item: ${newItem.text}`);
+            }
+        }
+        
+        function clearNavItems(navId) {
+            const nav = document.getElementById(navId);
+            if (nav) {
+                nav.setItems([]);
+                logToDemo('basic-nav-log', 'Navigation items cleared');
+            }
+        }
+        
+        // Variants Demo
+        function setVariantNavItems() {
+            const defaultNav = document.getElementById('default-nav');
+            const pillsNav = document.getElementById('pills-nav');
+            const minimalNav = document.getElementById('minimal-nav');
             
-            // Add dropdown hover effects
-            document.querySelectorAll('.wb-nav-dropdown').forEach(dropdown => {
-                dropdown.addEventListener('mouseenter', function() {
-                    this.classList.add('wb-nav--expanded');
-                });
-                dropdown.addEventListener('mouseleave', function() {
-                    this.classList.remove('wb-nav--expanded');
-                });
-            });
+            const items = [
+                { id: 'dashboard', text: 'Dashboard', href: '/dashboard' },
+                { id: 'analytics', text: 'Analytics', href: '/analytics', active: true },
+                { id: 'reports', text: 'Reports', href: '/reports' },
+                { id: 'settings', text: 'Settings', href: '/settings' }
+            ];
+            
+            if (defaultNav) defaultNav.setItems(items);
+            if (pillsNav) pillsNav.setItems(items);
+            if (minimalNav) minimalNav.setItems(items);
         }
         
-        function updateStatus(message) {
-            const timestamp = new Date().toLocaleTimeString();
-            console.log(`[${timestamp}] ${message}`);
-        }
-        
-        // Popup functions
-        function openNavPopup(type) {
-            const popup = document.getElementById(type + '-nav-popup');
-            if (popup) {
-                popup.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scroll
+        function setActiveItem(navId, index) {
+            const nav = document.getElementById(navId);
+            if (nav) {
+                // This would need to be implemented in the wb-nav component
+                // For now, we'll just log the action
+                logToDemo('variants-nav-log', `Setting active item ${index} on ${navId}`);
             }
         }
         
-        function closeNavPopup(type) {
-            const popup = document.getElementById(type + '-nav-popup');
-            if (popup) {
-                popup.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scroll
+        // Layouts Demo
+        function setLayoutNavItems() {
+            const horizontalNav = document.getElementById('horizontal-nav');
+            const verticalNav = document.getElementById('vertical-nav');
+            
+            const items = [
+                { id: 'overview', text: 'Overview', href: '/overview' },
+                { id: 'details', text: 'Details', href: '/details', active: true },
+                { id: 'history', text: 'History', href: '/history' }
+            ];
+            
+            if (horizontalNav) horizontalNav.setItems(items);
+            if (verticalNav) verticalNav.setItems(items);
+        }
+        
+        function changeLayout(navId, newLayout) {
+            const nav = document.getElementById(navId);
+            if (nav) {
+                nav.setLayout(newLayout);
+                logToDemo('layouts-nav-log', `Changed ${navId} layout to ${newLayout}`);
             }
         }
         
-        // Close popup when clicking overlay
-        document.querySelectorAll('.nav-popup-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
+        // Interactive Demo
+        function initializeInteractiveNav() {
+            const nav = document.getElementById('interactive-nav');
+            if (nav) {
+                const items = [
+                    { id: 'start', text: 'Start', href: '#', active: true },
+                    { id: 'process', text: 'Process', href: '#' },
+                    { id: 'finish', text: 'Finish', href: '#' }
+                ];
+                nav.setItems(items);
+                logToDemo('interactive-nav-log', 'Interactive navigation initialized');
+            }
+        }
+        
+        function addRandomItem() {
+            const nav = document.getElementById('interactive-nav');
+            if (nav) {
+                const randomLabels = ['New Feature', 'Update', 'Config', 'Tools', 'Help'];
+                const randomLabel = randomLabels[Math.floor(Math.random() * randomLabels.length)];
+                const newItem = {
+                    id: `random-${Date.now()}`,
+                    text: randomLabel,
+                    href: '#'
+                };
+                nav.addItem(newItem);
+                logToDemo('interactive-nav-log', `Added random item: ${randomLabel}`);
+            }
+        }
+        
+        function removeLastItem() {
+            const nav = document.getElementById('interactive-nav');
+            if (nav && nav.children.length > 0) {
+                const lastItem = nav.children[nav.children.length - 1];
+                nav.removeItem(lastItem.id);
+                logToDemo('interactive-nav-log', 'Removed last item');
+            }
+        }
+        
+        function toggleActiveState() {
+            const nav = document.getElementById('interactive-nav');
+            if (nav) {
+                // This would cycle through active states
+                logToDemo('interactive-nav-log', 'Toggled active state');
+            }
+        }
+        
+        // Utility function for logging
+        function logToDemo(logId, message) {
+            const logElement = document.getElementById(logId);
+            if (logElement) {
+                const timestamp = new Date().toLocaleTimeString();
+                logElement.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+        }
+        
+        // Event listeners for wb-nav clicks
+        document.addEventListener('wbNavItemClick', (event) => {
+            const { id, index, nav } = event.detail;
+            const itemLabel = event.detail.link ? event.detail.link.textContent : 'Unknown';
+            logToDemo('interactive-nav-log', `Navigation click: ${itemLabel} (${id}) from ${nav.id}`);
         });
         
-        // Close popup with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.nav-popup-overlay.active').forEach(popup => {
-                    popup.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
-            }
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('WB Nav Demo initialized');
         });
     </script>
 </body>

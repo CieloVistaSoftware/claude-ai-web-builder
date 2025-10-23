@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 /**
  * WB Search Component
  * A reusable search component with modal and button variants
@@ -9,15 +11,16 @@ class WBSearch extends HTMLElement {
         this.searchData = [];
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         if (!this.isInitialized) {
+            await loadComponentCSS(this, 'wb-search.css');
             this.init();
         }
     }
 
     async init() {
         try {
-            await this.loadCSS();
+            // CSS already loaded in connectedCallback
             this.render();
             this.setupEventListeners();
             this.isInitialized = true;

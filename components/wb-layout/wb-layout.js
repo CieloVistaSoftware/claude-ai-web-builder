@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 /**
  * WB Layout Component - Reactive Architecture
  * Handles website layout switching with internal state management
@@ -64,7 +66,8 @@ class WBLayout extends HTMLElement {
             });
         }
 
-        connectedCallback() {
+        async connectedCallback() {
+            await loadComponentCSS(this, 'wb-layout.css');
             this._initializeComponent();
         }
 
@@ -156,7 +159,12 @@ class WBLayout extends HTMLElement {
             // Detect responsive mode
             this._detectResponsiveMode();
 
-            WBEventLog.logSuccess('WB Layout component initialized with reactive architecture', { component: 'wb-layout', method: '_initializeComponent', line: 175 });
+            // Log initialization (with fallback if WBEventLog not loaded yet)
+            if (typeof WBEventLog !== 'undefined' && WBEventLog.logSuccess) {
+                WBEventLog.logSuccess('WB Layout component initialized with reactive architecture', { component: 'wb-layout', method: '_initializeComponent', line: 175 });
+            } else {
+                console.log('✅ WB Layout component initialized with reactive architecture');
+            }
             this.dispatchEvent(new CustomEvent('wb-layout-ready', {
                 detail: { component: this, layout: this._state.currentLayout }
             }));
@@ -204,13 +212,17 @@ class WBLayout extends HTMLElement {
             // Listen for reactive wb:layout-changed events from control panel
             document.addEventListener('wb:layout-changed', (e) => {
                 const { layout, source } = e.detail;
-                WBEventLog.logInfo(`Received layout change request: ${layout}`, {
-                    component: 'wb-layout',
-                    method: '_setupInternalEventHandlers',
-                    source: source,
-                    layout: layout,
-                    line: 220
-                });
+                if (typeof WBEventLog !== 'undefined' && WBEventLog.logInfo) {
+                    WBEventLog.logInfo(`Received layout change request: ${layout}`, {
+                        component: 'wb-layout',
+                        method: '_setupInternalEventHandlers',
+                        source: source,
+                        layout: layout,
+                        line: 220
+                    });
+                } else {
+                    console.log(`📐 Received layout change request: ${layout}`);
+                }
                 
                 if (layout && layout !== this._state.currentLayout) {
                     this._state.currentLayout = layout; // Triggers reactive update
@@ -524,7 +536,16 @@ class WBLayout extends HTMLElement {
     // Define the custom element
     if (!customElements.get('wb-layout')) {
         customElements.define('wb-layout', WBLayout);
-        console.log('🎨 WB Layout component registered with reactive architecture');
+        
+        // REPORT WHERE THIS FILE IS BEING LOADED FROM
+        const scriptElements = document.querySelectorAll('script[src*="wb-layout"]');
+        if (scriptElements.length > 0) {
+            console.log('🎨 WB Layout component registered with reactive architecture');
+            console.log('📍 LOADED FROM:', scriptElements[0].src);
+        } else {
+            console.log('🎨 WB Layout component registered with reactive architecture');
+            console.log('📍 LOADED FROM: inline or module import');
+        }
     }
     
     // Register with WBComponentRegistry if available

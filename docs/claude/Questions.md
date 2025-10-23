@@ -9,6 +9,45 @@ This document contains ALL questions and answers from today's complete developme
 - [Technical Error Resolution](#technical-error-resolution)
 - [Architecture Improvements](#architecture-improvements)
 - [Final Session Questions](#final-session-questions)
+- [wb-nav Button Fix](#wb-nav-button-fix)
+- [wb-nav Button Fix](#wb-nav-button-fix)
+
+---
+
+## wb-nav Button Fix
+
+### Q: "None of the buttons is wb-nave are doing anything"
+**A:** The wb-nav component buttons weren't working due to an event listener mismatch.
+
+**Problem:** The wb-nav component dispatches `wbNavItemClick` events on `document` (global scope), but the JavaScript was listening for events on the nav element itself.
+
+**Root Cause:** Events dispatched on `document` don't bubble up to individual elements, so the listener never caught the events.
+
+**Solution:** Changed the event listener to listen on `document` instead of the nav element, with a check to only handle events from the specific nav component:
+
+**Before (broken):**
+```javascript
+nav.addEventListener('wbNavItemClick', (e) => {
+  // This never fired because events were dispatched on document
+});
+```
+
+**After (fixed):**
+```javascript
+document.addEventListener('wbNavItemClick', (e) => {
+  // Only handle events from our nav component
+  if (e.detail.nav !== nav) return;
+  // Now this fires correctly!
+});
+```
+
+**Result:** All wb-nav buttons now work:
+- **🌙 Dark/☀️ Light** - Switch modes
+- **💻 Code/📚 Docs** - Switch views  
+- **🎸 Enable Audio** - Toggle audio controls
+- **🎨 Theme buttons** - Apply different color themes
+
+**Key Learning:** Component event dispatching patterns matter - when components dispatch events globally, listeners must be attached to the appropriate scope (document vs element).
 
 ---
 

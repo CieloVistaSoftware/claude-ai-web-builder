@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave-Based Color Harmony: Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #4a9eff, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #a0a0a0;
+            margin-bottom: 15px;
+        }
+
+        .controls-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-panel h3 {
+            margin-bottom: 15px;
+            color: #4a9eff;
+            font-size: 1.2em;
+            border-bottom: 2px solid rgba(74, 158, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: #b0b0b0;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4a9eff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4a9eff;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+        }
+
+        select {
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+
+        select option {
+            background: #2d2d44;
+            color: #e0e0e0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(74, 158, 255, 0.5);
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #4a9eff;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #4a9eff, #2d7dd8);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 158, 255, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .value-display {
+            display: inline-block;
+            background: rgba(74, 158, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #4a9eff;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .visualization {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .color-swatch {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .demo-box {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .demo-box h3 {
+            margin-bottom: 15px;
+            color: #4a9eff;
+            font-size: 1.1em;
+        }
+
+        .wave-visualization {
+            width: 100%;
+            height: 150px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .audio-controls button {
+            flex: 1;
+            padding: 8px;
+        }
+
+        .frequency-display {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 0.85em;
+        }
+
+        .freq-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #4a9eff;
+        }
+
+        .freq-label {
+            color: #a0a0a0;
+        }
+
+        .freq-value {
+            color: #4a9eff;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: rgba(74, 158, 255, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.2em;
+            color: #4a9eff;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1200px) {
+            .controls-section {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .demo-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .controls-section {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .visualization {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .info-box {
+            background: rgba(74, 158, 255, 0.1);
+            border-left: 4px solid #4a9eff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #4a9eff;
+        }
+
+        .export-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .export-box h4 {
+            margin-bottom: 10px;
+            color: #4a9eff;
+        }
+
+        .color-codes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 0.85em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .color-code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 4px;
+            user-select: all;
+            cursor: copy;
+        }
+
+        .color-code:hover {
+            background: rgba(74, 158, 255, 0.2);
+        }
+
+        .preset-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .preset-btn {
+            padding: 8px;
+            font-size: 0.85em;
+        }
+
+        .hue-swatch-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .hue-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .hue-swatch:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Wave-Based Color Harmony</h1>
+            <p class="subtitle">Interactive Sine Wave Multiplication Color Generator</p>
+            <div class="info-box">
+                <strong>How it works:</strong> Select a base color and harmony mode, then use modulation engines (PM, FM, AM) to create dynamic color palettes. Enable audio reactivity to drive colors with sound frequencies.
+            </div>
+        </header>
+
+        <div class="controls-section">
+            <!-- Base Color Controls -->
+            <div class="control-panel">
+                <h3>🎯 Base Color</h3>
+                
+                <div class="control-group">
+                    <label>Base Hue</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="range" id="baseHue" min="0" max="360" value="240" step="1" style="flex: 1;">
+                        <div class="hue-swatch" id="hueSwatch" style="width: 45px; height: 45px; flex-shrink: 0;"></div>
+                    </div>
+                    <span class="value-display" id="hueValue">240°</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Saturation</label>
+                    <input type="range" id="saturation" min="0" max="100" value="70" step="1">
+                    <span class="value-display" id="satValue">70%</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Lightness</label>
+                    <input type="range" id="lightness" min="0" max="100" value="50" step="1">
+                    <span class="value-display" id="lightValue">50%</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Preset Colors:</label>
+                    <div class="preset-buttons">
+                        <button class="preset-btn" onclick="setPreset(240, 'Blue')">🔵 Blue</button>
+                        <button class="preset-btn" onclick="setPreset(0, 'Red')">🔴 Red</button>
+                        <button class="preset-btn" onclick="setPreset(120, 'Green')">🟢 Green</button>
+                        <button class="preset-btn" onclick="setPreset(60, 'Yellow')">🟡 Yellow</button>
+                        <button class="preset-btn" onclick="setPreset(300, 'Magenta')">🟣 Magenta</button>
+                        <button class="preset-btn" onclick="setPreset(180, 'Cyan')">🔷 Cyan</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Harmony Mode Selection -->
+            <div class="control-panel">
+                <h3>🌊 Harmony Mode</h3>
+                
+                <div class="control-group">
+                    <label>Select Mode:</label>
+                    <select id="harmonyMode">
+                        <optgroup label="Traditional Color Theory">
+                            <option value="complementary">Complementary (180°)</option>
+                            <option value="splitComplementary">Split Complementary</option>
+                            <option value="triadic">Triadic (120°)</option>
+                            <option value="tetradic">Tetradic (90°)</option>
+                            <option value="analogous">Analogous (±30°)</option>
+                        </optgroup>
+                        <optgroup label="Wave-Based Innovation">
+                            <option value="beatPattern" selected>Beat Pattern</option>
+                            <option value="harmonicSeries">Harmonic Series</option>
+                            <option value="dopplerShift">Doppler Shift</option>
+                            <option value="standingWave">Standing Wave</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Mode Description:</label>
+                    <div id="modeDescription" style="padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; font-size: 0.9em; color: #b0b0b0; margin-top: 5px;"></div>
+                </div>
+            </div>
+
+            <!-- Modulation Controls -->
+            <div class="control-panel">
+                <h3>🎛️ Modulation Engine</h3>
+                
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="enablePM" checked> Phase Modulation (PM)
+                    </label>
+                    <input type="range" id="pmDepth" min="0" max="60" value="30" step="1">
+                    <span class="value-display" id="pmValue">30°</span>
+                </div>
+
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="enableFM" checked> Frequency Modulation (FM)
+                    </label>
+                    <input type="range" id="fmDepth" min="0" max="2" value="0.5" step="0.1">
+                    <span class="value-display" id="fmValue">0.5x</span>
+                </div>
+
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="enableAM" checked> Amplitude Modulation (AM)
+                    </label>
+                    <input type="range" id="amDepth" min="0" max="50" value="20" step="1">
+                    <span class="value-display" id="amValue">20%</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Animation Speed</label>
+                    <input type="range" id="speed" min="0.01" max="2" value="0.5" step="0.1">
+                    <span class="value-display" id="speedValue">0.5x</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <!-- Live Palette -->
+            <div class="demo-box">
+                <h3>🎨 Live Color Palette</h3>
+                <div class="visualization" id="palette"></div>
+                <div class="export-box">
+                    <h4>Export Colors:</h4>
+                    <div class="color-codes" id="colorCodes"></div>
+                </div>
+            </div>
+
+            <!-- Waveform Visualization -->
+            <div class="demo-box">
+                <h3>📊 Waveform Visualization</h3>
+                <div class="wave-visualization">
+                    <canvas id="waveCanvas"></canvas>
+                </div>
+                <div class="control-group">
+                    <label>Waveform Frequency</label>
+                    <input type="range" id="waveFrequency" min="0.5" max="5" value="1" step="0.1">
+                    <span class="value-display" id="waveFreqValue">1.0 Hz</span>
+                </div>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Current Hue</div>
+                        <div class="stat-value" id="currentHue">240°</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Current Sat</div>
+                        <div class="stat-value" id="currentSat">70%</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Current Light</div>
+                        <div class="stat-value" id="currentLight">50%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <!-- Audio Reactivity -->
+            <div class="demo-box">
+                <h3>🎵 Audio Reactivity</h3>
+                
+                <div class="audio-controls">
+                    <button id="startAudio">🎤 Audio Tab</button>
+                    <button id="stopAudio">⏹️ Stop Audio</button>
+                </div>
+
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="audioReactive"> Enable Audio Reactive Mode
+                    </label>
+                </div>
+
+                <div class="control-group">
+                    <label>Audio Sensitivity</label>
+                    <input type="range" id="audioSensitivity" min="1" max="10" value="5" step="1">
+                    <span class="value-display" id="audioSensValue">5x</span>
+                </div>
+
+                <div class="frequency-display">
+                    <div class="freq-item">
+                        <div class="freq-label">Bass (0-100 Hz)</div>
+                        <div class="freq-value" id="bassLevel">0%</div>
+                    </div>
+                    <div class="freq-item">
+                        <div class="freq-label">Mids (100-2k Hz)</div>
+                        <div class="freq-value" id="midLevel">0%</div>
+                    </div>
+                    <div class="freq-item">
+                        <div class="freq-label">Highs (2k+ Hz)</div>
+                        <div class="freq-value" id="highLevel">0%</div>
+                    </div>
+                    <div class="freq-item">
+                        <div class="freq-label">Overall Energy</div>
+                        <div class="freq-value" id="overallLevel">0%</div>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 15px; margin-bottom: 0;">
+                    <strong>How it works:</strong> Bass drives hue shifts, mids control saturation, highs affect lightness. Grant microphone permission when prompted.
+                </div>
+            </div>
+
+            <!-- Audio Visualization -->
+            <div class="demo-box">
+                <h3>🔊 Audio Frequency Spectrum</h3>
+                <div class="wave-visualization">
+                    <canvas id="audioCanvas"></canvas>
+                </div>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Input Type</div>
+                        <div class="stat-value" id="inputType">System Audio</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Buffer Size</div>
+                        <div class="stat-value" id="bufferSize">2048</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Sample Rate</div>
+                        <div class="stat-value" id="sampleRate">48kHz</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <!-- Mode Presets -->
+            <div class="demo-box">
+                <h3>⚙️ Quick Presets</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button onclick="loadPreset('vibrant')">✨ Vibrant</button>
+                    <button onclick="loadPreset('pastel')">🌸 Pastel</button>
+                    <button onclick="loadPreset('dark')">🌙 Dark</button>
+                    <button onclick="loadPreset('neon')">⚡ Neon</button>
+                    <button onclick="loadPreset('mono')">🎯 Monochromatic</button>
+                    <button onclick="loadPreset('nature')">🌿 Nature</button>
+                </div>
+
+                <div class="info-box" style="margin-top: 15px; margin-bottom: 0;">
+                    <strong>Presets:</strong> Load pre-configured color themes optimized for different applications.
+                </div>
+            </div>
+
+            <!-- Information -->
+            <div class="demo-box">
+                <h3>ℹ️ About This Demo</h3>
+                
+                <div style="font-size: 0.9em; line-height: 1.6; color: #b0b0b0;">
+                    <p style="margin-bottom: 10px;">
+                        <strong style="color: #4a9eff;">Harmony Modes:</strong><br>
+                        Traditional modes use geometric relationships on the color wheel, while wave-based modes apply sine wave multiplication mathematics.
+                    </p>
+                    <p style="margin-bottom: 10px;">
+                        <strong style="color: #4a9eff;">Modulation:</strong><br>
+                        PM (Phase): Oscillates hue | FM (Frequency): Varies rate | AM (Amplitude): Pulses saturation
+                    </p>
+                    <p style="margin-bottom: 0;">
+                        <strong style="color: #4a9eff;">Audio:</strong><br>
+                        Real-time frequency analysis drives color parameters for synesthetic experiences.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Color conversion utilities
+        function hslToRgb(h, s, l) {
+            h = h / 360;
+            s = s / 100;
+            l = l / 100;
+
+            let r, g, b;
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+
+            return [
+                Math.round(r * 255),
+                Math.round(g * 255),
+                Math.round(b * 255)
+            ];
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function hslToHex(h, s, l) {
+            const [r, g, b] = hslToRgb(h, s, l);
+            return rgbToHex(r, g, b);
+        }
+
+        // Mode descriptions
+        const modeDescriptions = {
+            complementary: "🔵 ↔ 🟨 - Maximum contrast (180° opposition) - Use for high visual impact",
+            splitComplementary: "🔵 + 🟥 + 🟨 - Balanced tension - Use for dynamic but stable palettes",
+            triadic: "🔵 + 🟩 + 🟥 - Three-color balance (120° spacing) - Use for vibrant, balanced designs",
+            tetradic: "🔵 + 🟩 + 🟨 + 🟪 - Four-color richness (90° spacing) - Use for complex palettes",
+            analogous: "🟦 + 🔵 + 🟪 - Smooth adjacent colors (±30°) - Use for harmonious, peaceful themes",
+            beatPattern: "🔵 ≈ 🟦 - Similar frequencies create subtle visual beats - Use for rhythmic effects",
+            harmonicSeries: "🔵 + 🟦 + 🟩 + 🟨 - Musical ratios (1:2:3:4) - Use for mathematically pleasing harmony",
+            dopplerShift: "🔵 → 🟦 → 🟪 → 🔵 - Smooth directional transitions - Use for flowing gradients",
+            standingWave: "🔵 ⊕ 🟩 ⊕ 🟨 ⊕ 🟪 - Perfectly balanced patterns - Use for stable interference"
+        };
+
+        // Generate color palette based on harmony mode
+        function generatePalette(baseHue, mode, saturation, lightness, modulationData = {}) {
+            let colors = [];
+
+            const {
+                pmDepth = 0,
+                fmDepth = 1,
+                amDepth = 0,
+                time = 0
+            } = modulationData;
+
+            // Apply modulations
+            let hue = baseHue;
+            let sat = saturation;
+            let light = lightness;
+
+            if (pmDepth > 0) {
+                hue += pmDepth * Math.sin(time * fmDepth);
+            }
+            if (amDepth > 0) {
+                sat = Math.max(0, Math.min(100, sat + amDepth * Math.sin(time * 0.5)));
+            }
+
+            hue = ((hue % 360) + 360) % 360;
+
+            // Generate colors based on mode
+            switch (mode) {
+                case 'complementary':
+                    colors = [
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 180) % 360, s: sat, l: light }
+                    ];
+                    break;
+
+                case 'splitComplementary':
+                    colors = [
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 150) % 360, s: sat, l: light },
+                        { h: (hue + 210) % 360, s: sat, l: light }
+                    ];
+                    break;
+
+                case 'triadic':
+                    colors = [
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 120) % 360, s: sat, l: light },
+                        { h: (hue + 240) % 360, s: sat, l: light }
+                    ];
+                    break;
+
+                case 'tetradic':
+                    colors = [
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 90) % 360, s: sat, l: light },
+                        { h: (hue + 180) % 360, s: sat, l: light },
+                        { h: (hue + 270) % 360, s: sat, l: light }
+                    ];
+                    break;
+
+                case 'analogous':
+                    colors = [
+                        { h: (hue - 30 + 360) % 360, s: sat, l: light },
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 30) % 360, s: sat, l: light }
+                    ];
+                    break;
+
+                case 'beatPattern':
+                    colors = [
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 10) % 360, s: sat, l: light },
+                        { h: (hue + 5) % 360, s: sat, l: light }
+                    ];
+                    break;
+
+                case 'harmonicSeries':
+                    colors = [
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 60) % 360, s: sat, l: light },
+                        { h: (hue + 120) % 360, s: sat, l: light },
+                        { h: (hue + 180) % 360, s: sat, l: light }
+                    ];
+                    break;
+
+                case 'dopplerShift':
+                    colors = [
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 30) % 360, s: sat, l: light },
+                        { h: (hue + 60) % 360, s: sat, l: light },
+                        { h: (hue + 90) % 360, s: sat, l: light }
+                    ];
+                    break;
+
+                case 'standingWave':
+                    colors = [
+                        { h: hue, s: sat, l: light },
+                        { h: (hue + 90) % 360, s: sat, l: light },
+                        { h: (hue + 180) % 360, s: sat, l: light },
+                        { h: (hue + 270) % 360, s: sat, l: light }
+                    ];
+                    break;
+            }
+
+            return colors;
+        }
+
+        // DOM Elements
+        const baseHueInput = document.getElementById('baseHue');
+        const saturationInput = document.getElementById('saturation');
+        const lightnessInput = document.getElementById('lightness');
+        const harmonyModeSelect = document.getElementById('harmonyMode');
+        const enablePMCheckbox = document.getElementById('enablePM');
+        const enableFMCheckbox = document.getElementById('enableFM');
+        const enableAMCheckbox = document.getElementById('enableAM');
+        const pmDepthInput = document.getElementById('pmDepth');
+        const fmDepthInput = document.getElementById('fmDepth');
+        const amDepthInput = document.getElementById('amDepth');
+        const speedInput = document.getElementById('speed');
+        const audioReactiveCheckbox = document.getElementById('audioReactive');
+        const audioSensitivityInput = document.getElementById('audioSensitivity');
+        const paletteDiv = document.getElementById('palette');
+        const waveCanvas = document.getElementById('waveCanvas');
+        const audioCanvas = document.getElementById('audioCanvas');
+        const startAudioBtn = document.getElementById('startAudio');
+        const stopAudioBtn = document.getElementById('stopAudio');
+
+        // Waveform frequency slider
+        const waveFrequencyInput = document.getElementById('waveFrequency');
+        const hueSwatch = document.getElementById('hueSwatch');
+
+        // Update displays
+        function updateDisplays() {
+            document.getElementById('hueValue').textContent = baseHueInput.value + '°';
+            document.getElementById('satValue').textContent = saturationInput.value + '%';
+            document.getElementById('lightValue').textContent = lightnessInput.value + '%';
+            document.getElementById('pmValue').textContent = pmDepthInput.value + '°';
+            document.getElementById('fmValue').textContent = fmDepthInput.value + 'x';
+            document.getElementById('amValue').textContent = amDepthInput.value + '%';
+            document.getElementById('speedValue').textContent = speedInput.value + 'x';
+            document.getElementById('audioSensValue').textContent = audioSensitivityInput.value + 'x';
+            document.getElementById('waveFreqValue').textContent = waveFrequencyInput.value + ' Hz';
+            document.getElementById('modeDescription').textContent = modeDescriptions[harmonyModeSelect.value];
+            
+            // Update hue swatch color
+            const hue = baseHueInput.value;
+            const sat = saturationInput.value;
+            const light = lightnessInput.value;
+            hueSwatch.style.backgroundColor = `hsl(${hue}, ${sat}%, ${light}%)`;
+        }
+
+        // Animation loop
+        let animationTime = 0;
+        let audioContext = null;
+        let analyser = null;
+        let dataArray = null;
+        let isAudioRunning = false;
+
+        function animate() {
+            animationTime += (parseFloat(speedInput.value) * 0.016);
+
+            // Get current values
+            const baseHue = parseFloat(baseHueInput.value);
+            const saturation = parseFloat(saturationInput.value);
+            const lightness = parseFloat(lightnessInput.value);
+            const harmonyMode = harmonyModeSelect.value;
+
+            // Calculate modulation
+            const modulationData = {
+                pmDepth: enablePMCheckbox.checked ? parseFloat(pmDepthInput.value) : 0,
+                fmDepth: enableFMCheckbox.checked ? parseFloat(fmDepthInput.value) : 1,
+                amDepth: enableAMCheckbox.checked ? parseFloat(amDepthInput.value) : 0,
+                time: animationTime
+            };
+
+            // Generate palette
+            let palette = generatePalette(baseHue, harmonyMode, saturation, lightness, modulationData);
+
+            // Apply audio reactivity if enabled
+            if (audioReactiveCheckbox.checked && analyser) {
+                analyser.getByteFrequencyData(dataArray);
+                const bass = (dataArray.slice(0, 5).reduce((a, b) => a + b) / 5 / 255);
+                const mids = (dataArray.slice(5, 40).reduce((a, b) => a + b) / 35 / 255);
+                const highs = (dataArray.slice(40, 128).reduce((a, b) => a + b) / 88 / 255);
+
+                const sensitivity = parseFloat(audioSensitivityInput.value);
+
+                // Modify palette based on audio
+                palette = palette.map((color, index) => ({
+                    h: (color.h + bass * 360 * sensitivity) % 360,
+                    s: Math.max(0, Math.min(100, color.s + (mids - 0.5) * 50 * sensitivity)),
+                    l: Math.max(0, Math.min(100, color.l + (highs - 0.5) * 30 * sensitivity))
+                }));
+
+                // Update frequency displays
+                document.getElementById('bassLevel').textContent = (bass * 100).toFixed(0) + '%';
+                document.getElementById('midLevel').textContent = (mids * 100).toFixed(0) + '%';
+                document.getElementById('highLevel').textContent = (highs * 100).toFixed(0) + '%';
+                const overall = (bass + mids + highs) / 3;
+                document.getElementById('overallLevel').textContent = (overall * 100).toFixed(0) + '%';
+
+                drawAudioSpectrum();
+            }
+
+            // Update palette display
+            paletteDiv.innerHTML = '';
+            const colorCodes = [];
+            let displayHue = baseHue;
+            let displaySat = saturation;
+            let displayLight = lightness;
+
+            palette.forEach((color, index) => {
+                const hex = hslToHex(color.h, color.s, color.l);
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.backgroundColor = hex;
+                swatch.title = `HSL(${color.h.toFixed(0)}, ${color.s.toFixed(0)}%, ${color.l.toFixed(0)}%)\n${hex}`;
+                swatch.textContent = hex;
+                paletteDiv.appendChild(swatch);
+
+                colorCodes.push(hex);
+
+                if (index === 0) {
+                    displayHue = color.h;
+                    displaySat = color.s;
+                    displayLight = color.l;
+                }
+            });
+
+            // Update stats
+            document.getElementById('currentHue').textContent = displayHue.toFixed(0) + '°';
+            document.getElementById('currentSat').textContent = displaySat.toFixed(0) + '%';
+            document.getElementById('currentLight').textContent = displayLight.toFixed(0) + '%';
+
+            // Update color codes
+            document.getElementById('colorCodes').innerHTML = colorCodes
+                .map(code => `<div class="color-code">${code}</div>`)
+                .join('');
+
+            // Draw waveform
+            drawWaveform(displayHue, animationTime);
+
+            requestAnimationFrame(animate);
+        }
+
+        function drawWaveform(baseHue, time) {
+            const ctx = waveCanvas.getContext('2d');
+            const width = waveCanvas.width;
+            const height = waveCanvas.height;
+
+            ctx.fillStyle = 'rgba(30, 30, 46, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < width; i += width / 8) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, height);
+                ctx.stroke();
+            }
+
+            // Draw waveform
+            const pmDepth = enablePMCheckbox.checked ? parseFloat(pmDepthInput.value) : 0;
+            const fmDepth = enableFMCheckbox.checked ? parseFloat(fmDepthInput.value) : 1;
+            const amDepth = enableAMCheckbox.checked ? parseFloat(amDepthInput.value) : 0;
+            const waveFrequency = parseFloat(waveFrequencyInput.value);
+
+            // Hue wave
+            ctx.strokeStyle = `hsl(${baseHue}, 100%, 60%)`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let x = 0; x < width; x++) {
+                const t = (x / width) * 4 * waveFrequency;
+                const y = height / 2 + (pmDepth / 60) * (height / 3) * Math.sin(t * fmDepth - time);
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Saturation wave
+            if (amDepth > 0) {
+                ctx.strokeStyle = 'rgba(255, 200, 0, 0.5)';
+                ctx.beginPath();
+                for (let x = 0; x < width; x++) {
+                    const t = (x / width) * 4 * waveFrequency;
+                    const y = height / 2 + (amDepth / 50) * (height / 4) * Math.sin(t * 0.5 - time);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+        }
+
+        function drawAudioSpectrum() {
+            if (!analyser || !dataArray) return;
+
+            const ctx = audioCanvas.getContext('2d');
+            const width = audioCanvas.width;
+            const height = audioCanvas.height;
+
+            ctx.fillStyle = 'rgba(30, 30, 46, 0.5)';
+            ctx.fillRect(0, 0, width, height);
+
+            const barWidth = (width / dataArray.length) * 2.5;
+            let barHeight;
+            let x = 0;
+
+            for (let i = 0; i < dataArray.length; i++) {
+                barHeight = (dataArray[i] / 255) * height;
+
+                // Color based on frequency
+                const hue = (i / dataArray.length) * 360;
+                ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+                ctx.fillRect(x, height - barHeight, barWidth, barHeight);
+
+                x += barWidth + 1;
+            }
+        }
+
+        // Audio setup
+        async function startAudio() {
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    analyser.fftSize = 256;
+                    dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+                    try {
+                        // Capture system audio from browser tabs
+                        const stream = await navigator.mediaDevices.getDisplayMedia({
+                            audio: {
+                                mandatory: {
+                                    chromeMediaSource: 'tab',
+                                    chromeMediaSourceId: 'tab'
+                                }
+                            },
+                            video: false
+                        });
+                        const source = audioContext.createMediaStreamSource(stream);
+                        source.connect(analyser);
+                        document.getElementById('inputType').textContent = 'Browser Tab';
+                    } catch (displayErr) {
+                        // Try standard approach with better prompt
+                        try {
+                            console.log('Attempting standard getDisplayMedia with audio...');
+                            const stream = await navigator.mediaDevices.getDisplayMedia({
+                                audio: true,
+                                video: false
+                            });
+                            const source = audioContext.createMediaStreamSource(stream);
+                            source.connect(analyser);
+                            document.getElementById('inputType').textContent = 'Browser Tab';
+                        } catch (err2) {
+                            console.error('Failed to capture audio from browser tabs:', err2);
+                            alert('Steps to capture tab audio:\n\n1. A dialog will appear asking what to share\n2. Look for a "Tabs" button/option at the top of the dialog\n3. Select the tab with audio playing\n4. Check the "Share tab audio" checkbox if you see it\n5. Click "Share"\n\nIf no "Tabs" option appears, your browser may not support tab audio capture. Try Chrome or Edge browser.');
+                            throw err2;
+                        }
+                    }
+                }
+                isAudioRunning = true;
+                startAudioBtn.style.opacity = '0.5';
+                stopAudioBtn.style.opacity = '1';
+                document.getElementById('bufferSize').textContent = analyser.fftSize;
+                document.getElementById('sampleRate').textContent = audioContext.sampleRate + 'Hz';
+            } catch (err) {
+                console.error('Audio access denied:', err);
+                alert('Please select a browser tab with audio playing. The audio spectrum will visualize the frequencies from that tab.');
+            }
+        }
+
+        function stopAudio() {
+            isAudioRunning = false;
+            startAudioBtn.style.opacity = '1';
+            stopAudioBtn.style.opacity = '0.5';
+            document.getElementById('bassLevel').textContent = '0%';
+            document.getElementById('midLevel').textContent = '0%';
+            document.getElementById('highLevel').textContent = '0%';
+            document.getElementById('overallLevel').textContent = '0%';
+        }
+
+        // Event listeners
+        baseHueInput.addEventListener('input', updateDisplays);
+        saturationInput.addEventListener('input', updateDisplays);
+        lightnessInput.addEventListener('input', updateDisplays);
+        harmonyModeSelect.addEventListener('change', updateDisplays);
+        pmDepthInput.addEventListener('input', updateDisplays);
+        fmDepthInput.addEventListener('input', updateDisplays);
+        amDepthInput.addEventListener('input', updateDisplays);
+        speedInput.addEventListener('input', updateDisplays);
+        audioSensitivityInput.addEventListener('input', updateDisplays);
+        waveFrequencyInput.addEventListener('input', updateDisplays);
+
+        startAudioBtn.addEventListener('click', startAudio);
+        stopAudioBtn.addEventListener('click', stopAudio);
+
+        // Preset functions
+        function setPreset(hue, name) {
+            baseHueInput.value = hue;
+            updateDisplays();
+        }
+
+        function loadPreset(preset) {
+            switch (preset) {
+                case 'vibrant':
+                    saturationInput.value = 100;
+                    lightnessInput.value = 50;
+                    pmDepthInput.value = 45;
+                    fmDepthInput.value = 1.5;
+                    amDepthInput.value = 30;
+                    speedInput.value = 0.8;
+                    break;
+
+                case 'pastel':
+                    saturationInput.value = 50;
+                    lightnessInput.value = 70;
+                    pmDepthInput.value = 20;
+                    fmDepthInput.value = 0.5;
+                    amDepthInput.value = 10;
+                    speedInput.value = 0.3;
+                    break;
+
+                case 'dark':
+                    saturationInput.value = 80;
+                    lightnessInput.value = 30;
+                    pmDepthInput.value = 30;
+                    fmDepthInput.value = 1;
+                    amDepthInput.value = 20;
+                    speedInput.value = 0.5;
+                    break;
+
+                case 'neon':
+                    saturationInput.value = 100;
+                    lightnessInput.value = 60;
+                    pmDepthInput.value = 60;
+                    fmDepthInput.value = 2;
+                    amDepthInput.value = 40;
+                    speedInput.value = 1.5;
+                    break;
+
+                case 'mono':
+                    saturationInput.value = 0;
+                    lightnessInput.value = 50;
+                    pmDepthInput.value = 0;
+                    fmDepthInput.value = 1;
+                    amDepthInput.value = 25;
+                    speedInput.value = 0.5;
+                    break;
+
+                case 'nature':
+                    baseHueInput.value = 120;
+                    saturationInput.value = 60;
+                    lightnessInput.value = 50;
+                    pmDepthInput.value = 25;
+                    fmDepthInput.value = 0.7;
+                    amDepthInput.value = 15;
+                    speedInput.value = 0.4;
+                    break;
+            }
+            updateDisplays();
+        }
+
+        // Canvas setup
+        function resizeCanvases() {
+            [waveCanvas, audioCanvas].forEach(canvas => {
+                canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+                canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+                canvas.getContext('2d').scale(window.devicePixelRatio, window.devicePixelRatio);
+            });
+        }
+
+        resizeCanvases();
+        window.addEventListener('resize', resizeCanvases);
+
+        // Initialize
+        updateDisplays();
+        animate();
+    </script>
+</body>
+</html>

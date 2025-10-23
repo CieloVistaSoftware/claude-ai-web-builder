@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data-Driven Component Demo</title>
+  <link rel="stylesheet" href="../../index.css">
+  <style>
+    body { background: var(--bg-color, #18181b); color: var(--text-primary, #fff); }
+    .demo-section { margin: 2rem auto; max-width: 700px; background: var(--surface-raised, #23232b); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); padding: 2rem; }
+    .code-section { margin: 1.5rem 0; }
+    pre { background: #18181b; color: #fff; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+    .example-btns button { margin-right: 0.5rem; }
+    .form-row { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.25rem; }
+    input, textarea, select { width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid #333; background: #23232b; color: #fff; }
+    #component-container, #preview-container { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="demo-section">
+    <h1>Data-Driven Component Demo</h1>
+    <p>This demo shows how to generate and render a web component from a JSON schema and data. The component is created using a factory and supports dynamic data, actions, and event handling.</p>
+    <div class="code-section">
+      <h3>1. Example JSON Schema</h3>
+      <pre id="schema-example"></pre>
+    </div>
+    <div class="code-section">
+      <h3>2. Create Component with Factory</h3>
+      <pre>const card = await ComponentFactory.create('wb-card', {
+  data: {
+    title: 'My Card',
+    content: 'Card content here'
+  }
+});</pre>
+    </div>
+    <div class="code-section">
+      <h3>3. Component Renders Automatically</h3>
+      <pre>// Component handles:
+// - HTML generation from template
+// - Style injection
+// - Event binding
+// - Data interpolation
+// - State management</pre>
+    </div>
+    <div class="code-section">
+      <h3>4. Try It Yourself</h3>
+      <div class="form-row">
+        <label for="title">Title</label>
+        <input id="title" type="text" value="Demo Card" />
+      </div>
+      <div class="form-row">
+        <label for="subtitle">Subtitle</label>
+        <input id="subtitle" type="text" value="A flexible card demo" />
+      </div>
+      <div class="form-row">
+        <label for="content">Content</label>
+        <textarea id="content">This card is generated from a JSON schema and data. You can edit the fields and see the result instantly.</textarea>
+      </div>
+      <div class="form-row">
+        <label for="image">Image URL</label>
+        <input id="image" type="text" value="" />
+      </div>
+      <div class="form-row">
+        <label for="variant">Variant</label>
+        <select id="variant">
+          <option value="elevated">Elevated</option>
+          <option value="interactive">Interactive</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="tags">Tags (comma separated)</label>
+        <input id="tags" type="text" value="Demo, JSON, Schema" />
+      </div>
+      <div class="form-row example-btns">
+        <button onclick="loadExample('basic')">Basic Example</button>
+        <button onclick="loadExample('withImage')">With Image</button>
+        <button onclick="loadExample('withActions')">With Actions</button>
+      </div>
+      <button onclick="createComponent()">Render Component</button>
+      <div id="component-container"></div>
+      <h3>Live Preview</h3>
+      <div id="preview-container"></div>
+    </div>
+    <div class="code-section">
+      <h3>5. Data-Driven Features</h3>
+      <ul>
+        <li>Component schema and template are loaded from JSON</li>
+        <li>Supports dynamic data binding and interpolation</li>
+        <li>Actions and events are defined in schema and handled automatically</li>
+        <li>Live editing and preview of data-driven components</li>
+        <li>Extensible for any component type (not just cards)</li>
+      </ul>
+    </div>
+  </div>
+  <script src="../utils/component/component-factory.js"></script>
+  <script>
+    async function previewComponent() {
+      if (!cardDefinition) return;
+      const data = {
+        title: document.getElementById('title').value,
+        subtitle: document.getElementById('subtitle').value,
+        content: document.getElementById('content').value,
+        image: document.getElementById('image').value,
+        variant: document.getElementById('variant').value,
+        tags: document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+      };
+      if (!data.subtitle) delete data.subtitle;
+      if (!data.image) delete data.image;
+      if (data.tags.length === 0) delete data.tags;
+      data.actions = [
+        { actionId: 'view', actionLabel: 'View Details', actionVariant: 'primary' },
+        { actionId: 'edit', actionLabel: 'Edit', actionVariant: 'secondary' }
+      ];
+      const component = await ComponentFactory.create('wb-card', { data, variant: data.variant });
+      const preview = document.getElementById('preview-container');
+      preview.innerHTML = '';
+      preview.appendChild(component.element);
+    }
+    let cardDefinition = null;
+    async function initialize() {
+      try {
+        const response = await fetch('../utils/component/data-driven-schema-example.json');
+        cardDefinition = await response.json();
+        ComponentFactory.register(cardDefinition);
+        createComponent();
+        document.getElementById('schema-example').textContent = JSON.stringify(cardDefinition, null, 2);
+      } catch (error) {
+        console.error('Failed to load component definition:', error);
+      }
+    }
+    async function createComponent() {
+      if (!cardDefinition) return;
+      const data = {
+        title: document.getElementById('title').value,
+        subtitle: document.getElementById('subtitle').value,
+        content: document.getElementById('content').value,
+        image: document.getElementById('image').value,
+        variant: document.getElementById('variant').value,
+        tags: document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+      };
+      if (!data.subtitle) delete data.subtitle;
+      if (!data.image) delete data.image;
+      if (data.tags.length === 0) delete data.tags;
+      data.actions = [
+        { actionId: 'view', actionLabel: 'View Details', actionVariant: 'primary' },
+        { actionId: 'edit', actionLabel: 'Edit', actionVariant: 'secondary' }
+      ];
+      const component = await ComponentFactory.create('wb-card', { data, variant: data.variant });
+      const container = document.getElementById('component-container');
+      container.innerHTML = '';
+      container.appendChild(component.element);
+      component.element.addEventListener('wbCardAction', (e) => {
+        console.log('Card action:', e.detail);
+        alert(`Action clicked: ${e.detail.actionId || 'unknown'}`);
+      });
+    }
+    function loadExample(type) {
+      const examples = {
+        basic: {
+          title: 'Basic Card Example',
+          subtitle: '',
+          content: 'This is a simple card with just title and content. No image, no tags, just the essentials.',
+          image: '',
+          variant: 'elevated',
+          tags: ''
+        },
+        withImage: {
+          title: 'Beautiful Landscape',
+          subtitle: 'Photography Example',
+          content: 'This card demonstrates the image header feature. The image automatically maintains aspect ratio.',
+          image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=320&h=180&fit=crop',
+          variant: 'elevated',
+          tags: 'Photography, Nature, Mountains'
+        },
+        withActions: {
+          title: 'Interactive Card',
+          subtitle: 'With Action Buttons',
+          content: 'This card variant includes hover effects and action buttons. Try hovering over it!',
+          image: '',
+          variant: 'interactive',
+          tags: 'Interactive, Buttons, UI'
+        }
+      };
+      const example = examples[type];
+      if (example) {
+        Object.keys(example).forEach(key => {
+          document.getElementById(key).value = example[key];
+        });
+        createComponent();
+      }
+    }
+    initialize();
+  </script>
+</body>
+</html>

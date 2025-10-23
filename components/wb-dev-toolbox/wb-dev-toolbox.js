@@ -1,4 +1,6 @@
-class WBDevToolbox extends HTMLElement {
+import { WBBaseComponent } from '../wb-base/wb-base.js';
+
+class WBDevToolbox extends WBBaseComponent {
   constructor() {
     super();
     this.attachShadow({mode: 'open'});
@@ -128,14 +130,14 @@ class WBDevToolbox extends HTMLElement {
       'user': 'wb:user'
     }[type] || 'wb:info';
     
-    document.dispatchEvent(new CustomEvent(eventType, {
-      detail: {
-        message: msg,
-        type,
-        time: entry.time,
-        source: 'wb-dev-toolbox',
-      }
-    }));
+    // Extract event name without 'wb:' prefix for fireEvent
+    const eventName = eventType.replace('wb:', '');
+    this.fireEvent(eventName, {
+      message: msg,
+      type,
+      time: entry.time,
+      source: 'wb-dev-toolbox',
+    });
     
     // Update reactive state
     if (this._state.showLocalLog) {

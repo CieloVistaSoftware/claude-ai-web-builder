@@ -1,9 +1,19 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // wb-resize-updown.js
 // Vertical resize handle component for resizing parent containers up/down
 
 class WBResizeUpDown extends HTMLElement {
     constructor() {
         super();
+    }
+
+    async connectedCallback() {
+        await loadComponentCSS(this, 'wb-resize-updown.css');
+        this.init();
+    }
+
+    init() {
         this.attachShadow({ mode: 'open' });
         
         // State

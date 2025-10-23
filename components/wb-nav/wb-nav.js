@@ -1,6 +1,8 @@
 // WB Nav Web Component
 // A fully-featured navigation menu component with responsive layouts
 
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 if (typeof WBNav === 'undefined') {
 class WBNav extends HTMLElement {
     constructor() {
@@ -20,7 +22,7 @@ class WBNav extends HTMLElement {
         await this.loadConfig();
         
         // Load CSS if needed
-        this.loadCSS();
+        await this.loadCSS();
         
         // Initialize navigation
         this.render();
@@ -108,28 +110,8 @@ class WBNav extends HTMLElement {
         }
     }
 
-    loadCSS() {
-        if (window.WBComponentUtils && typeof window.WBComponentUtils.getPath === 'function') {
-            try {
-                const cssPath = window.WBComponentUtils.getPath('wb-nav.js', '../components/wb-nav/') + 'wb-nav.css';
-                window.WBComponentUtils.loadCSS('wb-nav', cssPath);
-                return;
-            } catch (e) {
-                console.warn('WB Nav: Could not use WBComponentUtils, using fallback');
-            }
-        }
-        
-        // Fallback for when WBComponentUtils is not available
-        const existingStyles = document.querySelector('link[href*="wb-nav.css"]');
-        if (document.getElementById('wb-nav-styles') || existingStyles) {
-            return;
-        }
-        
-        const link = document.createElement('link');
-        link.id = 'wb-nav-styles';
-        link.rel = 'stylesheet';
-        link.href = '../components/wb-nav/wb-nav.css';
-        document.head.appendChild(link);
+    async loadCSS() {
+        await loadComponentCSS(this, 'wb-nav.css');
     }
 
     render() {
@@ -196,6 +178,21 @@ class WBNav extends HTMLElement {
                 console.error('Invalid items JSON:', e);
             }
         }
+
+        // If no items were provided via attribute or programmatically,
+        // attempt to parse light-DOM children. This enables a simpler
+        // authoring pattern such as:
+        // <wb-nav>
+        //   <wb-list-item data-id="home" href="/">Home</wb-list-item>
+        // </wb-nav>
+        // or legacy markup with <ul><li>... inside the wb-nav element.
+        if ((!this.items || this.items.length === 0) && this.children.length > 0) {
+            try {
+                this.parseChildrenItems();
+            } catch (e) {
+                console.warn('WB Nav: Error parsing light DOM children', e);
+            }
+        }
         
         // Create navigation items
         this.items.forEach((item, index) => {
@@ -224,10 +221,18 @@ class WBNav extends HTMLElement {
             navItem.setAttribute('data-nav-id', item.id);
         }
         
+        // Set all data attributes from the item object
+        Object.keys(item).forEach(key => {
+            if (key.startsWith('data-')) {
+                navItem.setAttribute(key, item[key]);
+            }
+        });
+        
         const navLink = document.createElement('a');
         navLink.className = this.config?.classes?.link || 'wb-nav-link';
         navLink.href = item.href || '#';
-        navLink.textContent = item.text;
+        // support both `text` and legacy `label` keys
+        navLink.textContent = item.text || item.label || '';
         
         if (item.title) {
             navLink.title = item.title;
@@ -279,9 +284,11 @@ class WBNav extends HTMLElement {
     setupEventListeners() {
         // Navigation item clicks
         this.addEventListener('click', (e) => {
-            if (e.target.matches(`.${this.config.classes.link}`)) {
-                const navItem = e.target.closest(`.${this.config.classes.item}`);
-                const isDisabled = navItem.classList.contains(this.config.classes.states.disabled);
+            const target = e.target;
+            // runtime guards because EventTarget may be non-DOM in some environments
+            if (target && target instanceof Element && target.matches(`.${this.config.classes.link}`)) {
+                const navItem = target.closest(`.${this.config.classes.item}`);
+                const isDisabled = navItem && navItem.classList.contains(this.config.classes.states.disabled);
                 
                 if (!isDisabled) {
                     this.setActiveItem(navItem);
@@ -291,7 +298,7 @@ class WBNav extends HTMLElement {
                         bubbles: true,
                         detail: {
                             item: navItem,
-                            link: e.target,
+                            link: target,
                             index: navItem.getAttribute('data-nav-index'),
                             id: navItem.getAttribute('data-nav-id'),
                             nav: this,
@@ -303,11 +310,11 @@ class WBNav extends HTMLElement {
                     // Dispatch wb: event for wb-event-log
                     document.dispatchEvent(new CustomEvent('wb:info', {
                         detail: {
-                            message: `Nav clicked: "${e.target.textContent}" (${e.target.href || 'no href'})`,
+                            message: `Nav clicked: "${target.textContent}" (${(target.href || 'no href')})`,
                             source: 'wb-nav',
                             component: 'navigation',
                             action: 'click',
-                            target: e.target.textContent
+                            target: target.textContent
                         }
                     }));
                     
@@ -326,10 +333,50 @@ class WBNav extends HTMLElement {
         
         // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (this.isExpanded && !this.contains(e.target)) {
+            const t = e.target;
+            if (this.isExpanded && t instanceof Node && !this.contains(t)) {
                 this.collapse();
             }
         });
+    }
+
+    // Parse light-DOM children into items array. Supports <wb-list-item> custom elements
+    // as well as legacy <ul><li> lists. This function is intentionally forgiving and
+    // only pulls simple attributes/text content into the internal item model.
+    parseChildrenItems() {
+        const parsed = [];
+
+        // First, support custom wb-list-item elements
+        const listItems = Array.from(this.querySelectorAll('wb-list-item'));
+        if (listItems.length > 0) {
+            listItems.forEach((el, idx) => {
+                const id = el.getAttribute('data-id') || el.getAttribute('id') || `item-${idx}`;
+                const href = el.getAttribute('href') || el.getAttribute('data-href') || '#';
+                const active = el.hasAttribute('active');
+                const disabled = el.hasAttribute('disabled');
+                const text = (el.textContent || '').trim();
+                parsed.push({ id, text, href, active, disabled });
+            });
+        } else {
+            // Fallback: look for <ul> / <li> structures inside the wb-nav
+            const legacyLists = Array.from(this.querySelectorAll('ul'));
+            legacyLists.forEach((ul) => {
+                const items = Array.from(ul.querySelectorAll('li'));
+                items.forEach((li, idx) => {
+                    const a = li.querySelector('a');
+                    const text = a ? (a.textContent || '').trim() : (li.textContent || '').trim();
+                    const href = a ? (a.getAttribute('href') || '#') : '#';
+                    const id = li.getAttribute('data-id') || li.getAttribute('id') || `li-${idx}`;
+                    const active = li.classList.contains(this.config.classes.states.active) || a && a.getAttribute('aria-current') === 'page';
+                    const disabled = li.classList.contains(this.config.classes.states.disabled) || (a && a.getAttribute('aria-disabled') === 'true');
+                    parsed.push({ id, text, href, active, disabled });
+                });
+            });
+        }
+
+        if (parsed.length > 0) {
+            this.items = parsed;
+        }
     }
 
     handleKeyboardNavigation(e) {

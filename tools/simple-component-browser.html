@@ -132,103 +132,114 @@
     </style>
 </head>
 <body>
+
     <div class="header">
         <h1>🔍 WB Component Browser</h1>
         <p>Discovered WB Components with full symbol discovery</p>
     </div>
 
-    <div class="stats">
-        <div class="stat-card">
-            <div class="stat-number">23</div>
-            <div>Total Components</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">14</div>
-            <div>Web Components</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">694</div>
-            <div>Total Symbols</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">11</div>
-            <div>Validation Errors</div>
-        </div>
+    <div class="tab-bar" style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem;">
+        <button class="tab-btn" id="tab-components" style="padding: 0.5rem 1.5rem; border-radius: 6px; border: none; background: #6366f1; color: white; font-weight: 600; cursor: pointer;">Components</button>
+        <button class="tab-btn" id="tab-demos" style="padding: 0.5rem 1.5rem; border-radius: 6px; border: none; background: #10b981; color: white; font-weight: 600; cursor: pointer;">Demos</button>
     </div>
+
+    <div id="tab-content-components">
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">23</div>
+                <div>Total Components</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">14</div>
+                <div>Web Components</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">694</div>
+                <div>Total Symbols</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div>Validation Errors</div>
+            </div>
+        </div>
 
     <div class="section">
         <h2 class="section-title">✅ Working Web Components</h2>
         <div class="component-grid">
+            <!-- ...existing component cards, but remove demo links from here... -->
             <div class="component-card">
                 <div class="component-name">wb-button</div>
                 <div class="component-type">Web Component</div>
                 <div class="component-tag">&lt;wb-button&gt;</div>
                 <div class="component-description">Customizable button with variants and themes</div>
                 <div class="status-complete">✅ Complete</div>
-                <a href="../components/wb-button/wb-button-demo.html" class="demo-link">Demo</a>
             </div>
-
             <div class="component-card">
                 <div class="component-name">wb-table</div>
                 <div class="component-type">Web Component</div>
                 <div class="component-tag">&lt;wb-table&gt;</div>
                 <div class="component-description">Auto-header table that handles JSON data</div>
                 <div class="status-complete">✅ Complete</div>
-                <a href="../components/wb-table/wb-table-json-demo.html" class="demo-link">Demo</a>
             </div>
-
             <div class="component-card">
                 <div class="component-name">wb-select</div>
                 <div class="component-type">Web Component</div>
                 <div class="component-tag">&lt;wb-select&gt;</div>
                 <div class="component-description">Dropdown select component with dark mode</div>
                 <div class="status-complete">✅ Complete</div>
-                <a href="../components/wb-select/wb-select-webcomponent-demo.html" class="demo-link">Demo</a>
             </div>
-
             <div class="component-card">
                 <div class="component-name">wb-log-error</div>
                 <div class="component-type">Web Component</div>
                 <div class="component-tag">&lt;wb-log-error&gt;</div>
                 <div class="component-description">Error logging with table display</div>
                 <div class="status-complete">✅ Complete</div>
-                <a href="../components/wb-log-error/wb-log-error-demo.html" class="demo-link">Demo</a>
             </div>
-
             <div class="component-card">
                 <div class="component-name">wb-modal</div>
                 <div class="component-type">Web Component</div>
                 <div class="component-tag">&lt;wb-modal&gt;</div>
                 <div class="component-description">Modal dialog component</div>
                 <div class="status-complete">✅ Complete</div>
-                <a href="../components/wb-modal/wb-modal-demo.html" class="demo-link">Demo</a>
             </div>
-
             <div class="component-card">
                 <div class="component-name">wb-toggle</div>
                 <div class="component-type">Web Component</div>
                 <div class="component-tag">&lt;wb-toggle&gt;</div>
                 <div class="component-description">Toggle switch component</div>
                 <div class="status-complete">✅ Complete</div>
-                <a href="../components/wb-toggle/wb-toggle-demo.html" class="demo-link">Demo</a>
             </div>
-
             <div class="component-card">
                 <div class="component-name">wb-status</div>
                 <div class="component-type">Web Component</div>
                 <div class="component-tag">&lt;wb-status&gt;</div>
                 <div class="component-description">Status bar for events and settings</div>
                 <div class="status-complete">✅ Complete</div>
-                <a href="../components/wb-status/wb-status-demo.html" class="demo-link">Demo</a>
             </div>
-
             <div class="component-card">
                 <div class="component-name">wb-nav</div>
                 <div class="component-type">Web Component</div>
                 <div class="component-tag">&lt;wb-nav&gt;</div>
                 <div class="component-description">Navigation menu component</div>
                 <div class="status-complete">✅ Complete</div>
-                <a href="../components/wb-nav/wb-nav-demo.html" class="demo-link">Demo</a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Demos Tab Content -->
+    <div id="tab-content-demos" style="display:none;">
+        <div class="section">
+            <h2 class="section-title">🧪 Component Demos</h2>
+            <div class="component-grid">
+                <a href="../components/wb-button/wb-button-demo.html" class="demo-link">wb-button Demo</a>
+                <a href="../components/wb-table/wb-table-json-demo.html" class="demo-link">wb-table Demo</a>
+                <a href="../components/wb-select/wb-select-webcomponent-demo.html" class="demo-link">wb-select Demo</a>
+                <a href="../components/wb-log-error/wb-log-error-demo.html" class="demo-link">wb-log-error Demo</a>
+                <a href="../components/wb-modal/wb-modal-demo.html" class="demo-link">wb-modal Demo</a>
+                <a href="../components/wb-toggle/wb-toggle-demo.html" class="demo-link">wb-toggle Demo</a>
+                <a href="../components/wb-status/wb-status-demo.html" class="demo-link">wb-status Demo</a>
+                <a href="../components/wb-nav/wb-nav-demo.html" class="demo-link">wb-nav Demo</a>
             </div>
         </div>
     </div>
@@ -236,27 +247,25 @@
     <div class="section">
         <h2 class="section-title">⚠️ Components Needing Fixes</h2>
         <div class="component-grid">
+            <!-- ...existing broken component cards... -->
             <div class="component-card">
                 <div class="component-name">wb-input</div>
                 <div class="component-type">Legacy Component</div>
                 <div class="component-description">Input elements not functional - users cannot enter text</div>
                 <div class="status-broken">❌ Broken</div>
             </div>
-
             <div class="component-card">
                 <div class="component-name">control-panel-new</div>
                 <div class="component-type">Legacy Component</div>
                 <div class="component-description">JSON parsing errors and incorrect path references</div>
                 <div class="status-broken">❌ Broken</div>
             </div>
-
             <div class="component-card">
                 <div class="component-name">change-text</div>
                 <div class="component-type">Legacy Component</div>
                 <div class="component-description">Edit mode functionality not working</div>
                 <div class="status-broken">❌ Broken</div>
             </div>
-
             <div class="component-card">
                 <div class="component-name">image-insert</div>
                 <div class="component-type">Legacy Component</div>
@@ -317,5 +326,28 @@ const button = WBButton.create('Click Me', 'primary');</code></pre>
             <a href="../dist/symbols/" style="color: #6366f1; margin-left: 15px;">📄 View Generated Files</a>
         </p>
     </div>
+
+    <script>
+    // Tab switching logic
+    const tabComponents = document.getElementById('tab-components');
+    const tabDemos = document.getElementById('tab-demos');
+    const tabContentComponents = document.getElementById('tab-content-components');
+    const tabContentDemos = document.getElementById('tab-content-demos');
+
+    tabComponents.onclick = function() {
+        tabContentComponents.style.display = '';
+        tabContentDemos.style.display = 'none';
+        tabComponents.style.background = '#6366f1';
+        tabDemos.style.background = '#10b981';
+    };
+    tabDemos.onclick = function() {
+        tabContentComponents.style.display = 'none';
+        tabContentDemos.style.display = '';
+        tabComponents.style.background = '#10b981';
+        tabDemos.style.background = '#6366f1';
+    };
+    // Default to components tab
+    tabComponents.click();
+    </script>
 </body>
 </html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout System Demo</title>
+  <link rel="stylesheet" href="../index.css">
+  <link rel="stylesheet" href="layouts.css">
+  <style>
+    body { font-family: system-ui, sans-serif; background: var(--bg-color, #f8f9fa); color: var(--text-primary, #222); margin: 0; padding: 0; }
+    .layout-demo-section { margin: 2rem 0; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); background: var(--surface-base, #fff); padding: 2rem; }
+    .layout-demo-header { font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; color: var(--primary, #6366f1); }
+    .layout-switcher { display: flex; gap: 1rem; margin-bottom: 2rem; }
+    .layout-switcher button { padding: 0.5rem 1.5rem; border-radius: 4px; border: 1px solid var(--border-color, #ccc); background: var(--surface-base, #fff); color: var(--text-primary, #222); font-size: 1rem; font-weight: 500; cursor: pointer; }
+    .layout-switcher button.active { background: var(--primary, #6366f1); color: #fff; border-color: var(--primary, #6366f1); }
+    .layout-demo-footer { margin-top: 2rem; text-align: center; color: var(--text-secondary, #888); font-size: 1rem; }
+    .layout-demo-nav { background: var(--bg-secondary, #e5e7eb); padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
+    .layout-demo-content { background: var(--bg-primary, #fff); padding: 2rem; border-radius: 6px; min-height: 120px; }
+    .layout-demo-footer-bar { background: var(--surface-raised, #f3f4f6); padding: 1rem; border-radius: 6px; margin-top: 1rem; }
+    @media (max-width: 700px) { .layout-demo-section { padding: 1rem; } .layout-demo-content { padding: 1rem; } }
+  </style>
+</head>
+<body>
+  <h1>Layout System Demo</h1>
+  <p>This page demonstrates all layout modes and features from <b>layouts.css</b>. Use the buttons to switch between layouts.</p>
+  <div class="layout-switcher">
+    <button data-layout="top-nav" class="active">Top Navigation</button>
+    <button data-layout="left-nav">Left Navigation</button>
+    <button data-layout="right-nav">Right Navigation</button>
+    <button data-layout="default">Default (Stacked)</button>
+  </div>
+  <div class="layout-demo-section">
+    <nav id="navigation" class="layout-demo-nav">
+      <span class="nav-brand">Brand</span>
+      <div id="nav-menu">
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">About</a>
+      </div>
+    </nav>
+    <section class="layout-demo-content">
+      <h2>Main Content Area</h2>
+      <p>This is the main content area. Resize the window or switch layouts to see responsive behavior.</p>
+    </section>
+    <footer class="layout-demo-footer-bar">Footer Area</footer>
+  </div>
+  <div class="layout-demo-footer">All layout variables and responsive behaviors are active. Inspect the DOM and CSS to see all layout tokens in use.</div>
+  <script>
+    const layoutButtons = document.querySelectorAll('.layout-switcher button');
+    function setLayout(layout) {
+      document.body.setAttribute('data-layout', layout);
+      layoutButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-layout') === layout));
+    }
+    layoutButtons.forEach(btn => btn.addEventListener('click', () => setLayout(btn.getAttribute('data-layout'))));
+    setLayout('top-nav');
+  </script>
+</body>
+</html>

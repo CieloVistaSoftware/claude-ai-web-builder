@@ -3,8 +3,9 @@
  * A customizable color picker with accessibility and theming support
  * Modern Web Component implementation
  */
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 
-class WBColorPicker extends HTMLElement {
+class WBColorPicker extends WBBaseComponent {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -32,7 +33,7 @@ class WBColorPicker extends HTMLElement {
     this.loadCSS();
     this.render();
     this.setupEventListeners();
-    this.logEvent('info', 'Color picker initialized');
+    this.logInfo('Color picker initialized');
   }
 
   disconnectedCallback() {
@@ -343,7 +344,7 @@ class WBColorPicker extends HTMLElement {
       preset.addEventListener('click', () => {
         this.value = preset.dataset.color;
         this.close();
-        this.logEvent('user', `Selected preset color: ${preset.dataset.color}`);
+        this.logInfo(`Selected preset color: ${preset.dataset.color}`);
       });
     });
   }
@@ -392,7 +393,7 @@ class WBColorPicker extends HTMLElement {
     const hexColor = this.rgbToHex(rgb.r, rgb.g, rgb.b);
     
     this.value = hexColor;
-    this.logEvent('user', `Selected color from wheel: ${hexColor}`);
+    this.logInfo(`Selected color from wheel: ${hexColor}`);
   }
 
   updateDisplay() {
@@ -425,11 +426,10 @@ class WBColorPicker extends HTMLElement {
       picker.classList.add('wb-color-picker--open');
       picker.setAttribute('aria-expanded', 'true');
     }
-    this.dispatchEvent(new CustomEvent('wb-color-picker-open', { 
-      detail: { value: this._value },
-      bubbles: true 
-    }));
-    this.logEvent('info', 'Color picker opened');
+    this.fireEvent('wb-color-picker-open', {
+      value: this._value
+    });
+    this.logInfo('Color picker opened');
   }
 
   close() {
@@ -440,11 +440,10 @@ class WBColorPicker extends HTMLElement {
       picker.classList.remove('wb-color-picker--open');
       picker.setAttribute('aria-expanded', 'false');
     }
-    this.dispatchEvent(new CustomEvent('wb-color-picker-close', { 
-      detail: { value: this._value },
-      bubbles: true 
-    }));
-    this.logEvent('info', 'Color picker closed');
+    this.fireEvent('wb-color-picker-close', {
+      value: this._value
+    });
+    this.logInfo('Color picker closed');
   }
 
   toggle() {
@@ -456,36 +455,11 @@ class WBColorPicker extends HTMLElement {
   }
 
   dispatchChangeEvent() {
-    this.dispatchEvent(new CustomEvent('wb-color-picker-change', {
-      detail: { 
-        value: this._value, 
-        color: this.parseColor(this._value) 
-      },
-      bubbles: true
-    }));
-    this.logEvent('user', `Color changed to: ${this._value}`);
-  }
-
-  logEvent(type, message) {
-    // Integration with wb-event-log
-    const eventLog = document.querySelector('wb-event-log');
-    if (eventLog && eventLog.addEvent) {
-      eventLog.addEvent(type, `Color Picker: ${message}`, { 
-        source: 'wb-color-picker',
-        component: this.tagName.toLowerCase(),
-        value: this._value
-      });
-    } else {
-      // Fallback to wb: events
-      document.dispatchEvent(new CustomEvent(`wb:${type}`, {
-        detail: { 
-          message: `Color Picker: ${message}`,
-          source: 'wb-color-picker',
-          component: this.tagName.toLowerCase(),
-          value: this._value
-        }
-      }));
-    }
+    this.fireEvent('wb-color-picker-change', {
+      value: this._value,
+      color: this.parseColor(this._value)
+    });
+    this.logInfo(`Color changed to: ${this._value}`);
   }
 
   // Factory method for backward compatibility

@@ -22,10 +22,11 @@ wb-control-panel {
     flex-direction: column;
     position: fixed;
     top: var(--space-md, 1rem);
-    right: var(--space-md, 1rem);
+    right: 1rem;
+    left: 1rem;
     z-index: 10000;
-    width: 280px; /* Reduced from 320px */
-    max-width: 280px;
+    width: auto;
+    max-width: calc(100vw - 2rem);
     min-width: 280px;
     max-height: 85vh; /* More compact height */
     background: var(--glass-bg, rgba(17, 24, 39, 0.95));

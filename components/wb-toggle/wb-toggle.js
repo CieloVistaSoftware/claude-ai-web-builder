@@ -4,6 +4,8 @@
 // Note: WBBaseComponent import removed to avoid ES6 module syntax errors
 // Component will check for WBBaseComponent availability at runtime
 
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 // Import utilities if not already available globally
 let reflectPropAttr, dispatchComponentEvent;
 if (typeof window.reflectPropAttr === 'function') {
@@ -63,7 +65,7 @@ class WBToggle extends HTMLElement {
         
         try {
             await this.loadConfig();
-            this.loadCSS();
+            await loadComponentCSS(this, 'wb-toggle.css');
             this.render();
             this.setupEventListeners();
             this.setupColorResponseHandler();

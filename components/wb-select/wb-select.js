@@ -28,6 +28,8 @@
  * @author Website Builder Team
  */
 
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 if (window.WBEventLog) {
         WBEventLog.logInfo('WB Select Web Component: Starting initialization...', { 
             component: 'wb-select', 
@@ -247,20 +249,7 @@ if (window.WBEventLog) {
         }
 
         async loadCSS() {
-            if (this.utils) {
-                const cssPath = WBComponentUtils.getPath('wb-select.js', '../components/wb-select/') + 'wb-select.css';
-                await this.utils.loadCSS('wb-select', cssPath);
-            } else {
-                // Fallback CSS loading without WBComponentUtils
-                const cssPath = '/components/wb-select/wb-select.css';
-                const existingLink = document.querySelector(`link[href="${cssPath}"]`);
-                if (!existingLink) {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = cssPath;
-                    document.head.appendChild(link);
-                }
-            }
+            await loadComponentCSS(this, 'wb-select.css');
         }
 
         initializeComponent() {

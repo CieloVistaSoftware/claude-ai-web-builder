@@ -2,11 +2,13 @@
 // Clean Control Panel - Single Responsibility Principle Compliant
 // ONLY: Render UI, Listen to Input, Dispatch Events, Save State
 // Now with external CSS for Shadow DOM
+import { WBBaseComponent } from '../wb-base/wb-base.js';
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-class WBControlPanel extends HTMLElement {
+class WBControlPanel extends WBBaseComponent {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        // Shadow root already attached by WBBaseComponent
 
         this.state = {
             mode: 'dark',
@@ -18,11 +20,15 @@ class WBControlPanel extends HTMLElement {
             editMode: false,
             primaryHue: 240,
             primarySat: 70,
-            primaryLight: 50
+            primaryLight: 50,
+            backgroundHue: 220,
+            backgroundSat: 20,
+            backgroundLight: 15
         };
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await loadComponentCSS(this, 'wb-control-panel.css');
         this.loadState();
         this.render();
         this.attachEventListeners();
@@ -40,19 +46,25 @@ class WBControlPanel extends HTMLElement {
         this.state.primaryHue = parseInt(localStorage.getItem('wb-hue-primary') || '240');
         this.state.primarySat = parseInt(localStorage.getItem('wb-sat-primary') || '70');
         this.state.primaryLight = parseInt(localStorage.getItem('wb-light-primary') || '50');
+        this.state.backgroundHue = parseInt(localStorage.getItem('wb-hue-background') || '220');
+        this.state.backgroundSat = parseInt(localStorage.getItem('wb-sat-background') || '20');
+        this.state.backgroundLight = parseInt(localStorage.getItem('wb-light-background') || '15');
     }
 
     saveState() {
-        localStorage.setItem('wb-mode', this.state.mode);
-        localStorage.setItem('wb-theme', this.state.theme);
-        localStorage.setItem('wb-theme-category', this.state.themeCategory);
-        localStorage.setItem('wb-harmony-mode', this.state.harmonyMode);
-        localStorage.setItem('wb-layout', this.state.layout);
-        localStorage.setItem('wb-footer-position', this.state.footerPosition);
-        localStorage.setItem('wb-edit-mode', this.state.editMode);
-        localStorage.setItem('wb-hue-primary', this.state.primaryHue);
-        localStorage.setItem('wb-sat-primary', this.state.primarySat);
-        localStorage.setItem('wb-light-primary', this.state.primaryLight);
+        localStorage.setItem('wb-mode', String(this.state.mode));
+        localStorage.setItem('wb-theme', String(this.state.theme));
+        localStorage.setItem('wb-theme-category', String(this.state.themeCategory));
+        localStorage.setItem('wb-harmony-mode', String(this.state.harmonyMode));
+        localStorage.setItem('wb-layout', String(this.state.layout));
+        localStorage.setItem('wb-footer-position', String(this.state.footerPosition));
+        localStorage.setItem('wb-edit-mode', String(this.state.editMode));
+        localStorage.setItem('wb-hue-primary', String(this.state.primaryHue));
+        localStorage.setItem('wb-sat-primary', String(this.state.primarySat));
+        localStorage.setItem('wb-light-primary', String(this.state.primaryLight));
+        localStorage.setItem('wb-hue-background', String(this.state.backgroundHue));
+        localStorage.setItem('wb-sat-background', String(this.state.backgroundSat));
+        localStorage.setItem('wb-light-background', String(this.state.backgroundLight));
     }
 
     getNamedThemes() {
@@ -303,7 +315,6 @@ class WBControlPanel extends HTMLElement {
             <div class="panel-header">
                 <div class="header-content">
                     <h3>🎨 Control Panel</h3>
-                    <p class="subtitle">Theme System</p>
                 </div>
                 <div class="mode-toggle" id="mode-toggle">
                     <span class="mode-icon" id="mode-icon">🌙</span>
@@ -346,8 +357,8 @@ class WBControlPanel extends HTMLElement {
                     </select>
                 </div>
                 
+
                 <div class="section-title">Fine-Tune Colors</div>
-                
                 <div class="control-group" id="slider-group">
                     <label>
                         Primary Hue 
@@ -355,15 +366,28 @@ class WBControlPanel extends HTMLElement {
                         <span class="value-display" id="hue-display">240°</span>
                     </label>
                     <input type="range" id="hue-slider" min="0" max="360" value="240">
-                    
                     <label>Saturation <span class="value-display" id="sat-display">70%</span></label>
                     <input type="range" id="sat-slider" min="0" max="100" value="70">
-                    
                     <label>Lightness <span class="value-display" id="light-display">50%</span></label>
                     <input type="range" id="light-slider" min="0" max="100" value="50">
                     <div class="color-preview" id="color-preview">PREVIEW</div>
                 </div>
-                
+
+                <div class="section-title">Background Color</div>
+                <div class="control-group" id="bg-slider-group">
+                    <label>
+                        Background Hue
+                        <span class="hue-swatch" id="bg-hue-swatch"></span>
+                        <span class="value-display" id="bg-hue-display">220°</span>
+                    </label>
+                    <input type="range" id="bg-hue-slider" min="0" max="360" value="220">
+                    <label>Background Saturation <span class="value-display" id="bg-sat-display">20%</span></label>
+                    <input type="range" id="bg-sat-slider" min="0" max="100" value="20">
+                    <label>Background Lightness <span class="value-display" id="bg-light-display">15%</span></label>
+                    <input type="range" id="bg-light-slider" min="0" max="100" value="15">
+                    <div class="color-preview" id="bg-color-preview">PREVIEW</div>
+                </div>
+
                 <div class="section-title">Layout & Footer</div>
                 
                 <div class="control-group">
@@ -403,71 +427,14 @@ class WBControlPanel extends HTMLElement {
     }
 
     attachEventListeners() {
+        // Helper function for getting shadow DOM elements
         const $ = (id) => this.shadowRoot.getElementById(id);
         
-        $('mode-toggle').addEventListener('click', () => {
-            this.state.mode = this.state.mode === 'dark' ? 'light' : 'dark';
-            this.updateModeUI();
-            this.setAttribute('data-mode', this.state.mode);
-            
-            // ✅ Apply mode to document (for global styles)
-            document.documentElement.setAttribute('data-mode', this.state.mode);
-            document.body.setAttribute('data-mode', this.state.mode);
-            
-            this.dispatch('mode-changed', { mode: this.state.mode });
-            this.saveState();
-            console.log(`🌓 Mode switched to: ${this.state.mode}`);
-        });
-        
-        $('theme-category-dropdown').addEventListener('change', (e) => {
-            this.state.themeCategory = e.target.value;
-            this.updateCategoryInfo();
-            this.updateThemeDropdown();
-            this.toggleSliderVisibility();
-            this.saveState();
-        });
-        
-        $('theme-dropdown').addEventListener('change', (e) => {
-            this.state.theme = e.target.value;
-            
-            // ✅ Apply theme colors immediately
-            if (this.state.themeCategory === 'named') {
-                const themeData = this.getNamedThemes()[this.state.theme];
-                if (themeData) {
-                    this.state.primaryHue = themeData.hue;
-                    this.state.primarySat = themeData.sat;
-                    this.state.primaryLight = themeData.light;
-                    this.updateSliders();
-                    this.dispatchColorChange();
-                }
-            } else {
-                // HCS theme selected
-                const hcsTheme = this.getHCSThemes()[this.state.theme];
-                if (hcsTheme) {
-                    // Update primary for preview
-                    this.state.primaryHue = hcsTheme.colors.primary.hue;
-                    this.state.primarySat = hcsTheme.colors.primary.sat;
-                    this.state.primaryLight = hcsTheme.colors.primary.light;
-                    this.updateSliders();
-                }
-            }
-            
-            this.dispatchThemeChange();
-            this.saveState();
-            console.log(`🎨 Theme changed to: ${this.state.theme} (${this.state.themeCategory})`);
-        });
-        
-        $('harmony-select').addEventListener('change', (e) => {
-            this.state.harmonyMode = e.target.value;
-            this.dispatch('harmony-changed', { mode: this.state.harmonyMode });
-            this.dispatchColorChange(); // Re-calculate colors with new harmony
-            this.saveState();
-            console.log(`🌊 Harmony mode changed to: ${this.state.harmonyMode}`);
-        });
-        
+        // PRIMARY COLOR SLIDERS
         $('hue-slider').addEventListener('input', (e) => {
-            this.state.primaryHue = parseInt(e.target.value);
-            $('hue-display').textContent = `${e.target.value}°`;
+            const target = /** @type {HTMLInputElement} */ (e.target);
+            this.state.primaryHue = parseInt(target.value);
+            $('hue-display').textContent = `${target.value}°`;
             this.updateHueSwatch();
             this.updatePreview();
             this.dispatchColorChange();
@@ -475,48 +442,101 @@ class WBControlPanel extends HTMLElement {
         });
         
         $('sat-slider').addEventListener('input', (e) => {
-            this.state.primarySat = parseInt(e.target.value);
-            $('sat-display').textContent = `${e.target.value}%`;
+            const target = /** @type {HTMLInputElement} */ (e.target);
+            this.state.primarySat = parseInt(target.value);
+            $('sat-display').textContent = `${target.value}%`;
             this.updatePreview();
             this.dispatchColorChange();
             this.saveState();
         });
         
         $('light-slider').addEventListener('input', (e) => {
-            this.state.primaryLight = parseInt(e.target.value);
-            $('light-display').textContent = `${e.target.value}%`;
+            const target = /** @type {HTMLInputElement} */ (e.target);
+            this.state.primaryLight = parseInt(target.value);
+            $('light-display').textContent = `${target.value}%`;
             this.updatePreview();
             this.dispatchColorChange();
             this.saveState();
         });
         
+        // Background color sliders
+        $('bg-hue-slider').addEventListener('input', (e) => {
+            const target = /** @type {HTMLInputElement} */ (e.target);
+            this.state.backgroundHue = parseInt(target.value);
+            $('bg-hue-display').textContent = `${target.value}°`;
+            this.updateBgHueSwatch();
+            this.updateBgPreview();
+            this.dispatchBackgroundColorChange();
+            this.saveState();
+        });
+        $('bg-sat-slider').addEventListener('input', (e) => {
+            const target = /** @type {HTMLInputElement} */ (e.target);
+            this.state.backgroundSat = parseInt(target.value);
+            $('bg-sat-display').textContent = `${target.value}%`;
+            this.updateBgPreview();
+            this.dispatchBackgroundColorChange();
+            this.saveState();
+        });
+        $('bg-light-slider').addEventListener('input', (e) => {
+            const target = /** @type {HTMLInputElement} */ (e.target);
+            this.state.backgroundLight = parseInt(target.value);
+            $('bg-light-display').textContent = `${target.value}%`;
+            this.updateBgPreview();
+            this.dispatchBackgroundColorChange();
+            this.saveState();
+        });
+        $('mode-toggle').addEventListener('click', () => {
+            this.state.mode = this.state.mode === 'dark' ? 'light' : 'dark';
+            this.updateModeUI();
+            this.setAttribute('data-mode', this.state.mode);
+            document.documentElement.setAttribute('data-mode', this.state.mode);
+            document.body.setAttribute('data-mode', this.state.mode);
+            this.dispatch('mode-changed', { mode: this.state.mode });
+            this.saveState();
+            this.logInfo(`🌓 Mode switched to: ${this.state.mode}`);
+        });
+        $('theme-category-dropdown').addEventListener('change', (e) => {
+            const target = /** @type {HTMLSelectElement} */ (e.target);
+            this.state.themeCategory = target.value;
+            this.updateCategoryInfo();
+            this.updateThemeDropdown();
+            this.toggleSliderVisibility();
+            this.saveState();
+        });
+        $('theme-dropdown').addEventListener('change', (e) => {
+            const target = /** @type {HTMLSelectElement} */ (e.target);
+            this.state.theme = target.value;
+            this.saveState();
+        });
+        $('harmony-select').addEventListener('change', (e) => {
+            const target = /** @type {HTMLSelectElement} */ (e.target);
+            this.state.harmonyMode = target.value;
+            this.saveState();
+        });
         $('layout-select').addEventListener('change', (e) => {
-            this.state.layout = e.target.value;
+            const target = /** @type {HTMLSelectElement} */ (e.target);
+            this.state.layout = target.value;
             this.dispatch('layout-changed', { layout: this.state.layout });
             this.saveState();
-            console.log(`🎯 Layout changed to: ${this.state.layout}`);
+            this.logInfo(`🎯 Layout changed to: ${this.state.layout}`);
         });
-        
         $('footer-position-select').addEventListener('change', (e) => {
-            this.state.footerPosition = e.target.value;
+            const target = /** @type {HTMLSelectElement} */ (e.target);
+            this.state.footerPosition = target.value;
             this.dispatch('footer-position-changed', { position: this.state.footerPosition });
             this.saveState();
-            console.log(`👣 Footer position changed to: ${this.state.footerPosition}`);
+            this.logInfo(`👣 Footer position changed to: ${this.state.footerPosition}`);
         });
-        
-        // ✅ EDIT MODE TOGGLE - Dispatches events for wb-image-insert component
         $('edit-mode-toggle').addEventListener('change', (e) => {
-            this.state.editMode = e.target.checked;
-            
-            // Dispatch standard DOM events (not wb: prefixed) for wb-image-insert
+            const target = /** @type {HTMLInputElement} */ (e.target);
+            this.state.editMode = target.checked;
             if (this.state.editMode) {
                 document.dispatchEvent(new CustomEvent('editModeEnabled'));
-                console.log('✏️ Edit Mode ENABLED - wb-image-insert activated');
+                this.logInfo('✏️ Edit Mode ENABLED - wb-image-insert activated');
             } else {
                 document.dispatchEvent(new CustomEvent('editModeDisabled'));
-                console.log('👁️ Edit Mode DISABLED - wb-image-insert deactivated');
+                this.logInfo('👁️ Edit Mode DISABLED - wb-image-insert deactivated');
             }
-            
             this.saveState();
         });
     }
@@ -541,9 +561,8 @@ class WBControlPanel extends HTMLElement {
     }
 
     updateThemeDropdown() {
-        const dropdown = this.shadowRoot.getElementById('theme-dropdown');
+        const dropdown = /** @type {HTMLSelectElement} */ (this.shadowRoot.getElementById('theme-dropdown'));
         dropdown.innerHTML = '';
-        
         const themes = this.state.themeCategory === 'named' ? this.getNamedThemes() : this.getHCSThemes();
         Object.entries(themes).forEach(([id, data]) => {
             const opt = document.createElement('option');
@@ -551,11 +570,9 @@ class WBControlPanel extends HTMLElement {
             opt.textContent = data.name;
             dropdown.appendChild(opt);
         });
-        
         // Set first theme as default
         this.state.theme = Object.keys(themes)[0];
         dropdown.value = this.state.theme;
-        
         // Apply the theme colors
         if (this.state.themeCategory === 'named') {
             const themeData = this.getNamedThemes()[this.state.theme];
@@ -566,20 +583,26 @@ class WBControlPanel extends HTMLElement {
                 this.updateSliders();
             }
         }
-        
         this.dispatchThemeChange();
     }
 
     updateSliders() {
         const $ = (id) => this.shadowRoot.getElementById(id);
-        $('hue-slider').value = this.state.primaryHue;
-        $('sat-slider').value = this.state.primarySat;
-        $('light-slider').value = this.state.primaryLight;
-        $('hue-display').textContent = `${this.state.primaryHue}°`;
-        $('sat-display').textContent = `${this.state.primarySat}%`;
-        $('light-display').textContent = `${this.state.primaryLight}%`;
-        this.updateHueSwatch();
-        this.updatePreview();
+        /** @type {HTMLInputElement} */ ($('hue-slider')).value = String(this.state.primaryHue);
+        /** @type {HTMLInputElement} */ ($('sat-slider')).value = String(this.state.primarySat);
+        /** @type {HTMLInputElement} */ ($('light-slider')).value = String(this.state.primaryLight);
+        /** @type {HTMLElement} */ ($('hue-display')).textContent = `${this.state.primaryHue}°`;
+        /** @type {HTMLElement} */ ($('sat-display')).textContent = `${this.state.primarySat}%`;
+        /** @type {HTMLElement} */ ($('light-display')).textContent = `${this.state.primaryLight}%`;
+        // Background sliders
+        /** @type {HTMLInputElement} */ ($('bg-hue-slider')).value = String(this.state.backgroundHue);
+        /** @type {HTMLInputElement} */ ($('bg-sat-slider')).value = String(this.state.backgroundSat);
+        /** @type {HTMLInputElement} */ ($('bg-light-slider')).value = String(this.state.backgroundLight);
+        /** @type {HTMLElement} */ ($('bg-hue-display')).textContent = `${this.state.backgroundHue}°`;
+        /** @type {HTMLElement} */ ($('bg-sat-display')).textContent = `${this.state.backgroundSat}%`;
+        /** @type {HTMLElement} */ ($('bg-light-display')).textContent = `${this.state.backgroundLight}%`;
+        this.updateBgHueSwatch();
+        this.updateBgPreview();
     }
 
     updateHueSwatch() {
@@ -590,15 +613,28 @@ class WBControlPanel extends HTMLElement {
         }
     }
 
+    updateBgHueSwatch() {
+        const bgHueSwatch = this.shadowRoot.getElementById('bg-hue-swatch');
+        if (bgHueSwatch) {
+            bgHueSwatch.style.backgroundColor = `hsl(${this.state.backgroundHue}, 100%, 50%)`;
+        }
+    }
+
     updatePreview() {
         const { primaryHue, primarySat, primaryLight } = this.state;
         this.shadowRoot.getElementById('color-preview').style.backgroundColor = 
             `hsl(${primaryHue}, ${primarySat}%, ${primaryLight}%)`;
     }
 
+    updateBgPreview() {
+        const { backgroundHue, backgroundSat, backgroundLight } = this.state;
+        this.shadowRoot.getElementById('bg-color-preview').style.backgroundColor =
+            `hsl(${backgroundHue}, ${backgroundSat}%, ${backgroundLight}%)`;
+    }
+
     dispatch(name, detail) {
-        document.dispatchEvent(new CustomEvent(`wb:${name}`, { detail, bubbles: true, composed: true }));
-        console.log(`📢 wb:${name}`, detail);
+        this.fireEvent(name, detail);
+        this.logInfo(`📢 wb:${name}`, detail);
     }
 
     dispatchThemeChange() {
@@ -619,49 +655,63 @@ class WBControlPanel extends HTMLElement {
         });
     }
 
+    dispatchBackgroundColorChange() {
+        this.dispatch('background-color-changed', {
+            hue: this.state.backgroundHue,
+            saturation: this.state.backgroundSat,
+            lightness: this.state.backgroundLight
+        });
+    }
+
     applyState() {
         const $ = (id) => this.shadowRoot.getElementById(id);
-        
         this.setAttribute('data-mode', this.state.mode);
-        
-        // ✅ Apply mode to document (for global styles)
         document.documentElement.setAttribute('data-mode', this.state.mode);
         document.body.setAttribute('data-mode', this.state.mode);
-        
         this.updateModeUI();
-        $('theme-category-dropdown').value = this.state.themeCategory;
+        /** @type {HTMLSelectElement} */ ($('theme-category-dropdown')).value = this.state.themeCategory;
         this.updateCategoryInfo();
         this.toggleSliderVisibility();
         this.updateThemeDropdown();
-        $('harmony-select').value = this.state.harmonyMode;
-        $('layout-select').value = this.state.layout;
-        $('footer-position-select').value = this.state.footerPosition;
-        $('edit-mode-toggle').checked = this.state.editMode;
+        /** @type {HTMLSelectElement} */ ($('harmony-select')).value = this.state.harmonyMode;
+        /** @type {HTMLSelectElement} */ ($('layout-select')).value = this.state.layout;
+        /** @type {HTMLSelectElement} */ ($('footer-position-select')).value = this.state.footerPosition;
+        /** @type {HTMLInputElement} */ ($('edit-mode-toggle')).checked = this.state.editMode;
         this.updateSliders();
-        
-        // Apply saved edit mode state
+        this.updateBgHueSwatch();
+        this.updateBgPreview();
         if (this.state.editMode) {
             document.dispatchEvent(new CustomEvent('editModeEnabled'));
-            console.log('✏️ Edit Mode restored: ENABLED');
+            this.logInfo('✏️ Edit Mode restored: ENABLED');
         }
-        
         this.dispatch('mode-changed', { mode: this.state.mode });
         this.dispatchThemeChange();
         this.dispatch('harmony-changed', { mode: this.state.harmonyMode });
         this.dispatch('layout-changed', { layout: this.state.layout });
         this.dispatch('footer-position-changed', { position: this.state.footerPosition });
         this.dispatchColorChange();
+        this.dispatchBackgroundColorChange();
     }
 }
 
 customElements.define('wb-control-panel', WBControlPanel);
 
+// REPORT WHERE THIS FILE IS BEING LOADED FROM
+const scriptElements = document.querySelectorAll('script[src*="wb-control-panel"]');
+if (scriptElements.length > 0) {
+    console.log('✅ WB Control Panel - Fixed Version');
+    console.log('📍 LOADED FROM:', /** @type {HTMLScriptElement} */ (scriptElements[0]).src);
+} else {
+    console.log('✅ WB Control Panel - Fixed Version');
+    console.log('📍 LOADED FROM: inline or module import');
+}
+
 // Compositional Namespace
-if (!window.WB) window.WB = { components: {}, utils: {} };
-window.WB.components.WBControlPanel = WBControlPanel;
+if (!window['WB']) window['WB'] = { components: {}, utils: {} };
+window['WB'].components.WBControlPanel = WBControlPanel;
 
 // Backward compatibility
-window.WBControlPanel = WBControlPanel;
+window['WBControlPanel'] = WBControlPanel;
 
 // ES6 Module Export
 export { WBControlPanel };

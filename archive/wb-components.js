@@ -22,7 +22,7 @@
 
 // Component loading queue
 const componentQueue = [
-    '../components/wb-btn/wb-btn.js'
+   
 ];
 
 // Load scripts sequentially to handle dependencies

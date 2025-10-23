@@ -18,6 +18,42 @@ test.describe('WB Tab - Comprehensive Component Tests', () => {
 
     test.describe('Web Component Creation and Registration', () => {
         
+        test('check browser console for JavaScript errors', async ({ page }) => {
+            const errors: string[] = [];
+            const logs: string[] = [];
+            
+            // Capture console errors
+            page.on('console', msg => {
+                if (msg.type() === 'error') {
+                    errors.push(`ERROR: ${msg.text()}`);
+                } else {
+                    logs.push(`${msg.type().toUpperCase()}: ${msg.text()}`);
+                }
+            });
+            
+            // Also capture JavaScript errors
+            page.on('pageerror', error => {
+                errors.push(`PAGE ERROR: ${error.message}`);
+            });
+            
+            // Navigate and wait
+            await page.goto('/components/wb-tab/wb-tab-demo.html');
+            await page.waitForTimeout(2000); // Give scripts time to load and execute
+            
+            console.log('=== BROWSER CONSOLE LOGS ===');
+            logs.forEach(log => console.log(log));
+            
+            console.log('=== BROWSER CONSOLE ERRORS ===');
+            errors.forEach(error => console.log(error));
+            
+            // Check if our debug logs appeared
+            const hasDebugLogs = logs.some(log => log.includes('🏷️ WB Tab:'));
+            console.log(`Debug logs found: ${hasDebugLogs}`);
+            
+            // This test will help us see what's happening
+            expect(errors.length).toBe(0); // Expect no errors for now, just to see them
+        });
+
         test('wb-tab custom element is registered', async ({ page }) => {
             const isRegistered = await page.evaluate(() => {
                 return customElements.get('wb-tab') !== undefined;

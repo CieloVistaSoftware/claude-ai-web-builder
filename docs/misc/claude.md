@@ -1,16 +1,41 @@
-# ./docs/claude.md - Documentation Folder Management
 
-## 🕒 RECENT ACTIVITY (October 6, 2025 - Most Recent First)
+# Misc Folder - AI/Claude Documentation
 
-### 📝 Documentation Status (October 6, 2025)
-- **Status**: Documentation folder contains comprehensive project specs
-- **Maintenance**: All docs should be kept up to date as specs change often
-- **Organization**: Files with similar names should be merged or moved to archive folder
+---
 
-### 📝 Pending Updates
-- add more information to the localstorage.md
+## 📋 Folder Metadata
+**Folder Purpose:** Store miscellaneous documentation, proposals, and checklists.
+**Last Updated:** 2025-10-23
 
-## Folder Purpose
-This is the folder for all docs on this project.
-They should all be kept up to date as specs change often.
-all files with similar names should be merged or moved to archive folder in docs
+### 📁 File List
+- FixesMerged.md
+- fixes.md
+- eventlogsummary.md
+- [other misc files]
+
+### 🔗 Important Links
+- [claude_md_guide](../claude/claude_md_guide.md)
+
+---
+
+## 🐛 Issue Tracking
+### Current Issues
+- Review all miscellaneous documentation for relevance and completeness.
+- Consolidate or remove redundant files (see FixesMerged.md, fixes.md).
+- Update eventlogsummary.md and other summary files as new events are logged.
+- Ensure all proposals and checklists are current and actionable.
+
+### Resolved Issues
+- [List resolved issues here]
+
+---
+
+## 🎯 Folder Purpose
+Misc folder contains proposals, merged fixes, and documentation not fitting other categories.
+
+---
+
+## 💡 Usage for AI
+- Use this folder for historical fixes, proposals, and event log summaries.
+
+---

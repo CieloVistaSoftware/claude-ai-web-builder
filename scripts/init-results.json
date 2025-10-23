@@ -1,0 +1,15 @@
+{
+  "Skipped": 93,
+  "Errors": 1,
+  "Timestamp": "2025-10-19 20:42:44",
+  "Renamed": 0,
+  "TotalFiles": 94,
+  "Details": [
+    {
+      "Error": "Target file already exists",
+      "File": "CLAUDE.md",
+      "Status": "Error"
+    }
+  ],
+  "DefaultPrefix": "OK"
+}

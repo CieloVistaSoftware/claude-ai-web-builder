@@ -1,3 +1,5 @@
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
 /**
  * WB Tab Web Component
  * 
@@ -58,6 +60,9 @@ let config = {};
         const response = await fetch(configPath);
         if (response.ok) {
             config = await response.json();
+            console.log('🏷️ WB Tab: Schema loaded successfully', config);
+        } else {
+            console.warn('🏷️ WB Tab: Schema fetch failed with status', response.status);
         }
     } catch (error) {
         console.warn('🏷️ WB Tab: Could not load wb-tab.schema.json, using defaults', error);
@@ -104,7 +109,8 @@ class WBTab extends HTMLElement {
         ];
     }
     
-    connectedCallback() {
+    async connectedCallback() {
+        await loadComponentCSS(this, 'wb-tab.css');
         this.render();
         this.setupEventListeners();
         this.initializeTabs();
@@ -826,7 +832,9 @@ class WBTab extends HTMLElement {
 }
 
 // Define the custom elements
+console.log('🏷️ WB Tab: Registering wb-tab custom element...');
 customElements.define('wb-tab', WBTab);
+console.log('🏷️ WB Tab: wb-tab custom element registered successfully');
 
 // Tab Item Component
 class WBTabItem extends HTMLElement {
@@ -880,7 +888,9 @@ class WBTabItem extends HTMLElement {
     }
 }
 
+console.log('🏷️ WB Tab: Registering wb-tab-item custom element...');
 customElements.define('wb-tab-item', WBTabItem);
+console.log('🏷️ WB Tab: wb-tab-item custom element registered successfully');
 
 // Tab Panel Component
 class WBTabPanel extends HTMLElement {
@@ -912,7 +922,9 @@ class WBTabPanel extends HTMLElement {
     }
 }
 
+console.log('🏷️ WB Tab: Registering wb-tab-panel custom element...');
 customElements.define('wb-tab-panel', WBTabPanel);
+console.log('🏷️ WB Tab: wb-tab-panel custom element registered successfully');
 
 // Register tab components with WBComponentRegistry if available
 if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
