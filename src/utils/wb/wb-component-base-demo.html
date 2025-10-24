@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8">
+    <title>WBComponentBase Demo</title>
+    <link rel="stylesheet" href="..../styles/main.css">
+  </head>
+  <body>
+    <wb-demo>
+      <span slot="title">WBComponentBase Demo</span>
+      <div slot="documentation">
+        <h2>Documentation</h2>
+        <p>This demo shows how to use the <code>WBComponentBase</code> class as a foundation for custom web components in the WB system. See the <code>claude.md</code> file for full details and standards.</p>
+        <ul>
+          <li>All components should extend <code>WBComponentBase</code> for shared logic.</li>
+          <li>Follow the CSS-first and two-tab demo standards.</li>
+          <li>See <code>components/claude.md</code> for project-wide conventions.</li>
+        </ul>
+      </div>
+      <div slot="examples">
+        <h2>Live Example</h2>
+        <wb-card 
+          title="Demo Card"
+          subtitle="This is a live wb-card web component."
+          body="You can use all supported attributes and see the result instantly."
+          variant="elevated"
+          size="standard"
+          layout="vertical"
+          style="margin-bottom: 1.5rem;"
+        ></wb-card>
+        <pre><code>&lt;wb-card title=&quot;Demo Card&quot; subtitle=&quot;This is a live wb-card web component.&quot; body=&quot;You can use all supported attributes and see the result instantly.&quot; variant=&quot;elevated&quot; size=&quot;standard&quot; layout=&quot;vertical&quot;&gt;&lt;/wb-card&gt;</code></pre>
+      </div>
+    </wb-demo>
+  </body>
+</html>
+

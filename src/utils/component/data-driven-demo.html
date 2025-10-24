@@ -1,0 +1,301 @@
+    <style>
+        /* ...existing code... */
+        .modal-backdrop {
+            position: fixed;
+            top: 2.5rem;
+            right: 2.5rem;
+            left: auto;
+            bottom: auto;
+            background: none;
+            z-index: 1000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            pointer-events: none;
+        }
+        .modal-content {
+            background: #23243a;
+            color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            padding: 2.5rem 2rem 2rem 2rem;
+            min-width: 340px;
+            max-width: 95vw;
+            max-height: 90vh;
+            overflow: auto;
+            position: relative;
+            pointer-events: auto;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+    </style>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" style="background:#18192a;color:#fff;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data-Driven Component Demo</title>
+    <!-- Central Styles Import -->
+    <link rel="stylesheet" href="..../styles/main.css">
+    <style>
+        input, textarea, select {
+            background: #23243a;
+            color: #fff;
+            border: 1px solid #393960;
+            border-radius: 4px;
+            padding: 0.5em 0.75em;
+            font-size: 1em;
+            margin-top: 0.25em;
+            margin-bottom: 0.5em;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: 2px solid #6366f1;
+            border-color: #6366f1;
+        }
+        label {
+            color: #bfc7ff;
+        }
+        body { padding: var(--space-lg); }
+        .demo-container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: var(--primary); margin-bottom: var(--space-sm); }
+        .intro { background: var(--bg-secondary); padding: var(--space-lg); border-radius: var(--radius-lg); margin-bottom: var(--space-2xl); box-shadow: var(--shadow-base); }
+        .demo-section { margin-bottom: var(--space-3xl); }
+        .demo-section h2 { color: var(--primary-dark); margin-bottom: var(--space-lg); }
+        .component-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-lg); margin-bottom: var(--space-2xl); }
+        .code-section { background: var(--bg-primary); color: var(--text-primary); padding: var(--space-lg); border-radius: var(--radius-lg); overflow-x: auto; margin-top: var(--space-lg); border: 1px solid var(--border-color); }
+        .code-section h3 { color: var(--primary-light); margin-top: 0; }
+    </style>
+</head>
+<body data-theme="dark" style="background:#18192a;color:#fff;">
+    <div class="demo-container">
+        <h1>Data-Driven Component System Demo</h1>
+        <div class="intro">
+            <p>This demo showcases the data-driven component factory that generates UI components from JSON definitions. Components are created dynamically at runtime with automatic style injection, event handling, and data binding.</p>
+        </div>
+        <div class="demo-section">
+            <h2>Live Component Builder</h2>
+            <div class="controls">
+                <h3>Configure Your Card Component</h3>
+                <div class="button-group">
+                    <wb-btn onclick="createComponent()">Create Component</wb-btn>
+                    <wb-btn variant="secondary" onclick="loadExample('basic')">Basic Example</wb-btn>
+                    <wb-btn variant="secondary" onclick="loadExample('withImage')">Image Example</wb-btn>
+                    <wb-btn variant="secondary" onclick="loadExample('withActions')">Actions Example</wb-btn>
+                </div>
+                <hr style="margin: 1.5rem 0;">
+                <div class="button-group">
+                </div>
+            </div>
+            <div id="component-container" class="component-grid"></div>
+            <div id="preview-container" class="component-grid" style="margin-top: 2rem;"></div>
+    <div id="modal-backdrop" class="modal-backdrop" style="display:none;">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modal-card-content"></div>
+        </div>
+    </div>
+        </div>
+        <div class="demo-section">
+            <h2>How It Works</h2>
+            <div class="code-section">
+                                <h3>1. Define Component Structure in JSON</h3>
+                                <pre id="schema-json-block">Loading schema...</pre>
+            </div>
+            <div class="code-section">
+                <h3>2. Create Component with Factory</h3>
+                <pre>const card = await ComponentFactory.create('wb-card', {
+  data: {
+    title: 'My Card',
+    content: 'Card content here'
+  }
+});</pre>
+            </div>
+            <div class="code-section">
+                <h3>3. Component Renders Automatically</h3>
+                <pre>// Component handles:
+// - HTML generation from template
+// - Style injection
+// - Event binding
+// - Data interpolation
+// - State management</pre>
+            </div>
+        </div>
+    </div>
+    <script src="component-factory.js"></script>
+    <script src="..../components/wb-btn/wb-btn.js"></script>
+    <script>
+        function renderSchemaJsonBlock() {
+            const block = document.getElementById('schema-json-block');
+            if (block && cardDefinition) {
+                block.textContent = JSON.stringify(cardDefinition, null, 2);
+            }
+        }
+        let cardDefinition = null;
+
+        let propertyFields = [];
+        async function initialize() {
+            try {
+                const response = await fetch('./data-driven-schema-example.json');
+                cardDefinition = await response.json();
+                // console.log('Loaded cardDefinition:', cardDefinition);
+                if (!cardDefinition || typeof cardDefinition !== 'object') {
+                    throw new Error('cardDefinition is not a valid object');
+                }
+                ComponentFactory.register(cardDefinition);
+                renderPropertyFields();
+                createComponent();
+                renderSchemaJsonBlock();
+            } catch (error) {
+                console.error('Failed to load component definition:', error);
+            }
+        }
+
+        function renderPropertyFields() {
+            // Remove old fields
+            const controls = document.querySelector('.controls');
+            // Remove all children except the first h3 and the button groups
+            Array.from(controls.children).forEach(child => {
+                if (!child.matches('h3') && !child.matches('.button-group') && child.tagName !== 'HR') {
+                    controls.removeChild(child);
+                }
+            });
+            // Get all top-level properties from defaults
+            const defaults = cardDefinition.defaults || {};
+            propertyFields = [];
+            Object.keys(defaults).forEach(key => {
+                // Only allow editing primitives and arrays (not objects)
+                const value = defaults[key];
+                let fieldHtml = '';
+                if (Array.isArray(value)) {
+                    fieldHtml = `<div class="control-group"><label for="${key}">${capitalize(key)} (comma separated):</label><input type="text" id="${key}" value="${value.join(', ')}" oninput="createComponent()"></div>`;
+                } else if (typeof value === 'string') {
+                    fieldHtml = `<div class="control-group"><label for="${key}">${capitalize(key)}:</label><input type="text" id="${key}" value="${value.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}" oninput="createComponent()"></div>`;
+                } else if (typeof value === 'number') {
+                    fieldHtml = `<div class="control-group"><label for="${key}">${capitalize(key)}:</label><input type="number" id="${key}" value="${value}" oninput="createComponent()"></div>`;
+                } else if (typeof value === 'boolean') {
+                    fieldHtml = `<div class="control-group"><label for="${key}">${capitalize(key)}:</label><input type="checkbox" id="${key}" ${value ? 'checked' : ''} onchange="createComponent()"></div>`;
+                }
+                if (fieldHtml) {
+                    controls.insertAdjacentHTML('beforeend', fieldHtml);
+                    propertyFields.push(key);
+                }
+            });
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        async function createComponent() {
+            if (!cardDefinition) return;
+            const data = {
+                title: document.getElementById('title').value,
+                subtitle: document.getElementById('subtitle').value,
+                content: document.getElementById('content').value,
+                image: document.getElementById('image').value,
+                variant: document.getElementById('variant').value,
+                tags: document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+            };
+            if (!data.subtitle) delete data.subtitle;
+            if (!data.image) delete data.image;
+            if (data.tags.length === 0) delete data.tags;
+            data.actions = [
+                { actionId: 'view', actionLabel: 'View Details', actionVariant: 'primary' },
+                { actionId: 'edit', actionLabel: 'Edit', actionVariant: 'secondary' }
+            ];
+            const component = await ComponentFactory.create('wb-card', { data, variant: data.variant });
+            const container = document.getElementById('component-container');
+            container.innerHTML = '';
+            container.appendChild(component.element);
+            component.element.addEventListener('wbCardAction', (e) => {
+                // console.log('Card action:', e.detail);
+                alert(`Action clicked: ${e.detail.actionId || 'unknown'}`);
+            });
+        }
+        async function previewComponent() {
+            if (!cardDefinition) return;
+            const data = {};
+            for (const key of propertyFields) {
+                const el = document.getElementById(key);
+                if (!el) continue;
+                if (el.type === 'checkbox') {
+                    data[key] = el.checked;
+                } else if (Array.isArray(cardDefinition.defaults[key])) {
+                    data[key] = el.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+                } else if (typeof cardDefinition.defaults[key] === 'number') {
+                    data[key] = Number(el.value);
+                } else {
+                    data[key] = el.value;
+                }
+            }
+            data.actions = [
+                { actionId: 'view', actionLabel: 'View Details', actionVariant: 'primary' },
+                { actionId: 'edit', actionLabel: 'Edit', actionVariant: 'secondary' }
+            ];
+            const component = await ComponentFactory.create('wb-card', { data, variant: data.variant });
+            const modal = document.getElementById('modal-backdrop');
+            const modalContent = document.getElementById('modal-card-content');
+            modalContent.innerHTML = '';
+            modalContent.appendChild(component.element);
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.pointerEvents = 'auto';
+            }, 10);
+        }
+
+        function closeModal() {
+            document.getElementById('modal-backdrop').style.display = 'none';
+            document.getElementById('modal-card-content').innerHTML = '';
+            document.getElementById('modal-backdrop').style.pointerEvents = 'none';
+        }
+        function loadExample(type) {
+            const examples = {
+                basic: {
+                    title: 'Basic Card Example',
+                    subtitle: '',
+                    content: 'This is a simple card with just title and content. No image, no tags, just the essentials.',
+                    image: '',
+                    variant: 'elevated',
+                    tags: 'Photography, Nature, Mountains'
+                },
+                withImage: {
+                    title: 'Beautiful Landscape',
+                    subtitle: 'Photography Example',
+                    content: 'This card demonstrates the image header feature. The image automatically maintains aspect ratio.',
+                    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=320&h=180&fit=crop',
+                    variant: 'elevated',
+                    tags: 'Photography, Nature, Mountains'
+                },
+                withActions: {
+                    title: 'Interactive Card',
+                    subtitle: 'With Action Buttons',
+                    content: 'This card variant includes hover effects and action buttons. Try hovering over it!',
+                    image: '',
+                    variant: 'interactive',
+                    tags: 'Interactive, Buttons, UI'
+                }
+            };
+            const example = examples[type];
+            if (example) {
+                Object.keys(example).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = example[key];
+                });
+                createComponent();
+                previewComponent();
+            }
+        }
+        initialize();
+    </script>
+</body>
+</html>
+

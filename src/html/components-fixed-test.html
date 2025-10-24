@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Components - Fixed Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .test-section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .success { color: #00ff00; }
+        .error { color: #ff4444; }
+        .warning { color: #ffaa00; }
+        
+        .component-demo {
+            background: #2a2a2a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #555;
+        }
+        
+        wb-color-bars {
+            display: block;
+            margin: 20px 0;
+        }
+        
+        wb-nav {
+            display: block;
+            margin: 20px 0;
+        }
+        
+        control-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 280px;
+            z-index: 1000;
+        }
+        
+        .test-log {
+            background: #000;
+            border: 1px solid #333;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 WB Components - Fixed Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>📋 Loading Status</h2>
+        <div id="loading-status">Initializing components...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>🧭 Navigation Demo</h2>
+        <div class="component-demo">
+            <h3>wb-nav Component</h3>
+            <wb-nav id="test-nav" 
+                    layout="horizontal" 
+                    variant="default"
+                    items='[{"id":"home","text":"Home","href":"#home","active":true},{"id":"about","text":"About","href":"#about"},{"id":"services","text":"Services","href":"#services"}]'>
+            </wb-nav>
+            <div id="nav-status">Loading...</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎨 Color System Demo</h2>
+        <div class="component-demo">
+            <h3>wb-color-bars Component</h3>
+            <wb-color-bars id="test-color-bars"
+                           text-hue="240"
+                           text-saturation="70"
+                           text-lightness="50"
+                           theme="dark">
+            </wb-color-bars>
+            <div id="color-status">Loading...</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎛️ Control Panel Demo</h2>
+        <div class="component-demo">
+            <control-panel id="test-control-panel"></control-panel>
+            <div id="control-status">Loading...</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Test Log</h2>
+        <div class="test-log" id="test-log">Starting component tests...\n</div>
+    </div>
+
+    <!-- Load scripts in proper order -->
+    <script>
+        // Global test state
+        const testState = {
+            startTime: Date.now(),
+            loaded: new Set(),
+            errors: [],
+            log: document.getElementById('test-log'),
+            status: document.getElementById('loading-status')
+        };
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toISOString().substring(11, 23);
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            console.log(logEntry);
+            testState.log.textContent += logEntry + '\n';
+            testState.log.scrollTop = testState.log.scrollHeight;
+        }
+
+        function updateStatus(message) {
+            testState.status.innerHTML = `🔄 ${message}`;
+        }
+
+        function setComponentStatus(componentId, status, message) {
+            const statusElement = document.getElementById(`${componentId}-status`);
+            if (statusElement) {
+                const color = status === 'success' ? 'success' : status === 'error' ? 'error' : 'warning';
+                statusElement.innerHTML = `<span class="${color}">${status.toUpperCase()}: ${message}</span>`;
+            }
+        }
+
+        // Sequential component loading to avoid race conditions
+        async function loadComponents() {
+            try {
+                log('Starting component loading sequence...');
+                updateStatus('Loading core utilities...');
+
+                // 1. Load WBComponentRegistry first
+                await loadScript('..../lib/wb-component-registry.js', 'WBComponentRegistry');
+                testState.loaded.add('registry');
+
+                // 2. Load WBComponentUtils
+                await loadScript('../lib/wb-component-utils.js', 'WBComponentUtils');
+                testState.loaded.add('utils');
+
+                // Wait for utilities to initialize
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // 3. Load wb-color-bar (dependency)
+                updateStatus('Loading wb-color-bar...');
+                await loadScript('components/wb-color-bar/wb-color-bar.js', 'wb-color-bar');
+                await waitForCustomElement('wb-color-bar');
+                testState.loaded.add('color-bar');
+                log('wb-color-bar loaded successfully');
+
+                // 4. Load wb-color-bars
+                updateStatus('Loading wb-color-bars...');
+                await loadScript('components/wb-color-bars/wb-color-bars.js', 'wb-color-bars');
+                await waitForCustomElement('wb-color-bars');
+                testState.loaded.add('color-bars');
+                log('wb-color-bars loaded successfully');
+
+                // 5. Load wb-nav
+                updateStatus('Loading wb-nav...');
+                await loadScript('components/wb-nav/wb-nav.js', 'wb-nav');
+                await waitForCustomElement('wb-nav');
+                testState.loaded.add('nav');
+                log('wb-nav loaded successfully');
+
+                // 6. Load control-panel
+                updateStatus('Loading control-panel...');
+                await loadScript('components/wb-control-panel/wb-control-panel.js', 'control-panel');
+                await waitForCustomElement('control-panel');
+                testState.loaded.add('control-panel');
+                log('control-panel loaded successfully');
+
+                // Test component functionality
+                await testComponents();
+
+                const duration = Date.now() - testState.startTime;
+                updateStatus(`All components loaded successfully! (${duration}ms)`);
+                log(`SUCCESS: All components loaded in ${duration}ms`);
+
+            } catch (error) {
+                testState.errors.push(error);
+                log(`CRITICAL ERROR: ${error.message}`, 'error');
+                updateStatus(`Loading failed: ${error.message}`);
+            }
+        }
+
+        async function loadScript(src, globalName) {
+            return new Promise((resolve, reject) => {
+                // Check if already loaded
+                if (globalName && window[globalName]) {
+                    resolve();
+                    return;
+                }
+
+                const script = document.createElement('script');
+                script.src = src;
+                script.async = false; // Maintain order
+                
+                script.onload = () => {
+                    log(`✅ Loaded: ${src}`);
+                    resolve();
+                };
+                
+                script.onerror = () => {
+                    const error = new Error(`Failed to load: ${src}`);
+                    log(`❌ Failed: ${src}`, 'error');
+                    reject(error);
+                };
+                
+                document.head.appendChild(script);
+                
+                // Timeout fallback
+                setTimeout(() => {
+                    if (globalName && !window[globalName]) {
+                        reject(new Error(`Timeout loading ${src}`));
+                    }
+                }, 10000);
+            });
+        }
+
+        async function waitForCustomElement(tagName, timeout = 5000) {
+            const startTime = Date.now();
+            
+            while (Date.now() - startTime < timeout) {
+                if (customElements.get(tagName)) {
+                    return true;
+                }
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            throw new Error(`Custom element ${tagName} not registered within ${timeout}ms`);
+        }
+
+        async function testComponents() {
+            log('Testing component functionality...');
+
+            // Test wb-nav
+            const nav = document.getElementById('test-nav');
+            if (nav) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const navLinks = nav.querySelectorAll('.wb-nav-link, a');
+                if (navLinks.length > 0) {
+                    setComponentStatus('nav', 'success', `Navigation working with ${navLinks.length} links`);
+                } else {
+                    setComponentStatus('nav', 'warning', 'Navigation loaded but no links found');
+                }
+            }
+
+            // Test wb-color-bars
+            const colorBars = document.getElementById('test-color-bars');
+            if (colorBars) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                const colorBarElements = colorBars.querySelectorAll('wb-color-bar');
+                if (colorBarElements.length >= 6) {
+                    setComponentStatus('color', 'success', `Color system working with ${colorBarElements.length} bars`);
+                } else {
+                    setComponentStatus('color', 'warning', `Color bars partially loaded: ${colorBarElements.length}/6`);
+                }
+            }
+
+            // Test control-panel
+            const controlPanel = document.getElementById('test-control-panel');
+            if (controlPanel) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                if (controlPanel.querySelector('.control-panel-body, .control-section')) {
+                    setComponentStatus('control', 'success', 'Control panel rendered with sections');
+                } else {
+                    setComponentStatus('control', 'warning', 'Control panel loaded but no sections found');
+                }
+            }
+
+            log('Component functionality tests completed');
+        }
+
+        // Global error handlers
+        window.addEventListener('error', (event) => {
+            log(`🚨 Global error: ${event.error.message}`, 'error');
+            testState.errors.push(event.error);
+        });
+
+        window.addEventListener('unhandledrejection', (event) => {
+            log(`🚨 Unhandled rejection: ${event.reason}`, 'error');
+            testState.errors.push(event.reason);
+        });
+
+        // Start the test
+        log('Initializing WB Component Integration Test...');
+        loadComponents();
+
+        // Expose for debugging
+        window.testState = testState;
+        window.debugComponents = () => {
+            console.log('='.repeat(50));
+            console.log('WB Components Debug Info');
+            console.log('='.repeat(50));
+            console.log('Loaded components:', [...testState.loaded]);
+            console.log('Errors:', testState.errors);
+            console.log('Custom elements:', {
+                'wb-color-bar': !!customElements.get('wb-color-bar'),
+                'wb-color-bars': !!customElements.get('wb-color-bars'),
+                'wb-nav': !!customElements.get('wb-nav'),
+                'control-panel': !!customElements.get('control-panel')
+            });
+            console.log('Global objects:', {
+                'WBComponentRegistry': !!window.WBComponentRegistry,
+                'WBComponentUtils': !!window.WBComponentUtils
+            });
+        };
+    </script>
+</body>
+</html>

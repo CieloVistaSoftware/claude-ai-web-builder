@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Color Bars Components</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 2rem; 
+            background: #1a1a1a; 
+            color: white; 
+            line-height: 1.6;
+        }
+        .test-section { 
+            margin: 2rem 0; 
+            padding: 1rem; 
+            border: 1px solid #333; 
+            border-radius: 8px; 
+        }
+        .status { 
+            padding: 0.5rem; 
+            margin: 0.5rem 0; 
+            border-radius: 4px; 
+        }
+        .success { background: #0f5132; color: #d1e7dd; }
+        .error { background: #842029; color: #f8d7da; }
+        .warning { background: #664d03; color: #fff3cd; }
+        pre { background: #333; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Color Components Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Component Loading Status</h2>
+        <div id="loading-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Individual wb-color-bar Test</h2>
+        <p>This should show a single color slider:</p>
+        <wb-color-bar type="hue" value="240"></wb-color-bar>
+        <div id="color-bar-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. wb-color-bars Test</h2>
+        <p>This should show 6 color sliders (3 for text, 3 for background):</p>
+        <wb-color-bars text-hue="240" text-saturation="70" text-lightness="50" 
+                       bg-hue="220" bg-saturation="25" bg-lightness="15"></wb-color-bars>
+        <div id="color-bars-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Live Console Output</h2>
+        <div id="console-output"></div>
+    </div>
+    
+    <script type="module" src="test-color-bars.js"></script>
+    
+    <!-- Load components via same system as index.html -->
+    <script src="..../lib/wb-component-registry.js"></script>
+</body>
+</html>

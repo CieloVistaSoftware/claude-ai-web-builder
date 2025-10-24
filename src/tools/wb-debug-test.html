@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Debug Manager - Test Page</title>
+    
+    <!-- Central Styles Import -->
+    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <link rel="stylesheet" href="..../styles/main.css">    <!-- Load WB Debug Manager for testing -->
+    <script src="wb-debug-manager.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: var(--space-xl);
+            font-family: var(--font-sans);
+        }
+        
+        .test-section {
+            background: var(--bg-secondary);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            margin: var(--space-md) 0;
+        }
+        
+        .btn {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            border: none;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--text-sm);
+            transition: var(--transition-colors);
+        }
+        
+        .btn:hover {
+            background: var(--btn-primary-hover);
+        }
+        
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .status-box {
+            background: rgba(var(--info-color-rgb), 0.1);
+            border: 1px solid rgba(var(--info-color-rgb), 0.3);
+            padding: var(--space-md);
+            border-radius: var(--radius-base);
+            margin: var(--space-md) 0;
+        }
+        
+        .wb-component {
+            border: 2px dashed var(--border-color);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: var(--radius-base);
+        }
+        
+        .fake-wb-button {
+            background: var(--primary);
+            color: white;
+            padding: var(--space-sm) var(--space-md);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+        
+        code {
+            background: var(--bg-tertiary);
+            padding: var(--space-xs);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+        }
+        
+        pre {
+            background: var(--bg-tertiary);
+            padding: var(--space-md);
+            border-radius: var(--radius-base);
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <h1>🔧 WB Debug Manager - Test Page</h1>
+    <p>This page demonstrates the dynamic debug injection system for WB components.</p>
+    
+    <div class="status-box">
+        <strong>Debug Status:</strong> <span id="debug-status">Checking...</span><br>
+        <strong>URL Param:</strong> <code id="url-param"></code><br>
+        <strong>Keyboard Shortcut:</strong> Press <kbd>Ctrl+Shift+D</kbd> to toggle debug mode
+    </div>
+    
+    <div class="test-section">
+        <h2>🎮 Manual Controls</h2>
+        <p>Test the debug manager with these controls:</p>
+        <div class="test-buttons">
+            <button class="btn" onclick="WB.debug.enable()">Enable Debug</button>
+            <button class="btn" onclick="WB.debug.disable()">Disable Debug</button>
+            <button class="btn" onclick="WB.debug.toggle()">Toggle Debug</button>
+            <button class="btn btn-success" onclick="showStats()">Show Stats</button>
+            <button class="btn btn-success" onclick="WB.debug.exportDebugData()">Export Data</button>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🚨 Error Generation</h2>
+        <p>Generate different types of errors to test the error logger:</p>
+        <div class="test-buttons">
+            <button class="btn btn-danger" onclick="generateError()">JavaScript Error</button>
+            <button class="btn btn-danger" onclick="generateWarning()">Console Warning</button>
+            <button class="btn btn-danger" onclick="generatePromiseError()">Promise Rejection</button>
+            <button class="btn btn-danger" onclick="generateTypeError()">Type Error</button>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🧩 Mock WB Components</h2>
+        <p>These mock components should be discovered by the debug manager:</p>
+        
+        <div class="wb-component" data-component="wb-button">
+            <h3>Mock wb-button</h3>
+            <button class="fake-wb-button">I'm a fake WB button</button>
+        </div>
+        
+        <div class="wb-component" data-component="wb-select">
+            <h3>Mock wb-select</h3>
+            <select class="wb-select">
+                <option>Option 1</option>
+                <option>Option 2</option>
+            </select>
+        </div>
+        
+        <div class="wb-component wb-modal-container">
+            <h3>Mock wb-modal (CSS class)</h3>
+            <div class="wb-modal">Modal content here</div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📖 Usage Instructions</h2>
+        <h3>Method 1: URL Parameter</h3>
+        <p>Add <code>?debug=true</code> to the URL and reload:</p>
+        <pre><code>wb-debug-test.html?debug=true</code></pre>
+        
+        <h3>Method 2: Console Commands</h3>
+        <p>Open browser console (F12) and run:</p>
+        <pre><code>WB.debug.enable()    // Enable debug mode
+WB.debug.toggle()    // Toggle debug mode
+WB.debug.getStats()  // Get component stats</code></pre>
+        
+        <h3>Method 3: Bookmarklet</h3>
+        <p>Use the bookmarklet from <a href="wb-debug-bookmarklet.html">wb-debug-bookmarklet.html</a></p>
+        
+        <h3>Method 4: Keyboard Shortcut</h3>
+        <p>Press <kbd>Ctrl+Shift+D</kbd> to toggle debug mode</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔍 Expected Behavior</h2>
+        <ul>
+            <li><strong>Component Discovery:</strong> Should find 3 mock components</li>
+            <li><strong>Error Logging:</strong> Should inject wb-log-error component when enabled</li>
+            <li><strong>Debug UI:</strong> Should show debug status in bottom-left corner</li>
+            <li><strong>Event Monitoring:</strong> Should capture WB events (if loaded)</li>
+            <li><strong>Persistence:</strong> Debug preference should survive page reloads</li>
+        </ul>
+    </div>
+    
+    <script>
+        // Update status display
+        function updateStatus() {
+            const statusEl = document.getElementById('debug-status');
+            const urlParamEl = document.getElementById('url-param');
+            
+            if (window.WB && window.WB.debug) {
+                const stats = WB.debug.getStats();
+                statusEl.textContent = stats.active ? '✅ Active' : '❌ Inactive';
+                statusEl.style.color = stats.active ? 'var(--success-color)' : 'var(--error-color)';
+            } else {
+                statusEl.textContent = '❌ Not Loaded';
+                statusEl.style.color = 'var(--error-color)';
+            }
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParamEl.textContent = urlParams.get('debug') || urlParams.get('wb-debug') || 'none';
+        }
+        
+        // Test functions
+        function generateError() {
+            // This will throw a ReferenceError
+            nonExistentFunction();
+        }
+        
+        function generateWarning() {
+            console.warn('This is a test warning message');
+        }
+        
+        function generatePromiseError() {
+            new Promise((resolve, reject) => {
+                reject(new Error('Test promise rejection'));
+            });
+        }
+        
+        function generateTypeError() {
+            const num = 42;
+            num.toUpperCase(); // This will throw a TypeError
+        }
+        
+        function showStats() {
+            if (window.WB && window.WB.debug) {
+                const stats = WB.debug.getStats();
+                alert(`Debug Stats:\n\nActive: ${stats.active}\nComponents: ${stats.components}\nPlugins: ${stats.plugins}\nEvents: ${stats.events}\nPerformance: ${stats.performance}`);
+            } else {
+                alert('Debug manager not loaded');
+            }
+        }
+        
+        // Add some test events
+        function dispatchTestEvents() {
+            document.dispatchEvent(new CustomEvent('wb:test:event', {
+                detail: { message: 'Test event from debug test page' }
+            }));
+            
+            document.dispatchEvent(new CustomEvent('wb:button:click', {
+                detail: { button: 'test-button' }
+            }));
+        }
+        
+        // Update status on load and periodically
+        document.addEventListener('DOMContentLoaded', updateStatus);
+        setInterval(updateStatus, 2000);
+        
+        // Dispatch test events periodically
+        setInterval(dispatchTestEvents, 5000);
+        
+        // Listen for debug events
+        document.addEventListener('wb:debug:enabled', () => {
+            console.log('🔧 Debug mode enabled!');
+            updateStatus();
+        });
+        
+        document.addEventListener('wb:debug:disabled', () => {
+            console.log('🔧 Debug mode disabled!');
+            updateStatus();
+        });
+        
+        console.log('🔧 WB Debug Test Page: Ready');
+        console.log('🔧 Try: WB.debug.enable() or press Ctrl+Shift+D');
+    </script>
+</body>
+</html>

@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Component IDE Enhanced - Complete Development Environment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --bg-quaternary: #30363d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #656d76;
+            --border-color: #30363d;
+            --accent-primary: #58a6ff;
+            --accent-secondary: #f78166;
+            --success: #3fb950;
+            --warning: #d29922;
+            --error: #f85149;
+            --font-mono: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .ide-container {
+            display: grid;
+            grid-template-areas: 
+                "header header header header"
+                "sidebar editor preview tools"
+                "sidebar console console debug";
+            grid-template-columns: 280px 1fr 1fr 280px;
+            grid-template-rows: 60px 1fr 240px;
+            height: 100vh;
+            gap: 1px;
+            background: var(--border-color);
+        }
+
+        /* Header */
+        .header {
+            grid-area: header;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            color: var(--accent-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 0.875rem;
+        }
+
+        .stat-badge {
+            background: var(--bg-tertiary);
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-number {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn.success {
+            background: var(--success);
+        }
+
+        .btn.warning {
+            background: var(--warning);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            grid-area: sidebar;
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-section {
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            background: var(--bg-tertiary);
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+
+        .search-box {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            font-size: 0.875rem;
+            margin: 8px;
+            width: calc(100% - 16px);
+            border-radius: 6px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .component-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .component-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .component-item.selected {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .status-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .status-complete { background: var(--success); }
+        .status-broken { background: var(--error); }
+        .status-legacy { background: var(--warning); }
+
+        .component-name {
+            font-family: var(--font-mono);
+            flex: 1;
+        }
+
+        .component-type {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--bg-quaternary);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* Component hover documentation tooltip */
+        .component-tooltip {
+            position: absolute;
+            top: 0;
+            left: 280px;
+            width: 400px;
+            max-height: 500px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            z-index: 1000;
+            display: none;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .component-tooltip h3 {
+            margin: 0 0 1rem 0;
+            color: var(--accent-primary);
+            font-size: 1.1em;
+        }
+        
+        .component-tooltip p {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        .component-tooltip ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .component-tooltip li {
+            margin: 0.3rem 0;
+            color: var(--text-secondary);
+        }
+        
+        .component-tooltip code {
+            background: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        .component-tooltip .status {
+            display: inline-block;
+            padding: 0.2em 0.5em;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .component-tooltip .status.complete {
+            background: var(--success);
+            color: white;
+        }
+        
+        .component-tooltip .status.broken {
+            background: var(--error);
+            color: white;
+        }
+
+        /* Editor */
+        .editor {
+            grid-area: editor;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-tabs {
+            background: var(--bg-secondary);
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .editor-tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .editor-tab.active {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .editor-content {
+            flex: 1;
+            position: relative;
+        }
+
+        .code-editor {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 20px;
+            resize: none;
+            outline: none;
+        }
+
+        .autocomplete-popup {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            min-width: 300px;
+        }
+
+        .autocomplete-item {
+            display: flex;
+            flex-direction: column;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .autocomplete-item:hover,
+        .autocomplete-item.selected {
+            background: var(--bg-tertiary);
+        }
+
+        .autocomplete-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .autocomplete-symbol {
+            font-family: var(--font-mono);
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .autocomplete-type {
+            font-size: 0.75rem;
+            background: var(--bg-quaternary);
+            color: var(--text-muted);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .autocomplete-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Preview */
+        .preview {
+            grid-area: preview;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            background: #f6f8fa;
+            padding: 12px 16px;
+            border-bottom: 1px solid #d1d9e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #24292f;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow: auto;
+        }
+
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Tools Panel */
+        .tools {
+            grid-area: tools;
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tools-tabs {
+            display: flex;
+            background: var(--bg-tertiary);
+        }
+
+        .tools-tab {
+            flex: 1;
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .tools-tab.active {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .tools-content {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            font-size: 0.875rem;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-title {
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .detail-grid {
+            display: grid;
+            gap: 6px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        /* Console */
+        .console {
+            grid-area: console;
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .console-header {
+            background: var(--bg-tertiary);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .console-content {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .console-line {
+            margin-bottom: 4px;
+        }
+
+        .console-timestamp {
+            color: var(--text-muted);
+        }
+
+        .console-info { color: var(--accent-primary); }
+        .console-success { color: var(--success); }
+        .console-warning { color: var(--warning); }
+        .console-error { color: var(--error); }
+
+        /* Debug Panel */
+        .debug {
+            grid-area: debug;
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .debug-header {
+            background: var(--bg-tertiary);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .debug-content {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            font-size: 0.875rem;
+        }
+
+        .debug-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .debug-stat {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .debug-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .debug-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-quaternary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .highlight {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="ide-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>🔧 WB Component IDE Enhanced</h1>
+                <div class="header-stats">
+                    <div class="stat-badge">
+                        <span class="stat-number" id="componentCount">0</span>
+                        <span>Components</span>
+                    </div>
+                    <div class="stat-badge">
+                        <span class="stat-number" id="symbolCount">0</span>
+                        <span>Symbols</span>
+                    </div>
+                    <div class="stat-badge">
+                        <span class="stat-number" id="errorCount">0</span>
+                        <span>Errors</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="btn" onclick="runCode()">▶ Run</button>
+                <button class="btn secondary" onclick="validateCode()">✓ Validate</button>
+                <button class="btn secondary" onclick="formatCode()">🎨 Format</button>
+                <button class="btn success" onclick="exportProject()">📤 Export</button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>Web Components</span>
+                    <span id="webComponentCount">0</span>
+                </div>
+                <input type="text" class="search-box" placeholder="Search components..." id="componentSearch">
+                <div class="sidebar-content" id="webComponentsList">
+                    <!-- Web components will be populated here -->
+                    <!-- Component documentation tooltip -->
+                    <div id="componentTooltip" class="component-tooltip"></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>Classes & Functions</span>
+                    <span id="classCount">0</span>
+                </div>
+                <input type="text" class="search-box" placeholder="Search symbols..." id="symbolSearch">
+                <div class="sidebar-content" id="symbolsList">
+                    <!-- Symbols will be populated here -->
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>Component Status</span>
+                    <span id="statusCount">0</span>
+                </div>
+                <div class="sidebar-content" id="statusList">
+                    <!-- Status items will be populated here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Editor -->
+        <main class="editor">
+            <div class="editor-tabs">
+                <button class="editor-tab active" data-tab="html">index.html</button>
+                <button class="editor-tab" data-tab="js">script.js</button>
+                <button class="editor-tab" data-tab="css">styles.css</button>
+                <button class="editor-tab" data-tab="config">component.json</button>
+            </div>
+            <div class="editor-content">
+                <textarea class="code-editor" id="htmlEditor" data-tab="html" placeholder="Start typing HTML code with WB components..."><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Component Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="demo-container">
+        <h1>WB Component Demo</h1>
+        
+        <!-- Example components - try typing <wb- to see autocomplete -->
+        <wb-button type="primary" size="large">
+            Primary Button
+        </wb-button>
+        
+        <wb-toggle label="Enable notifications" checked="true">
+        </wb-toggle>
+        
+        <wb-status type="success" message="All systems operational">
+        </wb-status>
+        
+        <wb-table data-source="sampleData" sortable="true">
+        </wb-table>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html></textarea>
+
+                <textarea class="code-editor" id="jsEditor" data-tab="js" style="display: none;" placeholder="JavaScript code for component interactions...">// WB Component Demo JavaScript
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔧 WB Component Demo initialized');
+    
+    // Initialize component interactions
+    setupComponentEvents();
+    
+    // Load sample data for table
+    loadSampleData();
+});
+
+function setupComponentEvents() {
+    // Listen for wb-button clicks
+    document.addEventListener('wb-button:click', function(event) {
+        console.log('Button clicked:', event.detail);
+        
+        // Example: Show notification
+        showNotification('Button clicked!', 'info');
+    });
+    
+    // Listen for wb-toggle changes
+    document.addEventListener('wb-toggle:change', function(event) {
+        console.log('Toggle changed:', event.detail);
+        
+        const isEnabled = event.detail.checked;
+        updateStatus(isEnabled ? 'Notifications enabled' : 'Notifications disabled');
+    });
+    
+    // Listen for wb-table events
+    document.addEventListener('wb-table:sort', function(event) {
+        console.log('Table sorted:', event.detail);
+    });
+}
+
+function loadSampleData() {
+    const tableData = [
+        { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+        { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
+        { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Moderator' }
+    ];
+    
+    // Set table data
+    const table = document.querySelector('wb-table');
+    if (table) {
+        table.setAttribute('data-source', JSON.stringify(tableData));
+    }
+}
+
+function updateStatus(message) {
+    const status = document.querySelector('wb-status');
+    if (status) {
+        status.setAttribute('message', message);
+        status.setAttribute('type', 'info');
+    }
+}
+
+function showNotification(message, type = 'info') {
+    // Create a temporary notification
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 6px;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Utility functions for component management
+const WBComponentHelper = {
+    // Create component programmatically
+    createElement: function(tagName, attributes = {}, content = '') {
+        const element = document.createElement(tagName);
+        
+        Object.entries(attributes).forEach(([key, value]) => {
+            element.setAttribute(key, value);
+        });
+        
+        if (content) {
+            element.innerHTML = content;
+        }
+        
+        return element;
+    },
+    
+    // Check if component is available
+    isAvailable: function(componentName) {
+        return customElements.get(componentName) !== undefined;
+    },
+    
+    // Get component configuration
+    getConfig: function(element) {
+        return {
+            tagName: element.tagName.toLowerCase(),
+            attributes: Array.from(element.attributes).reduce((acc, attr) => {
+                acc[attr.name] = attr.value;
+                return acc;
+            }, {}),
+            content: element.innerHTML
+        };
+    }
+};</textarea>
+
+                <textarea class="code-editor" id="cssEditor" data-tab="css" style="display: none;" placeholder="CSS styles for the demo...">/* WB Component Demo Styles */
+
+:root {
+    /* Theme colors */
+    --primary-color: #0366d6;
+    --secondary-color: #586069;
+    --success-color: #28a745;
+    --warning-color: #ffd33d;
+    --danger-color: #d73a49;
+    
+    /* Background colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --bg-tertiary: #e1e4e8;
+    
+    /* Text colors */
+    --text-primary: #24292e;
+    --text-secondary: #586069;
+    --text-muted: #6a737d;
+    
+    /* Component-specific variables */
+    --wb-button-primary: var(--primary-color);
+    --wb-button-secondary: var(--secondary-color);
+    --wb-toggle-color: var(--primary-color);
+    --wb-status-success: var(--success-color);
+    --wb-status-warning: var(--warning-color);
+    --wb-status-error: var(--danger-color);
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #0d1117;
+        --bg-secondary: #161b22;
+        --bg-tertiary: #21262d;
+        --text-primary: #f0f6fc;
+        --text-secondary: #8b949e;
+        --text-muted: #656d76;
+    }
+}
+
+/* Base styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica', Arial, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+h1 {
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Component spacing */
+wb-button {
+    margin: 0.5rem;
+    display: inline-block;
+}
+
+wb-toggle {
+    margin: 1rem 0;
+    display: block;
+}
+
+wb-status {
+    margin: 1rem 0;
+    display: block;
+}
+
+wb-table {
+    margin: 2rem 0;
+    display: block;
+}
+
+/* Custom component styles */
+wb-button[type="primary"] {
+    --wb-btn-bg: var(--wb-button-primary);
+    --wb-btn-color: white;
+    --wb-btn-border: var(--wb-button-primary);
+}
+
+wb-button[type="secondary"] {
+    --wb-btn-bg: var(--wb-button-secondary);
+    --wb-btn-color: white;
+    --wb-btn-border: var(--wb-button-secondary);
+}
+
+wb-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+wb-toggle {
+    --wb-toggle-bg: var(--wb-toggle-color);
+}
+
+wb-status[type="success"] {
+    --wb-status-bg: rgba(40, 167, 69, 0.1);
+    --wb-status-border: var(--wb-status-success);
+    --wb-status-color: var(--wb-status-success);
+}
+
+wb-status[type="warning"] {
+    --wb-status-bg: rgba(255, 211, 61, 0.1);
+    --wb-status-border: var(--wb-status-warning);
+    --wb-status-color: #b08800;
+}
+
+wb-status[type="error"] {
+    --wb-status-bg: rgba(215, 58, 73, 0.1);
+    --wb-status-border: var(--wb-status-error);
+    --wb-status-color: var(--wb-status-error);
+}
+
+wb-table {
+    --wb-table-border: var(--bg-tertiary);
+    --wb-table-header-bg: var(--bg-secondary);
+    --wb-table-row-hover: var(--bg-secondary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .demo-container {
+        padding: 1rem;
+    }
+    
+    wb-button {
+        display: block;
+        margin: 0.5rem 0;
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification {
+    animation: slideIn 0.3s ease;
+}
+
+/* Component loading states */
+.wb-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.wb-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    border-top: 2px solid transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}</textarea>
+
+                <textarea class="code-editor" id="configEditor" data-tab="config" style="display: none;" placeholder="Component configuration...">
+{
+  "project": {
+    "name": "WB Component Demo",
+    "version": "1.0.0",
+    "description": "Interactive demo of WB components",
+    "author": "WB Team"
+  },
+  "components": {
+    "wb-button": {
+      "version": "1.0.0",
+      "source": "..../components/wb-button/wb-button-webcomponent.js",
+      "styles": "..../components/wb-button/wb-button.css",
+      "schema": "..../components/wb-button/wb-button.schema.json",
+      "dependencies": ["wb-component-utils"]
+    },
+    "wb-toggle": {
+      "version": "1.0.0", 
+      "source": "..../components/wb-toggle/wb-toggle-webcomponent.js",
+      "styles": "..../components/wb-toggle/wb-toggle.css",
+      "schema": "..../components/wb-toggle/wb-toggle.schema.json",
+      "dependencies": ["wb-component-utils"]
+    },
+    "wb-status": {
+      "version": "1.0.0",
+      "source": "..../components/wb-status/wb-status-webcomponent.js", 
+      "styles": "..../components/wb-status/wb-status.css",
+      "schema": "..../components/wb-status/wb-status.schema.json",
+      "dependencies": ["wb-component-utils"]
+    },
+    "wb-table": {
+      "version": "1.0.0",
+      "source": "..../components/wb-table/wb-table-webcomponent.js",
+      "styles": "..../components/wb-table/wb-table.css", 
+      "schema": "..../components/wb-table/wb-table.schema.json",
+      "dependencies": ["wb-component-utils", "wb-event-log"]
+    }
+  },
+  "build": {
+    "target": "modern",
+    "minify": false,
+    "sourceMaps": true,
+    "validate": true,
+    "output": "./dist"
+  },
+  "development": {
+    "autoReload": true,
+    "liveValidation": true,
+    "showErrors": true,
+    "debugMode": true
+  }
+}
+</textarea>
+
+                <div class="autocomplete-popup" id="autocompletePopup" style="display: none;">
+                    <!-- Autocomplete suggestions will appear here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Preview -->
+        <section class="preview">
+            <div class="preview-header">
+                <span>Live Preview</span>
+                <div>
+                    <button class="btn secondary" onclick="refreshPreview()">🔄 Refresh</button>
+                    <button class="btn secondary" onclick="openInNewTab()">🔗 Open</button>
+                </div>
+            </div>
+            <div class="preview-content">
+                <iframe class="preview-iframe" id="previewFrame"></iframe>
+            </div>
+        </section>
+
+        <!-- Tools Panel -->
+        <section class="tools">
+            <div class="tools-tabs">
+                <button class="tools-tab active" data-tab="details">Details</button>
+                <button class="tools-tab" data-tab="docs">Docs</button>
+                <button class="tools-tab" data-tab="schema">Schema</button>
+            </div>
+            <div class="tools-content" id="toolsContent">
+                <div class="detail-section">
+                    <div class="detail-title">Component Information</div>
+                    <div class="detail-grid">
+                        <div class="detail-row">
+                            <span class="detail-label">Name:</span>
+                            <span class="detail-value" id="selectedComponentName">None selected</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Type:</span>
+                            <span class="detail-value" id="selectedComponentType">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Status:</span>
+                            <span class="detail-value" id="selectedComponentStatus">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Custom Element:</span>
+                            <span class="detail-value" id="selectedComponentElement">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Console -->
+        <section class="console">
+            <div class="console-header">
+                <span>Console Output</span>
+                <div>
+                    <button class="btn secondary" onclick="clearConsole()">Clear</button>
+                    <button class="btn secondary" onclick="exportLogs()">Export</button>
+                </div>
+            </div>
+            <div class="console-content" id="consoleContent">
+                <div class="console-line console-info">
+                    <span class="console-timestamp">[00:00:00]</span>
+                    🔧 WB Component IDE Enhanced initialized
+                </div>
+                <div class="console-line console-success">
+                    <span class="console-timestamp">[00:00:01]</span>
+                    ✓ Component discovery system ready
+                </div>
+            </div>
+        </section>
+
+        <!-- Debug Panel -->
+        <section class="debug">
+            <div class="debug-header">Debug Information</div>
+            <div class="debug-content">
+                <div class="debug-stats">
+                    <div class="debug-stat">
+                        <div class="debug-number" id="debugSymbolCount">0</div>
+                        <div class="debug-label">Total Symbols</div>
+                    </div>
+                    <div class="debug-stat">
+                        <div class="debug-number" id="debugValidationCount">0</div>
+                        <div class="debug-label">Validations</div>
+                    </div>
+                </div>
+                <div id="debugInfo">
+                    <strong>Discovery Status:</strong> Ready<br>
+                    <strong>Last Validation:</strong> None<br>
+                    <strong>Performance:</strong> Optimal
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Load component data -->
+    <script src="./component-data.js"></script>
+
+    <script>
+        class WBComponentIDEEnhanced {
+            constructor() {
+                this.symbolTable = new Map();
+                this.componentRegistry = [];
+                this.webComponents = [];
+                this.classes = [];
+                this.functions = [];
+                this.currentTab = 'html';
+                this.selectedComponent = null;
+                this.autocompleteData = [];
+                this.validationCount = 0;
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadComponentData();
+                this.setupAutocomplete();
+                this.log('🔧 WB Component IDE Enhanced initialized', 'info');
+            }
+
+            setupEventListeners() {
+                // Tab switching - use event delegation for better reliability
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('editor-tab')) {
+                        this.switchTab(e.target.dataset.tab);
+                    }
+                    if (e.target.classList.contains('tools-tab')) {
+                        this.switchToolsTab(e.target.dataset.tab);
+                    }
+                });
+
+                // Search functionality
+                const componentSearch = document.getElementById('componentSearch');
+                const symbolSearch = document.getElementById('symbolSearch');
+                
+                if (componentSearch) {
+                    componentSearch.addEventListener('input', (e) => {
+                        this.filterComponents(e.target.value);
+                    });
+                }
+                
+                if (symbolSearch) {
+                    symbolSearch.addEventListener('input', (e) => {
+                        this.filterSymbols(e.target.value);
+                    });
+                }
+
+                // Editor change tracking
+                document.querySelectorAll('.code-editor').forEach(editor => {
+                    editor.addEventListener('input', () => {
+                        this.onCodeChange();
+                    });
+                });
+            }
+
+            loadComponentData() {
+                this.log('📊 Loading component discovery data...', 'info');
+
+                if (!window.WB_DISCOVERY_DATA) {
+                    this.log('❌ Component discovery data not available - creating fallback data', 'warning');
+                    // Create fallback data so IDE still works
+                    window.WB_DISCOVERY_DATA = {
+                        symbolTable: new Map([
+                            ['wb-button', {name: 'wb-button', type: 'custom-element', component: 'wb-button'}],
+                            ['wb-toggle', {name: 'wb-toggle', type: 'custom-element', component: 'wb-toggle'}],
+                            ['wb-table', {name: 'wb-table', type: 'custom-element', component: 'wb-table'}]
+                        ]),
+                        componentRegistry: [
+                            {name: 'wb-button', type: 'web-component', status: 'complete'},
+                            {name: 'wb-toggle', type: 'web-component', status: 'complete'},
+                            {name: 'wb-table', type: 'web-component', status: 'complete'}
+                        ]
+                    };
+                }
+
+                const data = window.WB_DISCOVERY_DATA;
+                
+                // Process symbol table
+                this.symbolTable = new Map(data.symbolTable);
+                this.componentRegistry = data.componentRegistry;
+
+                // Categorize symbols
+                this.webComponents = [];
+                this.classes = [];
+                this.functions = [];
+
+                for (const [name, symbol] of this.symbolTable) {
+                    switch (symbol.type) {
+                        case 'custom-element':
+                            this.webComponents.push({ name, ...symbol });
+                            break;
+                        case 'class':
+                            this.classes.push({ name, ...symbol });
+                            break;
+                        case 'function':
+                            this.functions.push({ name, ...symbol });
+                            break;
+                    }
+                }
+
+                this.updateUI();
+                this.buildAutocompleteData();
+                this.log(`✓ Loaded ${this.symbolTable.size} symbols across ${this.componentRegistry.length} components`, 'success');
+            }
+
+            updateUI() {
+                // Update header stats
+                document.getElementById('componentCount').textContent = this.componentRegistry.length;
+                document.getElementById('symbolCount').textContent = this.symbolTable.size;
+                document.getElementById('webComponentCount').textContent = this.webComponents.length;
+                document.getElementById('classCount').textContent = this.classes.length + this.functions.length;
+                document.getElementById('statusCount').textContent = this.componentRegistry.length;
+
+                // Update debug panel
+                document.getElementById('debugSymbolCount').textContent = this.symbolTable.size;
+                document.getElementById('debugValidationCount').textContent = this.validationCount;
+
+                // Populate lists
+                this.populateWebComponentsList();
+                this.populateSymbolsList();
+                this.populateStatusList();
+            }
+
+            populateWebComponentsList() {
+                const container = document.getElementById('webComponentsList');
+                container.innerHTML = this.webComponents.map(comp => {
+                    const component = this.componentRegistry.find(c => c.name === comp.component);
+                    const status = component ? component.status : 'unknown';
+                    
+                    return `
+                        <div class="component-item" onclick="selectComponent('${comp.name}')" data-component="${comp.name}" 
+                             onmouseenter="showComponentDocs('${comp.name}')" onmouseleave="hideComponentDocs()">
+                            <div class="status-indicator status-${status}"></div>
+                            <span class="component-name">&lt;${comp.name}&gt;</span>
+                            <span class="component-type">element</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            populateSymbolsList() {
+                const container = document.getElementById('symbolsList');
+                const symbols = [...this.classes, ...this.functions];
+                
+                container.innerHTML = symbols.map(symbol => `
+                    <div class="component-item" onclick="insertSymbol('${symbol.name}')" data-symbol="${symbol.name}">
+                        <div class="status-indicator status-complete"></div>
+                        <span class="component-name">${symbol.name}</span>
+                        <span class="component-type">${symbol.type}</span>
+                    </div>
+                `).join('');
+            }
+
+            populateStatusList() {
+                const container = document.getElementById('statusList');
+                container.innerHTML = this.componentRegistry.map(comp => `
+                    <div class="component-item" onclick="showComponentDetails('${comp.name}')" data-status="${comp.name}">
+                        <div class="status-indicator status-${comp.status}"></div>
+                        <span class="component-name">${comp.name}</span>
+                        <span class="component-type">${comp.status}</span>
+                    </div>
+                `).join('');
+            }
+
+            buildAutocompleteData() {
+                this.autocompleteData = [];
+
+                // Web components
+                this.webComponents.forEach(comp => {
+                    this.autocompleteData.push({
+                        symbol: `<${comp.name}>`,
+                        type: 'custom-element',
+                        description: `Web component from ${comp.component}`,
+                        insertText: `<${comp.name}></${comp.name}>`,
+                        component: comp.component
+                    });
+                });
+
+                // Classes
+                this.classes.forEach(cls => {
+                    this.autocompleteData.push({
+                        symbol: cls.name,
+                        type: 'class',
+                        description: `Class from ${cls.component}`,
+                        insertText: cls.name,
+                        component: cls.component
+                    });
+                });
+
+                // Functions
+                this.functions.forEach(func => {
+                    this.autocompleteData.push({
+                        symbol: func.name,
+                        type: 'function',
+                        description: `Function from ${func.component}`,
+                        insertText: `${func.name}()`,
+                        component: func.component
+                    });
+                });
+
+                this.log(`🎯 Built autocomplete data with ${this.autocompleteData.length} entries`, 'info');
+            }
+
+            setupAutocomplete() {
+                const editor = document.getElementById('htmlEditor');
+                const popup = document.getElementById('autocompletePopup');
+
+                editor.addEventListener('input', (e) => {
+                    this.handleAutocomplete(e);
+                });
+
+                editor.addEventListener('keydown', (e) => {
+                    this.handleAutocompleteKeydown(e);
+                });
+
+                // Hide popup when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!popup.contains(e.target) && e.target !== editor) {
+                        popup.classList.add('hidden');
+                    }
+                });
+            }
+
+            handleAutocomplete(event) {
+                const editor = event.target;
+                const cursor = editor.selectionStart;
+                const text = editor.value;
+                const currentLine = this.getCurrentLine(text, cursor);
+                
+                if (this.shouldShowAutocomplete(currentLine)) {
+                    this.showAutocomplete(editor, currentLine, cursor);
+                } else {
+                    document.getElementById('autocompletePopup').style.display = 'none';
+                }
+            }
+
+            getCurrentLine(text, cursor) {
+                const lineStart = text.lastIndexOf('\n', cursor - 1) + 1;
+                return text.substring(lineStart, cursor);
+            }
+
+            shouldShowAutocomplete(line) {
+                return line.includes('<wb-') || 
+                       line.includes('WB') || 
+                       line.includes('loadCSS') || 
+                       line.includes('generateId');
+            }
+
+            showAutocomplete(editor, line, cursor) {
+                const matches = this.getAutocompleteMatches(line);
+                if (matches.length === 0) return;
+
+                const popup = document.getElementById('autocompletePopup');
+                popup.innerHTML = matches.map((match, index) => `
+                    <div class="autocomplete-item ${index === 0 ? 'selected' : ''}" data-index="${index}">
+                        <div class="autocomplete-main">
+                            <span class="autocomplete-symbol">${match.symbol}</span>
+                            <span class="autocomplete-type">${match.type}</span>
+                        </div>
+                        <div class="autocomplete-desc">${match.description}</div>
+                    </div>
+                `).join('');
+
+                // Position popup
+                const rect = editor.getBoundingClientRect();
+                popup.style.left = rect.left + 'px';
+                popup.style.top = (rect.top + 100) + 'px';
+                popup.style.display = 'block';
+
+                this.currentAutocompleteMatches = matches;
+                this.currentAutocompleteIndex = 0;
+            }
+
+            getAutocompleteMatches(line) {
+                const trigger = this.getAutocompleteTrigger(line);
+                return this.autocompleteData
+                    .filter(item => item.symbol.toLowerCase().includes(trigger.toLowerCase()))
+                    .slice(0, 8);
+            }
+
+            getAutocompleteTrigger(line) {
+                const words = line.split(/\s+/);
+                const lastWord = words[words.length - 1];
+                return lastWord.replace(/[<>]/g, '');
+            }
+
+            handleAutocompleteKeydown(event) {
+                const popup = document.getElementById('autocompletePopup');
+                if (popup.style.display === 'none') return;
+
+                switch (event.key) {
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        this.moveAutocompleteSelection(1);
+                        break;
+                    case 'ArrowUp':
+                        event.preventDefault();
+                        this.moveAutocompleteSelection(-1);
+                        break;
+                    case 'Enter':
+                        event.preventDefault();
+                        this.insertAutocomplete(event.target);
+                        break;
+                    case 'Escape':
+                        popup.style.display = 'none';
+                        break;
+                }
+            }
+
+            moveAutocompleteSelection(direction) {
+                const items = document.querySelectorAll('.autocomplete-item');
+                if (items.length === 0) return;
+
+                items[this.currentAutocompleteIndex].classList.remove('selected');
+                this.currentAutocompleteIndex = Math.max(0, 
+                    Math.min(items.length - 1, this.currentAutocompleteIndex + direction));
+                items[this.currentAutocompleteIndex].classList.add('selected');
+            }
+
+            insertAutocomplete(editor) {
+                const match = this.currentAutocompleteMatches[this.currentAutocompleteIndex];
+                if (!match) return;
+
+                const cursor = editor.selectionStart;
+                const text = editor.value;
+                const line = this.getCurrentLine(text, cursor);
+                const trigger = this.getAutocompleteTrigger(line);
+                
+                const beforeTrigger = text.substring(0, cursor - trigger.length);
+                const afterCursor = text.substring(cursor);
+                
+                editor.value = beforeTrigger + match.insertText + afterCursor;
+                editor.selectionStart = editor.selectionEnd = beforeTrigger.length + match.insertText.length;
+                
+                document.getElementById('autocompletePopup').style.display = 'none';
+                this.log(`📝 Inserted ${match.symbol}`, 'info');
+            }
+
+            switchTab(tabName) {
+                if (!tabName) return;
+                
+                this.currentTab = tabName;
+                console.log('Switching to tab:', tabName); // Debug log
+                
+                // Update tab buttons
+                document.querySelectorAll('.editor-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                const activeTab = document.querySelector(`.editor-tab[data-tab="${tabName}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                }
+
+                // Update editor visibility
+                document.querySelectorAll('.code-editor').forEach(editor => {
+                    editor.style.display = 'none';
+                });
+                
+                const targetEditor = document.getElementById(`${tabName}Editor`);
+                if (targetEditor) {
+                    targetEditor.style.display = 'block';
+                    console.log('Showing editor:', `${tabName}Editor`); // Debug log
+                } else {
+                    console.error('Editor not found:', `${tabName}Editor`);
+                }
+
+                this.log(`📄 Switched to ${tabName} tab`, 'info');
+            }
+
+            switchToolsTab(tabName) {
+                if (!tabName) return;
+                
+                console.log('Switching to tools tab:', tabName); // Debug log
+                
+                document.querySelectorAll('.tools-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                const activeTab = document.querySelector(`.tools-tab[data-tab="${tabName}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                }
+                
+                // Update tools content based on tab
+                this.updateToolsContent(tabName);
+            }
+
+            updateToolsContent(tabName) {
+                const content = document.getElementById('toolsContent');
+                
+                switch (tabName) {
+                    case 'details':
+                        // Already handled by component selection
+                        break;
+                    case 'docs':
+                        content.innerHTML = '<div class="detail-section"><div class="detail-title">Documentation</div><p>Component documentation will appear here when a component is selected.</p></div>';
+                        break;
+                    case 'schema':
+                        content.innerHTML = '<div class="detail-section"><div class="detail-title">Schema</div><p>Component schema information will appear here when a component is selected.</p></div>';
+                        break;
+                }
+            }
+
+            filterComponents(query) {
+                console.log('Filtering components with query:', query); // Debug log
+                const items = document.querySelectorAll('#webComponentsList .component-item');
+                console.log('Found component items:', items.length); // Debug log
+                
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    const matches = text.includes(query.toLowerCase());
+                    item.style.display = matches ? 'flex' : 'none';
+                    console.log(`Component "${text}" matches "${query}":`, matches); // Debug log
+                });
+            }
+
+            filterSymbols(query) {
+                console.log('Filtering symbols with query:', query); // Debug log
+                const items = document.querySelectorAll('#symbolsList .component-item');
+                console.log('Found symbol items:', items.length); // Debug log
+                
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    const matches = text.includes(query.toLowerCase());
+                    item.style.display = matches ? 'flex' : 'none';
+                    console.log(`Symbol "${text}" matches "${query}":`, matches); // Debug log
+                });
+            }
+
+            onCodeChange() {
+                // Auto-validate on code change (debounced)
+                clearTimeout(this.validateTimeout);
+                this.validateTimeout = setTimeout(() => {
+                    this.autoValidate();
+                }, 1000);
+            }
+
+            autoValidate() {
+                const editor = document.getElementById(`${this.currentTab}Editor`);
+                const code = editor.value;
+                
+                if (this.currentTab === 'html') {
+                    this.validateHTML(code);
+                }
+            }
+
+            validateHTML(html) {
+                let errorCount = 0;
+                const webComponentTags = html.match(/<(wb-[^>\s\/]+)/g) || [];
+                
+                webComponentTags.forEach(tag => {
+                    const componentName = tag.replace('<', '');
+                    const exists = this.webComponents.some(comp => comp.name === componentName);
+                    
+                    if (!exists) {
+                        errorCount++;
+                        this.log(`❌ Unknown component: ${componentName}`, 'error');
+                    }
+                });
+
+                document.getElementById('errorCount').textContent = errorCount;
+                
+                if (errorCount === 0 && webComponentTags.length > 0) {
+                    this.log('✓ All components validated successfully', 'success');
+                }
+            }
+
+            log(message, type = 'info') {
+                const console = document.getElementById('consoleContent');
+                const timestamp = new Date().toLocaleTimeString();
+                const line = document.createElement('div');
+                line.className = `console-line console-${type}`;
+                line.innerHTML = `<span class="console-timestamp">[${timestamp}]</span> ${message}`;
+                console.appendChild(line);
+                console.scrollTop = console.scrollHeight;
+            }
+        }
+
+        // Global functions for UI interaction
+        function selectComponent(componentName) {
+            const component = window.ide.componentRegistry.find(c => c.customElement === componentName || c.name === componentName);
+            if (!component) return;
+
+            // Update selection
+            document.querySelectorAll('.component-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelector(`[data-component="${componentName}"]`).classList.add('selected');
+
+            // Update details panel
+            document.getElementById('selectedComponentName').textContent = component.name;
+            document.getElementById('selectedComponentType').textContent = component.type;
+            document.getElementById('selectedComponentStatus').textContent = component.status;
+            document.getElementById('selectedComponentElement').textContent = component.customElement || 'N/A';
+
+            window.ide.selectedComponent = component;
+            window.ide.log(`📌 Selected component: ${component.name}`, 'info');
+        }
+
+        function insertSymbol(symbolName) {
+            const editor = document.getElementById(`${window.ide.currentTab}Editor`);
+            const cursor = editor.selectionStart;
+            const before = editor.value.substring(0, cursor);
+            const after = editor.value.substring(cursor);
+            
+            editor.value = before + symbolName + after;
+            editor.selectionStart = editor.selectionEnd = cursor + symbolName.length;
+            editor.focus();
+            
+            window.ide.log(`📝 Inserted symbol: ${symbolName}`, 'info');
+        }
+
+        function showComponentDetails(componentName) {
+            selectComponent(componentName);
+        }
+
+        function runCode() {
+            window.ide.log('▶ Running code...', 'info');
+            refreshPreview();
+            window.ide.log('✓ Code executed successfully', 'success');
+        }
+
+        function validateCode() {
+            window.ide.validationCount++;
+            window.ide.log('🔍 Running validation...', 'info');
+            
+            const htmlEditor = document.getElementById('htmlEditor');
+            window.ide.validateHTML(htmlEditor.value);
+            
+            document.getElementById('debugValidationCount').textContent = window.ide.validationCount;
+            window.ide.log('✓ Validation complete', 'success');
+        }
+
+        function formatCode() {
+            window.ide.log('🎨 Formatting code...', 'info');
+            // Basic HTML formatting (could be enhanced with a proper formatter)
+            const editor = document.getElementById(`${window.ide.currentTab}Editor`);
+            const formatted = editor.value
+                .replace(/></g, '>\n<')
+                .replace(/^\s+/gm, '')
+                .split('\n')
+                .map((line, index) => {
+                    const indent = '    '.repeat(Math.max(0, (line.match(/</g) || []).length - (line.match(/</g) || []).length));
+                    return indent + line.trim();
+                })
+                .join('\n');
+            
+            editor.value = formatted;
+            window.ide.log('✓ Code formatted', 'success');
+        }
+
+        function refreshPreview() {
+            const iframe = document.getElementById('previewFrame');
+            const htmlContent = document.getElementById('htmlEditor').value;
+            const cssContent = document.getElementById('cssEditor').value;
+            const jsContent = document.getElementById('jsEditor').value;
+
+            const fullHTML = htmlContent
+                .replace('</head>', `<style>${cssContent}</style></head>`)
+                .replace('</body>', `<script>${jsContent}</script></body>`);
+
+            const blob = new Blob([fullHTML], { type: 'text/html' });
+            iframe.src = URL.createObjectURL(blob);
+            
+            window.ide.log('🔄 Preview refreshed', 'info');
+        }
+
+        function openInNewTab() {
+            const htmlContent = document.getElementById('htmlEditor').value;
+            const cssContent = document.getElementById('cssEditor').value;
+            const jsContent = document.getElementById('jsEditor').value;
+
+            const fullHTML = htmlContent
+                .replace('</head>', `<style>${cssContent}</style></head>`)
+                .replace('</body>', `<script>${jsContent}</script></body>`);
+
+            const newWindow = window.open();
+            newWindow.document.write(fullHTML);
+            newWindow.document.close();
+            
+            window.ide.log('🔗 Opened in new tab', 'info');
+        }
+
+        function exportProject() {
+            const project = {
+                html: document.getElementById('htmlEditor').value,
+                css: document.getElementById('cssEditor').value,
+                js: document.getElementById('jsEditor').value,
+                config: document.getElementById('configEditor').value,
+                metadata: {
+                    timestamp: new Date().toISOString(),
+                    components: window.ide.selectedComponent ? [window.ide.selectedComponent.name] : [],
+                    symbols: window.ide.symbolTable.size
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `wb-project-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            window.ide.log('📤 Project exported successfully', 'success');
+        }
+
+        function clearConsole() {
+            document.getElementById('consoleContent').innerHTML = '';
+            window.ide.log('🗑️ Console cleared', 'info');
+        }
+
+        function exportLogs() {
+            const logs = document.getElementById('consoleContent').textContent;
+            const blob = new Blob([logs], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `wb-ide-logs-${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize IDE
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing IDE...');
+            window.ide = new WBComponentIDEEnhanced();
+            
+            // Ensure proper initial state
+            setTimeout(() => {
+                if (window.ide) {
+                    console.log('IDE initialized successfully');
+                    // Force update of all UI elements
+                    window.ide.updateUI();
+                } else {
+                    console.error('Failed to initialize IDE');
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

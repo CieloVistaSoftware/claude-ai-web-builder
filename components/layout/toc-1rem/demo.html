@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,29 +8,39 @@
   <link rel="stylesheet" href="../../index.css">
   <link rel="stylesheet" href="toc-1rem.css">
   <style>
-    body { background: var(--bg-color, #18181b); color: var(--text-primary, #fff); min-height: 100vh; }
+    body {
+      background: var(--bg-color, #18181b);
+      color: var(--text-primary, #fff);
+      min-height: 100vh;
+    }
+
     .demo-box {
       background: var(--surface-raised, #23232b);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
       margin: 2rem auto;
       max-width: 500px;
       min-height: 120px;
+      padding: 1rem;
       border: 1px solid var(--border-color, #333);
     }
   </style>
 </head>
+
 <body>
-  <h1>toc-1rem Demo</h1>
-  <div class="demo-box">
-    <toc-1rem>
-      <div slot="header">Header Title (1rem from top/left/right)</div>
-      <div slot="content">
-        <p>This content is padded 1rem from the left and right. The header is always at the top, separated by 1rem from the top edge.</p>
-        <p>Try adding more content or customizing the header!</p>
+  <wb-demo title="toc-1rem Component" >
+    <div slot="examples">
+      <div class="demo-box">
+        <toc-1rem>
+          <div slot="header">Header Title (1rem from top/left/right)</div>
+          <div slot="content">
+            <p>This content is padded 1rem from the left and right. The header is always at the top, separated by 1rem
+              from the top edge.</p>
+            <p>Try adding more content or customizing the header!</p>
+          </div>
+        </toc-1rem>
       </div>
-    </toc-1rem>
-  </div>
-  <script src="toc-1rem.js"></script>
+      <script src="toc-1rem.js"></script>
 </body>
+
 </html>

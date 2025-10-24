@@ -93,7 +93,7 @@
       </ul>
     </div>
   </div>
-  <script src="../utils/component/component-factory.js"></script>
+  <script src="..../utils/component/component-factory.js"></script>
   <script>
     async function previewComponent() {
       if (!cardDefinition) return;
@@ -120,7 +120,7 @@
     let cardDefinition = null;
     async function initialize() {
       try {
-        const response = await fetch('../utils/component/data-driven-schema-example.json');
+        const response = await fetch('..../utils/component/data-driven-schema-example.json');
         cardDefinition = await response.json();
         ComponentFactory.register(cardDefinition);
         createComponent();
@@ -194,3 +194,4 @@
   </script>
 </body>
 </html>
+
