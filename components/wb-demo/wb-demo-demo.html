@@ -24,9 +24,14 @@
     <wb-demo title="🎯 WB Demo Component Demo">
         <!-- Examples Content -->
         <div slot="examples">
-            <wb-card title="WB Demo Component" subtitle="A versatile demo component for showcasing WB web components."
+            <wb-card title="WB Demo Component" 
+                subtitle="A versatile demo component for showcasing WB web components."
                 body="The wb-demo component provides a standardized way to document and demonstrate WB web components. It includes slots for titles, documentation, and live examples, along with built-in event logging functionality."
-                variant="elevated" size="standard" layout="vertical" style="margin-bottom: 1.5rem;"></wb-card>
+                variant="elevated" 
+                size="standard" 
+                layout="vertical" 
+                style="margin-bottom: 1.5rem;">
+            </wb-card>
             <h2>🎯 Interactive Examples</h2>
             <p>Demonstrations of the WB Demo component in action.</p>
 
@@ -56,10 +61,11 @@
                 <button onclick="generateDemoEvent()">Log Demo Event</button>
                 <button onclick="generateMultipleDemoEvents()">Log Multiple Events</button>
                 <button onclick="clearDemoLog()">Clear Log</button>
-                <div style="margin-top:1rem;">
+                
                     <wb-event-log id="demoEventLog" style="width:100%;height:200px;display:block;"></wb-event-log>
-                </div>
+                
             </div>
+           
 
             <!-- Integration Example -->
             <div class="demo-example">

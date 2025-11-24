@@ -41,6 +41,7 @@ if (typeof window.reflectPropAttr === 'function') {
 class WBToggle extends HTMLElement {
     constructor() {
         super();
+        this.attachShadow({ mode: 'open' });
         this.config = null;
         this._initialized = false;
         this._input = null;

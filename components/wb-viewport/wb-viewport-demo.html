@@ -6,7 +6,7 @@
     <title>WB Viewport Component Demo</title>
     
     <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
-    <link rel="stylesheet" href="..../styles/main.css">
+    <link rel="stylesheet" href="../../styles/main.css">
     
     <!-- Load wb-viewport component -->
     <script type="module" src="wb-viewport.js"></script>
@@ -18,7 +18,27 @@
     <style>
         
         body {
+            margin: 0;
             padding: var(--space-lg);
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .demo-section {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .demo-grid {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .demo-card {
+            width: 100%;
+            box-sizing: border-box;
         }
         
         h1 {
@@ -111,26 +131,40 @@
         .wb-viewport--mobile .demo-grid-4 {
             grid-template-columns: 1fr;
         }
-        
+        .demo-section {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .demo-grid {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .demo-card {
+            width: 100%;
+            box-sizing: border-box;
+        }
         .wb-viewport--mobile .demo-buttons {
             flex-direction: column;
         }
-        
         .wb-viewport--mobile h1 {
             font-size: 1.5rem;
         }
-        
         .wb-viewport--mobile .demo-section {
             padding: var(--space-md);
         }
-        
         .wb-viewport--tablet .demo-grid-3,
         .wb-viewport--tablet .demo-grid-4 {
             grid-template-columns: 1fr 1fr;
         }
+        .wb-viewport--tablet .demo-card {
+            width: 100%;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body data-theme="dark">
+    <wb-demo markdown="./wb-viewport-demo.md">
+        <slot="examples">
     <h1>WB Viewport Component Demo</h1>
     <p>Interactive viewport simulator for testing responsive designs across all WB components.</p>
     
@@ -183,7 +217,10 @@
         <h3>Programmatic Control</h3>
         <div class="demo-buttons">
             <button class="wb-btn wb-btn--primary" onclick="testSetMobile()">Set Mobile</button>
+            <button class="wb-btn wb-btn--primary" onclick="testSetIPhoneSE()">Set iPhone SE</button>
             <button class="wb-btn wb-btn--success" onclick="testSetTablet()">Set Tablet</button>
+            <button class="wb-btn wb-btn--primary" onclick="testSetIpadPro()">Set iPad Pro</button>
+            <button class="wb-btn wb-btn--primary" onclick="testSetSurfacePro()">Set Surface Pro</button>
             <button class="wb-btn wb-btn--primary" onclick="testSetDesktop()">Set Desktop</button>
             <button class="wb-btn wb-btn--success" onclick="testReset()">Reset</button>
         </div>
@@ -264,24 +301,34 @@ document.addEventListener('wbViewportReady', (event) => {
             <li>Works seamlessly with all WB components including modals</li>
         </ul>
     </div>
-    
+        </slot>
+    </wb-demo>
     <script>
         // API test functions
         function testSetMobile() {
             WBViewport.setViewport('mobile');
             updateApiOutput('Set viewport to Mobile (400px)');
         }
-        
+        function testSetIPhoneSE() {
+            WBViewport.setViewport('iphonese');
+            updateApiOutput('Set viewport to iPhone SE (375px)');
+        }
         function testSetTablet() {
             WBViewport.setViewport('tablet');
             updateApiOutput('Set viewport to Tablet (768px)');
         }
-        
+        function testSetIpadPro() {
+            WBViewport.setViewport('ipadpro');
+            updateApiOutput('Set viewport to iPad Pro (1024px)');
+        }
+        function testSetSurfacePro() {
+            WBViewport.setViewport('surfacepro');
+            updateApiOutput('Set viewport to Surface Pro (1368px)');
+        }
         function testSetDesktop() {
             WBViewport.setViewport('desktop');
             updateApiOutput('Set viewport to Desktop (1200px)');
         }
-        
         function testReset() {
             WBViewport.reset();
             updateApiOutput('Reset viewport to Auto');
@@ -318,4 +365,5 @@ document.addEventListener('wbViewportReady', (event) => {
     </script>
 </body>
 </html>
+
 

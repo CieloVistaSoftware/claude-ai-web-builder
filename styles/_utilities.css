@@ -1,0 +1,41 @@
+/**
+ * Utility Classes - Website Builder System
+ */
+
+/* Demo utilities */
+.demo-row {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.demo-section {
+  margin-bottom: 2rem;
+}
+
+.demo-section h2 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.demo-section code {
+  background: var(--bg-tertiary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  color: var(--success-color);
+}
+
+/* Spacing utilities */
+.wb-gap-sm { gap: var(--space-sm); }
+.wb-gap-md { gap: var(--space-md); }
+.wb-gap-lg { gap: var(--space-lg); }
+
+.wb-p-sm { padding: var(--space-sm); }
+.wb-p-md { padding: var(--space-md); }
+.wb-p-lg { padding: var(--space-lg); }
+
+.wb-mb-sm { margin-bottom: var(--space-sm); }
+.wb-mb-md { margin-bottom: var(--space-md); }
+.wb-mb-lg { margin-bottom: var(--space-lg); }

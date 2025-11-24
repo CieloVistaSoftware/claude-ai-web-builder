@@ -149,11 +149,11 @@
                 updateStatus('Loading core utilities...');
 
                 // 1. Load WBComponentRegistry first
-                await loadScript('..../lib/wb-component-registry.js', 'WBComponentRegistry');
+                await loadScript('..../../lib/wb-component-registry.js', 'WBComponentRegistry');
                 testState.loaded.add('registry');
 
                 // 2. Load WBComponentUtils
-                await loadScript('../lib/wb-component-utils.js', 'WBComponentUtils');
+                await loadScript('../../lib/wb-component-utils.js', 'WBComponentUtils');
                 testState.loaded.add('utils');
 
                 // Wait for utilities to initialize
@@ -326,3 +326,4 @@
     </script>
 </body>
 </html>
+

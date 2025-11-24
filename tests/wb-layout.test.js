@@ -4,7 +4,7 @@
  * ES Module format - 2025 standard
  */
 
-import { test, expect } from '@playwright/test';
+const { test, expect } = require('@playwright/test');
 
 // Use existing wb-event-log component - import it properly
 // The wb-event-log component already exists and handles all logging

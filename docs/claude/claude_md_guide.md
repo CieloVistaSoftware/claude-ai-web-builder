@@ -3,13 +3,21 @@
 
 `claude.md` is a **comprehensive documentation and issue tracking file** for each Web Component that serves three purposes:
 
+**Filename Status Icons:**
+
+- All `claude.md` files must include a status icon before the name in the filename:
+   - `🔴claude.md` → Needs work
+   - `🟢claude.md` → Work complete
+
+This gives a visual indication of which documentation files need work. When a file is updated and all required work is complete, rename the file to use the green icon (🟢) before `claude.md`.
+
 1. **AI-optimized documentation** for AI assistants to understand and generate code
 2. **Issue tracking system** with timestamps, line numbers, and priorities
 3. **Component metadata** including file locations and important links
 
 ## File Structure
 
-Every `claude.md` file MUST have this exact structure:
+Every `claude.md` file MUST have this exact structure and follow the filename icon rule:
 
 ```markdown
 # ComponentName - AI/Claude Documentation

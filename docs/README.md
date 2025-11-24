@@ -1,9 +1,9 @@
 # 📚 WB Project Documentation Library
 
 **Organized Documentation Structure**  
-**Last Updated**: October 19, 2025
+**Last Updated**: November 22, 2025
 
----
+> **Update:** All loose `.md` files have been moved to their appropriate subfolders for better organization. Please refer to the subfolders for guides, Claude docs, system diagrams, and misc documentation.
 
 ## 📋 QUICK NAVIGATION
 
@@ -12,7 +12,10 @@
 | **[setup/](#setup)** | First-time setup & installation | START-HERE-FIRST-TIME-SETUP.md |
 | **[howto/](#howto)** | Step-by-step guides | How to update status, create components |
 | **[status/](#status)** | Project status & tracking | currentstatus.md, fixes.md |
-| **[system/](#system)** | System architecture & design | Filename prefix system, implementation |
+| **[system/](#system)** | System architecture & design | Filename prefix system, implementation, wb-system-diagram.html |
+| **[claude/](#claude)** | Claude AI documentation | CLAUDE-LOGGING-GUIDE.md, CLAUDE-LOGGING-README.md, CLAUDE-MD-SPECIFICATION.md |
+| **[guides/](#guides)** | Project guides & setup | FOLDER-STRUCTURE.md, PATH_AND_COMPONENT_ISSUES.md, REORGANIZATION-QUICK-START.md, START-HERE.md, START-LOGGING-SERVER.md, stacktrace-update.md |
+| **[misc/](#misc)** | Miscellaneous docs | qatime.md |
 | **[articles/](#articles)** | Technical articles & analysis | Color harmony, wave theory |
 | **[component-guides/](#component-guides)** | Component documentation | Individual component .md files |
 | **[architecture/](#architecture)** | Architecture standards | Coding standards, patterns |
@@ -48,7 +51,21 @@
 │
 ├── ⚙️ system/                      ← System architecture
 │   ├── FILENAME-PREFIX-SYSTEM-COMPLETE.md
-│   └── IMPLEMENTATION-COMPLETE.md
+│   ├── IMPLEMENTATION-COMPLETE.md
+│   └── wb-system-diagram.html
+├── 📝 claude/                      ← Claude AI specific
+│   ├── CLAUDE-LOGGING-GUIDE.md
+│   ├── CLAUDE-LOGGING-README.md
+│   └── CLAUDE-MD-SPECIFICATION.md
+├── 📂 guides/                      ← Project guides & setup
+│   ├── FOLDER-STRUCTURE.md
+│   ├── PATH_AND_COMPONENT_ISSUES.md
+│   ├── REORGANIZATION-QUICK-START.md
+│   ├── START-HERE.md
+│   ├── START-LOGGING-SERVER.md
+│   └── stacktrace-update.md
+├── 📂 misc/                        ← Miscellaneous docs
+│   └── qatime.md
 │
 ├── 📰 articles/                    ← Technical articles
 │   ├── wave-based-color-harmony-article.md

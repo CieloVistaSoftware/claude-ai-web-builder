@@ -1,6 +1,11 @@
 # WB Log Error Component
 
+This component supersedes any legacy error handler such as `wberrorhandler`. It provides all error capture, logging, and notification features needed for Website Builder applications, making separate error handlers obsolete.
+
 Error logging and notification **web component** for Website Builder applications. Provides comprehensive error tracking, debugging tools, and runtime injection capabilities.
+## Comparison: Legacy wberrorhandler
+
+The older `wberrorhandler` was a simple error capture utility. The new `wb-log-error` web component is fully reactive, supports filtering, exporting, and UI controls, and integrates with all WB components. For new projects, use only `wb-log-error`.
 
 ## Features
 

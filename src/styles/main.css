@@ -158,3 +158,16 @@ hr,
 [class*="border"] {
   border-color: var(--border-color);
 }
+
+/* ===== WB BUTTON DEMO STYLES (from root styles/main.css) ===== */
+body { background: var(--bg-color, #222); color: var(--text-primary, #eee); }
+.wb-btn { padding: 0.5rem 1rem; border-radius: 4px; }
+.wb-btn--primary { background: #007bff; color: #fff; }
+.wb-btn--secondary { background: #6c757d; color: #fff; }
+.wb-btn--success { background: #28a745; color: #fff; }
+.wb-btn--toggle { background: #ffc107; color: #222; }
+.wb-btn--small { font-size: 0.8rem; }
+.wb-btn--large { font-size: 1.2rem; }
+.wb-btn__status--active { background: #28a745; }
+.wb-btn__status--inactive { background: #dc3545; }
+.wb-btn__status--neutral { background: #6c757d; }

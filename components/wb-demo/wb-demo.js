@@ -36,27 +36,66 @@ class WBDemo extends WBBaseComponent {
         linkElem.setAttribute('href', '../wb-demo/wb-demo.css');
         // Only use external stylesheet for styling
         this.shadowRoot.appendChild(linkElem);
+        
+        // CRITICAL: Load wb-button CSS into Shadow DOM so slotted buttons are styled
+        const buttonCSS = document.createElement('link');
+        buttonCSS.setAttribute('rel', 'stylesheet');
+        buttonCSS.setAttribute('href', '../wb-button/wb-button.css');
+        this.shadowRoot.appendChild(buttonCSS);
         // Use a placeholder for the title, to be filled in after construction
         this.shadowRoot.innerHTML += `
             <div class="demo-container">
                 <h1 class="demo-title" id="demo-title"></h1>
                 <div class="tab-container">
                     <div class="tab-buttons">
-                        <button class="tab-button active" data-tab="0">📖 Documentation</button>
-                        <button class="tab-button" data-tab="1">🎯 Examples</button>
+                        <button class="tab-button" data-tab="0">📖 Documentation</button>
+                        <button class="tab-button active" data-tab="1">🎯 Examples</button>
                     </div>
                     <div class="tab-content">
-                        <div class="tab-panel active" id="docs-panel">
-                            <div id="doc-content">Loading documentation...</div>
+                        <div class="tab-panel" id="docs-panel">
+                            <slot name="documentation"><div id="doc-content">Loading documentation...</div></slot>
                         </div>
-                        <div class="tab-panel" id="examples-panel">
-                            <iframe id="demo-frame" src="" style="width:100%;height:400px;border:none;background:#fff;"></iframe>
+                        <div class="tab-panel active" id="examples-panel">
+                            <slot name="examples"><iframe id="demo-frame" src="" style="width:100%;height:400px;border:none;background:#fff;"></iframe></slot>
                         </div>
                     </div>
                 </div>
             </div>
         `;
     }
+
+    
+    static get observedAttributes() {
+        return ['doc-url', 'markdown', 'demo-url', 'title'];
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        switch(name) {
+            case 'doc-url':
+                this.docUrl = newValue;
+                break;
+            case 'markdown':
+                this.markdown = newValue;
+                break;
+            case 'demo-url':
+                this.demoUrl = newValue;
+                break;
+            case 'title':
+                this.title = newValue;
+                break;
+        }
+        
+        // Update title and reload content if needed
+        if (this.shadowRoot && name === 'title') {
+            this._updateDemoTitle();
+            this._updateDocumentTitle();
+        }
+        if (this.shadowRoot && name === 'markdown') {
+            this.loadDocumentation();
+        }
+    }
+
 
     async connectedCallback() {
         this.logInfo('WB Demo: connectedCallback called');

@@ -343,3 +343,33 @@ pre {
 ::slotted(*) {
     color: var(--text-primary);
 }
+
+/* Allow slotted web components to display properly */
+::slotted(wb-button) {
+    display: inline-block !important;
+    margin: 0.5rem !important;
+}
+
+::slotted(.demo-section) {
+    display: block !important;
+    margin: 2rem 0 !important;
+    padding: 2rem !important;
+}
+
+::slotted(.demo-row) {
+    display: flex !important;
+    gap: 1rem !important;
+    flex-wrap: wrap !important;
+    margin: 1rem 0 !important;
+}
+
+::slotted(.wb-btn-grid--three) {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1rem !important;
+}
+
+::slotted(.wb-btn-group) {
+    display: flex !important;
+    gap: 0 !important;
+}

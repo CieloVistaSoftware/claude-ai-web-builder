@@ -1,0 +1,341 @@
+
+> website-builder@1.0.0 test
+> npm run kill-port && playwright test
+
+
+> website-builder@1.0.0 kill-port
+> node scripts/utils/kill-port.js
+
+≡ƒö¬ Killing ports: 3000, 8080
+Γ£à Port 3000 cleared
+Γ£à Port 8080 cleared
+Γ£à All ports cleared
+
+≡ƒöä IMPORT: About to import BaseUnitTest...
+Γ£à IMPORT: BaseUnitTest imported successfully
+≡ƒöä DESCRIBE: Inside test.describe...
+
+Running 284 tests using 1 worker
+
+  Γ£ô  1 [chromium] ΓÇ║ tests\001-playwright-basic.spec.ts:9:3 ΓÇ║ Playwright Basic Tests ΓÇ║ should load about:blank (2.4s)
+  Γ£ô  2 [chromium] ΓÇ║ tests\001-playwright-basic.spec.ts:15:3 ΓÇ║ Playwright Basic Tests ΓÇ║ should execute JavaScript (326ms)
+  Γ£ô  3 [chromium] ΓÇ║ tests\001-playwright-basic.spec.ts:23:3 ΓÇ║ Playwright Basic Tests ΓÇ║ should find DOM elements (514ms)
+  Γ£ô  4 [chromium] ΓÇ║ tests\001-playwright-basic.spec.ts:29:3 ΓÇ║ Playwright Basic Tests ΓÇ║ should create and verify content (528ms)
+22:11:36.415 BUT:18 Setup start
+≡ƒôè 22:11:36.415 BUT:23 Error arrays reset
+Γ£à 22:11:36.415 BUT:27 wb-event-log ready
+22:11:36.415 BUT:30 Console monitor setup
+22:11:36.415 BUT:65 Network monitor setup
+Γ£à 22:11:36.415 BUT:65 Setup complete
+22:11:37.032 BUT:88 Test start
+22:11:37.032 BUT:91 Executing test
+Running test with BaseUnitTest...
+Test completed successfully
+Γ£à 22:11:37.032 BUT:117 Test completed
+≡ƒöì 22:11:37.032 BUT:119 Post-test validation
+≡ƒöì BaseUnitTest: Starting error validation...
+≡ƒôè Current error count: 0, warnings: 0
+≡ƒÄ» Critical errors found: 0
+Γ£à No critical errors detected
+Γ£à 22:11:37.032 BUT:122 Validation complete
+  Γ£ô  5 [chromium] ΓÇ║ tests\baseunit-simple-test.spec.ts:12:3 ΓÇ║ BaseUnitTest Simple Test ΓÇ║ simple test with BaseUnitTest should work (1.6s)
+22:11:37.274 BUT:18 Setup start
+≡ƒôè 22:11:37.274 BUT:23 Error arrays reset
+Γ£à 22:11:37.274 BUT:27 wb-event-log ready
+22:11:37.274 BUT:30 Console monitor setup
+22:11:37.274 BUT:65 Network monitor setup
+Γ£à 22:11:37.274 BUT:65 Setup complete
+22:11:37.843 [unknown:?] ERROR:
+   Test error for validation
+22:11:37.843 Error captured:
+   ≡ƒö┤ Test error for validation
+≡ƒöì BaseUnitTest: Starting error validation...
+≡ƒôè Current error count: 1, warnings: 0
+≡ƒÄ» Critical errors found: 0
+Γ£à No critical errors detected
+  Γ£ÿ  6 [chromium] ΓÇ║ tests\baseunit-simple-test.spec.ts:20:3 ΓÇ║ BaseUnitTest Simple Test ΓÇ║ test with intentional error should be caught (953ms)
+≡ƒöä IMPORT: About to import BaseUnitTest...
+Γ£à IMPORT: BaseUnitTest imported successfully
+≡ƒöä DESCRIBE: Inside test.describe...
+≡ƒº¬ TEST: Starting test...
+≡ƒöä TEST: About to create BaseUnitTest instance...
+Γ£à TEST: BaseUnitTest instance created
+≡ƒöä TEST: About to call setupStandardBeforeEach...
+22:11:44.027 BUT:18 Setup start
+≡ƒôè 22:11:44.027 BUT:23 Error arrays reset
+Γ£à 22:11:44.027 BUT:27 wb-event-log ready
+22:11:44.027 BUT:30 Console monitor setup
+22:11:44.027 BUT:65 Network monitor setup
+Γ£à 22:11:44.027 BUT:65 Setup complete
+Γ£à TEST: setupStandardBeforeEach completed
+Γ£à TEST: Test completed successfully
+  Γ£ô  7 [chromium] ΓÇ║ tests\debug-baseunit-import.spec.ts:10:3 ΓÇ║ Debug BaseUnitTest Import ΓÇ║ test BaseUnitTest instantiation (2.6s)
+Starting simple test...
+Page loaded
+Test completed successfully
+  Γ£ô  8 [chromium] ΓÇ║ tests\debug-hang-test.spec.ts:4:3 ΓÇ║ Debug Hang Test ΓÇ║ simple test without BaseUnitTest (442ms)
+≡ƒöä BEFOREEACH: Starting beforeEach...
+Γ£à BEFOREEACH: Navigation complete
+≡ƒº¬ TEST: Starting test execution...
+≡ƒîì TEST: Page URL: about:blank
+≡ƒôä TEST: Page title: 
+Γ£à TEST: Test completed successfully
+  Γ£ô  9 [chromium] ΓÇ║ tests\debug-maximum-logging.spec.ts:10:3 ΓÇ║ Debug Hang Investigation ΓÇ║ debug test with maximum logging (241ms)
+  Γ£ÿ  10 [chromium] ΓÇ║ tests\integrated.spec.ts:18:3 ΓÇ║ Integrated Website Builder Tests ΓÇ║ Theme and color changes should persist after page reload (2.0m)
+  Γ£ÿ  11 [chromium] ΓÇ║ tests\integrated.spec.ts:56:3 ΓÇ║ Integrated Website Builder Tests ΓÇ║ All controls should update their visual state correctly (2.0m)
+  -  12 [chromium] ΓÇ║ tests\integrated.spec.ts:114:3 ΓÇ║ Integrated Website Builder Tests ΓÇ║ Color controls should update website theme colors
+  Γ£ÿ  13 [chromium] ΓÇ║ tests\integration\npm-commands-test.spec.ts:7:3 ΓÇ║ NPM Commands Test Suite ΓÇ║ should run all npm commands test script successfully (16ms)
+  Γ£ÿ  14 [chromium] ΓÇ║ tests\integration\npm-commands-test.spec.ts:58:3 ΓÇ║ NPM Commands Test Suite ΓÇ║ should verify claude.md files were updated (1.0s)
+Γä╣∩╕Å No favicon link found in HTML - skipping favicon tests
+Γä╣∩╕Å No apple-touch-icon link found in HTML - skipping icon tests
+  Γ£ô  15 [chromium] ΓÇ║ tests\media\image-loading.spec.ts:7:3 ΓÇ║ Image Loading Tests ΓÇ║ zia.png favicon should load correctly (5.3s)
+Γä╣∩╕Å No zia.png image requests were made - this is expected if no zia.png images are in the HTML
+  Γ£ô  16 [chromium] ΓÇ║ tests\media\image-loading.spec.ts:39:3 ΓÇ║ Image Loading Tests ΓÇ║ zia.png image requests should not return 404 (798ms)
+  Γ£ô  17 [chromium] ΓÇ║ tests\media\image-loading.spec.ts:79:3 ΓÇ║ Image Loading Tests ΓÇ║ no ziasymbol.svg requests should be made (900ms)
+  Γ£ÿ  18 [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:21:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Main insert media button should not exist in control panel (10.9s)
+  Γ£ÿ  19 [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:29:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Only contextual insert media buttons should appear in edit mode (12.8s)
+  Γ£ÿ  20 [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:52:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Contextual buttons work correctly for media insertion (12.4s)
+  Γ£ÿ  21 [chromium] ΓÇ║ tests\real-controls.spec.ts:18:3 ΓÇ║ Website Builder Controls Tests ΓÇ║ Edit Mode Toggle should work correctly (18.1s)
+  Γ£ÿ  22 [chromium] ΓÇ║ tests\real-controls.spec.ts:41:3 ΓÇ║ Website Builder Controls Tests ΓÇ║ Layout selector changes layout correctly (17.3s)
+[31mTesting stopped early after 10 maximum allowed failures.[39m
+
+
+  1) [chromium] ΓÇ║ tests\baseunit-simple-test.spec.ts:20:3 ΓÇ║ BaseUnitTest Simple Test ΓÇ║ test with intentional error should be caught 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+
+    Expected substring: [32m"Critical errors detected"[39m
+    Received string:    [31m"[2mexpect([22m[31mreceived[39m[31m[2m).[22mtoBe[2m([22m[32mexpected[39m[31m[2m) // Object.is equality[22m┬╖[39m
+    [31mExpected: [32mtrue[39m[31m[39m
+    [31mReceived: [31mfalse[39m[31m"[39m
+
+      28 |     } catch (error: any) {
+      29 |       // Should catch the error
+    > 30 |       expect(error.message).toContain('Critical errors detected');
+         |                             ^
+      31 |       console.log('Γ£à BaseUnitTest correctly caught the error');
+      32 |     }
+      33 |   });
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\baseunit-simple-test.spec.ts:30:29
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\baseunit-simple-test-BaseU-89180-onal-error-should-be-caught-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+  2) [chromium] ΓÇ║ tests\integrated.spec.ts:18:3 ΓÇ║ Integrated Website Builder Tests ΓÇ║ Theme and color changes should persist after page reload 
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: locator.selectOption: Test timeout of 120000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('select').nth(1)[22m
+
+
+      19 |     // Get the theme selector and change to a specific theme (second select from page snapshots)
+      20 |     const themeSelect = page.locator('select').nth(1);
+    > 21 |     await themeSelect.selectOption('ocean');
+         |                       ^
+      22 |     await page.waitForTimeout(WAIT_TIMEOUT);
+      23 |
+      24 |     // Change the hue using the hue slider (from page snapshots, sliders are input[type="range"])
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\integrated.spec.ts:21:23
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\integrated-Integrated-Webs-b93e3-d-persist-after-page-reload-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\integrated-Integrated-Webs-b93e3-d-persist-after-page-reload-chromium\error-context.md
+
+  3) [chromium] ΓÇ║ tests\integrated.spec.ts:56:3 ΓÇ║ Integrated Website Builder Tests ΓÇ║ All controls should update their visual state correctly 
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 120000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('button:has-text("Edit Mode")')[22m
+
+
+      57 |     // Turn on edit mode
+      58 |     const editToggle = page.locator('button:has-text("Edit Mode")');
+    > 59 |     await editToggle.click();
+         |                      ^
+      60 |     await page.waitForTimeout(WAIT_TIMEOUT);
+      61 |
+      62 |     // Verify edit mode is on
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\integrated.spec.ts:59:22
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\integrated-Integrated-Webs-e1185-heir-visual-state-correctly-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\integrated-Integrated-Webs-e1185-heir-visual-state-correctly-chromium\error-context.md
+
+  4) [chromium] ΓÇ║ tests\integration\npm-commands-test.spec.ts:7:3 ΓÇ║ NPM Commands Test Suite ΓÇ║ should run all npm commands test script successfully 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+       9 |
+      10 |     // Ensure the script exists
+    > 11 |     expect(fs.existsSync(scriptPath)).toBe(true);
+         |                                       ^
+      12 |
+      13 |     try {
+      14 |       // Run the PowerShell script
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\integration\npm-commands-test.spec.ts:11:39
+
+  5) [chromium] ΓÇ║ tests\integration\npm-commands-test.spec.ts:58:3 ΓÇ║ NPM Commands Test Suite ΓÇ║ should verify claude.md files were updated 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m0[39m
+    Received:   [31m0[39m
+
+      77 |
+      78 |     const claudeMdFiles = findClaudeMdFiles(process.cwd());
+    > 79 |     expect(claudeMdFiles.length).toBeGreaterThan(0);
+         |                                  ^
+      80 |
+      81 |     // Check that each claude.md contains current status
+      82 |     for (const file of claudeMdFiles) {
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\integration\npm-commands-test.spec.ts:79:34
+
+  6) [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:21:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Main insert media button should not exist in control panel 
+
+    TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('control-panel') to be visible[22m
+
+
+      13 |
+      14 |     // Wait for the control panel content to load
+    > 15 |     await page.waitForSelector('control-panel', { state: 'visible', timeout: 10000 });
+         |                ^
+      16 |
+      17 |     // Give time for the control panel content to be injected
+      18 |     await page.waitForTimeout(2000);
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\media\insert-media-button-removal.spec.ts:15:16
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\media-insert-media-button--be8eb--not-exist-in-control-panel-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\media-insert-media-button--be8eb--not-exist-in-control-panel-chromium\error-context.md
+
+  7) [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:29:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Only contextual insert media buttons should appear in edit mode 
+
+    TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('control-panel') to be visible[22m
+
+
+      13 |
+      14 |     // Wait for the control panel content to load
+    > 15 |     await page.waitForSelector('control-panel', { state: 'visible', timeout: 10000 });
+         |                ^
+      16 |
+      17 |     // Give time for the control panel content to be injected
+      18 |     await page.waitForTimeout(2000);
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\media\insert-media-button-removal.spec.ts:15:16
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\media-insert-media-button--46ba9--should-appear-in-edit-mode-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\media-insert-media-button--46ba9--should-appear-in-edit-mode-chromium\error-context.md
+
+  8) [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:52:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Contextual buttons work correctly for media insertion 
+
+    TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('control-panel') to be visible[22m
+
+
+      13 |
+      14 |     // Wait for the control panel content to load
+    > 15 |     await page.waitForSelector('control-panel', { state: 'visible', timeout: 10000 });
+         |                ^
+      16 |
+      17 |     // Give time for the control panel content to be injected
+      18 |     await page.waitForTimeout(2000);
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\media\insert-media-button-removal.spec.ts:15:16
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\media-insert-media-button--5e507-rrectly-for-media-insertion-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\media-insert-media-button--5e507-rrectly-for-media-insertion-chromium\error-context.md
+
+  9) [chromium] ΓÇ║ tests\real-controls.spec.ts:18:3 ΓÇ║ Website Builder Controls Tests ΓÇ║ Edit Mode Toggle should work correctly 
+
+    Error: [31mTimed out 15000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m()[22m
+
+    Locator: locator('button:has-text("Edit Mode")')
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 15000ms[22m
+    [2m  - waiting for locator('button:has-text("Edit Mode")')[22m
+
+
+      19 |     // Get the edit mode toggle using correct selector from page snapshots
+      20 |     const editToggle = page.locator('button:has-text("Edit Mode")');
+    > 21 |     await expect(editToggle).toBeVisible();
+         |                              ^
+      22 |     await expect(editToggle).toBeEnabled();
+      23 |
+      24 |     // Test that button is clickable (functionality may vary)
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\real-controls.spec.ts:21:30
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\real-controls-Website-Buil-5c112-oggle-should-work-correctly-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\real-controls-Website-Buil-5c112-oggle-should-work-correctly-chromium\error-context.md
+
+  10) [chromium] ΓÇ║ tests\real-controls.spec.ts:41:3 ΓÇ║ Website Builder Controls Tests ΓÇ║ Layout selector changes layout correctly 
+
+    Error: [31mTimed out 15000ms waiting for [39m[2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m()[22m
+
+    Locator: locator('select').first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 15000ms[22m
+    [2m  - waiting for locator('select').first()[22m
+
+
+      42 |     // Get the layout selector (first select element from page snapshots)
+      43 |     const layoutSelect = page.locator('select').first();
+    > 44 |     await expect(layoutSelect).toBeVisible();
+         |                                ^
+      45 |     await expect(layoutSelect).toBeEnabled();
+      46 |
+      47 |     // Test that we can select different layout options
+        at C:\Users\jwpmi\Downloads\AI\wb\tests\real-controls.spec.ts:44:32
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\real-controls-Website-Buil-61785-or-changes-layout-correctly-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\real-controls-Website-Buil-61785-or-changes-layout-correctly-chromium\error-context.md
+
+  10 failed
+    [chromium] ΓÇ║ tests\baseunit-simple-test.spec.ts:20:3 ΓÇ║ BaseUnitTest Simple Test ΓÇ║ test with intentional error should be caught 
+    [chromium] ΓÇ║ tests\integrated.spec.ts:18:3 ΓÇ║ Integrated Website Builder Tests ΓÇ║ Theme and color changes should persist after page reload 
+    [chromium] ΓÇ║ tests\integrated.spec.ts:56:3 ΓÇ║ Integrated Website Builder Tests ΓÇ║ All controls should update their visual state correctly 
+    [chromium] ΓÇ║ tests\integration\npm-commands-test.spec.ts:7:3 ΓÇ║ NPM Commands Test Suite ΓÇ║ should run all npm commands test script successfully 
+    [chromium] ΓÇ║ tests\integration\npm-commands-test.spec.ts:58:3 ΓÇ║ NPM Commands Test Suite ΓÇ║ should verify claude.md files were updated 
+    [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:21:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Main insert media button should not exist in control panel 
+    [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:29:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Only contextual insert media buttons should appear in edit mode 
+    [chromium] ΓÇ║ tests\media\insert-media-button-removal.spec.ts:52:3 ΓÇ║ Insert Media Button Removal Tests ΓÇ║ Contextual buttons work correctly for media insertion 
+    [chromium] ΓÇ║ tests\real-controls.spec.ts:18:3 ΓÇ║ Website Builder Controls Tests ΓÇ║ Edit Mode Toggle should work correctly 
+    [chromium] ΓÇ║ tests\real-controls.spec.ts:41:3 ΓÇ║ Website Builder Controls Tests ΓÇ║ Layout selector changes layout correctly 
+  1 skipped
+  262 did not run
+  11 passed (6.2m)
+  1 error was not a part of any test, see above for details
+
+[36m  Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.[39m

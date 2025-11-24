@@ -1,0 +1,17 @@
+{
+  "name": "wb-component-navigator-client",
+  "version": "0.1.0",
+  "description": "VS Code client for WB Component Navigator",
+  "main": "./out/extension.js",
+  "scripts": {
+    "compile": "tsc -p ./"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.0.0"
+  }
+}

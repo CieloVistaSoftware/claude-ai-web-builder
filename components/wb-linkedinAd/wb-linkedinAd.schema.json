@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "wb-linkedinAd",
+  "description": "Schema for wb-linkedinAd component properties.",
+  "type": "object",
+  "properties": {
+    "ad-id": { "type": "string", "description": "Unique identifier for the ad." },
+    "company": { "type": "string", "description": "Name of the company." },
+    "headline": { "type": "string", "description": "Ad headline text." },
+    "cta": { "type": "string", "description": "Call-to-action button text." },
+    "dark": { "type": "boolean", "description": "Enables dark mode styling." }
+  },
+  "required": ["headline", "cta"]
+}

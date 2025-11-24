@@ -96,6 +96,7 @@ if (window.WBEventLog) {
     class WBInput extends HTMLElement {
         constructor() {
             super();
+        this.attachShadow({ mode: 'open' });
             
             // Component state
             this.config = fallbackConfig;

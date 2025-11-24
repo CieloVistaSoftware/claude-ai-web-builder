@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Logger - Quick Log</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .quick-log-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .form-group label .optional {
+      color: #999;
+      font-weight: 400;
+      font-size: 0.85rem;
+    }
+
+    .form-group textarea,
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+      resize: vertical;
+    }
+
+    .form-group textarea:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+    }
+
+    .form-group input {
+      min-height: 42px;
+    }
+
+    .form-group small {
+      display: block;
+      margin-top: 0.25rem;
+      color: #666;
+      font-size: 0.8rem;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.875rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #e0e0e0;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .alert-success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+
+    .alert-info {
+      background: #d1ecf1;
+      border: 1px solid #bee5eb;
+      color: #0c5460;
+    }
+
+    .toggle-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: #667eea;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .toggle-btn:hover {
+      color: #764ba2;
+    }
+
+    .optional-fields {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .optional-fields.show {
+      display: block;
+    }
+
+    .preview-section {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .preview-section.show {
+      display: block;
+    }
+
+    .preview-section h3 {
+      margin-bottom: 0.75rem;
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .preview-section pre {
+      background: white;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      border: 1px solid #e0e0e0;
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 0.8rem;
+      color: #999;
+      margin-top: 0.25rem;
+    }
+
+    .status-bar {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .status-bar.ready {
+      background: #d4edda;
+      color: #155724;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🤖 Claude Quick Logger</h1>
+      <p>Fast issue logging - just describe what happened</p>
+    </div>
+
+    <div class="content">
+      <div id="alert-container"></div>
+
+      <div id="status-bar" class="status-bar">
+        ⚠️ No backend active - logs will be saved to localStorage
+      </div>
+
+      <form id="quick-log-form">
+        <div class="quick-log-section">
+          <div class="form-group">
+            <label for="description">
+              What happened? *
+            </label>
+            <textarea 
+              id="description" 
+              name="description" 
+              required 
+              placeholder="Describe the issue, bug, or note..."
+              maxlength="2000"
+            ></textarea>
+            <div class="char-count">
+              <span id="char-count">0</span> / 2000
+            </div>
+          </div>
+
+          <button type="button" class="toggle-btn" id="toggle-optional">
+            + Add Expected/Actual (Optional)
+          </button>
+
+          <div class="optional-fields" id="optional-fields">
+            <div class="form-group">
+              <label for="expected">
+                Expected Behavior <span class="optional">(optional)</span>
+              </label>
+              <input 
+                type="text" 
+                id="expected" 
+                name="expected" 
+                placeholder="What should have happened?"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="actual">
+                Actual Behavior <span class="optional">(optional)</span>
+              </label>
+              <input 
+                type="text" 
+                id="actual" 
+                name="actual" 
+                placeholder="What actually happened?"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="file-path">
+                File Path <span class="optional">(optional)</span>
+              </label>
+              <input 
+                type="text" 
+                id="file-path" 
+                name="filePath" 
+                placeholder="e.g., src/components/MyComponent.ts"
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" id="preview-btn">
+            👁️ Preview
+          </button>
+          <button type="submit" class="btn btn-primary" id="log-btn">
+            💾 Log Issue
+          </button>
+        </div>
+      </form>
+
+      <div class="preview-section" id="preview-section">
+        <h3>Markdown Preview:</h3>
+        <pre id="preview-content"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const config = {
+      backendUrl: 'http://localhost:3000/api/log', // Change this to your backend URL
+      useBackend: false // Set to true when backend is active
+    };
+
+    // UI Elements
+    const form = document.getElementById('quick-log-form');
+    const descriptionField = document.getElementById('description');
+    const charCount = document.getElementById('char-count');
+    const toggleOptionalBtn = document.getElementById('toggle-optional');
+    const optionalFields = document.getElementById('optional-fields');
+    const previewBtn = document.getElementById('preview-btn');
+    const previewSection = document.getElementById('preview-section');
+    const previewContent = document.getElementById('preview-content');
+    const alertContainer = document.getElementById('alert-container');
+    const statusBar = document.getElementById('status-bar');
+
+    // Check backend status on load
+    checkBackendStatus();
+
+    // Character counter
+    descriptionField.addEventListener('input', () => {
+      charCount.textContent = descriptionField.value.length;
+    });
+
+    // Toggle optional fields
+    toggleOptionalBtn.addEventListener('click', () => {
+      const isShowing = optionalFields.classList.toggle('show');
+      toggleOptionalBtn.textContent = isShowing 
+        ? '- Hide Optional Fields' 
+        : '+ Add Expected/Actual (Optional)';
+    });
+
+    // Preview functionality
+    previewBtn.addEventListener('click', () => {
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const markdown = generateMarkdown();
+      previewContent.textContent = markdown;
+      previewSection.classList.add('show');
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(form);
+      const logData = {
+        description: formData.get('description'),
+        expected: formData.get('expected') || null,
+        actual: formData.get('actual') || null,
+        filePath: formData.get('filePath') || null,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        if (config.useBackend) {
+          await saveToBackend(logData);
+        } else {
+          saveToLocalStorage(logData);
+        }
+
+        showAlert('success', '✅ Issue logged successfully!');
+        form.reset();
+        charCount.textContent = '0';
+        optionalFields.classList.remove('show');
+        toggleOptionalBtn.textContent = '+ Add Expected/Actual (Optional)';
+        previewSection.classList.remove('show');
+      } catch (error) {
+        showAlert('error', `❌ Error: ${error.message}`);
+      }
+    });
+
+    // Generate markdown
+    function generateMarkdown() {
+      const formData = new FormData(form);
+      const date = new Date().toLocaleString();
+      
+      let markdown = `## 📝 ${date}\n\n`;
+      markdown += `### Description\n\n${formData.get('description')}\n\n`;
+
+      if (formData.get('expected')) {
+        markdown += `**Expected:** ${formData.get('expected')}  \n`;
+      }
+
+      if (formData.get('actual')) {
+        markdown += `**Actual:** ${formData.get('actual')}  \n`;
+      }
+
+      if (formData.get('filePath')) {
+        markdown += `**File:** \`${formData.get('filePath')}\`  \n`;
+      }
+
+      markdown += `\n---\n\n`;
+
+      return markdown;
+    }
+
+    // Save to backend
+    async function saveToBackend(logData) {
+      const response = await fetch(config.backendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(logData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Backend error: ${response.statusText}`);
+      }
+
+      return await response.json();
+    }
+
+    // Save to localStorage
+    function saveToLocalStorage(logData) {
+      const logs = JSON.parse(localStorage.getItem('claude-logs') || '[]');
+      logs.unshift(logData);
+      localStorage.setItem('claude-logs', JSON.stringify(logs));
+      
+      // Also save as markdown
+      const markdown = generateMarkdown();
+      const allMarkdown = localStorage.getItem('claude-logs-markdown') || '# Claude Issues Log\n\n';
+      localStorage.setItem('claude-logs-markdown', allMarkdown + markdown);
+    }
+
+    // Check backend status
+    async function checkBackendStatus() {
+      if (!config.useBackend) {
+        statusBar.className = 'status-bar';
+        statusBar.innerHTML = '⚠️ No backend active - logs saved to localStorage. <button onclick="showBackendInstructions()" style="background:none;border:none;color:#667eea;cursor:pointer;text-decoration:underline;padding:0;margin-left:0.5rem;">Setup Backend</button>';
+        return;
+      }
+
+      try {
+        const response = await fetch(config.backendUrl.replace('/log', '/health'), {
+          method: 'GET'
+        });
+
+        if (response.ok) {
+          statusBar.className = 'status-bar ready';
+          statusBar.textContent = '✅ Backend connected - logs will save to claude.md';
+        } else {
+          throw new Error('Backend not responding');
+        }
+      } catch (error) {
+        statusBar.className = 'status-bar';
+        statusBar.textContent = '⚠️ Backend offline - logs saved to localStorage';
+        config.useBackend = false;
+      }
+    }
+
+    // Show alert
+    function showAlert(type, message) {
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type} show`;
+      alert.textContent = message;
+      
+      alertContainer.innerHTML = '';
+      alertContainer.appendChild(alert);
+      
+      setTimeout(() => {
+        alert.classList.remove('show');
+        setTimeout(() => alert.remove(), 300);
+      }, 4000);
+    }
+
+    // Show backend instructions
+    window.showBackendInstructions = function() {
+      showAlert('info', 'See console for backend setup instructions');
+      console.log(`
+📚 BACKEND SETUP INSTRUCTIONS
+
+Option 1: No Backend (Current)
+- Issues are saved to browser localStorage
+- Access saved logs in browser DevTools > Application > Local Storage
+- Markdown is available in localStorage under 'claude-logs-markdown'
+
+Option 2: Simple Node.js Backend
+Run these commands:
+
+1. npm install express cors fs
+
+2. Create server.js:
+
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs').promises;
+const path = require('path');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.post('/api/log', async (req, res) => {
+  try {
+    const { description, expected, actual, filePath, timestamp } = req.body;
+    
+    let markdown = \`## 📝 \${new Date(timestamp).toLocaleString()}\\n\\n\`;
+    markdown += \`### Description\\n\\n\${description}\\n\\n\`;
+    if (expected) markdown += \`**Expected:** \${expected}  \\n\`;
+    if (actual) markdown += \`**Actual:** \${actual}  \\n\`;
+    if (filePath) markdown += \`**File:** \\\`\${filePath}\\\`  \\n\`;
+    markdown += \`\\n---\\n\\n\`;
+
+    const claudeFile = path.join(process.cwd(), 'claude.md');
+    await fs.appendFile(claudeFile, markdown);
+    
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+
+app.listen(3000, () => console.log('Backend running on port 3000'));
+
+3. node server.js
+
+4. Set config.useBackend = true in the HTML file
+      `);
+    }
+  </script>
+</body>
+</html>

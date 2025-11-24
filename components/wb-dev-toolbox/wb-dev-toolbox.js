@@ -67,6 +67,7 @@ class WBDevToolbox extends WBBaseComponent {
     this.logDiv = this.shadowRoot.getElementById('log');
   }
   connectedCallback() {
+    super.connectedCallback(); // Inherit dark mode and other base functionality
     // Listen for error events reactively
     window.addEventListener('error', this._onError, true);
     window.addEventListener('unhandledrejection', this._onRejection, true);

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Run PowerShell Scripts</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #181a20; color: #eee; padding: 2rem; }
+    h1 { color: #7dd3fc; }
+    ul { list-style: none; padding: 0; }
+    li { margin-bottom: 1rem; }
+    button {
+      background: #334155;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button.running {
+      background: #22c55e;
+      color: #181a20;
+    }
+    button.done {
+      background: #2563eb;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="scriptNameDisplay" style="position:absolute;top:18px;left:24px;font-size:1.2em;font-weight:bold;color:#38bdf8;z-index:10;"></div>
+  <h1>Run PowerShell & Node.js Scripts</h1>
+  <div style="margin-bottom:1.5rem;background:#334155;padding:1rem;border-radius:8px;color:#fff;">
+    <strong>What do these scripts do?</strong><br>
+    These scripts automate various tasks in your project, such as running tests, saving output, and managing build or diagnostic operations.<br>
+    <br>
+    <strong>Do you want to continue?</strong><br>
+    Click a button below to run a script and see its output. Make sure you understand what each script does before proceeding.
+  </div>
+  <div id="serverDownInstruction" style="display:none;margin-top:2rem;background:#ef4444;color:#fff;padding:1.2rem 2rem 1.2rem 2rem;border-radius:10px;text-align:center;font-size:1.15em;font-weight:bold;">
+    Please start the script server before using this page:<br>
+    <span style="color:#fff;background:#222;padding:0.2em 0.7em;border-radius:6px;margin:0 0.5em;">node scripts/run-script-server.cjs</span>
+  </div>
+  <div id="serverDownMsg" style="display:none;margin-top:1rem;background:#1e293b;color:#fff;padding:2rem;border-radius:10px;text-align:center;position:relative;">
+    <span id="serverStatusDot" style="position:absolute;top:18px;left:18px;width:16px;height:16px;border-radius:50%;background:#aaa;box-shadow:0 0 4px #000;display:inline-block;border:2px solid #222;"></span>
+    <h2 style="color:#ef4444;">Server Not Running</h2>
+    <p>To use this page, start the script server in your project root:</p>
+    <div style="margin:1rem 0;">
+      <pre id="nodeCmdText" style="display:inline-block;background:#222;color:#7dd3fc;padding:1rem;border-radius:8px;margin:0;">node scripts/run-script-server.cjs</pre>
+      <button id="copyNodeCmdBtn" style="margin-left:1em;padding:0.5em 1.2em;background:#334155;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:1em;">Copy Command</button>
+    </div>
+    <p>Then reload this page or open <a href="http://localhost:3030/scripts/runscripts.html" style="color:#38bdf8;text-decoration:underline;">http://localhost:3030/scripts/runscripts.html</a> in your browser.</p>
+      <script>
+        // Copy node command to clipboard
+        document.addEventListener('DOMContentLoaded', function() {
+          var btn = document.getElementById('copyNodeCmdBtn');
+          if (btn) {
+            btn.onclick = function() {
+              var cmd = document.getElementById('nodeCmdText').textContent;
+              if (navigator.clipboard) {
+                navigator.clipboard.writeText(cmd);
+                btn.textContent = 'Copied!';
+                setTimeout(function() { btn.textContent = 'Copy Command'; }, 1500);
+              } else {
+                // fallback for older browsers
+                var textarea = document.createElement('textarea');
+                textarea.value = cmd;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                btn.textContent = 'Copied!';
+                setTimeout(function() { btn.textContent = 'Copy Command'; }, 1500);
+              }
+            };
+          }
+        });
+      </script>
+    <div id="mdSaveTestOutput" style="text-align:left;max-width:600px;margin:2rem auto 0 auto;background:#222;padding:1.5rem;border-radius:10px;display:none;">
+      <h3 style="color:#7dd3fc;">save-test-output.ps1 Documentation</h3>
+      <div style="white-space:pre-wrap;font-family:inherit;color:#fff;">
+        <strong>Purpose:</strong><br>
+        Runs <code>npm test</code>, saves all output to <code>test-output.txt</code>, and displays it in the console.<br><br>
+        <strong>Usage:</strong><br>
+        <code>pwsh ./save-test-output.ps1</code><br><br>
+        <strong>Output:</strong><br>
+        <ul style="margin:0 0 0 1.5em;padding:0;list-style:disc;color:#7dd3fc;"><li>test-output.txt (contains all test output)</li></ul><br>
+        <strong>Notes:</strong><br>
+        Useful for capturing test results for later review or sharing.
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:2rem;align-items:flex-start;">
+    <div style="flex:1;min-width:260px;">
+      <ul id="scriptList"></ul>
+      <pre id="output" style="background:#222;color:#7dd3fc;padding:1rem;border-radius:8px;max-height:400px;overflow:auto;"></pre>
+    </div>
+    <div id="docPanel" style="flex:1;max-width:420px;min-width:220px;max-height:420px;overflow:auto;background:#222;padding:1.5rem;border-radius:10px;box-shadow:0 2px 8px #0003;">
+      <div style="display:flex;justify-content:flex-end;gap:0.5em;margin-bottom:1.5em;position:relative;">
+        <button id="runSelectedBtn" style="padding:0.7em 2em;background:#22c55e;color:#181a20;border:none;border-radius:6px;cursor:pointer;font-size:1.1em;">Run</button>
+        <button id="stopSelectedBtn" style="padding:0.7em 2em;background:#ef4444;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:1.1em;display:inline;">Stop</button>
+        <div id="run-timer" style="position:absolute;left:0;bottom:-2em;width:100%;text-align:left;color:#facc15;font-weight:bold;font-size:1.05em;"></div>
+      </div>
+      <h3 id="docTitle" style="color:#7dd3fc;clear:both;"></h3>
+      <div id="docContent" style="white-space:pre-wrap;font-family:inherit;color:#fff;"></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+  <script>
+    // Server status check
+    async function checkServerStatus() {
+      const dot = document.getElementById('serverStatusDot');
+      const serverDownMsg = document.getElementById('serverDownMsg');
+      const scriptList = document.getElementById('scriptList');
+      const output = document.getElementById('output');
+      try {
+        const res = await fetch('/runscripts.html', { method: 'HEAD', cache: 'no-store' });
+        const mdSaveTestOutput = document.getElementById('mdSaveTestOutput');
+        const mdSaveTestOutputSide = document.getElementById('mdSaveTestOutputSide');
+        if (res.ok) {
+          dot.style.background = '#22c55e'; // green
+          dot.title = 'Server is running';
+          document.getElementById('serverDownInstruction').style.display = 'none';
+          serverDownMsg.style.display = 'none';
+          scriptList.style.display = '';
+          output.style.display = '';
+          if (mdSaveTestOutput) mdSaveTestOutput.style.display = 'none';
+          if (mdSaveTestOutputSide) mdSaveTestOutputSide.style.display = '';
+        } else {
+          dot.style.background = '#ef4444'; // red
+          dot.title = 'Server not responding';
+          document.getElementById('serverDownInstruction').style.display = '';
+          serverDownMsg.style.display = '';
+          scriptList.style.display = 'none';
+          output.style.display = 'none';
+          if (mdSaveTestOutput) mdSaveTestOutput.style.display = '';
+          if (mdSaveTestOutputSide) mdSaveTestOutputSide.style.display = 'none';
+        }
+      } catch {
+        dot.style.background = '#ef4444'; // red
+        dot.title = 'Server not running';
+        document.getElementById('serverDownInstruction').style.display = '';
+        serverDownMsg.style.display = '';
+        scriptList.style.display = 'none';
+        output.style.display = 'none';
+        const mdSaveTestOutput = document.getElementById('mdSaveTestOutput');
+        const mdSaveTestOutputSide = document.getElementById('mdSaveTestOutputSide');
+        if (mdSaveTestOutput) mdSaveTestOutput.style.display = '';
+        if (mdSaveTestOutputSide) mdSaveTestOutputSide.style.display = 'none';
+      }
+    }
+    checkServerStatus();
+    setInterval(checkServerStatus, 5000);
+    // List of scripts in the folder
+
+      // List of available scripts (add more as needed)
+      const scripts = [
+        { name: "save-test-output.ps1", doc: "Runs npm test and saves output to test-output.txt." },
+        { name: "save-full-test-output.ps1", doc: "Runs all tests and saves full output." },
+        { name: "run-tests-diagnostic.ps1", doc: "Runs diagnostic tests." },
+        { name: "test-npm-commands.ps1", doc: "Tests npm commands." },
+        { name: "test-and-save.ps1", doc: "Runs tests and saves results." },
+        { name: "run-and-save.ps1", doc: "Runs and saves output." },
+        { name: "fix-tests.ps1", doc: "Attempts to fix failed tests automatically." },
+        { name: "fix-all-html-paths.ps1", doc: "Fixes all HTML paths in project." },
+        { name: "run-script-server.test.js", doc: "Node.js test for script server." },
+        { name: "run-script-server.spec.js", doc: "Node.js spec for script server." }
+      ];
+      let currentScriptProcess = null;
+      let abortController = null;
+      // ...existing code...
+      const runBtn = document.getElementById('runSelectedBtn');
+      const stopBtn = document.getElementById('stopSelectedBtn');
+      runBtn.style.display = 'inline';
+      stopBtn.style.display = 'inline';
+      runBtn.disabled = false;
+      stopBtn.disabled = true;
+
+      // Removed duplicate/conflicting runBtn.addEventListener('click', ...) handler. Only runSelectedBtn.onclick is used.
+    stopBtn.addEventListener('click', function() {
+      if (abortController) {
+        abortController.abort();
+      }
+      stopBtn.disabled = true;
+      runBtn.disabled = false;
+    });
+    // ...existing code...
+
+    // Add utils/kill-port.js to the scripts array
+    scripts.push({
+      name: "utils/kill-port.js",
+      doc: "<strong>Purpose:</strong><br>Kills a process on a given port.<br><br><strong>Usage:</strong><br><code>node utils/kill-port.js &lt;port&gt;</code><br><br><strong>Notes:</strong><br>Use to free up a port in use."
+    });
+
+    let selectedScript = null;
+    const scriptList = document.getElementById('scriptList');
+    const output = document.getElementById('output');
+    const docPanel = document.getElementById('docPanel');
+    const docTitle = document.getElementById('docTitle');
+    const docContent = document.getElementById('docContent');
+    const runSelectedBtn = document.getElementById('runSelectedBtn');
+
+    function updateScriptNameDisplay(name) {
+      const el = document.getElementById('scriptNameDisplay');
+      el.textContent = name ? `Script: ${name}` : '';
+    }
+    async function showDocForScript(scriptObj) {
+      selectedScript = scriptObj;
+      // Save selection to localStorage
+      try { localStorage.setItem('runscripts.selected', scriptObj.name); } catch {}
+      docTitle.textContent = scriptObj.name + ' Documentation';
+      output.textContent = '';
+      updateScriptNameDisplay(scriptObj.name);
+      // Restore last output if available
+      try {
+        const lastState = JSON.parse(localStorage.getItem('runscripts.lastState') || '{}');
+        if (lastState && lastState.name === scriptObj.name && lastState.output) {
+          output.innerHTML = lastState.output;
+        }
+      } catch {}
+      const mdPath = scriptObj.name.replace(/\.(ps1|js)$/i, '.md');
+      docContent.innerHTML = `<pre style='color:#7dd3fc;'>[Loading documentation: ${mdPath}]</pre>`;
+      try {
+        const res = await fetch(mdPath);
+        if (res.ok) {
+          const md = await res.text();
+          if (window.marked) {
+            docContent.innerHTML = marked.parse(md);
+          } else {
+            docContent.innerHTML = `<pre style='white-space:pre-wrap;font-family:inherit;color:#fff;background:none;border:none;'>${md.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`;
+          }
+        } else {
+          docContent.innerHTML = `<pre style='white-space:pre-wrap;font-family:inherit;color:#fff;background:none;border:none;'>No documentation found for this script.\n[HTTP ${res.status} ${res.statusText}]</pre>`;
+        }
+      } catch (e) {
+        docContent.innerHTML = `<pre style='white-space:pre-wrap;font-family:inherit;color:#fff;background:none;border:none;'>No documentation found for this script.\n[Error: ${e}]</pre>`;
+      }
+    }
+
+    let initialSelected = null;
+    try { initialSelected = localStorage.getItem('runscripts.selected'); } catch {}
+    scripts.forEach((scriptObj, idx) => {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.textContent = scriptObj.name;
+      btn.onclick = function() {
+        // Deselect all
+        Array.from(scriptList.querySelectorAll('button')).forEach(b => b.classList.remove('running'));
+        btn.classList.add('running');
+        showDocForScript(scriptObj);
+      };
+      li.appendChild(btn);
+      scriptList.appendChild(li);
+      // Restore selection from localStorage or default to first
+      if ((initialSelected && scriptObj.name === initialSelected) || (!initialSelected && idx === 0)) {
+        btn.classList.add('running');
+        showDocForScript(scriptObj);
+        updateScriptNameDisplay(scriptObj.name);
+      }
+    });
+
+    // Add run state indicator
+    let runStateIndicator = document.createElement('div');
+    runStateIndicator.id = 'run-state-indicator';
+    runStateIndicator.style = 'margin:0.5em 0;color:#facc15;font-weight:bold;';
+    runSelectedBtn.parentNode.insertBefore(runStateIndicator, runSelectedBtn.nextSibling);
+
+    function updateRunStateIndicator(state, timestamp) {
+      if (state === 'running') {
+        runStateIndicator.textContent = `Running ${selectedScript ? selectedScript.name : ''}...`;
+      } else if (state === 'done') {
+        runStateIndicator.textContent = `Last run: ${selectedScript ? selectedScript.name : ''} at ${timestamp}`;
+      } else {
+        runStateIndicator.textContent = 'No previous run.';
+      }
+    }
+
+    runSelectedBtn.onclick = async function() {
+      if (!selectedScript || runSelectedBtn.disabled) return;
+      runSelectedBtn.disabled = true;
+      let start = Date.now();
+      let timerInterval = null;
+      const runTimer = document.getElementById('run-timer');
+      runTimer.textContent = 'Elapsed: 0s';
+      runSelectedBtn.textContent = `Running ${selectedScript.name}... (0s)`;
+      output.textContent = '';
+      updateRunStateIndicator('running');
+      // Timer update every second
+      timerInterval = setInterval(() => {
+        let elapsed = Math.floor((Date.now() - start) / 1000);
+        runSelectedBtn.textContent = `Running ${selectedScript.name}... (${elapsed}s)`;
+        runTimer.textContent = `Elapsed: ${elapsed}s`;
+      }, 1000);
+      // Clear last state for this script before rerun
+      try { localStorage.removeItem('runscripts.lastState'); } catch {}
+      let rendered = '';
+      let timestamp = new Date().toLocaleString();
+      let elapsed = 0;
+      try {
+        const res = await fetch(`/run-script?name=${encodeURIComponent(selectedScript.name)}`);
+        const text = await res.text();
+        rendered = renderScriptOutput(selectedScript.name, text);
+        output.innerHTML = rendered;
+      } catch (e) {
+        rendered = renderScriptOutput(selectedScript.name, `Error running script: ${e}`);
+        output.innerHTML = rendered;
+      }
+      elapsed = Math.floor((Date.now() - start) / 1000);
+      clearInterval(timerInterval);
+      runTimer.textContent = `Finished in ${elapsed}s`;
+      // Bell sound and flash effect
+      (function bellAndFlash() {
+        // Create audio element for bell
+        let bell = document.createElement('audio');
+        bell.src = 'https://cdn.jsdelivr.net/gh/ai-collection/media/bell.mp3';
+        bell.style.display = 'none';
+        document.body.appendChild(bell);
+        bell.play().catch(()=>{});
+        // Flash effect
+        let flashCount = 0;
+        let origBg = document.body.style.background;
+        let flashInterval = setInterval(() => {
+          document.body.style.background = (flashCount % 2 === 0) ? '#facc15' : '#181a20';
+          flashCount++;
+          if (flashCount > 5) {
+            clearInterval(flashInterval);
+            document.body.style.background = origBg || '#181a20';
+            bell.remove();
+          }
+        }, 500);
+      })();
+      // Save last state for research/playback
+      try {
+        localStorage.setItem('runscripts.lastState', JSON.stringify({ name: selectedScript.name, output: rendered, timestamp, elapsed }));
+      } catch {}
+      updateRunStateIndicator('done', `${timestamp} (Duration: ${elapsed}s)`);
+      runSelectedBtn.disabled = false;
+      runSelectedBtn.textContent = 'Run';
+    };
+
+    // On load, show last run state
+    window.addEventListener('DOMContentLoaded', () => {
+      try {
+        const lastState = JSON.parse(localStorage.getItem('runscripts.lastState') || '{}');
+        if (lastState && lastState.name && lastState.timestamp) {
+          updateRunStateIndicator('done', lastState.timestamp);
+        } else {
+          updateRunStateIndicator();
+        }
+      } catch { updateRunStateIndicator(); }
+    });
+    // ...existing code for renderScriptOutput...
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+      runSelectedBtn.disabled = false;
+      runSelectedBtn.textContent = 'Run';
+    
+  </script>
+</body>
+</html>

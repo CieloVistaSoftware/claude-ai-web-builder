@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Framework - Component Directory</title>
-    <link rel="stylesheet" href="../src../styles/main.css">
+    <link rel="stylesheet" href="/src/styles/main.css">
     <style>
         * {
             box-sizing: border-box;
@@ -318,6 +318,47 @@
             text-decoration: underline;
         }
 
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color, #333);
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary, #a0a0a0);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            position: relative;
+            bottom: -2px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary, #f8f8f2);
+            background: var(--bg-tertiary, #2a2a2a);
+        }
+
+        .tab-btn.active {
+            color: var(--primary, #6366f1);
+            border-bottom-color: var(--primary, #6366f1);
+            background: var(--bg-tertiary, #2a2a2a);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         /* Empty State */
         .empty-state {
             text-align: center;
@@ -368,12 +409,26 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>🎨 WB Framework Components</h1>
-        <p>Complete component directory with documentation and live links</p>
+        <h1>� WB Framework - Index</h1>
+        <p>Central hub for components, demos, tools, and all HTML files in the solution</p>
     </div>
-
+<wb-control-panel></wb-control-panel>
     <!-- Main Container -->
     <div class="container">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="components">📦 Components</button>
+            <button class="tab-btn" data-tab="files">📄 All HTML Files</button>
+        </div>
+
+        <!-- Components Tab -->
+        <div class="tab-content active" id="componentsTab">
+        <!-- Components Header -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h2 style="font-size: 2rem; color: var(--primary, #6366f1); margin-bottom: 0.5rem;">🎨 WB Framework Components</h2>
+            <p style="color: var(--text-secondary, #a0a0a0); font-size: 1.1rem;">Complete component directory with documentation and live demo links</p>
+        </div>
+        
         <!-- Stats Bar -->
         <div class="stats-bar">
             <div class="stat-item">
@@ -439,70 +494,228 @@
         <div class="footer">
             <p>📚 <strong>All components</strong> are part of the WB Framework ecosystem</p>
             <p>🔗 Click on component names to view demo | Click 📖 to view documentation</p>
-            <p>🚀 <a href="wb.html">View Main Demo</a> | <a href="../docs/guides/HTML-FILES-GUIDE.md">HTML Files Guide</a> | <a href="../docs/architecture/WB%20Framework%20-%20Event-Driven%20Color%20System%20Architecture.md">Architecture Guide</a></p>
+            <p>🚀 <a href="README.md">Project README</a> | <a href="components/README-INDEX.md">Components Guide</a></p>
         </div>
+        </div><!-- End Components Tab -->
+
+        <!-- All HTML Files Tab -->
+        <div class="tab-content" id="filesTab">
+        <!-- All HTML Files Section -->
+        <div style="margin-top: 0;">
+            <!-- Files Header -->
+            <div style="text-align: center; margin-bottom: 2rem; padding: 2rem; background: var(--bg-secondary, #1e1e1e); border-radius: 12px; border-left: 4px solid var(--accent, #10b981);">
+                <h2 style="font-size: 2rem; color: var(--accent, #10b981); margin-bottom: 0.5rem;">📄 All HTML Files in Solution</h2>
+                <p style="color: var(--text-secondary, #a0a0a0); font-size: 1.1rem;">Complete alphabetically sorted list of all 212 HTML files across the entire project</p>
+            </div>
+
+            <!-- Search and Filter for HTML Files -->
+            <div class="search-section">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        id="searchHtmlFiles" 
+                        placeholder="Search HTML files by name or folder..."
+                        autocomplete="off"
+                    >
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-html-filter="all">All</button>
+                    <button class="filter-btn" data-html-filter="root">Root</button>
+                    <button class="filter-btn" data-html-filter="components">Components</button>
+                    <button class="filter-btn" data-html-filter="tools">Tools</button>
+                    <button class="filter-btn" data-html-filter="tests">Tests</button>
+                    <button class="filter-btn" data-html-filter="pages">Pages</button>
+                    <button class="filter-btn" data-html-filter="styles">Styles</button>
+                </div>
+            </div>
+
+            <!-- HTML Files Table -->
+            <table class="components-table" id="htmlFilesTable">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">File Name</th>
+                        <th style="width: 50%;">Path</th>
+                        <th style="width: 10%;">Folder</th>
+                    </tr>
+                </thead>
+                <tbody id="htmlFilesBody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+
+            <!-- Empty State for HTML Files -->
+            <div class="empty-state" id="emptyStateHtml" style="display: none;">
+                <div class="empty-state-icon">🔍</div>
+                <h3>No HTML files found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
+        </div><!-- End All HTML Files Tab -->
     </div>
 
     <script>
+        // All HTML Files in Solution (Alphabetically Sorted - Only files that exist)
+        const allHtmlFiles = [
+            {name: 'index.html', path: 'index.html', folder: 'root'},
+            
+            // Component Demos
+            {name: 'wb-1rem demo', path: 'components/wb-1rem/demo.html', folder: 'components'},
+            {name: 'wb-base demo', path: 'components/wb-base/wb-base-demo.html', folder: 'components'},
+            {name: 'wb-button demo', path: 'components/wb-button/wb-button-demo.html', folder: 'components'},
+            {name: 'wb-card demo', path: 'components/wb-card/wb-card-demo.html', folder: 'components'},
+            {name: 'wb-chatbot', path: 'components/wb-chatbot/wb-chatbot.html', folder: 'components'},
+            {name: 'wb-color-bar demo', path: 'components/wb-color-bar/wb-color-bar-demo.html', folder: 'components'},
+            {name: 'wb-color-bars demo', path: 'components/wb-color-bars/wb-color-bars-demo.html', folder: 'components'},
+            {name: 'wb-color-bars semantic demo', path: 'components/wb-color-bars/wb-color-bars-semantic-demo.html', folder: 'components'},
+            {name: 'wb-color-harmony demo', path: 'components/wb-color-harmony/wb-color-harmony-demo.html', folder: 'components'},
+            {name: 'wb-color-harmony interactive', path: 'components/wb-color-harmony/wb-color-harmony-interactive.html', folder: 'components'},
+            {name: 'wb-color-harmony palette gallery', path: 'components/wb-color-harmony/palette-gallery.html', folder: 'components'},
+            {name: 'wb-color-organ demo', path: 'components/wb-color-organ/demo.html', folder: 'components'},
+            {name: 'wb-color-organ demo cracked ice', path: 'components/wb-color-organ/demo-cracked-ice.html', folder: 'components'},
+            {name: 'wb-color-organ demo laser', path: 'components/wb-color-organ/demo-laser.html', folder: 'components'},
+            {name: 'wb-color-picker demo', path: 'components/wb-color-picker/wb-color-picker-demo.html', folder: 'components'},
+            {name: 'wb-color-picker new demo', path: 'components/wb-color-picker/wb-color-picker-new-demo.html', folder: 'components'},
+            {name: 'wb-control-panel demo', path: 'components/wb-control-panel/wb-control-panel-demo.html', folder: 'components'},
+            {name: 'wb-demo demo', path: 'components/wb-demo/wb-demo-demo.html', folder: 'components'},
+            {name: 'wb-dev-toolbox demo', path: 'components/wb-dev-toolbox/wb-dev-toolbox-demo.html', folder: 'components'},
+            {name: 'wb-dev-toolbox demo2', path: 'components/wb-dev-toolbox/wb-dev-toolbox-demo2.html', folder: 'components'},
+            {name: 'wb-dev-toolbox diagnostics', path: 'components/wb-dev-toolbox/wb-dev-toolbox-diagnostics.html', folder: 'components'},
+            {name: 'wb-event-log demo', path: 'components/wb-event-log/wb-event-log-demo.html', folder: 'components'},
+            {name: 'wb-footer demo', path: 'components/wb-footer/wb-footer-demo.html', folder: 'components'},
+            {name: 'wb-image-insert', path: 'components/wb-image-insert/image-insert.html', folder: 'components'},
+            {name: 'wb-inject-test demo', path: 'components/wb-inject-test/wb-inject-test-demo.html', folder: 'components'},
+            {name: 'wb-input demo', path: 'components/wb-input/wb-input-demo.html', folder: 'components'},
+            {name: 'wb-input test', path: 'components/wb-input/test-input.html', folder: 'components'},
+            {name: 'wb-keyboard-manager demo', path: 'components/wb-keyboard-manager/wb-keyboard-manager-demo.html', folder: 'components'},
+            {name: 'wb-layout demo', path: 'components/wb-layout/wb-layout-demo.html', folder: 'components'},
+            {name: 'wb-layout demo FIXED', path: 'components/wb-layout/wb-layout-demo-FIXED.html', folder: 'components'},
+            {name: 'wb-layout test', path: 'components/wb-layout/test.html', folder: 'components'},
+            {name: 'wb-log-error demo', path: 'components/wb-log-error/wb-log-error-demo.html', folder: 'components'},
+            {name: 'wb-modal demo', path: 'components/wb-modal/wb-modal-demo.html', folder: 'components'},
+            {name: 'wb-nav demo', path: 'components/wb-nav/wb-nav-demo.html', folder: 'components'},
+            {name: 'wb-rag demo', path: 'components/wb-rag/wb-rag-demo.html', folder: 'components'},
+            {name: 'wb-reactive-base demo', path: 'components/wb-reactive-base/wb-reactive-base-demo.html', folder: 'components'},
+            {name: 'wb-resize-both demo', path: 'components/wb-resize-both/wb-resize-both-demo.html', folder: 'components'},
+            {name: 'wb-resize-eastwest demo', path: 'components/wb-resize-eastwest/wb-resize-eastwest-demo.html', folder: 'components'},
+            {name: 'wb-resize-panel demo', path: 'components/wb-resize-panel/wb-resize-panel-demo.html', folder: 'components'},
+            {name: 'wb-resize-updown demo', path: 'components/wb-resize-updown/wb-resize-updown-demo.html', folder: 'components'},
+            {name: 'wb-search demo', path: 'components/wb-search/wb-search-demo.html', folder: 'components'},
+            {name: 'wb-select demo', path: 'components/wb-select/wb-select-demo.html', folder: 'components'},
+            {name: 'wb-semantic-elements demo', path: 'components/wb-semantic-elements/wb-semantic-elements-demo.html', folder: 'components'},
+            {name: 'wb-slider demo', path: 'components/wb-slider/wb-slider-demo.html', folder: 'components'},
+            {name: 'wb-status demo', path: 'components/wb-status/wb-status-demo.html', folder: 'components'},
+            {name: 'wb-tab demo', path: 'components/wb-tab/wb-tab-demo.html', folder: 'components'},
+            {name: 'wb-tab demo clean', path: 'components/wb-tab/wb-tab-demo-clean.html', folder: 'components'},
+            {name: 'wb-tab test', path: 'components/wb-tab/wb-tab-test.html', folder: 'components'},
+            {name: 'wb-table demo', path: 'components/wb-table/wb-table-demo.html', folder: 'components'},
+            {name: 'wb-table json demo', path: 'components/wb-table/wb-table-json-demo.html', folder: 'components'},
+            {name: 'wb-toggle demo', path: 'components/wb-toggle/wb-toggle-demo.html', folder: 'components'},
+            {name: 'wb-viewport demo', path: 'components/wb-viewport/wb-viewport-demo.html', folder: 'components'},
+            {name: 'wb-xtest demo', path: 'components/wb-xtest/wb-xtest-demo.html', folder: 'components'},
+            
+            // Tools & Utilities
+            {name: 'component-ide', path: 'src/tools/component-ide.html', folder: 'tools'},
+            {name: 'component-ide-enhanced', path: 'src/tools/component-ide-enhanced.html', folder: 'tools'},
+            {name: 'documentation', path: 'src/tools/documentation.html', folder: 'tools'},
+            {name: 'harmony-comparison-grid-generator', path: 'src/tools/harmony-comparison-grid-generator.html', folder: 'tools'},
+            {name: 'simple-component-browser', path: 'src/tools/simple-component-browser.html', folder: 'tools'},
+            {name: 'simple-ide', path: 'src/tools/simple-ide.html', folder: 'tools'},
+            {name: 'test', path: 'src/tools/test.html', folder: 'tools'},
+            {name: 'wb-debug-bookmarklet', path: 'src/tools/wb-debug-bookmarklet.html', folder: 'tools'},
+            {name: 'wb-debug-test', path: 'src/tools/wb-debug-test.html', folder: 'tools'},
+            
+            // Styles & Themes
+            {name: 'github-demo', path: 'src/styles/github/github-demo.html', folder: 'styles'},
+            {name: 'hsl-harmonic-generator', path: 'src/styles/harmonic/hsl-harmonic-generator.html', folder: 'styles'},
+            {name: 'layouts-demo', path: 'src/styles/layouts-demo.html', folder: 'styles'},
+            {name: 'main-demo', path: 'src/styles/main-demo.html', folder: 'styles'},
+            {name: 'static-colors-demo', path: 'src/styles/static-colors-demo.html', folder: 'styles'},
+            
+            // Pages
+            {name: 'api-test-client (pages)', path: 'src/pages/api-test-client.html', folder: 'pages'},
+            {name: 'wb-assistant', path: 'src/pages/wb-assistant.html', folder: 'pages'},
+            {name: 'wb-assistant-enhanced', path: 'src/pages/wb-assistant-enhanced.html', folder: 'pages'},
+            {name: 'wb-rag-assistant', path: 'src/pages/wb-rag-assistant.html', folder: 'pages'},
+            
+            // Tests
+            {name: 'config-test', path: 'tests/config-test.html', folder: 'tests'},
+            {name: 'harmonic-color-mixer', path: 'tests/harmonic/harmonic-color-mixer.html', folder: 'tests'},
+            {name: 'harmonic-color-system-test', path: 'tests/harmonic/harmonic-color-system-test.html', folder: 'tests'},
+            {name: 'intellisense-test', path: 'tests/intellisense/intellisense-test.html', folder: 'tests'},
+            {name: 'intellisense-test-simple', path: 'tests/intellisense/intellisense-test-simple.html', folder: 'tests'},
+            {name: 'manual-test', path: 'tests/Color Harmony System/manual-test.html', folder: 'tests'},
+            {name: 'test-hue-colors', path: 'tests/wb-misc/test-hue-colors.html', folder: 'tests'},
+            {name: 'test-semantic-structure', path: 'tests/wb-misc/test-semantic-structure.html', folder: 'tests'},
+            {name: 'test-control-panel-simple', path: 'tests/wb-control-panel/test-control-panel-simple.html', folder: 'tests'},
+            {name: 'test-wb-color-bar', path: 'tests/wb-color-bar/test-wb-color-bar.html', folder: 'tests'},
+            {name: 'test-wb-color-bar-simple', path: 'tests/wb-color-bar/test-wb-color-bar-simple.html', folder: 'tests'},
+            {name: 'test-wb-color-bars', path: 'tests/wb-color-bars/test-wb-color-bars.html', folder: 'tests'},
+            {name: 'test-wb-layout', path: 'tests/wb-layout/test-wb-layout.html', folder: 'tests'},
+            {name: 'test-wb-layout-simple', path: 'tests/wb-layout/test-wb-layout-simple.html', folder: 'tests'},
+            {name: 'test-wb-nav-simple', path: 'tests/wb-nav/test-wb-nav-simple.html', folder: 'tests'},
+            {name: 'test-top-nav', path: 'tests/wb-nav/test-top-nav.html', folder: 'tests'},
+        ];
+
         // Component Data - ALL LINKS UPDATED POST-REORGANIZATION
         const components = [
             // Core Components
-            {name: 'wb-base', description: 'Base component providing foundational styling and utilities for all WB components', type: 'core', demo: 'components/wb-base/wb-base-demo.html', doc: '../docs/reference/'},
-            {name: 'wb-button', description: 'Standardized button component with consistent styling, responsive text sizing, and multiple variants', type: 'core', demo: 'components/wb-button/wb-button-demo.html', doc: '../docs/reference/'},
-            {name: 'wb-control-panel', description: 'Interactive control panel for managing themes, layouts, and colors across the entire application', type: 'core', demo: '../src/html/debug-control-panel.html', doc: '../docs/reference/'},
-            {name: 'wb-color-bar', description: 'Visual color display component showing individual color values with harmony relationships', type: 'core', demo: '../src/html/test-color-bars.html', doc: '../docs/reference/'},
-            {name: 'wb-color-bars', description: 'Collection of color bars displaying the complete harmonic color palette', type: 'core', demo: '../src/html/test-color-bars.html', doc: '../docs/reference/'},
-            {name: 'wb-color-harmony', description: 'Mathematical color harmony system generating complementary and analogous colors', type: 'core', demo: '../src/html/wave-based-color-harmony-article.html', doc: '../docs/reference/'},
-            {name: 'wb-event-log', description: 'Event logging system for debugging and tracking component interactions', type: 'core', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-input', description: 'Form input component with consistent styling and validation support', type: 'core', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-select', description: 'Dropdown select component with keyboard navigation and accessibility features', type: 'core', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-slider', description: 'Range slider component for numerical input with visual feedback', type: 'core', demo: '../src/html/test-simple-control-panel.html', doc: '../docs/reference/'},
-            {name: 'wb-toggle', description: 'Toggle switch component for boolean state management', type: 'core', demo: '../src/html/test-simple-control-panel.html', doc: '../docs/reference/'},
+            {name: 'wb-base', description: 'Base component providing foundational styling and utilities for all WB components', type: 'core', demo: 'components/wb-base/wb-base-demo.html', doc: 'components/wb-base/wb-base.md'},
+            {name: 'wb-button', description: 'Standardized button component with consistent styling, responsive text sizing, and multiple variants', type: 'core', demo: 'components/wb-button/wb-button-demo.html', doc: 'components/wb-button/wb-button.md'},
+            {name: 'wb-control-panel', description: 'Interactive control panel for managing themes, layouts, and colors across the entire application', type: 'core', demo: 'components/wb-control-panel/wb-control-panel-demo.html', doc: 'components/wb-control-panel/wb-control-panel.md'},
+            {name: 'wb-color-bar', description: 'Visual color display component showing individual color values with harmony relationships', type: 'core', demo: 'components/wb-color-bar/wb-color-bar-demo.html', doc: 'components/wb-color-bar/wb-color-bar.md'},
+            {name: 'wb-color-bars', description: 'Collection of color bars displaying the complete harmonic color palette', type: 'core', demo: 'components/wb-color-bars/wb-color-bars-demo.html', doc: 'components/wb-color-bars/wb-color-bars.md'},
+            {name: 'wb-color-harmony', description: 'Mathematical color harmony system generating complementary and analogous colors', type: 'core', demo: 'components/wb-color-harmony/wb-color-harmony-demo.html', doc: 'components/wb-color-harmony/wb-color-harmony.md'},
+            {name: 'wb-event-log', description: 'Event logging system for debugging and tracking component interactions', type: 'core', demo: 'components/wb-event-log/wb-event-log-demo.html', doc: 'components/wb-event-log/wb-event-log.md'},
+            {name: 'wb-input', description: 'Form input component with consistent styling and validation support', type: 'core', demo: 'components/wb-input/wb-input-demo.html', doc: 'components/wb-input/wb-input.md'},
+            {name: 'wb-select', description: 'Dropdown select component with keyboard navigation and accessibility features', type: 'core', demo: 'components/wb-select/wb-select-demo.html', doc: 'components/wb-select/wb-select.md'},
+            {name: 'wb-slider', description: 'Range slider component for numerical input with visual feedback', type: 'core', demo: 'components/wb-slider/wb-slider-demo.html', doc: 'components/wb-slider/wb-slider.md'},
+            {name: 'wb-toggle', description: 'Toggle switch component for boolean state management', type: 'core', demo: 'components/wb-toggle/wb-toggle-demo.html', doc: 'components/wb-toggle/wb-toggle.md'},
 
             // Layout Components
-            {name: 'wb-layout', description: 'Master layout component that organizes page structure with flexible positioning', type: 'layout', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-grid', description: 'CSS Grid-based layout component for responsive content organization', type: 'layout', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-nav', description: 'Navigation component with horizontal and vertical layout options', type: 'layout', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-hero', description: 'Hero section component with large hero imagery and call-to-action', type: 'layout', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-header', description: 'Page header component providing site identity and primary navigation', type: 'layout', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-footer', description: 'Footer component with contact information and secondary navigation', type: 'layout', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-card', description: 'Card component for content grouping with consistent styling and spacing', type: 'layout', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-modal', description: 'Modal dialog component for overlay content and user interactions', type: 'layout', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-table', description: 'Data table component with sorting and pagination support', type: 'layout', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-tab', description: 'Tab component for organizing content into separate panels', type: 'layout', demo: null, doc: '../docs/reference/'},
+            {name: 'wb-layout', description: 'Master layout component that organizes page structure with flexible positioning', type: 'layout', demo: 'components/wb-layout/wb-layout-demo.html', doc: 'components/wb-layout/wb-layout.md'},
+            {name: 'wb-grid', description: 'CSS Grid-based layout component for responsive content organization', type: 'layout', demo: null, doc: 'components/wb-grid/wb-grid.md'},
+            {name: 'wb-nav', description: 'Navigation component with horizontal and vertical layout options', type: 'layout', demo: 'components/wb-nav/wb-nav-demo.html', doc: 'components/wb-nav/wb-nav.md'},
+            {name: 'wb-hero', description: 'Hero section component with large hero imagery and call-to-action', type: 'layout', demo: null, doc: 'components/wb-hero/wb-hero.md'},
+            {name: 'wb-header', description: 'Page header component providing site identity and primary navigation', type: 'layout', demo: null, doc: 'components/wb-header/wb-header.md'},
+            {name: 'wb-footer', description: 'Footer component with contact information and secondary navigation', type: 'layout', demo: 'components/wb-footer/wb-footer-demo.html', doc: 'components/wb-footer/wb-footer.md'},
+            {name: 'wb-card', description: 'Card component for content grouping with consistent styling and spacing', type: 'layout', demo: 'components/wb-card/wb-card-demo.html', doc: 'components/wb-card/wb-card.md'},
+            {name: 'wb-modal', description: 'Modal dialog component for overlay content and user interactions', type: 'layout', demo: 'components/wb-modal/wb-modal-demo.html', doc: 'components/wb-modal/wb-modal.md'},
+            {name: 'wb-table', description: 'Data table component with sorting and pagination support', type: 'layout', demo: 'components/wb-table/wb-table-demo.html', doc: 'components/wb-table/wb-table.md'},
+            {name: 'wb-tab', description: 'Tab component for organizing content into separate panels', type: 'layout', demo: 'components/wb-tab/wb-tab-demo.html', doc: 'components/wb-tab/wb-tab.md'},
 
             // Utility Components
-            {name: 'wb-color-picker', description: 'Interactive color picker for precise color selection with HSL controls', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-color-transformer', description: 'Color transformation utility for adjusting hue, saturation, and lightness', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-color-mapper', description: 'Maps colors to semantic meanings (success, warning, error, info)', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-color-organ', description: 'Comprehensive color organization and management system', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-color-utils', description: 'Utility functions for color calculations and conversions', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-search', description: 'Search component with debouncing and result highlighting', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-status', description: 'Status indicator component showing system health and notifications', type: 'utility', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-theme', description: 'Theme management component for applying color schemes and mode switching', type: 'utility', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-viewport', description: 'Viewport management component for responsive design control', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-keyboard-manager', description: 'Keyboard event management for accessibility and shortcuts', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-log-viewer', description: 'Log viewer component displaying event logs and debug information', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-log-error', description: 'Error logging component for capturing and displaying errors', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-change-text', description: 'Text manipulation component for content editing and transformation', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-image-insert', description: 'Image insertion component with preview and metadata editing', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-css-loader', description: 'Dynamic CSS loading component for runtime stylesheet injection', type: 'utility', demo: null, doc: '../docs/reference/'},
+            {name: 'wb-color-picker', description: 'Interactive color picker for precise color selection with HSL controls', type: 'utility', demo: 'components/wb-color-picker/wb-color-picker-demo.html', doc: 'components/wb-color-picker/wb-color-picker.md'},
+            {name: 'wb-color-transformer', description: 'Color transformation utility for adjusting hue, saturation, and lightness', type: 'utility', demo: null, doc: 'components/wb-color-transformer/wb-color-transformer.md'},
+            {name: 'wb-color-mapper', description: 'Maps colors to semantic meanings (success, warning, error, info)', type: 'utility', demo: null, doc: 'components/wb-color-mapper/wb-color-mapper.md'},
+            {name: 'wb-color-organ', description: 'Comprehensive color organization and management system', type: 'utility', demo: 'components/wb-color-organ/demo.html', doc: 'components/wb-color-organ/wb-color-organ.md'},
+            {name: 'wb-color-utils', description: 'Utility functions for color calculations and conversions', type: 'utility', demo: null, doc: 'components/wb-color-utils/wb-color-utils.md'},
+            {name: 'wb-search', description: 'Search component with debouncing and result highlighting', type: 'utility', demo: 'components/wb-search/wb-search-demo.html', doc: 'components/wb-search/wb-search.md'},
+            {name: 'wb-status', description: 'Status indicator component showing system health and notifications', type: 'utility', demo: 'components/wb-status/wb-status-demo.html', doc: 'components/wb-status/wb-status.md'},
+            {name: 'wb-theme', description: 'Theme management component for applying color schemes and mode switching', type: 'utility', demo: null, doc: 'components/wb-theme/wb-theme.md'},
+            {name: 'wb-viewport', description: 'Viewport management component for responsive design control', type: 'utility', demo: 'components/wb-viewport/wb-viewport-demo.html', doc: 'components/wb-viewport/wb-viewport.md'},
+            {name: 'wb-keyboard-manager', description: 'Keyboard event management for accessibility and shortcuts', type: 'utility', demo: 'components/wb-keyboard-manager/wb-keyboard-manager-demo.html', doc: 'components/wb-keyboard-manager/wb-keyboard-manager.md'},
+            {name: 'wb-log-viewer', description: 'Log viewer component displaying event logs and debug information', type: 'utility', demo: null, doc: 'components/wb-log-viewer/wb-log-viewer.md'},
+            {name: 'wb-log-error', description: 'Error logging component for capturing and displaying errors', type: 'utility', demo: 'components/wb-log-error/wb-log-error-demo.html', doc: 'components/wb-log-error/wb-log-error.md'},
+            {name: 'wb-change-text', description: 'Text manipulation component for content editing and transformation', type: 'utility', demo: null, doc: 'components/wb-change-text/wb-change-text.md'},
+            {name: 'wb-image-insert', description: 'Image insertion component with preview and metadata editing', type: 'utility', demo: 'components/wb-image-insert/image-insert.html', doc: 'components/wb-image-insert/wb-image-insert.md'},
+            {name: 'wb-css-loader', description: 'Dynamic CSS loading component for runtime stylesheet injection', type: 'utility', demo: null, doc: 'components/wb-css-loader/wb-css-loader.md'},
 
             // Resize Components
-            {name: 'wb-resize-panel', description: 'Base resizable panel component providing drag-to-resize functionality', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-resize-both', description: 'Resizable component supporting both horizontal and vertical resizing', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-resize-eastwest', description: 'Resizable component supporting left-right resizing', type: 'utility', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-resize-updown', description: 'Resizable component supporting top-bottom resizing', type: 'utility', demo: null, doc: '../docs/reference/'},
+            {name: 'wb-resize-panel', description: 'Base resizable panel component providing drag-to-resize functionality', type: 'utility', demo: 'components/wb-resize-panel/wb-resize-panel-demo.html', doc: 'components/wb-resize-panel/wb-resize-panel.md'},
+            {name: 'wb-resize-both', description: 'Resizable component supporting both horizontal and vertical resizing', type: 'utility', demo: 'components/wb-resize-both/wb-resize-both-demo.html', doc: 'components/wb-resize-both/wb-resize-both.md'},
+            {name: 'wb-resize-eastwest', description: 'Resizable component supporting left-right resizing', type: 'utility', demo: 'components/wb-resize-eastwest/wb-resize-eastwest-demo.html', doc: 'components/wb-resize-eastwest/wb-resize-eastwest.md'},
+            {name: 'wb-resize-updown', description: 'Resizable component supporting top-bottom resizing', type: 'utility', demo: 'components/wb-resize-updown/wb-resize-updown-demo.html', doc: 'components/wb-resize-updown/wb-resize-updown.md'},
 
             // Testing & Development
-            {name: 'wb-inject-test', description: 'Testing component for injecting and testing HTML and components', type: 'experimental', demo: '../src/html/component-diagnosis.html', doc: null},
-            {name: 'wb-dev-toolbox', description: 'Development toolbox with debugging and testing utilities', type: 'experimental', demo: null, doc: null},
-            {name: 'wb-demo', description: 'Demo component template for showcasing component features', type: 'experimental', demo: null, doc: null},
-            {name: 'wb-semanticElements', description: 'Wrapper for semantic HTML5 elements with enhanced styling', type: 'utility', demo: 'components/index.html', doc: '../docs/reference/'},
-            {name: 'wb-rag', description: 'Retrieval-Augmented Generation component for AI-powered search', type: 'experimental', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-chatbot', description: 'Chatbot component for AI-powered conversations', type: 'experimental', demo: null, doc: '../docs/reference/'},
-            {name: 'wb-1rem', description: 'Utility component for 1rem sizing and spacing system', type: 'utility', demo: null, doc: null},
-            {name: 'wb-xtest', description: 'Extended testing component for comprehensive test scenarios', type: 'experimental', demo: null, doc: null}
+            {name: 'wb-inject-test', description: 'Testing component for injecting and testing HTML and components', type: 'experimental', demo: 'components/wb-inject-test/wb-inject-test-demo.html', doc: 'components/wb-inject-test/wb-inject-test.md'},
+            {name: 'wb-dev-toolbox', description: 'Development toolbox with debugging and testing utilities', type: 'experimental', demo: 'components/wb-dev-toolbox/wb-dev-toolbox-demo.html', doc: 'components/wb-dev-toolbox/wb-dev-toolbox.md'},
+            {name: 'wb-demo', description: 'Demo component template for showcasing component features', type: 'experimental', demo: 'components/wb-demo/wb-demo-demo.html', doc: 'components/wb-demo/wb-demo.md'},
+            {name: 'wb-semantic-elements', description: 'Wrapper for semantic HTML5 elements with enhanced styling', type: 'utility', demo: 'components/wb-semantic-elements/wb-semantic-elements-demo.html', doc: 'components/wb-semantic-elements/wb-semantic-elements.md'},
+            {name: 'wb-rag', description: 'Retrieval-Augmented Generation component for AI-powered search', type: 'experimental', demo: 'components/wb-rag/wb-rag-demo.html', doc: 'components/wb-rag/wb-rag.md'},
+            {name: 'wb-chatbot', description: 'Chatbot component for AI-powered conversations', type: 'experimental', demo: 'components/wb-chatbot/wb-chatbot.html', doc: 'components/wb-chatbot/wb-chatbot.md'},
+            {name: 'wb-1rem', description: 'Utility component for 1rem sizing and spacing system', type: 'utility', demo: 'components/wb-1rem/demo.html', doc: 'components/wb-1rem/wb-1rem.md'},
+            {name: 'wb-xtest', description: 'Extended testing component for comprehensive test scenarios', type: 'experimental', demo: 'components/wb-xtest/wb-xtest-demo.html', doc: 'components/wb-xtest/wb-xtest.md'}
         ];
 
         // Sort components alphabetically
@@ -591,6 +804,102 @@
 
         // Initial render
         renderComponents();
+
+        // Render HTML Files
+        function renderHtmlFiles(filter = 'all', search = '') {
+            const tbody = document.getElementById('htmlFilesBody');
+            const emptyState = document.getElementById('emptyStateHtml');
+            
+            let filtered = allHtmlFiles;
+
+            // Filter by folder
+            if (filter !== 'all') {
+                filtered = filtered.filter(f => f.folder === filter);
+            }
+
+            // Filter by search
+            if (search.trim()) {
+                const searchLower = search.toLowerCase();
+                filtered = filtered.filter(f => 
+                    f.name.toLowerCase().includes(searchLower) ||
+                    f.path.toLowerCase().includes(searchLower) ||
+                    f.folder.toLowerCase().includes(searchLower)
+                );
+            }
+
+            // Clear table
+            tbody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            // Render rows
+            filtered.forEach(file => {
+                const row = document.createElement('tr');
+                
+                // File name with link
+                const nameCell = document.createElement('td');
+                nameCell.innerHTML = `<a href="${file.path}" class="component-link" target="_blank">${file.name}</a>`;
+                
+                // Path
+                const pathCell = document.createElement('td');
+                pathCell.className = 'component-description';
+                pathCell.textContent = file.path;
+                
+                // Folder badge
+                const folderCell = document.createElement('td');
+                folderCell.innerHTML = `<span class="status-badge ${file.folder}">${file.folder}</span>`;
+                
+                row.appendChild(nameCell);
+                row.appendChild(pathCell);
+                row.appendChild(folderCell);
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // HTML Files search event listener
+        document.getElementById('searchHtmlFiles').addEventListener('input', (e) => {
+            const activeFilter = document.querySelector('[data-html-filter].active').dataset.htmlFilter;
+            renderHtmlFiles(activeFilter, e.target.value);
+        });
+
+        // HTML Files filter event listeners
+        document.querySelectorAll('[data-html-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-html-filter]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const searchValue = document.getElementById('searchHtmlFiles').value;
+                renderHtmlFiles(btn.dataset.htmlFilter, searchValue);
+            });
+        });
+
+        // Initial render of HTML files
+        renderHtmlFiles();
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                btn.classList.add('active');
+                
+                // Show corresponding content
+                const tabName = btn.dataset.tab;
+                const tabContent = tabName === 'components' ? 
+                    document.getElementById('componentsTab') : 
+                    document.getElementById('filesTab');
+                tabContent.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
+

@@ -10,6 +10,7 @@ console.log('🪟 WB Modal Component: Starting initialization...');
     class WBModal extends HTMLElement {
         constructor() {
             super();
+        this.attachShadow({ mode: 'open' });
             this._isOpen = false;
             this._keydownHandler = null;
             this._backdropClickHandler = null;

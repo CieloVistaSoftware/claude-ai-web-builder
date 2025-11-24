@@ -1,101 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>WB Base Component Demo</title>
-        <link rel="stylesheet" href="..../styles/main.css">
-        <link rel="stylesheet" href="wb-base-demo.css">
-        <script type="module" src="../wb-demo/wb-demo.js"></script>
-        <script type="module">
-            import { setupDemoBaseHover, setupDemoBaseEvent } from './wb-base.js';
-            setupDemoBaseHover();
-            setupDemoBaseEvent();
-        </script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WBBaseComponent - Automatic Event Log Injection Demo</title>
+    <link rel="stylesheet" href="../../src/styles/main.css">
+    <link rel="module" href="../../src/styles/main.js"></link>
+    <script type="module" src="wb-base.js"></script>    
+</head>
 
-    <body>
-        <wb-demo markdown="./wb-base.md">
-            <span slot="title">WB Base Component Example</span>
-            <div slot="documentation"></div>
-            <style>
-                /* Remove custom dark background for code blocks in examples tab */
-                [slot="examples"] pre code {
-                    color: inherit !important;
-                    background: inherit !important;
-                }
-                .demo-base-hover-container {
-                    display: inline-block;
-                    position: relative;
-                }
-                .hover-tip {
-                    display: none;
-                    position: absolute;
-                    left: 50%;
-                    top: 0;
-                    transform: translate(-50%, -120%);
-                    background: #232323;
-                    color: #fff;
-                    padding: 0.5rem 1rem;
-                    border-radius: 6px;
-                    font-size: 1rem;
-                    white-space: nowrap;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-                    z-index: 10;
-                }
-                .demo-base-message {
-                    background: #181c3a;
-                    color: #fff;
-                    font-size: 2rem;
-                    padding: 2rem 1rem;
-                    border-radius: 12px;
-                    margin: 1rem 0;
-                    text-align: center;
-                    font-family: monospace;
-                }
-            </style>
-                        <div slot="examples">
-                                <h3>Minimal Example</h3>
-                                <div class="demo-base-hover-container">
-                                        <wb-demo-base id="demoBaseHover">Slot content here</wb-demo-base>
-                                        <span id="hoverTip" class="hover-tip">
-                                            💡 <b>Tip:</b> Right click and inspect element.
-                                        </span>
-                                    </div>
-                                    <!-- hover logic handled by demo-base-hover.js -->
-                                <p>This demo shows a minimal custom element extending <code>WBBaseComponent</code>. Check the event log
-                                        for lifecycle messages.</p>
-                                <h4>JavaScript Usage</h4>
-                                <pre><code class="language-js">import { WBBaseComponent } from './wb-base/wb-base.js';
+<body>
+    <wb-demo title="WBBaseComponent - Automatic Event Log Injection Demo" 
+    markdown="./wb-base-demo.md">
+        <div slot="examples" class="container">
+            <!-- Right Panel: Demo Controls -->
+            <div class="panel">
+                <h2>🎮 Demo Controls <span class="status-badge">READY</span></h2>
+                <p>Click buttons below to trigger different logging events. Watch the event log update in real-time!</p>
 
-class MyComponent extends WBBaseComponent {
-    constructor() {
-        super();
-        this.shadowRoot.innerHTML = `
-             <div class="demo-base-message">
-                        WBBaseComponent is working!
+                <div class="button-group">
+                    <h3 style="margin-bottom: 12px;">Component Logging</h3>
+                    <div class="button-row">
+                        <button onclick="logDemoInfo()">ℹ️ Log Info</button>
+                        <button onclick="logDemoWarning()">⚠️ Log Warning</button>
                     </div>
-        `;
-    }
-    connectedCallback() {
-        this.logInfo('MyComponent connected');
-    }
-}
-customElements.define('my-component', MyComponent);
-</code></pre>
-                                <h3>Custom Event Example</h3>
-                                <button id="fireEventBtn">Fire Custom Event</button>
-                <!-- event logic handled by demo-base-event.js -->
-                                <p>Click the button above to fire a custom event from the <code>wb-demo-base</code> component. The event
-                                        will be logged in the event log.</p>
-                                <h4>JavaScript for Custom Event</h4>
-                                <pre><code class="language-js">// Fire a custom event from the component
-const demoBase = document.querySelector('wb-demo-base');
-demoBase.fireEvent('custom-demo-event', { message: 'Hello from demo!' });
-</code></pre>
-                        </div>
-        </wb-demo>
-    </body>
+                    <div class="button-row">
+                        <button onclick="logDemoError()">❌ Log Error</button>
+                        <button onclick="logDemoSuccess()">✅ Log Success</button>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <h3 style="margin-bottom: 12px;">Advanced Actions</h3>
+                    <button onclick="logMultipleEvents()" class="secondary">📊 Log Multiple Events</button>
+                    <button onclick="simulateUserFlow()" class="secondary">👤 Simulate User Flow</button>
+                </div>
+
+                <div class="button-group">
+                    <h3 style="margin-bottom: 12px;">Event Log Control</h3>
+                    <button onclick="clearEventLog()" style="background: #dc3545;">🗑️ Clear All Events</button>
+                </div>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>💡 Tip:</strong> Events automatically logged in real-time!
+                </div>
+            </div>
+
+            <div class="event-log-panel" style="margin:2rem 0;">
+                <h3>Event Log</h3>
+                <pre id="eventLog" style="min-height:200px;max-height:400px;overflow:auto;background:#222;color:#eee;padding:1rem;border-radius:8px;"></pre>
+            </div>
+        </div>
+    </wb-demo>
+    <!-- Demo Script -->
+    <script>
+        // Simple in-memory event storage
+        const events = [];
+
+        // Demo logging class (no dependencies!)
+        class DemoComponent {
+            constructor() {
+                this.componentName = 'DemoComponent';
+            }
+
+            logInfo(message, details = {}) {
+                this.addEvent('info', message, details);
+            }
+
+            logWarning(message, details = {}) {
+                this.addEvent('warning', message, details);
+            }
+
+            logError(message, details = {}) {
+                this.addEvent('error', message, details);
+            }
+
+            logSuccess(message, details = {}) {
+                this.addEvent('success', message, details);
+            }
+
+            logDebug(message, details = {}) {
+                this.addEvent('debug', message, details);
+            }
+
+            logUser(message, details = {}) {
+                this.addEvent('user', message, details);
+            }
+
+            addEvent(type, message, details) {
+                const event = {
+                    type: type,
+                    message: message,
+                    source: this.componentName,
+                    timestamp: new Date().toLocaleTimeString(),
+                    details: details
+                };
+                events.unshift(event);
+                updateEventLog();
+            }
+        }
+
+        // Create demo component
+        const demoComponent = new DemoComponent();
+
+        // Update event log display
+        function updateEventLog() {
+            const logElement = document.getElementById('eventLog');
+            const lines = events.map(e => {
+                const icon = getIcon(e.type);
+                const detailStr = Object.keys(e.details).length > 0
+                    ? ` | ${JSON.stringify(e.details)}`
+                    : '';
+                return `${e.timestamp} ${icon} [${e.source}] ${e.message}${detailStr}`;
+            });
+            logElement.textContent = lines.join('\n') || 'Waiting for events...';
+            logElement.scrollTop = 0;
+        }
+
+        function getIcon(type) {
+            const icons = {
+                'info': 'ℹ️',
+                'warning': '⚠️',
+                'error': '❌',
+                'success': '✅',
+                'debug': '🛠️',
+                'user': '👤'
+            };
+            return icons[type] || '📝';
+        }
+
+        // Demo functions
+        window.logDemoInfo = function () {
+            demoComponent.logInfo('Info message - This is general information', {
+                timestamp: new Date().toLocaleTimeString(),
+                action: 'demo'
+            });
+        };
+
+        window.logDemoWarning = function () {
+            demoComponent.logWarning('Warning message - Non-critical issue detected', {
+                severity: 'low',
+                code: 'WARN_001'
+            });
+        };
+
+        window.logDemoError = function () {
+            demoComponent.logError('Error message - Something went wrong', {
+                code: 'ERR_001',
+                details: 'This is a demo error for testing'
+            });
+        };
+
+        window.logDemoSuccess = function () {
+            demoComponent.logSuccess('Success message - Operation completed successfully', {
+                duration: '125ms',
+                result: 'OK'
+            });
+        };
+
+        window.logMultipleEvents = function () {
+            setTimeout(() => demoComponent.logInfo('Event 1: Starting process'), 0);
+            setTimeout(() => demoComponent.logInfo('Event 2: Processing data'), 100);
+            setTimeout(() => demoComponent.logSuccess('Event 3: Process completed'), 200);
+        };
+
+        window.simulateUserFlow = function () {
+            demoComponent.logUser('User clicked button', { buttonId: 'demo-btn' });
+            setTimeout(() => demoComponent.logInfo('Processing user action'), 100);
+            setTimeout(() => demoComponent.logSuccess('User action completed'), 200);
+        };
+
+        window.clearEventLog = function () {
+            events.length = 0;
+            updateEventLog();
+            demoComponent.logInfo('All events cleared', { action: 'clear-all' });
+        };
+
+        // Initialize
+        demoComponent.logSuccess('🎉 Demo initialized - Event logging active!', {
+            components: 'DemoComponent',
+            status: 'ready'
+        });
+
+        demoComponent.logInfo('👉 Click buttons above to see logging in action', {
+            note: 'All events appear here in real-time'
+        });
+    </script>
+</body>
 
 </html>
-

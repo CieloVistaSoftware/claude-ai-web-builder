@@ -1,0 +1,97 @@
+/**
+ * Global CSS Variables - Website Builder System
+ * HARMONIC COLOR SYSTEM (HCS) - HSL-Based Color Theory Implementation
+ * Consolidated from all component files to eliminate duplication
+ * Single source of truth for design tokens using mathematical color relationships
+ */
+
+:root {
+  /* === PRIMARY COLOR FOUNDATION === */
+  --hue-primary: 240;
+  --saturation-primary: 70;
+  --lightness-primary: 50;
+
+  /* PRIMARY COLOR FAMILY */
+  --primary: hsl(var(--hue-primary), calc(var(--saturation-primary) * 1%), calc(var(--lightness-primary) * 1%));
+  --primary-dark: hsl(var(--hue-primary), calc(var(--saturation-primary) * 1%), calc((var(--lightness-primary) - 15) * 1%));
+  --primary-light: hsl(var(--hue-primary), calc((var(--saturation-primary) - 20) * 1%), calc((var(--lightness-primary) + 25) * 1%));
+  --primary-rgb: 99, 102, 241;
+
+  /* === NEUTRAL COLORS === */
+  --neutral-50: hsl(var(--hue-primary), 1%, 99%);
+  --neutral-100: hsl(var(--hue-primary), 1%, 97%);
+  --neutral-200: hsl(var(--hue-primary), 2%, 92%);
+  --neutral-300: hsl(var(--hue-primary), 2%, 85%);
+  --neutral-400: hsl(var(--hue-primary), 3%, 75%);
+  --neutral-500: hsl(var(--hue-primary), 4%, 50%);
+  --neutral-600: hsl(var(--hue-primary), 6%, 35%);
+  --neutral-700: hsl(var(--hue-primary), 8%, 30%);
+  --neutral-800: hsl(var(--hue-primary), 10%, 22%);
+  --neutral-900: hsl(var(--hue-primary), 12%, 12%);
+
+  /* === SEMANTIC STATE COLORS === */
+  --success-color: hsl(120, 65%, 45%);
+  --success-color-light: hsl(120, 65%, 60%);
+  --success-color-dark: hsl(120, 65%, 30%);
+  
+  --error-color: hsl(0, 75%, 55%);
+  --error-color-light: hsl(0, 75%, 70%);
+  --error-color-dark: hsl(0, 75%, 40%);
+  
+  /* === BACKGROUNDS === */
+  --bg-color: var(--neutral-900);
+  --bg-primary: var(--neutral-800);
+  --bg-secondary: var(--neutral-700);
+  --bg-tertiary: var(--neutral-600);
+  
+  /* === TEXT COLORS === */
+  --text-primary: var(--neutral-50);
+  --text-secondary: var(--neutral-200);
+  --text-tertiary: var(--neutral-300);
+  --text-muted: var(--neutral-400);
+  
+  /* === BORDERS === */
+  --border-color: var(--neutral-600);
+  --border-light: var(--neutral-500);
+  --border-dark: var(--neutral-700);
+  
+  /* === SPACING === */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  
+  /* === TYPOGRAPHY === */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  
+  /* === BORDER RADIUS === */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;
+  --radius-base: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+  
+  /* === TRANSITIONS === */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-all: all 0.2s ease;
+}

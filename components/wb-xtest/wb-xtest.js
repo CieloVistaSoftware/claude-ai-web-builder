@@ -46,6 +46,7 @@ class WBXtest extends WBBaseComponent {
     }
 
     connectedCallback() {
+        super.connectedCallback(); // Inherit dark mode and other base functionality
         this.render();
         this.dispatchEvent(new CustomEvent(this.config.events.ready, { bubbles: true }));
         console.log('✅ WB xtest connected:', this.textContent);

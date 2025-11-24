@@ -39,7 +39,7 @@ console.log('💾 Height persists to localStorage');
 document.addEventListener('DOMContentLoaded', async () => {
     // Get component references
     const components = {
-        controlPanel: document.getElementById('main-control-panel'),
+        controlPanel: document.getElementById('control-panel'),
         nav: document.getElementById('site-nav')
     };
 

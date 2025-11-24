@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Layout Component - Demo</title>
+    
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <!-- ONE LINE - Auto-loads all WB components! -->
+    <script type="module" src="../../component-loader.js"></script>
+    
+    <style>
+        #layout-select {
+            background: #2d3748;
+            color: #f1f5f9;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            outline: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: border-color 0.2s;
+        }
+        #layout-select:focus {
+            border-color: #6366f1;
+        }
+        #layout-select option {
+            background: #2d3748;
+            color: #f1f5f9;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <wb-demo title="🗂️ WB Layout Component Demo" markdown="./wb-layout.md">
+        <!-- Documentation slot - auto-filled from markdown -->
+        <div slot="documentation"></div>
+        
+        <!-- Examples slot - interactive demo -->
+        <div slot="examples">
+            <div class="demo-section">
+                <h2>Interactive Layout Switching Demo</h2>
+                <label for="layout-select" style="font-weight: bold; margin-bottom: 0.5rem; display: block;">
+                    Choose Layout Type:
+                </label>
+                <select id="layout-select">
+                    <option value="top-nav">Top Navigation</option>
+                    <option value="left-nav">Left Sidebar</option>
+                    <option value="right-nav">Right Sidebar</option>
+                    <option value="ad-layout">Ad Layout</option>
+                </select>
+                
+                <wb-layout id="interactive-layout" layout="top-nav" style="min-height: 400px; background: var(--surface-color, #1e293b); border: 1px solid var(--border-color, #333); border-radius: 8px;">
+                    <wb-nav items='[
+                        {"id":"home","text":"Home","href":"#home","icon":"🏠","active":true},
+                        {"id":"about","text":"About","href":"#about","icon":"ℹ️"},
+                        {"id":"services","text":"Services","href":"#services","icon":"⚙️"},
+                        {"id":"blog","text":"Blog","href":"#blog","icon":"📝"},
+                        {"id":"contact","text":"Contact","href":"#contact","icon":"📧"}
+                    ]'></wb-nav>
+                    
+                    <header style="padding: 2rem; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; text-align: center;">
+                        <h1 style="margin: 0 0 0.5rem 0; font-size: 2rem;">Welcome to TechCorp</h1>
+                        <p style="margin: 0; font-size: 1.1rem; opacity: 0.9;">Innovative solutions for modern businesses</p>
+                    </header>
+                    
+                    <main style="padding: 2rem; color: var(--text-color, #ffffff); display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                        <article>
+                            <h2>Latest News & Updates</h2>
+                            <div style="margin-bottom: 1.5rem;">
+                                <h3 style="color: var(--primary-color, #6366f1); margin-bottom: 0.5rem;">Product Launch: AI Dashboard 2.0</h3>
+                                <p style="margin-bottom: 1rem;">We're excited to announce the launch of our new AI-powered dashboard that revolutionizes data visualization...</p>
+                                <span style="font-size: 0.875rem; color: var(--text-secondary, #94a3b8);">Published: March 15, 2025</span>
+                            </div>
+                            <div>
+                                <h3 style="color: var(--primary-color, #6366f1); margin-bottom: 0.5rem;">Company Expansion to European Markets</h3>
+                                <p style="margin-bottom: 1rem;">TechCorp is proud to announce our expansion into European markets, bringing our innovative solutions...</p>
+                                <span style="font-size: 0.875rem; color: var(--text-secondary, #94a3b8);">Published: March 12, 2025</span>
+                            </div>
+                        </article>
+                        <aside style="background: var(--surface-elevated, #2d3748); padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="margin-top: 0;">Quick Links</h3>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--primary-color, #6366f1); text-decoration: none;">📊 Analytics Dashboard</a></li>
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--primary-color, #6366f1); text-decoration: none;">🔐 Security Center</a></li>
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--primary-color, #6366f1); text-decoration: none;">📞 Support Portal</a></li>
+                                <li><a href="#" style="color: var(--primary-color, #6366f1); text-decoration: none;">📖 Documentation</a></li>
+                            </ul>
+                        </aside>
+                    </main>
+                    
+                    <footer style="padding: 1.5rem; background: var(--secondary-color, #374151); color: white; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                        <div>
+                            <h4 style="margin: 0 0 1rem 0;">Company</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.875rem;">
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none;">About Us</a></li>
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none;">Careers</a></li>
+                                <li><a href="#" style="color: #cbd5e1; text-decoration: none;">Press</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="margin: 0 0 1rem 0;">Support</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.875rem;">
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none;">Help Center</a></li>
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none;">Contact Us</a></li>
+                                <li><a href="#" style="color: #cbd5e1; text-decoration: none;">Status</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="margin: 0 0 1rem 0;">Legal</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.875rem;">
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none;">Privacy</a></li>
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none;">Terms</a></li>
+                                <li><a href="#" style="color: #cbd5e1; text-decoration: none;">Cookies</a></li>
+                            </ul>
+                        </div>
+                    </footer>
+                </wb-layout>
+            </div>
+        </div>
+    </wb-demo>
+
+    <script>
+        // Interactive layout switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const layoutSelect = document.getElementById('layout-select');
+            const interactiveLayout = document.getElementById('interactive-layout');
+            
+            if (layoutSelect && interactiveLayout) {
+                layoutSelect.addEventListener('change', function() {
+                    const newLayout = this.value;
+                    interactiveLayout.setAttribute('layout', newLayout);
+                    
+                    console.log(`Layout changed to: ${newLayout}`);
+                });
+            }
+        });
+        
+        // Log when component loader is ready
+        document.addEventListener('wb:component-loader-ready', (e) => {
+            console.log('✅ Component Loader Ready:', e.detail);
+            console.log('📦 Loaded components:', e.detail.components);
+        });
+        
+        // Log each component as it loads
+        document.addEventListener('wb:component-loaded', (e) => {
+            console.log(`✅ Component loaded: ${e.detail.component}`);
+        });
+    </script>
+
+</body>
+</html>

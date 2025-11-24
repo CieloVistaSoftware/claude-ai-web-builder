@@ -177,3 +177,12 @@ import { Heterodyne, ColorConversion } from '../wb-color-utils/wb-color-utils.js
 
 ---
 
+
+### 📝 modulator hue not working on heterodyne mixing
+
+**Date:** 2025-11-22 03:53:18  
+**Type:** issue  
+**File Path:** `wb-color-harmony-demo.html`  
+**URL:** http://127.0.0.1:8080/components/wb-color-harmony/wb-color-harmony-demo.html  
+
+---

@@ -1,4 +1,33 @@
 # Component: wb-event-log
+we have had major isses with wb-event-log recently.
+I've deleted the .html file and would like a new wb-event-log-demo.html created based on the .md files and schema files in this folder.
+
+http://127.0.0.1:8083/components/wb-event-log/wb-event-log-demo.html not working not dark mode
+wb-event-log-demo-fixed.html:309  Refused to apply style from 'http://127.0.0.1:8083/components/wb-event-log/styles/main.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
+wb-event-log.js:1057  Uncaught SyntaxError: Unexpected token '!'
+wb-event-log-demo-fixed.html:673  This is a console.error message
+generateConsoleEvents @ wb-event-log-demo-fixed.html:673
+wb-event-log-demo-fixed.html:1  Refused to apply style from 'http://127.0.0.1:8083/components/wb-event-log/styles/main.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
+
+
+http://127.0.0.1:8083/components/wb-event-log/wb-event-log-demo-fixed.html nothing showing in event log
+wb-event-log-demo-fixed.html:309  Refused to apply style from 'http://127.0.0.1:8083/components/wb-event-log/styles/main.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
+wb-event-log.js:1057  Uncaught SyntaxError: Unexpected token '!'
+wb-event-log-demo-fixed.html:673  This is a console.error message
+generateConsoleEvents @ wb-event-log-demo-fixed.html:673
+wb-event-log-demo-fixed.html:1  Refused to apply style from 'http://127.0.0.1:8083/components/wb-event-log/styles/main.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
+
+
+http://127.0.0.1:8083/components/wb-event-log/wb-event-log-demo-unified.html not working not dark mode
+
+wb-event-log-demo-unified.html:1  Refused to apply style from 'http://127.0.0.1:8083/components/wb-event-log/styles/main.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
+config.js:1   Failed to load resource: the server responded with a status of 404 (Not Found)
+wb-event-log-demo-unified.html:1  Refused to execute script from 'http://127.0.0.1:8083/config.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
+auto-loader.js:1   Failed to load resource: the server responded with a status of 404 (Not Found)
+wb-event-log-demo-unified.html:1  Refused to execute script from 'http://127.0.0.1:8083/utils/auto-loader.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
+wb-event-log.js:13  Uncaught SyntaxError: Cannot use import statement outside a module
+wb-event-log-demo-unified.html:1  Refused to apply style from 'http://127.0.0.1:8083/components/wb-event-log/styles/main.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
+
 
 **Status**: ✅ COMPLETED
 **Last Updated**: October 22, 2025

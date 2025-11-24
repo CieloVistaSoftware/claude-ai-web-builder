@@ -1,17 +1,14 @@
-// @ts-check
-
-// TypeScript declarations for global objects
-/**
- * @typedef {typeof WBBaseComponent} WBBaseComponentConstructor
- * @typedef {typeof WBDemoBase} WBDemoBaseConstructor
- */
 
 // WBDemoBase will be defined after WBBaseComponent
 // Helper to inject event log tab into all wb-demo components if enabled in config
 let _eventLogTabInjected = false;
+
+// Global reactive event log state for WB components
+const WBEventLogState = { entries: [] };
 async function injectEventLogTabIfEnabled() {
     if (_eventLogTabInjected) return;
     try {
+        
         const response = await fetch('/config/components.config.json');
         if (!response.ok) return;
         const config = await response.json();
@@ -34,50 +31,33 @@ async function injectEventLogTabIfEnabled() {
     } catch (e) {}
 }
 
-// Reactive event log state (singleton)
-const WBEventLogState = new Proxy({ entries: [] }, {
-    set(target, prop, value) {
-        target[prop] = value;
-        if (prop === 'entries') {
-            document.dispatchEvent(new CustomEvent('wb:event-log-updated', { detail: target.entries }));
-        }
-        return true;
-    }
-});
 
 
 // wb-base.js
 // Enhanced base class for all WB Web Components
 import {
-    addTrackedEventListener,
     reflectAttribute,
     getAttributeOrDefault,
     dispatchWBEvent,
     defineObservedAttributes
-} from '../archive/component-utils/component-utils.js';
+} from '../component-helpers/component-utils.js';
 
 class WBBaseComponent extends HTMLElement {
     // Default static styleUrl property to avoid missing property errors
-    /**
-     * @type {string|null}
-     */
     static styleUrl = null;
-    /**
-     * Safely cast any variable to HTMLElement if possible, else returns null
-     * @param {any} el - The variable to check
-     * @returns {HTMLElement|null}
-     */
+    // Allow subclasses to opt out of shadow DOM
+    static useShadow = true;
     asHTMLElement(el) {
         return el instanceof HTMLElement ? el : null;
     }
     constructor() {
         super();
-        // Attach shadow root if not already present
-        if (!this.shadowRoot) {
+        // Attach shadow root only if useShadow is true and not already present
+        const ctor = /** @type {typeof WBBaseComponent} */ (this.constructor);
+        if (ctor.useShadow && !this.shadowRoot) {
             this.attachShadow({ mode: 'open' });
         }
         // Optionally, auto-load styles if a static styleUrl is defined
-        const ctor = /** @type {typeof WBBaseComponent} */ (this.constructor);
         if (ctor.styleUrl) {
             this._loadStyles(ctor.styleUrl);
         }
@@ -86,11 +66,6 @@ class WBBaseComponent extends HTMLElement {
         // For convenience, expose event log state
         this.WBEventLogState = WBEventLogState;
     }
-    /**
-     * Add an event to the global reactive event log and notify listeners.
-     * @param {string} message - The log message
-     * @param {string} [type='info'] - Log type: info, error, debug, etc.
-     */
     static logEvent(message, type = 'info') {
         WBEventLogState.entries.unshift({
             type,
@@ -105,9 +80,6 @@ class WBBaseComponent extends HTMLElement {
         WBEventLogState.entries = WBEventLogState.entries;
     }
 
-    /**
-     * Get the current event log entries (reactive).
-     */
     static getEventLog() {
         return WBEventLogState.entries;
     }
@@ -119,14 +91,11 @@ class WBBaseComponent extends HTMLElement {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = url;
-        this.shadowRoot.appendChild(link);
+        if (this.shadowRoot) {
+            this.shadowRoot.appendChild(link);
+        }
     }
 
-    /**
-     * Safely set style properties if the element is an HTMLElement
-     * @param {any} el - The element or variable to style
-     * @param {Object} styleProps - An object of style properties and values
-     */
     setStyleIfHTMLElement(el, styleProps) {
         if (el instanceof HTMLElement && el.style) {
             Object.assign(el.style, styleProps);
@@ -141,7 +110,7 @@ class WBBaseComponent extends HTMLElement {
     // Logging helpers
     logInfo(msg, ctx) {
         WBBaseComponent.logEvent(msg, 'info');
-        if (window.WBEventLog && window.WBEventLog.logInfo) {
+        if (typeof window !== 'undefined' && window.WBEventLog && typeof window.WBEventLog.logInfo === 'function') {
             window.WBEventLog.logInfo(msg, ctx);
         } else {
             console.info('[WB]', msg, ctx);
@@ -149,7 +118,7 @@ class WBBaseComponent extends HTMLElement {
     }
     logError(msg, ctx) {
         WBBaseComponent.logEvent(msg, 'error');
-        if (window.WBEventLog && typeof window.WBEventLog.logError === 'function') {
+        if (typeof window !== 'undefined' && window.WBEventLog && typeof window.WBEventLog.logError === 'function') {
             window.WBEventLog.logError(msg, ctx);
         } else {
             console.error('[WB]', msg, ctx);
@@ -157,7 +126,7 @@ class WBBaseComponent extends HTMLElement {
     }
     logDebug(msg, ctx) {
         WBBaseComponent.logEvent(msg, 'debug');
-        if (window.WBEventLog && window.WBEventLog.logDebug) {
+        if (typeof window !== 'undefined' && window.WBEventLog && typeof window.WBEventLog.logDebug === 'function') {
             window.WBEventLog.logDebug(msg, ctx);
         } else {
             console.debug('[WB]', msg, ctx);
@@ -200,23 +169,18 @@ class WBBaseComponent extends HTMLElement {
 
     // Slot/content helpers
     getSlotNodes(name) {
-    const slot = this.shadowRoot.querySelector(`slot[name="${name}"]`);
-    return slot && slot instanceof HTMLSlotElement ? slot.assignedNodes({ flatten: true }) : [];
+        const slotName = name;
+        const slot = this.shadowRoot ? this.shadowRoot.querySelector(`slot[name="${slotName}"]`) : null;
+        return slot && slot instanceof HTMLSlotElement ? slot.assignedNodes({ flatten: true }) : [];
     }
     isSlotEmpty(name) {
         const nodes = this.getSlotNodes(name);
-        return nodes.length === 0 || nodes.every(n => n.nodeType === Node.TEXT_NODE && !n.textContent.trim());
+        return nodes.length === 0 || nodes.every(n => n.nodeType === Node.TEXT_NODE && (!n.textContent || !n.textContent.trim()));
     }
 
-    /**
-     * Dynamically loads marked.js from CDN if not present, then fetches and renders Markdown into a target element.
-     * @param {string} mdUrl - URL of the Markdown file to fetch
-     * @param {HTMLElement|string} target - Element or selector to render HTML into
-     */
     static async renderMarkdownDoc(mdUrl, target) {
-        // Helper to load marked if not present
         function loadMarked() {
-            if (window['marked']) return Promise.resolve(window['marked']);
+            if (typeof window !== 'undefined' && window['marked']) return Promise.resolve(window['marked']);
             return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
                 script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
@@ -342,13 +306,104 @@ if (typeof window !== 'undefined') {
 }
 
 // Make WBBaseComponent available globally
-window['WBBaseComponent'] = WBBaseComponent;
+if (typeof window !== 'undefined') {
+    window['WBBaseComponent'] = WBBaseComponent;
 
-// Compositional Namespace
-if (!window['WB']) window['WB'] = { components: {}, utils: {} };
-window['WB'].components.WBBaseComponent = WBBaseComponent;
-window['WB'].components.WBDemoBase = WBDemoBase;
+    // Compositional Namespace
+    if (!window['WB']) window['WB'] = { components: {}, utils: {} };
+    window['WB'].components.WBBaseComponent = WBBaseComponent;
+    window['WB'].components.WBDemoBase = WBDemoBase;
+}
+/**
+ * ═══════════════════════════════════════════════════════════════════
+ * COPY THIS CODE TO wb-base.js (at the very end, before export)
+ * ═══════════════════════════════════════════════════════════════════
+ * 
+ * This auto-loads the Claude Logger in all demo files!
+ * No need to manually add it to each demo.
+ */
 
+// Auto-load Claude Logger in demo mode
+WBBaseComponent._initClaudeLogger = (() => {
+    // Only run once per page
+    if (window._claudeLoggerInitialized) return;
+    
+    // Detect demo mode
+    const isDemoMode = window.location.pathname.toLowerCase().includes('demo')
+                    || document.title.toLowerCase().includes('demo')
+                    || window.location.hostname === 'localhost'
+                    || window.location.hostname === '127.0.0.1';
+    
+    if (!isDemoMode) return;
+    
+    // Mark as initialized
+    window._claudeLoggerInitialized = true;
+    
+    // Load logger when DOM is ready
+    const loadLogger = () => {
+        const script = document.createElement('script');
+        script.type = 'module';
+        
+        // 🔧 ADJUST THIS PATH based on your directory structure
+        // Add version to force cache refresh
+        script.src = '/components/wb-claude-logger/wb-claude-logger/wb-claude-logger.js?v=' + Date.now();
+        
+        script.onload = () => {
+            // Add logger to page if not already present
+            if (!document.querySelector('wb-claude-logger')) {
+                const logger = document.createElement('wb-claude-logger');
+                
+                // Enable backend by default (save to claude.md files)
+                logger.setAttribute('use-backend', 'true');
+                
+                // Optional: Read configuration from meta tags
+                const position = document.querySelector('meta[name="claude-logger-position"]');
+                if (position) {
+                    logger.setAttribute('position', position.getAttribute('content'));
+                }
+                
+                // Allow meta tag to override backend setting
+                const useBackendMeta = document.querySelector('meta[name="claude-logger-use-backend"]');
+                if (useBackendMeta) {
+                    logger.setAttribute('use-backend', useBackendMeta.getAttribute('content'));
+                }
+                
+                document.body.appendChild(logger);
+            }
+        };
+        
+        script.onerror = () => {
+            console.warn('Claude Logger not available at:', script.src);
+        };
+        
+        document.head.appendChild(script);
+    };
+    
+    // Load when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadLogger);
+    } else {
+        loadLogger();
+    }
+})();
+
+/**
+ * ═══════════════════════════════════════════════════════════════════
+ * THAT'S IT! Now every demo automatically has the 📝 logger button
+ * ═══════════════════════════════════════════════════════════════════
+ * 
+ * Optional: Customize per demo with meta tags in <head>:
+ * 
+ * <meta name="claude-logger-position" content="top-left">
+ * <meta name="claude-logger-use-backend" content="true">
+ * 
+ * The logger will only load when:
+ * ✅ URL contains "demo"
+ * ✅ OR title contains "demo"
+ * ✅ OR running on localhost
+ * 
+ * Production pages are NOT affected! 🎉
+ */
 // ES6 Module Exports
 export { WBBaseComponent, WBDemoBase };
 export default WBBaseComponent;

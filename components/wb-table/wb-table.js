@@ -12,6 +12,7 @@ import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 class WBTable extends WBBaseComponent {
     constructor() {
         super();
+        this.attachShadow({ mode: 'open' });
         this.data = [];
         this.headers = [];
     }

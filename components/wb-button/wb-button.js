@@ -14,7 +14,7 @@
  * - wb-button:toggle - Fired when toggle button state changes
  * - wb-button:ready - Fired when component is fully initialized
  * 
- * @version 2.0.0
+ * @version 2.0.1-shadow-dom
  * @author Website Builder Team
  */
 
@@ -104,6 +104,7 @@ function createSignal(initial) {
 }
 
 class WBButton extends WBBaseComponent {
+  
   // Signal fields (no type annotations)
   getActive;
   setActive;
@@ -151,8 +152,37 @@ class WBButton extends WBBaseComponent {
   }
 
   async connectedCallback() {
-    await loadComponentCSS(this, 'wb-button.css');
+    super.connectedCallback(); // Inherit dark mode and other base functionality
+    
+    // Save the original text content BEFORE we render
+    this._buttonText = this.textContent.trim();
+    
+    // Load CSS - different approach for Shadow DOM vs Light DOM
+    if (this.shadowRoot) {
+      // Shadow DOM: Add CSS link directly to shadowRoot
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = new URL('./wb-button.css', import.meta.url).href;
+      this.shadowRoot.appendChild(link);
+      
+      // Wait for CSS to load
+      await new Promise(resolve => {
+        link.onload = resolve;
+        link.onerror = resolve; // Continue even if CSS fails
+      });
+    } else {
+      // Light DOM: Use standard CSS loader
+      await loadComponentCSS(this, 'wb-button.css');
+    }
+    
     this.render();
+    
+    // Add click event listener
+    const target = this.shadowRoot || this;
+    const button = target.querySelector('button');
+    if (button) {
+      button.addEventListener('click', (e) => this.handleClick(e));
+    }
   }
 
   render() {
@@ -164,19 +194,42 @@ class WBButton extends WBBaseComponent {
     const image = this.getImage();
     const status = this.getStatus();
     const bgImage = this.getBgImage();
-    this.innerHTML = `
+    
+    // Use saved text content or current textContent
+    const buttonText = this._buttonText || this.textContent.trim();
+    
+    const html = `
       <button
         class="${this.config.classes.base} ${this.config.classes.variants[variant]} ${this.config.classes.sizes[size]} ${active ? this.config.classes.states.active : ''} ${disabled ? this.config.classes.states.disabled : ''}"
         ${disabled ? 'disabled' : ''}
-        onclick="this.getRootNode().host.handleClick(event)"
         type="button"
+        style="display: flex !important; align-items: center !important; justify-content: center !important; min-height: 24px !important; padding: 0 8px !important;"
       >
         ${image ? `<img class='${this.config.classes.elements.image}' src='${image}' alt='' />` : ''}
-        <slot></slot>
+        ${buttonText}
         ${status ? `<span class='${this.config.classes.elements.status} ${this.config.classes.elements.status}--${status}'></span>` : ''}
-        ${variant === 'toggle' ? `<span class='${this.config.classes.elements.checkmark}'>✓</span>` : ''}
       </button>
     `;
+    
+    // WBBase creates shadowRoot automatically if useShadow = true
+    const target = this.shadowRoot || this;
+    
+    // IMPORTANT: Preserve existing link/style elements when re-rendering
+    if (this.shadowRoot) {
+      // Save CSS links before clearing
+      const existingLinks = Array.from(this.shadowRoot.querySelectorAll('link[rel="stylesheet"]'));
+      const existingStyles = Array.from(this.shadowRoot.querySelectorAll('style'));
+      
+      // Clear and set new HTML
+      target.innerHTML = html;
+      
+      // Re-append CSS links and styles
+      existingLinks.forEach(link => this.shadowRoot.appendChild(link));
+      existingStyles.forEach(style => this.shadowRoot.appendChild(style));
+    } else {
+      target.innerHTML = html;
+    }
+    
     if (bgImage) {
       this.style.setProperty('--wb-btn-bg-image', `url(${bgImage})`);
     } else {

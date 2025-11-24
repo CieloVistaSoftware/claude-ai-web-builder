@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-mode="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Framework - Wave-Based Color Harmony Demo</title>
+    <link rel="stylesheet" href="../src../../styles/main.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-color, #0f1419);
+            color: var(--text-primary, #f8f8f2);
+            padding: 0;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary, #6366f1), var(--primary-dark, #4338ca));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border: 2px solid var(--primary, #6366f1);
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            background: linear-gradient(135deg, #6366f1, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary, #a0a0a0);
+        }
+
+        .demo-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .demo-feature-card {
+            background: var(--bg-secondary, #1e1e1e);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary, #6366f1);
+            transition: all 0.3s ease;
+        }
+
+        .demo-feature-card:hover {
+            border-left-color: var(--accent, #10b981);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .demo-feature-card h4 {
+            margin: 0 0 0.75rem 0;
+            font-size: 1rem;
+            color: var(--primary, #6366f1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .demo-feature-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary, #a0a0a0);
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary, #6366f1), var(--accent, #10b981));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: var(--bg-secondary, #1e1e1e);
+            color: var(--text-primary, #f8f8f2);
+            border: 2px solid var(--primary, #6366f1);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--primary, #6366f1);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin: 2rem 0 1.5rem 0;
+            border-bottom: 2px solid var(--border-color, #333);
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary, #a0a0a0);
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-button:hover {
+            color: var(--text-primary, #f8f8f2);
+        }
+
+        .tab-button.active {
+            color: var(--primary, #6366f1);
+            border-bottom-color: var(--primary, #6366f1);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary, #1e1e1e);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary, #6366f1);
+            margin: 1.5rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary, #6366f1);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary, #a0a0a0);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
+        }
+
+        .test-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .test-stat {
+            background: var(--bg-secondary, #1e1e1e);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color, #333);
+        }
+
+        .test-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .test-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary, #a0a0a0);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
+        }
+
+        .test-stat.passed { border-left: 4px solid #10b981; }
+        .test-stat.passed .test-stat-value { color: #10b981; }
+        
+        .test-stat.failed { border-left: 4px solid #ef4444; }
+        .test-stat.failed .test-stat-value { color: #ef4444; }
+        
+        .test-stat.skipped { border-left: 4px solid #f59e0b; }
+        .test-stat.skipped .test-stat-value { color: #f59e0b; }
+
+        .test-report-item {
+            background: var(--bg-secondary, #1e1e1e);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+        .test-report-item.passed { border-left-color: #10b981; }
+        .test-report-item.failed { border-left-color: #ef4444; }
+        .test-report-item.skipped { border-left-color: #f59e0b; }
+
+        .test-report-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transform: translateX(4px);
+        }
+
+        .test-title {
+            font-weight: 600;
+            color: var(--text-primary, #f8f8f2);
+            margin: 0 0 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .test-details {
+            font-size: 0.85rem;
+            color: var(--text-secondary, #a0a0a0);
+            margin: 0;
+        }
+
+        .test-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 0.5rem;
+        }
+
+        .test-status.passed { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .test-status.failed { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .test-status.skipped { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary, #1e1e1e);
+            border-radius: 8px;
+            border: 1px solid var(--border-color, #333);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .feature-content h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 0.95rem;
+            color: var(--text-primary, #f8f8f2);
+        }
+
+        .feature-content p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary, #a0a0a0);
+        }
+
+        .code-block {
+            background: var(--bg-primary, #0f1419);
+            border: 1px solid var(--border-color, #333);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--bg-tertiary, #2a2a2a);
+            border-radius: 12px;
+            text-align: center;
+            border-top: 2px solid var(--primary, #6366f1);
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary, #a0a0a0);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--primary, #6366f1);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color, #333);
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .section-header .badge {
+            display: inline-block;
+            background: var(--primary, #6366f1);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+            border-left: 4px solid var(--primary, #6366f1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .info-box h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary, #6366f1);
+        }
+
+        .info-box p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .demo-features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🌊 WB Framework - Wave-Based Color Harmony</h1>
+        <p>Advanced Color Theory Meets Radio Wave Physics</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h2 class="hero-title">🎨 Wave-Based Color Harmony Demo</h2>
+            <p class="hero-description">
+                Experience a revolutionary approach to color harmony that combines traditional color theory with radio wave physics principles. 
+                The Wave-Based Color Harmony (WB) system mathematically derives color relationships using harmonic frequencies, 
+                modulation techniques, and audio-reactive visualizations. This innovative system transforms how colors interact and evolve.
+            </p>
+            <div class="cta-buttons">
+                <a href="components/wb-color-harmony-demo.html" class="cta-button">🚀 Launch Interactive Demo</a>
+                <a href="#features" class="cta-button secondary">📚 Learn More</a>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Harmony Modes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Modulation Types</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Color Combinations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Audio Modes</div>
+            </div>
+        </div>
+
+        <!-- Tabs Section -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab(event, 'features')">📋 Features</button>
+            <button class="tab-button" onclick="switchTab(event, 'how-it-works')">⚙️ How It Works</button>
+            <button class="tab-button" onclick="switchTab(event, 'components')">🧩 Components</button>
+            <button class="tab-button" onclick="switchTab(event, 'test-reports')">✅ Test Reports</button>
+        </div>
+
+        <!-- Features Tab -->
+        <div id="features" class="tab-content active">
+            <h3 class="section-header">
+                <span>🌈 Key Features</span>
+                <span class="badge">Wave Theory</span>
+            </h3>
+
+            <div class="demo-features-grid">
+                <div class="demo-feature-card">
+                    <h4>🎯 Harmonic Color Calculation</h4>
+                    <p>
+                        Generates complementary, analogous, triadic, and wave-based color palettes using mathematical 
+                        relationships derived from harmonic frequencies. Every color is calculated, never hardcoded.
+                    </p>
+                </div>
+
+                <div class="demo-feature-card">
+                    <h4>🌊 Modulation Engine</h4>
+                    <p>
+                        Four sophisticated modulation techniques: Phase (PM), Frequency (FM), Amplitude (AM), and Combined modes. 
+                        Watch colors animate with sine, triangle, sawtooth, or square wave patterns.
+                    </p>
+                </div>
+
+                <div class="demo-feature-card">
+                    <h4>🎵 Audio-Reactive Visualization</h4>
+                    <p>
+                        Maps audio frequency bands directly to color properties: bass to hue, mids to saturation, 
+                        treble to lightness. Capture browser tab audio or microphone input.
+                    </p>
+                </div>
+
+                <div class="demo-feature-card">
+                    <h4>🎪 Color Organ Mode</h4>
+                    <p>
+                        Full-screen immersive color visualization synchronized with audio. Each frequency band displays as 
+                        a dynamic color block that responds to your music or input.
+                    </p>
+                </div>
+
+                <div class="demo-feature-card">
+                    <h4>💫 Cascade Effect</h4>
+                    <p>
+                        Colors ripple through swatches with progressive phase shifting. Creates mesmerizing wave-like 
+                        animations across the color palette.
+                    </p>
+                </div>
+
+                <div class="demo-feature-card">
+                    <h4>📊 Real-Time Adjustment</h4>
+                    <p>
+                        Adjustable modulation depth, rate, wave shape, and sensitivity. Fine-tune every parameter 
+                        and watch the colors respond instantly.
+                    </p>
+                </div>
+
+                <div class="demo-feature-card">
+                    <h4>🎨 Live Preview Swatches</h4>
+                    <p>
+                        See primary, accent, secondary, and neutral colors updating in real-time. Hover over any swatch 
+                        in the harmony cards to see the exact hue value.
+                    </p>
+                </div>
+
+                <div class="demo-feature-card">
+                    <h4>💾 Export Palettes</h4>
+                    <p>
+                        Export complete color palettes as JSON with metadata. Includes all harmony modes, hex values, 
+                        and HSL specifications for use in other projects.
+                    </p>
+                </div>
+
+                <div class="demo-feature-card">
+                    <h4>🔄 9 Harmony Modes</h4>
+                    <p>
+                        Traditional (complementary, split, triadic, tetradic, analogous) + Wave-based 
+                        (beat pattern, harmonic series, Doppler shift, standing wave).
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>💡 Wave Theory Integration</h4>
+                <p>
+                    Unlike traditional RGB or HSL color pickers, WB derives colors from mathematical wave relationships. 
+                    Bass frequencies modulate hue using phase modulation, mids control saturation through amplitude, 
+                    and treble shapes lightness via frequency shifts. This creates a unified color system grounded in physics.
+                </p>
+            </div>
+        </div>
+
+        <!-- How It Works Tab -->
+        <div id="how-it-works" class="tab-content">
+            <h3 class="section-header">
+                <span>⚙️ How The System Works</span>
+            </h3>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">1️⃣</div>
+                    <div class="feature-content">
+                        <h4>Set Base Colors</h4>
+                        <p>Choose hue (0-360°), saturation (0-100%), and lightness (0-100%) using the sidebar sliders. 
+                        These three values define --hue-primary, --saturation-primary, --lightness-primary.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">2️⃣</div>
+                    <div class="feature-content">
+                        <h4>Choose Harmony Mode</h4>
+                        <p>Select from 9 harmony modes. Traditional modes use geometric color angles (180°, 120°, etc). 
+                        Wave-based modes calculate ratios using harmonic series and frequency relationships.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">3️⃣</div>
+                    <div class="feature-content">
+                        <h4>Enable Modulation</h4>
+                        <p>Activate the modulation engine and select PM, FM, AM, or Combined mode. Set wave shape (sine/triangle/sawtooth/square), 
+                        depth, and rate. Colors begin animating in real-time.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">4️⃣</div>
+                    <div class="feature-content">
+                        <h4>Add Audio Reactivity (Optional)</h4>
+                        <p>Toggle audio mode and select browser tab or microphone. Audio data is analyzed in real-time, 
+                        mapping frequency bands to color properties for dynamic, music-driven visualization.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">5️⃣</div>
+                    <div class="feature-content">
+                        <h4>Enable Cascade Effect</h4>
+                        <p>Activate cascade mode for phase-shifted animations across swatches. Each color ripples with 
+                        a time offset, creating mesmerizing wave patterns across the palette.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">📤</div>
+                    <div class="feature-content">
+                        <h4>Export Your Palette</h4>
+                        <p>Click "Export Palette" to download a JSON file containing all harmony modes, hex values, 
+                        HSL specifications, and metadata for your current color configuration.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>🔬 Technical Foundation</h4>
+                <p>
+                    The system uses Web Audio API for real-time frequency analysis, CSS custom properties for dynamic theming, 
+                    and requestAnimationFrame for smooth 60fps animations. Modulation is calculated using mathematical wave functions 
+                    (sine, triangle sawtooth, square) applied to HSL color space. Audio analysis splits the frequency spectrum into 
+                    bass (0-15%), mids (15-50%), and treble (50-100%) bands.
+                </p>
+            </div>
+
+            <h3 class="section-header">
+                <span>🎯 Key Equations</span>
+            </h3>
+
+            <div class="code-block">
+// Phase Modulation (PM) - Modulates HUE<br>
+modulatedHue = baseHue + (depth × sin(time))<br>
+<br>
+// Frequency Modulation (FM) - Sweeping Effect<br>
+freq = rate × (1 + sin(time × 0.3))<br>
+modulatedHue = baseHue + (depth × sin(time × freq × 5))<br>
+<br>
+// Amplitude Modulation (AM) - Saturation Pulsing<br>
+modulatedSat = baseSat + (20% × sin(time × 1.3))<br>
+<br>
+// Audio Reactivity<br>
+bassToHue = bass × 60°<br>
+midsToSat = mids × 30%<br>
+trebleToLight = (treble - 0.5) × 20%
+            </div>
+        </div>
+
+        <!-- Components Tab -->
+        <div id="components" class="tab-content">
+            <h3 class="section-header">
+                <span>🧩 Component Architecture</span>
+            </h3>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-content">
+                        <h4>wb-color-harmony-demo.html</h4>
+                        <p>Main demo file. Includes sidebar controls, real-time harmony visualization, 
+                        modulation engine, audio reactive system, and color export functionality.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">📦</div>
+                    <div class="feature-content">
+                        <h4>wb-color-harmony.js</h4>
+                        <p>Core harmony system. Contains WBColorHarmony class with methods for generating 
+                        palettes, calculating harmonies, and converting between color spaces.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🎛️</div>
+                    <div class="feature-content">
+                        <h4>wb-control-panel-hcs.js</h4>
+                        <p>HCS-compatible control panel. Manages theme selection, layout switching, 
+                        mode toggling, and direct manipulation of CSS custom properties.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🌈</div>
+                    <div class="feature-content">
+                        <h4>wb-color-bars</h4>
+                        <p>Visual color display component. Shows individual color values with 
+                        harmony relationships and real-time updates.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🎵</div>
+                    <div class="feature-content">
+                        <h4>Audio Analysis System</h4>
+                        <p>Uses Web Audio API's AnalyserNode. Captures 256-point FFT, 
+                        splits into frequency bands, and maps to color properties with sensitivity control.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">💫</div>
+                    <div class="feature-content">
+                        <h4>Animation System</h4>
+                        <p>RequestAnimationFrame loop with support for multiple modulation types. 
+                        Cascading phase shifts across swatches with customizable wave shapes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>🏗️ Architecture Highlights</h4>
+                <p>
+                    <strong>Separation of Concerns:</strong> Color calculation (JS) is separate from visualization (HTML/CSS). 
+                    <strong>Real-Time Updates:</strong> All sliders and controls trigger immediate color recalculation. 
+                    <strong>Modular Design:</strong> Each system (harmony, modulation, audio, cascade) can be toggled independently. 
+                    <strong>CSS Variables:</strong> All colors use --hue-primary, --saturation-primary, --lightness-primary for dynamic theming.
+                </p>
+            </div>
+        </div>
+
+        <!-- Test Reports Tab -->
+        <div id="test-reports" class="tab-content">
+            <h3 class="section-header">
+                <span>✅ Playwright Test Results</span>
+                <span class="badge">Latest Run</span>
+            </h3>
+
+            <div class="test-stats">
+                <div class="test-stat passed">
+                    <div class="test-stat-value">11</div>
+                    <div class="test-stat-label">Passed</div>
+                </div>
+                <div class="test-stat failed">
+                    <div class="test-stat-value">5</div>
+                    <div class="test-stat-label">Failed</div>
+                </div>
+                <div class="test-stat skipped">
+                    <div class="test-stat-value">41</div>
+                    <div class="test-stat-label">Skipped</div>
+                </div>
+                <div class="test-stat">
+                    <div class="test-stat-value">1.88m</div>
+                    <div class="test-stat-label">Duration</div>
+                </div>
+            </div>
+
+            <h4>📊 Test Summary by Suite</h4>
+
+            <!-- Control Panel Demo Tests -->
+            <div class="test-report-item passed">
+                <div class="test-title">
+                    <span class="test-status passed">✓ PASSED</span>
+                    Demo page should load with proper title and content
+                </div>
+                <div class="test-details">
+                    File: wb-control-panel/control-panel-demo.spec.ts · Duration: 2498ms
+                </div>
+            </div>
+
+            <div class="test-report-item failed">
+                <div class="test-title">
+                    <span class="test-status failed">✗ FAILED</span>
+                    Control panel should be visible by default
+                </div>
+                <div class="test-details">
+                    Error: Strict mode violation - Multiple wb-color-bars elements resolved<br>
+                    File: wb-control-panel/control-panel-demo.spec.ts · Line: 44
+                </div>
+            </div>
+
+            <div class="test-report-item failed">
+                <div class="test-title">
+                    <span class="test-status failed">✗ FAILED</span>
+                    Control panel should be functional within demo
+                </div>
+                <div class="test-details">
+                    Error: Timeout waiting for "Website Builder Controls" text<br>
+                    File: wb-control-panel/control-panel-demo.spec.ts · Line: 58 · Duration: 13149ms
+                </div>
+            </div>
+
+            <div class="test-report-item passed">
+                <div class="test-title">
+                    <span class="test-status passed">✓ PASSED</span>
+                    Demo feature cards should be present and editable
+                </div>
+                <div class="test-details">
+                    File: wb-control-panel/control-panel-demo.spec.ts · Duration: 1996ms
+                </div>
+            </div>
+
+            <div class="test-report-item passed">
+                <div class="test-title">
+                    <span class="test-status passed">✓ PASSED</span>
+                    Status bar should show updates
+                </div>
+                <div class="test-details">
+                    File: wb-control-panel/control-panel-demo.spec.ts · Duration: 1700ms
+                </div>
+            </div>
+
+            <div class="test-report-item failed">
+                <div class="test-title">
+                    <span class="test-status failed">✗ FAILED</span>
+                    Keyboard shortcuts should work
+                </div>
+                <div class="test-details">
+                    Error: Timeout waiting for element to have class "visible"<br>
+                    File: wb-control-panel/control-panel-demo.spec.ts · Line: 113 · Duration: 12882ms
+                </div>
+            </div>
+
+            <div class="test-report-item passed">
+                <div class="test-title">
+                    <span class="test-status passed">✓ PASSED</span>
+                    Demo should work on mobile viewport
+                </div>
+                <div class="test-details">
+                    File: wb-control-panel/control-panel-demo.spec.ts · Duration: 2620ms
+                </div>
+            </div>
+
+            <div class="test-report-item failed">
+                <div class="test-title">
+                    <span class="test-status failed">✗ FAILED</span>
+                    Edit mode should work in demo context
+                </div>
+                <div class="test-details">
+                    Error: Timeout waiting for '#toggle-control-panel'<br>
+                    File: wb-control-panel/control-panel-demo.spec.ts · Line: 144 · Duration: 12182ms
+                </div>
+            </div>
+
+            <div class="test-report-item passed">
+                <div class="test-title">
+                    <span class="test-status passed">✓ PASSED</span>
+                    Demo should initialize properly with debug info
+                </div>
+                <div class="test-details">
+                    File: wb-control-panel/control-panel-demo.spec.ts · Duration: 3995ms
+                </div>
+            </div>
+
+            <!-- Functionality Tests -->
+            <div class="test-report-item passed">
+                <div class="test-title">
+                    <span class="test-status passed">✓ PASSED</span>
+                    Control panel should register and initialize correctly
+                </div>
+                <div class="test-details">
+                    File: wb-control-panel/control-panel-functionality.spec.ts · Duration: 3169ms
+                </div>
+            </div>
+
+            <div class="test-report-item passed">
+                <div class="test-title">
+                    <span class="test-status passed">✓ PASSED</span>
+                    Control panel should have complete shadow DOM structure
+                </div>
+                <div class="test-details">
+                    File: wb-control-panel/control-panel-functionality.spec.ts · Duration: 6364ms
+                </div>
+            </div>
+
+            <h4 style="margin-top: 2rem;">📈 Test Coverage Summary</h4>
+
+            <div class="info-box">
+                <h4>🎯 Key Metrics</h4>
+                <p>
+                    <strong>Pass Rate:</strong> 68.75% (11/16 non-skipped)<br>
+                    <strong>Total Tests Run:</strong> 57 tests across 8 spec files<br>
+                    <strong>Critical Failures:</strong> 5 tests related to selector timeouts and strict mode violations<br>
+                    <strong>Areas to Address:</strong> Element visibility, control panel initialization in test environment, selector specificity
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h4>✅ Passing Test Categories</h4>
+                <p>
+                    ✓ Demo page loading and initialization<br>
+                    ✓ Feature card rendering and editability<br>
+                    ✓ Status bar functionality<br>
+                    ✓ Mobile viewport responsiveness<br>
+                    ✓ Control panel registration<br>
+                    ✓ Debug info output
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h4>⚠️ Known Issues</h4>
+                <p>
+                    • Control panel visibility: Multiple wb-color-bars elements causing strict mode violations<br>
+                    • Selector timeouts: "Website Builder Controls" text not found in test environment<br>
+                    • Keyboard shortcuts: Control panel class state not updating as expected<br>
+                    • Edit mode toggle: Missing or misnamed button selector<br>
+                    • Insert media tests: Cascading failures due to initial setup issues
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>🌊 <strong>Wave-Based Color Harmony System</strong> - Advanced color theory powered by radio wave physics</p>
+            <p>🔗 <a href="components/wb-color-harmony-demo.html">Launch Demo</a> | 
+               <a href="#features">View Features</a> | 
+               <a href="../docs/architecture/WB%20Framework%20-%20Event-Driven%20Color%20System%20Architecture.md">Architecture</a></p>
+            <p>© 2025 WB Framework • <a href="index.html">Back to Component Directory</a></p>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(event, tabName) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-button').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Show selected content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active to clicked button
+            event.target.classList.add('active');
+        }
+
+        console.log('🌊 Wave-Based Color Harmony Demo Index Loaded');
+        console.log('✨ Features: 9 Harmony Modes, 4 Modulation Types, Audio-Reactive, Cascade Effects');
+    </script>
+</body>
+</html>

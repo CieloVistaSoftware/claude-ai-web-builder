@@ -1,0 +1,30 @@
+[
+  {
+    "line": 15,
+    "suggestion": "Add static properties and auto-injection method to WBBaseComponent constructor. After super() call, add: if (!WBBaseComponent._globalEventLogInitialized) { WBBaseComponent._initializeGlobalEventLog(); }",
+    "filePath": "components/wb-base/wb-base.js",
+    "category": "Architecture",
+    "priority": "HIGH"
+  },
+  {
+    "line": "end_of_class",
+    "suggestion": "Add these static methods to WBBaseComponent: _initializeGlobalEventLog() - creates and injects wb-event-log, getGlobalEventLog() - returns the global instance, toggleEventLogVisibility() - toggles display for debugging",
+    "filePath": "components/wb-base/wb-base.js",
+    "category": "New Feature",
+    "priority": "HIGH"
+  },
+  {
+    "line": 1,
+    "suggestion": "Add at class level: static _globalEventLogInitialized = false; and static _globalEventLog = null; to track initialization state",
+    "filePath": "components/wb-base/wb-base.js",
+    "category": "State Management",
+    "priority": "HIGH"
+  },
+  {
+    "line": 20,
+    "suggestion": "Before appendChild in _initializeGlobalEventLog(), check if <wb-event-log> already exists in DOM to prevent duplicates: const existing = document.querySelector('wb-event-log'); if (existing) { WBBaseComponent._globalEventLog = existing; return; }",
+    "filePath": "components/wb-base/wb-base.js",
+    "category": "Edge Cases",
+    "priority": "MEDIUM"
+  }
+]

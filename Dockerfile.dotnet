@@ -1,0 +1,41 @@
+# .NET Backend Dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+WORKDIR /src
+
+# Copy solution and project files
+COPY AIVerifier.sln ./
+COPY AIVerifier.API/AIVerifier.API.csproj ./AIVerifier.API/
+COPY AIVerifier.Core/AIVerifier.Core.csproj ./AIVerifier.Core/
+COPY AIVerifier.Infrastructure/AIVerifier.Infrastructure.csproj ./AIVerifier.Infrastructure/
+
+# Restore dependencies
+RUN dotnet restore
+
+# Copy source code
+COPY . .
+
+# Build
+RUN dotnet build -c Release -o /app/build
+
+# Publish
+FROM build AS publish
+RUN dotnet publish AIVerifier.API/AIVerifier.API.csproj -c Release -o /app/publish
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+
+WORKDIR /app
+
+# Copy published files
+COPY --from=publish /app/publish .
+
+# Expose port
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:5000/api/verification/health || exit 1
+
+# Run the app
+ENTRYPOINT ["dotnet", "AIVerifier.API.dll"]

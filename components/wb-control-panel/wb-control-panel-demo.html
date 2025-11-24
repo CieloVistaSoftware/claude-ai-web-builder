@@ -7,19 +7,19 @@
     <title>WB Control Panel - Complete Demo</title>
 
     <!-- ✅ Load Foundation CSS -->
-    <link rel="stylesheet" href="..../styles/main.css">
+    <link rel="stylesheet" href="../../src/styles/main.css">
     
     <!-- ✅ Load WB Layout CSS -->
-    <link rel="stylesheet" href="../wb-layout/wb-layout.css">
+ 
     
     <!-- ✅ Load Demo-Specific CSS -->
     <link rel="stylesheet" href="wb-control-panel-demo.css">
 
     <!-- ✅ Single centralized loader - loads ALL components -->
-    <script src="../../index.js"></script>
+    <script type="module" src="../../index.js"></script>
     
     <!-- ✅ Load Demo-Specific JavaScript -->
-    <script src="wb-control-panel-demo.js" defer></script>
+    <script type="module" src="wb-control-panel-demo.js" defer></script>
 </head>
 
 <body>
@@ -39,9 +39,8 @@
 
     <!-- Main content -->
     <main>
-        <h1>WB Control Panel - HCS Theme Showcase</h1>
+              <h1>WB Control Panel - HCS Theme Showcase</h1>
         <p class="lead">Experience the power of Harmonic Color System with wave-theory based palettes. Switch between themes to see colors harmonize across all elements.</p>
-
         <!-- Color Showcase Section -->
         <section style="margin: 2rem 0;">
             <h2>🎨 Color System Preview</h2>
@@ -319,22 +318,20 @@
     <wb-log-error></wb-log-error>
 
     <!-- Event Log Panel with Resize Handle - Always after footer at bottom of page -->
-    <div id="event-log-panel">
-        <!-- Resize handle at top of event log -->
-        <wb-resize-updown 
-            target="#event-log-panel"
-            min-height="100"
-            max-height="600"
-            storage-key="wb-event-log-height"
-            handle-height="32px"
-            title="Drag up/down to resize event log">
-        </wb-resize-updown>
+ 
     </div>
-
+    <h2>Event Log</h2>
+     <wb-event-log 
+        id="event-log" 
+        max-entries="100" 
+        auto-open="true" 
+        auto-log-errors="true" 
+        storage-key="wb-event-log-visibility">
     <!-- Control Panel floating (always visible, resizable) -->
-    <wb-control-panel id="main-control-panel"></wb-control-panel>
+    <wb-control-panel id="control-panel"></wb-control-panel>
 </body>
 
 </html>
+
 
 

@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wave-Based Color Harmony: Interactive Demo</title>
     <style>
+        select, select option {
+            color: black !important;
+        }
+        select:focus, select:active, select option:checked, select option:hover {
+            color: black !important;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -220,7 +226,7 @@
         <div class="demo-box">
             <h2>🎨 Harmony Mode</h2>
             <label for="harmonySelect">Select Color Harmony Algorithm:</label>
-            <select id="harmonySelect" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: white;">
+            <select id="harmonySelect" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: black;">
                 <optgroup label="Traditional Harmonies">
                     <option value="complementary">🔄 Complementary</option>
                     <option value="splitComplementary">✂️ Split Complementary</option>

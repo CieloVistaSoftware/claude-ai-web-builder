@@ -1,0 +1,68 @@
+{
+  "name": "wb-component-navigator",
+  "displayName": "WB Component Navigator",
+  "description": "Language Server for Web Components - provides Go to Definition, Find References, and intelligent navigation",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:html",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
+  "main": "./client/out/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "WB Component Navigator",
+      "properties": {
+        "wbComponentNavigator.componentsPath": {
+          "type": "string",
+          "default": "components",
+          "description": "Path to components directory relative to workspace root"
+        },
+        "wbComponentNavigator.trace.server": {
+          "type": "string",
+          "enum": ["off", "messages", "verbose"],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the language server"
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "wbComponentTree",
+          "name": "WB Components"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "wbComponentNavigator.refreshComponents",
+        "title": "Refresh Component Index",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "wbComponentNavigator.showComponentInfo",
+        "title": "Show Component Info"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -b",
+    "watch": "tsc -b -w",
+    "compile-client": "cd client && tsc",
+    "compile-server": "cd server && tsc",
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install && cd .."
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.0.0"
+  }
+}

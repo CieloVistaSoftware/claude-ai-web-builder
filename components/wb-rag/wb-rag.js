@@ -1,4 +1,5 @@
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 
 /**
  * WB RAG Component
@@ -18,11 +19,14 @@ import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
  * @fires wb-rag-response - Fired when Claude responds
  * @fires wb-rag-error - Fired on error
  */
-class WBRag extends HTMLElement {
+class WBRag extends WBBaseComponent {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        
+        // Only attach shadow root if not already present
+        const ctor = /** @type {typeof WBRag} */ (this.constructor);
+        if (ctor.useShadow && !this.shadowRoot) {
+            this.attachShadow({ mode: 'open' });
+        }
         this.knowledgeBase = null;
         this.searchEngine = null;
         this.messages = [];
@@ -41,8 +45,27 @@ class WBRag extends HTMLElement {
         this.markedReady = true;
         this.render();
         this.loadKnowledgeBase();
+        this.logEvents();
     }
+    logEvents() {
+        const rag = document.getElementById('rag-assistant');
 
+        rag.addEventListener('wb-rag-ready', (e) => {
+            console.log('✅ RAG Assistant Ready!', e.detail);
+        });
+
+        rag.addEventListener('wb-rag-search', (e) => {
+            console.log('🔍 Search:', e.detail.query, 'Results:', Array.isArray(e.detail.results) ? e.detail.results.length : 0);
+        });
+
+        rag.addEventListener('wb-rag-response', (e) => {
+            console.log('💬 Response received with', Array.isArray(e.detail.sources) ? e.detail.sources.length : 0, 'sources');
+        });
+
+        rag.addEventListener('wb-rag-error', (e) => {
+            console.error('❌ Error:', e.detail.error);
+        });
+    }
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue !== newValue) {
             if (name === 'knowledge-base-url') {
@@ -67,7 +90,7 @@ class WBRag extends HTMLElement {
         if (window.marked) {
             return Promise.resolve(window.marked);
         }
-        
+
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
@@ -92,7 +115,7 @@ class WBRag extends HTMLElement {
             const kb = await response.json();
             this.knowledgeBase = kb;
             this.searchEngine = new RAGSearchEngine(kb);
-            
+
             this.messages = [{
                 role: 'assistant',
                 content: `🎉 **WB Framework RAG Assistant Ready!**
@@ -104,7 +127,7 @@ I have full access to:
 
 Ask me anything about the WB Framework!`
             }];
-            
+
             this.render();
             this.dispatchEvent(new CustomEvent('wb-rag-ready', {
                 detail: { metadata: kb.metadata },
@@ -141,7 +164,7 @@ This will index all your documentation and components.`
             // STEP 2: Search for relevant context
             const searchResults = this.searchEngine.search(userMessage, 5);
             const context = this.searchEngine.buildContext(searchResults);
-            
+
             this.dispatchEvent(new CustomEvent('wb-rag-search', {
                 detail: { query: userMessage, results: searchResults },
                 bubbles: true,
@@ -150,10 +173,10 @@ This will index all your documentation and components.`
 
             // STEP 3: Send to Claude with context
             const response = await this.callClaudeAPI(userMessage, context);
-            
+
             // Add assistant response
-            this.messages.push({ 
-                role: 'assistant', 
+            this.messages.push({
+                role: 'assistant',
                 content: response,
                 sources: searchResults.map(r => ({
                     type: r.type,
@@ -169,11 +192,11 @@ This will index all your documentation and components.`
             }));
 
         } catch (error) {
-            this.messages.push({ 
-                role: 'assistant', 
+            this.messages.push({
+                role: 'assistant',
                 content: `❌ Error: ${error.message}\n\nMake sure the RAG server is running.`
             });
-            
+
             this.dispatchEvent(new CustomEvent('wb-rag-error', {
                 detail: { error: error.message },
                 bubbles: true,
@@ -207,19 +230,19 @@ This will index all your documentation and components.`
         if (!data.success) {
             throw new Error(data.error || 'Unknown error');
         }
-        
+
         return data.response;
     }
 
     markdownToHtml(md) {
         if (!md) return '';
-        
+
         // Check if marked is available
         if (!window.marked || !this.markedReady) {
             console.warn('Marked library not ready yet, returning plain text');
             return md;
         }
-        
+
         try {
             // Use marked to parse markdown
             const html = window.marked.parse(md);
@@ -650,17 +673,17 @@ class RAGSearchEngine {
     calculateScore(item, tokens) {
         let score = 0;
         const text = JSON.stringify(item).toLowerCase();
-        
+
         tokens.forEach(token => {
             if (item.name?.toLowerCase().includes(token)) score += 10;
             if (item.title?.toLowerCase().includes(token)) score += 8;
             if (item.keywords?.some(k => k.includes(token))) score += 5;
-            
+
             const regex = new RegExp(token, 'gi');
             const matches = (text.match(regex) || []).length;
             score += matches * 2;
         });
-        
+
         return score;
     }
 
@@ -689,7 +712,7 @@ class RAGSearchEngine {
 
     buildContext(searchResults) {
         let context = "# WB Framework Knowledge Context\n\n";
-        
+
         searchResults.forEach((result) => {
             if (result.type === 'component') {
                 const comp = result.data;

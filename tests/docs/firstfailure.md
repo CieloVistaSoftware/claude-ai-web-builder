@@ -173,13 +173,36 @@ Updated `wb-tab-demo.html` to load the wb-tab.js script as an ES6 module:
 - Consider adding automated checks for custom element registration in all component tests
 - Add module loading validation to component initialization tests
 
-## 📝 NOTES
+## 📚 WEB COMPONENT LOGGING & DEBUGGING BEST PRACTICES
 
-- **Current Status**: Task is CLOSED - root cause identified and fixed successfully
-- **Issue Identified**: wb-tab.js was ES6 module loaded as regular script, causing "Unexpected token 'export'" error
-- **Solution Applied**: Added `type="module"` to script tag in wb-tab-demo.html
-- **Impact**: This unblocks the entire component testing workflow
-- **Goal**: ✅ ACHIEVED - wb-tab component now registers and tests pass
+### Logging and Registration
+- Always add clear `console.log` statements for custom element registration and lifecycle events (e.g., constructor, connectedCallback).
+- Log the source of component loading and registration for traceability.
+- Use unique log prefixes for each component (e.g., '🏗️ WB Semantic Elements: ...').
+- Confirm registration with `customElements.get('your-element')` and log the result.
+
+### Debugging
+- Check browser console for errors and missing logs after loading scripts.
+- Use `type="module"` for all ES6 module scripts to avoid syntax errors.
+- Add debug logs to dependencies and utility scripts to verify execution order.
+- Document all findings and fixes in component-specific markdown files.
+
+### Event Logging
+- Consider implementing a shared event log system for all WB components (see WBBaseComponent).
+- Log important events (info, error, success) using a consistent format.
+- Expose event log state for debugging and automated tests.
+
+### Documentation
+- Every component should have a dedicated markdown doc covering:
+  - Registration and lifecycle logging
+  - Debugging steps and common errors
+  - Event logging and traceability
+  - Example console outputs for successful registration
+- Recommend creating a central doc (e.g., `docs/web-components-logging.md`) for standards and best practices.
+
+---
+
+> For future improvements, create a dedicated documentation file for web component logging, debugging, and registration standards. Link it from all component docs and update as new patterns emerge.
 
 ### Closing the Document
 When ready to close this document:
@@ -188,5 +211,4 @@ When ready to close this document:
 3. ✅ Add **SOLUTION** section documenting the fix
 4. ✅ Add **REGRESSION PREVENTION** section
 5. ✅ Update **Completion Date** field
-6. Move document to `tests/docs/closed/` directory</content>
-<parameter name="filePath">c:\Users\jwpmi\Downloads\AI\wb\tests\docs\firstfailure.md
+6. Move document to `tests/docs/closed/` directory

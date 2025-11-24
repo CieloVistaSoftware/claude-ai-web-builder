@@ -1,0 +1,101 @@
+RENUMBERING INSTRUCTIONS FOR _TODAY FOLDER
+==========================================
+
+KEEP IN _TODAY (Renumber 01-06 in reading order):
+================================================
+
+1. w_QUICK-START-GUIDE.md 
+   RENAME TO: 01_QUICK-START-GUIDE.md
+
+2. v_SYSTEM-SETUP.md
+   RENAME TO: 02_SYSTEM-SETUP.md
+
+3. u_INDEX.md
+   RENAME TO: 03_INDEX.md
+
+4. d_TODO-LIST.md
+   RENAME TO: 04_TODO-LIST.md
+
+5. s_UPDATED-TODO-LIST.md
+   RENAME TO: 05_UPDATED-TODO-LIST.md
+
+6. m_MASTER-TODO-CONSOLIDATED.md
+   RENAME TO: 06_MASTER-TODO-CONSOLIDATED.md
+
+
+MOVE TO ARCHIVE (27 files - renumber with 00 prefix):
+====================================================
+
+Archive\00A_READ-ORDER-GUIDE.md (from 00_READ-ORDER-GUIDE.md)
+Archive\00B_START-HERE.md (from a_START-HERE.md)
+Archive\00C_INDEX.md (from b_INDEX.md)
+Archive\00D_README.md (from c_README.md)
+Archive\00E_STATUS-UPDATE.md (from e_STATUS-UPDATE.md)
+Archive\00F_CRITICAL-MIME-IMPORT-ISSUE.md (from f_)
+Archive\00G_CRITICAL-MANIFEST-MISMATCH.md (from g_)
+Archive\00H_ES-MODULE-FIX.md (from h_)
+Archive\00I_ES-MODULE-ACTION-ITEMS.md (from i_)
+Archive\00J_MIGRATION-INVENTORY.md (from j_)
+Archive\00K_FAST-TRACK-MIGRATION.md (from k_)
+Archive\00L_PHASE2-STRATEGY.md (from l_)
+Archive\00N_PHASE2-TIER1-PROGRESS.md (from n_)
+Archive\00O_SESSION-CHECKPOINT.md (from o_)
+Archive\00P_STEP-2-CLAUDE-MD-INTEGRATION.md (from p_)
+Archive\00Q_STEP-2-FILES-VERIFICATION.md (from q_)
+Archive\00R_STEP-2-PROGRESS-LOG.md (from r_)
+Archive\00X_PROGRESS-REPORT.md (from x_)
+Archive\00Y_COMPLETED-TASKS.md (from y_)
+Archive\00Z_PRIORITY-TASK-LIST.md (from z_)
+Archive\00_DASHBOARD-FINAL-SUMMARY.md
+Archive\currentstatus.html
+Archive\currentstatus.json
+Archive\currentstatus-ENHANCED.html
+Archive\continuous-work-log.json
+Archive\batch-audit-runner.js
+Archive\JSON-DASHBOARD-GUIDE.md (optional - your choice)
+
+
+INSTRUCTIONS:
+============
+
+1. Open File Explorer → C:\Users\jwpmi\Downloads\AI\wb\docs\_today\
+
+2. Create folder: "archive" (if it doesn't exist)
+
+3. IN _TODAY FOLDER - Rename these 6 files:
+   • w_QUICK-START-GUIDE.md → 01_QUICK-START-GUIDE.md
+   • v_SYSTEM-SETUP.md → 02_SYSTEM-SETUP.md
+   • u_INDEX.md → 03_INDEX.md
+   • d_TODO-LIST.md → 04_TODO-LIST.md
+   • s_UPDATED-TODO-LIST.md → 05_UPDATED-TODO-LIST.md
+   • m_MASTER-TODO-CONSOLIDATED.md → 06_MASTER-TODO-CONSOLIDATED.md
+
+4. Select ALL remaining files (the 27 to archive)
+
+5. Cut them (Ctrl+X)
+
+6. Go to: archive folder
+
+7. Paste them (Ctrl+V)
+
+8. IN ARCHIVE FOLDER - Rename files with 00 prefixes:
+   • a_START-HERE.md → 00B_START-HERE.md
+   • b_INDEX.md → 00C_INDEX.md
+   • etc. (follow the mapping above)
+
+
+RESULT:
+======
+
+_today folder:
+✅ 01_QUICK-START-GUIDE.md
+✅ 02_SYSTEM-SETUP.md
+✅ 03_INDEX.md
+✅ 04_TODO-LIST.md
+✅ 05_UPDATED-TODO-LIST.md
+✅ 06_MASTER-TODO-CONSOLIDATED.md
+
+archive folder:
+Contains all 27 completed/reference files with 00 prefix
+
+Clean, organized, easy to read!

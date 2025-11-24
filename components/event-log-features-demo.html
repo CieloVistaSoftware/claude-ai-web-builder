@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Log Features Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem;
+            padding-bottom: 300px; /* Space for event log */
+            background: #0f1419;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #888;
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid #6366f1;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        button {
+            padding: 1rem;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+        }
+        
+        button.success {
+            background: #4CAF50;
+        }
+        
+        button.success:hover {
+            background: #45a049;
+        }
+        
+        button.warning {
+            background: #ff9800;
+        }
+        
+        button.warning:hover {
+            background: #fb8c00;
+        }
+        
+        button.error {
+            background: #f44336;
+        }
+        
+        button.error:hover {
+            background: #da190b;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .feature-card {
+            background: #2a2a2a;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .feature-card h3 {
+            margin-top: 0;
+            color: #6366f1;
+        }
+        
+        code {
+            background: #2a2a2a;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .highlight {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border-left: 3px solid #6366f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>📝 Event Log Features Demo</h1>
+        <p class="subtitle">Test the enhanced event log with toolbar, copy functionality, and auto-injection</p>
+
+        <div class="section">
+            <h2>🎯 New Features</h2>
+            <div class="feature-list">
+                <div class="feature-card">
+                    <h3>📋 Copy All Button</h3>
+                    <p>Click "Copy All" in the event log toolbar to copy all events to clipboard in readable format.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⏸️ Pause/Resume</h3>
+                    <p>Pause event capture to inspect current events without new ones scrolling in.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🗑️ Clear Events</h3>
+                    <p>Clear all events with one click to start fresh.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Event Counter</h3>
+                    <p>See total event count in the toolbar, updates in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎨 Auto-Injection</h3>
+                    <p>Event log automatically appears at bottom of all demo pages when enabled in config.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔽 Collapsible</h3>
+                    <p>Click the 📝 button to collapse/expand the event log panel.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Test Event Generation</h2>
+            <p>Click these buttons to generate different types of events and watch them appear in the event log below:</p>
+            
+            <div class="button-grid">
+                <button onclick="testInfo()">ℹ️ Info Event</button>
+                <button class="success" onclick="testSuccess()">✅ Success Event</button>
+                <button class="warning" onclick="testWarning()">⚠️ Warning Event</button>
+                <button class="error" onclick="testError()">❌ Error Event</button>
+                <button onclick="testDebug()">🐛 Debug Event</button>
+                <button onclick="testUser()">👤 User Event</button>
+                <button onclick="testConsoleLog()">📢 Console Log</button>
+                <button onclick="testMultiple()">🔥 Multiple Events</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📝 Claude Logging Integration</h2>
+            <p>The event log works alongside the Claude logging system:</p>
+            
+            <div class="highlight">
+                <strong>In Browser Console:</strong><br>
+                <code>logIssue('Event log test', 'Should show events', 'Works!')</code><br>
+                <code>logFix('Added copy button', 'Users can now copy events')</code><br>
+                <code>logTest('Copy feature', 'passed', 'Clipboard works correctly')</code>
+            </div>
+            
+            <div class="button-grid">
+                <button onclick="testClaudeIssue()">🔴 Log Issue</button>
+                <button class="success" onclick="testClaudeFix()">✅ Log Fix</button>
+                <button onclick="testClaudeTest()">🧪 Log Test</button>
+                <button onclick="testClaudeNote()">📝 Log Note</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 Usage Tips</h2>
+            <ul>
+                <li>Look for the event log at the <strong>bottom of the page</strong></li>
+                <li>Click <strong>📝</strong> button (bottom-right) to collapse/expand the log</li>
+                <li>Click <strong>📋 Copy All</strong> to copy all events to clipboard</li>
+                <li>Click <strong>⏸️ Pause</strong> to freeze event capture while inspecting</li>
+                <li>Click <strong>🗑️ Clear</strong> to remove all events</li>
+                <li>Events are color-coded by type (info=blue, success=green, warning=orange, error=red)</li>
+                <li>Most recent events appear at the top</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>⚙️ Configuration</h2>
+            <p>Event logging is controlled by <code>src/config/components.config.json</code>:</p>
+            <pre style="background: #0f1419; padding: 1rem; border-radius: 6px; overflow-x: auto;"><code>{
+  "eventLogging": true,  // Enable/disable event log
+  "claudeLogging": {
+    "enabled": true,     // Enable claude.md logging
+    "autoCreateFiles": true,
+    "logUserInteractions": true,
+    "logComponentEvents": true,
+    "logErrors": true
+  }
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- Load wb-event-log component -->
+    <script src="../components/wb-event-log/wb-event-log.js" type="module"></script>
+    
+    <!-- Auto-inject event log at bottom -->
+    <script src="../utils/event-log-auto-inject.js" type="module"></script>
+    
+    <!-- Claude logger integration -->
+    <script type="module">
+        import ClaudeLogger from '../utils/claude-logger.js';
+        await ClaudeLogger.init();
+        ClaudeLogger.currentComponent = 'event-log-demo';
+        window.ClaudeLogger = ClaudeLogger;
+    </script>
+
+    <script>
+        // Test event generation functions
+        function testInfo() {
+            document.dispatchEvent(new CustomEvent('wb:info', {
+                detail: { message: 'This is an info event - testing event log display' }
+            }));
+        }
+
+        function testSuccess() {
+            document.dispatchEvent(new CustomEvent('wb:success', {
+                detail: { message: 'Operation completed successfully! ✅' }
+            }));
+        }
+
+        function testWarning() {
+            document.dispatchEvent(new CustomEvent('wb:warning', {
+                detail: { message: 'Warning: This is a test warning message ⚠️' }
+            }));
+        }
+
+        function testError() {
+            document.dispatchEvent(new CustomEvent('wb:error', {
+                detail: { message: 'Error: This is a test error message ❌' }
+            }));
+        }
+
+        function testDebug() {
+            document.dispatchEvent(new CustomEvent('wb:debug', {
+                detail: { message: 'Debug info: Component state = { active: true, count: 42 }' }
+            }));
+        }
+
+        function testUser() {
+            document.dispatchEvent(new CustomEvent('wb:user', {
+                detail: { message: 'User interaction: Button clicked at ' + new Date().toLocaleTimeString() }
+            }));
+        }
+
+        function testConsoleLog() {
+            console.log('Testing console.log capture - this should appear in event log');
+            console.warn('Testing console.warn capture');
+            console.error('Testing console.error capture');
+        }
+
+        function testMultiple() {
+            testInfo();
+            setTimeout(testSuccess, 100);
+            setTimeout(testWarning, 200);
+            setTimeout(testDebug, 300);
+            setTimeout(testUser, 400);
+        }
+
+        // Claude logging test functions
+        async function testClaudeIssue() {
+            await logIssue(
+                'Event log toolbar missing',
+                'Should have Copy All button',
+                'No toolbar present'
+            );
+            testInfo(); // Also show in event log
+        }
+
+        async function testClaudeFix() {
+            await logFix(
+                'Event log toolbar',
+                'Added toolbar with Copy All, Clear, and Pause buttons'
+            );
+            testSuccess();
+        }
+
+        async function testClaudeTest() {
+            await logTest(
+                'Event log copy feature',
+                'passed',
+                'Successfully copies all events to clipboard in readable format'
+            );
+            testSuccess();
+        }
+
+        async function testClaudeNote() {
+            await logNote(
+                'Event Log Performance',
+                'Event log handles 1000+ events smoothly without lag. Auto-scroll works well.'
+            );
+            testInfo();
+        }
+
+        // Auto-generate some test events on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.dispatchEvent(new CustomEvent('wb:info', {
+                    detail: { message: 'Demo page loaded - Event log is active!' }
+                }));
+            }, 500);
+        });
+    </script>
+</body>
+</html>

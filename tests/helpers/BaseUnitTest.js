@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { test, expect } from '@playwright/test';
+const { test, expect } = require('@playwright/test');
 
 /**
  * BaseUnitTest - Standard foundation for all component tests

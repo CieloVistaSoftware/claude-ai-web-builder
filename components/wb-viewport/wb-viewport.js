@@ -12,12 +12,39 @@ let currentViewport = 'auto';
 let controlsVisible = false;
 
 async function loadConfig() {
+                    // Add Surface Pro preset if not present
+                    if (!config.configuration.viewports.surfacepro) {
+                        config.configuration.viewports.surfacepro = {
+                            width: 1368,
+                            name: 'Surface Pro',
+                            icon: '💻',
+                            color: '#2563eb'
+                        };
+                    }
+            // Add iPad Pro preset if not present
+            if (!config.configuration.viewports.ipadpro) {
+                config.configuration.viewports.ipadpro = {
+                    width: 1024,
+                    name: 'iPad Pro',
+                    icon: '📟',
+                    color: '#f59e42'
+                };
+            }
     try {
         const configPath = (window.WBComponentUtils ? 
             window.WBComponentUtils.getPath('wb-viewport.js', '../components/wb-viewport/') : 
             '../components/wb-viewport/') + 'wb-viewport.schema.json';
         const response = await fetch(configPath);
         config = await response.json();
+        // Add iPhone SE preset if not present
+        if (!config.configuration.viewports.iphonese) {
+            config.configuration.viewports.iphonese = {
+                width: 375,
+                name: 'iPhone SE',
+                icon: '📱',
+                color: '#0ea5e9'
+            };
+        }
         console.log('📱 WB Viewport: Configuration loaded', config);
         return config;
     } catch (error) {
@@ -27,7 +54,10 @@ async function loadConfig() {
                 viewports: {
                     mobile: { width: 400, name: 'Mobile', icon: '📱', color: '#6366f1' },
                     tablet: { width: 768, name: 'Tablet', icon: '📟', color: '#10b981' },
-                    desktop: { width: 1200, name: 'Desktop', icon: '🖥️', color: '#6366f1' }
+                    desktop: { width: 1200, name: 'Desktop', icon: '🖥️', color: '#6366f1' },
+                    iphonese: { width: 375, name: 'iPhone SE', icon: '📱', color: '#0ea5e9' },
+                    ipadpro: { width: 1024, name: 'iPad Pro', icon: '📟', color: '#f59e42' },
+                    surfacepro: { width: 1368, name: 'Surface Pro', icon: '💻', color: '#2563eb' }
                 },
                 defaultViewport: 'auto',
                 showControls: true
@@ -220,6 +250,7 @@ window.WBViewport = {
 };
 
 // Define the custom element
+
 class WBViewportElement extends HTMLElement {
     async connectedCallback() {
         await loadComponentCSS(this, 'wb-viewport.css');
@@ -234,6 +265,21 @@ class WBViewportElement extends HTMLElement {
             if (config && config.configuration && config.configuration.showControls) {
                 window.WBViewport.init();
             }
+            // Add automatic responsive behavior in 'auto' mode
+            // Always track window size and apply viewport class
+            function alwaysResizeHandler() {
+                const w = window.innerWidth;
+                let mode = 'auto';
+                const vps = config.configuration.viewports;
+                if (w <= vps.mobile.width) mode = 'mobile';
+                else if (w <= vps.tablet.width) mode = 'tablet';
+                else if (w <= vps.desktop.width) mode = 'desktop';
+                else mode = 'wide';
+                setViewport(mode);
+            }
+            window.addEventListener('resize', alwaysResizeHandler);
+            // Initial check
+            alwaysResizeHandler();
         }, 100);
     }
 }

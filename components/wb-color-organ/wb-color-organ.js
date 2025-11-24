@@ -52,6 +52,7 @@ class WBColorOrgan extends WBBaseComponent {
     }
     
     connectedCallback() {
+        super.connectedCallback(); // Inherit dark mode and other base functionality
         this.logInfo('🎵 WB Color Organ: Connected to DOM');
         
         // Load CSS

@@ -89,23 +89,22 @@ class WBNav extends HTMLElement {
 
     async loadConfig() {
         try {
-            // Use component utils to get correct path
-            let configPath = './wb-nav.schema.json';
+            // Prefer local schema file in same folder
+            let configPath = 'wb-nav.schema.json';
             if (window.WBComponentUtils && typeof window.WBComponentUtils.getPath === 'function') {
                 try {
                     const basePath = window.WBComponentUtils.getPath('wb-nav.js', '../components/wb-nav/');
                     configPath = basePath + 'wb-nav.schema.json';
                 } catch (e) {
-                    console.warn('🧭 WB Nav: Could not use WBComponentUtils for schema path, using relative path');
+                    console.warn('🧭 WB Nav: Could not use WBComponentUtils for schema path, using local path');
                 }
             }
-            
             const response = await fetch(configPath);
             if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             this.config = await response.json();
             console.log('🧭 WB Nav: Configuration loaded', this.config);
         } catch (error) {
-            console.warn('🧭 WB Nav: Could not load wb-nav.schema.json, using defaults', error);
+            console.warn('🧭 WB Nav: Could not load wb-nav.schema.json, using defaults:', error.message || error);
             this.config = this.getDefaultConfig();
         }
     }

@@ -1,4 +1,35 @@
 # WB Component Shadow DOM Analysis - October 9, 2025
+# 📋 RULES FOR UPDATING THIS DOCUMENT
+
+1. **Update Audit Date**
+  - Change the date in the title and 'Analysis Date' field to the current date whenever the document is updated.
+
+2. **Component List Maintenance**
+  - Review all WB components in the codebase.
+  - Add new components using Shadow DOM to the "Components Using Shadow DOM" table.
+  - Remove or update entries for components that change implementation.
+  - Ensure file paths and implementation notes are accurate.
+
+3. **Statistics Update**
+  - Update the total count of components, Shadow DOM usage percentage, and duplicates as needed.
+
+4. **Standards and Best Practices**
+  - Revise the logging, debugging, registration, and documentation standards section to reflect current best practices.
+  - Link to central standards docs if available.
+
+5. **Architectural Recommendations**
+  - Update recommendations based on current project direction (hybrid, full migration, etc.).
+
+6. **Template and Example Code**
+  - Ensure the recommended WB Component definition template matches current standards.
+
+7. **Change Log**
+  - Optionally, add a brief summary of major changes at the top of the document.
+
+8. **Consistency**
+  - Ensure all dates, terminology, and formatting are consistent throughout the document.
+
+---
 
 ## 🔍 **SHADOW DOM USAGE AUDIT**
 
@@ -89,19 +120,43 @@
 ## 🚨 **IMMEDIATE ACTIONS REQUIRED**
 
 ### 1. **Remove Duplicate Components**
-- Delete `components/color-bars/` (duplicate of wb-color-bars)
-- Consolidate `Working/components/ControlPanel.js` with `wb-control-panel`
 
 ### 2. **Standardize Component Definition**
 Create official WB Component specification addressing:
-- Shadow DOM usage guidelines
-- CSS-First Architecture enforcement
-- Event-driven communication patterns
-- Documentation requirements (claude.md)
 
 ### 3. **Update UnifiedInstructions.md**
 Document the hybrid approach as the official WB Component standard.
 
+## 📝 SHADOW DOM COMPONENT LOGGING, DEBUGGING & REGISTRATION STANDARDS
+
+### Logging & Registration
+- Always add clear `console.log` statements for custom element registration and lifecycle events (constructor, connectedCallback).
+- Use unique log prefixes for each component (e.g., '🏗️ WB Semantic Elements: ...').
+- Confirm registration with `customElements.get('your-element')` and log the result.
+- Log the source of component loading and registration for traceability.
+
+### Debugging
+- Check browser console for errors and missing logs after loading scripts.
+- Use `type="module"` for all ES6 module scripts to avoid syntax errors (e.g., "Unexpected token 'export'").
+- Add debug logs to dependencies and utility scripts to verify execution order.
+- Document all findings and fixes in component-specific markdown files.
+
+### Event Logging
+- Implement a shared event log system for all WB components (see WBBaseComponent).
+- Log important events (info, error, success) using a consistent format.
+- Expose event log state for debugging and automated tests.
+
+### Documentation
+- Every component should have a dedicated markdown doc covering:
+  - Registration and lifecycle logging
+  - Debugging steps and common errors
+  - Event logging and traceability
+  - Example console outputs for successful registration
+- Link to central standards doc for best practices.
+
+---
+
+> For future improvements, create a dedicated documentation file for web component logging, debugging, and registration standards. Link it from all component docs and update as new patterns emerge.
 ## 💡 **RECOMMENDED WB COMPONENT DEFINITION**
 
 ```javascript

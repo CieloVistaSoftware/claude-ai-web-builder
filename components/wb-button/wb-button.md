@@ -1,499 +1,566 @@
 # WB Button Component
 
-A standardized button component for the Website Builder system with consistent styling, responsive text sizing, and uniform dimensions across all interfaces.
+A versatile, reactive button component built with Web Components (Custom Elements v1), featuring signal-based state management, Shadow DOM architecture, and multiple variants, sizes, and states.
 
-## Overview
+## Features
 
-The WB Button component provides a unified button system that ensures consistency across the entire Website Builder application. All buttons have a fixed 5rem width with automatic text scaling and built-in spacing for perfect alignment.
-
-## Key Features
-
-### 📏 **Fixed Dimensions**
-- **Width**: Exactly 5rem for all buttons
-- **Height**: 1.5rem (configurable via CSS variables)
-- **Consistent**: Same size regardless of content length
-- **Responsive**: Text automatically scales to fit
-
-### 🎨 **Smart Text Handling**
-- **Auto-scaling**: Font size adapts from 0.5rem to 0.75rem based on viewport
-- **Text Fitting**: Content automatically shrinks to fit within 5rem width
-- **Overflow Protection**: Ellipsis for extremely long text
-- **Word Breaking**: Intelligent word wrapping when needed
-
-### 📐 **Built-in Spacing**
-- **Margins**: 0.5rem gap on bottom, left, and right sides
-- **Grid Ready**: Works perfectly in flex and grid layouts
-- **No Overlap**: Automatic spacing prevents button crowding
-- **Consistent**: Same spacing behavior across all components
-
-### 🎯 **Multiple Variants**
-- **Primary**: Main action buttons with primary color
-- **Success**: Confirmation and positive actions
-- **Toggle**: On/off state buttons with checkmarks
-- **Status Indicators**: Green/red/gray dots for system status
-- **Sizes**: Small, default, and large variations
+- ✅ **Shadow DOM Architecture**: Proper encapsulation with automatic CSS loading via `import.meta.url`
+- ✅ **CSS Preservation**: Render method preserves `<link>` and `<style>` elements during re-renders
+- ✅ **Auto-width Buttons**: Buttons automatically fit text content with exactly 1rem padding on each side
+- ✅ **Multiple Variants**: Primary (blue), Secondary (gray), Success (green), Toggle (interactive on/off)
+- ✅ **Flexible Sizing**: Small (1.125rem), Medium (1.5rem - default), Large (2rem)
+- ✅ **Interactive States**: Normal, Disabled, Active
+- ✅ **Status Indicators**: Visual feedback dots (active/green, inactive/red, neutral/gray)
+- ✅ **Toggle Functionality**: Built-in toggle state with visual feedback (checkmark when active)
+- ✅ **Reactive Architecture**: Signal-based state management with automatic re-rendering
+- ✅ **Grid Layouts**: Pre-built grid (`wb-btn-grid--three`) and group (`wb-btn-group`) layouts
+- ✅ **CSS Variables**: Fully customizable via CSS custom properties
 
 ## Installation
 
-### CSS Import
-```css
-@import url('./path/to/wb-button.css');
-```
-
-### HTML Link
 ```html
-<link rel="stylesheet" href="path/to/wb-button.css">
+<!-- Load the component -->
+<script type="module" src="./wb-button.js"></script>
+
+<!-- Optional: Load global styles -->
+<link rel="stylesheet" href="../../styles/main.css">
 ```
 
 ## Basic Usage
 
-### Primary Button
 ```html
-<button class="wb-btn wb-btn--primary">
-    Save Changes
-</button>
+<!-- Simple primary button -->
+<wb-button variant="primary">Click Me</wb-button>
+
+<!-- Large secondary button -->
+<wb-button variant="secondary" size="large">Large Button</wb-button>
+
+<!-- Disabled success button -->
+<wb-button variant="success" disabled>Disabled</wb-button>
 ```
 
-### Success Button
-```html
-<button class="wb-btn wb-btn--success">
-    ✓ Complete
-</button>
+## Shadow DOM Architecture
+
+### CSS Loading
+The component uses `import.meta.url` to correctly resolve CSS paths relative to the component file:
+
+```javascript
+// CORRECT - Uses import.meta.url for proper path resolution
+link.href = new URL('./wb-button.css', import.meta.url).href;
+
+// WRONG - Absolute paths don't work across different contexts
+link.href = '/components/wb-button/wb-button.css';
+
+// WRONG - Simple relative paths resolve from HTML page, not component
+link.href = './wb-button.css';
 ```
 
-### Toggle Button
-```html
-<button class="wb-btn wb-btn--toggle" onclick="toggleFeature()">
-    Feature Name
-    <span class="wb-btn__check">✓</span>
-</button>
+### Render Method CSS Preservation
+The render() method must preserve CSS links when updating innerHTML:
+
+```javascript
+render() {
+  const html = `<button>...</button>`;
+  
+  if (this.shadowRoot) {
+    // CRITICAL: Save existing links/styles before clearing
+    const existingLinks = Array.from(this.shadowRoot.querySelectorAll('link[rel="stylesheet"]'));
+    const existingStyles = Array.from(this.shadowRoot.querySelectorAll('style'));
+    
+    // Update HTML
+    this.shadowRoot.innerHTML = html;
+    
+    // Re-append CSS links and styles
+    existingLinks.forEach(link => this.shadowRoot.appendChild(link));
+    existingStyles.forEach(style => this.shadowRoot.appendChild(style));
+  } else {
+    this.innerHTML = html;
+  }
+}
 ```
 
-### Button with Status Indicator
-```html
-<button class="wb-btn wb-btn--primary">
-    <span>Server Status</span>
-    <span class="wb-btn__status wb-btn__status--active"></span>
-</button>
+**Why This Matters:**
+- Without preservation, `innerHTML` destroys the CSS `<link>` elements
+- Results in unstyled components (gray buttons, no colors)
+- Diagnostic tool section 6.5 tests for this issue
+
+## Button Sizing
+
+Buttons automatically size to fit their text content with exactly 1rem padding on each side:
+
+```css
+.wb-btn {
+  --wb-btn-padding: 0 1rem;  /* Exactly 1rem on each side */
+  width: auto;               /* Auto-width to fit content */
+  min-width: auto;           /* No minimum width constraint */
+}
 ```
 
-### Button with Icon
+**Results:**
+- "Save" button: text width + 2rem (1rem each side)
+- "Continue" button: text width + 2rem
+- "Submit Application" button: text width + 2rem
+
+## Variants
+
+### Primary (Blue)
+Used for main/primary actions. Blue background with white text.
+
 ```html
-<button class="wb-btn wb-btn--primary">
-    <span class="wb-btn__icon">🏠</span>
-    <span>Home</span>
-</button>
+<wb-button variant="primary">Primary Action</wb-button>
 ```
 
-### Button with Image
+**Colors:**
+- Background: `var(--primary, #6366f1)`
+- Hover: `var(--primary-dark, #4f46e5)`
+- Text: White
+
+### Secondary (Gray)
+Used for secondary/alternative actions. Dark gray background.
+
 ```html
-<button class="wb-btn wb-btn--primary">
-    <img class="wb-btn__image" src="icon.png" alt="Profile">
-    <span>Profile</span>
-</button>
+<wb-button variant="secondary">Secondary Action</wb-button>
 ```
 
-### Icon-Only Button
+**Colors:**
+- Background: `var(--bg-tertiary, #1e1e1e)`
+- Hover: `var(--bg-secondary, #2a2a2a)` with blue border
+- Text: White
+
+### Success (Green)
+Used for positive/confirm actions. Green background.
+
 ```html
-<button class="wb-btn wb-btn--primary wb-btn--icon-only" title="Settings">
-    <span class="wb-btn__icon wb-btn__icon--only">⚙️</span>
-</button>
+<wb-button variant="success">Confirm</wb-button>
 ```
 
-### Background Image Button
+**Colors:**
+- Background: `var(--success-color, #10b981)`
+- Hover: `var(--success-dark, #059669)`
+- Text: White
+
+### Toggle
+Special interactive variant that switches between inactive (gray) and active (green) states. Shows checkmark (✓) when active.
+
 ```html
-<button class="wb-btn wb-btn--primary wb-btn--bg-image" style="background-image: url('bg.jpg')">
-    Overlay Text
-</button>
+<wb-button variant="toggle">Toggle Me</wb-button>
+<wb-button variant="toggle" active>Pre-activated</wb-button>
 ```
 
-## Button Variants
+**Colors:**
+- Inactive: Dark gray background (`#1e1e1e`), light gray text (`#a0a0a0`)
+- Active: Green background (`#10b981`), white text with ✓ checkmark
+- Disabled: Grayed out, not interactive
 
-### Color Variants
+## Sizes
 
-| Class | Purpose | Appearance |
-|-------|---------|------------|
-| `wb-btn--primary` | Main actions, navigation | Primary color background |
-| `wb-btn--success` | Confirmations, completion | Success/accent color |
-| `wb-btn--toggle` | On/off states, settings | Toggle with checkmark |
-| `wb-btn--bg-image` | Visual appeal, branding | Background image with overlay |
-| `wb-btn--icon-only` | Compact icon buttons | Square button with only icon |
-| `wb-btn--image-only` | Compact image buttons | Square button with only image |
+Control button height and font size with the `size` attribute.
 
-### Status Indicator Classes
-
-| Class | Purpose | Appearance |
-|-------|---------|------------|
-| `wb-btn__status--active` | Active/healthy state | Green dot with glow |
-| `wb-btn__status--inactive` | Inactive/error state | Red dot with glow |
-| `wb-btn__status--neutral` | Neutral/pending state | Gray dot with subtle glow |
-
-### Icon & Image Classes
-
-| Class | Purpose | Appearance |
-|-------|---------|------------|
-| `wb-btn__icon` | Icon left of text | Emoji/symbol with right margin |
-| `wb-btn__icon--right` | Icon right of text | Emoji/symbol with left margin |
-| `wb-btn__icon--only` | Solo icon | Centered icon, no margins |
-| `wb-btn__image` | Image left of text | Small image with right margin |
-| `wb-btn__image--right` | Image right of text | Small image with left margin |
-| `wb-btn__image--only` | Solo image | Centered image, no margins |
-
-### Size Variants
-
-| Class | Height | Font Size | Use Case |
-|-------|--------|-----------|----------|
-| `wb-btn--small` | 1.2rem | 0.5-0.65rem | Compact interfaces |
-| *(default)* | 1.5rem | 0.5-0.75rem | Standard buttons |
-| `wb-btn--large` | 2rem | 0.65-0.9rem | Prominent actions |
-
-## Layout Systems
-
-### Button Grid
 ```html
-<div class="wb-btn-grid">
-    <button class="wb-btn wb-btn--primary">Button 1</button>
-    <button class="wb-btn wb-btn--primary">Button 2</button>
+<wb-button size="small">Small</wb-button>   <!-- 1.125rem height, 0.6rem font -->
+<wb-button size="medium">Medium</wb-button> <!-- 1.5rem height, 0.75rem font (default) -->
+<wb-button size="large">Large</wb-button>   <!-- 2rem height, 0.9rem font -->
+```
+
+**Size Specifications:**
+- **Small**: `height: 1.125rem`, `font-size: 0.6rem`, `padding: 0 0.4rem`
+- **Medium**: `height: 1.5rem`, `font-size: 0.75rem`, `padding: 0 1rem` (default)
+- **Large**: `height: 2rem`, `font-size: 0.9rem`, `padding: 0 0.75rem`
+
+## States
+
+### Active
+Adds the `active` class to the button. Primarily used with toggle buttons to show selected state.
+
+```html
+<wb-button variant="primary" active>Active Button</wb-button>
+<wb-button variant="toggle" active>Active Toggle</wb-button>
+```
+
+### Disabled
+Prevents interaction, reduces opacity, and grays out the button.
+
+```html
+<wb-button disabled>Cannot Click</wb-button>
+<wb-button variant="toggle" disabled>Disabled Toggle</wb-button>
+```
+
+**Disabled Styling:**
+- Opacity: 0.5
+- Background: `var(--neutral-600, #4a5568)`
+- Text: `var(--neutral-400, #9ca3af)`
+- Cursor: `not-allowed`
+- No hover effects
+
+## Status Indicators
+
+Add small colored dots to show status. The dot appears on the right side of the button text.
+
+```html
+<wb-button status="active">Active Status</wb-button>     <!-- Green dot -->
+<wb-button status="inactive">Inactive Status</wb-button> <!-- Red dot -->
+<wb-button status="neutral">Neutral Status</wb-button>   <!-- Gray dot -->
+```
+
+**Status Colors:**
+- **active**: Green (`#10b981`) with glow effect
+- **inactive**: Red (`#ef4444`) with glow effect
+- **neutral**: Gray (`#6b7280`) with subtle glow
+
+## Events
+
+The component fires custom events that bubble up the DOM.
+
+### wb-button:click
+Fired when button is clicked (unless disabled).
+
+```javascript
+document.addEventListener('wb-button:click', (e) => {
+  console.log('Variant:', e.detail.variant);
+  console.log('Button:', e.detail.button);
+});
+```
+
+**Event Detail:**
+```javascript
+{
+  button: wb-button,      // Reference to the component
+  variant: 'primary',     // Button variant
+  value: null            // Optional value property
+}
+```
+
+### wb-button:toggle
+Fired when toggle button state changes (only for `variant="toggle"`).
+
+```javascript
+document.addEventListener('wb-button:toggle', (e) => {
+  console.log('Toggle is now:', e.detail.active ? 'ON' : 'OFF');
+});
+```
+
+**Event Detail:**
+```javascript
+{
+  button: wb-button,      // Reference to the component
+  active: true,          // Current active state
+  value: null           // Optional value property
+}
+```
+
+### wb-button:ready
+Fired when component is fully initialized and connected to DOM.
+
+```javascript
+document.addEventListener('wb-button:ready', (e) => {
+  console.log('Button ready:', e.detail.variant, e.detail.size);
+});
+```
+
+## Layout Utilities
+
+### Three-Column Grid
+Create a responsive 3-column button grid with automatic spacing.
+
+```html
+<div class="wb-btn-grid--three">
+  <wb-button>Button 1</wb-button>
+  <wb-button>Button 2</wb-button>
+  <wb-button>Button 3</wb-button>
+  <wb-button>Button 4</wb-button>
+  <wb-button>Button 5</wb-button>
+  <wb-button>Button 6</wb-button>
 </div>
 ```
 
-### Grid Variations
-```html
-<!-- Single column -->
-<div class="wb-btn-grid wb-btn-grid--single">
-    <button class="wb-btn wb-btn--primary">Full Width</button>
-</div>
-
-<!-- Three columns -->
-<div class="wb-btn-grid wb-btn-grid--three">
-    <button class="wb-btn wb-btn--primary">One</button>
-    <button class="wb-btn wb-btn--primary">Two</button>
-    <button class="wb-btn wb-btn--primary">Three</button>
-</div>
-
-<!-- Four columns -->
-<div class="wb-btn-grid wb-btn-grid--four">
-    <button class="wb-btn wb-btn--primary">A</button>
-    <button class="wb-btn wb-btn--primary">B</button>
-    <button class="wb-btn wb-btn--primary">C</button>
-    <button class="wb-btn wb-btn--primary">D</button>
-</div>
-```
+**Features:**
+- Grid gap: `0.5rem`
+- Columns: `repeat(3, auto)`
+- Removes button margins automatically
+- Mobile responsive (2 columns on small screens)
 
 ### Button Groups
+Create connected button groups with no gaps.
+
 ```html
 <div class="wb-btn-group">
-    <button class="wb-btn wb-btn--primary">Left</button>
-    <button class="wb-btn wb-btn--primary">Center</button>
-    <button class="wb-btn wb-btn--primary">Right</button>
+  <wb-button variant="success">Save</wb-button>
+  <wb-button variant="primary">Edit</wb-button>
+  <wb-button variant="secondary">Delete</wb-button>
 </div>
 ```
 
-## Interactive States
+**Features:**
+- No gaps between buttons
+- First button: rounded left corners
+- Last button: rounded right corners
+- Middle buttons: no border radius
 
-### Toggle Button States
-```javascript
-// Toggle button functionality
-function toggleButton(button) {
-    button.classList.toggle('active');
-    const isActive = button.classList.contains('active');
-    
-    // Update aria-pressed for accessibility
-    button.setAttribute('aria-pressed', isActive);
-    
-    // Custom event
-    button.dispatchEvent(new CustomEvent('wb-toggle', {
-        detail: { active: isActive }
-    }));
-}
+### Other Grid Classes
+```html
+<!-- 2-column grid (default) -->
+<div class="wb-btn-grid">...</div>
 
-// Status indicator management
-function setButtonStatus(button, status) {
-    if (window.WBButton && window.WBButton.setStatus) {
-        window.WBButton.setStatus(button, status);
-    }
-}
+<!-- Single column -->
+<div class="wb-btn-grid--single">...</div>
 
-function getButtonStatus(button) {
-    if (window.WBButton && window.WBButton.getStatus) {
-        return window.WBButton.getStatus(button);
-    }
-    return null;
-}
-
-// Create buttons with icons and images
-function createIconButton(text, icon, variant = 'primary') {
-    return window.WBButton.create(text, variant, {
-        icon: icon,
-        onclick: () => console.log(`${text} clicked`)
-    });
-}
-
-function createImageButton(text, imageSrc, variant = 'primary') {
-    return window.WBButton.create(text, variant, {
-        image: imageSrc,
-        imageAlt: text,
-        onclick: () => console.log(`${text} clicked`)
-    });
-}
-
-function createIconOnlyButton(icon, title) {
-    return window.WBButton.create('', 'iconOnly', {
-        icon: icon,
-        title: title,
-        onclick: () => console.log(`${title} clicked`)
-    });
-}
+<!-- 4-column grid -->
+<div class="wb-btn-grid--four">...</div>
 ```
 
-### Event Handling
-```javascript
-// Listen for button toggles
-document.addEventListener('wb-toggle', (e) => {
-    console.log('Button toggled:', e.detail.active);
-});
+## JavaScript API
 
-// Button click handling
-document.querySelectorAll('.wb-btn').forEach(button => {
-    button.addEventListener('click', (e) => {
-        // Add click animation
-        button.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            button.style.transform = '';
-        }, 150);
-    });
-});
+The component extends `WBBaseComponent` and provides signal-based reactivity.
+
+### Reactive State
+Internal state uses signals (getter/setter/subscriber pattern):
+
+```javascript
+const button = document.querySelector('wb-button');
+
+// Get current state
+button.getActive();   // Returns: true/false
+button.getVariant();  // Returns: 'primary', 'secondary', etc.
+button.getSize();     // Returns: 'small', 'medium', 'large'
+button.getDisabled(); // Returns: true/false
 ```
 
-## CSS Customization
+### Programmatic Updates
+```javascript
+const button = document.querySelector('wb-button');
 
-### CSS Variables
+// Update attributes (triggers re-render)
+button.setAttribute('variant', 'success');
+button.setAttribute('size', 'large');
+button.setAttribute('active', '');
+button.removeAttribute('disabled');
+```
+
+### Observed Attributes
+The following attributes trigger `attributeChangedCallback`:
+- `variant` - Button variant
+- `size` - Button size
+- `disabled` - Disabled state (presence check)
+- `active` - Active state (presence check)
+- `image` - Image source
+- `status` - Status indicator type
+- `background-image` - Background image URL
+
+## Styling & Customization
+
+The component uses CSS variables for easy theming. Override these in your CSS:
+
 ```css
 :root {
-    /* Button dimensions */
-    --wb-btn-height: 1.5rem;
-    --wb-btn-font-size: clamp(0.5rem, 2vw, 0.75rem);
-    --wb-btn-border-radius: 6px;
-    --wb-btn-padding: 0 0.2rem;
-    
-    /* Animation */
-    --wb-btn-transition: all 0.2s ease;
-    
-    /* Colors (inherited from theme) */
-    --primary: #6366f1;
-    --primary-dark: #4338ca;
-    --accent: #10b981;
+  /* Primary color */
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  
+  /* Success color */
+  --success-color: #10b981;
+  --success-dark: #059669;
+  
+  /* Error color (for status indicators) */
+  --error-color: #ef4444;
+  
+  /* Background colors */
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #1e1e1e;
+  
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  
+  /* Border */
+  --border-color: #404040;
+  
+  /* Button-specific */
+  --wb-btn-height: 1.5rem;
+  --wb-btn-font-size: 0.75rem;
+  --wb-btn-border-radius: 6px;
+  --wb-btn-transition: all 0.2s ease;
+  --wb-btn-padding: 0 1rem;
 }
 ```
 
-### Custom Button Styles
+### Custom Styling Example
 ```css
-/* Custom variant */
-.wb-btn--custom {
-    background: var(--custom-color);
-    color: white;
+/* Make all primary buttons purple */
+.wb-btn--primary {
+  --primary: #8b5cf6;
+  --primary-dark: #7c3aed;
 }
 
-.wb-btn--custom:hover {
-    background: var(--custom-hover-color);
-    transform: translateY(-1px);
-}
-
-/* Override font size for specific use case */
-.wb-btn--tiny {
-    --wb-btn-font-size: 0.35rem;
-    --wb-btn-height: 0.6rem;
+/* Larger default buttons */
+:root {
+  --wb-btn-height: 2rem;
+  --wb-btn-font-size: 1rem;
 }
 ```
 
-## Best Practices
+## Diagnostic Tool
 
-### Text Content
+Use `wb-shadow-diagnostics.html` to test and debug the component:
+
 ```html
-<!-- Good: Concise, clear labels -->
-<button class="wb-btn wb-btn--primary">Save</button>
-<button class="wb-btn wb-btn--success">✓ Done</button>
-<button class="wb-btn wb-btn--primary">🎨 Edit</button>
-
-<!-- Avoid: Long text that doesn't fit -->
-<button class="wb-btn wb-btn--primary">Save All Changes to Database</button>
+<!-- Navigate to -->
+/components/wb-shadow-diagnostics.html
 ```
 
-### Accessibility
-```html
-<!-- Include ARIA labels for clarity -->
-<button class="wb-btn wb-btn--primary" aria-label="Save document">
-    💾 Save
-</button>
+**Tests Performed:**
+1. **Environment Check** - Custom Elements API, Shadow DOM support
+2. **CSS Variables** - Validates all required CSS vars exist
+3. **Component Registration** - Confirms customElements.define() worked
+4. **Shadow DOM Structure** - Verifies shadowRoot creation
+5. **CSS Loading** - Checks CSS link presence and validates path format
+6. **CSS Persistence** - Tests if render() preserves CSS links during re-renders
+7. **Element Inspection** - Counts and categorizes shadow DOM elements
+8. **Computed Styles** - Validates colors and display properties
+9. **Dimensions & Visibility** - Measures component size
+10. **Attributes & Reactivity** - Tests attribute changes
+11. **Raw HTML Dump** - Shows actual shadow DOM content
+12. **Final Verdict** - Overall pass/fail with detailed issue list
 
-<!-- Toggle buttons need aria-pressed -->
-<button class="wb-btn wb-btn--toggle" aria-pressed="false">
-    Dark Mode
-    <span class="wb-btn__check">✓</span>
-</button>
+**Common Issues Detected:**
+- ❌ CSS link missing in Shadow DOM
+- ❌ Absolute CSS paths (`/components/...`) instead of relative
+- ❌ CSS link destroyed by render() using innerHTML
+- ❌ Wrong colors (gray instead of variant colors)
+- ❌ Red text (CSS failed to load)
+
+## Troubleshooting
+
+### Issue: Buttons are all gray, no colors
+**Cause:** CSS not loading in Shadow DOM  
+**Fix:** Check that CSS link uses `import.meta.url`:
+```javascript
+link.href = new URL('./wb-button.css', import.meta.url).href;
 ```
 
-### Layout Guidelines
-```html
-<!-- Use containers for proper spacing -->
-<div class="button-container">
-    <button class="wb-btn wb-btn--primary">Action 1</button>
-    <button class="wb-btn wb-btn--success">Action 2</button>
-</div>
-
-<!-- Let button margins handle spacing automatically -->
-<div style="margin: 0 -0.5rem;">
-    <button class="wb-btn wb-btn--primary">Auto Spaced</button>
-    <button class="wb-btn wb-btn--primary">Auto Spaced</button>
-</div>
+### Issue: Buttons lose styling after interaction
+**Cause:** render() destroying CSS links with innerHTML  
+**Fix:** Preserve links before clearing:
+```javascript
+const existingLinks = Array.from(this.shadowRoot.querySelectorAll('link'));
+this.shadowRoot.innerHTML = html;
+existingLinks.forEach(link => this.shadowRoot.appendChild(link));
 ```
 
-## Integration Examples
+### Issue: Buttons too wide or too narrow
+**Cause:** Fixed width constraints  
+**Fix:** Use auto-width in CSS:
+```css
+.wb-btn {
+  width: auto;
+  min-width: auto;
+  padding: 0 1rem;
+}
+```
 
-### With Form Elements
+### Issue: Diagnostic tool shows "No CSS link in Shadow DOM"
+**Cause:** CSS link never created or destroyed by render()  
+**Solution 1:** Add CSS link in connectedCallback():
+```javascript
+if (this.shadowRoot) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = new URL('./wb-button.css', import.meta.url).href;
+  this.shadowRoot.appendChild(link);
+}
+```
+
+**Solution 2:** Fix render() to preserve links (see above)
+
+## Architecture
+
+**Component Structure:**
+- Extends `WBBaseComponent` for common functionality (dark mode, etc.)
+- Uses Shadow DOM for proper encapsulation
+- Signal-based reactive state management
+- Automatic CSS loading via `import.meta.url`
+- CSS preservation in render() method
+- Event-driven architecture with custom events
+
+**File Structure:**
+```
+wb-button/
+├── wb-button.js          # Component implementation
+├── wb-button.css         # Component styles (auto-width, 1rem padding)
+├── wb-button.md          # Documentation (this file)
+├── wb-button-demo.html   # Live demo
+└── wb-button.schema.json # JSON schema (optional)
+```
+
+**Key Implementation Details:**
+1. **Shadow DOM Creation:** Handled by WBBaseComponent when `useShadow = true`
+2. **CSS Loading:** Uses `import.meta.url` for correct path resolution
+3. **CSS Preservation:** render() saves and re-appends `<link>` elements
+4. **Auto-width:** CSS uses `width: auto` and `padding: 0 1rem`
+5. **Reactive Updates:** Signal-based subscriptions trigger render()
+
+## Browser Support
+
+Works in all modern browsers that support:
+- Web Components (Custom Elements v1)
+- Shadow DOM v1
+- ES6 Modules with `import.meta.url`
+- CSS Custom Properties (CSS Variables)
+
+**Supported:**
+- Chrome 67+
+- Firefox 63+
+- Safari 10.1+
+- Edge 79+
+
+## Examples
+
+### Complete Form
 ```html
-<form class="form-controls">
-    <input type="text" placeholder="Enter text">
-    <div class="form-actions">
-        <button type="submit" class="wb-btn wb-btn--success">Submit</button>
-        <button type="reset" class="wb-btn wb-btn--primary">Reset</button>
-    </div>
+<form>
+  <wb-button variant="primary" size="large">Submit</wb-button>
+  <wb-button variant="secondary">Cancel</wb-button>
 </form>
 ```
 
-### With Navigation
+### Settings Toggle
 ```html
-<nav class="nav-controls">
-    <button class="wb-btn wb-btn--primary">🏠 Home</button>
-    <button class="wb-btn wb-btn--primary">📄 Docs</button>
-    <button class="wb-btn wb-btn--success">💾 Save</button>
-</nav>
-```
-
-### With Control Panels
-```html
-<div class="control-panel">
-    <div class="wb-btn-grid wb-btn-grid--three">
-        <button class="wb-btn wb-btn--toggle">
-            Option 1
-            <span class="wb-btn__check">✓</span>
-        </button>
-        <button class="wb-btn wb-btn--toggle active">
-            Option 2
-            <span class="wb-btn__check">✓</span>
-        </button>
-        <button class="wb-btn wb-btn--toggle">
-            Option 3
-            <span class="wb-btn__check">✓</span>
-        </button>
-    </div>
-</div>
-```
-
-### With Status Monitoring
-```html
-<div class="status-panel">
-    <div class="wb-btn-grid">
-        <button class="wb-btn wb-btn--primary">
-            <span>Database</span>
-            <span class="wb-btn__status wb-btn__status--active"></span>
-        </button>
-        <button class="wb-btn wb-btn--primary">
-            <span>API Server</span>
-            <span class="wb-btn__status wb-btn__status--inactive"></span>
-        </button>
-        <button class="wb-btn wb-btn--success">
-            <span>Cache</span>
-            <span class="wb-btn__status wb-btn__status--neutral"></span>
-        </button>
-        <button class="wb-btn wb-btn--primary">
-            <span>CDN</span>
-            <span class="wb-btn__status wb-btn__status--active"></span>
-        </button>
-    </div>
-</div>
-```
-
-## Browser Compatibility
-
-| Browser | Version | Status |
-|---------|---------|--------|
-| Chrome | 88+ | ✅ Full Support |
-| Firefox | 78+ | ✅ Full Support |
-| Safari | 14+ | ✅ Full Support |
-| Edge | 88+ | ✅ Full Support |
-
-## Technical Specifications
-
-### CSS Features Used
-- **CSS Custom Properties**: For theming and configuration
-- **CSS Grid**: For button layouts
-- **Flexbox**: For button internal alignment
-- **CSS Clamp**: For responsive font sizing
-- **CSS Transitions**: For hover effects
-
-### Performance Considerations
-- **Minimal CSS**: Only essential styles included
-- **Hardware Acceleration**: Transform animations use GPU
-- **No JavaScript Required**: Pure CSS implementation
-- **Small Bundle Size**: ~3KB minified
-
-## Responsive Behavior
-
-### Mobile (≤600px)
-- **Grid Collapse**: Multi-column grids become single column
-- **Touch Targets**: Buttons maintain minimum 44px touch area
-- **Font Scaling**: Text remains readable at smaller sizes
-
-### Desktop (>600px)
-- **Grid Layouts**: Full multi-column layouts supported
-- **Hover Effects**: Enhanced hover states and transitions
-- **Keyboard Navigation**: Full focus management
-
-## Common Use Cases
-
-### Website Builder Interface
-```html
-<!-- Tool palette -->
-<div class="tool-palette">
-    <button class="wb-btn wb-btn--primary">🎨 Color</button>
-    <button class="wb-btn wb-btn--primary">📝 Text</button>
-    <button class="wb-btn wb-btn--primary">🖼️ Image</button>
-    <button class="wb-btn wb-btn--success">💾 Save</button>
-</div>
-```
-
-### Settings Panel
-```html
-<!-- Settings toggles -->
-<div class="settings-panel">
-    <div class="wb-btn-grid">
-        <button class="wb-btn wb-btn--toggle active">
-            Dark Mode
-            <span class="wb-btn__check">✓</span>
-        </button>
-        <button class="wb-btn wb-btn--toggle">
-            Auto Save
-            <span class="wb-btn__check">✓</span>
-        </button>
-    </div>
+<div class="settings">
+  <wb-button variant="toggle">Dark Mode</wb-button>
+  <wb-button variant="toggle" active>Notifications</wb-button>
+  <wb-button variant="toggle">Auto-save</wb-button>
 </div>
 ```
 
 ### Action Bar
 ```html
-<!-- Document actions -->
-<div class="action-bar">
-    <button class="wb-btn wb-btn--primary">✏️ Edit</button>
-    <button class="wb-btn wb-btn--primary">📋 Copy</button>
-    <button class="wb-btn wb-btn--success">📤 Export</button>
+<div class="wb-btn-group">
+  <wb-button variant="success" status="active">Live</wb-button>
+  <wb-button variant="primary">Edit</wb-button>
+  <wb-button variant="secondary">Archive</wb-button>
+  <wb-button variant="secondary" status="inactive">Delete</wb-button>
 </div>
 ```
 
----
+## Testing Checklist
 
-## Conclusion
+Before deploying, verify:
+- [ ] Diagnostic tool shows all tests passing
+- [ ] CSS link present in Shadow DOM
+- [ ] CSS link persists after attribute changes
+- [ ] Buttons have correct variant colors (not gray)
+- [ ] Buttons auto-size to text + 1rem padding on each side
+- [ ] All variants (primary, secondary, success, toggle) work
+- [ ] Disabled state works correctly
+- [ ] Toggle functionality works (active/inactive)
+- [ ] Events fire correctly (wb-button:click, wb-button:toggle)
+- [ ] Grid and group layouts work properly
 
-The WB Button component provides a robust, consistent, and accessible button system for the entire Website Builder application. With automatic text scaling, built-in spacing, and multiple variants, it ensures a professional and cohesive user interface across all components.
+## Version History
 
-**Start using** wb-button in your components for instant consistency and improved user experience! 🚀
+- **v2.0.1**: Fixed Shadow DOM CSS loading with import.meta.url, added CSS persistence in render(), auto-width buttons with 1rem padding
+- **v2.0.0**: Signal-based reactive architecture, Shadow DOM implementation, improved CSS variable system
+- **v1.0.0**: Initial release with basic button functionality
+
+## License
+
+Part of the WB Framework component library.

@@ -6,16 +6,10 @@ import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 class WBResizeEastWest extends HTMLElement {
     constructor() {
         super();
-    }
-
-    async connectedCallback() {
-        await loadComponentCSS(this, 'wb-resize-eastwest.css');
         this.init();
     }
 
     init() {
-        this.attachShadow({ mode: 'open' });
-        
         // State
         this.isResizing = false;
         this.startX = 0;
@@ -28,9 +22,12 @@ class WBResizeEastWest extends HTMLElement {
         this.storageKey = null;
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await loadComponentCSS(this, 'wb-resize-eastwest.css');
+        this.attachShadow({ mode: 'open' });
         this.render();
         this.setupEventListeners();
+        this.findTargetElement();
         this.loadSavedWidth();
         
         console.log('✅ wb-resize-eastwest: Connected');
@@ -157,6 +154,10 @@ class WBResizeEastWest extends HTMLElement {
     }
 
     cleanup() {
+        const handle = this.shadowRoot?.querySelector('.resize-handle');
+        if (handle) {
+            handle.removeEventListener('mousedown', this.handleMouseDown);
+        }
         document.removeEventListener('mousemove', this.handleMouseMove);
         document.removeEventListener('mouseup', this.handleMouseUp);
     }

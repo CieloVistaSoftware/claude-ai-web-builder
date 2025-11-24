@@ -1,19 +1,17 @@
 /* ===== WB BUTTON COMPONENT ===== */
 /* Website Builder standardized button component for consistent styling across the entire site */
-
-/* Base Button Variables */
-:root {
-    /* WB Button Component Variables */
-    --wb-btn-height: 1.5rem;
-    --wb-btn-font-size: clamp(0.5rem, 2vw, 0.75rem);
-    --wb-btn-border-radius: 6px;
-    --wb-btn-transition: all 0.2s ease;
-    --wb-btn-padding: 0 0.5rem;
-}
+/* SHADOW DOM COMPATIBLE - Uses global color names from :root */
 
 /* Base Button Class */
 .wb-btn {
-    width: 5rem;
+    /* Button-specific layout variables */
+    --wb-btn-height: 1.5rem;
+    --wb-btn-font-size: 0.75rem;
+    --wb-btn-border-radius: 6px;
+    --wb-btn-transition: all 0.2s ease;
+    --wb-btn-padding: 0 1rem;
+    
+    width: auto;
     height: var(--wb-btn-height) !important;
     min-height: var(--wb-btn-height) !important;
     max-height: var(--wb-btn-height) !important;
@@ -26,7 +24,7 @@
     text-align: center !important;
     white-space: nowrap;
     
-    /* PROPER BUTTON APPEARANCE */
+    /* PROPER BUTTON APPEARANCE - Uses global color variables */
     border: 1px solid var(--border-color, #404040) !important;
     border-radius: var(--wb-btn-border-radius) !important;
     background: var(--bg-secondary, #2a2a2a) !important;
@@ -44,9 +42,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     
-    /* Default width constraints - can be overridden by JS */
+    /* Auto-width to fit content with padding */
     max-width: none;
-    min-width: 5rem;
+    min-width: auto;
     word-wrap: break-word;
     hyphens: auto;
 }
@@ -136,16 +134,11 @@
 }
 
 /* Toggle Button Checkmark */
-.wb-btn__check {
-    color: var(--accent);
-    font-weight: bold;
-    opacity: 0;
-    transition: opacity var(--wb-btn-transition);
-}
-
-.wb-btn--toggle.active .wb-btn__check {
-    opacity: 1;
+.wb-btn__checkmark {
     color: var(--text-primary-inverse, white);
+    font-weight: bold;
+    margin-left: 0.5rem;
+    flex-shrink: 0;
 }
 
 /* Status Indicators */
@@ -160,16 +153,16 @@
 
 .wb-btn__status--active {
     background-color: var(--success-color, #10b981);
-    box-shadow: 0 0 4px rgba(var(--success-color-rgb, 16, 185, 129), 0.5);
+    box-shadow: 0 0 4px rgba(16, 185, 129, 0.5);
 }
 
 .wb-btn__status--inactive {
     background-color: var(--error-color, #ef4444);
-    box-shadow: 0 0 4px rgba(var(--error-color-rgb, 239, 68, 68), 0.5);
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
 }
 
 .wb-btn__status--neutral {
-    background-color: var(--neutral-500);
+    background-color: var(--neutral-500, #6b7280);
     box-shadow: 0 0 4px rgba(100, 116, 139, 0.3);
 }
 
@@ -216,7 +209,7 @@
     background-position: center;
     background-repeat: no-repeat;
     color: var(--text-primary-inverse, white);
-    text-shadow: 0 1px 2px rgba(var(--neutral-900-rgb, 0, 0, 0), 0.7);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
     position: relative;
 }
 
@@ -295,10 +288,18 @@
 }
 
 /* Override web component margins in grid layouts */
-.wb-btn-grid wb-btn,
-.wb-btn-grid--single wb-btn,
-.wb-btn-grid--three wb-btn,
-.wb-btn-grid--four wb-btn {
+.wb-btn-grid wb-button,
+.wb-btn-grid--single wb-button,
+.wb-btn-grid--three wb-button,
+.wb-btn-grid--four wb-button {
+    margin: 0 !important;
+}
+
+/* Override button element margins inside web components in grids */
+.wb-btn-grid wb-button .wb-btn,
+.wb-btn-grid--single wb-button .wb-btn,
+.wb-btn-grid--three wb-button .wb-btn,
+.wb-btn-grid--four wb-button .wb-btn {
     margin: 0 !important;
 }
 
@@ -316,15 +317,15 @@
 
 /* Size Variants */
 .wb-btn--small {
-    --wb-btn-height: 1.2rem;
-    --wb-btn-font-size: clamp(0.5rem, 2vw, 0.65rem);
-    --wb-btn-padding: 0 0.5rem;
+    --wb-btn-height: 1.125rem;
+    --wb-btn-font-size: 0.6rem;
+    --wb-btn-padding: 0 0.4rem;
 }
 
 .wb-btn--large {
     --wb-btn-height: 2rem;
-    --wb-btn-font-size: clamp(0.65rem, 3vw, 0.9rem);
-    --wb-btn-padding: 0 0.5rem;
+    --wb-btn-font-size: 0.9rem;
+    --wb-btn-padding: 0 0.75rem;
 }
 
 /* Button Groups */
@@ -348,6 +349,7 @@
 }
 
 /* Disabled State */
+.wb-btn.disabled,
 .wb-btn:disabled {
     opacity: 0.5 !important;
     cursor: not-allowed !important;
@@ -358,19 +360,30 @@
     border-color: var(--neutral-500, #6b7280) !important;
 }
 
+.wb-btn.disabled:hover,
 .wb-btn:disabled:hover {
     transform: none !important;
     box-shadow: none !important;
 }
 
-/* All demo styles moved to styles/_utilities.css for global consistency */
+/* Active State */
+.wb-btn.active {
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
 
 /* ===== WEB COMPONENT BUTTON STYLING ===== */
 /* Ensure wb-button web components look like proper buttons */
 
 wb-button {
-    display: inline-block;
-    cursor: pointer;
+    display: inline-block !important;
+    cursor: pointer !important;
+    /* CRITICAL: Give wb-button explicit dimensions */
+    width: auto !important;
+    height: auto !important;
+    min-width: 80px !important;
+    min-height: 24px !important;
+    background: transparent !important;
+    color: inherit !important;
+    /* CRITICAL: Allow button inside to determine size */
+    overflow: visible !important;
 }
-
-/* Demo styles moved to styles/_utilities.css for global use across all components */

@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Component Shadow DOM - Universal Diagnostic</title>
+
+    <link rel="stylesheet" href="../../styles/main.css">
+
+    <style>
+        body {
+            padding: 40px;
+            background: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #10b981;
+            font-size: 16px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #2a2a2a;
+            padding-bottom: 5px;
+        }
+
+        .section {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #6366f1;
+        }
+
+        .success {
+            color: #10b981;
+        }
+
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #f59e0b;
+        }
+
+        .info {
+            color: #3b82f6;
+        }
+
+        .test-area {
+            min-height: 100px;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            border: 2px dashed #404040;
+            margin: 15px 0;
+        }
+
+        pre {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+            border: 1px solid #333;
+        }
+
+        .metric {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+            padding: 5px 10px;
+            background: #1a1a1a;
+            border-radius: 4px;
+            border: 1px solid #404040;
+        }
+
+        .color-swatch {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #fff;
+            vertical-align: middle;
+            margin-left: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .indent {
+            margin-left: 20px;
+        }
+
+        .issue-list {
+            background: #2a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #ef4444;
+            margin: 10px 0;
+        }
+
+        .pass-list {
+            background: #1a2a1a;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #10b981;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: #1a1a1a;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #404040;
+        }
+
+        th {
+            background: #333;
+            color: #6366f1;
+            font-weight: bold;
+        }
+
+        .summary-box {
+            font-size: 24px;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .summary-pass {
+            background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%);
+            border: 3px solid #10b981;
+            color: #10b981;
+        }
+
+        .summary-fail {
+            background: linear-gradient(135deg, #2a1a1a 0%, #3a2a2a 100%);
+            border: 3px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .config-panel {
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 2px solid #6366f1;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #404040;
+            background: #1a1a1a;
+            color: #fff;
+            font-family: monospace;
+        }
+        
+        /* Override for compact inputs */
+        #component-js {
+            width: 200px !important;
+            font-size: 11px !important;
+            padding: 5px !important;
+            min-width: 0 !important;
+            max-width: 200px !important;
+        }
+        
+        #css-file {
+            width: 130px !important;
+            font-size: 11px !important;
+            padding: 5px !important;
+            min-width: 0 !important;
+            max-width: 130px !important;
+        }
+        
+        #component-tag {
+            width: 180px !important;
+            padding: 5px !important;
+            font-size: 12px !important;
+            min-width: 0 !important;
+            max-width: 180px !important;
+        }
+        
+        select#component-tag {
+            width: 180px !important;
+            padding: 5px !important;
+            font-size: 12px !important;
+            min-width: 0 !important;
+            max-width: 180px !important;
+        }
+
+        button {
+            background: #6366f1;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #4f46e5;
+        }
+
+        /* Live Preview Box */
+        .live-preview {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            background: #2a2a2a;
+            border: 2px solid #6366f1;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .live-preview h3 {
+            margin: 0 0 10px 0;
+            color: #6366f1;
+            font-size: 14px;
+        }
+
+        .live-preview-content {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔬 WB Component Shadow DOM - Universal Diagnostic</h1>
+    <div style="color: #888; margin-bottom: 30px;">
+        Generic diagnostic tool for ANY WB Shadow DOM component
+    </div>
+
+    <!-- CONFIGURATION PANEL -->
+    <div class="config-panel" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <!-- LEFT COLUMN -->
+        <div>
+            <h2 style="margin-top: 0; color: #fff;">⚙️ Component Configuration</h2>
+
+            <div style="margin: 15px 0;">
+                <label><strong>Component Tag Name:</strong></label><br>
+                <select id="component-tag" style="padding: 5px; font-family: monospace; font-size: 12px; width: auto;">
+                    <option value="wb-button">wb-button</option>
+                    <option value="wb-card">wb-card</option>
+                    <option value="wb-change-text">wb-change-text</option>
+                    <option value="wb-chatbot">wb-chatbot</option>
+                    <option value="wb-claude-logger">wb-claude-logger</option>
+                    <option value="wb-color-bar">wb-color-bar</option>
+                    <option value="wb-color-bars">wb-color-bars</option>
+                    <option value="wb-color-harmony">wb-color-harmony</option>
+                    <option value="wb-color-mapper">wb-color-mapper</option>
+                    <option value="wb-color-organ">wb-color-organ</option>
+                    <option value="wb-color-picker">wb-color-picker</option>
+                    <option value="wb-color-transformer">wb-color-transformer</option>
+                    <option value="wb-control-panel">wb-control-panel</option>
+                    <option value="wb-css-loader">wb-css-loader</option>
+                    <option value="wb-demo">wb-demo</option>
+                    <option value="wb-dev-toolbox">wb-dev-toolbox</option>
+                    <option value="wb-event-log">wb-event-log</option>
+                    <option value="wb-footer">wb-footer</option>
+                    <option value="wb-grid">wb-grid</option>
+                    <option value="wb-header">wb-header</option>
+                    <option value="wb-hero">wb-hero</option>
+                    <option value="wb-image-insert">wb-image-insert</option>
+                    <option value="wb-inject-test">wb-inject-test</option>
+                    <option value="wb-input">wb-input</option>
+                    <option value="wb-keyboard-manager">wb-keyboard-manager</option>
+                    <option value="wb-layout">wb-layout</option>
+                    <option value="wb-linkedinAd">wb-linkedinAd</option>
+                    <option value="wb-log-error">wb-log-error</option>
+                    <option value="wb-log-viewer">wb-log-viewer</option>
+                    <option value="wb-modal">wb-modal</option>
+                    <option value="wb-nav">wb-nav</option>
+                    <option value="wb-rag">wb-rag</option>
+                    <option value="wb-reactive-base">wb-reactive-base</option>
+                    <option value="wb-resize-both">wb-resize-both</option>
+                    <option value="wb-resize-eastwest">wb-resize-eastwest</option>
+                    <option value="wb-resize-panel">wb-resize-panel</option>
+                    <option value="wb-resize-updown">wb-resize-updown</option>
+                    <option value="wb-search">wb-search</option>
+                    <option value="wb-select">wb-select</option>
+                    <option value="wb-slider">wb-slider</option>
+                    <option value="wb-status">wb-status</option>
+                    <option value="wb-tab">wb-tab</option>
+                    <option value="wb-table">wb-table</option>
+                    <option value="wb-theme">wb-theme</option>
+                    <option value="wb-toggle">wb-toggle</option>
+                    <option value="wb-viewport">wb-viewport</option>
+                </select>
+            </div>
+
+            <div style="margin: 15px 0;">
+                <label><strong>Component JS File (relative path):</strong></label><br>
+                <input type="text" id="component-js" value="./wb-button/wb-button.js"
+                    placeholder="e.g., ./wb-button/wb-button.js" style="font-size: 11px; padding: 5px;" size="30" disabled readonly>
+                <div style="color: #888; font-size: 12px; margin-top: 5px;">Auto-generated from component selection</div>
+            </div>
+
+            <div style="margin: 15px 0;">
+                <label><strong>CSS File Name (expected in component folder):</strong></label><br>
+                <input type="text" id="css-file" value="wb-button.css" placeholder="e.g., wb-button.css"
+                    style="font-size: 11px; padding: 5px;" size="18" disabled readonly>
+                <div style="color: #888; font-size: 12px; margin-top: 5px;">Auto-generated from component selection</div>
+            </div>
+
+            <div style="margin: 15px 0;">
+                <label><strong>Test Instances (HTML):</strong></label><br>
+                <textarea id="test-html" rows="9" style="width: 60%; font-family: monospace; padding: 10px; font-size: 11px;">
+<wb-button></wb-button>
+<wb-button variant="primary">Primary</wb-button>
+<wb-button variant="secondary">Secondary</wb-button>
+<wb-button variant="success">Success</wb-button>
+<wb-button variant="danger">Danger</wb-button>
+<wb-button variant="warning">Warning</wb-button>
+<wb-button size="small">Small</wb-button>
+<wb-button size="large">Large</wb-button>
+<wb-button disabled>Disabled</wb-button>
+                </textarea>
+            </div>
+
+            <div style="margin: 15px 0;">
+                <div style="display: flex; gap: 5px; margin-bottom: 5px; max-width: 400px;">
+                    <button onclick="runDiagnostics()" style="flex: 1; font-size: 11px; padding: 5px;">
+                        🚀 Run Diagnostics
+                    </button>
+
+                    <button onclick="runWithFreshCache()" style="flex: 1; background: #f59e0b; font-size: 11px; padding: 5px;">
+                        🔄 Fresh Cache
+                    </button>
+                </div>
+                
+                <div style="display: flex; gap: 5px; max-width: 400px;">
+                    <button onclick="resetConfig()" style="flex: 1; background: #666; font-size: 11px; padding: 5px;">
+                        🔄 Reset
+                    </button>
+
+                    <button onclick="copyIssuesToClipboard()" style="flex: 1; background: #ef4444; font-size: 11px; padding: 5px;">
+                        📋 Copy Issues
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RIGHT COLUMN - PREVIEW -->
+        <div style="display: flex; flex-direction: column; height: 100%;">
+            <h2 style="margin-top: 0; color: #fff;">📺 Live Demo Preview</h2>
+            
+            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                <button onclick="refreshPreview()" style="background: #10b981; padding: 5px 10px; font-size: 11px;">
+                    🔄 Refresh
+                </button>
+                <button onclick="openDemoInNewTab()" style="background: #3b82f6; padding: 5px 10px; font-size: 11px;">
+                    🔗 Open in New Tab
+                </button>
+            </div>
+            
+            <div style="border: 2px solid #404040; border-radius: 8px; overflow: hidden; background: #fff; flex: 1;">
+                <iframe 
+                    id="componentPreview" 
+                    frameborder="0"
+                    style="width: 100%; height: 100%; display: block; transform: scale(0.75); transform-origin: 0 0; width: 133.33%; height: 133.33%; border: none; margin: 0; padding: 0;">
+                </iframe>
+            </div>
+            <div style="color: #888; font-size: 9px; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                📍 <code id="preview-path" style="font-size: 9px;">-</code>
+            </div>
+        </div>
+    </div>
+
+    <div id="results-container" style="display: none;">
+
+        <!-- SECTION 1: ENVIRONMENT -->
+        <div class="section">
+            <h2>📋 1. Environment Check</h2>
+            <div id="env-check">Running...</div>
+        </div>
+
+        <!-- SECTION 2: CSS VARIABLES -->
+        <div class="section">
+            <h2>🎨 2. CSS Variables (From :root)</h2>
+            <div id="css-vars">Loading...</div>
+        </div>
+
+        <!-- SECTION 3: COMPONENT REGISTRATION -->
+        <div class="section">
+            <h2>📦 3. Component Registration</h2>
+            <div id="component-reg">Loading...</div>
+        </div>
+
+        <!-- SECTION 4: TEST INSTANCES -->
+        <div class="section">
+            <h2>🧪 4. Test Component Instances</h2>
+            <div class="test-area" id="test-area">
+                <!-- Components will be injected here -->
+            </div>
+        </div>
+
+        <!-- SECTION 5: SHADOW DOM STRUCTURE -->
+        <div class="section">
+            <h2>🌑 5. Shadow DOM Structure Analysis</h2>
+            <div id="shadow-structure">Analyzing...</div>
+        </div>
+
+        <!-- SECTION 6: CSS LOADING -->
+        <div class="section">
+            <h2>📄 6. CSS File Loading</h2>
+            <div id="css-loading">Checking...</div>
+        </div>
+
+        <!-- SECTION 6.5: RENDER PERSISTENCE TEST -->
+        <div class="section">
+            <h2>🔄 6.5. Render() CSS Persistence Test</h2>
+            <div id="render-persistence">Testing...</div>
+        </div>
+
+        <!-- SECTION 7: ELEMENT INSPECTION -->
+        <div class="section">
+            <h2>🔍 7. Shadow DOM Element Inspection</h2>
+            <div id="element-inspect">Inspecting...</div>
+        </div>
+
+        <!-- SECTION 8: COMPUTED STYLES -->
+        <div class="section">
+            <h2>🎨 8. Computed Styles Analysis</h2>
+            <div id="styles-check">Checking...</div>
+        </div>
+
+        <!-- SECTION 9: DIMENSIONS & VISIBILITY -->
+        <div class="section">
+            <h2>📏 9. Dimensions & Visibility</h2>
+            <div id="dimensions">Measuring...</div>
+        </div>
+
+        <!-- SECTION 10: ATTRIBUTES -->
+        <div class="section">
+            <h2>🏷️ 10. Attributes & Reactivity</h2>
+            <div id="attributes">Testing...</div>
+        </div>
+
+        <!-- SECTION 11: RAW HTML DUMP -->
+        <div class="section">
+            <h2>📝 11. Raw Shadow DOM HTML</h2>
+            <div id="html-dump">Extracting...</div>
+        </div>
+
+        <!-- SECTION 12: FINAL VERDICT -->
+        <div class="section">
+            <h2>⚖️ 12. Final Diagnostic Summary</h2>
+            <div id="final-verdict">Processing...</div>
+        </div>
+
+    </div>
+
+    <script>
+        let CONFIG = {
+            tagName: 'wb-button',
+            jsFile: './wb-button/wb-button.js',
+            cssFile: 'wb-button.css',
+            testHTML: '<wb-button variant="primary">Primary</wb-button>\n<wb-button variant="success">Success</wb-button>\n<wb-button variant="secondary">Secondary</wb-button>'
+        };
+
+        function resetConfig() {
+            document.getElementById('component-tag').value = 'wb-button';
+            document.getElementById('component-js').value = './wb-button/wb-button.js';
+            document.getElementById('css-file').value = 'wb-button.css';
+            document.getElementById('test-html').value = '<wb-button variant="primary">Primary</wb-button>\n<wb-button variant="success">Success</wb-button>\n<wb-button variant="secondary">Secondary</wb-button>';
+        }
+
+        // Auto-update JS and CSS paths when component dropdown changes
+        document.getElementById('component-tag').addEventListener('change', function (e) {
+            const componentName = e.target.value;
+            
+            // Update CONFIG object
+            CONFIG.tagName = componentName;
+            CONFIG.jsFile = `./${componentName}/${componentName}.js`;
+            CONFIG.cssFile = `${componentName}.css`;
+            
+            // Generate comprehensive test instances
+            const testInstances = generateTestInstances(componentName);
+            
+            // Update form fields
+            document.getElementById('component-js').value = CONFIG.jsFile;
+            document.getElementById('css-file').value = CONFIG.cssFile;
+            document.getElementById('test-html').value = testInstances;
+            
+            // Update preview immediately when component changes
+            updatePreview();
+        });
+
+        function generateTestInstances(componentName) {
+            // Generate multiple test instances with common variants
+            const instances = [
+                `<${componentName}></${componentName}>`,
+                `<${componentName} variant="primary">Primary</${componentName}>`,
+                `<${componentName} variant="secondary">Secondary</${componentName}>`,
+                `<${componentName} variant="success">Success</${componentName}>`,
+                `<${componentName} variant="danger">Danger</${componentName}>`,
+                `<${componentName} variant="warning">Warning</${componentName}>`,
+                `<${componentName} size="small">Small</${componentName}>`,
+                `<${componentName} size="large">Large</${componentName}>`,
+                `<${componentName} disabled>Disabled</${componentName}>`
+            ];
+            return instances.join('\n');
+        }
+
+        // Load initial preview on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            updatePreview();
+        });
+
+        function runWithFreshCache() {
+            // Reload page with new cache buster
+            const url = new URL(window.location.href);
+            url.searchParams.set('v', Date.now());
+            window.location.href = url.toString();
+        }
+
+        // NEW: Preview iframe functions
+        function refreshPreview() {
+            updatePreview();
+        }
+
+        function openDemoInNewTab() {
+            const componentName = CONFIG.tagName;
+            const demoPath = `./${componentName}/${componentName}-demo.html`;
+            window.open(demoPath, '_blank');
+        }
+
+        function updatePreview() {
+            const componentName = CONFIG.tagName;
+            const iframe = document.getElementById('componentPreview');
+            const pathDisplay = document.getElementById('preview-path');
+            
+            // Construct the demo.html path based on component selection
+            // Pattern: wb-button-demo.html, wb-card-demo.html, etc.
+            const demoPath = `./${componentName}/${componentName}-demo.html`;
+            
+            // Add cache buster to prevent caching issues
+            const cacheBuster = '?v=' + Date.now();
+            iframe.src = demoPath + cacheBuster;
+            
+            pathDisplay.textContent = demoPath;
+        }
+
+        async function runDiagnostics() {
+            // Get config from form
+            CONFIG.tagName = document.getElementById('component-tag').value.trim();
+            CONFIG.jsFile = document.getElementById('component-js').value.trim();
+            CONFIG.cssFile = document.getElementById('css-file').value.trim();
+            CONFIG.testHTML = document.getElementById('test-html').value.trim();
+
+            // Show results container
+            document.getElementById('results-container').style.display = 'block';
+
+            // Run synchronous checks
+            checkEnvironment();
+            checkCSSVariables();
+
+            // Import component
+            await importComponent();
+
+            // Inject test instances
+            injectTestInstances();
+
+            // Update preview iframe
+            updatePreview();
+
+            // Wait for rendering
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Run all diagnostics
+            analyzeShadowStructure();
+            await checkCSSLoading();
+            await testRenderPersistence();
+            inspectElements();
+            checkStyles();
+            checkDimensions();
+            checkAttributes();
+            dumpHTML();
+            generateVerdict();
+        }
+
+        function checkEnvironment() {
+            const results = [];
+
+            results.push('<table>');
+            results.push('<tr><th>Check</th><th>Status</th><th>Details</th></tr>');
+
+            const hasCustomElements = typeof customElements !== 'undefined';
+            results.push(`<tr>
+                <td>Custom Elements API</td>
+                <td class="${hasCustomElements ? 'success' : 'error'}">${hasCustomElements ? '✅ Available' : '❌ Missing'}</td>
+                <td>${hasCustomElements ? 'Web Components supported' : 'Browser does not support Web Components'}</td>
+            </tr>`);
+
+            const hasShadowDOM = typeof Element.prototype.attachShadow !== 'undefined';
+            results.push(`<tr>
+                <td>Shadow DOM API</td>
+                <td class="${hasShadowDOM ? 'success' : 'error'}">${hasShadowDOM ? '✅ Available' : '❌ Missing'}</td>
+                <td>${hasShadowDOM ? 'Shadow DOM v1 supported' : 'Browser does not support Shadow DOM'}</td>
+            </tr>`);
+
+            const hasModules = 'noModule' in HTMLScriptElement.prototype;
+            results.push(`<tr>
+                <td>ES Modules</td>
+                <td class="${hasModules ? 'success' : 'error'}">${hasModules ? '✅ Supported' : '❌ Not Supported'}</td>
+                <td>${hasModules ? 'Can import JS modules' : 'ES6 imports not available'}</td>
+            </tr>`);
+
+            // Validate component tag exists
+            const componentExists = CONFIG.tagName && CONFIG.tagName.includes('-');
+            results.push(`<tr>
+                <td>Target Component</td>
+                <td class="${componentExists ? 'success' : 'error'}">${componentExists ? '✅ Valid' : '❌ Invalid'}</td>
+                <td><code>&lt;${CONFIG.tagName}&gt;</code></td>
+            </tr>`);
+
+            // Extract component name from tag (e.g., "wb-button")
+            const componentName = CONFIG.tagName;
+
+            // Validate JS file path matches component name
+            const expectedJsPath = `./${componentName}/${componentName}.js`;
+            const jsPathValid = CONFIG.jsFile === expectedJsPath;
+            results.push(`<tr>
+                <td>Component JS File</td>
+                <td class="${jsPathValid ? 'success' : 'error'}">${jsPathValid ? '✅ Valid' : '❌ Mismatch'}</td>
+                <td><code>${CONFIG.jsFile}</code>${jsPathValid ? '' : `<br><span style="color: #ff6b6b;">Expected: ${expectedJsPath}</span>`}</td>
+            </tr>`);
+
+            // Validate CSS file matches component name
+            const expectedCssFile = `${componentName}.css`;
+            const cssValid = CONFIG.cssFile === expectedCssFile;
+            results.push(`<tr>
+                <td>Component CSS File</td>
+                <td class="${cssValid ? 'success' : 'error'}">${cssValid ? '✅ Valid' : '❌ Mismatch'}</td>
+                <td><code>${CONFIG.cssFile}</code>${cssValid ? '' : `<br><span style="color: #ff6b6b;">Expected: ${expectedCssFile}</span>`}</td>
+            </tr>`);
+
+            // Overall validation check
+            const allValid = componentExists && jsPathValid && cssValid;
+            if (!allValid) {
+                results.push(`<tr style="background: #4a1a1a;">
+                    <td colspan="3" style="color: #ff6b6b; font-weight: bold; text-align: center;">
+                        ⚠️ CONFIGURATION ERROR: Component name, JS path, and CSS file must all match!
+                    </td>
+                </tr>`);
+            }
+
+            results.push('</table>');
+
+            document.getElementById('env-check').innerHTML = results.join('');
+        }
+
+        function checkCSSVariables() {
+            const results = [];
+            const vars = [
+                '--primary', '--primary-dark',
+                '--success-color', '--success-dark',
+                '--error-color', '--error-dark',
+                '--bg-primary', '--bg-secondary', '--bg-tertiary',
+                '--text-primary', '--text-secondary',
+                '--border-color'
+            ];
+
+            results.push('<table>');
+            results.push('<tr><th>Variable</th><th>Value</th><th>Preview</th></tr>');
+
+            vars.forEach(varName => {
+                const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+                const exists = value !== '';
+
+                results.push(`<tr>
+                    <td><code>${varName}</code></td>
+                    <td class="${exists ? 'success' : 'warning'}">${exists ? value : '⚠️ Not defined'}</td>
+                    <td>${exists && !value.startsWith('hsl') ? `<span class="color-swatch" style="background: ${value};"></span>` : '-'}</td>
+                </tr>`);
+            });
+
+            results.push('</table>');
+
+            document.getElementById('css-vars').innerHTML = results.join('');
+        }
+
+        async function importComponent() {
+            const results = [];
+
+            try {
+                results.push('<div class="info">⏳ Importing wb-base.js...</div>');
+                document.getElementById('component-reg').innerHTML = results.join('');
+
+                await import('./wb-base/wb-base.js');
+                results.push('<div class="success">✅ wb-base.js imported</div>');
+
+                results.push(`<div class="info">⏳ Importing ${CONFIG.jsFile}...</div>`);
+                document.getElementById('component-reg').innerHTML = results.join('');
+
+                // Add cache buster to force reload
+                const cacheBuster = '?t=' + Date.now();
+                await import(CONFIG.jsFile + cacheBuster);
+                results.push(`<div class="success">✅ ${CONFIG.jsFile} imported</div>`);
+
+                // Check registration
+                const ComponentClass = customElements.get(CONFIG.tagName);
+
+                if (ComponentClass) {
+                    results.push(`<div class="success">✅ &lt;${CONFIG.tagName}&gt; registered with customElements</div>`);
+                    results.push(`<div class="indent"><strong>Class name:</strong> ${ComponentClass.name}</div>`);
+
+                    const observedAttrs = ComponentClass.observedAttributes || [];
+                    results.push(`<div class="indent"><strong>Observed Attributes:</strong> ${observedAttrs.length > 0 ? observedAttrs.join(', ') : 'None'}</div>`);
+
+                    // Store useShadow for later verification (after elements are created)
+                    window._componentUseShadow = ComponentClass.useShadow;
+                } else {
+                    results.push(`<div class="error">❌ &lt;${CONFIG.tagName}&gt; NOT registered</div>`);
+                }
+
+            } catch (error) {
+                results.push(`<div class="error">❌ Import failed: ${error.message}</div>`);
+                results.push(`<pre>${error.stack}</pre>`);
+            }
+
+            document.getElementById('component-reg').innerHTML = results.join('');
+        }
+
+        function injectTestInstances() {
+            const testArea = document.getElementById('test-area');
+            testArea.innerHTML = CONFIG.testHTML;
+        }
+
+        function analyzeShadowStructure() {
+            const results = [];
+            const elements = document.querySelectorAll(CONFIG.tagName);
+
+            if (elements.length === 0) {
+                results.push(`<div class="error">❌ No &lt;${CONFIG.tagName}&gt; elements found in test area</div>`);
+                document.getElementById('shadow-structure').innerHTML = results.join('');
+                return;
+            }
+
+            results.push(`<div class="info">Found ${elements.length} &lt;${CONFIG.tagName}&gt; element(s)</div>`);
+
+            // EXPECTED vs ACTUAL Shadow DOM Check
+            const useShadow = window._componentUseShadow;
+            const actualHasShadow = elements.length > 0 && !!elements[0].shadowRoot;
+
+            results.push(`<div style="margin: 15px 0; padding: 15px; background: #1a1a1a; border-radius: 4px;">`);
+
+            if (useShadow === true) {
+                results.push(`<div class="success"><strong>EXPECTED:</strong> Shadow DOM ENABLED <code>(useShadow = true)</code></div>`);
+            } else if (useShadow === false) {
+                results.push(`<div class="warning"><strong>EXPECTED:</strong> Light DOM <code>(useShadow = false)</code></div>`);
+            } else {
+                results.push(`<div class="error"><strong>EXPECTED:</strong> Not configured <code>(useShadow = undefined)</code></div>`);
+            }
+
+            if (actualHasShadow) {
+                results.push(`<div class="success"><strong>ACTUAL:</strong> Shadow DOM present ✅</div>`);
+            } else {
+                results.push(`<div class="error"><strong>ACTUAL:</strong> No Shadow DOM found ❌</div>`);
+            }
+
+            const matches = (useShadow === true && actualHasShadow) || (useShadow === false && !actualHasShadow);
+            if (matches) {
+                results.push(`<div class="success" style="margin-top: 10px; font-weight: bold;">✅ MATCH - Component working as configured</div>`);
+            } else {
+                results.push(`<div class="error" style="margin-top: 10px; font-weight: bold;">❌ MISMATCH - Configuration doesn't match actual rendering!</div>`);
+            }
+
+            results.push(`</div>`);
+
+            results.push('<table>');
+            results.push('<tr><th>Element</th><th>Shadow Root</th><th>Mode</th><th>Children</th><th>HTML Size</th></tr>');
+
+            elements.forEach((el, index) => {
+                const hasShadow = !!el.shadowRoot;
+
+                results.push(`<tr>
+                    <td>Element ${index + 1}</td>
+                    <td class="${hasShadow ? 'success' : 'error'}">${hasShadow ? '✅ Present' : '❌ Missing'}</td>
+                    <td>${hasShadow ? el.shadowRoot.mode : '-'}</td>
+                    <td>${hasShadow ? el.shadowRoot.childNodes.length : '-'}</td>
+                    <td>${hasShadow ? el.shadowRoot.innerHTML.length + ' chars' : '-'}</td>
+                </tr>`);
+            });
+
+            results.push('</table>');
+
+            document.getElementById('shadow-structure').innerHTML = results.join('');
+        }
+
+        async function checkCSSLoading() {
+            const results = [];
+            const element = document.querySelector(CONFIG.tagName);
+
+            if (!element?.shadowRoot) {
+                results.push('<div class="error">❌ Cannot check - no Shadow DOM</div>');
+                document.getElementById('css-loading').innerHTML = results.join('');
+                return;
+            }
+
+            const link = element.shadowRoot.querySelector('link[rel="stylesheet"]');
+
+            if (!link) {
+                results.push('<div class="error">❌ No CSS link found in Shadow DOM</div>');
+                document.getElementById('css-loading').innerHTML = results.join('');
+                return;
+            }
+
+            results.push('<table>');
+            results.push('<tr><th>Property</th><th>Value</th><th>Status</th></tr>');
+
+            const relativeHref = link.getAttribute('href');
+            results.push(`<tr>
+                <td>href (relative)</td>
+                <td><code>${relativeHref}</code></td>
+                <td class="info">ℹ️</td>
+            </tr>`);
+            
+            // PATH VALIDATION CHECKS
+            const pathIssues = [];
+            
+            // Check 1: Absolute path (starts with /)
+            if (relativeHref.startsWith('/')) {
+                pathIssues.push('❌ Uses absolute path (/) - should be relative (./ or ../)');
+            }
+            
+            // Check 2: Missing ./ or ../
+            if (!relativeHref.startsWith('./') && !relativeHref.startsWith('../') && !relativeHref.startsWith('/')) {
+                pathIssues.push('⚠️ Missing ./ or ../ prefix for relative path');
+            }
+            
+            // Check 3: Expected filename
+            const expectedFilename = CONFIG.cssFile;
+            if (!relativeHref.includes(expectedFilename)) {
+                pathIssues.push(`⚠️ Filename mismatch - expected "${expectedFilename}"`);
+            }
+            
+            // Check 4: Correct relative path for same directory
+            const correctPath = `./${expectedFilename}`;
+            if (relativeHref !== correctPath && relativeHref !== `../${CONFIG.tagName}/${expectedFilename}`) {
+                pathIssues.push(`ℹ️ Recommended path: "${correctPath}"`);
+            }
+            
+            // Display path validation results
+            if (pathIssues.length > 0) {
+                results.push(`<tr>
+                    <td>Path Validation</td>
+                    <td colspan="2" class="warning">${pathIssues.join('<br>')}</td>
+                </tr>`);
+            } else {
+                results.push(`<tr>
+                    <td>Path Validation</td>
+                    <td colspan="2" class="success">✅ Path format correct</td>
+                </tr>`);
+            }
+
+            const fullURL = new URL(link.href, window.location.href).href;
+            results.push(`<tr>
+                <td>href (full URL)</td>
+                <td><code>${fullURL}</code></td>
+                <td class="info">ℹ️</td>
+            </tr>`);
+
+            try {
+                const response = await fetch(link.href);
+                const status = response.status;
+
+                results.push(`<tr>
+                    <td>HTTP Status</td>
+                    <td>${status}</td>
+                    <td class="${status === 200 ? 'success' : 'error'}">${status === 200 ? '✅' : '❌'}</td>
+                </tr>`);
+
+                if (response.ok) {
+                    const cssText = await response.text();
+                    results.push(`<tr>
+                        <td>File Size</td>
+                        <td>${cssText.length} bytes (${(cssText.length / 1024).toFixed(2)} KB)</td>
+                        <td class="success">✅</td>
+                    </tr>`);
+
+                    const usesVars = cssText.includes('var(--');
+                    results.push(`<tr>
+                        <td>Uses CSS Variables</td>
+                        <td>${usesVars ? 'Yes' : 'No'}</td>
+                        <td class="${usesVars ? 'success' : 'warning'}">${usesVars ? '✅' : '⚠️'}</td>
+                    </tr>`);
+                }
+            } catch (error) {
+                results.push(`<tr>
+                    <td colspan="3" class="error">❌ Failed to fetch CSS: ${error.message}</td>
+                </tr>`);
+                results.push(`<tr>
+                    <td colspan="3" class="warning">⚠️ This usually means the CSS path is incorrect or file doesn't exist</td>
+                </tr>`);
+            }
+
+            results.push('</table>');
+
+            document.getElementById('css-loading').innerHTML = results.join('');
+        }
+
+        async function testRenderPersistence() {
+            const results = [];
+            const element = document.querySelector(CONFIG.tagName);
+
+            if (!element?.shadowRoot) {
+                results.push('<div class="error">❌ Cannot test - no Shadow DOM</div>');
+                document.getElementById('render-persistence').innerHTML = results.join('');
+                return;
+            }
+
+            results.push('<table>');
+            results.push('<tr><th>Test</th><th>Result</th><th>Status</th></tr>');
+
+            // Test 1: Check if CSS link exists BEFORE triggering render
+            const linkBefore = element.shadowRoot.querySelector('link[rel="stylesheet"]');
+            const hasLinkBefore = !!linkBefore;
+            results.push(`<tr>
+                <td>CSS Link Before Re-render</td>
+                <td>${hasLinkBefore ? 'Present' : 'Missing'}</td>
+                <td class="${hasLinkBefore ? 'success' : 'error'}">${hasLinkBefore ? '✅' : '❌'}</td>
+            </tr>`);
+
+            if (!hasLinkBefore) {
+                results.push(`<tr>
+                    <td colspan="3" class="warning">⚠️ Cannot test persistence - no CSS link found initially</td>
+                </tr>`);
+                results.push('</table>');
+                document.getElementById('render-persistence').innerHTML = results.join('');
+                return;
+            }
+
+            // Test 2: Force a re-render by changing an attribute
+            const originalVariant = element.getAttribute('variant') || 'primary';
+            const newVariant = originalVariant === 'primary' ? 'secondary' : 'primary';
+            
+            results.push(`<tr>
+                <td>Triggering Re-render</td>
+                <td>Changed variant: ${originalVariant} → ${newVariant}</td>
+                <td class="info">ℹ️</td>
+            </tr>`);
+            
+            element.setAttribute('variant', newVariant);
+            
+            // Wait for render to complete
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            // Test 3: Check if CSS link STILL exists AFTER render
+            const linkAfter = element.shadowRoot.querySelector('link[rel="stylesheet"]');
+            const hasLinkAfter = !!linkAfter;
+            const linkPersisted = hasLinkAfter;
+            
+            results.push(`<tr>
+                <td>CSS Link After Re-render</td>
+                <td>${hasLinkAfter ? 'Present' : 'Missing'}</td>
+                <td class="${hasLinkAfter ? 'success' : 'error'}">${hasLinkAfter ? '✅' : '❌'}</td>
+            </tr>`);
+
+            // Test 4: Final verdict
+            if (linkPersisted) {
+                results.push(`<tr style="background: #1a2a1a;">
+                    <td colspan="3" class="success" style="font-weight: bold;">
+                        ✅ PASS: CSS link persists after re-render. Component properly preserves styles.
+                    </td>
+                </tr>`);
+            } else {
+                results.push(`<tr style="background: #2a1a1a;">
+                    <td colspan="3" class="error" style="font-weight: bold;">
+                        ❌ FAIL: CSS link destroyed by render(). Component's render() method is using innerHTML without preserving <link> tags!
+                        <br><br>
+                        👉 FIX: Update render() to save and re-append CSS links:
+                        <pre style="margin: 10px 0; padding: 10px; background: #000; color: #0f0; font-size: 10px;">const existingLinks = Array.from(this.shadowRoot.querySelectorAll('link'));
+this.shadowRoot.innerHTML = html;
+existingLinks.forEach(link => this.shadowRoot.appendChild(link));</pre>
+                    </td>
+                </tr>`);
+            }
+
+            // Restore original variant
+            element.setAttribute('variant', originalVariant);
+
+            results.push('</table>');
+            document.getElementById('render-persistence').innerHTML = results.join('');
+        }
+
+        function inspectElements() {
+            const results = [];
+            const elements = document.querySelectorAll(CONFIG.tagName);
+
+            results.push('<table>');
+            results.push('<tr><th>Element</th><th>Shadow Elements</th><th>Element Types</th></tr>');
+
+            elements.forEach((el, index) => {
+                if (!el.shadowRoot) {
+                    results.push(`<tr>
+                        <td>Element ${index + 1}</td>
+                        <td colspan="2" class="error">No Shadow DOM</td>
+                    </tr>`);
+                    return;
+                }
+
+                const allElements = el.shadowRoot.querySelectorAll('*');
+                const elementTypes = {};
+
+                allElements.forEach(elem => {
+                    const tag = elem.tagName.toLowerCase();
+                    elementTypes[tag] = (elementTypes[tag] || 0) + 1;
+                });
+
+                const typesList = Object.entries(elementTypes)
+                    .map(([tag, count]) => `${tag} (${count})`)
+                    .join(', ');
+
+                results.push(`<tr>
+                    <td>Element ${index + 1}</td>
+                    <td>${allElements.length} elements</td>
+                    <td><code>${typesList || 'None'}</code></td>
+                </tr>`);
+            });
+
+            results.push('</table>');
+
+            document.getElementById('element-inspect').innerHTML = results.join('');
+        }
+
+        function checkStyles() {
+            const results = [];
+            const elements = document.querySelectorAll(CONFIG.tagName);
+
+            results.push('<table>');
+            results.push('<tr><th>Element</th><th>First Shadow Element</th><th>Background</th><th>Color</th><th>Display</th></tr>');
+
+            elements.forEach((el, index) => {
+                const firstElement = el.shadowRoot?.querySelector('*:not(link):not(style)');
+
+                if (!firstElement) {
+                    results.push(`<tr>
+                        <td>Element ${index + 1}</td>
+                        <td colspan="4" class="error">No renderable elements in Shadow DOM</td>
+                    </tr>`);
+                    return;
+                }
+
+                const computed = getComputedStyle(firstElement);
+                const bg = computed.backgroundColor;
+                const color = computed.color;
+                const display = computed.display;
+
+                const hasColor = bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent';
+
+                results.push(`<tr>
+                    <td>Element ${index + 1}</td>
+                    <td><code>&lt;${firstElement.tagName.toLowerCase()}&gt;</code></td>
+                    <td class="${hasColor ? 'success' : 'warning'}"><code>${bg}</code></td>
+                    <td><code>${color}</code></td>
+                    <td><code>${display}</code></td>
+                </tr>`);
+            });
+
+            results.push('</table>');
+
+            document.getElementById('styles-check').innerHTML = results.join('');
+        }
+
+        function checkDimensions() {
+            const results = [];
+            const elements = document.querySelectorAll(CONFIG.tagName);
+
+            results.push('<table>');
+            results.push('<tr><th>Element</th><th>Width</th><th>Height</th><th>Visible</th></tr>');
+
+            elements.forEach((el, index) => {
+                const firstElement = el.shadowRoot?.querySelector('*:not(link):not(style)');
+
+                if (!firstElement) {
+                    results.push(`<tr>
+                        <td>Element ${index + 1}</td>
+                        <td colspan="3" class="error">No elements to measure</td>
+                    </tr>`);
+                    return;
+                }
+
+                const rect = firstElement.getBoundingClientRect();
+                const isVisible = rect.width > 0 && rect.height > 0;
+
+                results.push(`<tr>
+                    <td>Element ${index + 1}</td>
+                    <td>${rect.width.toFixed(1)}px</td>
+                    <td>${rect.height.toFixed(1)}px</td>
+                    <td class="${isVisible ? 'success' : 'error'}">${isVisible ? '✅ Visible' : '❌ Hidden'}</td>
+                </tr>`);
+            });
+
+            results.push('</table>');
+
+            document.getElementById('dimensions').innerHTML = results.join('');
+        }
+
+        function checkAttributes() {
+            const results = [];
+            const element = document.querySelector(CONFIG.tagName);
+
+            if (!element) {
+                results.push('<div class="error">❌ No elements to test</div>');
+                document.getElementById('attributes').innerHTML = results.join('');
+                return;
+            }
+
+            results.push('<table>');
+            results.push('<tr><th>Attribute</th><th>Value</th></tr>');
+
+            Array.from(element.attributes).forEach(attr => {
+                results.push(`<tr>
+                    <td><code>${attr.name}</code></td>
+                    <td><code>${attr.value}</code></td>
+                </tr>`);
+            });
+
+            if (element.attributes.length === 0) {
+                results.push('<tr><td colspan="2" class="warning">⚠️ No attributes set</td></tr>');
+            }
+
+            results.push('</table>');
+
+            document.getElementById('attributes').innerHTML = results.join('');
+        }
+
+        function dumpHTML() {
+            const results = [];
+            const elements = document.querySelectorAll(CONFIG.tagName);
+
+            elements.forEach((el, index) => {
+                if (el.shadowRoot) {
+                    results.push(`<h3>Element ${index + 1}:</h3>`);
+                    results.push(`<pre>${el.shadowRoot.innerHTML.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
+                }
+            });
+
+            if (results.length === 0) {
+                results.push('<div class="error">❌ No Shadow DOM to display</div>');
+            }
+
+            document.getElementById('html-dump').innerHTML = results.join('');
+        }
+
+        function generateVerdict() {
+            const results = [];
+            const issues = [];
+            const passes = [];
+
+            const elements = document.querySelectorAll(CONFIG.tagName);
+            const ComponentClass = customElements.get(CONFIG.tagName);
+
+            // CHECK 1: Shadow DOM Configuration Match
+            if (ComponentClass) {
+                const useShadow = ComponentClass.useShadow;
+                const actualHasShadow = elements.length > 0 && !!elements[0].shadowRoot;
+                const matches = (useShadow === true && actualHasShadow) || (useShadow === false && !actualHasShadow);
+
+                if (!matches) {
+                    if (useShadow === true && !actualHasShadow) {
+                        issues.push(`❌ CRITICAL: Expected Shadow DOM but found Light DOM (useShadow = true but shadowRoot missing)`);
+                    } else if (useShadow === false && actualHasShadow) {
+                        issues.push(`❌ CRITICAL: Expected Light DOM but found Shadow DOM (useShadow = false but shadowRoot present)`);
+                    } else if (useShadow === undefined) {
+                        issues.push(`❌ CRITICAL: useShadow not configured in component class`);
+                    }
+                } else {
+                    passes.push(`✅ Shadow DOM configuration matches actual rendering`);
+                }
+            }
+
+            // CHECK 2: Element Existence
+            if (elements.length === 0) {
+                issues.push(`No &lt;${CONFIG.tagName}&gt; elements found`);
+            } else {
+                passes.push(`Found ${elements.length} &lt;${CONFIG.tagName}&gt; element(s)`);
+
+                // CHECK 3-N: Per-Element Checks
+                elements.forEach((el, index) => {
+                    if (!el.shadowRoot) {
+                        issues.push(`Element ${index + 1}: No Shadow DOM`);
+                    } else {
+                        passes.push(`Element ${index + 1}: Shadow DOM created`);
+
+                        const firstElement = el.shadowRoot.querySelector('*:not(link):not(style)');
+                        if (!firstElement) {
+                            issues.push(`Element ${index + 1}: No renderable content`);
+                        } else {
+                            const rect = firstElement.getBoundingClientRect();
+                            if (rect.width === 0 || rect.height === 0) {
+                                issues.push(`Element ${index + 1}: Zero dimensions (invisible)`);
+                            } else {
+                                passes.push(`Element ${index + 1}: Visible (${rect.width.toFixed(1)}×${rect.height.toFixed(1)}px)`);
+                            }
+                            
+                            // CHECK: Color/CSS application
+                            const computed = getComputedStyle(firstElement);
+                            const bg = computed.backgroundColor;
+                            const color = computed.color;
+                            
+                            // Detect if colors are wrong (all gray or default)
+                            const isGrayBg = bg.includes('240, 240, 240') || bg.includes('rgb(240, 240, 240)');
+                            const isTransparent = bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent';
+                            const isDefaultRed = color.includes('rgb(255, 0, 0)') || color.includes('rgba(255, 0, 0');
+                            
+                            if (isGrayBg) {
+                                issues.push(`Element ${index + 1}: Wrong background - all gray (CSS not applied)`);
+                            } else if (isTransparent && !isDefaultRed) {
+                                // Transparent bg is OK if text isn't red
+                                passes.push(`Element ${index + 1}: Background color applied`);
+                            } else if (!isTransparent) {
+                                passes.push(`Element ${index + 1}: Background color applied (${bg})`);
+                            }
+                            
+                            // Red text = CSS failure
+                            if (isDefaultRed) {
+                                issues.push(`Element ${index + 1}: Text is RED - CSS failed to load`);
+                            }
+                            
+                            // CHECK: CSS link presence
+                            const link = el.shadowRoot.querySelector('link[rel="stylesheet"]');
+                            if (!link) {
+                                issues.push(`Element ${index + 1}: No CSS link in Shadow DOM`);
+                            } else {
+                                passes.push(`Element ${index + 1}: CSS link present`);
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Generate verdict
+            if (issues.length === 0) {
+                results.push('<div class="summary-box summary-pass">🎉 ALL TESTS PASSED</div>');
+            } else {
+                results.push('<div class="summary-box summary-fail">🔥 ISSUES DETECTED</div>');
+            }
+
+            // Show passes
+            if (passes.length > 0) {
+                results.push('<div class="pass-list">');
+                results.push('<h3 style="color: #10b981; margin-top: 0;">✅ Passing Checks:</h3>');
+                passes.forEach(pass => {
+                    results.push(`<div class="success">✅ ${pass}</div>`);
+                });
+                results.push('</div>');
+            }
+
+            // Show issues
+            if (issues.length > 0) {
+                results.push('<div class="issue-list">');
+                results.push('<h3 style="color: #ef4444; margin-top: 0;">❌ Issues Found:</h3>');
+                issues.forEach(issue => {
+                    results.push(`<div class="error">❌ ${issue}</div>`);
+                });
+                results.push('</div>');
+            }
+
+            // Summary stats - SHOW ALL TESTS
+            results.push('<h3 style="margin-top: 30px;">📊 Summary Statistics:</h3>');
+            results.push(`<div class="metric">Component: <strong>&lt;${CONFIG.tagName}&gt;</strong></div>`);
+
+            const totalChecks = passes.length + issues.length;
+
+            results.push(`<div class="metric">Total Checks: ${totalChecks}</div>`);
+            results.push(`<div class="metric success">Passed: ${passes.length}</div>`);
+            results.push(`<div class="metric error">Failed: ${issues.length}</div>`);
+            if (totalChecks > 0) {
+                results.push(`<div class="metric info">Success Rate: ${((passes.length / totalChecks) * 100).toFixed(1)}%</div>`);
+            }
+
+            document.getElementById('final-verdict').innerHTML = results.join('');
+        }
+
+        function copyIssuesToClipboard() {
+            const elements = document.querySelectorAll(CONFIG.tagName);
+            const ComponentClass = customElements.get(CONFIG.tagName);
+            let report = [];
+
+            report.push('═'.repeat(80));
+            report.push('WB COMPONENT SHADOW DOM DIAGNOSTIC REPORT');
+            report.push('═'.repeat(80));
+            report.push('');
+            report.push(`Component: <${CONFIG.tagName}>`);
+            report.push(`JS File: ${CONFIG.jsFile}`);
+            report.push(`CSS File: ${CONFIG.cssFile}`);
+
+            // Add useShadow configuration with EXPECTED vs ACTUAL
+            if (ComponentClass) {
+                const useShadow = ComponentClass.useShadow;
+                const actualHasShadow = elements.length > 0 && !!elements[0].shadowRoot;
+
+                // EXPECTED
+                if (useShadow === true) {
+                    report.push(`EXPECTED: Shadow DOM ENABLED (useShadow = true)`);
+                } else if (useShadow === false) {
+                    report.push(`EXPECTED: Light DOM (useShadow = false)`);
+                } else {
+                    report.push(`EXPECTED: Not configured (useShadow = undefined)`);
+                }
+
+                // ACTUAL
+                if (actualHasShadow) {
+                    report.push(`ACTUAL: Shadow DOM present ✅`);
+                } else {
+                    report.push(`ACTUAL: No Shadow DOM found ❌`);
+                }
+
+                // MATCH/MISMATCH
+                const matches = (useShadow === true && actualHasShadow) || (useShadow === false && !actualHasShadow);
+                if (matches) {
+                    report.push(`✅ MATCH - Component working as configured`);
+                } else {
+                    report.push(`❌ MISMATCH - Configuration doesn't match actual rendering!`);
+                }
+                report.push('');
+            }
+
+            report.push(`Date: ${new Date().toLocaleString()}`);
+            report.push('');
+            report.push('─'.repeat(80));
+            report.push('ISSUES DETECTED');
+            report.push('─'.repeat(80));
+            report.push('');
+
+            const issues = [];
+            const passes = [];
+
+            if (elements.length === 0) {
+                issues.push(`❌ No <${CONFIG.tagName}> elements found`);
+            } else {
+                passes.push(`✅ Found ${elements.length} <${CONFIG.tagName}> element(s)`);
+
+                elements.forEach((el, index) => {
+                    if (!el.shadowRoot) {
+                        issues.push(`❌ Element ${index + 1}: No Shadow DOM`);
+                    } else {
+                        passes.push(`✅ Element ${index + 1}: Shadow DOM created`);
+
+                        const firstElement = el.shadowRoot.querySelector('*:not(link):not(style)');
+                        if (!firstElement) {
+                            issues.push(`❌ Element ${index + 1}: No renderable content`);
+                        } else {
+                            const rect = firstElement.getBoundingClientRect();
+                            if (rect.width === 0 || rect.height === 0) {
+                                issues.push(`❌ Element ${index + 1}: Zero dimensions (invisible)`);
+                            } else {
+                                passes.push(`✅ Element ${index + 1}: Visible (${rect.width.toFixed(1)}×${rect.height.toFixed(1)}px)`);
+                            }
+
+                            const computed = getComputedStyle(firstElement);
+                            const bg = computed.backgroundColor;
+
+                            // Check if color is correct (not gray)
+                            const isGray = bg.includes('240, 240, 240') || bg.includes('rgb(240, 240, 240)');
+
+                            if (isGray) {
+                                issues.push(`❌ Element ${index + 1}: Wrong color - all gray (CSS not applied correctly)`);
+                            } else if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+                                issues.push(`❌ Element ${index + 1}: No background color (CSS not applied)`);
+                            } else {
+                                passes.push(`✅ Element ${index + 1}: Has correct background color (${bg})`);
+                            }
+                        }
+
+                        const link = el.shadowRoot.querySelector('link[rel="stylesheet"]');
+                        if (!link) {
+                            issues.push(`❌ Element ${index + 1}: No CSS link in Shadow DOM`);
+                        } else {
+                            passes.push(`✅ Element ${index + 1}: CSS link present (${link.getAttribute('href')})`);
+                        }
+                    }
+                });
+            }
+
+            if (issues.length > 0) {
+                issues.forEach(issue => report.push(issue));
+            } else {
+                report.push('🎉 NO ISSUES DETECTED - ALL TESTS PASSED!');
+            }
+
+            report.push('');
+            report.push('─'.repeat(80));
+            report.push('PASSING CHECKS');
+            report.push('─'.repeat(80));
+            report.push('');
+            passes.forEach(pass => report.push(pass));
+
+            report.push('');
+            report.push('─'.repeat(80));
+            report.push('SUMMARY');
+            report.push('─'.repeat(80));
+            report.push('');
+
+            const totalChecks = passes.length + issues.length;
+
+            report.push(`Total Checks: ${totalChecks}`);
+            report.push(`Passed: ${passes.length}`);
+            report.push(`Failed: ${issues.length}`);
+            if (totalChecks > 0) {
+                report.push(`Success Rate: ${((passes.length / totalChecks) * 100).toFixed(1)}%`);
+            }
+            report.push('');
+            report.push('═'.repeat(80));
+
+            const reportText = report.join('\n');
+
+            navigator.clipboard.writeText(reportText).then(() => {
+                alert('✅ Issues report copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Copy failed. Report:\n\n' + reportText);
+            });
+        }
+    </script>
+</body>
+
+</html>

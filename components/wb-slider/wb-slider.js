@@ -10,6 +10,24 @@ class WBSlider {
     this.sliders = new Map();
     this.init();
   }
+    static get observedAttributes() {
+        return ['disabled'];
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        switch(name) {
+            case 'disabled':
+                this.disabled = newValue;
+                break;
+        }
+        
+        if (this.shadowRoot) {
+            this.render();
+        }
+    }
+
+
 
   async init() {
     await this.loadCSS();

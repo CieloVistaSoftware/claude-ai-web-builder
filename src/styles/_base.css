@@ -57,16 +57,7 @@ html {
   tab-size: 4; /* 3 */
 }
 
-body {
-  margin: 0; /* Remove the margin in all browsers. */
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  line-height: var(--leading-normal);
-  color: var(--text-primary);
-  background-color: var(--bg-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* Body base styles moved to main.css */
 
 /* ===== TYPOGRAPHY RESET ===== */
 
@@ -235,11 +226,7 @@ html {
 }
 
 /* Body defaults */
-body {
-  min-height: 100vh;
-  text-rendering: optimizeSpeed;
-  overflow-x: hidden;
-}
+/* Body base styles moved to main.css */
 
 /* Improved focus management */
 *:focus {
@@ -633,7 +620,4 @@ a:focus-visible {
   --text: #eee;
 }
 
-body {
-  background: var(--background);
-  color: var(--text);
-}
+/* Body base styles moved to main.css */

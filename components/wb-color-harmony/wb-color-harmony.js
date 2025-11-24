@@ -380,7 +380,7 @@ class WBColorHarmony extends WBBaseComponent {
       
       return `
         <div class="color-swatch" 
-             style="background: ${hsl};" 
+             style="background: ${hsl} !important;" 
              title="${color.role}: ${hex}">
           <div class="color-label">${color.name}</div>
         </div>

@@ -14,7 +14,7 @@ customElements.define('wb-demo-output', WBDemoOutput);
  * A reusable component for creating two-tab documentation and examples layouts
  * Follows WB Component Rules: CSS-First Architecture with external stylesheet
  */
-class WBDemo extends HTMLElement {
+class WBDemo extends WBBaseComponent {
     constructor() {
         super();
         console.log('🎯 WB Demo: Constructor called');

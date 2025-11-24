@@ -3,1058 +3,518 @@
  * Passive event-driven logging system for Website Builder
  * Automatically captures and displays application events
  * 
- * @version 1.0.0
+ * @version 2.0.0 (Simplified & Fixed)
  * @author Website Builder Components
  */
 
-// Load component configuration
-let componentConfig = {};
-    
-import { WBBaseComponent } from '../wb-base/wb-base.js';
+// Use WBBaseComponent from global or import
+const WBBaseComponent = window.WBBaseComponent || HTMLElement;
 
 class WBEventLog extends WBBaseComponent {
-            // Instance method stubs for missing methods (only one set)
-            render() {
-                // Clear container
-                this.innerHTML = '';
-                // Create a wrapper for events
-                const wrapper = document.createElement('div');
-                wrapper.className = 'wb-event-log-list';
-                // Render all events
-                for (const event of this.events) {
-                    const eventElem = this.createEventElement(event);
-                    wrapper.appendChild(eventElem);
-                }
-                this.appendChild(wrapper);
-            }
-            logWarning(msg, details) {}
-            logInfo(msg, details) {}
-            logError(msg, details) {}
-            logSuccess(msg, details) {}
-            logDebug(msg, details) {}
-            logUser(msg, details) {}
-            isEventVisible(event) { return true; }
-            renderEvent(event) {
-                // Add only the latest event to the top
-                if (!this.querySelector('.wb-event-log-list')) {
-                    this.render();
-                    return;
-                }
-                const wrapper = this.querySelector('.wb-event-log-list');
-                const eventElem = this.createEventElement(event);
-                wrapper.insertBefore(eventElem, wrapper.firstChild);
-            }
-                        createEventElement(event) {
-                            const div = document.createElement('div');
-                            div.className = `wb-event wb-event-${event.type}`;
-                            div.style.padding = '6px 10px';
-                            div.style.borderBottom = '1px solid #333';
-                            div.style.fontSize = '0.95rem';
-                            div.style.color = '#fff';
-                            div.innerHTML = `
-                                <span style="font-weight:bold;color:${this.getTypeColor(event.type)};">${event.type.toUpperCase()}</span>
-                                <span style="margin-left:8px;">${event.message}</span>
-                                <span style="float:right;font-size:0.8em;color:#888;">${new Date(event.timestamp).toLocaleTimeString()}</span>
-                            `;
-                            return div;
-                        }
-
-                        getTypeColor(type) {
-                            switch(type) {
-                                case 'error': return '#f44336';
-                                case 'warning': return '#ff9800';
-                                case 'info': return '#2196F3';
-                                case 'success': return '#4CAF50';
-                                case 'debug': return '#9C27B0';
-                                case 'user': return '#607D8B';
-                                default: return '#fff';
-                            }
-                        }
-            scrollToTop() {}
-            getInteractionTarget(target) { return ''; }
-            detectEventTarget(details) { return ''; }
-        constructor() {
-            super();
-            
-            this.events = [];
-            this.maxEvents = 1000;
-            this.autoScroll = true;
-            this.isPaused = false;
-            this.filters = ['error', 'info'];
-            this.searchFilter = '';
-            this.wrapMode = 'truncate';
-            this.wrapLength = 80;
-            
-            // Recursion protection flag
-            this._processingEvent = false;
-            
-            // Console interception references
-            this.originalConsole = {
-                log: console.log,
-                warn: console.warn,
-                error: console.error,
-                info: console.info,
-                debug: console.debug
-            };
-            
-            this.init();
+    // Render in light DOM, not shadow
+    static useShadow = false;
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        // Initialize properties
+        this.events = [];
+        this.maxEvents = 1000;
+        this.autoScroll = true;
+        this.isPaused = false;
+        this.filters = { error: true, warning: true, info: true, success: true, debug: true, user: true };
+        this.searchFilter = '';
+        this._processingEvent = false;
+        // Store original console methods
+        this.originalConsole = {
+            log: console.log,
+            warn: console.warn,
+            error: console.error,
+            info: console.info,
+            debug: console.debug
+        };
+    }
+    
+    connectedCallback() {
+        super.connectedCallback(); // Inherit dark mode and other base functionality
+        // Initialize when element is added to DOM
+        console.log('✅ WB Event Log: Component connected');
+        this.init();
+    }
+    
+    async init() {
+        console.log('⚙️ init() called - Initializing component...');
+        // Setup component
+        this.className = 'wb-event-log';
+        
+        // Load CSS if not already loaded
+        if (!document.querySelector('link[href*="wb-event-log.css"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'wb-event-log.css';
+            document.head.appendChild(link);
+            console.log('📄 CSS loaded');
         }
         
-        async init() {
-            this.logInfo('WB Event Log: Initializing...');
-            
-            // Load configuration
-            await this.loadConfig();
-            
-            // Load CSS
-            this.loadCSS();
-            
-            // Setup component
-            this.setupComponent();
-            this.setupEventListeners();
-            this.render();
-            
-            // Don't log to self - would create self-referential event
-            this.logInfo('WB Event Log: Ready');
-        }
+        // Create DOM structure
+        console.log('🎨 Calling render()...');
+        this.render();
         
-        async loadConfig() {
-            try {
-                const configPath = (typeof window !== 'undefined' && window['WBComponentUtils'] && typeof window['WBComponentUtils'].resolve === 'function')
-                    ? window['WBComponentUtils'].resolve('wb.event-log.config')
-                    : (this.getComponentPath() + '/wb-event-log.json');
-                const response = await fetch(configPath);
-                const config = await response.json();
-                
-                componentConfig = config;
-                
-                // Apply configuration
-                this.maxEvents = config.config?.maxEvents || 1000;
-                this.autoScroll = config.config?.autoScroll !== false;
-                this.filters = config.config?.defaultFilters || ['error', 'info'];
-                this.wrapMode = config.config?.display?.wrapMode || 'truncate';
-                this.wrapLength = config.config?.display?.wrapLength || 80;
-                
-                console.log('🔧 WB Event Log: Configuration loaded', config);
-            } catch (error) {
-                this.logWarning('Failed to load configuration, using defaults', { source: 'wb-event-log', error: error.message });
-            }
-        }
+        // Setup event listeners
+        console.log('🎧 Calling setupEventListeners()...');
+        this.setupEventListeners();
         
-        getComponentPath() {
-            if (typeof window !== 'undefined' && window['WBComponentUtils'] && typeof window['WBComponentUtils'].getComponentPath === 'function') {
-                return window['WBComponentUtils'].getComponentPath('wb-event-log.js', './components/wb-event-log/');
-            }
-            
-            // Fallback path detection
-            const scripts = document.querySelectorAll('script[src*="wb-event-log"]');
-            if (scripts.length > 0) {
-                const scriptSrc = (scripts[0] instanceof HTMLScriptElement ? scripts[0].src : '');
-                return scriptSrc.substring(0, scriptSrc.lastIndexOf('/'));
-            }
-            
-            return './components/wb-event-log';
-        }
+        console.log('✅ WB Event Log: Ready to capture events');
+    }
+    
+    render() {
+        this.innerHTML = '';
         
-        loadCSS() {
-            const cssPath = this.getComponentPath() + '/wb-event-log.css';
-            
-            // Only call loadComponentCSS if it exists, otherwise fallback
-            if (
-                typeof window !== 'undefined' &&
-                window['WBComponentUtils'] &&
-                typeof window['WBComponentUtils']['loadComponentCSS'] === 'function'
-            ) {
-                window['WBComponentUtils']['loadComponentCSS']('wb-event-log', cssPath);
-            } else {
-                // Fallback CSS loading
-                const existingLink = document.querySelector(`link[href*="wb-event-log.css"]`);
-                if (!existingLink) {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = cssPath;
-                    document.head.appendChild(link);
-                }
-            }
-        }
+        // Create main container
+        const container = document.createElement('div');
+        container.className = 'wb-event-log-container';
+        container.style.height = '100%';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
         
-        setupComponent() {
-            this.className = 'wb-event-log';
-            
-            // Apply data attributes
-            if (this.hasAttribute('data-max-events')) {
-                this.maxEvents = parseInt(this.getAttribute('data-max-events'));
-            }
-            if (this.hasAttribute('data-auto-scroll')) {
-                this.autoScroll = this.getAttribute('data-auto-scroll') !== 'false';
-            }
-            if (this.hasAttribute('data-wrap-mode')) {
-                this.wrapMode = this.getAttribute('data-wrap-mode');
-            }
-        }
+        // Create toolbar
+        const toolbar = document.createElement('div');
+        toolbar.className = 'wb-event-log-toolbar';
+        toolbar.style.cssText = `
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background: #2a2a2a;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 8px;
+            flex-shrink: 0;
+        `;
         
-        setupEventListeners() {
-            // Listen for custom WB events
-            document.addEventListener('wb:info', this.handleInfoEvent.bind(this));
-            document.addEventListener('wb:warning', this.handleWarningEvent.bind(this));
-            document.addEventListener('wb:error', this.handleErrorEvent.bind(this));
-            document.addEventListener('wb:success', this.handleSuccessEvent.bind(this));
-            document.addEventListener('wb:debug', this.handleDebugEvent.bind(this));
-            document.addEventListener('wb:user', this.handleUserEvent.bind(this));
-            
-            // Listen for component lifecycle events
-            document.addEventListener('wb:component-loaded', this.handleComponentEvent.bind(this));
-            document.addEventListener('wb:component-error', this.handleComponentEvent.bind(this));
-            
-            // Listen for user interactions
-            document.addEventListener('click', this.handleUserInteraction.bind(this));
-            document.addEventListener('change', this.handleUserInteraction.bind(this));
-            
-            // Listen for window errors
-            window.addEventListener('error', this.handleWindowError.bind(this));
-            window.addEventListener('unhandledrejection', this.handlePromiseRejection.bind(this));
-            
-            // Intercept network requests for 404 and other errors
-            this.interceptFetch();
-            this.interceptXHR();
-            
-            // Monitor navigation events
-            this.setupNavigationTracking();
-            
-            // Monitor all resource loading errors
-            this.setupResourceErrorTracking();
-            
-            // Intercept console methods
-            this.interceptConsole();
-        }
+        // Left side - title and count
+        const leftSection = document.createElement('div');
+        leftSection.style.cssText = 'display: flex; align-items: center; gap: 10px;';
+        leftSection.innerHTML = `
+            <span style="color: #888; font-size: 0.9em; font-weight: bold;">Event Log</span>
+            <span class="event-count" style="color: #6366f1; font-size: 0.85em;">(0)</span>
+        `;
         
-        interceptConsole() {
-            const self = this;
-            
-            console.log = function(...args) {
-                self.originalConsole.log.apply(console, args);
-                if (!self.isPaused && !self._processingEvent) {
-                    const logMessage = args.join(' ');
-                    if (!logMessage.includes('wb-event-log')) {
-                        self.addEvent('info', logMessage, { source: 'console' });
-                    }
-                }
-            };
-            
-            console.warn = function(...args) {
-                self.originalConsole.warn.apply(console, args);
-                if (!self.isPaused && !self._processingEvent) {
-                    const warnMessage = args.join(' ');
-                    if (!warnMessage.includes('wb-event-log')) {
-                        self.addEvent('warning', warnMessage, { source: 'console' });
-                    }
-                }
-            };
-            
-            console.error = function(...args) {
-                // Use original console to prevent recursion
-                self.originalConsole.error.apply(console, args);
-                
-                if (!self.isPaused && !self._processingEvent) {
-                    const errorMessage = args.join(' ');
-                    // Prevent logging of wb-event-log errors
-                    if (!errorMessage.includes('wb-event-log') && !errorMessage.includes('Maximum call stack')) {
-                        self.addEvent('error', errorMessage, { source: 'console' });
-                    }
-                }
-            };
-            
-            console.info = function(...args) {
-                self.originalConsole.info.apply(console, args);
-                if (!self.isPaused && !self._processingEvent) {
-                    const infoMessage = args.join(' ');
-                    if (!infoMessage.includes('wb-event-log')) {
-                        self.addEvent('info', infoMessage, { source: 'console' });
-                    }
-                }
-            };
-            
-            console.debug = function(...args) {
-                self.originalConsole.debug.apply(console, args);
-                if (!self.isPaused && !self._processingEvent) {
-                    const debugMessage = args.join(' ');
-                    if (!debugMessage.includes('wb-event-log')) {
-                        self.addEvent('debug', debugMessage, { source: 'console' });
-                    }
-                }
-            };
-        }
+        // Right side - buttons
+        const rightSection = document.createElement('div');
+        rightSection.style.cssText = 'display: flex; gap: 6px;';
         
-        interceptFetch() {
-            const self = this;
-            const originalFetch = window.fetch;
-            
-            window.fetch = function(...args) {
-                const startTime = Date.now();
-                const url = args[0];
-                const options = args[1] || {};
-                
-                // Capture stack trace at call site
-                const stackTrace = new Error().stack;
-                
-                return originalFetch.apply(this, args)
-                    .then(response => {
-                        const duration = Date.now() - startTime;
-                        
-                        if (!response.ok) {
-                            // Log HTTP error responses (404, 500, 503, etc.)
-                            const errorMsg = `HTTP ${response.status} ${response.statusText}: ${url}`;
-                            self.addEvent('error', errorMsg, {
-                                source: 'fetch',
-                                url: url,
-                                method: options.method || 'GET',
-                                status: response.status,
-                                statusText: response.statusText,
-                                duration: duration,
-                                headers: Object.fromEntries(response.headers.entries()),
-                                requestHeaders: options.headers || {},
-                                stackTrace: stackTrace,
-                                code: `fetch('${url}', ${JSON.stringify(options, null, 2)})`,
-                                from: self.extractCallerFromStack(stackTrace),
-                                to: url
-                            });
-                        }
-                        
-                        return response;
-                    })
-                    .catch(error => {
-                        const duration = Date.now() - startTime;
-                        
-                        // Log network errors (connection failed, timeout, etc.)
-                        const errorMsg = `Network Error: ${error.message} for ${url}`;
-                        self.addEvent('error', errorMsg, {
-                            source: 'fetch',
-                            url: url,
-                            method: options.method || 'GET',
-                            error: error.message,
-                            duration: duration,
-                            requestHeaders: options.headers || {},
-                            stackTrace: stackTrace,
-                            code: `fetch('${url}', ${JSON.stringify(options, null, 2)})`,
-                            from: self.extractCallerFromStack(stackTrace),
-                            to: url
-                        });
-                        
-                        throw error;
-                    });
-            };
-        }
+        // Copy All button
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'wb-event-log-btn';
+        copyBtn.innerHTML = '📋 Copy All';
+        copyBtn.title = 'Copy all events to clipboard';
+        copyBtn.style.cssText = `
+            padding: 4px 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.2s;
+        `;
+        copyBtn.addEventListener('mouseenter', () => copyBtn.style.background = '#45a049');
+        copyBtn.addEventListener('mouseleave', () => copyBtn.style.background = '#4CAF50');
+        copyBtn.addEventListener('click', () => this.copyAllEvents());
         
-        interceptXHR() {
-            const self = this;
-            const originalXHROpen = XMLHttpRequest.prototype.open;
-            const originalXHRSend = XMLHttpRequest.prototype.send;
-            
-            XMLHttpRequest.prototype.open = function(method, url, ...args) {
-                this['_wbEventLog'] = {
-                    method: method,
-                    url: url,
-                    startTime: null,
-                    stackTrace: new Error().stack
-                };
-                return originalXHROpen.apply(this, [method, url, ...args]);
-            };
-            
-            XMLHttpRequest.prototype.send = function(...args) {
-                if (this['_wbEventLog']) {
-                    this['_wbEventLog'].startTime = Date.now();
-                    const onError = () => {
-                        const wbEventLog = this['_wbEventLog'];
-                        const duration = Date.now() - (wbEventLog && wbEventLog.startTime ? wbEventLog.startTime : Date.now());
-                        const errorMsg = `XHR Error: ${this.status} ${this.statusText || 'Network Error'} for ${(wbEventLog && wbEventLog.url ? wbEventLog.url : '')}`;
-                        self.addEvent('error', errorMsg, {
-                            source: 'xhr',
-                            url: wbEventLog && wbEventLog.url ? wbEventLog.url : '',
-                            method: wbEventLog && wbEventLog.method ? wbEventLog.method : '',
-                            status: this.status,
-                            statusText: this.statusText,
-                            duration: duration,
-                            responseHeaders: typeof this.getAllResponseHeaders === 'function' ? this.getAllResponseHeaders() : '',
-                            stackTrace: wbEventLog && wbEventLog.stackTrace ? wbEventLog.stackTrace : '',
-                            code: `xhr.open('${wbEventLog && wbEventLog.method ? wbEventLog.method : ''}', '${wbEventLog && wbEventLog.url ? wbEventLog.url : ''}')`,
-                            from: self.extractCallerFromStack(wbEventLog && wbEventLog.stackTrace ? wbEventLog.stackTrace : ''),
-                            to: wbEventLog && wbEventLog.url ? wbEventLog.url : ''
-                        });
-                    };
-                    this.addEventListener('error', onError);
-                    this.addEventListener('load', () => {
-                        if (this.status >= 400) {
-                            onError();
-                        }
-                    });
-                }
-                return originalXHRSend.apply(this, args);
-            };
-        }
+        // Clear button
+        const clearBtn = document.createElement('button');
+        clearBtn.className = 'wb-event-log-btn';
+        clearBtn.innerHTML = '🗑️ Clear';
+        clearBtn.title = 'Clear all events';
+        clearBtn.style.cssText = `
+            padding: 4px 10px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.2s;
+        `;
+        clearBtn.addEventListener('mouseenter', () => clearBtn.style.background = '#da190b');
+        clearBtn.addEventListener('mouseleave', () => clearBtn.style.background = '#f44336');
+        clearBtn.addEventListener('click', () => this.clearEvents());
         
-        setupNavigationTracking() {
-            const self = this;
-            
-            // Track initial page load
-            this.currentUrl = window.location.href;
-            this.lastScrollY = 0;
-            
-            // Monitor popstate events (back/forward navigation)
-            window.addEventListener('popstate', function(event) {
-                const newUrl = window.location.href;
-                const scrollY = Math.round(window.scrollY);
-                
-                self.addEvent('info', `RETURNED: Back to page at Y=${scrollY}`, {
-                    source: 'navigation',
-                    type: 'popstate',
-                    url: newUrl,
-                    previousUrl: self.currentUrl,
-                    scrollPosition: scrollY,
-                    state: event.state,
-                    from: self.getUrlShort(self.currentUrl),
-                    to: self.getUrlShort(newUrl),
-                    code: `window.history.back() or browser back button`,
-                    fullNavigation: {
-                        currentUrl: newUrl,
-                        previousUrl: self.currentUrl,
-                        scrollY: scrollY,
-                        timestamp: Date.now()
-                    }
-                });
-                
-                self.currentUrl = newUrl;
-                self.lastScrollY = scrollY;
-            });
-            
-            // Monitor hashchange events
-            window.addEventListener('hashchange', function(event) {
-                const newUrl = event.newURL;
-                const oldUrl = event.oldURL;
-                const scrollY = Math.round(window.scrollY);
-                
-                self.addEvent('info', `NAVIGATION: Hash changed to ${window.location.hash}`, {
-                    source: 'navigation',
-                    type: 'hashchange',
-                    url: newUrl,
-                    previousUrl: oldUrl,
-                    hash: window.location.hash,
-                    scrollPosition: scrollY,
-                    from: self.getUrlShort(oldUrl),
-                    to: self.getUrlShort(newUrl),
-                    code: `window.location.hash = '${window.location.hash}'`,
-                    fullNavigation: {
-                        currentUrl: newUrl,
-                        previousUrl: oldUrl,
-                        hash: window.location.hash,
-                        scrollY: scrollY,
-                        timestamp: Date.now()
-                    }
-                });
-                
-                self.currentUrl = newUrl;
-            });
-            
-            // Monitor programmatic navigation
-            this.interceptHistoryMethods();
-            
-            // Monitor significant scroll events
-            let scrollTimeout;
-            window.addEventListener('scroll', function() {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    const scrollY = Math.round(window.scrollY);
-                    const scrollDelta = Math.abs(scrollY - self.lastScrollY);
-                    
-                    // Only log significant scroll changes (> 200px)
-                    if (scrollDelta > 200) {
-                        self.addEvent('debug', `SCROLL: Page scrolled to Y=${scrollY}`, {
-                            source: 'navigation',
-                            type: 'scroll',
-                            url: window.location.href,
-                            scrollPosition: scrollY,
-                            previousScrollY: self.lastScrollY,
-                            scrollDelta: scrollDelta,
-                            from: `Y=${self.lastScrollY}`,
-                            to: `Y=${scrollY}`,
-                            fullNavigation: {
-                                currentUrl: window.location.href,
-                                scrollY: scrollY,
-                                previousScrollY: self.lastScrollY,
-                                timestamp: Date.now()
-                            }
-                        });
-                        
-                        self.lastScrollY = scrollY;
-                    }
-                }, 150); // Debounce scroll events
-            });
-        }
+        // Pause/Resume button
+        const pauseBtn = document.createElement('button');
+        pauseBtn.className = 'wb-event-log-btn wb-event-log-pause';
+        pauseBtn.innerHTML = this.isPaused ? '▶️ Resume' : '⏸️ Pause';
+        pauseBtn.title = 'Pause/Resume event logging';
+        pauseBtn.style.cssText = `
+            padding: 4px 10px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.2s;
+        `;
+        pauseBtn.addEventListener('mouseenter', () => pauseBtn.style.background = '#fb8c00');
+        pauseBtn.addEventListener('mouseleave', () => pauseBtn.style.background = '#ff9800');
+        pauseBtn.addEventListener('click', () => {
+            this.isPaused = !this.isPaused;
+            pauseBtn.innerHTML = this.isPaused ? '▶️ Resume' : '⏸️ Pause';
+        });
         
-        interceptHistoryMethods() {
-            const self = this;
-            const originalPushState = history.pushState;
-            const originalReplaceState = history.replaceState;
-            
-            history.pushState = function(state, title, url) {
-                const result = originalPushState.apply(this, arguments);
-                const newUrl = url ? new URL(url, window.location.origin).href : window.location.href;
-                const scrollY = Math.round(window.scrollY);
-                
-                self.addEvent('info', `NAVIGATION: Pushed new state`, {
-                    source: 'navigation',
-                    type: 'pushstate',
-                    url: newUrl,
-                    previousUrl: self.currentUrl,
-                    state: state,
-                    title: title,
-                    scrollPosition: scrollY,
-                    from: self.getUrlShort(self.currentUrl),
-                    to: self.getUrlShort(newUrl),
-                    code: `history.pushState(${JSON.stringify(state)}, '${title}', '${url}')`,
-                    fullNavigation: {
-                        currentUrl: newUrl,
-                        previousUrl: self.currentUrl,
-                        state: state,
-                        title: title,
-                        scrollY: scrollY,
-                        timestamp: Date.now()
-                    }
-                });
-                
-                self.currentUrl = newUrl;
-                return result;
-            };
-            
-            history.replaceState = function(state, title, url) {
-                const result = originalReplaceState.apply(this, arguments);
-                const newUrl = url ? new URL(url, window.location.origin).href : window.location.href;
-                const scrollY = Math.round(window.scrollY);
-                
-                self.addEvent('info', `NAVIGATION: Replaced current state`, {
-                    source: 'navigation',
-                    type: 'replacestate',
-                    url: newUrl,
-                    previousUrl: self.currentUrl,
-                    state: state,
-                    title: title,
-                    scrollPosition: scrollY,
-                    from: self.getUrlShort(self.currentUrl),
-                    to: self.getUrlShort(newUrl),
-                    code: `history.replaceState(${JSON.stringify(state)}, '${title}', '${url}')`,
-                    fullNavigation: {
-                        currentUrl: newUrl,
-                        previousUrl: self.currentUrl,
-                        state: state,
-                        title: title,
-                        scrollY: scrollY,
-                        timestamp: Date.now()
-                    }
-                });
-                
-                self.currentUrl = newUrl;
-                return result;
-            };
-        }
+        rightSection.appendChild(copyBtn);
+        rightSection.appendChild(clearBtn);
+        rightSection.appendChild(pauseBtn);
         
-        getUrlShort(url) {
-            if (!url) return 'unknown';
-            try {
-                const urlObj = new URL(url);
-                return urlObj.pathname + urlObj.search + urlObj.hash;
-            } catch {
-                return url;
-            }
-        }
+        toolbar.appendChild(leftSection);
+        toolbar.appendChild(rightSection);
         
-        setupResourceErrorTracking() {
-            const self = this;
-            
-            // Capture all resource loading errors (images, scripts, stylesheets, etc.)
-            window.addEventListener('error', function(event) {
-                // Check if this is a resource loading error
-                    if (event.target !== window && event.target instanceof HTMLElement && 'src' in event.target) {
-                    const errorMsg = `Resource Load Error: ${event.target.tagName} failed to load ${event.target.src}`;
-                    
-                    self.addEvent('error', errorMsg, {
-                        source: 'resource-error',
-                        url: event.target.src,
-                        resourceType: event.target.tagName.toLowerCase(),
-                        element: event.target.outerHTML,
-                        code: `<${event.target.tagName.toLowerCase()} src="${event.target.src}">`,
-                        from: 'html-element',
-                        to: event.target.src,
-                        stackTrace: new Error().stack,
-                        resourceDetails: {
-                            url: event.target.src,
-                            type: event.target.tagName,
-                            id: event.target.id,
-                            className: event.target.className,
-                            timestamp: Date.now()
-                        }
-                    });
-                }
-            }, true); // Use capture phase to catch resource errors
-            
-            
-            // Monitor performance entries for failed requests
-            if ('PerformanceObserver' in window) {
-                try {
-                    const observer = new PerformanceObserver(function(list) {
-                        list.getEntries().forEach(entry => {
-                            // Check for failed navigation or resource entries
-                            if (entry.entryType === 'navigation' || entry.entryType === 'resource') {
-                                // Failed requests often have transferSize of 0 and duration issues
-                                if (entry.entryType === 'resource' && 'transferSize' in entry && 'decodedBodySize' in entry && entry.transferSize === 0 && entry.decodedBodySize === 0 && entry.duration > 0) {
-                                    self.addEvent('error', `Performance: Possible failed request to ${entry.name}`, {
-                                        source: 'performance',
-                                        url: entry.name,
-                                        entryType: entry.entryType,
-                                        duration: entry.duration,
-                                        transferSize: entry.transferSize,
-                                        code: `Network request to: ${entry.name}`,
-                                        from: 'browser',
-                                        to: entry.name,
-                                        performanceDetails: {
-                                            name: entry.name,
-                                            entryType: entry.entryType,
-                                            startTime: entry.startTime,
-                                            duration: entry.duration,
-                                            transferSize: entry.transferSize,
-                                            decodedBodySize: entry.decodedBodySize,
-                                            timestamp: Date.now()
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                    });
-                    
-                    observer.observe({ entryTypes: ['navigation', 'resource'] });
-                } catch (e) {
-                    this.logWarning('Performance Observer not supported for resource monitoring', { source: 'wb-event-log', error: e.message });
+        // Create event list wrapper
+        const listWrapper = document.createElement('div');
+        listWrapper.className = 'wb-event-log-list';
+        listWrapper.style.flex = '1';
+        listWrapper.style.overflowY = 'auto';
+        listWrapper.style.padding = '0';
+        listWrapper.style.backgroundColor = '#1a1a1a';
+        listWrapper.style.borderRadius = '0px';
+        
+        // Add placeholder message
+        const placeholder = document.createElement('div');
+        placeholder.style.color = '#888';
+        placeholder.style.padding = '20px';
+        placeholder.style.textAlign = 'center';
+        placeholder.textContent = 'Waiting for events...';
+        listWrapper.appendChild(placeholder);
+        
+        container.appendChild(toolbar);
+        container.appendChild(listWrapper);
+        this.appendChild(container);
+    }
+    
+    setupEventListeners() {
+        console.log('🎧 Setting up event listeners...');
+        
+        // Listen for custom WB events
+        document.addEventListener('wb:info', (e) => {
+            console.log('📢 wb:info event received!');
+            this.handleEvent('info', e);
+        });
+        document.addEventListener('wb:warning', (e) => {
+            console.log('📢 wb:warning event received!');
+            this.handleEvent('warning', e);
+        });
+        document.addEventListener('wb:error', (e) => {
+            console.log('📢 wb:error event received!');
+            this.handleEvent('error', e);
+        });
+        document.addEventListener('wb:success', (e) => {
+            console.log('📢 wb:success event received!');
+            this.handleEvent('success', e);
+        });
+        document.addEventListener('wb:debug', (e) => {
+            console.log('📢 wb:debug event received!');
+            this.handleEvent('debug', e);
+        });
+        document.addEventListener('wb:user', (e) => {
+            console.log('📢 wb:user event received!');
+            this.handleEvent('user', e);
+        });
+        
+        // Capture console logs
+        this.captureConsole();
+        
+        console.log('✅ WB Event Log: Event listeners configured');
+    }
+    
+    handleEvent(type, event) {
+        console.log('🔔 handleEvent called:', type, event.detail);
+        if (this.isPaused) return;
+        
+        const detail = event.detail || {};
+        const message = detail.message || 'Event occurred';
+        
+        console.log('📤 Passing to addEvent:', type, message);
+        this.addEvent(type, message, detail);
+    }
+    
+    captureConsole() {
+        const self = this;
+        const originalLog = this.originalConsole.log;
+        const originalWarn = this.originalConsole.warn;
+        const originalError = this.originalConsole.error;
+        
+        // Override console.log
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            if (!self.isPaused && !self._processingEvent) {
+                const message = args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' ');
+                if (!message.includes('wb-event-log') && !message.includes('✅')) {
+                    self.addEvent('info', message, { source: 'console' });
                 }
             }
-        }
+        };
         
-        extractCallerFromStack(stack) {
-            if (!stack) return 'unknown';
-            
-            const lines = stack.split('\n');
-            // Skip the first few lines (Error constructor, this method, interceptor)
-            for (let i = 3; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (line && !line.includes('wb-event-log') && !line.includes('XMLHttpRequest')) {
-                    // Extract file and line number
-                    const match = line.match(/at .* \((.+):(\d+):(\d+)\)/);
-                    if (match) {
-                        const [, file, lineNum] = match;
-                        const fileName = file.split('/').pop();
-                        return `${fileName}:${lineNum}`;
-                    }
+        // Override console.warn
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            if (!self.isPaused && !self._processingEvent) {
+                const message = args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' ');
+                if (!message.includes('wb-event-log')) {
+                    self.addEvent('warning', message, { source: 'console' });
                 }
             }
-            return 'unknown';
-        }
+        };
         
-        // Event handlers
-        handleInfoEvent(event) {
-            if (!this.isPaused) {
-                this.addEvent('info', event.detail.message, event.detail);
+        // Override console.error
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            if (!self.isPaused && !self._processingEvent) {
+                const message = args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' ');
+                if (!message.includes('wb-event-log') && !message.includes('Maximum call stack')) {
+                    self.addEvent('error', message, { source: 'console' });
+                }
             }
-        }
+        };
+    }
+    
+    addEvent(type, message, details = {}) {
+        //console.log('📥 addEvent called:', type, message);
+        // Prevent recursion
+        if (this._processingEvent) return;
+        this._processingEvent = true;
         
-        handleWarningEvent(event) {
-            if (!this.isPaused) {
-                this.addEvent('warning', event.detail.message, event.detail);
-            }
-        }
-        
-        handleErrorEvent(event) {
-            if (!this.isPaused) {
-                this.addEvent('error', event.detail.message, event.detail);
-            }
-        }
-        
-        handleSuccessEvent(event) {
-            if (!this.isPaused) {
-                this.addEvent('success', event.detail.message, event.detail);
-            }
-        }
-        
-        handleDebugEvent(event) {
-            if (!this.isPaused) {
-                this.addEvent('debug', event.detail.message, event.detail);
-            }
-        }
-        
-        handleUserEvent(event) {
-            if (!this.isPaused) {
-                this.addEvent('user', event.detail.message, event.detail);
-            }
-        }
-        
-        handleComponentEvent(event) {
-            if (!this.isPaused) {
-                const type = event.type.includes('error') ? 'error' : 'info';
-                this.addEvent(type, event.detail.message, event.detail);
-            }
-        }
-        
-        handleUserInteraction(event) {
-            if (!this.isPaused && this.shouldLogInteraction(event)) {
-                const message = this.formatInteractionMessage(event);
-                this.addEvent('user', message, { 
-                    source: 'user-interaction',
-                    element: event.target.tagName.toLowerCase(),
-                    id: event.target.id,
-                    className: event.target.className,
-                    from: 'user',
-                    to: this.getInteractionTarget(event.target),
-                    target: event.target
-                });
-            }
-        }
-        
-        shouldLogInteraction(event) {
-            // Skip if target is part of the event log itself
-            if (event.target.closest('.wb-event-log')) {
-                return false;
-            }
-            
-            // Skip if target has ignore attribute
-            if (event.target.hasAttribute('data-wb-ignore') || 
-                event.target.closest('[data-wb-ignore]')) {
-                return false;
-            }
-            
-            // Only log meaningful interactions
-            const tagName = event.target.tagName.toLowerCase();
-            return ['button', 'a', 'input', 'select', 'textarea'].includes(tagName) ||
-                   event.target.hasAttribute('data-wb-log');
-        }
-        
-        formatInteractionMessage(event) {
-            const target = event.target;
-            const tagName = target.tagName.toLowerCase();
-            const id = target.id ? `#${target.id}` : '';
-            const text = target.textContent?.trim().slice(0, 30) || '';
-            
-            switch (event.type) {
-                case 'click':
-                    return `Clicked ${tagName}${id}: ${text}`;
-                case 'change':
-                    return `Changed ${tagName}${id}: ${target.value?.slice(0, 30) || ''}`;
-                default:
-                    return `${event.type} on ${tagName}${id}`;
-            }
-        }
-        
-        handleWindowError(event) {
-            if (!this.isPaused) {
-                const errorMessage = `${event.message} at ${event.filename}:${event.lineno}`;
-                
-                // ALWAYS LOG TO TERMINAL CONSOLE
-                console.error('\n🚨🚨🚨 === WB-EVENT-LOG WINDOW ERROR === 🚨🚨🚨');
-                console.error(`⏰ TIME: ${new Date().toISOString()}`);
-                console.error(`📝 MESSAGE: ${event.message}`);
-                console.error(`📍 LOCATION: ${event.filename}:${event.lineno}:${event.colno}`);
-                console.error(`📜 STACK: ${event.error?.stack || 'No stack trace'}`);
-                console.error('🚨🚨🚨 ================================ 🚨🚨🚨\n');
-                
-                this.addEvent('error', errorMessage, {
-                    source: 'window-error',
-                    filename: event.filename,
-                    lineno: event.lineno,
-                    colno: event.colno,
-                    stack: event.error?.stack,
-                    from: `${event.filename}:${event.lineno}`,
-                    to: 'error-handler'
-                });
-            }
-        }
-        
-        handlePromiseRejection(event) {
-            if (!this.isPaused) {
-                const errorMessage = `Unhandled promise rejection: ${event.reason}`;
-                
-                // ALWAYS LOG TO TERMINAL CONSOLE
-                console.error('\n🚨🚨🚨 === WB-EVENT-LOG PROMISE REJECTION === 🚨🚨🚨');
-                console.error(`⏰ TIME: ${new Date().toISOString()}`);
-                console.error(`📝 REASON: ${event.reason}`);
-                console.error(`📜 STACK: ${event.reason?.stack || 'No stack trace'}`);
-                console.error('🚨🚨🚨 =================================== 🚨🚨🚨\n');
-                
-                this.addEvent('error', errorMessage, {
-                    source: 'promise-rejection',
-                    reason: event.reason,
-                    stack: event.reason?.stack,
-                    from: 'promise',
-                    to: 'rejection-handler'
-                });
-            }
-        }
-        
-        // Core event management
-        addEvent(type, message, details = {}) {
-            // CRITICAL: Prevent infinite recursion by detecting if we're already processing an event
-            if (this._processingEvent) {
-                // Use original console to avoid recursion
-                this.originalConsole.warn('🚨 WB Event Log: Recursion prevented in addEvent:', type, message);
+        try {
+            // Prevent self-referential events
+            if (details.source === 'wb-event-log' || message.includes('wb-event-log')) {
                 return;
             }
             
-            // Set recursion protection flag
-            this._processingEvent = true;
+            // Create event object
+            const event = {
+                id: Date.now() + Math.random().toString(36).substr(2, 9),
+                type: type,
+                message: message,
+                timestamp: Date.now(),
+                details: details
+            };
             
-            try {
-                // Prevent duplicate navigation events
-                if (details.source === 'navigation' && type === 'info') {
-                    const recentSimilar = this.events.find(e => 
-                        e.type === type && 
-                        e.message === message && 
-                        e.details.source === 'navigation' &&
-                        (Date.now() - e.timestamp) < 1000 // Within 1 second
-                    );
-                    if (recentSimilar) {
-                        this.originalConsole.log('Duplicate navigation event prevented:', message);
-                        return;
-                    }
-                }
-                
-                // Prevent wb-event-log errors from logging themselves (silently drop)
-                if (details.source === 'wb-event-log' || message.includes('wb-event-log') || message.includes('Maximum call stack')) {
-                    // Silently prevent self-referential events - don't log about it
-                    return;
-                }
-                
-                // Truncate very long messages for localStorage efficiency
-                const truncatedMessage = message.length > 200 ? 
-                    message.substring(0, 200) + '...' : message;
-                
-                // Clean up details to prevent localStorage bloat
-                const cleanDetails = this.sanitizeDetailsForStorage(details);
-                
-                const event = {
-                    id: this.generateId(),
-                    type: type,
-                    timestamp: Date.now(),
-                    message: truncatedMessage,
-                    originalMessage: message !== truncatedMessage ? message : undefined,
-                    source: cleanDetails.source || 'unknown',
-                    from: cleanDetails.from || this.detectEventOrigin(),
-                    to: cleanDetails.to || this.detectEventTarget(cleanDetails),
-                    details: cleanDetails,
-                    expanded: false
-                };
-                
-                // Add new events to the beginning (newest first)
-                this.events.unshift(event);
-                
-                // Enforce max events limit (remove from end)
-                if (this.events.length > this.maxEvents) {
-                    this.events.pop();
-                }
-                
-                // Manage localStorage quota before any storage operations
-                this.manageLocalStorageQuota();
-                
-                // Render new event if visible
-                if (this.isEventVisible(event)) {
-                    this.renderEvent(event);
-                    
-                    if (this.autoScroll) {
-                        this.scrollToTop();
-                    }
-                }
+          //  console.log('📝 Event object created:', event);
             
-                // Dispatch custom event
-                this.dispatchEvent(new CustomEvent('wb-event-logged', { 
-                    detail: event,
-                    bubbles: true
-                }));
-                
-            } catch (error) {
-                // Use original console to avoid recursion
-                this.originalConsole.error('🚨 WB Event Log: Error in addEvent:', error);
-            } finally {
-                // Always clear recursion protection flag
-                this._processingEvent = false;
-            }
-        }
-        
-        sanitizeDetailsForStorage(details) {
-            // Create a clean copy of details, removing large or non-essential data
-            const cleanDetails = { ...details };
+            // Add to events array (newest first)
+            this.events.unshift(event);
+            // console.log('📊 Events array length:', this.events.length);
             
-            // Remove or truncate large properties that can cause localStorage issues
-            if (cleanDetails.stackTrace && cleanDetails.stackTrace.length > 500) {
-                cleanDetails.stackTrace = cleanDetails.stackTrace.substring(0, 500) + '...\n(truncated)';
+            // Limit stored events
+            if (this.events.length > this.maxEvents) {
+                this.events.pop();
             }
             
-            if (cleanDetails.code && cleanDetails.code.length > 300) {
-                cleanDetails.code = cleanDetails.code.substring(0, 300) + '...\n(truncated)';
-            }
+            // Render the event
+            //console.log('🎨 Calling renderNewEvent...');
+            this.renderNewEvent(event);
             
-            // Remove DOM elements and complex objects that don't serialize well
-            delete cleanDetails.target;
-            delete cleanDetails.element;
+            // Dispatch custom event for external listeners
+            this.dispatchEvent(new CustomEvent('wb-event-logged', {
+                detail: event,
+                bubbles: true
+            }));
             
-            // Truncate headers if they're too large
-            if (cleanDetails.headers && typeof cleanDetails.headers === 'object') {
-                const headerSize = JSON.stringify(cleanDetails.headers).length;
-                if (headerSize > 200) {
-                    cleanDetails.headers = { _truncated: 'Headers too large, removed for storage' };
-                }
-            }
-            
-            if (cleanDetails.requestHeaders && typeof cleanDetails.requestHeaders === 'object') {
-                const reqHeaderSize = JSON.stringify(cleanDetails.requestHeaders).length;
-                if (reqHeaderSize > 200) {
-                    cleanDetails.requestHeaders = { _truncated: 'Request headers too large, removed for storage' };
-                }
-            }
-            
-            return cleanDetails;
+        } finally {
+            this._processingEvent = false;
         }
-        
-        manageLocalStorageQuota() {
-            try {
-                // Test if localStorage is available and has space
-                const testKey = 'wb-event-log-quota-test';
-                localStorage.setItem(testKey, 'test');
-                localStorage.removeItem(testKey);
-            } catch (error) {
-                if (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
-                    console.warn('🔧 WB Event Log: localStorage quota exceeded, performing cleanup...');
-                    this.emergencyCleanup();
-                }
-            }
-        }
-        
-        emergencyCleanup() {
-            try {
-                // Clear old event log data first
-                const eventLogKeys = [];
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (key && (key.startsWith('wb-event-log') || key.startsWith('wb-') && key.includes('log'))) {
-                        eventLogKeys.push(key);
-                    }
-                }
-                
-                // Remove event log specific keys
-                eventLogKeys.forEach(key => {
-                    try {
-                        localStorage.removeItem(key);
-                        this.logInfo(`Cleaned up localStorage key: ${key}`, { source: 'wb-event-log', action: 'cleanup' });
-                    } catch (e) {
-                        // Continue cleaning even if individual removals fail
-                    }
-                });
-                
-                // If still having issues, perform more aggressive cleanup
-                if (this.getLocalStorageSize() > 4.5 * 1024 * 1024) { // > 4.5MB
-                    this.aggressiveCleanup();
-                }
-                
-                // Log the cleanup action
-                console.warn('🔧 WB Event Log: Emergency localStorage cleanup completed');
-            } catch (error) {
-                console.error('🔧 WB Event Log: Failed to perform emergency cleanup:', error);
-            }
-        }
-        
-        getLocalStorageSize() {
-            let totalSize = 0;
-            try {
-                for (let key in localStorage) {
-                    if (localStorage.hasOwnProperty(key)) {
-                        totalSize += localStorage[key].length + key.length;
-                    }
-                }
-            } catch (error) {
-                console.warn('🔧 Could not calculate localStorage size:', error);
-                return 5 * 1024 * 1024; // Assume it's full (5MB)
-            }
-            return totalSize;
-        }
-        
-        aggressiveCleanup() {
-            try {
-                // Get all keys and their sizes
-                const keysSizes = [];
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (key) {
-                        const value = localStorage.getItem(key);
-                        keysSizes.push({
-                            key: key,
-                            size: (value ? value.length : 0) + key.length
-                        });
-                    }
-                }
-                
-                // Sort by size (largest first) and remove the largest items
-                keysSizes.sort((a, b) => b.size - a.size);
-                
-                let removedSize = 0;
-                const targetRemoval = 1 * 1024 * 1024; // Remove at least 1MB
-                
-                for (const item of keysSizes) {
-                    if (removedSize < targetRemoval) {
-                        // Skip essential wb-component configurations
-                        if (!item.key.includes('wb-') || item.key.includes('config') || item.key.includes('settings')) {
-                            continue;
-                        }
-                        
-                        try {
-                            localStorage.removeItem(item.key);
-                            removedSize += item.size;
-                            this.logInfo(`Aggressively removed: ${item.key} (${item.size} chars)`, { source: 'wb-event-log', action: 'cleanup', size: item.size });
-                        } catch (e) {
-                            // Continue even if individual removal fails
-                        }
-                    } else {
-                        break;
-                    }
-                }
-                
-                this.logInfo(`Aggressive cleanup removed ${removedSize} characters from localStorage`, { source: 'wb-event-log', action: 'cleanup', totalSize: removedSize });
-            } catch (error) {
-                console.error('🔧 Failed aggressive cleanup:', error);
-            }
-        }
-        
-        generateId() {
-            if (typeof window !== 'undefined' && window['WBComponentUtils'] && typeof window['WBComponentUtils'].generateId === 'function') {
-                return window['WBComponentUtils'].generateId();
-            }
-            return 'event-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-        }
-        
-        detectEventOrigin() {
-            // Try to detect where the event is coming from
-            try {
-                const stack = (new Error()).stack;
-                if (stack) {
-                    const lines = stack.split('\n');
-                    // Skip the first few lines (this function and addEvent)
-                    for (let i = 3; i < Math.min(lines.length, 8); i++) {
-                        const line = lines[i];
-                        if (line && !line.includes('wb-event-log')) {
-                            return line.trim();
-                        }
-                    }
-                }
-            } catch (e) {
-                // Ignore errors
-            }
-            return 'unknown';
-        }
-
-    // ...existing code...
-
-    if (!customElements.get('wb-event-log')) {
-        customElements.define('wb-event-log', WBEventLog);
     }
+    
+    renderNewEvent(event) {
+        const listWrapper = this.querySelector('.wb-event-log-list');
+        console.log('🎯 Rendering event:', event.type, event.message, 'List found:', !!listWrapper);
+        if (!listWrapper) {
+            console.error('❌ No list wrapper found!');
+            return;
+        }
+        
+        // Remove placeholder if this is the first event
+        const placeholder = listWrapper.querySelector('div:only-child');
+        if (placeholder && placeholder.textContent === 'Waiting for events...') {
+            console.log('🗑️ Removing placeholder');
+            placeholder.remove();
+        }
+        
+        // Create event element
+        const eventEl = document.createElement('div');
+        eventEl.className = `wb-event-row wb-event-${event.type}`;
+        eventEl.style.cssText = `
+            padding: 8px 10px;
+            margin-bottom: 0;
+            border-left: 4px solid ${this.getTypeColor(event.type)};
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #e0e0e0;
+            word-break: break-word;
+            font-family: 'Courier New', monospace;
+        `;
+        
+        // Format time
+        const time = new Date(event.timestamp).toLocaleTimeString();
+        
+        // Create content
+        eventEl.innerHTML = `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span style="font-weight: bold; color: ${this.getTypeColor(event.type)}; text-transform: uppercase;">
+                    ${event.type}
+                </span>
+                <span style="color: #888; font-size: 0.85em;">
+                    ${time}
+                </span>
+            </div>
+            <div style="color: #e0e0e0;">
+                ${this.escapeHtml(event.message)}
+            </div>
+        `;
+        
+        // Add to top of list
+        console.log('📌 Appending event to DOM, list has', listWrapper.children.length, 'children');
+        listWrapper.insertBefore(eventEl, listWrapper.firstChild);
+        console.log('✅ Event appended, list now has', listWrapper.children.length, 'children');
+        
+        // Update count in toolbar
+        this.updateEventCount();
+        
+        // Scroll to top if auto-scroll enabled
+        if (this.autoScroll) {
+            listWrapper.scrollTop = 0;
+        }
+    }
+    
+    getTypeColor(type) {
+        const colors = {
+            'error': '#f44336',
+            'warning': '#ff9800',
+            'info': '#2196F3',
+            'success': '#4CAF50',
+            'debug': '#9C27B0',
+            'user': '#607D8B'
+        };
+        return colors[type] || '#fff';
+    }
+    
+    escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+    
+    updateEventCount() {
+        const countEl = this.querySelector('.event-count');
+        if (countEl) {
+            countEl.textContent = `(${this.events.length})`;
+        }
+    }
+    
+    copyAllEvents() {
+        if (this.events.length === 0) {
+            this.showNotification('No events to copy', 'warning');
+            return;
+        }
+        
+        // Format events as readable text
+        const text = this.events.map(event => {
+            const time = new Date(event.timestamp).toLocaleString();
+            return `[${time}] ${event.type.toUpperCase()}: ${event.message}`;
+        }).join('\n');
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(text).then(() => {
+            this.showNotification('✅ Copied ' + this.events.length + ' events to clipboard', 'success');
+        }).catch(err => {
+            // Fallback for older browsers
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                this.showNotification('✅ Copied ' + this.events.length + ' events to clipboard', 'success');
+            } catch (e) {
+                this.showNotification('❌ Failed to copy events', 'error');
+            }
+            document.body.removeChild(textarea);
+        });
+    }
+    
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: ${type === 'success' ? '#4CAF50' : type === 'warning' ? '#ff9800' : '#f44336'};
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-size: 0.9em;
+            animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s;
+        `;
+        
+        // Add animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(400px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(400px); opacity: 0; }
+            }
+        `;
+        if (!document.getElementById('wb-event-log-notification-style')) {
+            style.id = 'wb-event-log-notification-style';
+            document.head.appendChild(style);
+        }
+        
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    }
+    
+    clearEvents() {
+        this.events = [];
+        this.render();
+        console.log('✅ WB Event Log: Cleared all events');
+    }
+    
+    getEvents() {
+        return this.events;
+    }
+    
+    setAutoScroll(enabled) {
+        this.autoScroll = enabled;
+    }
+    
+    setPaused(paused) {
+        this.isPaused = paused;
+    }
+}
+
+// Register the custom element
+if (!customElements.get('wb-event-log')) {
+    customElements.define('wb-event-log', WBEventLog);
+    console.log('✅ WB Event Log: Component registered globally');
+}
+
+// Ensure it's globally available
+if (typeof window !== 'undefined') {
+    window.WBEventLog = WBEventLog;
 }

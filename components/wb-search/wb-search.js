@@ -11,6 +11,37 @@ class WBSearch extends HTMLElement {
         this.searchData = [];
     }
 
+    
+    static get observedAttributes() {
+        return ['variant', 'button-text', 'button-icon', 'placeholder', 'data-search-data'];
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        switch(name) {
+            case 'variant':
+                this.variant = newValue;
+                break;
+            case 'button-text':
+                this.buttonText = newValue;
+                break;
+            case 'button-icon':
+                this.buttonIcon = newValue;
+                break;
+            case 'placeholder':
+                this.placeholder = newValue;
+                break;
+            case 'data-search-data':
+                this.dataSearchData = newValue;
+                break;
+        }
+        
+        if (this.shadowRoot) {
+            this.render();
+        }
+    }
+
+
     async connectedCallback() {
         if (!this.isInitialized) {
             await loadComponentCSS(this, 'wb-search.css');

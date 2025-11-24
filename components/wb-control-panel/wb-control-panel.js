@@ -7,6 +7,7 @@ import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 class WBControlPanel extends WBBaseComponent {
     constructor() {
+        console.log('[TRACE] WBControlPanel.constructor');
         super();
         // Shadow root already attached by WBBaseComponent
 
@@ -26,16 +27,29 @@ class WBControlPanel extends WBBaseComponent {
             backgroundLight: 15
         };
     }
-
+  static get observedAttributes() {
+        return ['mode', 'theme', 'harmony-mode', 'layout', 'edit-mode'];
+    }
     async connectedCallback() {
+        console.log('[TRACE] WBControlPanel.connectedCallback');
+        super.connectedCallback(); // Inherit dark mode and other base functionality
         await loadComponentCSS(this, 'wb-control-panel.css');
         this.loadState();
         this.render();
         this.attachEventListeners();
         this.applyState();
+        // Inject wb-event-log if not present
+        if (!document.querySelector('wb-event-log')) {
+            const eventLog = document.createElement('wb-event-log');
+            eventLog.id = 'wb-control-panel-event-log';
+            eventLog.style.display = 'none'; // Hidden by default
+            document.body.appendChild(eventLog);
+            console.log('[WB] wb-event-log injected by WBControlPanel');
+        }
     }
 
     loadState() {
+        console.log('[TRACE] WBControlPanel.loadState');
         this.state.mode = localStorage.getItem('wb-mode') || 'dark';
         this.state.theme = localStorage.getItem('wb-theme') || 'default';
         this.state.themeCategory = localStorage.getItem('wb-theme-category') || 'named';
@@ -52,6 +66,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     saveState() {
+        console.log('[TRACE] WBControlPanel.saveState');
         localStorage.setItem('wb-mode', String(this.state.mode));
         localStorage.setItem('wb-theme', String(this.state.theme));
         localStorage.setItem('wb-theme-category', String(this.state.themeCategory));
@@ -68,6 +83,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     getNamedThemes() {
+        console.log('[TRACE] WBControlPanel.getNamedThemes');
         return {
             'default': { name: 'Default', hue: 240, sat: 70, light: 50 },
             'cyberpunk': { name: 'Cyberpunk', hue: 320, sat: 85, light: 55 },
@@ -87,6 +103,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     getHCSThemes() {
+        console.log('[TRACE] WBControlPanel.getHCSThemes');
         // Harmonic Color System - Wave Theory Based Palettes
         // Using color harmony theory: complementary, triadic, beatPattern, harmonicSeries, etc.
         return {
@@ -304,6 +321,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     render() {
+        console.log('[TRACE] WBControlPanel.render');
         // Load external CSS into Shadow DOM
         const cssLink = document.createElement('link');
         cssLink.rel = 'stylesheet';
@@ -427,6 +445,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     attachEventListeners() {
+        console.log('[TRACE] WBControlPanel.attachEventListeners');
         // Helper function for getting shadow DOM elements
         const $ = (id) => this.shadowRoot.getElementById(id);
         
@@ -542,12 +561,14 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     updateModeUI() {
+        console.log('[TRACE] WBControlPanel.updateModeUI');
         const $ = (id) => this.shadowRoot.getElementById(id);
         $('mode-icon').textContent = this.state.mode === 'dark' ? '🌙' : '☀️';
         $('mode-label').textContent = this.state.mode.toUpperCase();
     }
 
     updateCategoryInfo() {
+        console.log('[TRACE] WBControlPanel.updateCategoryInfo');
         const info = this.shadowRoot.getElementById('category-info');
         info.textContent = this.state.themeCategory === 'named' 
             ? 'Single-color themes with auto-calculated harmonies'
@@ -555,12 +576,14 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     toggleSliderVisibility() {
+        console.log('[TRACE] WBControlPanel.toggleSliderVisibility');
         const sliderGroup = this.shadowRoot.getElementById('slider-group');
         // Show sliders for Named category only (HCS themes are pre-defined)
         sliderGroup.style.display = this.state.themeCategory === 'named' ? 'block' : 'none';
     }
 
     updateThemeDropdown() {
+        console.log('[TRACE] WBControlPanel.updateThemeDropdown');
         const dropdown = /** @type {HTMLSelectElement} */ (this.shadowRoot.getElementById('theme-dropdown'));
         dropdown.innerHTML = '';
         const themes = this.state.themeCategory === 'named' ? this.getNamedThemes() : this.getHCSThemes();
@@ -587,6 +610,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     updateSliders() {
+        console.log('[TRACE] WBControlPanel.updateSliders');
         const $ = (id) => this.shadowRoot.getElementById(id);
         /** @type {HTMLInputElement} */ ($('hue-slider')).value = String(this.state.primaryHue);
         /** @type {HTMLInputElement} */ ($('sat-slider')).value = String(this.state.primarySat);
@@ -606,6 +630,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     updateHueSwatch() {
+        console.log('[TRACE] WBControlPanel.updateHueSwatch');
         const hueSwatch = this.shadowRoot.getElementById('hue-swatch');
         if (hueSwatch) {
             // Show pure hue at 100% saturation and 50% lightness
@@ -614,6 +639,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     updateBgHueSwatch() {
+        console.log('[TRACE] WBControlPanel.updateBgHueSwatch');
         const bgHueSwatch = this.shadowRoot.getElementById('bg-hue-swatch');
         if (bgHueSwatch) {
             bgHueSwatch.style.backgroundColor = `hsl(${this.state.backgroundHue}, 100%, 50%)`;
@@ -621,23 +647,27 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     updatePreview() {
+        console.log('[TRACE] WBControlPanel.updatePreview');
         const { primaryHue, primarySat, primaryLight } = this.state;
         this.shadowRoot.getElementById('color-preview').style.backgroundColor = 
             `hsl(${primaryHue}, ${primarySat}%, ${primaryLight}%)`;
     }
 
     updateBgPreview() {
+        console.log('[TRACE] WBControlPanel.updateBgPreview');
         const { backgroundHue, backgroundSat, backgroundLight } = this.state;
         this.shadowRoot.getElementById('bg-color-preview').style.backgroundColor =
             `hsl(${backgroundHue}, ${backgroundSat}%, ${backgroundLight}%)`;
     }
 
     dispatch(name, detail) {
+        console.log('[TRACE] WBControlPanel.dispatch', name, detail);
         this.fireEvent(name, detail);
         this.logInfo(`📢 wb:${name}`, detail);
     }
 
     dispatchThemeChange() {
+        console.log('[TRACE] WBControlPanel.dispatchThemeChange');
         const themes = this.state.themeCategory === 'named' ? this.getNamedThemes() : this.getHCSThemes();
         this.dispatch('theme-changed', {
             theme: this.state.theme,
@@ -647,6 +677,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     dispatchColorChange() {
+        console.log('[TRACE] WBControlPanel.dispatchColorChange');
         this.dispatch('color-changed', {
             hue: this.state.primaryHue,
             saturation: this.state.primarySat,
@@ -656,6 +687,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     dispatchBackgroundColorChange() {
+        console.log('[TRACE] WBControlPanel.dispatchBackgroundColorChange');
         this.dispatch('background-color-changed', {
             hue: this.state.backgroundHue,
             saturation: this.state.backgroundSat,
@@ -664,6 +696,7 @@ class WBControlPanel extends WBBaseComponent {
     }
 
     applyState() {
+        console.log('[TRACE] WBControlPanel.applyState');
         const $ = (id) => this.shadowRoot.getElementById(id);
         this.setAttribute('data-mode', this.state.mode);
         document.documentElement.setAttribute('data-mode', this.state.mode);
@@ -722,3 +755,6 @@ console.log('📢 Dispatches: wb:mode-changed, wb:theme-changed, wb:harmony-chan
 console.log('🎨 Named themes: Ruby, Emerald, Purple + 11 more');
 console.log('🌊 HCS themes: 4 complete palettes');
 console.log('🔀 Harmony mode hidden for HCS (only for Named)');
+
+const mainPanel = document.getElementById('control-panel');
+console.log('Main control panel:', mainPanel);

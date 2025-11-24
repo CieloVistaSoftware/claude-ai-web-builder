@@ -423,7 +423,7 @@
       
       try {
         // Try to fetch components directory listing
-        const response = await fetch('..../components/');
+        const response = await fetch('..../..../components/');
         const text = await response.text();
         
         const parser = new DOMParser();
@@ -461,7 +461,7 @@
       
       for (const component of commonComponents) {
         try {
-          const response = await fetch(`..../components/${component}/${component}.js`, { method: 'HEAD' });
+          const response = await fetch(`..../..../components/${component}/${component}.js`, { method: 'HEAD' });
           if (response.ok) {
             availableComponents.push(component);
           }
@@ -476,7 +476,7 @@
       if (availableComponents.length > 0) {
         updateStatus('Ready • Click component for docs • Double-click to insert');
       } else {
-        updateStatus('No components found in ..../components/');
+        updateStatus('No components found in ..../..../components/');
       }
     }
 
@@ -486,7 +486,7 @@
         elements.componentsList.innerHTML = `
           <div class="loading-state">
             <p style="margin-bottom: 0.5rem">No components found</p>
-            <p style="font-size: 0.75rem">Check ..../components/ directory</p>
+            <p style="font-size: 0.75rem">Check ..../..../components/ directory</p>
           </div>
         `;
         elements.componentCount.textContent = '';
@@ -547,7 +547,7 @@
       updateStatus(`Loading docs for ${componentName}...`);
       
       try {
-        const mdPath = `..../components/${componentName}/${componentName}.md`;
+        const mdPath = `..../..../components/${componentName}/${componentName}.md`;
         const response = await fetch(mdPath);
         
         if (!response.ok) {
@@ -612,7 +612,7 @@
       updateStatus(`Inserting ${componentName}...`);
       
       try {
-        const schemaPath = `..../components/${componentName}/${componentName}.schema.json`;
+        const schemaPath = `..../..../components/${componentName}/${componentName}.schema.json`;
         const response = await fetch(schemaPath);
         
         let componentHTML;
@@ -726,3 +726,5 @@
   </script>
 </body>
 </html>
+
+

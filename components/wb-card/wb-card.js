@@ -19,6 +19,7 @@ function createSignal(initial) {
 class WBCard extends HTMLElement {
   constructor() {
     super();
+        this.attachShadow({ mode: 'open' });
     // Fallback config for now
     this.config = {
       classes: {
@@ -98,6 +99,7 @@ class WBCard extends HTMLElement {
   }
 
   async connectedCallback() {
+    super.connectedCallback(); // Inherit dark mode and other base functionality
     await loadComponentCSS(this, 'wb-card.css');
     this.render();
     this.dispatchEvent(new CustomEvent('wbCardReady', { 

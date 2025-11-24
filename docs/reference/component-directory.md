@@ -119,7 +119,7 @@ Helper components and utilities:
 - wb-resize-both - 2D resize
 - wb-resize-eastwest - Horizontal resize
 - wb-resize-updown - Vertical resize
-- wb-semanticElements - Semantic HTML wrapper
+- wb-semantic-elements - Semantic HTML wrapper
 
 ### Experimental Components (6 total)
 Development and testing components:

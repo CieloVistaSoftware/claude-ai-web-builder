@@ -1,0 +1,32 @@
+/* wb-rag.css - Default styles for WB RAG Demo */
+
+:host, .wb-rag-demo {
+  display: block;
+  background: #222;
+  color: #eee;
+  font-family: system-ui, sans-serif;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.wb-rag-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.wb-rag-section {
+  margin-bottom: 1.5rem;
+}
+
+.wb-rag-log {
+  background: #333;
+  color: #cfcfcf;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+}

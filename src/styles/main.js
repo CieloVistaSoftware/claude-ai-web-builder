@@ -28,7 +28,7 @@ import '/components/wb-resize-panel/wb-resize-panel.js';
 import '/components/wb-resize-updown/wb-resize-updown.js';
 import '/components/wb-search/wb-search.js';
 import '/components/wb-select/wb-select.js';
-import '/components/wb-semanticElements/wb-semanticElements.js';
+import '/components/wb-semantic-elements/wb-semantic-elements.js';
 import '/components/wb-slider/wb-slider.js';
 import '/components/wb-status/wb-status.js';
 import '/components/wb-tab/wb-tab.js';

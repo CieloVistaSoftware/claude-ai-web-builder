@@ -30,6 +30,7 @@ class WBColorPicker extends WBBaseComponent {
   }
 
   connectedCallback() {
+    super.connectedCallback(); // Inherit dark mode and other base functionality
     this.loadCSS();
     this.render();
     this.setupEventListeners();

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Reactive Base - Demo</title>
+    
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 2rem;
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+        
+        .demo-section {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #334155;
+        }
+        
+        .demo-section h2 {
+            margin-top: 0;
+            color: #60a5fa;
+        }
+        
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        button:hover {
+            background: #2563eb;
+        }
+        
+        button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+        }
+        
+        input {
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: #f1f5f9;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .error {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        li {
+            background: #0f172a;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .metrics {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+        
+        .state-display {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔄 WB Reactive Base - Live Demo</h1>
+    
+    <!-- Demo 1: Counter -->
+    <div class="demo-section">
+        <h2>Demo 1: Simple Counter</h2>
+        <wb-counter></wb-counter>
+    </div>
+    
+    <!-- Demo 2: Todo List -->
+    <div class="demo-section">
+        <h2>Demo 2: Todo List (Array Reactivity)</h2>
+        <wb-todo-list></wb-todo-list>
+    </div>
+    
+    <!-- Demo 3: Form -->
+    <div class="demo-section">
+        <h2>Demo 3: Form with Validation</h2>
+        <wb-form-demo></wb-form-demo>
+    </div>
+    
+    <!-- Demo 4: Nested State -->
+    <div class="demo-section">
+        <h2>Demo 4: Nested Object Reactivity</h2>
+        <wb-profile-demo></wb-profile-demo>
+    </div>
+
+    <script type="module">
+        import { WBReactiveBase } from './wb-reactive-base.js';
+        
+        // ===== DEMO 1: Counter =====
+        class WBCounter extends WBReactiveBase {
+            constructor() {
+                super();
+                this.state = {
+                    count: 0
+                };
+            }
+            
+            connectedCallback() {
+                super.connectedCallback();
+                this.render();
+                
+                // Watch count changes
+                this.watch('count', (newVal, oldVal) => {
+                    console.log(`Counter: ${oldVal} → ${newVal}`);
+                });
+            }
+            
+            render() {
+                this.innerHTML = `
+                    <div>
+                        <h3 style="font-size: 2rem; margin: 1rem 0;">Count: ${this.state.count}</h3>
+                        <button onclick="this.parentElement.increment()">Increment</button>
+                        <button onclick="this.parentElement.decrement()">Decrement</button>
+                        <button onclick="this.parentElement.reset()">Reset</button>
+                        <button onclick="this.parentElement.showMetrics()">Show Metrics</button>
+                        <div class="metrics" id="counter-metrics" style="display: none;"></div>
+                    </div>
+                `;
+            }
+            
+            increment() {
+                this.state.count++;
+            }
+            
+            decrement() {
+                this.state.count--;
+            }
+            
+            reset() {
+                this.state.count = 0;
+            }
+            
+            showMetrics() {
+                const metrics = this.getMetrics();
+                const metricsDiv = this.querySelector('#counter-metrics');
+                metricsDiv.style.display = 'block';
+                metricsDiv.innerHTML = `
+                    Render Count: ${metrics.renderCount}<br>
+                    Last Render: ${metrics.lastRenderTime.toFixed(2)}ms<br>
+                    Avg Render: ${metrics.averageRenderTime.toFixed(2)}ms
+                `;
+            }
+        }
+        customElements.define('wb-counter', WBCounter);
+        
+        // ===== DEMO 2: Todo List =====
+        class WBTodoList extends WBReactiveBase {
+            constructor() {
+                super();
+                this.state = {
+                    todos: ['Learn WB Reactive Base', 'Build awesome components'],
+                    input: ''
+                };
+            }
+            
+            connectedCallback() {
+                super.connectedCallback();
+                this.render();
+            }
+            
+            render() {
+                this.innerHTML = `
+                    <div>
+                        <div style="margin-bottom: 1rem;">
+                            <input 
+                                id="todo-input"
+                                value="${this.state.input}" 
+                                placeholder="Add todo..."
+                                style="width: 300px;"
+                            />
+                            <button onclick="this.parentElement.addTodo()">Add</button>
+                        </div>
+                        
+                        <ul>
+                            ${this.state.todos.map((todo, i) => `
+                                <li>
+                                    <span>${todo}</span>
+                                    <button onclick="this.parentElement.removeTodo(${i})" 
+                                            style="background: #ef4444; padding: 0.5rem 1rem;">
+                                        Remove
+                                    </button>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        
+                        <div class="state-display">
+                            Total todos: ${this.state.todos.length}
+                        </div>
+                    </div>
+                `;
+                
+                // Re-attach input listener after render
+                const input = this.querySelector('#todo-input');
+                if (input) {
+                    input.oninput = (e) => {
+                        this.state.input = e.target.value;
+                    };
+                }
+            }
+            
+            addTodo() {
+                if (this.state.input.trim()) {
+                    this.state.todos = [...this.state.todos, this.state.input];
+                    this.state.input = '';
+                }
+            }
+            
+            removeTodo(index) {
+                this.state.todos = this.state.todos.filter((_, i) => i !== index);
+            }
+        }
+        customElements.define('wb-todo-list', WBTodoList);
+        
+        // ===== DEMO 3: Form =====
+        class WBFormDemo extends WBReactiveBase {
+            constructor() {
+                super();
+                this.state = {
+                    email: '',
+                    password: '',
+                    errors: {},
+                    isValid: false
+                };
+            }
+            
+            connectedCallback() {
+                super.connectedCallback();
+                this.render();
+            }
+            
+            onStateChange(property) {
+                if (property === 'email' || property === 'password') {
+                    this.validate();
+                }
+            }
+            
+            validate() {
+                const errors = {};
+                
+                if (this.state.email && !this.state.email.includes('@')) {
+                    errors.email = 'Invalid email format';
+                }
+                
+                if (this.state.password && this.state.password.length < 6) {
+                    errors.password = 'Password must be at least 6 characters';
+                }
+                
+                this.setState({
+                    errors,
+                    isValid: Object.keys(errors).length === 0 && this.state.email && this.state.password
+                });
+            }
+            
+            render() {
+                this.innerHTML = `
+                    <div>
+                        <div style="margin-bottom: 1rem;">
+                            <input 
+                                id="email-input"
+                                type="email" 
+                                value="${this.state.email}"
+                                placeholder="Email"
+                                style="width: 300px;"
+                            />
+                            ${this.state.errors.email ? `<div class="error">${this.state.errors.email}</div>` : ''}
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <input 
+                                id="password-input"
+                                type="password" 
+                                value="${this.state.password}"
+                                placeholder="Password"
+                                style="width: 300px;"
+                            />
+                            ${this.state.errors.password ? `<div class="error">${this.state.errors.password}</div>` : ''}
+                        </div>
+                        
+                        <button 
+                            onclick="this.parentElement.submit()"
+                            ${!this.state.isValid ? 'disabled' : ''}
+                            style="${this.state.isValid ? 'background: #10b981;' : ''}"
+                        >
+                            Submit Form
+                        </button>
+                        
+                        <div class="state-display">
+                            Valid: ${this.state.isValid ? '✅' : '❌'}
+                        </div>
+                    </div>
+                `;
+                
+                // Re-attach input listeners
+                const emailInput = this.querySelector('#email-input');
+                const passwordInput = this.querySelector('#password-input');
+                
+                if (emailInput) {
+                    emailInput.oninput = (e) => {
+                        this.state.email = e.target.value;
+                    };
+                }
+                
+                if (passwordInput) {
+                    passwordInput.oninput = (e) => {
+                        this.state.password = e.target.value;
+                    };
+                }
+            }
+            
+            submit() {
+                if (this.state.isValid) {
+                    alert('Form submitted! Check console.');
+                    console.log('Form data:', this.getState());
+                }
+            }
+        }
+        customElements.define('wb-form-demo', WBFormDemo);
+        
+        // ===== DEMO 4: Nested State =====
+        class WBProfileDemo extends WBReactiveBase {
+            constructor() {
+                super();
+                this.state = {
+                    user: {
+                        name: 'John Doe',
+                        age: 30,
+                        address: {
+                            city: 'New York',
+                            zip: '10001'
+                        }
+                    }
+                };
+            }
+            
+            connectedCallback() {
+                super.connectedCallback();
+                this.render();
+            }
+            
+            render() {
+                this.innerHTML = `
+                    <div>
+                        <h3>${this.state.user.name}</h3>
+                        <p>Age: ${this.state.user.age}</p>
+                        <p>Location: ${this.state.user.address.city}, ${this.state.user.address.zip}</p>
+                        
+                        <button onclick="this.parentElement.updateName()">Change Name</button>
+                        <button onclick="this.parentElement.incrementAge()">Birthday (+1 year)</button>
+                        <button onclick="this.parentElement.updateCity()">Move to LA</button>
+                        <button onclick="this.parentElement.logState()">Log State</button>
+                        
+                        <div class="state-display">
+                            ${JSON.stringify(this.state, null, 2)}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            updateName() {
+                this.state.user.name = 'Jane Smith';
+            }
+            
+            incrementAge() {
+                this.state.user.age++;
+            }
+            
+            updateCity() {
+                // Nested objects are reactive!
+                this.state.user.address.city = 'Los Angeles';
+                this.state.user.address.zip = '90001';
+            }
+        }
+        customElements.define('wb-profile-demo', WBProfileDemo);
+        
+        console.log('✅ All reactive demos loaded!');
+        console.log('Try changing state in console: document.querySelector("wb-counter").state.count = 100');
+    </script>
+</body>
+</html>

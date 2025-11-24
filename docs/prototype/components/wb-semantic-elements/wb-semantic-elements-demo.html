@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wb-semanticElements Demo</title>
+  <script src="../../index.js"></script>
+  <script type="module" src="./wb-semanticElements.js"></script>
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="./wb-semanticElements.css">
+  <style>
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+    }
+    .semantic-test-area {
+      border: 2px solid var(--border-color);
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+    }
+    .semantic-test-area h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <h1>wb-semanticElements Demo</h1>
+    
+    <wb-demo markdown="./wb-semanticElements.md">
+      <div slot="documentation"></div>
+      <div slot="examples">
+        <h2>Semantic Elements Auto-Generation</h2>
+        <p>This page demonstrates the automatic creation of semantic HTML5 elements. The component will check for missing elements and create them with visual indicators.</p>
+        
+        <!-- Component instance -->
+        <wb-semanticElements></wb-semanticElements>
+        
+        <div class="semantic-test-area">
+          <h3>Test Area: Existing Content</h3>
+          <p>This content exists in the page. Notice how the wb-semanticElements component has automatically generated any missing semantic elements and marked them with visual indicators.</p>
+          
+          <h4>What You Should See:</h4>
+          <ul>
+            <li><strong>Purple dashed borders</strong> around auto-generated elements</li>
+            <li><strong>Labels</strong> like "&lt;nav&gt; (auto)" for generated elements</li>
+            <li><strong>Semi-transparent backgrounds</strong> on auto-generated sections</li>
+            <li><strong>Proper DOM order</strong>: nav → header → main → footer</li>
+          </ul>
+          
+          <h4>Implementation Notes:</h4>
+          <ul>
+            <li>Only missing elements are created - existing ones are left untouched</li>
+            <li>Elements receive <code>data-wb-semantic="true"</code> attribute</li>
+            <li>Visual indicators help identify auto-generated structure</li>
+            <li>Works with any existing page content</li>
+          </ul>
+        </div>
+
+        <div class="semantic-test-area">
+          <h3>DOM Structure Check</h3>
+          <p>Open browser DevTools to inspect the DOM structure and see:</p>
+          <ol>
+            <li>Which semantic elements were auto-generated</li>
+            <li>The <code>data-wb-semantic="true"</code> attributes</li>
+            <li>Proper element nesting and order</li>
+            <li>CSS styling applied to generated elements</li>
+          </ol>
+        </div>
+      </div>
+    </wb-demo>
+  </div>
+</body>
+</html>
+
+

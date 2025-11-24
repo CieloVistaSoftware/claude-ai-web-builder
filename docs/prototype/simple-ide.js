@@ -90,7 +90,7 @@ async function discoverComponents() {
   updateStatus('Discovering components...');
   // Hardcoded list of all wb-* folders in components (from workspace scan)
   const allComponentFolders = [
-    'wb-base','wb-btn','wb-button','wb-card','wb-change-text','wb-color-bar','wb-color-bars','wb-color-mapper','wb-color-picker','wb-color-transformer','wb-control-panel','wb-demo','wb-dev-toolbox','wb-event-log','wb-footer','wb-header','wb-hero','wb-image-insert','wb-inject-test','wb-input','wb-keyboard-manager','wb-layout','wb-log-error','wb-log-viewer','wb-modal','wb-nav','wb-resize','wb-search','wb-select','wb-semanticElements','wb-slider','wb-status','wb-tab','wb-table','wb-theme','wb-toggle','wb-viewport'
+    'wb-base','wb-btn','wb-button','wb-card','wb-change-text','wb-color-bar','wb-color-bars','wb-color-mapper','wb-color-picker','wb-color-transformer','wb-control-panel','wb-demo','wb-dev-toolbox','wb-event-log','wb-footer','wb-header','wb-hero','wb-image-insert','wb-inject-test','wb-input','wb-keyboard-manager','wb-layout','wb-log-error','wb-log-viewer','wb-modal','wb-nav','wb-resize','wb-search','wb-select','wb-semantic-elements','wb-slider','wb-status','wb-tab','wb-table','wb-theme','wb-toggle','wb-viewport'
   ];
   state.components = allComponentFolders.map(name => ({ name }));
   state.useFallback = false;
