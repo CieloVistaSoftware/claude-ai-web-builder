@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Component Shadow DOM - Universal Diagnostic</title>
+
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="./wb-shadow-diagnostics.css">
+    <link rel="stylesheet" href="./wb-shadow-diagnostics-tool.css">
+    <script type="module" src="./wb-shadow-diagnostics.js"></script>
+</head>
+
+<body>
+    <div class="diagnostics-container">
+        <h1>🔬 WB Component Shadow DOM - Universal Diagnostic</h1>
+        <p style="text-align: center; color: var(--text-muted, #94a3b8); margin-bottom: 30px;">
+            Generic diagnostic tool for ANY WB Shadow DOM component. <strong>Auto-runs on component change.</strong>
+        </p>
+
+        <!-- CONFIGURATION PANEL -->
+        <div class="config-panel">
+            <!-- LEFT COLUMN -->
+            <div>
+                <h2>⚙️ Component Configuration</h2>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Component Tag Name:</strong></label><br>
+                    <select id="component-tag" style="padding: 8px; font-family: monospace; font-size: 12px; width: 100%; max-width: 300px;">
+                        <option value="wb-button">wb-button</option>
+                        <option value="wb-card">wb-card</option>
+                        <option value="wb-change-text">wb-change-text</option>
+                        <option value="wb-chatbot">wb-chatbot</option>
+                        <option value="wb-claude-logger">wb-claude-logger</option>
+                        <option value="wb-color-bar">wb-color-bar</option>
+                        <option value="wb-color-bars">wb-color-bars</option>
+                        <option value="wb-color-harmony">wb-color-harmony</option>
+                        <option value="wb-color-mapper">wb-color-mapper</option>
+                        <option value="wb-color-organ">wb-color-organ</option>
+                        <option value="wb-color-picker">wb-color-picker</option>
+                        <option value="wb-color-transformer">wb-color-transformer</option>
+                        <option value="wb-control-panel">wb-control-panel</option>
+                        <option value="wb-css-loader">wb-css-loader</option>
+                        <option value="wb-demo">wb-demo</option>
+                        <option value="wb-dev-toolbox">wb-dev-toolbox</option>
+                        <option value="wb-event-log">wb-event-log</option>
+                        <option value="wb-footer">wb-footer</option>
+                        <option value="wb-grid">wb-grid</option>
+                        <option value="wb-header">wb-header</option>
+                        <option value="wb-hero">wb-hero</option>
+                        <option value="wb-image-insert">wb-image-insert</option>
+                        <option value="wb-inject-test">wb-inject-test</option>
+                        <option value="wb-input">wb-input</option>
+                        <option value="wb-keyboard-manager">wb-keyboard-manager</option>
+                        <option value="wb-layout">wb-layout</option>
+                        <option value="wb-linkedinAd">wb-linkedinAd</option>
+                        <option value="wb-log-error">wb-log-error</option>
+                        <option value="wb-log-viewer">wb-log-viewer</option>
+                        <option value="wb-modal">wb-modal</option>
+                        <option value="wb-nav">wb-nav</option>
+                        <option value="wb-placeholder">wb-placeholder</option>
+                        <option value="wb-rag">wb-rag</option>
+                        <option value="wb-reactive-base">wb-reactive-base</option>
+                        <option value="wb-resize-both">wb-resize-both</option>
+                        <option value="wb-resize-eastwest">wb-resize-eastwest</option>
+                        <option value="wb-resize-panel">wb-resize-panel</option>
+                        <option value="wb-resize-updown">wb-resize-updown</option>
+                        <option value="wb-search">wb-search</option>
+                        <option value="wb-select">wb-select</option>
+                        <option value="wb-slider">wb-slider</option>
+                        <option value="wb-status">wb-status</option>
+                        <option value="wb-tab">wb-tab</option>
+                        <option value="wb-table">wb-table</option>
+                        <option value="wb-theme">wb-theme</option>
+                        <option value="wb-toggle">wb-toggle</option>
+                        <option value="wb-viewport">wb-viewport</option>
+                    </select>
+                    <div style="color: var(--success-color, #10b981); font-size: 11px; margin-top: 5px;">
+                        ⚡ Diagnostics auto-run when component is changed
+                    </div>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Component JS File (relative path):</strong></label><br>
+                    <input type="text" id="component-js" value="../../components/wb-button/wb-button.js"
+                        placeholder="e.g., ../../components/wb-button/wb-button.js"
+                        style="font-size: 11px; padding: 8px; width: 100%; max-width: 400px;" disabled readonly>
+                    <div style="color: var(--text-muted); font-size: 12px; margin-top: 5px;">Auto-generated from component selection</div>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>CSS File Name (expected in component folder):</strong></label><br>
+                    <input type="text" id="css-file" value="wb-button.css" placeholder="e.g., wb-button.css"
+                        style="font-size: 11px; padding: 8px; width: 100%; max-width: 200px;" disabled readonly>
+                    <div style="color: var(--text-muted); font-size: 12px; margin-top: 5px;">Auto-generated from component selection</div>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Test Instances (HTML):</strong></label><br>
+                    <textarea id="test-html" rows="9" style="width: 100%; max-width: 500px; font-family: monospace; padding: 10px; font-size: 11px;">
+<wb-button></wb-button>
+<wb-button variant="primary">Primary</wb-button>
+<wb-button variant="secondary">Secondary</wb-button>
+<wb-button variant="success">Success</wb-button>
+<wb-button variant="danger">Danger</wb-button>
+<wb-button variant="warning">Warning</wb-button>
+<wb-button size="small">Small</wb-button>
+<wb-button size="large">Large</wb-button>
+<wb-button disabled>Disabled</wb-button>
+                    </textarea>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+                        <button id="run-diagnostics-btn" style="background: var(--primary, #6366f1); color: white; padding: 10px 20px;">
+                            🚀 Run Diagnostics
+                        </button>
+                        <button id="fresh-cache-btn" style="background: var(--primary-light, #818cf8); color: white;">
+                            🔄 Fresh Cache
+                        </button>
+                    </div>
+
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button id="reset-btn" style="background: var(--surface-600, #475569); color: white;">
+                            🔄 Reset
+                        </button>
+                        <button id="copy-issues-btn" style="background: var(--error-color, #ef4444); color: white;">
+                            📋 Copy Issues
+                        </button>
+                        <button id="check-refs-btn" style="background: var(--warning-color, #f59e0b); color: var(--neutral-900, #0f172a);">
+                            🔗 Check References
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN - PREVIEW -->
+            <div style="display: flex; flex-direction: column;">
+                <h2>📺 Live Demo Preview</h2>
+
+                <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                    <button id="refresh-preview-btn" style="background: var(--success-color, #10b981); color: white;">
+                        🔄 Refresh
+                    </button>
+                    <button id="open-demo-btn" style="background: var(--primary-dark, #4f46e5); color: white;">
+                        🔗 Open in New Tab
+                    </button>
+                </div>
+
+                <div class="preview-container" style="flex: 1;">
+                    <iframe id="componentPreview"></iframe>
+                </div>
+                <div style="color: var(--text-muted); font-size: 11px; margin-top: 8px;">
+                    📍 <code id="preview-path" style="font-size: 11px;">-</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS CONTAINER -->
+        <div id="results-container" style="display: none; margin-top: 2rem;">
+
+            <!-- SECTION 1: ENVIRONMENT -->
+            <div class="section">
+                <h2>📋 1. Environment Check</h2>
+                <div id="env-check">Running...</div>
+            </div>
+
+            <!-- SECTION 2: CSS VARIABLES -->
+            <div class="section">
+                <h2>🎨 2. CSS Variables (From :root)</h2>
+                <div id="css-vars">Loading...</div>
+            </div>
+
+            <!-- SECTION 3: COMPONENT REGISTRATION -->
+            <div class="section">
+                <h2>📦 3. Component Registration</h2>
+                <div id="component-reg">Loading...</div>
+            </div>
+
+            <!-- SECTION 4: TEST INSTANCES -->
+            <div class="section">
+                <h2>🧪 4. Test Component Instances</h2>
+                <div class="test-area" id="test-area">
+                    <!-- Components will be injected here -->
+                </div>
+            </div>
+
+            <!-- SECTION 5: SHADOW DOM STRUCTURE -->
+            <div class="section">
+                <h2>🌑 5. Shadow DOM Structure Analysis</h2>
+                <div id="shadow-structure">Analyzing...</div>
+            </div>
+
+            <!-- SECTION 6: CSS LOADING -->
+            <div class="section">
+                <h2>📄 6. CSS File Loading</h2>
+                <div id="css-loading">Checking...</div>
+            </div>
+
+            <!-- SECTION 6.5: RENDER PERSISTENCE TEST -->
+            <div class="section">
+                <h2>🔄 6.5. Render() CSS Persistence Test</h2>
+                <div id="render-persistence">Testing...</div>
+            </div>
+
+            <!-- SECTION 7: ELEMENT INSPECTION -->
+            <div class="section">
+                <h2>🔍 7. Shadow DOM Element Inspection</h2>
+                <div id="element-inspect">Inspecting...</div>
+            </div>
+
+            <!-- SECTION 8: COMPUTED STYLES -->
+            <div class="section">
+                <h2>🎨 8. Computed Styles Analysis</h2>
+                <div id="styles-check">Checking...</div>
+            </div>
+
+            <!-- SECTION 9: DIMENSIONS & VISIBILITY -->
+            <div class="section">
+                <h2>📏 9. Dimensions & Visibility</h2>
+                <div id="dimensions">Measuring...</div>
+            </div>
+
+            <!-- SECTION 10: ATTRIBUTES -->
+            <div class="section">
+                <h2>🏷️ 10. Attributes & Reactivity</h2>
+                <div id="attributes">Testing...</div>
+            </div>
+
+            <!-- SECTION 11: RAW HTML DUMP -->
+            <div class="section">
+                <h2>📝 11. Raw Shadow DOM HTML</h2>
+                <div id="html-dump">Extracting...</div>
+            </div>
+
+            <!-- SECTION 12: REFERENCE CHECK -->
+            <div class="section">
+                <h2>🔗 12. Reference Validation</h2>
+                <div id="ref-check">Not run yet. Click "Check References" button.</div>
+            </div>
+
+            <!-- SECTION 13: FINAL VERDICT -->
+            <div class="section">
+                <h2>⚖️ 13. Final Diagnostic Summary</h2>
+                <div id="final-verdict">Processing...</div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

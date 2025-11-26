@@ -1,39 +1,258 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Color Bar Component Demo</title>
+    
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="./wb-color-bar.css">
+    
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+    <script type="module" src="./wb-color-bar.js"></script>
+</head>
+<body style="margin: 0; padding: 1rem; background: var(--surface-900);">
+    
+    <wb-demo title="WB Color Bar Component" style="width: 95vw; margin: 0 auto;">
+        <div slot="description">
+            <p>The <code>&lt;wb-color-bar&gt;</code> component provides an interactive color slider 
+            for selecting hue, saturation, or lightness values.</p>
+        </div>
+        
+        <div slot="examples" style="padding: 1rem;">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <script type="module" src="..../../styles/main.js"></script>
-        <link rel="stylesheet" href="../../styles/main.css">
-
-    </head>
-
-    <body>
+            <!-- Hue Selection -->
+            <wb-demo-section>
+                <h2>🌈 Hue Selection</h2>
+                <p>Select colors from the full spectrum (0-360°)</p>
                 
-        <wb-demo 
-            title="WB Color Bar" 
-            markdown="./wb-color-bar.md">
-            <div slot="examples" style="margin: 5rem">
-                <div style="display: grid; grid-auto-rows: 5rem; gap: 2rem;">
-                 
-                <wb-color-bar id="colorBar" hue="100" saturation="80" lightness="50"
-                    style="width: 50%; height: 32px;"></wb-color-bar>
-                
-                          
-               <wb-color-bar id="colorBar" hue="200" saturation="80" lightness="50"
-                    style="width: 50%; height: 24px;"></wb-color-bar>
-                 
-                <wb-color-bar id="colorBar2" hue="340" saturation="100" lightness="50"
-                    style="width: 50%; height: 12px;"></wb-color-bar>
+                <div style="max-width: 600px; padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                    <wb-color-bar 
+                        id="hue-bar" 
+                        type="hue" 
+                        hue="240" 
+                        saturation="70" 
+                        lightness="50">
+                    </wb-color-bar>
                 </div>
+                <wb-demo-output id="hue-output">Selected: hsl(240, 70%, 50%)</wb-demo-output>
+            </wb-demo-section>
+
+            <!-- Saturation Selection -->
+            <wb-demo-section>
+                <h2>💧 Saturation Selection</h2>
+                <p>Adjust color intensity (0-100%)</p>
                 
-            </div>
-        </wb-demo>
+                <div style="max-width: 600px; padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                    <wb-color-bar 
+                        id="sat-bar" 
+                        type="saturation" 
+                        value="70"
+                        hue="240" 
+                        lightness="50">
+                    </wb-color-bar>
+                </div>
+                <wb-demo-output id="sat-output">Saturation: 70%</wb-demo-output>
+            </wb-demo-section>
 
+            <!-- Lightness Selection -->
+            <wb-demo-section>
+                <h2>☀️ Lightness Selection</h2>
+                <p>Adjust brightness (0-100%)</p>
+                
+                <div style="max-width: 600px; padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                    <wb-color-bar 
+                        id="light-bar" 
+                        type="lightness" 
+                        value="50"
+                        hue="240" 
+                        saturation="70">
+                    </wb-color-bar>
+                </div>
+                <wb-demo-output id="light-output">Lightness: 50%</wb-demo-output>
+            </wb-demo-section>
 
-    </body>
+            <!-- Complete Color Picker -->
+            <wb-demo-section>
+                <h2>🎨 Complete Color Picker</h2>
+                <p>Combine all three bars for full color control</p>
+                
+                <div style="max-width: 600px; padding: 1.5rem; background: var(--surface-700); border-radius: 8px;">
+                    <div style="display: grid; gap: 1.5rem;">
+                        <wb-color-bar 
+                            id="picker-hue" 
+                            type="hue" 
+                            hue="180">
+                        </wb-color-bar>
+                        <wb-color-bar 
+                            id="picker-sat" 
+                            type="saturation" 
+                            value="80"
+                            hue="180">
+                        </wb-color-bar>
+                        <wb-color-bar 
+                            id="picker-light" 
+                            type="lightness" 
+                            value="50"
+                            hue="180">
+                        </wb-color-bar>
+                    </div>
+                    
+                    <!-- Color Preview -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; align-items: center;">
+                        <div id="color-swatch" style="width: 80px; height: 80px; border-radius: 8px; background: hsl(180, 80%, 50%); border: 2px solid var(--border-color);"></div>
+                        <div>
+                            <div style="font-weight: bold; font-size: 1.25rem;" id="hex-value">#00B3B3</div>
+                            <div style="color: var(--text-secondary);" id="hsl-value">hsl(180, 80%, 50%)</div>
+                            <wb-button variant="secondary" size="small" onclick="copyColor()">Copy Hex</wb-button>
+                        </div>
+                    </div>
+                </div>
+            </wb-demo-section>
 
+            <!-- Different Sizes -->
+            <wb-demo-section>
+                <h2>📏 Size Variations</h2>
+                <p>Color bars at different heights</p>
+                
+                <div style="max-width: 600px; display: grid; gap: 1.5rem;">
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Large (32px)</label>
+                        <wb-color-bar type="hue" hue="0" style="--color-bar-height: 32px; --pointer-size: 28px;"></wb-color-bar>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Medium (20px - default)</label>
+                        <wb-color-bar type="hue" hue="120"></wb-color-bar>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Small (12px)</label>
+                        <wb-color-bar type="hue" hue="240" style="--color-bar-height: 12px; --pointer-size: 16px;"></wb-color-bar>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Event Log -->
+            <wb-demo-section>
+                <h2>📋 Event Log</h2>
+                <p>Color change events are logged here</p>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="20"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    style="max-height: 250px;">
+                </wb-event-log>
+            </wb-demo-section>
+
+        </div>
+    </wb-demo>
+
+    <script type="module">
+        let eventLog;
+        
+        // Color picker state
+        let pickerHue = 180;
+        let pickerSat = 80;
+        let pickerLight = 50;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            eventLog = document.getElementById('demo-event-log');
+            logEvent('info', '🎨 WB Color Bar Demo initialized');
+            
+            // Setup individual bar listeners
+            setupBarListener('hue-bar', 'hue-output');
+            setupBarListener('sat-bar', 'sat-output');
+            setupBarListener('light-bar', 'light-output');
+            
+            // Setup complete picker
+            setupPicker();
+        });
+        
+        function logEvent(type, message) {
+            if (eventLog && typeof eventLog.addEvent === 'function') {
+                eventLog.addEvent(type, message, { source: 'wb-color-bar-demo' });
+            }
+        }
+        
+        function setupBarListener(barId, outputId) {
+            const bar = document.getElementById(barId);
+            const output = document.getElementById(outputId);
+            
+            if (bar) {
+                bar.addEventListener('colorchange', (e) => {
+                    const data = e.detail;
+                    if (barId.includes('hue')) {
+                        output.textContent = `Selected: ${data.hsl}`;
+                    } else if (barId.includes('sat')) {
+                        output.textContent = `Saturation: ${Math.round(data.saturation)}%`;
+                    } else {
+                        output.textContent = `Lightness: ${Math.round(data.lightness)}%`;
+                    }
+                    logEvent('success', `${data.type}: ${data.hex}`);
+                });
+            }
+        }
+        
+        function setupPicker() {
+            const hueBar = document.getElementById('picker-hue');
+            const satBar = document.getElementById('picker-sat');
+            const lightBar = document.getElementById('picker-light');
+            
+            if (!hueBar || !satBar || !lightBar) return;
+            
+            hueBar.addEventListener('colorchange', (e) => {
+                pickerHue = e.detail.hue;
+                satBar.setAttribute('hue', pickerHue);
+                lightBar.setAttribute('hue', pickerHue);
+                updatePickerPreview();
+            });
+
+            satBar.addEventListener('colorchange', (e) => {
+                pickerSat = e.detail.value || e.detail.saturation;
+                updatePickerPreview();
+            });
+
+            lightBar.addEventListener('colorchange', (e) => {
+                pickerLight = e.detail.value || e.detail.lightness;
+                updatePickerPreview();
+            });
+        }
+        
+        function updatePickerPreview() {
+            const swatch = document.getElementById('color-swatch');
+            const hexValue = document.getElementById('hex-value');
+            const hslValue = document.getElementById('hsl-value');
+            
+            const hsl = `hsl(${Math.round(pickerHue)}, ${Math.round(pickerSat)}%, ${Math.round(pickerLight)}%)`;
+            const hex = hslToHex(pickerHue, pickerSat, pickerLight);
+            
+            swatch.style.background = hsl;
+            hexValue.textContent = hex.toUpperCase();
+            hslValue.textContent = hsl;
+            
+            logEvent('info', `Color: ${hex}`);
+        }
+        
+        function hslToHex(h, s, l) {
+            s /= 100;
+            l /= 100;
+            const a = s * Math.min(l, 1 - l);
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`;
+        }
+        
+        window.copyColor = function() {
+            const hex = document.getElementById('hex-value').textContent;
+            navigator.clipboard.writeText(hex).then(() => {
+                logEvent('success', `Copied: ${hex}`);
+            });
+        };
+    </script>
+</body>
 </html>
-

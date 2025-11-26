@@ -1,182 +1,190 @@
-// WB Card Web Component
-// Website Builder card component with flexible layouts and variants
+// WB Card Web Component v2.0
+// Fixed: footer only shows when has content, proper slot handling
 
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-// Minimal reactive store for state
-function createSignal(initial) {
-  let value = initial;
-  const listeners = [];
-  const get = () => value;
-  const set = (v) => {
-    value = v;
-    listeners.forEach(fn => fn(value));
-  };
-  const subscribe = (fn) => { listeners.push(fn); };
-  return [get, set, subscribe];
-}
-
-class WBCard extends HTMLElement {
-  constructor() {
-    super();
-        this.attachShadow({ mode: 'open' });
-    // Fallback config for now
-    this.config = {
-      classes: {
-        base: 'wb-card',
-        header: 'wb-card-header',
-        title: 'wb-card-title',
-        subtitle: 'wb-card-subtitle',
-        body: 'wb-card-body',
-        content: 'wb-card-content',
-        media: 'wb-card-media',
-        image: 'wb-card-image',
-        footer: 'wb-card-footer',
-        actions: 'wb-card-actions',
-        variants: {
-          default: '',
-          elevated: 'wb-card--elevated',
-          outlined: 'wb-card--outlined',
-          filled: 'wb-card--filled',
-          glass: 'wb-card--glass'
-        },
-        sizes: {
-          compact: 'wb-card--compact',
-          standard: 'wb-card--standard',
-          large: 'wb-card--large'
-        },
-        states: {
-          hover: 'wb-card--hover',
-          active: 'wb-card--active',
-          disabled: 'wb-card--disabled',
-          loading: 'wb-card--loading'
-        },
-        layouts: {
-          vertical: 'wb-card--vertical',
-          horizontal: 'wb-card--horizontal',
-          'media-top': 'wb-card--media-top',
-          'media-left': 'wb-card--media-left',
-          'media-right': 'wb-card--media-right'
-        }
-      },
-      defaults: {
-        variant: 'default',
-        size: 'standard',
-        layout: 'vertical',
-        clickable: false,
-        loading: false,
-        showHeader: true,
-        showFooter: false,
-        showActions: false
-      },
-      events: {
-        ready: 'wbCardReady',
-        click: 'wbCardClick',
-        mediaLoad: 'wbCardMediaLoad',
-        actionClick: 'wbCardActionClick'
-      }
-    };
-    // Reactive signals
-    [this.getTitle, this.setTitle, this.onTitle] = createSignal(this.getAttribute('title') || '');
-    [this.getSubtitle, this.setSubtitle, this.onSubtitle] = createSignal(this.getAttribute('subtitle') || '');
-    [this.getBody, this.setBody, this.onBody] = createSignal(this.getAttribute('body') || '');
-    [this.getVariant, this.setVariant, this.onVariant] = createSignal(this.getAttribute('variant') || this.config.defaults.variant);
-    [this.getSize, this.setSize, this.onSize] = createSignal(this.getAttribute('size') || this.config.defaults.size);
-    [this.getLayout, this.setLayout, this.onLayout] = createSignal(this.getAttribute('layout') || this.config.defaults.layout);
-    [this.getMediaSrc, this.setMediaSrc, this.onMediaSrc] = createSignal(this.getAttribute('media-src') || '');
-    [this.getFooter, this.setFooter, this.onFooter] = createSignal(this.getAttribute('footer') || '');
-    [this.getLoading, this.setLoading, this.onLoading] = createSignal(this.hasAttribute('loading'));
-    // Subscribe to state changes and re-render
-    this.onTitle(() => this.render());
-    this.onSubtitle(() => this.render());
-    this.onBody(() => this.render());
-    this.onVariant(() => this.render());
-    this.onSize(() => this.render());
-    this.onLayout(() => this.render());
-    this.onMediaSrc(() => this.render());
-    this.onFooter(() => this.render());
-    this.onLoading(() => this.render());
-  }
-
-  async connectedCallback() {
-    super.connectedCallback(); // Inherit dark mode and other base functionality
-    await loadComponentCSS(this, 'wb-card.css');
-    this.render();
-    this.dispatchEvent(new CustomEvent('wbCardReady', { 
-      bubbles: true,
-      detail: { component: this, config: this.config }
-    }));
-  }
-
-  render() {
-    // Render the card declaratively based on state
-    this.innerHTML = `
-      <div class="${this.config.classes.base} ${this.config.classes.variants[this.getVariant()]} ${this.config.classes.sizes[this.getSize()]} ${this.config.classes.layouts[this.getLayout()]} ${this.getLoading() ? this.config.classes.states.loading : ''}">
-        ${this.getMediaSrc() ? `<div class='${this.config.classes.media}'><img class='${this.config.classes.image}' src='${this.getMediaSrc()}' alt=''></div>` : ''}
-        ${(this.getTitle() || this.getSubtitle()) ? `<div class='${this.config.classes.header}'>${this.getTitle() ? `<h3 class='${this.config.classes.title}'>${this.getTitle()}</h3>` : ''}${this.getSubtitle() ? `<p class='${this.config.classes.subtitle}'>${this.getSubtitle()}</p>` : ''}</div>` : ''}
-        <div class='${this.config.classes.body}'>
-          <div class='${this.config.classes.content}'>${this.getBody()}</div>
-        </div>
-        ${this.getFooter() ? `<div class='${this.config.classes.footer}'>${this.getFooter()}</div>` : ''}
-      </div>
-    `;
-  }
-
-  // Attribute reflection for reactivity
-  static get observedAttributes() {
-    return ['title', 'subtitle', 'body', 'variant', 'size', 'layout', 'media-src', 'footer', 'loading'];
-  }
-  attributeChangedCallback(name, oldValue, newValue) {
-    switch (name) {
-      case 'title':
-        this.setTitle(newValue || '');
-        break;
-      case 'subtitle':
-        this.setSubtitle(newValue || '');
-        break;
-      case 'body':
-        this.setBody(newValue || '');
-        break;
-      case 'variant':
-        this.setVariant(newValue || this.config.defaults.variant);
-        break;
-      case 'size':
-        this.setSize(newValue || this.config.defaults.size);
-        break;
-      case 'layout':
-        this.setLayout(newValue || this.config.defaults.layout);
-        break;
-      case 'media-src':
-        this.setMediaSrc(newValue || '');
-        break;
-      case 'footer':
-        this.setFooter(newValue || '');
-        break;
-      case 'loading':
-        this.setLoading(this.hasAttribute('loading'));
-        break;
+class WBCard extends WBBaseComponent {
+    static useShadow = true;
+    
+    constructor() {
+        super();
+        
+        this.config = {
+            classes: {
+                base: 'wb-card',
+                header: 'wb-card-header',
+                title: 'wb-card-title',
+                subtitle: 'wb-card-subtitle',
+                body: 'wb-card-body',
+                content: 'wb-card-content',
+                media: 'wb-card-media',
+                image: 'wb-card-image',
+                footer: 'wb-card-footer',
+                actions: 'wb-card-actions',
+                variants: {
+                    'default': '',
+                    'elevated': 'wb-card--elevated',
+                    'outlined': 'wb-card--outlined',
+                    'filled': 'wb-card--filled',
+                    'glass': 'wb-card--glass',
+                    'primary': 'wb-card--primary',
+                    'secondary': 'wb-card--secondary',
+                    'success': 'wb-card--success',
+                    'warning': 'wb-card--warning',
+                    'danger': 'wb-card--danger',
+                    'info': 'wb-card--info',
+                    'primary-filled': 'wb-card--primary-filled',
+                    'success-filled': 'wb-card--success-filled',
+                    'warning-filled': 'wb-card--warning-filled',
+                    'danger-filled': 'wb-card--danger-filled',
+                    'info-filled': 'wb-card--info-filled'
+                },
+                sizes: {
+                    'compact': 'wb-card--compact',
+                    'standard': 'wb-card--standard',
+                    'large': 'wb-card--large'
+                },
+                states: {
+                    'hover': 'wb-card--hover',
+                    'active': 'wb-card--active',
+                    'disabled': 'wb-card--disabled',
+                    'loading': 'wb-card--loading'
+                },
+                layouts: {
+                    'vertical': 'wb-card--vertical',
+                    'horizontal': 'wb-card--horizontal',
+                    'media-top': 'wb-card--media-top',
+                    'media-left': 'wb-card--media-left',
+                    'media-right': 'wb-card--media-right'
+                }
+            }
+        };
     }
-  }
+
+    async connectedCallback() {
+        super.connectedCallback();
+        await loadComponentCSS(this, 'wb-card.css');
+        this.render();
+        this.setupSlotObserver();
+        this.fireEvent('wb-card:ready', { variant: this.getAttribute('variant') || 'default' });
+    }
+
+    setupSlotObserver() {
+        // Watch for slotted content changes
+        const actionsSlot = this.shadowRoot.querySelector('slot[name="actions"]');
+        if (actionsSlot) {
+            actionsSlot.addEventListener('slotchange', () => this.updateFooterVisibility());
+        }
+        this.updateFooterVisibility();
+    }
+
+    updateFooterVisibility() {
+        const footer = this.shadowRoot.querySelector('.wb-card-footer');
+        const actionsSlot = this.shadowRoot.querySelector('slot[name="actions"]');
+        const footerContent = this.getAttribute('footer');
+        
+        if (footer) {
+            const hasSlottedContent = actionsSlot && actionsSlot.assignedElements().length > 0;
+            const hasFooterAttr = footerContent && footerContent.trim() !== '';
+            
+            // Show footer with HR divider only when there are actions
+            if (hasSlottedContent || hasFooterAttr) {
+                footer.removeAttribute('hidden');
+            } else {
+                footer.setAttribute('hidden', '');
+            }
+        }
+    }
+
+    getClasses() {
+        const variant = this.getAttribute('variant') || 'default';
+        const size = this.getAttribute('size') || 'standard';
+        const layout = this.getAttribute('layout') || 'vertical';
+        const isLoading = this.hasAttribute('loading');
+        
+        let classes = [this.config.classes.base];
+        
+        if (this.config.classes.variants[variant]) {
+            classes.push(this.config.classes.variants[variant]);
+        }
+        if (this.config.classes.sizes[size]) {
+            classes.push(this.config.classes.sizes[size]);
+        }
+        if (this.config.classes.layouts[layout]) {
+            classes.push(this.config.classes.layouts[layout]);
+        }
+        if (isLoading) {
+            classes.push(this.config.classes.states.loading);
+        }
+        
+        return classes.filter(Boolean).join(' ');
+    }
+
+    render() {
+        if (!this.shadowRoot) return;
+        
+        const title = this.getAttribute('title') || '';
+        const subtitle = this.getAttribute('subtitle') || '';
+        const body = this.getAttribute('body') || '';
+        const mediaSrc = this.getAttribute('media-src') || '';
+        const footerContent = this.getAttribute('footer') || '';
+        
+        this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="${new URL('./wb-card.css', import.meta.url).href}">
+            <div class="${this.getClasses()}">
+                ${mediaSrc ? `
+                    <div class="${this.config.classes.media}">
+                        <img class="${this.config.classes.image}" src="${mediaSrc}" alt="">
+                    </div>
+                ` : ''}
+                
+                ${(title || subtitle) ? `
+                    <div class="${this.config.classes.header}">
+                        ${title ? `<h3 class="${this.config.classes.title}">${title}</h3>` : ''}
+                        ${subtitle ? `<p class="${this.config.classes.subtitle}">${subtitle}</p>` : ''}
+                    </div>
+                ` : ''}
+                
+                <div class="${this.config.classes.body}">
+                    <div class="${this.config.classes.content}">
+                        ${body}
+                        <slot></slot>
+                    </div>
+                </div>
+                
+                <div class="${this.config.classes.footer}" hidden>
+                    <hr class="wb-card-divider">
+                    ${footerContent}
+                    <div class="${this.config.classes.actions}">
+                        <slot name="actions"></slot>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Re-setup observer after render
+        setTimeout(() => this.setupSlotObserver(), 0);
+    }
+
+    static get observedAttributes() {
+        return ['title', 'subtitle', 'body', 'variant', 'size', 'layout', 'media-src', 'footer', 'loading'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        if (oldValue !== newValue && this.shadowRoot) {
+            this.render();
+        }
+    }
 }
 
-// Register the custom element
-customElements.define('wb-card', WBCard);
-
-// Register with WBComponentRegistry if available
-if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
-    window.WBComponentRegistry.register('wb-card', WBCard, ['wb-event-log'], {
-        version: '1.0.0',
-        type: 'layout',
-        role: 'ui-element',
-        description: 'Flexible card component with header, body, footer sections and various styling options',
-        api: {
-            static: ['create'],
-            events: ['card-clicked', 'card-expanded', 'card-collapsed'],
-            attributes: ['title', 'subtitle', 'image', 'variant', 'size', 'expandable'],
-            methods: ['render', 'setTitle', 'setContent', 'expand', 'collapse']
-        },
-        priority: 4 // UI component depends on infrastructure
-    });
+if (!customElements.get('wb-card')) {
+    customElements.define('wb-card', WBCard);
 }
 
-console.log('🃏 WB Card: Web component registered');
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBCard = WBCard;
+
+export { WBCard };
+export default WBCard;

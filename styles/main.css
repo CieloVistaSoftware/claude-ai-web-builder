@@ -7,24 +7,28 @@
  * Loading Order:
  * 1. Variables - CSS custom properties and design tokens
  * 2. Base - Reset, typography, and foundational element styles  
- * 3. Utilities - Reusable utility classes and patterns
- * 4. Layouts - Layout system styles and responsive design
+ * 3. States - Semantic state classes for all components
+ * 4. Utilities - Reusable utility classes and patterns
+ * 5. Layouts - Layout system styles and responsive design
  * 
  * Usage in HTML:
  * <link rel="stylesheet" href="../../styles/main.css">
  * <link rel="stylesheet" href="component-name.css">
  */
 
-/* REQUIRED FIRST: CSS Variables and Design Tokens */
+/* 1. CSS Variables and Design Tokens */
 @import url('./_variables.css');
 
-/* REQUIRED SECOND: Base Styles and Reset */
+/* 2. Base Styles and Reset */
 @import url('./_base.css');
 
-/* REQUIRED THIRD: Utility Classes and Patterns */
+/* 3. Semantic State Classes (variants, sizes, interactive states) */
+@import url('./_states.css');
+
+/* 4. Utility Classes and Patterns */
 @import url('./_utilities.css');
 
-/* REQUIRED FOURTH: Layout System */
+/* 5. Layout System */
 @import url('./layouts.css');
 
 /* 
@@ -33,141 +37,3 @@
  * <link rel="stylesheet" href="../../styles/main.css">
  * <link rel="stylesheet" href="wb-component.css">
  */
-
-
-/* ===== THEME SYSTEM ===== */
-/* Dark theme is now default (applies to :root) */
-:root {
-  --bg-color: hsl(240, 50%, 8%);             /* Near black with blue hint */
-  --bg-primary: hsl(240, 45%, 15%);          /* Very dark gray-blue */
-  --bg-secondary: hsl(240, 40%, 25%);        /* Dark gray-blue */
-  --bg-tertiary: hsl(240, 35%, 35%);         /* Medium-dark gray-blue */
-  
-  --text-primary: hsl(240, 5%, 98%);         /* Near white with blue hint */
-  --text-secondary: hsl(240, 15%, 85%);      /* Light gray-blue */
-  --text-tertiary: hsl(240, 20%, 75%);       /* Medium-light gray-blue */
-  --text-muted: hsl(240, 25%, 65%);          /* Medium gray-blue */
-  
-  --border-color: hsl(240, 35%, 35%);        /* Medium-dark gray-blue */
-  --border-light: hsl(240, 30%, 50%);        /* True middle gray-blue */
-  --border-dark: hsl(240, 40%, 25%);         /* Dark gray-blue */
-  
-  --surface-base: hsl(240, 45%, 15%);        /* Base layer */
-  --surface-raised: hsl(240, 40%, 25%);      /* Cards, panels */
-  --surface-overlay: hsl(240, 35%, 35%);     /* Modals, dropdowns */
-  --surface-floating: hsl(240, 35%, 35%);    /* Tooltips */
-  /* Keep primary colors the same but adjust for dark background */
-  --primary: hsl(240, 70%, 50%);
-  --primary-dark: hsl(240, 70%, 40%);
-  --primary-light: hsl(240, 60%, 65%);
-}
-
-/* Light theme (must be explicitly set) */
-[data-theme="light"] {
-  --bg-color: hsl(0, 0%, 100%);              /* White background */
-  --bg-primary: hsl(0, 0%, 98%);             /* Very light gray */
-  --bg-secondary: hsl(0, 0%, 95%);           /* Light gray */
-  --bg-tertiary: hsl(0, 0%, 90%);            /* Medium-light gray */
-  
-  --text-primary: hsl(0, 0%, 10%);           /* Near black */
-  --text-secondary: hsl(0, 0%, 30%);         /* Dark gray */
-  --text-tertiary: hsl(0, 0%, 50%);          /* Medium gray */
-  --text-muted: hsl(0, 0%, 60%);             /* Light gray */
-  
-  --border-color: hsl(0, 0%, 85%);           /* Light border */
-  --border-light: hsl(0, 0%, 90%);           /* Very light border */
-  --border-dark: hsl(0, 0%, 70%);            /* Medium border */
-  
-  --surface-base: hsl(0, 0%, 100%);          /* White */
-  --surface-raised: hsl(0, 0%, 98%);         /* Cards */
-  --surface-overlay: hsl(0, 0%, 95%);        /* Modals */
-  --surface-floating: hsl(0, 0%, 92%);       /* Tooltips */
-  /* Keep primary colors the same but adjust for light background */
-  --primary: hsl(240, 70%, 50%);
-  --primary-dark: hsl(240, 70%, 40%);
-  --primary-light: hsl(240, 60%, 65%);
-}
-
-/* Apply theme colors to body */
-body {
-  background: var(--bg-color);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Apply to common elements */
-header,
-main,
-footer,
-article,
-aside,
-section {
-  background-color: var(--bg-color);
-  color: var(--text-primary);
-  transition: background-color 0.6s ease, color 0.6s ease;
-}
-
-/* ===== DEFAULT LAYOUT STRUCTURE ===== */
-/* These are defaults that can be overridden by control panel or components */
-
-/* Header defaults */
-header {
-  width: 100%;
-  background: var(--header-bg, var(--bg-color));
-  color: var(--header-color, var(--text-primary));
-  border-bottom: 1px solid var(--border-color);
-  transition: all 0.6s ease;
-}
-
-/* Main content defaults */
-main {
-  min-height: 50vh;
-  padding: var(--main-padding, 2rem);
-  background: var(--main-bg, var(--bg-color));
-  color: var(--main-color, var(--text-primary));
-  /* margin-top handled by wb-layout via --content-margin-top */
-  transition: all 0.6s ease;
-}
-
-/* Footer defaults */
-footer {
-  width: 100%;
-  padding: var(--footer-padding, 1rem 2rem);
-  background: var(--footer-bg, var(--surface-raised));
-  color: var(--footer-color, var(--text-secondary));
-  border-top: 1px solid var(--border-color);
-  text-align: center;
-  box-sizing: border-box;
-  /* Position can be overridden by control panel */
-  position: var(--footer-position, relative);
-  transition: all 0.6s ease;
-}
-
-/* Links */
-a {
-  color: var(--primary);
-}
-
-a:hover {
-  color: var(--primary-light);
-}
-
-/* Borders */
-hr,
-.border,
-[class*="border"] {
-  border-color: var(--border-color);
-}
-
-/* ===== WB BUTTON DEMO STYLES (from root styles/main.css) ===== */
-body { background: var(--bg-color, #222); color: var(--text-primary, #eee); }
-.wb-btn { padding: 0.5rem 1rem; border-radius: 4px; }
-.wb-btn--primary { background: #007bff; color: #fff; }
-.wb-btn--secondary { background: #6c757d; color: #fff; }
-.wb-btn--success { background: #28a745; color: #fff; }
-.wb-btn--toggle { background: #ffc107; color: #222; }
-.wb-btn--small { font-size: 0.8rem; }
-.wb-btn--large { font-size: 1.2rem; }
-.wb-btn__status--active { background: #28a745; }
-.wb-btn__status--inactive { background: #dc3545; }
-.wb-btn__status--neutral { background: #6c757d; }

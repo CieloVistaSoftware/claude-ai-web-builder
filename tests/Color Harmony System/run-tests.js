@@ -2,8 +2,8 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const testDir = 'C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\Color Harmony System';
-const htmlFile = 'C:\\Users\\jwpmi\\Downloads\\AI\\wb\\html\\Color Harmony System\\article\\Professional-Developer-HCS-System.html';
+const testDir = path.join(__dirname);
+const htmlFile = path.join(__dirname, '..', '..', 'html', 'Color Harmony System', 'article', 'Professional-Developer-HCS-System.html');
 
 let attempt = 1;
 const maxAttempts = 10;
@@ -30,7 +30,7 @@ function runTests() {
       { 
         encoding: 'utf8',
         stdio: 'pipe',
-        cwd: 'C:\\Users\\jwpmi\\Downloads\\AI\\wb'
+        cwd: path.join(__dirname, '..', '..')
       }
     );
     

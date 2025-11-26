@@ -4,21 +4,13 @@ import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 import { WBBaseComponent } from '../wb-base/wb-base.js';
 
 class WBFooter extends WBBaseComponent {
+    static useShadow = false; // Footer uses light DOM for styling
+    
     constructor() {
         super();
         this.config = null;
         this._initialized = false;
         this.currentPosition = 'same-page';
-        
-        if (window.WBEventLog) {
-            WBEventLog.logInfo('WB Footer: Web Component constructed', { 
-                component: 'wb-footer', 
-                method: 'constructor', 
-                line: 11 
-            });
-        } else {
-            console.log('🦶 WB Footer: Web Component constructed');
-        }
     }
     
     static get observedAttributes() {
@@ -26,18 +18,12 @@ class WBFooter extends WBBaseComponent {
     }
     
     async connectedCallback() {
+        super.connectedCallback();
+        
         if (this._initialized) return;
         this._initialized = true;
         
-        if (window.WBEventLog) {
-            WBEventLog.logInfo('WB Footer: Connected to DOM', { 
-                component: 'wb-footer', 
-                method: 'connectedCallback', 
-                line: 22 
-            });
-        } else {
-            console.log('🦶 WB Footer: Connected to DOM');
-        }
+        this.logInfo('WBFooter connecting');
         
         try {
             await loadComponentCSS(this, 'wb-footer.css');
@@ -45,48 +31,21 @@ class WBFooter extends WBBaseComponent {
             this.render();
             this.setupEventListeners();
             
-            this.dispatchEvent(new CustomEvent('wbFooterReady', {
-                bubbles: true,
-                detail: { component: this, config: this.config }
-            }));
-            
-            if (window.WBEventLog) {
-                WBEventLog.logSuccess('WB Footer: Web Component initialized successfully', { 
-                    component: 'wb-footer', 
-                    method: 'connectedCallback', 
-                    line: 35 
-                });
-            } else {
-                console.log('🦶 WB Footer: Web Component initialized successfully');
-            }
+            this.fireEvent('wb-footer:ready', { component: 'wb-footer' });
+            this.logInfo('WBFooter ready');
         } catch (error) {
-            if (window.WBEventLog) {
-                WBEventLog.logError('WB Footer: Initialization failed', { 
-                    component: 'wb-footer', 
-                    method: 'connectedCallback', 
-                    line: 37, 
-                    error: error.message, 
-                    stack: error.stack 
-                });
-            } else {
-                console.error('🦶 WB Footer: Initialization failed', error);
-            }
+            this.logError('WBFooter initialization failed', { error: error.message });
         }
     }
     
     disconnectedCallback() {
-        if (window.WBEventLog) {
-            WBEventLog.logInfo('WB Footer: Disconnected from DOM', { 
-                component: 'wb-footer', 
-                method: 'disconnectedCallback', 
-                line: 42 
-            });
-        } else {
-            console.log('🦶 WB Footer: Disconnected from DOM');
-        }
+        super.disconnectedCallback();
+        this.logDebug('WBFooter disconnected');
     }
     
     attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        
         if (!this._initialized || oldValue === newValue) return;
         
         switch (name) {
@@ -111,27 +70,9 @@ class WBFooter extends WBBaseComponent {
                 '../components/wb-footer/') + 'wb-footer.json';
             const response = await fetch(configPath);
             this.config = await response.json();
-            if (window.WBEventLog) {
-                WBEventLog.logSuccess('WB Footer: Configuration loaded', { 
-                    component: 'wb-footer', 
-                    method: 'loadConfig', 
-                    line: 70, 
-                    config: this.config 
-                });
-            } else {
-                console.log('🦶 WB Footer: Configuration loaded', this.config);
-            }
+            this.logDebug('WBFooter config loaded');
         } catch (error) {
-            if (window.WBEventLog) {
-                WBEventLog.logWarning('WB Footer: Could not load wb-footer.json, using defaults', { 
-                    component: 'wb-footer', 
-                    method: 'loadConfig', 
-                    line: 72, 
-                    error: error.message 
-                });
-            } else {
-                console.warn('🦶 WB Footer: Could not load wb-footer.json, using defaults', error);
-            }
+            this.logDebug('WBFooter using default config');
             this.config = this.getDefaultConfig();
         }
     }
@@ -238,15 +179,7 @@ class WBFooter extends WBBaseComponent {
     }
     
     render() {
-        if (window.WBEventLog) {
-            WBEventLog.logInfo('WB Footer: Rendering footer', { 
-                component: 'wb-footer', 
-                method: 'render', 
-                line: 179 
-            });
-        } else {
-            console.log('🦶 WB Footer: Rendering footer');
-        }
+        this.logDebug('WBFooter rendering');
         
         this.className = this.config.classes.base;
         this.setAttribute('role', 'contentinfo');
@@ -605,17 +538,7 @@ class WBFooter extends WBBaseComponent {
         
         if (newPosition === this.currentPosition) return;
         
-        if (window.WBEventLog) {
-            WBEventLog.logInfo('WB Footer: Position changing', { 
-                component: 'wb-footer', 
-                method: 'handleFooterPositionChange', 
-                line: 538, 
-                oldPosition: this.currentPosition, 
-                newPosition: newPosition 
-            });
-        } else {
-            console.log('🦶 WB Footer: Position changing from', this.currentPosition, 'to', newPosition);
-        }
+        this.logDebug('WBFooter position changing', { from: this.currentPosition, to: newPosition });
         
         // Remove old positioning class
         Object.values(this.config.classes.positioning).forEach(className => {
@@ -629,36 +552,19 @@ class WBFooter extends WBBaseComponent {
         
         this.currentPosition = newPosition;
         
-        // Dispatch position change event
-        const event = new CustomEvent(this.config.events.positionChange, {
-            detail: { 
-                footer: this, 
-                oldPosition: this.currentPosition,
-                newPosition: newPosition 
-            }
+        this.fireEvent('wb-footer:position-change', { 
+            oldPosition: this.currentPosition,
+            newPosition: newPosition 
         });
-        this.dispatchEvent(event);
     }
     
     handleNewsletterSubmit(event) {
         const form = event.target.closest('.wb-footer-newsletter-form');
         const email = form.querySelector('input[type="email"]').value;
         
-        if (window.WBEventLog) {
-            WBEventLog.logUser('WB Footer: Newsletter subscription', { 
-                component: 'wb-footer', 
-                method: 'handleNewsletterSubmit', 
-                line: 567, 
-                email: email 
-            });
-        } else {
-            console.log('🦶 WB Footer: Newsletter subscription:', email);
-        }
+        this.logDebug('WBFooter newsletter submit', { email });
         
-        this.dispatchEvent(new CustomEvent('wbFooterNewsletterSubmit', {
-            bubbles: true,
-            detail: { email: email, form: form }
-        }));
+        this.fireEvent('wb-footer:newsletter-submit', { email, form });
         
         // Show success message
         const button = form.querySelector('button');
@@ -678,15 +584,12 @@ class WBFooter extends WBBaseComponent {
         const href = link.getAttribute('href');
         const text = link.textContent;
         
-        this.dispatchEvent(new CustomEvent('wbFooterLinkClick', {
-            bubbles: true,
-            detail: { 
-                href: href, 
-                text: text, 
-                link: link,
-                type: this.getLinkType(link)
-            }
-        }));
+        this.fireEvent('wb-footer:link-click', { 
+            href, 
+            text, 
+            link,
+            type: this.getLinkType(link)
+        });
     }
     
     getLinkType(link) {
@@ -741,16 +644,6 @@ if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register ===
         },
         priority: 3 // Structural component depends on infrastructure
     });
-}
-
-if (window.WBEventLog) {
-    WBEventLog.logSuccess('WB Footer: Pure Web Component registered', { 
-        component: 'wb-footer', 
-        method: 'componentRegistration', 
-        line: 657 
-    });
-} else {
-    console.log('🦶 WB Footer: Pure Web Component registered');
 }
 
 // Compositional Namespace

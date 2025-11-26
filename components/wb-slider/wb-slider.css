@@ -32,6 +32,28 @@
   border-radius: var(--wb-slider-border-radius, 0.5rem);
 }
 
+/* Hue variant - shows full color spectrum */
+.wb-slider--hue .wb-slider-track {
+  background: linear-gradient(to right,
+    hsl(0, 100%, 50%),
+    hsl(60, 100%, 50%),
+    hsl(120, 100%, 50%),
+    hsl(180, 100%, 50%),
+    hsl(240, 100%, 50%),
+    hsl(300, 100%, 50%),
+    hsl(360, 100%, 50%)
+  );
+}
+
+.wb-slider--hue .wb-slider-fill {
+  display: none; /* Hide fill for hue slider */
+}
+
+.wb-slider--hue .wb-slider-thumb {
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
 .wb-slider-fill {
   position: absolute;
   top: 0;

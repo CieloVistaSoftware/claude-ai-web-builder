@@ -3,6 +3,7 @@
   "displayName": "WB Component Navigator",
   "description": "Language Server for Web Components - provides Go to Definition, Find References, and intelligent navigation",
   "version": "0.1.0",
+  "publisher": "cielovistasoftware",
   "engines": {
     "vscode": "^1.75.0"
   },

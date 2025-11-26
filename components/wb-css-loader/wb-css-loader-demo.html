@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB CSS Loader Utility Demo</title>
+    
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+</head>
+<body style="margin: 0; padding: 1rem; background: var(--surface-900);">
+    
+    <wb-demo title="WB CSS Loader Utility" style="width: 95vw; margin: 0 auto;">
+        <div slot="description">
+            <p>The <code>wb-css-loader</code> is a utility module for automatically loading CSS files 
+            for web components. It's not a visual component but a helper function.</p>
+        </div>
+        
+        <div slot="examples" style="padding: 1rem;">
+
+            <!-- What It Does -->
+            <wb-demo-section>
+                <h2>📦 What It Does</h2>
+                <p>The CSS Loader utility provides functions to dynamically load CSS files for components.</p>
+                
+                <div style="display: grid; gap: 1rem;">
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <code style="color: var(--success-color);">loadComponentCSS(component, filename)</code>
+                        <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">Loads a single CSS file for a component</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <code style="color: var(--success-color);">loadComponentCSSMultiple(component, filenames)</code>
+                        <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">Loads multiple CSS files in parallel</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <code style="color: var(--success-color);">isCSSLoaded(componentTag, filename)</code>
+                        <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">Checks if CSS is already loaded</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <code style="color: var(--success-color);">unloadComponentCSS(componentTag, filename)</code>
+                        <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">Removes a loaded CSS file</p>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Usage Example -->
+            <wb-demo-section>
+                <h2>📝 Usage Example</h2>
+                <p>Import and use in your component's connectedCallback:</p>
+                
+                <pre style="background: var(--surface-800); padding: 1rem; border-radius: 8px; overflow-x: auto;"><code>import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+
+class MyComponent extends HTMLElement {
+    async connectedCallback() {
+        // Load component CSS
+        await loadComponentCSS(this, 'my-component.css');
+        
+        // Now render the component
+        this.render();
+    }
+}</code></pre>
+            </wb-demo-section>
+
+            <!-- How It Works -->
+            <wb-demo-section>
+                <h2>⚙️ How It Works</h2>
+                <ol style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+                    <li>Determines component folder from tag name (e.g., <code>wb-button</code> → <code>/components/wb-button/</code>)</li>
+                    <li>Creates a <code>&lt;link rel="stylesheet"&gt;</code> element</li>
+                    <li>Appends it to <code>document.head</code></li>
+                    <li>Returns a Promise that resolves when CSS is loaded</li>
+                    <li>Tags the link with <code>data-component</code> for easy identification</li>
+                </ol>
+            </wb-demo-section>
+
+            <!-- Live Demo Preview -->
+            <wb-demo-section>
+                <h2>🎯 Live Demo Preview of CSS Loader</h2>
+                <p>See which component stylesheets are currently loaded:</p>
+                
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <wb-button variant="primary" onclick="scanLoadedCSS()">🔍 Scan Loaded CSS</wb-button>
+                    <wb-button variant="secondary" onclick="clearResults()">Clear</wb-button>
+                </div>
+                
+                <div id="css-results" style="padding: 1rem; background: var(--surface-700); border-radius: 8px; min-height: 100px;">
+                    <p style="color: var(--text-secondary); margin: 0;">Click "Scan Loaded CSS" to see component stylesheets</p>
+                </div>
+            </wb-demo-section>
+
+            <!-- Important Notes -->
+            <wb-demo-section>
+                <h2>⚠️ Important Notes</h2>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="padding: 1rem; background: rgba(245, 158, 11, 0.1); border: 1px solid var(--warning-color); border-radius: 8px;">
+                        <strong style="color: var(--warning-color);">Document Head vs Shadow DOM</strong>
+                        <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">
+                            This loader adds CSS to <code>document.head</code>. For Shadow DOM components, 
+                            you need to inject CSS directly into the shadow root using inline styles or a 
+                            <code>&lt;link&gt;</code> tag inside the shadow DOM.
+                        </p>
+                    </div>
+                    <div style="padding: 1rem; background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary); border-radius: 8px;">
+                        <strong style="color: var(--primary);">Path Convention</strong>
+                        <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">
+                            CSS files are loaded from <code>/components/{tag-name}/{filename}</code>. 
+                            Use <code>loadComponentCSSWithPath()</code> for custom paths.
+                        </p>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Event Log -->
+            <wb-demo-section>
+                <h2>📋 Event Log</h2>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="20"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    style="max-height: 200px;">
+                </wb-event-log>
+            </wb-demo-section>
+
+        </div>
+    </wb-demo>
+
+    <script type="module">
+        let eventLog;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            eventLog = document.getElementById('demo-event-log');
+            logEvent('info', '📦 WB CSS Loader Demo initialized');
+        });
+        
+        function logEvent(type, message) {
+            if (eventLog && eventLog.addEvent) {
+                eventLog.addEvent({ type, message, source: 'wb-css-loader-demo' });
+            }
+        }
+        
+        window.scanLoadedCSS = function() {
+            const links = document.querySelectorAll('link[rel="stylesheet"]');
+            const results = document.getElementById('css-results');
+            
+            let html = '<div style="display: grid; gap: 0.5rem;">';
+            let componentCount = 0;
+            
+            links.forEach(link => {
+                const component = link.dataset.component;
+                const href = link.href;
+                const filename = href.split('/').pop();
+                
+                if (component) {
+                    componentCount++;
+                    html += `
+                        <div style="padding: 0.5rem; background: var(--surface-800); border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                            <code style="color: var(--primary);">${component}</code>
+                            <span style="color: var(--text-secondary); font-size: 0.875rem;">${filename}</span>
+                        </div>
+                    `;
+                }
+            });
+            
+            if (componentCount === 0) {
+                html += '<p style="color: var(--text-secondary); margin: 0;">No component CSS files loaded via wb-css-loader</p>';
+            } else {
+                html = `<p style="margin: 0 0 0.5rem 0; color: var(--success-color);">Found ${componentCount} component stylesheet(s):</p>` + html;
+            }
+            
+            html += '</div>';
+            results.innerHTML = html;
+            
+            logEvent('success', `Found ${componentCount} component stylesheets`);
+        };
+        
+        window.clearResults = function() {
+            document.getElementById('css-results').innerHTML = '<p style="color: var(--text-secondary); margin: 0;">Click "Scan Loaded CSS" to see component stylesheets</p>';
+            logEvent('info', 'Results cleared');
+        };
+    </script>
+</body>
+</html>

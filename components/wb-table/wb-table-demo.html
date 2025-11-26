@@ -1,587 +1,451 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-mode="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Table Component Demo</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --border-color: #475569;
-            --primary: #6366f1;
-            --font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-        }
-
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            padding: 10px;
-            margin: 0;
-        }
-
-        .demo-container {
-            width: 100%;
-            max-width: none;
-            margin: 0;
-            padding: 0 20px;
-        }
-
-        .demo-section {
-            margin-bottom: 40px;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .demo-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .demo-description {
-            margin-bottom: 20px;
-            color: var(--text-secondary);
-        }
-
-        .demo-controls {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .demo-button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: opacity 0.2s;
-        }
-
-        .demo-button:hover {
-            opacity: 0.8;
-        }
-
-        .demo-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .table-container {
-            width: 100%;
-            height: 300px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            background: var(--bg-tertiary);
-        }
-
-        .stats {
-            margin-top: 10px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        pre {
-            background: var(--bg-primary);
-            padding: 15px;
-            border-radius: 4px;
-            overflow-x: auto;
-            font-family: var(--font-mono);
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-        }
-
-        .json-section {
-            margin-bottom: 20px;
-        }
-
-        .json-section label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .json-input {
-            width: 100%;
-            height: 120px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 10px;
-            font-family: var(--font-mono);
-            font-size: 13px;
-            resize: vertical;
-            tab-size: 2;
-        }
-
-        .json-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-        }
-
-        .json-input::placeholder {
-            color: var(--text-secondary);
-            opacity: 0.7;
-        }
-    </style>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="wb-table.css">
+    
+    <!-- Components -->
+    <script type="module" src="../wb-base/wb-base.js"></script>
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-shadow-diagnostics/wb-shadow-diagnostics.js"></script>
+    <script type="module" src="wb-table.js"></script>
 </head>
 <body>
-    <div class="demo-container">
-        <h1>WB Table Component Demo</h1>
-        <p>Demonstration of the reusable table component for Website Builder.</p>
+    
+    <wb-demo title="📊 WB Table Component" markdown="./wb-table.md">
+        <div slot="examples">
+            
+            <!-- OVERVIEW -->
+            <section class="demo-section">
+                <h2>📋 Overview</h2>
+                <p>A flexible data table component with JSON data binding, custom column formatters, sorting, and dynamic row management.</p>
+                
+                <div class="demo-render">
+                    <wb-table id="overview-table" 
+                        data-json='[{"id":1,"name":"John Doe","email":"john@example.com","role":"Admin"},{"id":2,"name":"Jane Smith","email":"jane@example.com","role":"User"},{"id":3,"name":"Bob Wilson","email":"bob@example.com","role":"Editor"}]'>
+                    </wb-table>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;wb-table 
+    data-json='[
+        {"id":1,"name":"John Doe","email":"john@example.com","role":"Admin"},
+        {"id":2,"name":"Jane Smith","email":"jane@example.com","role":"User"}
+    ]'&gt;
+&lt;/wb-table&gt;</pre>
+                </div>
+            </section>
 
-        <!-- Basic Table Demo -->
-    { key: 'name', title: 'Name', width: '25%' },
-    { key: 'status', title: 'Status', width: '20%' },
-    { key: 'message', title: 'Message', width: '45%' }
+            <!-- BASIC USAGE -->
+            <section class="demo-section">
+                <h2>🎯 Basic Usage</h2>
+                <p>Load data from JSON, add rows dynamically, and clear the table.</p>
+                
+                <div class="demo-render">
+                    <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="loadUsers()">Load Users</button>
+                        <button class="btn btn-secondary" onclick="addUser()">Add User</button>
+                        <button class="btn btn-danger" onclick="clearUsers()">Clear</button>
+                    </div>
+                    <wb-table id="users-table"></wb-table>
+                    <div class="stats" id="users-stats">0 rows</div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">JavaScript</div>
+                    <pre>// Get table element
+const table = document.getElementById('users-table');
+
+// Set columns
+table.setColumns([
+    { key: 'id', title: 'ID', width: '10%' },
+    { key: 'name', title: 'Name', width: '30%' },
+    { key: 'email', title: 'Email', width: '40%' },
+    { key: 'role', title: 'Role', width: '20%' }
 ]);
 
-// Load JSON data
-const jsonData = [
-    { id: 1, name: 'John', status: 'active', message: 'Hello' },
-    { id: 2, name: 'Jane', status: 'inactive', message: 'Bye' }
-];
-table.setData(jsonData);
+// Load data
+table.setData([
+    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' }
+]);
 
-// Add single row
-table.addRow({ id: 3, name: 'Bob', status: 'pending', message: 'Hi' });</code></pre>
+// Add row
+table.addRow({ id: 2, name: 'Jane', email: 'jane@example.com', role: 'User' });</pre>
+                </div>
+            </section>
+
+            <!-- ERROR LOG TABLE -->
+            <section class="demo-section">
+                <h2>🚨 Error Log Table</h2>
+                <p>Table with custom formatters for displaying error logs with colored badges.</p>
+                
+                <div class="demo-render">
+                    <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn btn-danger" onclick="logError()">Log Error</button>
+                        <button class="btn btn-warning" onclick="logWarning()">Log Warning</button>
+                        <button class="btn btn-info" onclick="logInfo()">Log Info</button>
+                        <button class="btn btn-secondary" onclick="clearErrors()">Clear</button>
+                    </div>
+                    <wb-table id="errors-table"></wb-table>
+                    <div class="stats" id="errors-stats">0 rows</div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">JavaScript</div>
+                    <pre>// Custom formatter for log level badges
+table.setColumns([
+    { 
+        key: 'level', 
+        title: 'Level', 
+        width: '15%',
+        formatter: (level) => `&lt;span class="badge ${level}"&gt;${level.toUpperCase()}&lt;/span&gt;`,
+        html: true
+    },
+    { key: 'timestamp', title: 'Time', width: '15%' },
+    { key: 'source', title: 'Source', width: '20%' },
+    { key: 'message', title: 'Message', width: '50%' }
+]);</pre>
+                </div>
+            </section>
+
+            <!-- TASK MANAGEMENT -->
+            <section class="demo-section">
+                <h2>✅ Task Management Table</h2>
+                <p>Table with priority badges and progress display.</p>
+                
+                <div class="demo-render">
+                    <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="loadTasks()">Load Tasks</button>
+                        <button class="btn btn-secondary" onclick="addTask()">Add Task</button>
+                        <button class="btn btn-danger" onclick="clearTasks()">Clear</button>
+                    </div>
+                    <wb-table id="tasks-table"></wb-table>
+                    <div class="stats" id="tasks-stats">0 rows</div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">JavaScript</div>
+                    <pre>table.setColumns([
+    { key: 'id', title: 'ID', width: '10%' },
+    { key: 'title', title: 'Task', width: '35%' },
+    { 
+        key: 'priority', 
+        title: 'Priority', 
+        width: '15%',
+        formatter: (p) => `&lt;span class="badge ${p.toLowerCase()}"&gt;${p}&lt;/span&gt;`,
+        html: true
+    },
+    { 
+        key: 'progress', 
+        title: 'Progress', 
+        width: '15%',
+        formatter: (val) => `${val}%`
+    },
+    { key: 'assigned', title: 'Assigned', width: '25%' }
+]);</pre>
+                </div>
+            </section>
+
+            <!-- ATTRIBUTES -->
+            <section class="demo-section">
+                <h2>⚙️ Attributes</h2>
+                <table class="demo-table">
+                    <thead>
+                        <tr><th>Attribute</th><th>Type</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>data-json</code></td><td>string (JSON)</td><td>Initial data as JSON string</td></tr>
+                        <tr><td><code>columns</code></td><td>string (JSON)</td><td>Column configuration as JSON</td></tr>
+                        <tr><td><code>sortable</code></td><td>boolean</td><td>Enable column sorting</td></tr>
+                        <tr><td><code>striped</code></td><td>boolean</td><td>Alternate row colors</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- API METHODS -->
+            <section class="demo-section">
+                <h2>🔧 API Methods</h2>
+                <table class="demo-table">
+                    <thead>
+                        <tr><th>Method</th><th>Parameters</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>setColumns(cols)</code></td><td>Array of column configs</td><td>Define table columns</td></tr>
+                        <tr><td><code>setData(data)</code></td><td>Array of row objects</td><td>Replace all table data</td></tr>
+                        <tr><td><code>addRow(row)</code></td><td>Row object</td><td>Add single row</td></tr>
+                        <tr><td><code>clear()</code></td><td>-</td><td>Remove all rows</td></tr>
+                        <tr><td><code>getRowCount()</code></td><td>-</td><td>Returns number of rows</td></tr>
+                        <tr><td><code>getData()</code></td><td>-</td><td>Returns all row data</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- EVENTS -->
+            <section class="demo-section">
+                <h2>📡 Events</h2>
+                <table class="demo-table">
+                    <thead>
+                        <tr><th>Event</th><th>Detail</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>wb-table:dataChanged</code></td><td>{ data, rowCount }</td><td>Fired when data changes</td></tr>
+                        <tr><td><code>wb-table:rowAdded</code></td><td>{ row, index }</td><td>Fired when row is added</td></tr>
+                        <tr><td><code>wb-table:rowRemoved</code></td><td>{ row, index }</td><td>Fired when row is removed</td></tr>
+                        <tr><td><code>wb-table:sorted</code></td><td>{ column, direction }</td><td>Fired when column is sorted</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
         </div>
-    </div>
+    </wb-demo>
+    
+    <!-- Shadow Diagnostics -->
+    <wb-shadow-diagnostics></wb-shadow-diagnostics>
 
-    <script type="module" src="wb-table.js"></script>
     <script>
-
-        <wb-demo title="WB Table Component Demo: Basic Table">
-            <div slot="example">
-                <h2>Basic Table Example</h2>
-                <wb-table id="users-table">
-                    data-json='[{"id":1,"name":"John Doe","email":"john@example.com"},{"id":2,"name":"Jane Smith","email":"jane@example.com"},{"id":3,"name":"Bob Wilson","email":"bob@example.com"}]'>
-                    </wb-table>
-                <div>
-                    <button onclick="loadUsers()">Load Users</button>
-                    <button onclick="addUser()">Add User</button>
-                    <button onclick="clearUsers()">Clear</button>
-                </div>
-                <div>
-                    <label for="users-json">JSON Data:</label>
-                    <textarea id="users-json" placeholder="Edit JSON data here..."></textarea>
-                </div>
-                <div id="users-table"></div>
-                <div id="users-stats">0 rows</div>
-            </div>
-            <div slot="documentation">
-                <h2>Basic Table Documentation</h2>
-                <p>Simple table with user data. Use the controls to load, add, or clear users. Edit the JSON data directly to update the table.</p>
-            </div>
-        </wb-demo>
-
-        <wb-demo title="WB Table Component Demo: Error Log Table">
-            <div slot="example">
-                <h2>Error Log Table Example</h2>
-                <div>
-                    <button onclick="logError()">Log Error</button>
-                    <button onclick="logWarning()">Log Warning</button>
-                    <button onclick="logInfo()">Log Info</button>
-                    <button onclick="clearErrors()">Clear</button>
-                </div>
-                <div>
-                    <label for="errors-json">JSON Data:</label>
-                    <textarea id="errors-json" placeholder="Edit JSON data here..."></textarea>
-                </div>
-                <div id="errors-table"></div>
-                <div id="errors-stats">0 rows</div>
-            </div>
-            <div slot="documentation">
-                <h2>Error Log Table Documentation</h2>
-                <p>Table formatted for error logging with custom formatters. Use the controls to log errors, warnings, or info messages. Edit the JSON data directly to update the table.</p>
-            </div>
-        </wb-demo>
-
-        <wb-demo title="WB Table Component Demo: Advanced Features">
-            <div slot="example">
-                <h2>Advanced Table Example</h2>
-                <div>
-                    <button onclick="loadTasks()">Load Tasks</button>
-                    <button onclick="addTask()">Add Task</button>
-                    <button onclick="clearTasks()">Clear</button>
-                </div>
-                <div>
-                    <label for="tasks-json">JSON Data:</label>
-                    <textarea id="tasks-json" placeholder="Edit JSON data here..."></textarea>
-                </div>
-                <div id="tasks-table"></div>
-                <div id="tasks-stats">0 rows</div>
-            </div>
-            <div slot="documentation">
-                <h2>Advanced Table Documentation</h2>
-                <p>Table with custom formatters, badges, and styling. Use the controls to load, add, or clear tasks. Edit the JSON data directly to update the table.</p>
-            </div>
-        </wb-demo>
-
-        <wb-demo title="WB Table Component Demo: Usage Example">
-            <div slot="example">
-                <h2>Usage Example</h2>
-                <pre><code>// Create table
-        let errorCounter = 1;
-        let taskCounter = 1;
-
-        // Initialize tables immediately when script loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('📊 DOM loaded, initializing tables...');
-            try {
-                initializeTables();
-                console.log('📊 Tables initialized successfully');
-            } catch (error) {
-                console.error('📊 Error initializing tables:', error);
-                document.body.innerHTML += '<div style="color: red; padding: 20px; background: #ffe6e6; margin: 20px; border-radius: 4px;">ERROR: Failed to initialize tables. Check console for details.</div>';
-            }
+        let usersTable, errorsTable, tasksTable;
+        let userCounter = 3;
+        let errorCounter = 0;
+        let taskCounter = 3;
+        
+        // Initialize tables when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(initTables, 100);
         });
         
-        // Fallback - if DOMContentLoaded already fired
-        if (document.readyState === 'loading') {
-            // DOMContentLoaded will fire
-        } else {
-            </div>
-            <div slot="documentation">
-                <h2>Usage Example Documentation</h2>
-                <p>Example code for creating and using <code>WBTable</code> programmatically.</p>
-            </div>
-        </wb-demo>
-            // DOM is already ready
-            console.log('📊 DOM already ready, initializing tables immediately...');
-            try {
-                initializeTables();
-                console.log('📊 Tables initialized successfully (immediate)');
-            } catch (error) {
-                console.error('📊 Error initializing tables (immediate):', error);
-                document.body.innerHTML += '<div style="color: red; padding: 20px; background: #ffe6e6; margin: 20px; border-radius: 4px;">ERROR: Failed to initialize tables. Check console for details.</div>';
-            }
-        }
-
-        // Default JSON data
-        const defaultUsersJSON = [
-            { "id": 1, "name": "John Doe", "email": "john@example.com", "role": "Admin", "joined": "2024-01-15" },
-            { "id": 2, "name": "Jane Smith", "email": "jane@example.com", "role": "User", "joined": "2024-02-20" },
-            { "id": 3, "name": "Bob Wilson", "email": "bob@example.com", "role": "Editor", "joined": "2024-03-10" }
-        ];
-
-        const defaultErrorsJSON = [
-            { "level": "error", "timestamp": 1696320000000, "source": "api.js", "message": "Failed to connect to database" },
-            { "level": "warn", "timestamp": 1696320060000, "source": "auth.js", "message": "Password strength is weak" },
-            { "level": "info", "timestamp": 1696320120000, "source": "app.js", "message": "User logged in successfully" }
-        ];
-
-        const defaultTasksJSON = [
-            { "id": 1, "title": "Fix login bug", "priority": "High", "progress": 75, "assigned": "John Doe" },
-            { "id": 2, "title": "Update documentation", "priority": "Low", "progress": 30, "assigned": "Jane Smith" },
-            { "id": 3, "title": "Add new feature", "priority": "Medium", "progress": 60, "assigned": "Bob Wilson" }
-        ];
-
-        function initializeTables() {
-            console.log('📊 Starting table initialization...');
-            
-            // Check if WBTable is available
-            if (!window.WBTable) {
-                console.error('📊 WBTable not found! wb-table.js may not be loaded.');
-                document.body.innerHTML += '<div style="color: red; padding: 20px; background: #ffe6e6; margin: 20px; border-radius: 4px;">ERROR: WBTable component not loaded. Make sure wb-table.js exists and loads properly.</div>';
-                return;
+        function initTables() {
+            // Users table
+            usersTable = document.getElementById('users-table');
+            if (usersTable && usersTable.setColumns) {
+                usersTable.setColumns([
+                    { key: 'id', title: 'ID', width: '10%' },
+                    { key: 'name', title: 'Name', width: '30%' },
+                    { key: 'email', title: 'Email', width: '40%' },
+                    { key: 'role', title: 'Role', width: '20%' }
+                ]);
             }
             
-            console.log('📊 WBTable found, creating tables...');
-            
-            // Users table with percentage-based widths
-            try {
-                usersTable = WBTable.create('users-table');
-                console.log('📊 Users table created');
-            } catch (error) {
-                console.error('📊 Error creating users table:', error);
-                return;
-            }
-            usersTable.setColumns([
-                { key: 'id', title: 'ID', width: '10%' },
-                { key: 'name', title: 'Name', width: '25%' },
-                { key: 'email', title: 'Email', width: '35%' },
-                { key: 'role', title: 'Role', width: '15%' },
-                { key: 'joined', title: 'Joined', width: '15%' }
-            ]);
-
-            // Errors table with percentage-based widths
-            try {
-                errorsTable = WBTable.create('errors-table');
-                console.log('📊 Errors table created');
+            // Errors table
+            errorsTable = document.getElementById('errors-table');
+            if (errorsTable && errorsTable.setColumns) {
                 errorsTable.setColumns([
                     { 
                         key: 'level', 
-                        title: 'LVL', 
-                        width: '10%',
-                        formatter: (level) => `<span class="wb-table-cell-badge ${level}">${level.substring(0, 3).toUpperCase()}</span>`,
+                        title: 'Level', 
+                        width: '12%',
+                        formatter: (level) => `<span class="log-badge ${level}">${level.toUpperCase()}</span>`,
                         html: true
                     },
-                    { 
-                        key: 'timestamp', 
-                        title: 'TIME', 
-                        width: '15%',
-                        formatter: (time) => new Date(time).toLocaleTimeString()
-                    },
-                    { 
-                        key: 'source', 
-                        title: 'SOURCE', 
-                        width: '20%'
-                    },
-                    { 
-                        key: 'message', 
-                        title: 'MESSAGE',
-                        width: '55%'
-                    }
+                    { key: 'timestamp', title: 'Time', width: '15%' },
+                    { key: 'source', title: 'Source', width: '18%' },
+                    { key: 'message', title: 'Message', width: '55%' }
                 ]);
-            } catch (error) {
-                console.error('📊 Error creating errors table:', error);
-                return;
             }
-
-            // Tasks table with percentage-based widths
-            try {
-                tasksTable = WBTable.create('tasks-table');
-                console.log('📊 Tasks table created');
+            
+            // Tasks table
+            tasksTable = document.getElementById('tasks-table');
+            if (tasksTable && tasksTable.setColumns) {
                 tasksTable.setColumns([
                     { key: 'id', title: 'ID', width: '8%' },
-                    { key: 'title', title: 'Task', width: '40%' },
+                    { key: 'title', title: 'Task', width: '35%' },
                     { 
                         key: 'priority', 
                         title: 'Priority', 
                         width: '15%',
-                        formatter: (priority) => `<span class="wb-table-cell-badge ${priority.toLowerCase()}">${priority}</span>`,
+                        formatter: (p) => `<span class="priority-badge ${p.toLowerCase()}">${p}</span>`,
                         html: true
                     },
                     { 
                         key: 'progress', 
                         title: 'Progress', 
                         width: '12%',
-                        formatter: (progress) => `${progress}%`
+                        formatter: (val) => `${val}%`
                     },
-                    { 
-                        key: 'assigned', 
-                        title: 'Assigned To',
-                        width: '25%'
-                    }
+                    { key: 'assigned', title: 'Assigned', width: '30%' }
                 ]);
-            } catch (error) {
-                console.error('📊 Error creating tasks table:', error);
-                return;
-            }
-
-            console.log('📊 All tables created, setting up JSON and data...');
-            
-            // Initialize JSON text areas
-            try {
-                document.getElementById('users-json').value = JSON.stringify(defaultUsersJSON, null, 2);
-                document.getElementById('errors-json').value = JSON.stringify(defaultErrorsJSON, null, 2);
-                document.getElementById('tasks-json').value = JSON.stringify(defaultTasksJSON, null, 2);
-                console.log('📊 JSON text areas populated');
-            } catch (error) {
-                console.error('📊 Error populating JSON text areas:', error);
             }
             
-            // Load default data into tables at startup (now that all tables are created)
-            try {
-                console.log('📊 Loading data into tables...');
-                usersTable.setData(defaultUsersJSON);
-                console.log('📊 Users data loaded:', defaultUsersJSON.length, 'rows');
-                
-                errorsTable.setData(defaultErrorsJSON);
-                console.log('📊 Errors data loaded:', defaultErrorsJSON.length, 'rows');
-                
-                tasksTable.setData(defaultTasksJSON);
-                console.log('📊 Tasks data loaded:', defaultTasksJSON.length, 'rows');
-                
-                updateStats();
-                console.log('📊 All data loaded successfully!');
-            } catch (error) {
-                console.error('📊 Error loading data into tables:', error);
-            }
+            updateStats();
         }
-
+        
         function updateStats() {
-            document.getElementById('users-stats').textContent = `${usersTable?.getRowCount() || 0} rows`;
-            document.getElementById('errors-stats').textContent = `${errorsTable?.getRowCount() || 0} rows`;
-            document.getElementById('tasks-stats').textContent = `${tasksTable?.getRowCount() || 0} rows`;
+            const usersEl = document.getElementById('users-stats');
+            const errorsEl = document.getElementById('errors-stats');
+            const tasksEl = document.getElementById('tasks-stats');
+            
+            if (usersEl && usersTable) usersEl.textContent = `${usersTable.getRowCount?.() || 0} rows`;
+            if (errorsEl && errorsTable) errorsEl.textContent = `${errorsTable.getRowCount?.() || 0} rows`;
+            if (tasksEl && tasksTable) tasksEl.textContent = `${tasksTable.getRowCount?.() || 0} rows`;
         }
-
-        // Users demo functions
+        
+        // Users functions
         function loadUsers() {
-            // Load from JSON textarea
-            bindUsersJSON();
+            if (!usersTable) return;
+            usersTable.setData([
+                { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+                { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
+                { id: 3, name: 'Bob Wilson', email: 'bob@example.com', role: 'Editor' }
+            ]);
+            userCounter = 3;
+            updateStats();
         }
-
+        
         function addUser() {
-            try {
-                const names = ['Alice Cooper', 'David Brown', 'Emma Davis', 'Frank Miller', 'Grace Lee'];
-                const roles = ['User', 'Editor', 'Admin', 'Viewer'];
-                const name = names[Math.floor(Math.random() * names.length)];
-                const role = roles[Math.floor(Math.random() * roles.length)];
-                
-                const currentData = JSON.parse(document.getElementById('users-json').value);
-                currentData.push({
-                    id: ++userCounter + 3,
-                    name: name,
-                    email: name.toLowerCase().replace(' ', '.') + '@example.com',
-                    role: role,
-                    joined: new Date().toISOString().split('T')[0]
-                });
-                document.getElementById('users-json').value = JSON.stringify(currentData, null, 2);
-                bindUsersJSON();
-            } catch (error) {
-                console.error('Error updating users JSON:', error);
-            }
+            if (!usersTable) return;
+            const names = ['Alice Cooper', 'David Brown', 'Emma Davis', 'Frank Miller'];
+            const roles = ['User', 'Editor', 'Admin', 'Viewer'];
+            const name = names[Math.floor(Math.random() * names.length)];
+            usersTable.addRow({
+                id: ++userCounter,
+                name: name,
+                email: name.toLowerCase().replace(' ', '.') + '@example.com',
+                role: roles[Math.floor(Math.random() * roles.length)]
+            });
+            updateStats();
         }
-
+        
         function clearUsers() {
-            document.getElementById('users-json').value = JSON.stringify([], null, 2);
-            bindUsersJSON();
-            userCounter = 1;
+            if (!usersTable) return;
+            usersTable.clear();
+            userCounter = 0;
+            updateStats();
         }
-
-        // Errors demo functions
+        
+        // Error log functions
         function logError() {
-            try {
-                const currentData = JSON.parse(document.getElementById('errors-json').value);
-                currentData.push({
-                    level: 'error',
-                    timestamp: Date.now(),
-                    source: 'demo.js',
-                    message: `Error ${++errorCounter}: Something went wrong`
-                });
-                document.getElementById('errors-json').value = JSON.stringify(currentData, null, 2);
-                bindErrorsJSON();
-            } catch (error) {
-                console.error('Error updating errors JSON:', error);
-            }
+            if (!errorsTable) return;
+            errorsTable.addRow({
+                level: 'error',
+                timestamp: new Date().toLocaleTimeString(),
+                source: 'app.js',
+                message: `Error ${++errorCounter}: Something went wrong`
+            });
+            updateStats();
         }
-
+        
         function logWarning() {
-            try {
-                const currentData = JSON.parse(document.getElementById('errors-json').value);
-                currentData.push({
-                    level: 'warn',
-                    timestamp: Date.now(),
-                    source: 'app.js',
-                    message: `Warning ${++errorCounter}: This is a warning message`
-                });
-                document.getElementById('errors-json').value = JSON.stringify(currentData, null, 2);
-                bindErrorsJSON();
-            } catch (error) {
-                console.error('Error updating errors JSON:', error);
-            }
+            if (!errorsTable) return;
+            errorsTable.addRow({
+                level: 'warn',
+                timestamp: new Date().toLocaleTimeString(),
+                source: 'utils.js',
+                message: `Warning ${++errorCounter}: Deprecated function used`
+            });
+            updateStats();
         }
-
+        
         function logInfo() {
-            try {
-                const currentData = JSON.parse(document.getElementById('errors-json').value);
-                currentData.push({
-                    level: 'info',
-                    timestamp: Date.now(),
-                    source: 'system.js',
-                    message: `Info ${++errorCounter}: Information message`
-                });
-                document.getElementById('errors-json').value = JSON.stringify(currentData, null, 2);
-                bindErrorsJSON();
-            } catch (error) {
-                console.error('Error updating errors JSON:', error);
-            }
+            if (!errorsTable) return;
+            errorsTable.addRow({
+                level: 'info',
+                timestamp: new Date().toLocaleTimeString(),
+                source: 'system.js',
+                message: `Info ${++errorCounter}: Operation completed`
+            });
+            updateStats();
         }
-
+        
         function clearErrors() {
-            document.getElementById('errors-json').value = JSON.stringify([], null, 2);
-            bindErrorsJSON();
-            errorCounter = 1;
+            if (!errorsTable) return;
+            errorsTable.clear();
+            errorCounter = 0;
+            updateStats();
         }
-
-        // Tasks demo functions
+        
+        // Tasks functions
         function loadTasks() {
-            // Load from JSON textarea
-            bindTasksJSON();
+            if (!tasksTable) return;
+            tasksTable.setData([
+                { id: 1, title: 'Fix login bug', priority: 'High', progress: 75, assigned: 'John Doe' },
+                { id: 2, title: 'Update documentation', priority: 'Low', progress: 30, assigned: 'Jane Smith' },
+                { id: 3, title: 'Add new feature', priority: 'Medium', progress: 60, assigned: 'Bob Wilson' }
+            ]);
+            taskCounter = 3;
+            updateStats();
         }
-
+        
         function addTask() {
-            try {
-                const titles = ['Review code', 'Test feature', 'Deploy update', 'Write tests', 'Fix styling'];
-                const priorities = ['High', 'Medium', 'Low'];
-                const assignees = ['Alice Cooper', 'David Brown', 'Emma Davis'];
-                
-                const currentData = JSON.parse(document.getElementById('tasks-json').value);
-                currentData.push({
-                    id: ++taskCounter + 3,
-                    title: titles[Math.floor(Math.random() * titles.length)],
-                    priority: priorities[Math.floor(Math.random() * priorities.length)],
-                    progress: Math.floor(Math.random() * 100),
-                    assigned: assignees[Math.floor(Math.random() * assignees.length)]
-                });
-                document.getElementById('tasks-json').value = JSON.stringify(currentData, null, 2);
-                bindTasksJSON();
-            } catch (error) {
-                console.error('Error updating tasks JSON:', error);
-            }
+            if (!tasksTable) return;
+            const titles = ['Review code', 'Fix bug', 'Test feature', 'Deploy update', 'Write tests'];
+            const priorities = ['High', 'Medium', 'Low'];
+            const assignees = ['Alice Cooper', 'David Brown', 'Emma Davis'];
+            tasksTable.addRow({
+                id: ++taskCounter,
+                title: titles[Math.floor(Math.random() * titles.length)],
+                priority: priorities[Math.floor(Math.random() * priorities.length)],
+                progress: Math.floor(Math.random() * 100),
+                assigned: assignees[Math.floor(Math.random() * assignees.length)]
+            });
+            updateStats();
         }
-
+        
         function clearTasks() {
-            document.getElementById('tasks-json').value = JSON.stringify([], null, 2);
-            bindTasksJSON();
-            taskCounter = 1;
-        }
-
-        // JSON binding functions
-        function bindUsersJSON() {
-            try {
-                const jsonText = document.getElementById('users-json').value;
-                const data = JSON.parse(jsonText);
-                usersTable.setData(data);
-                updateStats();
-            } catch (error) {
-                alert('Invalid JSON format: ' + error.message);
-            }
-        }
-
-        function bindErrorsJSON() {
-            try {
-                const jsonText = document.getElementById('errors-json').value;
-                const data = JSON.parse(jsonText);
-                errorsTable.setData(data);
-                updateStats();
-            } catch (error) {
-                alert('Invalid JSON format: ' + error.message);
-            }
-        }
-
-        function bindTasksJSON() {
-            try {
-                const jsonText = document.getElementById('tasks-json').value;
-                const data = JSON.parse(jsonText);
-                tasksTable.setData(data);
-                updateStats();
-            } catch (error) {
-                alert('Invalid JSON format: ' + error.message);
-            }
+            if (!tasksTable) return;
+            tasksTable.clear();
+            taskCounter = 0;
+            updateStats();
         }
     </script>
+    
+    <style>
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: var(--text-primary, #f8fafc); border: 1px solid rgba(255,255,255,0.2); }
+        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+        .btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .btn-info { background: linear-gradient(135deg, #0ea5e9, #0284c7); color: white; }
+        .btn:hover { transform: translateY(-1px); opacity: 0.9; }
+        
+        .stats {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted, #64748b);
+        }
+        
+        .log-badge, .priority-badge {
+            display: inline-block;
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .log-badge.error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .log-badge.warn { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .log-badge.info { background: rgba(14, 165, 233, 0.2); color: #0ea5e9; }
+        .priority-badge.high { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .priority-badge.medium { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .priority-badge.low { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        
+        .demo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .demo-table th, .demo-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .demo-table th {
+            background: rgba(99, 102, 241, 0.1);
+            font-weight: 600;
+        }
+        .demo-table code {
+            background: rgba(0,0,0,0.3);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+    </style>
 </body>
 </html>

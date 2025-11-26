@@ -7,9 +7,15 @@
     <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
     <link rel="stylesheet" href="../../styles/main.css">
     <link rel="stylesheet" href="wb-slider.css">
-    <script type="module" src="..../..../components/wb-demo/wb-demo.js"></script>
-    <script type="module" src="..../..../components/md-to-html/md-to-html.js"></script>
+    <!-- Load wb-demo component for demo page layout -->
+    <script type="module" src="../../components/wb-demo/wb-demo.js"></script>
     <script type="module" src="wb-slider.js"></script>
+    <style>
+        /* Demo-specific: Make sliders 50% width for better visualization */
+        wb-slider {
+            width: 50%;
+        }
+    </style>
 </head>
 <body>
         <wb-demo>
@@ -68,6 +74,17 @@
                         <wb-demo-item>
                             <h3>Large Size</h3>
                             <wb-slider id="large-slider" label="Large" min="0" max="100" value="75" size="large"></wb-slider>
+                        </wb-demo-item>
+                    </wb-demo-grid>
+                </wb-demo-section>
+                <wb-demo-section>
+                    <h2>Hue Slider (Color Range)</h2>
+                    <wb-demo-grid>
+                        <wb-demo-item>
+                            <h3>Hue Selection</h3>
+                            <p>Slider showing full color spectrum (0-360°)</p>
+                            <wb-slider id="hue-slider" label="Hue" min="0" max="360" value="180" variant="hue"></wb-slider>
+                            <wb-demo-output id="hue-output">Hue: 180°</wb-demo-output>
                         </wb-demo-item>
                     </wb-demo-grid>
                 </wb-demo-section>
@@ -166,14 +183,14 @@ WBSlider.setRange(slider, 0, 2);</code></pre>
         </wb-demo>
 <script>
 // Output value binding for all demo sliders
-function bindSliderOutput(sliderId, outputId, unit = '') {
+function bindSliderOutput(sliderId, outputId, unit = '', prefix = 'Value') {
     const slider = document.getElementById(sliderId);
     const output = document.getElementById(outputId);
     if (!slider || !output) return;
     function update() {
         let val = slider.value;
         if (unit) val += unit;
-        output.textContent = 'Value: ' + val;
+        output.textContent = prefix + ': ' + val;
     }
     slider.addEventListener('input', update);
     slider.addEventListener('change', update);
@@ -186,10 +203,17 @@ document.addEventListener('DOMContentLoaded', () => {
     bindSliderOutput('ticks-slider', 'ticks-output');
     bindSliderOutput('vertical-slider', 'vertical-output');
     bindSliderOutput('api-slider', 'api-output');
+    bindSliderOutput('hue-slider', 'hue-output', '°', 'Hue');
 });
 </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 

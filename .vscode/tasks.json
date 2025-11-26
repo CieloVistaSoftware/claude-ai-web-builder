@@ -26,7 +26,9 @@
 				"isDefault": true
 			},
 			"isBackground": false,
-			"problemMatcher": ["$tsc"]
+			"problemMatcher": [
+				"$tsc"
+			]
 		},
 		{
 			"label": "Start Unified Claude WebSocket Server",
@@ -71,6 +73,47 @@
 				"reveal": "never"
 			},
 			"group": "test"
+		},
+		{
+			"type": "docker-build",
+			"label": "docker-build",
+			"platform": "node",
+			"dockerBuild": {
+				"dockerfile": "${workspaceFolder}/wb-component-navigator/server/Dockerfile",
+				"context": "${workspaceFolder}/wb-component-navigator/server",
+				"pull": true
+			},
+			"node": {
+				"package": "${workspaceFolder}/wb-component-navigator/server/package.json"
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: release",
+			"dependsOn": [
+				"docker-build"
+			],
+			"platform": "node",
+			"node": {
+				"package": "${workspaceFolder}/wb-component-navigator/server/package.json"
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: debug",
+			"dependsOn": [
+				"docker-build"
+			],
+			"dockerRun": {
+				"env": {
+					"DEBUG": "*",
+					"NODE_ENV": "development"
+				}
+			},
+			"node": {
+				"package": "${workspaceFolder}/wb-component-navigator/server/package.json",
+				"enableDebugging": true
+			}
 		}
 	]
 }

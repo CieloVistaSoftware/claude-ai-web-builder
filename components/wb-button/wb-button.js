@@ -22,7 +22,7 @@
 import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-console.log('🔘 WB Button Web Component: Starting initialization...');
+// Initialization logging handled by WBBaseComponent
 
 // Configuration fallback - used if JSON loading fails
 const fallbackConfig = {
@@ -37,6 +37,10 @@ const fallbackConfig = {
                 primary: 'wb-btn--primary',
                 secondary: 'wb-btn--secondary',
                 success: 'wb-btn--success',
+                danger: 'wb-btn--danger',
+                warning: 'wb-btn--warning',
+                info: 'wb-btn--info',
+                minimal: 'wb-btn--minimal',
                 toggle: 'wb-btn--toggle',
                 iconOnly: 'wb-btn--icon-only',
                 imageOnly: 'wb-btn--image-only'
@@ -157,6 +161,8 @@ class WBButton extends WBBaseComponent {
     // Save the original text content BEFORE we render
     this._buttonText = this.textContent.trim();
     
+    this.logInfo('WBButton connecting', { variant: this.getVariant() });
+    
     // Load CSS - different approach for Shadow DOM vs Light DOM
     if (this.shadowRoot) {
       // Shadow DOM: Add CSS link directly to shadowRoot
@@ -183,6 +189,10 @@ class WBButton extends WBBaseComponent {
     if (button) {
       button.addEventListener('click', (e) => this.handleClick(e));
     }
+    
+    // Fire ready event
+    this.fireEvent('wb-button:ready', { component: 'wb-button', variant: this.getVariant() });
+    this.logInfo('WBButton ready', { variant: this.getVariant() });
   }
 
   render() {
@@ -244,15 +254,11 @@ class WBButton extends WBBaseComponent {
     }
     if (this.getVariant() === 'toggle') {
       this.setActive(!this.getActive());
-      this.dispatchEvent(new CustomEvent(this.config.events.toggle, {
-        detail: { button: this, active: this.getActive(), value: this._value },
-        bubbles: true
-      }));
+      this.fireEvent('wb-button:toggle', { button: this, active: this.getActive(), value: this._value });
+      this.logDebug('WBButton toggled', { active: this.getActive() });
     }
-    this.dispatchEvent(new CustomEvent(this.config.events.click, {
-      detail: { button: this, variant: this.getVariant(), value: this._value },
-      bubbles: true
-    }));
+    this.fireEvent('wb-button:click', { button: this, variant: this.getVariant(), value: this._value });
+    this.logDebug('WBButton clicked', { variant: this.getVariant() });
   }
 
   // Attribute reflection for reactivity
@@ -288,11 +294,6 @@ class WBButton extends WBBaseComponent {
 
 if (customElements && !customElements.get('wb-button')) {
   customElements.define('wb-button', WBButton);
-  console.log('🔘 WB Button Web Component: Custom element registered');
-} else if (customElements.get('wb-button')) {
-  console.log('🔘 WB Button Web Component: Already registered');
-} else {
-  console.error('🔘 WB Button Web Component: Custom Elements not supported');
 }
 
     // Static utility methods for creating button grids and groups
@@ -321,11 +322,6 @@ if (customElements && !customElements.get('wb-button')) {
 // Register the custom element
 if (customElements && !customElements.get('wb-button')) {
     customElements.define('wb-button', WBButton);
-    console.log('🔘 WB Button Web Component: Custom element registered');
-} else if (customElements.get('wb-button')) {
-    console.log('🔘 WB Button Web Component: Already registered');
-} else {
-    console.error('🔘 WB Button Web Component: Custom Elements not supported');
 }
 
 // Register with WBComponentRegistry if available

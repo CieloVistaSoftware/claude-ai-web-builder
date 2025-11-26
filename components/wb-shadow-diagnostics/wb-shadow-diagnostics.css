@@ -1,0 +1,41 @@
+
+/* WB Shadow Diagnostics - Unique Styles Only */
+
+.test-area {
+    min-height: 100px;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 6px;
+    border: 2px dashed var(--border-color);
+    margin: 15px 0;
+}
+
+.color-swatch {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--text-primary);
+    vertical-align: middle;
+    margin-left: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.indent {
+    margin-left: 20px;
+}
+
+/* Compact input overrides for config panel */
+#component-js {
+    width: 200px !important;
+    max-width: 200px !important;
+}
+#css-file {
+    width: 130px !important;
+    max-width: 130px !important;
+}
+#component-tag,
+select#component-tag {
+    width: 180px !important;
+    max-width: 180px !important;
+}

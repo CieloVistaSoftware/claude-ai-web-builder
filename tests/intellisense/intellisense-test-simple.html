@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IntelliSense Test</title>
-    
+
     <!-- Central Styles Import -->
     <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
     <link rel="stylesheet" href="../../src/styles/main.css">
-    
-    <!-- Component Styles -->
-    <link rel="stylesheet" href="../../components/wb-button/wb-button.css">
-    
-    <!-- Load wb-component-utils first -->
-    <script src="..../../utils/wb-component-utils.js"></script>
-    
-    <!-- Load wb-button web component -->
-    <script src="..../..../components/wb-button/wb-button.js"></script>
+
+    <script type="module" src="../../components/wb-button/wb-button.js"></script>
 </head>
+
 <body data-theme="dark">
     <h1>Test IntelliSense for wb-btn</h1>
-    
+
     <!-- Test typing: <wb-button and see if VS Code suggests attributes -->
     <wb-button variant="primary">Primary</wb-button>
-    
+
     <!-- Test typing: variant=" and see if VS Code suggests: primary, success, toggle, icon-only -->
     <wb-button variant="success">Success</wb-button>
-    
+
     <!-- Test typing: icon=" and see if VS Code suggests emojis -->
-    <wb-button variant="toggle"  icon="">toggle</wb-button>
-    
+    <wb-button variant="toggle" icon="">toggle</wb-button>
+
     <!-- Test complete example -->
     <wb-button variant="primary" size="standard" icon="🏠" status="active">Test Button</wb-button>
-    
+    <wb-button variant="icon-only" size="large" icon="⚙️" status="disabled"></wb-button>
 </body>
 </html>
-
-

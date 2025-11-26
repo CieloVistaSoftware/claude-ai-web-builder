@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Placeholder</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="./wb-placeholder-demo.css">
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="./wb-placeholder.js"></script>
+    <script type="module" src="./wb-placeholder-demo.js"></script>
+</head>
+<body>
+    <wb-demo title="🖼️ WB Placeholder" markdown="./wb-placeholder.md">
+        <div slot="examples">
+            <!-- DEFAULT USAGE -->
+            <h2 class="demo-section-title">📦 Default Placeholder</h2>
+            <p class="demo-section-desc">Default size is 400×200 with indigo background.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner demo-flex-wrap">
+                    <wb-placeholder></wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder&gt;&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <!-- CUSTOM SIZES -->
+            <h2 class="demo-section-title">📐 Custom Dimensions</h2>
+            <p class="demo-section-desc">Specify <code class="demo-code">width</code> and <code class="demo-code">height</code> attributes.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder width="200" height="150" label="Small"></wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="200" height="150" label="Small"&gt;&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder width="300" height="200" label="Medium"></wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="300" height="200" label="Medium"&gt;&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder width="150" height="150" label="Square"></wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="150" height="150" label="Square"&gt;&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <!-- CUSTOM COLORS -->
+            <h2 class="demo-section-title">🎨 Custom Colors</h2>
+            <p class="demo-section-desc">Use <code class="demo-code">color</code> and <code class="demo-code">text-color</code> attributes.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder width="200" height="120" color="#22c55e" label="Success"></wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="200" height="120" color="#22c55e" label="Success"&gt;&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder width="200" height="120" color="#ef4444" label="Error"></wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="200" height="120" color="#ef4444" label="Error"&gt;&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder width="200" height="120" color="#f59e0b" text-color="#000" label="Warning"></wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="200" height="120" color="#f59e0b" text-color="#000" label="Warning"&gt;&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <!-- WITH CAPTIONS -->
+            <h2 class="demo-section-title">📝 With Captions</h2>
+            <p class="demo-section-desc">Add a caption using the <code class="demo-code">caption</code> slot.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder width="300" height="180" label="Product Photo">
+                        <figcaption slot="caption" class="demo-caption">Figure 1: Product hero image placeholder</figcaption>
+                    </wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="300" height="180" label="Product Photo"&gt;
+    &lt;figcaption slot="caption"&gt;Figure 1: Product hero image placeholder&lt;/figcaption&gt;
+&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <!-- AVATAR STYLE -->
+            <h2 class="demo-section-title">👤 Avatar Placeholders</h2>
+            <p class="demo-section-desc">Small square placeholders for user avatars with initials. The first five use different shades of purple.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner demo-flex-wrap" id="avatar-demo"></div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre" id="avatar-demo-html"></pre>
+                    <div class="demo-card-label">JavaScript</div>
+                    <pre class="demo-card-pre">// Dynamically generate avatar placeholders
+const avatarData = [
+  { label: 'AA', color: '#a78bfa' },
+  { label: 'BB', color: '#8b5cf6' },
+  { label: 'CC', color: '#7c3aed' },
+  { label: 'DD', color: '#6d28d9' },
+  { label: 'EE', color: '#4c1d95' },
+  { label: 'FG', color: '#22c55e' },
+  { label: 'HI', color: '#f59e0b' },
+  { label: 'JK', color: '#ef4444' },
+  { label: 'LM', color: '#0ea5e9' },
+  { label: 'NO', color: '#ec4899' }
+];
+const avatarDemo = document.getElementById('avatar-demo');
+avatarData.forEach(({ label, color }) => {
+  const el = document.createElement('wb-placeholder');
+  el.setAttribute('width', '60');
+  el.setAttribute('height', '60');
+  el.setAttribute('color', color);
+  el.setAttribute('label', label);
+  avatarDemo.appendChild(el);
+});
+</pre>
+                    <div class="demo-card-label">Named CSS Colors</div>
+                    <pre class="demo-card-pre">/* wb-placeholder-demo.css */
+:root {
+  --avatar-red: #ef4444;
+  --avatar-green: #22c55e;
+  --avatar-blue: #0ea5e9;
+  --avatar-yellow: #f59e0b;
+  --avatar-purple: #8b5cf6;
+}
+</pre>
+                    <div class="demo-card-label">HTML (Named Colors)</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="60" height="60" color="var(--avatar-red)" label="Red"&gt;&lt;/wb-placeholder&gt;
+&lt;wb-placeholder width="60" height="60" color="var(--avatar-green)" label="Green"&gt;&lt;/wb-placeholder&gt;
+&lt;wb-placeholder width="60" height="60" color="var(--avatar-blue)" label="Blue"&gt;&lt;/wb-placeholder&gt;
+&lt;wb-placeholder width="60" height="60" color="var(--avatar-yellow)" label="Yellow"&gt;&lt;/wb-placeholder&gt;
+&lt;wb-placeholder width="60" height="60" color="var(--avatar-purple)" label="Purple"&gt;&lt;/wb-placeholder&gt;
+</pre>
+                    <div class="demo-card-inner demo-flex-wrap" id="avatar-demo-named">
+                        <wb-placeholder width="60" height="60" color="var(--avatar-red)" label="Red"></wb-placeholder>
+                        <wb-placeholder width="60" height="60" color="var(--avatar-green)" label="Green"></wb-placeholder>
+                        <wb-placeholder width="60" height="60" color="var(--avatar-blue)" label="Blue"></wb-placeholder>
+                        <wb-placeholder width="60" height="60" color="var(--avatar-yellow)" label="Yellow"></wb-placeholder>
+                        <wb-placeholder width="60" height="60" color="var(--avatar-purple)" label="Purple"></wb-placeholder>
+                    </div>
+                </div>
+            </div>
+            <!-- WIDE BANNER -->
+            <h2 class="demo-section-title">🖼️ Wide Banner</h2>
+            <p class="demo-section-desc">Use for hero sections and page headers.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder width="500" height="120" color="#0ea5e9" label="Hero Banner"></wb-placeholder>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;wb-placeholder width="500" height="120" color="#0ea5e9" label="Hero Banner"&gt;&lt;/wb-placeholder&gt;</pre>
+                </div>
+            </div>
+            <!-- JAVASCRIPT API -->
+            <h2 class="demo-section-title">🔧 JavaScript API</h2>
+            <p class="demo-section-desc">Control the placeholder programmatically.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <wb-placeholder id="apiDemo" width="350" height="200"></wb-placeholder>
+                    <div class="demo-api-buttons">
+                        <wb-button variant="primary" size="small" data-action="default">Default</wb-button>
+                        <wb-button variant="success" size="small" data-action="square">Square</wb-button>
+                        <wb-button variant="danger" size="small" data-action="wide">Wide</wb-button>
+                        <wb-button variant="warning" size="small" data-action="portrait">Portrait</wb-button>
+                        <wb-button variant="secondary" size="small" data-action="random">🎲 Random</wb-button>
+                    </div>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">JavaScript</div>
+                    <pre class="demo-card-pre">// Get the component
+const placeholder = document.getElementById('apiDemo');
+
+// Set individual properties
+placeholder.width = 400;
+placeholder.height = 200;
+placeholder.color = '#6366f1';
+placeholder.label = 'Default';
+
+// Or use setOptions() to set multiple at once
+placeholder.setOptions({
+    width: 300,
+    height: 300,
+    color: '#22c55e',
+    label: 'Square'
+});</pre>
+                </div>
+            </div>
+            <!-- USE CASE: CARD -->
+            <h2 class="demo-section-title">💡 Use Case: Card Layout</h2>
+            <p class="demo-section-desc">Common pattern for product or content cards.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <div class="demo-card-content">
+                        <wb-placeholder width="250" height="150" label="Card Image"></wb-placeholder>
+                        <h3 class="demo-card-title">Product Title</h3>
+                        <p class="demo-card-desc">This is a card description with a placeholder image.</p>
+                    </div>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;div class="card"&gt;
+    &lt;wb-placeholder width="250" height="150" label="Card Image"&gt;&lt;/wb-placeholder&gt;
+    &lt;h3&gt;Product Title&lt;/h3&gt;
+    &lt;p&gt;This is a card description with a placeholder image.&lt;/p&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+            <!-- USE CASE: PROFILE -->
+            <h2 class="demo-section-title">💡 Use Case: Profile Section</h2>
+            <p class="demo-section-desc">Avatar with user information.</p>
+            <div class="demo-card">
+                <div class="demo-card-inner">
+                    <div class="demo-profile">
+                        <wb-placeholder width="70" height="70" color="#8b5cf6" label="JD"></wb-placeholder>
+                        <div>
+                            <div class="demo-profile-name">John Doe</div>
+                            <div class="demo-profile-title">Software Engineer</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card-footer">
+                    <div class="demo-card-label">HTML</div>
+                    <pre class="demo-card-pre">&lt;div class="profile"&gt;
+    &lt;wb-placeholder width="70" height="70" color="#8b5cf6" label="JD"&gt;&lt;/wb-placeholder&gt;
+    &lt;div&gt;
+        &lt;div class="name"&gt;John Doe&lt;/div&gt;
+        &lt;div class="title"&gt;Software Engineer&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+        </div>
+    </wb-demo>
+    <!-- All scripts and styles are now external. -->
+</body>
+</html>

@@ -1,3 +1,77 @@
+
+/* Semantic element colors using palette variables - dark mode */
+[data-theme="dark"] section,
+[data-mode="dark"] section {
+  background: var(--surface-700, #334155);
+  border-color: var(--primary, #6366f1);
+}
+[data-theme="dark"] article,
+[data-mode="dark"] article {
+  background: var(--surface-800, #1e293b);
+  border-color: var(--success-color, #22c55e);
+}
+[data-theme="dark"] aside,
+[data-mode="dark"] aside {
+  background: var(--surface-900, #0f172a);
+  border-color: var(--warning-color, #f59e0b);
+}
+[data-theme="dark"] nav,
+[data-mode="dark"] nav {
+  background: var(--info-bg, #0ea5e9);
+  border-color: var(--info-color, #0ea5e9);
+}
+[data-theme="dark"] main,
+[data-mode="dark"] main {
+  background: var(--accent, #818cf8);
+  border-color: var(--accent, #818cf8);
+}
+[data-theme="dark"] footer,
+[data-mode="dark"] footer {
+  background: var(--danger-bg, #ef4444);
+  border-color: var(--danger-color, #ef4444);
+}
+[data-theme="dark"] header,
+[data-mode="dark"] header {
+  background: var(--primary-light, #818cf8);
+  border-color: var(--primary, #6366f1);
+}
+
+/* Semantic element colors using palette variables - light mode */
+[data-theme="light"] section,
+[data-mode="light"] section {
+  background: var(--surface-100, #f1f5f9);
+  border-color: var(--primary, #6366f1);
+}
+[data-theme="light"] article,
+[data-mode="light"] article {
+  background: var(--success-bg, #d1fae5);
+  border-color: var(--success-color, #22c55e);
+}
+[data-theme="light"] aside,
+[data-mode="light"] aside {
+  background: var(--warning-bg, #fef3c7);
+  border-color: var(--warning-color, #f59e0b);
+}
+[data-theme="light"] nav,
+[data-mode="light"] nav {
+  background: var(--info-bg, #cffafe);
+  border-color: var(--info-color, #0ea5e9);
+}
+[data-theme="light"] main,
+[data-mode="light"] main {
+  background: var(--accent-light, #a5b4fc);
+  border-color: var(--accent, #818cf8);
+}
+[data-theme="light"] footer,
+[data-mode="light"] footer {
+  background: var(--danger-bg, #fee2e2);
+  border-color: var(--danger-color, #ef4444);
+}
+[data-theme="light"] header,
+[data-mode="light"] header {
+  background: var(--primary-light, #818cf8);
+  border-color: var(--primary, #6366f1);
+}
 /* Default fallback styles - lowest priority */
 [data-wb-semantic] {
   min-height: 2rem;
@@ -56,6 +130,83 @@ body[data-theme="dark"] [data-wb-semantic] {
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
   padding: 0.5rem 0.25rem;
 }
+
+/* Button color variants for semantic demo */
+button.primary {
+  background: var(--primary, #6366f1);
+  color: #fff;
+  border: none;
+}
+button.success {
+  background: var(--success, #22c55e);
+  color: #fff;
+  border: none;
+}
+button.warning {
+  background: var(--warning, #f59e0b);
+  color: #222;
+  border: none;
+}
+button.error {
+  background: var(--error, #ef4444);
+  color: #fff;
+  border: none;
+}
+button.accent {
+  background: var(--accent, #818cf8);
+  color: #fff;
+  border: none;
+}
+button.info {
+  background: var(--info-color, #0ea5e9);
+  color: #fff;
+  border: none;
+}
+button.secondary {
+  background: var(--surface-700, #334155);
+  color: #fff;
+  border: none;
+}
+button {
+  padding: 0.5rem 1.2rem;
+  margin: 0.2rem 0.3rem 0.2rem 0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+button:hover {
+  filter: brightness(1.1) saturate(1.2);
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
+}
+
+  /* Horizontal nav for semantic demo */
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0.5rem;
+  }
+  nav ul li {
+    display: flex;
+    align-items: center;
+  }
+  nav ul li a {
+    color: var(--primary, #6366f1);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.05rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+  }
+  nav ul li a:hover {
+    background: var(--primary, #6366f1);
+    color: #fff;
+  }
 
 [data-mode="dark"] .wb-sem-label,
 html[data-mode="dark"] .wb-sem-label,

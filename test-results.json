@@ -1,0 +1,922 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\playwright.config.js",
+    "rootDir": "C:/Users/jwpmi/Downloads/AI/wb/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/jwpmi/Downloads/AI/wb/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/jwpmi/Downloads/AI/wb/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "echo \"[Playwright] Starting server at $(date)\" && python -m http.server 8080 --directory components",
+      "url": "http://localhost:8080",
+      "reuseExistingServer": true,
+      "timeout": 20000
+    }
+  },
+  "suites": [
+    {
+      "title": "wb-shadow-diagnostics.spec.js",
+      "file": "wb-shadow-diagnostics.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "WB Shadow DOM Diagnostic Tool",
+          "file": "wb-shadow-diagnostics.spec.js",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should load diagnostic tool successfully",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 8817,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /Run with Fresh Cache/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /Run with Fresh Cache/i })\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /Run with Fresh Cache/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /Run with Fresh Cache/i })\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:32:79",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 79,
+                          "line": 32
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 30 |\u001b[39m     \u001b[90m// Check all buttons exist\u001b[39m\n \u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/Run Diagnostics/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/Run with Fresh Cache/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/Reset to wb-button/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 34 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/Copy All Issues/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 35 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 79,
+                            "line": 32
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /Run with Fresh Cache/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /Run with Fresh Cache/i })\u001b[22m\n\n\n  30 |     // Check all buttons exist\n  31 |     await expect(page.getByRole('button', { name: /Run Diagnostics/i })).toBeVisible();\n> 32 |     await expect(page.getByRole('button', { name: /Run with Fresh Cache/i })).toBeVisible();\n     |                                                                               ^\n  33 |     await expect(page.getByRole('button', { name: /Reset to wb-button/i })).toBeVisible();\n  34 |     await expect(page.getByRole('button', { name: /Copy All Issues/i })).toBeVisible();\n  35 |   });\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:32:79"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:02:41.342Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-1da45-iagnostic-tool-successfully-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-1da45-iagnostic-tool-successfully-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 79,
+                        "line": 32
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-d6f7d0fa7c05000b3a6d",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "should have wb-button selected by default",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 8153,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-button/wb-button.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-button/wb-button.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    9 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-button/wb-button.js\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-button/wb-button.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-button/wb-button.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    9 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-button/wb-button.js\"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:42:49",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 49,
+                          "line": 42
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 40 |\u001b[39m     \n \u001b[90m 41 |\u001b[39m     \u001b[90m// Check auto-generated fields\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 42 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#component-js'\u001b[39m))\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'./wb-button/wb-button.js'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 43 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#css-file'\u001b[39m))\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'wb-button.css'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 44 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 49,
+                            "line": 42
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-button/wb-button.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-button/wb-button.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    9 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-button/wb-button.js\"\u001b[22m\n\n\n  40 |     \n  41 |     // Check auto-generated fields\n> 42 |     await expect(page.locator('#component-js')).toHaveValue('./wb-button/wb-button.js');\n     |                                                 ^\n  43 |     await expect(page.locator('#css-file')).toHaveValue('wb-button.css');\n  44 |   });\n  45 |\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:42:49"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:03:01.764Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-a1ddd--button-selected-by-default-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-a1ddd--button-selected-by-default-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 49,
+                        "line": 42
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-ad24fdab3611034d3459",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "should auto-update paths when component selection changes",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 8576,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-card/wb-card.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-card/wb-card.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    8 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-card/wb-card.js\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-card/wb-card.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-card/wb-card.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    8 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-card/wb-card.js\"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:54:49",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 49,
+                          "line": 54
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 52 |\u001b[39m     \n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check fields updated\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 54 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#component-js'\u001b[39m))\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'./wb-card/wb-card.js'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 55 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#css-file'\u001b[39m))\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'wb-card.css'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#test-html'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'<wb-card>'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 57 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 49,
+                            "line": 54
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-card/wb-card.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-card/wb-card.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    8 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-card/wb-card.js\"\u001b[22m\n\n\n  52 |     \n  53 |     // Check fields updated\n> 54 |     await expect(page.locator('#component-js')).toHaveValue('./wb-card/wb-card.js');\n     |                                                 ^\n  55 |     await expect(page.locator('#css-file')).toHaveValue('wb-card.css');\n  56 |     await expect(page.locator('#test-html')).toContainText('<wb-card>');\n  57 |   });\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:54:49"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:03:16.555Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-43122-component-selection-changes-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-43122-component-selection-changes-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 49,
+                        "line": 54
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-372a55d2c5ad28ebf336",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 46,
+              "column": 3
+            },
+            {
+              "title": "should run diagnostics for wb-button",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 8970,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h2').filter({ hasText: '12. Final Diagnostic Summary' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('h2').filter({ hasText: '12. Final Diagnostic Summary' })\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h2').filter({ hasText: '12. Final Diagnostic Summary' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('h2').filter({ hasText: '12. Final Diagnostic Summary' })\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:78:90",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 90,
+                          "line": 78
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 76 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h2'\u001b[39m)\u001b[33m.\u001b[39mfilter({ hasText\u001b[33m:\u001b[39m \u001b[32m'10. Attributes'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 77 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h2'\u001b[39m)\u001b[33m.\u001b[39mfilter({ hasText\u001b[33m:\u001b[39m \u001b[32m'11. Raw Shadow DOM HTML'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h2'\u001b[39m)\u001b[33m.\u001b[39mfilter({ hasText\u001b[33m:\u001b[39m \u001b[32m'12. Final Diagnostic Summary'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 80 |\u001b[39m\n \u001b[90m 81 |\u001b[39m   test(\u001b[32m'should validate environment checks pass'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 90,
+                            "line": 78
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h2').filter({ hasText: '12. Final Diagnostic Summary' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('h2').filter({ hasText: '12. Final Diagnostic Summary' })\u001b[22m\n\n\n  76 |     await expect(page.locator('h2').filter({ hasText: '10. Attributes' })).toBeVisible();\n  77 |     await expect(page.locator('h2').filter({ hasText: '11. Raw Shadow DOM HTML' })).toBeVisible();\n> 78 |     await expect(page.locator('h2').filter({ hasText: '12. Final Diagnostic Summary' })).toBeVisible();\n     |                                                                                          ^\n  79 |   });\n  80 |\n  81 |   test('should validate environment checks pass', async ({ page }) => {\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:78:90"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:03:37.494Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-72f62-n-diagnostics-for-wb-button-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-72f62-n-diagnostics-for-wb-button-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 90,
+                        "line": 78
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-0141623420a99665022e",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 59,
+              "column": 3
+            },
+            {
+              "title": "should validate environment checks pass",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3428,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:04:01.502Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-cb6d31a4995ff1d03b77",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 81,
+              "column": 3
+            },
+            {
+              "title": "should validate component file paths",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6298,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#env-check table tr').filter({ hasText: 'Component JS File' })\nTimeout: 5000ms\n\u001b[32m- Expected substring  - 1\u001b[39m\n\u001b[31m+ Received string     + 5\u001b[39m\n\n\u001b[32m- \u001b[7m.\u001b[27m/wb-button/wb-button.js\u001b[39m\n\u001b[31m+\u001b[39m\n\u001b[31m+             Component JS File\u001b[39m\n\u001b[31m+             ✅ Valid\u001b[39m\n\u001b[31m+ \u001b[7m            ../../components\u001b[27m/wb-button/wb-button.js\u001b[39m\n\u001b[31m+ \u001b[43m        \u001b[49m\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#env-check table tr').filter({ hasText: 'Component JS File' })\u001b[22m\n\u001b[2m    9 × locator resolved to <tr>…</tr>\u001b[22m\n\u001b[2m      - unexpected value \"\u001b[22m\n\u001b[2m            Component JS File\u001b[22m\n\u001b[2m            ✅ Valid\u001b[22m\n\u001b[2m            ../../components/wb-button/wb-button.js\u001b[22m\n\u001b[2m        \"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#env-check table tr').filter({ hasText: 'Component JS File' })\nTimeout: 5000ms\n\u001b[32m- Expected substring  - 1\u001b[39m\n\u001b[31m+ Received string     + 5\u001b[39m\n\n\u001b[32m- \u001b[7m.\u001b[27m/wb-button/wb-button.js\u001b[39m\n\u001b[31m+\u001b[39m\n\u001b[31m+             Component JS File\u001b[39m\n\u001b[31m+             ✅ Valid\u001b[39m\n\u001b[31m+ \u001b[7m            ../../components\u001b[27m/wb-button/wb-button.js\u001b[39m\n\u001b[31m+ \u001b[43m        \u001b[49m\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#env-check table tr').filter({ hasText: 'Component JS File' })\u001b[22m\n\u001b[2m    9 × locator resolved to <tr>…</tr>\u001b[22m\n\u001b[2m      - unexpected value \"\u001b[22m\n\u001b[2m            Component JS File\u001b[22m\n\u001b[2m            ✅ Valid\u001b[22m\n\u001b[2m            ../../components/wb-button/wb-button.js\u001b[22m\n\u001b[2m        \"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:110:25",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 25,
+                          "line": 110
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 108 |\u001b[39m     \u001b[36mconst\u001b[39m jsRow \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'#env-check table tr'\u001b[39m)\u001b[33m.\u001b[39mfilter({ hasText\u001b[33m:\u001b[39m \u001b[32m'Component JS File'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 109 |\u001b[39m     \u001b[36mawait\u001b[39m expect(jsRow\u001b[33m.\u001b[39mlocator(\u001b[32m'.success'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'✅ Valid'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m     \u001b[36mawait\u001b[39m expect(jsRow)\u001b[33m.\u001b[39mtoContainText(\u001b[32m'./wb-button/wb-button.js'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m     \n \u001b[90m 112 |\u001b[39m     \u001b[90m// Check CSS File\u001b[39m\n \u001b[90m 113 |\u001b[39m     \u001b[36mconst\u001b[39m cssRow \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'#env-check table tr'\u001b[39m)\u001b[33m.\u001b[39mfilter({ hasText\u001b[33m:\u001b[39m \u001b[32m'Component CSS File'\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 25,
+                            "line": 110
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#env-check table tr').filter({ hasText: 'Component JS File' })\nTimeout: 5000ms\n\u001b[32m- Expected substring  - 1\u001b[39m\n\u001b[31m+ Received string     + 5\u001b[39m\n\n\u001b[32m- \u001b[7m.\u001b[27m/wb-button/wb-button.js\u001b[39m\n\u001b[31m+\u001b[39m\n\u001b[31m+             Component JS File\u001b[39m\n\u001b[31m+             ✅ Valid\u001b[39m\n\u001b[31m+ \u001b[7m            ../../components\u001b[27m/wb-button/wb-button.js\u001b[39m\n\u001b[31m+ \u001b[43m        \u001b[49m\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#env-check table tr').filter({ hasText: 'Component JS File' })\u001b[22m\n\u001b[2m    9 × locator resolved to <tr>…</tr>\u001b[22m\n\u001b[2m      - unexpected value \"\u001b[22m\n\u001b[2m            Component JS File\u001b[22m\n\u001b[2m            ✅ Valid\u001b[22m\n\u001b[2m            ../../components/wb-button/wb-button.js\u001b[22m\n\u001b[2m        \"\u001b[22m\n\n\n  108 |     const jsRow = page.locator('#env-check table tr').filter({ hasText: 'Component JS File' });\n  109 |     await expect(jsRow.locator('.success')).toContainText('✅ Valid');\n> 110 |     await expect(jsRow).toContainText('./wb-button/wb-button.js');\n      |                         ^\n  111 |     \n  112 |     // Check CSS File\n  113 |     const cssRow = page.locator('#env-check table tr').filter({ hasText: 'Component CSS File' });\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:110:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:04:05.230Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-dc0ca-lidate-component-file-paths-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-dc0ca-lidate-component-file-paths-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 25,
+                        "line": 110
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-43c475ee817aba0e56bd",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 98,
+              "column": 3
+            },
+            {
+              "title": "should import and register wb-button component",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 8714,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#component-reg')\nExpected substring: \u001b[32m\"✅ wb-base.js imported\"\u001b[39m\nReceived string:    \u001b[31m\"⏳ Importing wb-base.js...❌ Import failed: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.jsTypeError: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.js\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-reg')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"component-reg\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"⏳ Importing wb-base.js...❌ Import failed: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.jsTypeError: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.js\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#component-reg')\nExpected substring: \u001b[32m\"✅ wb-base.js imported\"\u001b[39m\nReceived string:    \u001b[31m\"⏳ Importing wb-base.js...❌ Import failed: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.jsTypeError: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.js\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-reg')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"component-reg\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"⏳ Importing wb-base.js...❌ Import failed: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.jsTypeError: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.js\"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:123:50",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 50,
+                          "line": 123
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 121 |\u001b[39m     \n \u001b[90m 122 |\u001b[39m     \u001b[90m// Check wb-base imported\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 123 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#component-reg'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'✅ wb-base.js imported'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 124 |\u001b[39m     \n \u001b[90m 125 |\u001b[39m     \u001b[90m// Check component imported\u001b[39m\n \u001b[90m 126 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#component-reg'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'✅ ./wb-button/wb-button.js imported'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 50,
+                            "line": 123
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#component-reg')\nExpected substring: \u001b[32m\"✅ wb-base.js imported\"\u001b[39m\nReceived string:    \u001b[31m\"⏳ Importing wb-base.js...❌ Import failed: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.jsTypeError: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.js\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-reg')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"component-reg\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"⏳ Importing wb-base.js...❌ Import failed: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.jsTypeError: Failed to fetch dynamically imported module: http://localhost:8080/components/wb-base/wb-base.js\"\u001b[22m\n\n\n  121 |     \n  122 |     // Check wb-base imported\n> 123 |     await expect(page.locator('#component-reg')).toContainText('✅ wb-base.js imported');\n      |                                                  ^\n  124 |     \n  125 |     // Check component imported\n  126 |     await expect(page.locator('#component-reg')).toContainText('✅ ./wb-button/wb-button.js imported');\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:123:50"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:04:23.092Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-36767-egister-wb-button-component-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-36767-egister-wb-button-component-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 50,
+                        "line": 123
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-71a9493f229505b2d5ad",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 118,
+              "column": 3
+            },
+            {
+              "title": "should detect Shadow DOM configuration",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 11236,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#shadow-structure')\nTimeout: 5000ms\n\u001b[32m- Expected substring  -  1\u001b[39m\n\u001b[31m+ Received string     + 55\u001b[39m\n\n\u001b[32m- Shadow DOM ENABLED\u001b[39m\n\u001b[31m+ Found 9 <wb-button> element(s)EXPECTED: Not configured (useShadow = undefined)ACTUAL: No Shadow DOM found ❌❌ MISMATCH - Configuration doesn't match actual rendering!ElementShadow RootModeChildrenHTML Size\u001b[39m\n\u001b[31m+                 Element 1\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 2\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 3\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 4\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 5\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 6\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 7\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 8\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 9\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#shadow-structure')\u001b[22m\n\u001b[2m    8 × locator resolved to <div id=\"shadow-structure\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"Found 9 <wb-button> element(s)EXPECTED: Not configured (useShadow = undefined)ACTUAL: No Shadow DOM found ❌❌ MISMATCH - Configuration doesn't match actual rendering!ElementShadow RootModeChildrenHTML Size\u001b[22m\n\u001b[2m                Element 1\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 2\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 3\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 4\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 5\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 6\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 7\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 8\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 9\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#shadow-structure')\nTimeout: 5000ms\n\u001b[32m- Expected substring  -  1\u001b[39m\n\u001b[31m+ Received string     + 55\u001b[39m\n\n\u001b[32m- Shadow DOM ENABLED\u001b[39m\n\u001b[31m+ Found 9 <wb-button> element(s)EXPECTED: Not configured (useShadow = undefined)ACTUAL: No Shadow DOM found ❌❌ MISMATCH - Configuration doesn't match actual rendering!ElementShadow RootModeChildrenHTML Size\u001b[39m\n\u001b[31m+                 Element 1\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 2\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 3\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 4\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 5\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 6\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 7\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 8\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 9\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#shadow-structure')\u001b[22m\n\u001b[2m    8 × locator resolved to <div id=\"shadow-structure\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"Found 9 <wb-button> element(s)EXPECTED: Not configured (useShadow = undefined)ACTUAL: No Shadow DOM found ❌❌ MISMATCH - Configuration doesn't match actual rendering!ElementShadow RootModeChildrenHTML Size\u001b[22m\n\u001b[2m                Element 1\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 2\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 3\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 4\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 5\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 6\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 7\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 8\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 9\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:146:33",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 33,
+                          "line": 146
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 144 |\u001b[39m     \n \u001b[90m 145 |\u001b[39m     \u001b[90m// Should show Shadow DOM ENABLED expected\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 146 |\u001b[39m     \u001b[36mawait\u001b[39m expect(shadowSection)\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Shadow DOM ENABLED'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 147 |\u001b[39m     \u001b[36mawait\u001b[39m expect(shadowSection)\u001b[33m.\u001b[39mtoContainText(\u001b[32m'useShadow = true'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 148 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 149 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 33,
+                            "line": 146
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#shadow-structure')\nTimeout: 5000ms\n\u001b[32m- Expected substring  -  1\u001b[39m\n\u001b[31m+ Received string     + 55\u001b[39m\n\n\u001b[32m- Shadow DOM ENABLED\u001b[39m\n\u001b[31m+ Found 9 <wb-button> element(s)EXPECTED: Not configured (useShadow = undefined)ACTUAL: No Shadow DOM found ❌❌ MISMATCH - Configuration doesn't match actual rendering!ElementShadow RootModeChildrenHTML Size\u001b[39m\n\u001b[31m+                 Element 1\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 2\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 3\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 4\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 5\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 6\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 7\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 8\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\u001b[31m+                 Element 9\u001b[39m\n\u001b[31m+                 ❌ Missing\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+                 -\u001b[39m\n\u001b[31m+ \u001b[43m            \u001b[49m\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#shadow-structure')\u001b[22m\n\u001b[2m    8 × locator resolved to <div id=\"shadow-structure\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"Found 9 <wb-button> element(s)EXPECTED: Not configured (useShadow = undefined)ACTUAL: No Shadow DOM found ❌❌ MISMATCH - Configuration doesn't match actual rendering!ElementShadow RootModeChildrenHTML Size\u001b[22m\n\u001b[2m                Element 1\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 2\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 3\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 4\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 5\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 6\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 7\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 8\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \u001b[22m\n\u001b[2m                Element 9\u001b[22m\n\u001b[2m                ❌ Missing\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m                -\u001b[22m\n\u001b[2m            \"\u001b[22m\n\n\n  144 |     \n  145 |     // Should show Shadow DOM ENABLED expected\n> 146 |     await expect(shadowSection).toContainText('Shadow DOM ENABLED');\n      |                                 ^\n  147 |     await expect(shadowSection).toContainText('useShadow = true');\n  148 |   });\n  149 |\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:146:33"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:04:41.245Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-aea15-ct-Shadow-DOM-configuration-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-aea15-ct-Shadow-DOM-configuration-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 33,
+                        "line": 146
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-64755f7b15c002cadfda",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 133,
+              "column": 3
+            },
+            {
+              "title": "should detect Shadow DOM presence correctly",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 13211,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#shadow-structure table').locator('tbody tr')\nExpected: \u001b[32m3\u001b[39m\nReceived: \u001b[31m10\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#shadow-structure table').locator('tbody tr')\u001b[22m\n\u001b[2m    8 × locator resolved to 10 elements\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#shadow-structure table').locator('tbody tr')\nExpected: \u001b[32m3\u001b[39m\nReceived: \u001b[31m10\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#shadow-structure table').locator('tbody tr')\u001b[22m\n\u001b[2m    8 × locator resolved to 10 elements\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:160:24",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 24,
+                          "line": 160
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 158 |\u001b[39m     \u001b[90m// Should find 3 wb-button elements\u001b[39m\n \u001b[90m 159 |\u001b[39m     \u001b[36mconst\u001b[39m rows \u001b[33m=\u001b[39m table\u001b[33m.\u001b[39mlocator(\u001b[32m'tbody tr'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 160 |\u001b[39m     \u001b[36mawait\u001b[39m expect(rows)\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m3\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 161 |\u001b[39m     \n \u001b[90m 162 |\u001b[39m     \u001b[90m// Each should have Shadow Root present\u001b[39m\n \u001b[90m 163 |\u001b[39m     \u001b[36mfor\u001b[39m (\u001b[36mlet\u001b[39m i \u001b[33m=\u001b[39m \u001b[35m1\u001b[39m\u001b[33m;\u001b[39m i \u001b[33m<=\u001b[39m \u001b[35m3\u001b[39m\u001b[33m;\u001b[39m i\u001b[33m++\u001b[39m) {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 24,
+                            "line": 160
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#shadow-structure table').locator('tbody tr')\nExpected: \u001b[32m3\u001b[39m\nReceived: \u001b[31m10\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#shadow-structure table').locator('tbody tr')\u001b[22m\n\u001b[2m    8 × locator resolved to 10 elements\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n\n\n  158 |     // Should find 3 wb-button elements\n  159 |     const rows = table.locator('tbody tr');\n> 160 |     await expect(rows).toHaveCount(3);\n      |                        ^\n  161 |     \n  162 |     // Each should have Shadow Root present\n  163 |     for (let i = 1; i <= 3; i++) {\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:160:24"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:05:07.447Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-804cc-adow-DOM-presence-correctly-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-804cc-adow-DOM-presence-correctly-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 24,
+                        "line": 160
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-84f0dda8d2678236555a",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 150,
+              "column": 3
+            },
+            {
+              "title": "should show final verdict with statistics",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6366,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:05:33.147Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-684f806872e07e9d1ee1",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 171,
+              "column": 3
+            },
+            {
+              "title": "should reset configuration to wb-button",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6149,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-card/wb-card.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-card/wb-card.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    9 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-card/wb-card.js\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-card/wb-card.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-card/wb-card.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    9 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-card/wb-card.js\"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:192:49",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 49,
+                          "line": 192
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 190 |\u001b[39m     \u001b[90m// Change to different component\u001b[39m\n \u001b[90m 191 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'#component-tag'\u001b[39m)\u001b[33m.\u001b[39mselectOption(\u001b[32m'wb-card'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 192 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#component-js'\u001b[39m))\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'./wb-card/wb-card.js'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 193 |\u001b[39m     \n \u001b[90m 194 |\u001b[39m     \u001b[90m// Click reset\u001b[39m\n \u001b[90m 195 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/Reset to wb-button/i\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 49,
+                            "line": 192
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#component-js')\nExpected: \u001b[32m\"./wb-card/wb-card.js\"\u001b[39m\nReceived: \u001b[31m\".\u001b[7m./../components\u001b[27m/wb-card/wb-card.js\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#component-js')\u001b[22m\n\u001b[2m    9 × locator resolved to <input disabled readonly type=\"text\" id=\"component-js\" value=\"../../components/wb-button/wb-button.js\" placeholder=\"e.g., ../../components/wb-button/wb-button.js\"/>\u001b[22m\n\u001b[2m      - unexpected value \"../../components/wb-card/wb-card.js\"\u001b[22m\n\n\n  190 |     // Change to different component\n  191 |     await page.locator('#component-tag').selectOption('wb-card');\n> 192 |     await expect(page.locator('#component-js')).toHaveValue('./wb-card/wb-card.js');\n      |                                                 ^\n  193 |     \n  194 |     // Click reset\n  195 |     await page.getByRole('button', { name: /Reset to wb-button/i }).click();\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:192:49"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:05:39.887Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-0162b--configuration-to-wb-button-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-0162b--configuration-to-wb-button-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 49,
+                        "line": 192
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-322bb6db9f13037669be",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 189,
+              "column": 3
+            },
+            {
+              "title": "should detect MISMATCH when configuration conflicts",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7039,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:05:53.875Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-3202e24bc51e90f07492",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 203,
+              "column": 3
+            },
+            {
+              "title": "should show visible buttons with dimensions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 11370,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#dimensions table').locator('tbody tr')\nExpected: \u001b[32m3\u001b[39m\nReceived: \u001b[31m10\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#dimensions table').locator('tbody tr')\u001b[22m\n\u001b[2m    8 × locator resolved to 10 elements\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#dimensions table').locator('tbody tr')\nExpected: \u001b[32m3\u001b[39m\nReceived: \u001b[31m10\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#dimensions table').locator('tbody tr')\u001b[22m\n\u001b[2m    8 × locator resolved to 10 elements\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:227:24",
+                        "location": {
+                          "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                          "column": 24,
+                          "line": 227
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 225 |\u001b[39m     \n \u001b[90m 226 |\u001b[39m     \u001b[90m// Should show 3 elements\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 227 |\u001b[39m     \u001b[36mawait\u001b[39m expect(rows)\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m3\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 228 |\u001b[39m     \n \u001b[90m 229 |\u001b[39m     \u001b[90m// Each should be visible\u001b[39m\n \u001b[90m 230 |\u001b[39m     \u001b[36mfor\u001b[39m (\u001b[36mlet\u001b[39m i \u001b[33m=\u001b[39m \u001b[35m0\u001b[39m\u001b[33m;\u001b[39m i \u001b[33m<\u001b[39m \u001b[35m3\u001b[39m\u001b[33m;\u001b[39m i\u001b[33m++\u001b[39m) {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                            "column": 24,
+                            "line": 227
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#dimensions table').locator('tbody tr')\nExpected: \u001b[32m3\u001b[39m\nReceived: \u001b[31m10\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#dimensions table').locator('tbody tr')\u001b[22m\n\u001b[2m    8 × locator resolved to 10 elements\u001b[22m\n\u001b[2m      - unexpected value \"10\"\u001b[22m\n\n\n  225 |     \n  226 |     // Should show 3 elements\n> 227 |     await expect(rows).toHaveCount(3);\n      |                        ^\n  228 |     \n  229 |     // Each should be visible\n  230 |     for (let i = 0; i < 3; i++) {\n    at C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js:227:24"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:06:01.279Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-e6204-ble-buttons-with-dimensions-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\test-results\\wb-shadow-diagnostics-WB-S-e6204-ble-buttons-with-dimensions-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\tests\\wb-shadow-diagnostics.spec.js",
+                        "column": 24,
+                        "line": 227
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-7e9841e4abc446cc8aa3",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 218,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "Component Dropdown Validation",
+          "file": "wb-shadow-diagnostics.spec.js",
+          "line": 239,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should disable JS and CSS input fields",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3662,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-25T22:06:38.343Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d1919a09e97678d862c7-2e3932e5debbfbfc1fea",
+              "file": "wb-shadow-diagnostics.spec.js",
+              "line": 245,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-11-25T22:02:36.377Z",
+    "duration": 253407.051,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 10,
+    "flaky": 0
+  }
+}

@@ -21,7 +21,9 @@ connection.onInitialize((params) => {
         capabilities.textDocument.publishDiagnostics &&
         capabilities.textDocument.publishDiagnostics.relatedInformation);
     if (params.workspaceFolders && params.workspaceFolders.length > 0) {
-        workspaceRoot = params.workspaceFolders[0].uri.replace('file://', '');
+        // Properly decode the URI to handle Windows paths
+        const uri = params.workspaceFolders[0].uri;
+        workspaceRoot = decodeURIComponent(uri.replace('file:///', ''));
     }
     const result = {
         capabilities: {
@@ -293,4 +295,3 @@ documents.onDidChangeContent(change => {
 });
 documents.listen(connection);
 connection.listen();
-//# sourceMappingURL=server.js.map

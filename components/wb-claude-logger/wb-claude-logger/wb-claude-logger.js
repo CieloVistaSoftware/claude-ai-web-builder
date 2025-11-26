@@ -35,17 +35,36 @@ class WBClaudeLogger extends HTMLElement {
         };
     }
     
-    connectedCallback() {
+    async connectedCallback() {
         // Read attributes now that element is connected
         this.config.backendUrl = this.getAttribute('backend-url') || this.config.backendUrl;
         this.config.useBackend = this.hasAttribute('use-backend') 
             ? this.getAttribute('use-backend') === 'true'
             : true; // Default to true if not specified
         this.config.position = this.getAttribute('position') || this.config.position;
-        
+
         console.log('🔧 Claude Logger initialized with config:', this.config);
         console.log('🟢 Backend enabled, will attempt to save to server');
-        
+
+        // Health check for backend
+        if (this.config.useBackend && this.config.backendUrl) {
+            try {
+                const healthUrl = this.config.backendUrl.replace(/\/api\/claude-log$/, '/api/health');
+                const res = await fetch(healthUrl, { method: 'GET' });
+                if (!res.ok) throw new Error('Backend not running');
+                console.log('✅ Backend health check passed');
+            } catch (err) {
+                console.warn('⚠️ Backend not running, attempting to start backend via VS Code task...');
+                // Try to start backend using VS Code task (only works in VS Code environment)
+                if (window.vscode) {
+                    window.vscode.postMessage({ command: 'runTask', task: 'shell: Start Claude Events API Server' });
+                } else {
+                    // Show a message to the user with VS Code task instructions
+                    alert('Backend is not running.\n\nTo start it in VS Code:\n1. Open the Command Palette (Ctrl+Shift+P)\n2. Type "Tasks: Run Task"\n3. Select "Start Claude Events API Server" from the list.\n\nThis will run the PowerShell script in .vscode/tasks.json to start the backend.');
+                }
+            }
+        }
+
         this.render();
         this.attachEventListeners();
     }

@@ -1,19 +1,291 @@
-
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <title>WB Color Harmony Demo</title>
-  <link rel="stylesheet" href="../../styles/main.css">
-  <link rel="stylesheet" href="wb-color-harmony.css">
-  <link rel="module" href="..../../styles/main.js">
-  <script type="module" src="../wb-demo/wb-demo.js"></script>
-  <script type="module" src="wb-color-harmony.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Color Harmony</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="./wb-color-harmony.css">
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="./wb-color-harmony.js"></script>
+    
+    <style>
+        body {
+            margin: 1rem;
+            background: var(--bg-color, #0f172a);
+            color: var(--text-primary, #f8fafc);
+        }
+        
+        /* Code block - light blue theme */
+        .demo-code {
+            background: #0a1929;
+            border-radius: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        .demo-code-header {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(56, 189, 248, 0.05);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+        }
+        .demo-code-label { 
+            font-size: 0.7rem; 
+            color: #38bdf8; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+            font-weight: 600; 
+        }
+        .demo-code pre {
+            margin: 0;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+            font-size: 0.8rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            color: #7dd3fc;
+            background: #0a1929;
+        }
+        .demo-code .tag { color: #38bdf8; }
+        .demo-code .attr { color: #7dd3fc; }
+        .demo-code .string { color: #bae6fd; }
+        .demo-code .comment { color: #64748b; font-style: italic; }
+        
+        wb-demo-section {
+            display: block;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--surface-800, #1e293b);
+            border-radius: 12px;
+        }
+        
+        wb-demo-section h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            color: var(--text-primary, #f8fafc);
+        }
+        
+        wb-demo-section > p {
+            margin: 0 0 1.5rem 0;
+            color: var(--text-muted, #94a3b8);
+            font-size: 0.9rem;
+        }
+        
+        wb-demo-output {
+            display: block;
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+            font-size: 0.85rem;
+            color: #7dd3fc;
+            padding: 0.75rem;
+            background: #0a1929;
+            border-radius: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        
+        .quick-colors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .controller-section {
+            background: var(--surface-700, #334155);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .controller-section h3 {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary, #94a3b8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
-  <wb-color-harmony></wb-color-harmony>
+    
+    <wb-demo id="demo-main" title="🎨 WB Color Harmony" markdown="./wb-color-harmony.md">
+        <div slot="examples" style="padding: 1rem; display: grid; gap: 2rem;">
+
+            <!-- SECTION 1: BASIC USAGE WITH CONTROLLER -->
+            <wb-demo-section id="section-basic">
+                <h2 id="heading-basic">🎯 Color Harmony Picker with Controls</h2>
+                <p id="desc-basic">Use the sliders below to adjust Hue, Saturation, and Lightness. Click swatches to select harmony colors.</p>
+                
+                <!-- Quick Color Presets -->
+                <div id="controller-quick" class="controller-section">
+                    <h3>Quick Color Presets</h3>
+                    <div class="quick-colors">
+                        <wb-button id="btn-red" variant="danger" size="small" onclick="setToColor(0, 75, 50)">🔴 Red</wb-button>
+                        <wb-button id="btn-orange" variant="warning" size="small" onclick="setToColor(30, 85, 55)">🟠 Orange</wb-button>
+                        <wb-button id="btn-yellow" variant="warning" size="small" onclick="setToColor(60, 90, 50)">🟡 Yellow</wb-button>
+                        <wb-button id="btn-green" variant="success" size="small" onclick="setToColor(120, 70, 45)">🟢 Green</wb-button>
+                        <wb-button id="btn-cyan" variant="primary" size="small" onclick="setToColor(180, 80, 50)">🔵 Cyan</wb-button>
+                        <wb-button id="btn-blue" variant="primary" size="small" onclick="setToColor(220, 85, 55)">💙 Blue</wb-button>
+                        <wb-button id="btn-purple" variant="accent" size="small" onclick="setToColor(280, 70, 55)">🟣 Purple</wb-button>
+                        <wb-button id="btn-pink" variant="accent" size="small" onclick="setToColor(330, 80, 60)">💗 Pink</wb-button>
+                    </div>
+                </div>
+                
+                <!-- Harmony Mode Selection -->
+                <div id="controller-modes" class="controller-section">
+                    <h3>Harmony Mode</h3>
+                    <div class="quick-colors">
+                        <wb-button id="mode-comp" variant="primary" size="small" onclick="setMode('complementary')">Complementary</wb-button>
+                        <wb-button id="mode-tri" variant="secondary" size="small" onclick="setMode('triadic')">Triadic</wb-button>
+                        <wb-button id="mode-analog" variant="secondary" size="small" onclick="setMode('analogous')">Analogous</wb-button>
+                        <wb-button id="mode-split" variant="secondary" size="small" onclick="setMode('split')">Split-Comp</wb-button>
+                        <wb-button id="mode-tetra" variant="secondary" size="small" onclick="setMode('tetradic')">Tetradic</wb-button>
+                        <wb-button id="mode-mono" variant="secondary" size="small" onclick="setMode('monochromatic')">Monochromatic</wb-button>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                    <!-- The Color Harmony Component (has built-in sliders) -->
+                    <wb-color-harmony id="harmony-basic" hue="200" saturation="75" lightness="50"></wb-color-harmony>
+                    
+                    <!-- Live Output Panel -->
+                    <div style="background: var(--surface-700); padding: 1.5rem; border-radius: 12px;">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-secondary);">📋 Live Output</h3>
+                        <wb-demo-output id="basic-output">Waiting for color change...</wb-demo-output>
+                        <div id="basic-preview" style="margin-top: 1rem; height: 80px; border-radius: 8px; background: hsl(200, 75%, 50%); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
+                            Preview
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="code-basic" class="demo-code">
+                    <div class="demo-code-header"><span class="demo-code-label">HTML</span></div>
+                    <pre><span class="tag">&lt;wb-color-harmony</span> 
+  <span class="attr">id</span>=<span class="string">"harmony-basic"</span> 
+  <span class="attr">hue</span>=<span class="string">"200"</span> 
+  <span class="attr">saturation</span>=<span class="string">"75"</span> 
+  <span class="attr">lightness</span>=<span class="string">"50"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/wb-color-harmony&gt;</span>
+
+<span class="comment">&lt;!-- JavaScript API --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  <span class="comment">// Set color programmatically</span>
+  document.getElementById('harmony-basic').setColor(180, 70, 50);
+  
+  <span class="comment">// Set harmony mode</span>
+  document.getElementById('harmony-basic').setHarmonyMode('triadic');
+  
+  <span class="comment">// Listen for color changes</span>
+  harmony.addEventListener('colorchange', (e) =&gt; {
+    console.log(e.detail.hex, e.detail.hsl);
+  });
+<span class="tag">&lt;/script&gt;</span></pre>
+                </div>
+            </wb-demo-section>
+
+            <!-- SECTION 2: THEME INTEGRATION -->
+            <wb-demo-section id="section-theme">
+                <h2 id="heading-theme">🎭 Theme Preview</h2>
+                <p id="desc-theme">Watch the theme cards update as you change colors. Each swatch shows the harmony colors.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                    <wb-color-harmony id="harmony-theme" hue="220" saturation="70" lightness="55" harmony-mode="triadic"></wb-color-harmony>
+                    
+                    <div>
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-secondary);">Generated Theme</h3>
+                        <div id="theme-preview" style="display: grid; gap: 0.75rem;"></div>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- SECTION 3: MODE DESCRIPTIONS -->
+            <wb-demo-section id="section-modes">
+                <h2 id="heading-modes">🔀 Harmony Mode Reference</h2>
+                <p id="desc-modes">Each mode creates different color relationships on the color wheel.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; border-left: 4px solid #3b82f6;">
+                        <strong style="color: #3b82f6;">Complementary</strong>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Two colors opposite on the wheel (180° apart). Maximum contrast.</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                        <strong style="color: #8b5cf6;">Triadic</strong>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Three colors equally spaced (120° apart). Balanced and vibrant.</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; border-left: 4px solid #22c55e;">
+                        <strong style="color: #22c55e;">Analogous</strong>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Adjacent colors on the wheel (30° apart). Serene and comfortable.</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <strong style="color: #f59e0b;">Split-Complementary</strong>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Base + two colors adjacent to complement. High contrast, less tension.</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; border-left: 4px solid #ef4444;">
+                        <strong style="color: #ef4444;">Tetradic</strong>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Four colors equally spaced (90° apart). Rich color palette.</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; border-left: 4px solid #64748b;">
+                        <strong style="color: #94a3b8;">Monochromatic</strong>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Single hue with varying lightness. Cohesive and sophisticated.</p>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+        </div>
+    </wb-demo>
+    
+    <script type="module">
+        // Get harmony components
+        const harmonyBasic = document.getElementById('harmony-basic');
+        const harmonyTheme = document.getElementById('harmony-theme');
+        
+        // Basic output display
+        const basicOutput = document.getElementById('basic-output');
+        const basicPreview = document.getElementById('basic-preview');
+        
+        // Listen for color changes on basic harmony
+        harmonyBasic?.addEventListener('colorchange', (e) => {
+            if (basicOutput) {
+                basicOutput.innerHTML = `<strong>Hex:</strong> ${e.detail.hex} | <strong>HSL:</strong> ${e.detail.hsl}`;
+            }
+            if (basicPreview) {
+                basicPreview.style.background = e.detail.hsl;
+                basicPreview.textContent = e.detail.hex;
+            }
+        });
+        
+        // Theme preview update
+        const themePreview = document.getElementById('theme-preview');
+        
+        function updateThemePreview() {
+            if (!harmonyTheme || !themePreview) return;
+            const colors = harmonyTheme.getHarmonyColors();
+            themePreview.innerHTML = colors.map(c => `
+                <div style="background: ${c.hex}; color: ${c.l > 60 ? '#000' : '#fff'}; 
+                            padding: 1rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                            display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 600;">${c.name}</span>
+                    <span style="font-family: monospace; font-size: 0.8rem; opacity: 0.9;">${c.hex}</span>
+                </div>
+            `).join('');
+        }
+        
+        harmonyTheme?.addEventListener('colorchange', updateThemePreview);
+        harmonyTheme?.addEventListener('harmonychange', updateThemePreview);
+        
+        // Initial update after component loads
+        setTimeout(updateThemePreview, 300);
+        
+        // Global functions for buttons
+        window.setMode = (mode) => {
+            harmonyBasic?.setHarmonyMode(mode);
+        };
+        
+        window.setToColor = (h, s, l) => {
+            harmonyBasic?.setColor(h, s, l);
+        };
+    </script>
 </body>
 </html>
-
-
-

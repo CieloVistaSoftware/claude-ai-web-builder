@@ -1,21 +1,24 @@
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 /**
  * WB Log Error Web Component - Reactive Version
- * 
- * A fully reactive error logging component using Proxy-based state management.
- * 
  * @version 3.0.0
  */
 
-class WBLogError extends HTMLElement {
+class WBLogError extends WBBaseComponent {
+    static useShadow = true;
+    
     constructor() {
         super();
     }
 
     async connectedCallback() {
+        super.connectedCallback();
+        
+        this.logInfo('WBLogError connecting');
+        
         await loadComponentCSS(this, 'wb-log-error.css');
-        this.attachShadow({ mode: 'open' });
         
         // Create reactive state
         this._state = new Proxy({
@@ -65,13 +68,7 @@ class WBLogError extends HTMLElement {
         this._originalConsoleWarn = console.warn;
         
         this._setupShadowDOM();
-    }
-    
-    static get observedAttributes() {
-        return ['position', 'visible', 'enable-export', 'enable-clear', 'enable-toggle', 'max-entries'];
-    }
-    
-    connectedCallback() {
+        
         // Set initial attributes
         const position = this.getAttribute('position') || 'bottom-right';
         const visible = this.getAttribute('visible') === 'true';
@@ -81,23 +78,20 @@ class WBLogError extends HTMLElement {
         this._state.isVisible = visible;
         this._state.maxEntries = maxEntries;
         
-        // Setup error capture
         this._setupErrorCapture();
-        
-        // Load from storage
         this._loadFromStorage();
-        
-        // Initial render
         this._render();
         
-        // Dispatch ready event
-        this.dispatchEvent(new CustomEvent('wb-log-error:ready', {
-            bubbles: true,
-            detail: { component: this }
-        }));
+        this.fireEvent('wb-log-error:ready', { component: 'wb-log-error' });
+        this.logInfo('WBLogError ready');
+    }
+    
+    static get observedAttributes() {
+        return ['position', 'visible', 'enable-export', 'enable-clear', 'enable-toggle', 'max-entries'];
     }
     
     disconnectedCallback() {
+        super.disconnectedCallback();
         // Clean up event listeners
         window.removeEventListener('error', this._handleError, true);
         window.removeEventListener('unhandledrejection', this._handleUnhandledRejection, true);
@@ -106,14 +100,13 @@ class WBLogError extends HTMLElement {
         console.error = this._originalConsoleError;
         console.warn = this._originalConsoleWarn;
         
-        // Remove wb: event listeners
-        document.removeEventListener('wb:error', this._handleWbEvent);
-        document.removeEventListener('wb:warning', this._handleWbEvent);
-        document.removeEventListener('wb:info', this._handleWbEvent);
-        document.removeEventListener('wb:debug', this._handleWbEvent);
+        this.logDebug('WBLogError disconnected');
     }
     
     attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        
+        if (oldValue === newValue || !this._state) return;
         switch (name) {
             case 'position':
                 if (newValue) this._state.position = newValue;
@@ -486,11 +479,7 @@ class WBLogError extends HTMLElement {
         // Save to storage
         this._saveToStorage();
         
-        // Dispatch event
-        this.dispatchEvent(new CustomEvent('wb-log-error:new', {
-            bubbles: true,
-            detail: { error }
-        }));
+        this.fireEvent('wb-log-error:new', { error });
     }
     
     _applyFilters() {
@@ -786,9 +775,7 @@ class WBLogError extends HTMLElement {
         this._state.filteredErrors = [];
         this._saveToStorage();
         
-        this.dispatchEvent(new CustomEvent('wb-log-error:clear', {
-            bubbles: true
-        }));
+        this.fireEvent('wb-log-error:clear', {});
     }
     
     show() {
@@ -911,5 +898,24 @@ if (!customElements.get('wb-log-error')) {
     customElements.define('wb-log-error', WBLogError);
 }
 
-// Export for use in other modules
+if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
+    window.WBComponentRegistry.register('wb-log-error', WBLogError, [], {
+        version: '3.0.0',
+        type: 'display',
+        role: 'ui-element',
+        description: 'Error logging component with filtering and export',
+        api: {
+            events: ['wb-log-error:ready', 'wb-log-error:new', 'wb-log-error:clear', 'wb-log-error:toggle'],
+            attributes: ['position', 'visible', 'enable-export', 'enable-clear', 'enable-toggle', 'max-entries'],
+            methods: ['error', 'warn', 'info', 'debug', 'clearErrors', 'show', 'hide', 'toggleVisibility', 'exportErrors']
+        },
+        priority: 4
+    });
+}
+
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBLogError = WBLogError;
 window.WBLogError = WBLogError;
+
+export { WBLogError };
+export default WBLogError;

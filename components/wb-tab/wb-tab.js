@@ -1,3 +1,4 @@
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 /**
@@ -69,10 +70,11 @@ let config = {};
     }
 })();
 
-class WBTab extends HTMLElement {
+class WBTab extends WBBaseComponent {
+    static useShadow = true;
+    
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
         
         // State management
         this.state = {
@@ -110,24 +112,29 @@ class WBTab extends HTMLElement {
     }
     
     async connectedCallback() {
+        super.connectedCallback();
+        
+        this.logInfo('WBTab connecting');
+        
         await loadComponentCSS(this, 'wb-tab.css');
         this.render();
         this.setupEventListeners();
         this.initializeTabs();
         this.updateConfiguration();
         
-        // Dispatch ready event
-        this.dispatchEvent(new CustomEvent('wb:ready', {
-            detail: { component: 'wb-tab', element: this },
-            bubbles: true
-        }));
+        this.fireEvent('wb-tab:ready', { component: 'wb-tab' });
+        this.logInfo('WBTab ready');
     }
     
     disconnectedCallback() {
+        super.disconnectedCallback();
         this.removeEventListeners();
+        this.logDebug('WBTab disconnected');
     }
     
     attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        
         if (oldValue === newValue) return;
         
         switch (name) {
@@ -603,7 +610,7 @@ class WBTab extends HTMLElement {
         
         if (tab && panel) {
             // Dispatch close event
-            const closeEvent = new CustomEvent('tab-close', {
+            const closeEvent = new CustomEvent('wb-tab:close', {
                 detail: { tabId, tab, panel },
                 bubbles: true,
                 cancelable: true
@@ -664,10 +671,8 @@ class WBTab extends HTMLElement {
             this.state.activeTab = tabId;
             
             // Dispatch change event
-            this.dispatchEvent(new CustomEvent('tab-change', {
-                detail: { tabId, tab: activeTab, panel: activePanel },
-                bubbles: true
-            }));
+            this.fireEvent('wb-tab:change', { tabId, tab: activeTab, panel: activePanel });
+            this.logDebug('WBTab active tab changed', { tabId });
         }
     }
     
@@ -795,11 +800,7 @@ class WBTab extends HTMLElement {
         this.appendChild(tabItem);
         this.appendChild(tabPanel);
         
-        // Dispatch add event
-        this.dispatchEvent(new CustomEvent('tab-add', {
-            detail: { tabId: id, tab: tabItem, panel: tabPanel },
-            bubbles: true
-        }));
+        this.fireEvent('wb-tab:add', { tabId: id, tab: tabItem, panel: tabPanel });
         
         return { tab: tabItem, panel: tabPanel };
     }
@@ -832,9 +833,7 @@ class WBTab extends HTMLElement {
 }
 
 // Define the custom elements
-console.log('🏷️ WB Tab: Registering wb-tab custom element...');
 customElements.define('wb-tab', WBTab);
-console.log('🏷️ WB Tab: wb-tab custom element registered successfully');
 
 // Tab Item Component
 class WBTabItem extends HTMLElement {
@@ -888,9 +887,7 @@ class WBTabItem extends HTMLElement {
     }
 }
 
-console.log('🏷️ WB Tab: Registering wb-tab-item custom element...');
 customElements.define('wb-tab-item', WBTabItem);
-console.log('🏷️ WB Tab: wb-tab-item custom element registered successfully');
 
 // Tab Panel Component
 class WBTabPanel extends HTMLElement {
@@ -922,9 +919,7 @@ class WBTabPanel extends HTMLElement {
     }
 }
 
-console.log('🏷️ WB Tab: Registering wb-tab-panel custom element...');
 customElements.define('wb-tab-panel', WBTabPanel);
-console.log('🏷️ WB Tab: wb-tab-panel custom element registered successfully');
 
 // Register tab components with WBComponentRegistry if available
 if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {

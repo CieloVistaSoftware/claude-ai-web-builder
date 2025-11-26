@@ -1,192 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WBBaseComponent - Automatic Event Log Injection Demo</title>
+    <title>WB Base Component Demo</title>
     <link rel="stylesheet" href="../../src/styles/main.css">
-    <link rel="module" href="../../src/styles/main.js"></link>
-    <script type="module" src="wb-base.js"></script>    
+    <script type="module" src="../../build/main.js"></script>
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+    <script type="module" src="./wb-base.js"></script>
 </head>
-
 <body>
-    <wb-demo title="WBBaseComponent - Automatic Event Log Injection Demo" 
-    markdown="./wb-base-demo.md">
-        <div slot="examples" class="container">
-            <!-- Right Panel: Demo Controls -->
-            <div class="panel">
-                <h2>🎮 Demo Controls <span class="status-badge">READY</span></h2>
-                <p>Click buttons below to trigger different logging events. Watch the event log update in real-time!</p>
+    <wb-demo title="WB Base Component" markdown="./wb-base.md">
+        <!-- EXAMPLES SLOT: Interactive Event Log Demo -->
+        <div slot="examples">
+            <h3>🎮 Interactive Event Logging Demo</h3>
+            <p>Click the buttons below to see WBBaseComponent's built-in event logging in action!</p>
 
-                <div class="button-group">
-                    <h3 style="margin-bottom: 12px;">Component Logging</h3>
-                    <div class="button-row">
-                        <button onclick="logDemoInfo()">ℹ️ Log Info</button>
-                        <button onclick="logDemoWarning()">⚠️ Log Warning</button>
-                    </div>
-                    <div class="button-row">
-                        <button onclick="logDemoError()">❌ Log Error</button>
-                        <button onclick="logDemoSuccess()">✅ Log Success</button>
-                    </div>
+            <!-- Live Event Log Section -->
+            <div style="margin: 2rem 0; padding: 1.5rem; background: #1a1a1a; border-radius: 8px;">
+                <h4>📊 Live Event Log</h4>
+                
+                <!-- Control Buttons -->
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0;">
+                    <button id="btnInfo" style="padding: 0.5rem 1rem; background: #4a9eff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        ℹ️ Log Info
+                    </button>
+                    <button id="btnWarning" style="padding: 0.5rem 1rem; background: #ffa500; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        ⚠️ Log Warning
+                    </button>
+                    <button id="btnError" style="padding: 0.5rem 1rem; background: #ff4444; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        ❌ Log Error
+                    </button>
+                    <button id="btnSuccess" style="padding: 0.5rem 1rem; background: #00cc66; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        ✅ Log Success
+                    </button>
+                    <button id="btnDebug" style="padding: 0.5rem 1rem; background: #888; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        🔧 Log Debug
+                    </button>
+                    <button id="btnClear" style="padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        🗑️ Clear Log
+                    </button>
                 </div>
 
-                <div class="button-group">
-                    <h3 style="margin-bottom: 12px;">Advanced Actions</h3>
-                    <button onclick="logMultipleEvents()" class="secondary">📊 Log Multiple Events</button>
-                    <button onclick="simulateUserFlow()" class="secondary">👤 Simulate User Flow</button>
-                </div>
-
-                <div class="button-group">
-                    <h3 style="margin-bottom: 12px;">Event Log Control</h3>
-                    <button onclick="clearEventLog()" style="background: #dc3545;">🗑️ Clear All Events</button>
-                </div>
-
-                <div class="info-box" style="margin-top: 20px;">
-                    <strong>💡 Tip:</strong> Events automatically logged in real-time!
+                <!-- Event Log Display -->
+                <div id="eventLogDisplay" style="background: #0a0a0a; padding: 1rem; border-radius: 4px; max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 0.9rem; min-height: 150px;">
+                    <div style="color: #666;">Waiting for events... Click a button above!</div>
                 </div>
             </div>
 
-            <div class="event-log-panel" style="margin:2rem 0;">
-                <h3>Event Log</h3>
-                <pre id="eventLog" style="min-height:200px;max-height:400px;overflow:auto;background:#222;color:#eee;padding:1rem;border-radius:8px;"></pre>
+            <!-- Fire Custom Event Section -->
+            <div style="margin: 2rem 0; padding: 1.5rem; background: #1a1a1a; border-radius: 8px;">
+                <h4>🔥 Custom Event System</h4>
+                <p>Test the <code>fireEvent()</code> method inherited from WBBaseComponent:</p>
+                
+                <div style="display: flex; gap: 1rem; margin: 1rem 0; flex-wrap: wrap;">
+                    <button id="btnFireEvent" style="padding: 0.75rem 1.5rem; background: #9c27b0; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">
+                        🚀 Fire Custom Event
+                    </button>
+                    <button id="btnFireMultiple" style="padding: 0.75rem 1.5rem; background: #673ab7; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">
+                        📊 Fire Multiple Events
+                    </button>
+                </div>
+                
+                <div id="eventStatus" style="margin-top: 1rem; padding: 1rem; background: #2a2a2a; border-radius: 4px; border-left: 4px solid #9c27b0;">
+                    <span style="color: #888;">Event status will appear here...</span>
+                </div>
+            </div>
+
+            <!-- Component Lifecycle Demo -->
+            <div style="margin: 2rem 0; padding: 1.5rem; background: #1a1a1a; border-radius: 8px;">
+                <h4>🔄 Component Lifecycle Demo</h4>
+                <p>Add and remove a demo component to see lifecycle events:</p>
+                
+                <div style="display: flex; gap: 1rem; margin: 1rem 0;">
+                    <button id="btnAddComponent" style="padding: 0.5rem 1rem; background: #00cc66; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        ➕ Add Component
+                    </button>
+                    <button id="btnRemoveComponent" style="padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        ➖ Remove Component
+                    </button>
+                </div>
+                
+                <div id="componentContainer" style="margin-top: 1rem; padding: 1rem; background: #2a2a2a; border-radius: 4px; min-height: 60px;">
+                    <span style="color: #666;">Component will appear here...</span>
+                </div>
+            </div>
+
+            <hr style="margin: 2rem 0; border: none; border-top: 1px solid #333;">
+
+            <!-- Real Examples Section -->
+            <h3>📚 Real WB Components Using WBBaseComponent</h3>
+            
+            <!-- Example 1: wb-button -->
+            <div style="margin: 2rem 0; padding: 1.5rem; background: #1a1a1a; border-radius: 8px;">
+                <h4>📘 Example: wb-button</h4>
+                <details style="margin: 1rem 0;">
+                    <summary style="cursor: pointer; color: #4a9eff; font-weight: bold;">📄 View Source Code</summary>
+                    <pre style="background: #0a0a0a; padding: 1rem; border-radius: 4px; overflow-x: auto; margin-top: 1rem;"><code>import { WBBaseComponent } from '../wb-base/wb-base.js';
+
+class WBButton extends WBBaseComponent {
+    static useShadow = true;
+    
+    async connectedCallback() {
+        super.connectedCallback(); // 🔑 Call parent
+        this.render();
+        
+        this.logInfo('WBButton connected'); // 🔑 Logging
+        this.fireEvent('wb-button:ready');   // 🔑 Events
+    }
+
+    handleClick(e) {
+        this.fireEvent('wb-button:click', {
+            timestamp: Date.now()
+        });
+    }
+}
+
+customElements.define('wb-button', WBButton);</code></pre>
+                </details>
+            </div>
+
+            <!-- Quick Reference -->
+            <div style="margin: 2rem 0; padding: 1.5rem; background: #1a1a1a; border-radius: 8px;">
+                <h4>⚡ Quick Reference</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div style="padding: 1rem; background: #2a2a2a; border-radius: 4px;">
+                        <h5 style="margin: 0 0 0.5rem 0; color: #00ff88;">🟢 Logging</h5>
+                        <pre style="margin: 0; font-size: 0.85rem;"><code>this.logInfo('Message');
+this.logError('Error', {ctx});
+this.logDebug('Debug info');</code></pre>
+                    </div>
+                    <div style="padding: 1rem; background: #2a2a2a; border-radius: 4px;">
+                        <h5 style="margin: 0 0 0.5rem 0; color: #ff6b6b;">🔴 Events</h5>
+                        <pre style="margin: 0; font-size: 0.85rem;"><code>this.fireEvent('my-event', {
+  data: 'value'
+});</code></pre>
+                    </div>
+                    <div style="padding: 1rem; background: #2a2a2a; border-radius: 4px;">
+                        <h5 style="margin: 0 0 0.5rem 0; color: #ffa500;">🟠 Attributes</h5>
+                        <pre style="margin: 0; font-size: 0.85rem;"><code>this.getAttr('name', 'default');
+this.setAttr('active', 'true');</code></pre>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- CODE SLOT: Template -->
+        <div slot="code">
+            <h3>Component Template</h3>
+            <pre><code>import { WBBaseComponent } from '../wb-base/wb-base.js';
+
+class MyComponent extends WBBaseComponent {
+    static useShadow = true;
+    
+    static get observedAttributes() {
+        return ['title', 'variant'];
+    }
+
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        this.render();
+        this.logInfo('Component ready');
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+    }
+
+    get title() {
+        return this.getAttr('title', 'Default');
+    }
+
+    set title(value) {
+        this.setAttr('title', value);
+    }
+
+    render() {
+        if (!this.shadowRoot) return;
+        this.shadowRoot.innerHTML = `
+            &lt;div&gt;${this.title}&lt;/div&gt;
+        `;
+    }
+}
+
+customElements.define('my-component', MyComponent);</code></pre>
+        </div>
     </wb-demo>
-    <!-- Demo Script -->
-    <script>
-        // Simple in-memory event storage
-        const events = [];
 
-        // Demo logging class (no dependencies!)
-        class DemoComponent {
-            constructor() {
-                this.componentName = 'DemoComponent';
-            }
+    <script type="module">
+        import { WBBaseComponent } from './wb-base.js';
 
-            logInfo(message, details = {}) {
-                this.addEvent('info', message, details);
-            }
-
-            logWarning(message, details = {}) {
-                this.addEvent('warning', message, details);
-            }
-
-            logError(message, details = {}) {
-                this.addEvent('error', message, details);
-            }
-
-            logSuccess(message, details = {}) {
-                this.addEvent('success', message, details);
-            }
-
-            logDebug(message, details = {}) {
-                this.addEvent('debug', message, details);
-            }
-
-            logUser(message, details = {}) {
-                this.addEvent('user', message, details);
-            }
-
-            addEvent(type, message, details) {
-                const event = {
-                    type: type,
-                    message: message,
-                    source: this.componentName,
-                    timestamp: new Date().toLocaleTimeString(),
-                    details: details
-                };
-                events.unshift(event);
-                updateEventLog();
-            }
-        }
-
-        // Create demo component
-        const demoComponent = new DemoComponent();
+        // Event log storage
+        const eventLog = [];
+        let eventCounter = 0;
 
         // Update event log display
         function updateEventLog() {
-            const logElement = document.getElementById('eventLog');
-            const lines = events.map(e => {
-                const icon = getIcon(e.type);
-                const detailStr = Object.keys(e.details).length > 0
-                    ? ` | ${JSON.stringify(e.details)}`
-                    : '';
-                return `${e.timestamp} ${icon} [${e.source}] ${e.message}${detailStr}`;
-            });
-            logElement.textContent = lines.join('\n') || 'Waiting for events...';
-            logElement.scrollTop = 0;
+            const display = document.getElementById('eventLogDisplay');
+            if (!display) return;
+
+            if (eventLog.length === 0) {
+                display.innerHTML = '<div style="color: #666;">Waiting for events... Click a button above!</div>';
+                return;
+            }
+
+            const html = eventLog.map(entry => {
+                const colors = {
+                    'info': '#4a9eff',
+                    'warning': '#ffa500',
+                    'error': '#ff4444',
+                    'success': '#00cc66',
+                    'debug': '#888'
+                };
+                const icons = {
+                    'info': 'ℹ️',
+                    'warning': '⚠️',
+                    'error': '❌',
+                    'success': '✅',
+                    'debug': '🔧'
+                };
+                const color = colors[entry.type] || '#fff';
+                const icon = icons[entry.type] || '📝';
+                return `<div style="color: ${color}; margin-bottom: 0.5rem; padding: 0.25rem 0; border-bottom: 1px solid #222;">
+                    <span style="color: #666;">[${entry.time}]</span> ${icon} ${entry.message}
+                    ${entry.details ? `<span style="color: #666; font-size: 0.8rem;"> ${JSON.stringify(entry.details)}</span>` : ''}
+                </div>`;
+            }).join('');
+
+            display.innerHTML = html;
+            display.scrollTop = 0;
         }
 
-        function getIcon(type) {
-            const icons = {
-                'info': 'ℹ️',
-                'warning': '⚠️',
-                'error': '❌',
-                'success': '✅',
-                'debug': '🛠️',
-                'user': '👤'
-            };
-            return icons[type] || '📝';
-        }
-
-        // Demo functions
-        window.logDemoInfo = function () {
-            demoComponent.logInfo('Info message - This is general information', {
-                timestamp: new Date().toLocaleTimeString(),
-                action: 'demo'
+        // Add event to log
+        function addEvent(type, message, details = null) {
+            eventCounter++;
+            eventLog.unshift({
+                id: eventCounter,
+                type,
+                message,
+                details,
+                time: new Date().toLocaleTimeString()
             });
-        };
-
-        window.logDemoWarning = function () {
-            demoComponent.logWarning('Warning message - Non-critical issue detected', {
-                severity: 'low',
-                code: 'WARN_001'
-            });
-        };
-
-        window.logDemoError = function () {
-            demoComponent.logError('Error message - Something went wrong', {
-                code: 'ERR_001',
-                details: 'This is a demo error for testing'
-            });
-        };
-
-        window.logDemoSuccess = function () {
-            demoComponent.logSuccess('Success message - Operation completed successfully', {
-                duration: '125ms',
-                result: 'OK'
-            });
-        };
-
-        window.logMultipleEvents = function () {
-            setTimeout(() => demoComponent.logInfo('Event 1: Starting process'), 0);
-            setTimeout(() => demoComponent.logInfo('Event 2: Processing data'), 100);
-            setTimeout(() => demoComponent.logSuccess('Event 3: Process completed'), 200);
-        };
-
-        window.simulateUserFlow = function () {
-            demoComponent.logUser('User clicked button', { buttonId: 'demo-btn' });
-            setTimeout(() => demoComponent.logInfo('Processing user action'), 100);
-            setTimeout(() => demoComponent.logSuccess('User action completed'), 200);
-        };
-
-        window.clearEventLog = function () {
-            events.length = 0;
+            
+            // Also log to WBBaseComponent's event system
+            WBBaseComponent.logEvent(`${message}`, type);
+            
+            // Keep only last 50
+            if (eventLog.length > 50) eventLog.length = 50;
+            
             updateEventLog();
-            demoComponent.logInfo('All events cleared', { action: 'clear-all' });
-        };
+        }
+
+        // Button handlers
+        document.getElementById('btnInfo')?.addEventListener('click', () => {
+            addEvent('info', 'Info event logged from demo', { source: 'demo', action: 'info' });
+        });
+
+        document.getElementById('btnWarning')?.addEventListener('click', () => {
+            addEvent('warning', 'Warning event - non-critical issue', { severity: 'low', code: 'WARN_001' });
+        });
+
+        document.getElementById('btnError')?.addEventListener('click', () => {
+            addEvent('error', 'Error event - something went wrong', { code: 'ERR_001', recoverable: true });
+        });
+
+        document.getElementById('btnSuccess')?.addEventListener('click', () => {
+            addEvent('success', 'Success event - operation completed', { duration: '125ms', status: 'OK' });
+        });
+
+        document.getElementById('btnDebug')?.addEventListener('click', () => {
+            addEvent('debug', 'Debug event - detailed info', { timestamp: Date.now(), env: 'demo' });
+        });
+
+        document.getElementById('btnClear')?.addEventListener('click', () => {
+            eventLog.length = 0;
+            updateEventLog();
+            addEvent('info', 'Event log cleared');
+        });
+
+        // Custom event handlers
+        document.getElementById('btnFireEvent')?.addEventListener('click', () => {
+            const eventName = 'wb:demo-custom-event';
+            const eventData = { 
+                message: 'Custom event fired!', 
+                timestamp: Date.now(),
+                source: 'wb-base-demo'
+            };
+            
+            // Fire custom event
+            document.dispatchEvent(new CustomEvent(eventName, {
+                detail: eventData,
+                bubbles: true,
+                composed: true
+            }));
+            
+            addEvent('success', `Custom event "${eventName}" fired!`, eventData);
+            
+            const status = document.getElementById('eventStatus');
+            if (status) {
+                status.innerHTML = `<span style="color: #00cc66;">✅ Event "${eventName}" fired at ${new Date().toLocaleTimeString()}</span>`;
+            }
+        });
+
+        document.getElementById('btnFireMultiple')?.addEventListener('click', () => {
+            addEvent('info', '📊 Starting batch event sequence...');
+            
+            setTimeout(() => addEvent('info', 'Step 1: Initializing...'), 100);
+            setTimeout(() => addEvent('info', 'Step 2: Processing data...'), 300);
+            setTimeout(() => addEvent('warning', 'Step 3: Minor issue detected'), 500);
+            setTimeout(() => addEvent('info', 'Step 4: Retrying...'), 700);
+            setTimeout(() => addEvent('success', 'Step 5: Batch complete! ✅'), 900);
+            
+            const status = document.getElementById('eventStatus');
+            if (status) {
+                status.innerHTML = `<span style="color: #673ab7;">📊 Firing 5 events in sequence...</span>`;
+                setTimeout(() => {
+                    status.innerHTML = `<span style="color: #00cc66;">✅ All 5 events fired!</span>`;
+                }, 1000);
+            }
+        });
+
+        // Component lifecycle handlers
+        let demoComponentCount = 0;
+
+        document.getElementById('btnAddComponent')?.addEventListener('click', () => {
+            const container = document.getElementById('componentContainer');
+            if (!container) return;
+            
+            demoComponentCount++;
+            const comp = document.createElement('wb-demo-base');
+            comp.id = `demo-comp-${demoComponentCount}`;
+            comp.message = `Demo Component #${demoComponentCount}`;
+            
+            container.innerHTML = '';
+            container.appendChild(comp);
+            
+            addEvent('success', `Component #${demoComponentCount} added to DOM`, { action: 'connectedCallback' });
+        });
+
+        document.getElementById('btnRemoveComponent')?.addEventListener('click', () => {
+            const container = document.getElementById('componentContainer');
+            if (!container) return;
+            
+            const comp = container.querySelector('wb-demo-base');
+            if (comp) {
+                comp.remove();
+                addEvent('warning', `Component removed from DOM`, { action: 'disconnectedCallback' });
+                container.innerHTML = '<span style="color: #666;">Component removed. Click "Add Component" to add another.</span>';
+            } else {
+                addEvent('info', 'No component to remove');
+            }
+        });
 
         // Initialize
-        demoComponent.logSuccess('🎉 Demo initialized - Event logging active!', {
-            components: 'DemoComponent',
-            status: 'ready'
-        });
-
-        demoComponent.logInfo('👉 Click buttons above to see logging in action', {
-            note: 'All events appear here in real-time'
-        });
+        console.log('WB Base Component Demo loaded');
+        addEvent('success', '🎉 Demo page initialized - Event logging active!');
     </script>
 </body>
-
 </html>
+
+
+
+
+
+

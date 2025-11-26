@@ -1,109 +1,28 @@
+/**
+ * WB Toggle Component
+ * 
+ * Toggle switch component with accessibility and theming support.
+ * 
+ * @example
+ * <wb-toggle label="Dark Mode" checked></wb-toggle>
+ * 
+ * @version 2.0.0
+ */
 
-// WB Toggle Component - Pure Web Component
-// Toggle switch component with accessibility and theming support
-// Note: WBBaseComponent import removed to avoid ES6 module syntax errors
-// Component will check for WBBaseComponent availability at runtime
-
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-// Import utilities if not already available globally
-let reflectPropAttr, dispatchComponentEvent;
-if (typeof window.reflectPropAttr === 'function') {
-    reflectPropAttr = window.reflectPropAttr;
-    dispatchComponentEvent = window.dispatchComponentEvent;
-} else {
-    // Functions will be defined inline as fallback
-    reflectPropAttr = function(element, prop, attr) {
-        Object.defineProperty(element, prop, {
-            get() {
-                return this.hasAttribute(attr) ? this.getAttribute(attr) : null;
-            },
-            set(val) {
-                if (val === null || val === undefined || val === false) {
-                    this.removeAttribute(attr);
-                } else {
-                    this.setAttribute(attr, val);
-                }
-            }
-        });
-    };
+class WBToggle extends WBBaseComponent {
+    static useShadow = true;
     
-    dispatchComponentEvent = function(element, name, detail = {}, options = {}) {
-        element.dispatchEvent(new CustomEvent(name, {
-            detail,
-            bubbles: options.bubbles !== false,
-            composed: options.composed !== false,
-            cancelable: options.cancelable === true
-        }));
-    };
-}
-
-class WBToggle extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.config = null;
         this._initialized = false;
         this._input = null;
         this._slider = null;
         this._labelElement = null;
-
-        // Use utility to reflect checked, disabled, and label
-        reflectPropAttr(this, 'checked', 'checked');
-        reflectPropAttr(this, 'disabled', 'disabled');
-        reflectPropAttr(this, 'label', 'label');
-    }
-    
-    static get observedAttributes() {
-        return ['checked', 'disabled', 'label', 'size', 'label-position', 'variant'];
-    }
-    
-    async connectedCallback() {
-        if (this._initialized) return;
-        this._initialized = true;
         
-        console.log('🔘 WB Toggle: Connected to DOM');
-        
-        try {
-            await this.loadConfig();
-            await loadComponentCSS(this, 'wb-toggle.css');
-            this.render();
-            this.setupEventListeners();
-            this.setupColorResponseHandler();
-            dispatchComponentEvent(this, 'wbToggleReady', { component: this, config: this.config });
-            console.log('🔘 WB Toggle: Web Component initialized successfully');
-        } catch (error) {
-            // ...removed WBSafeLogger.error...
-        }
-    }
-    
-    disconnectedCallback() {
-    // ...removed WBSafeLogger.debug...
-    }
-    
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (!this._initialized || oldValue === newValue) return;
-        
-        switch (name) {
-            case 'checked':
-                this.setChecked(this.hasAttribute('checked'));
-                break;
-            case 'disabled':
-                this.setDisabled(this.hasAttribute('disabled'));
-                break;
-            case 'label':
-                this.setLabel(newValue);
-                break;
-            case 'size':
-            case 'label-position':
-            case 'variant':
-                this.render();
-                break;
-        }
-    }
-    
-    async loadConfig() {
-        const fallbackConfig = {
+        this.config = {
             classes: {
                 base: 'wb-toggle',
                 wrapper: 'wb-toggle-wrapper',
@@ -118,169 +37,213 @@ class WBToggle extends HTMLElement {
                     'top': 'wb-toggle--label-top',
                     'bottom': 'wb-toggle--label-bottom'
                 },
-                sizes: {
-                    'small': 'wb-toggle--small',
-                    'large': 'wb-toggle--large'
-                },
-                variants: {
-                    'secondary': 'wb-toggle--secondary',
-                    'success': 'wb-toggle--success',
-                    'danger': 'wb-toggle--danger'
-                }
+                sizes: { 'small': 'wb-toggle--small', 'large': 'wb-toggle--large' },
+                variants: { 'secondary': 'wb-toggle--secondary', 'success': 'wb-toggle--success', 'danger': 'wb-toggle--danger' }
             },
-            defaults: { size: 'standard', labelPosition: 'right', variant: 'primary' },
-            events: { ready: 'wbToggleReady', change: 'wbToggleChange' }
+            defaults: { size: 'standard', labelPosition: 'right', variant: 'primary' }
         };
-        
-        if (window.WBComponentUtils) {
-            const configPath = window.WBComponentUtils.getPath('wb-toggle.js', '../components/wb-toggle/') + 'wb-toggle.schema.json';
-            this.config = await window.WBComponentUtils.loadConfig(configPath, fallbackConfig, 'WB Toggle');
-        } else {
-            console.warn('🔘 WB Toggle: Component utils not available, using fallback config');
-            this.config = fallbackConfig;
-        }
-        return this.config;
     }
     
-    loadCSS() {
-        if (window.WBComponentUtils) {
-            const cssPath = window.WBComponentUtils.getPath('wb-toggle.js', '../components/wb-toggle/') + 'wb-toggle.css';
-            window.WBComponentUtils.loadCSS('wb-toggle', cssPath);
-        } else {
-            const existingStyles = document.querySelector('link[href*="wb-toggle.css"]');
-            if (document.getElementById('wb-toggle-styles') || existingStyles) {
-                return;
-            }
-            
-            const link = document.createElement('link');
-            link.id = 'wb-toggle-styles';
-            link.rel = 'stylesheet';
-            link.href = '../components/wb-toggle/wb-toggle.css';
-            document.head.appendChild(link);
+    static get observedAttributes() {
+        return ['checked', 'disabled', 'label', 'size', 'label-position', 'variant'];
+    }
+    
+    async connectedCallback() {
+        super.connectedCallback();
+        
+        if (this._initialized) return;
+        this._initialized = true;
+        
+        this.logInfo('WBToggle connecting', { label: this.label });
+        
+        await loadComponentCSS(this, 'wb-toggle.css');
+        this.render();
+        this.setupEventListeners();
+        
+        this.fireEvent('wb-toggle:ready', { component: 'wb-toggle' });
+        this.logInfo('WBToggle ready');
+    }
+    
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.logDebug('WBToggle disconnected');
+    }
+    
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        
+        if (!this._initialized || oldValue === newValue) return;
+        
+        switch (name) {
+            case 'checked':
+                this.updateCheckedState();
+                break;
+            case 'disabled':
+                this.updateDisabledState();
+                break;
+            case 'label':
+            case 'size':
+            case 'label-position':
+            case 'variant':
+                this.render();
+                break;
         }
+    }
+    
+    // Property getters/setters
+    get checked() {
+        return this.hasAttribute('checked');
+    }
+    
+    set checked(value) {
+        if (value) {
+            this.setAttribute('checked', '');
+        } else {
+            this.removeAttribute('checked');
+        }
+    }
+    
+    get disabled() {
+        return this.hasAttribute('disabled');
+    }
+    
+    set disabled(value) {
+        if (value) {
+            this.setAttribute('disabled', '');
+        } else {
+            this.removeAttribute('disabled');
+        }
+    }
+    
+    get label() {
+        return this.getAttr('label', '');
+    }
+    
+    set label(value) {
+        this.setAttr('label', value);
+    }
+    
+    get size() {
+        return this.getAttr('size', 'standard');
+    }
+    
+    set size(value) {
+        this.setAttr('size', value);
+    }
+    
+    get variant() {
+        return this.getAttr('variant', 'primary');
+    }
+    
+    set variant(value) {
+        this.setAttr('variant', value);
     }
     
     render() {
-        console.log('🔘 WB Toggle: Rendering toggle');
+        if (!this.shadowRoot) return;
         
-        this.className = this.config.classes.wrapper;
+        const checked = this.checked;
+        const disabled = this.disabled;
+        const label = this.label || this.textContent.trim() || '';
+        const size = this.size;
+        const labelPosition = this.getAttr('label-position', 'right');
+        const variant = this.variant;
+        const id = this.id || `wb-toggle-${Date.now()}`;
         
-        // Get attributes
-        const checked = this.hasAttribute('checked');
-        const disabled = this.hasAttribute('disabled');
-        const label = this.getAttribute('label') || this.textContent.trim() || '';
-        const size = this.getAttribute('size') || this.config.defaults.size;
-        const labelPosition = this.getAttribute('label-position') || this.config.defaults.labelPosition;
-        const variant = this.getAttribute('variant') || this.config.defaults.variant;
-        const id = this.getAttribute('id') || (window.WBComponentUtils ? window.WBComponentUtils.generateId('wb-toggle') : 'wb-toggle-' + Date.now());
-        
-        // Apply size class
-        if (size !== 'standard' && this.config.classes.sizes && this.config.classes.sizes[size]) {
-            this.classList.add(this.config.classes.sizes[size]);
+        // Build class list
+        let wrapperClass = this.config.classes.wrapper;
+        if (size !== 'standard' && this.config.classes.sizes[size]) {
+            wrapperClass += ' ' + this.config.classes.sizes[size];
         }
-        
-        // Apply label position class
-        if (this.config.classes.positions && this.config.classes.positions[labelPosition]) {
-            this.classList.add(this.config.classes.positions[labelPosition]);
+        if (this.config.classes.positions[labelPosition]) {
+            wrapperClass += ' ' + this.config.classes.positions[labelPosition];
         }
-        
-        // Apply variant class
-        if (variant !== 'primary' && this.config.classes.variants && this.config.classes.variants[variant]) {
-            this.classList.add(this.config.classes.variants[variant]);
+        if (variant !== 'primary' && this.config.classes.variants[variant]) {
+            wrapperClass += ' ' + this.config.classes.variants[variant];
         }
-        
-        // Apply state classes
         if (disabled) {
-            this.classList.add(this.config.classes.states.disabled);
+            wrapperClass += ' ' + this.config.classes.states.disabled;
+        }
+        if (checked) {
+            wrapperClass += ' ' + this.config.classes.states.checked;
         }
         
-        // Clear existing content
-        this.innerHTML = '';
+        this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="${new URL('./wb-toggle.css', import.meta.url).href}">
+            <div class="${wrapperClass}">
+                <input type="checkbox" 
+                       id="${id}" 
+                       class="${this.config.classes.input}" 
+                       ${checked ? 'checked' : ''} 
+                       ${disabled ? 'disabled' : ''}
+                       role="switch"
+                       aria-checked="${checked}">
+                <div class="${this.config.classes.slider}" aria-hidden="true" tabindex="${disabled ? -1 : 0}">
+                    <div class="${this.config.classes.thumb}"></div>
+                </div>
+                ${label ? `<label class="${this.config.classes.label}" for="${id}">${label}</label>` : ''}
+            </div>
+        `;
         
-        // Create input (hidden checkbox)
-        this._input = document.createElement('input');
-        this._input.type = 'checkbox';
-        this._input.id = id;
-        this._input.className = this.config.classes.input;
-        this._input.checked = checked;
-        this._input.disabled = disabled;
-        this._input.setAttribute('role', 'switch');
-        this._input.setAttribute('aria-checked', checked.toString());
+        // Cache elements
+        this._input = this.shadowRoot.querySelector('input');
+        this._slider = this.shadowRoot.querySelector(`.${this.config.classes.slider}`);
+        this._labelElement = this.shadowRoot.querySelector('label');
         
-        // Create slider
-        this._slider = document.createElement('div');
-        this._slider.className = this.config.classes.slider;
-        this._slider.setAttribute('aria-hidden', 'true');
-        this._slider.setAttribute('tabindex', disabled ? '-1' : '0');
-        
-        // Create thumb
-        const thumb = document.createElement('div');
-        thumb.className = this.config.classes.thumb;
-        this._slider.appendChild(thumb);
-        
-        // Create label if provided
-        if (label) {
-            this._labelElement = document.createElement('label');
-            this._labelElement.className = this.config.classes.label;
-            this._labelElement.setAttribute('for', id);
-            this._labelElement.textContent = label;
-        }
-        
-        // Update checked state
-        this.updateCheckedState();
-        
-        // Assemble component
-        this.appendChild(this._input);
-        this.appendChild(this._slider);
-        if (this._labelElement) {
-            this.appendChild(this._labelElement);
-        }
-        
-        // Set id if not already set
-        if (!this.hasAttribute('id')) {
-            this.setAttribute('id', id);
-        }
+        this.setupEventListeners();
     }
     
     updateCheckedState() {
-        if (this._input.checked) {
-            this.classList.add(this.config.classes.states.checked);
-        } else {
-            this.classList.remove(this.config.classes.states.checked);
+        const wrapper = this.shadowRoot?.querySelector(`.${this.config.classes.wrapper}`);
+        if (!wrapper || !this._input) return;
+        
+        this._input.checked = this.checked;
+        this._input.setAttribute('aria-checked', this.checked.toString());
+        wrapper.classList.toggle(this.config.classes.states.checked, this.checked);
+    }
+    
+    updateDisabledState() {
+        const wrapper = this.shadowRoot?.querySelector(`.${this.config.classes.wrapper}`);
+        if (!wrapper || !this._input) return;
+        
+        this._input.disabled = this.disabled;
+        if (this._slider) {
+            this._slider.setAttribute('tabindex', this.disabled ? '-1' : '0');
         }
-        this._input.setAttribute('aria-checked', this._input.checked.toString());
+        wrapper.classList.toggle(this.config.classes.states.disabled, this.disabled);
     }
     
     setupEventListeners() {
         if (!this._input || !this._slider) return;
 
-        // Input change event
         this._input.addEventListener('change', (e) => {
+            this.checked = this._input.checked;
             this.updateCheckedState();
-            dispatchComponentEvent(this, this.config.events.change, {
-                toggle: this,
-                input: this._input,
+            
+            this.fireEvent('wb-toggle:change', {
                 checked: this._input.checked,
                 id: this._input.id
             });
+            
+            this.logDebug('WBToggle changed', { checked: this._input.checked });
         });
 
-        // Input focus/blur events
-        this._input.addEventListener('focus', (e) => {
-            this.classList.add(this.config.classes.states.focused);
+        this._input.addEventListener('focus', () => {
+            const wrapper = this.shadowRoot?.querySelector(`.${this.config.classes.wrapper}`);
+            if (wrapper) wrapper.classList.add(this.config.classes.states.focused);
         });
-        this._input.addEventListener('blur', (e) => {
-            this.classList.remove(this.config.classes.states.focused);
+        
+        this._input.addEventListener('blur', () => {
+            const wrapper = this.shadowRoot?.querySelector(`.${this.config.classes.wrapper}`);
+            if (wrapper) wrapper.classList.remove(this.config.classes.states.focused);
         });
 
-        // Make slider clickable
         this._slider.addEventListener('click', (e) => {
             if (!this._input.disabled) {
                 this._input.click();
             }
         });
 
-        // Keyboard support for slider
         this._slider.addEventListener('keydown', (e) => {
             if (!this._input.disabled && (e.key === 'Enter' || e.key === ' ')) {
                 e.preventDefault();
@@ -289,94 +252,59 @@ class WBToggle extends HTMLElement {
         });
     }
     
-    setupColorResponseHandler() {
-        document.addEventListener('wbColorChanged', (event) => {
-            const { primary, accent } = event.detail;
-            console.log('🔘 WB Toggle: Responding to color change', event.detail);
-            
-            const root = document.documentElement;
-            if (primary) {
-                root.style.setProperty('--wb-toggle-primary', primary);
-            }
-            if (accent) {
-                root.style.setProperty('--wb-toggle-accent', accent);
-            }
-        });
+    // Public API
+    toggle() {
+        if (!this.disabled) {
+            this.checked = !this.checked;
+            this.updateCheckedState();
+            this.fireEvent('wb-toggle:change', { checked: this.checked });
+        }
     }
     
-    // Public API methods
     setChecked(checked) {
-        if (this._input) {
-            this._input.checked = checked;
-            this.updateCheckedState();
-            
-            // Update attribute to reflect state
-            if (checked) {
-                this.setAttribute('checked', '');
-            } else {
-                this.removeAttribute('checked');
-            }
-        }
+        this.checked = checked;
+        this.updateCheckedState();
     }
     
     getChecked() {
-        return this._input ? this._input.checked : false;
+        return this.checked;
     }
     
     setDisabled(disabled) {
-        if (this._input) {
-            this._input.disabled = disabled;
-            if (this._slider) {
-                this._slider.setAttribute('tabindex', disabled ? '-1' : '0');
-            }
-            
-            if (disabled) {
-                this.classList.add(this.config.classes.states.disabled);
-                this.setAttribute('disabled', '');
-            } else {
-                this.classList.remove(this.config.classes.states.disabled);
-                this.removeAttribute('disabled');
-            }
-        }
+        this.disabled = disabled;
+        this.updateDisabledState();
     }
     
     setLabel(label) {
-        if (this._labelElement) {
-            this._labelElement.textContent = label;
-        }
-        this.setAttribute('label', label);
+        this.label = label;
     }
 }
 
 // Register the Web Component
-customElements.define('wb-toggle', WBToggle);
+if (!customElements.get('wb-toggle')) {
+    customElements.define('wb-toggle', WBToggle);
+}
 
 // Register with WBComponentRegistry if available
 if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
     window.WBComponentRegistry.register('wb-toggle', WBToggle, ['wb-event-log'], {
-        version: '1.0.0',
+        version: '2.0.0',
         type: 'form',
         role: 'ui-element',
         description: 'Toggle switch component with customizable styling and accessibility support',
         api: {
-            static: ['create'],
-            events: ['change', 'toggle'],
-            attributes: ['checked', 'disabled', 'label', 'size', 'variant'],
-            methods: ['toggle', 'setChecked', 'isChecked', 'render']
+            events: ['wb-toggle:ready', 'wb-toggle:change'],
+            attributes: ['checked', 'disabled', 'label', 'size', 'label-position', 'variant'],
+            methods: ['toggle', 'setChecked', 'getChecked', 'setDisabled', 'setLabel', 'render']
         },
-        priority: 4 // UI component depends on infrastructure
+        priority: 4
     });
 }
 
 // Compositional Namespace
 if (!window.WB) window.WB = { components: {}, utils: {} };
 window.WB.components.WBToggle = WBToggle;
-
-// Expose globally (backward compatibility)
 window.WBToggle = WBToggle;
 
-// ES6 Module Exports
 export { WBToggle };
 export default WBToggle;
-
-console.log('🔘 WB Toggle: Pure Web Component registered');

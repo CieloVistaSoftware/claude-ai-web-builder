@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-mode="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Theme Component Demo</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="wb-theme.css">
+    
+    <!-- Components -->
+    <script type="module" src="../wb-base/wb-base.js"></script>
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-shadow-diagnostics/wb-shadow-diagnostics.js"></script>
+    <script type="module" src="wb-theme-manager.js"></script>
+</head>
+<body>
+    
+    <wb-demo title="🎨 WB Theme System" markdown="./wb-theme.md">
+        <div slot="examples">
+            
+            <!-- OVERVIEW -->
+            <section class="demo-section">
+                <h2>📋 Overview</h2>
+                <p>A comprehensive theming system with light/dark modes, CSS custom properties, and automatic system preference detection.</p>
+                
+                <div class="demo-render">
+                    <div class="theme-demo-card">
+                        <h3>🌓 Theme Preview</h3>
+                        <p>This card automatically adapts to the current theme using CSS custom properties.</p>
+                        <div class="theme-demo-colors">
+                            <div class="color-swatch" style="background: var(--primary);">Primary</div>
+                            <div class="color-swatch" style="background: var(--bg-secondary);">Background</div>
+                            <div class="color-swatch" style="background: var(--text-primary); color: var(--bg-primary);">Text</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;wb-theme-manager show-toggle&gt;&lt;/wb-theme-manager&gt;</pre>
+                </div>
+            </section>
+
+            <!-- THEME TOGGLE -->
+            <section class="demo-section">
+                <h2>🌙 Theme Controls</h2>
+                <p>Toggle between light, dark, and auto (system preference) themes.</p>
+                
+                <div class="demo-render">
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <button class="btn btn-secondary" onclick="setTheme('light')">☀️ Light</button>
+                        <button class="btn btn-secondary" onclick="setTheme('dark')">🌙 Dark</button>
+                        <button class="btn btn-secondary" onclick="setTheme('auto')">🔄 Auto</button>
+                        <button class="btn btn-primary" onclick="toggleTheme()">Toggle Theme</button>
+                    </div>
+                    <div class="current-theme">
+                        Current theme: <strong id="current-theme-display">dark</strong>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">JavaScript</div>
+                    <pre>const themeManager = document.querySelector('wb-theme-manager');
+
+// Set specific theme
+themeManager.setTheme('dark');
+
+// Toggle between light/dark
+themeManager.toggleTheme();
+
+// Cycle through all themes
+themeManager.cycleTheme();
+
+// Get current theme
+const theme = themeManager.getTheme();</pre>
+                </div>
+            </section>
+
+            <!-- CSS VARIABLES -->
+            <section class="demo-section">
+                <h2>🎯 CSS Custom Properties</h2>
+                <p>Use CSS variables for automatic theme adaptation.</p>
+                
+                <div class="demo-render demo-render--column">
+                    <div class="variable-demo">
+                        <h4>Colors</h4>
+                        <div class="var-grid">
+                            <div class="var-item"><code>--bg-primary</code><span class="var-preview" style="background: var(--bg-primary);"></span></div>
+                            <div class="var-item"><code>--bg-secondary</code><span class="var-preview" style="background: var(--bg-secondary);"></span></div>
+                            <div class="var-item"><code>--text-primary</code><span class="var-preview" style="background: var(--text-primary);"></span></div>
+                            <div class="var-item"><code>--primary</code><span class="var-preview" style="background: var(--primary);"></span></div>
+                            <div class="var-item"><code>--success-color</code><span class="var-preview" style="background: var(--success-color);"></span></div>
+                            <div class="var-item"><code>--error-color</code><span class="var-preview" style="background: var(--error-color);"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">CSS</div>
+                    <pre>.my-component {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: var(--space-md);
+}</pre>
+                </div>
+            </section>
+
+            <!-- UTILITY CLASSES -->
+            <section class="demo-section">
+                <h2>🔧 Utility Classes</h2>
+                <p>Pre-built utility classes for rapid development.</p>
+                
+                <div class="demo-render">
+                    <div class="utility-examples">
+                        <div class="wb-p-4 wb-bg-secondary wb-rounded-lg wb-shadow-md" style="margin-bottom: 1rem;">
+                            <p class="wb-text-lg wb-font-semibold">Spacing & Layout</p>
+                            <p class="wb-text-secondary">Using: wb-p-4, wb-bg-secondary, wb-rounded-lg, wb-shadow-md</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="wb-btn wb-btn-primary">Primary Button</span>
+                            <span class="wb-btn wb-btn-secondary">Secondary Button</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;div class="wb-p-4 wb-bg-secondary wb-rounded-lg wb-shadow-md"&gt;
+    &lt;p class="wb-text-lg wb-font-semibold"&gt;Title&lt;/p&gt;
+    &lt;p class="wb-text-secondary"&gt;Content&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;button class="wb-btn wb-btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="wb-btn wb-btn-secondary"&gt;Secondary&lt;/button&gt;</pre>
+                </div>
+            </section>
+
+            <!-- SPACING SCALE -->
+            <section class="demo-section">
+                <h2>📏 Spacing Scale</h2>
+                <p>Consistent spacing using CSS custom properties.</p>
+                
+                <div class="demo-render">
+                    <div class="spacing-demo">
+                        <div class="space-item"><span class="space-box" style="width: var(--space-xs); height: var(--space-xs);"></span><code>--space-xs</code></div>
+                        <div class="space-item"><span class="space-box" style="width: var(--space-sm); height: var(--space-sm);"></span><code>--space-sm</code></div>
+                        <div class="space-item"><span class="space-box" style="width: var(--space-md); height: var(--space-md);"></span><code>--space-md</code></div>
+                        <div class="space-item"><span class="space-box" style="width: var(--space-lg); height: var(--space-lg);"></span><code>--space-lg</code></div>
+                        <div class="space-item"><span class="space-box" style="width: var(--space-xl); height: var(--space-xl);"></span><code>--space-xl</code></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EVENTS -->
+            <section class="demo-section">
+                <h2>📡 Events</h2>
+                <p>Listen for theme changes in your components.</p>
+                
+                <div class="demo-render">
+                    <div id="event-log" class="event-log">Theme events will appear here...</div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">JavaScript</div>
+                    <pre>document.addEventListener('wb:theme-changed', (e) => {
+    console.log('Theme changed to:', e.detail.theme);
+    console.log('Is dark mode:', e.detail.isDark);
+});</pre>
+                </div>
+            </section>
+
+            <!-- KEYBOARD SHORTCUTS -->
+            <section class="demo-section">
+                <h2>⌨️ Keyboard Shortcuts</h2>
+                <table class="demo-table">
+                    <thead>
+                        <tr><th>Shortcut</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd></td><td>Toggle theme</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- API REFERENCE -->
+            <section class="demo-section">
+                <h2>🔧 API Methods</h2>
+                <table class="demo-table">
+                    <thead>
+                        <tr><th>Method</th><th>Returns</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>setTheme(theme)</code></td><td>void</td><td>Set theme to 'light', 'dark', or 'auto'</td></tr>
+                        <tr><td><code>toggleTheme()</code></td><td>void</td><td>Toggle between light and dark</td></tr>
+                        <tr><td><code>cycleTheme()</code></td><td>void</td><td>Cycle through all themes</td></tr>
+                        <tr><td><code>getTheme()</code></td><td>string</td><td>Get current theme setting</td></tr>
+                        <tr><td><code>getEffectiveTheme()</code></td><td>string</td><td>Get resolved theme (auto → actual)</td></tr>
+                        <tr><td><code>isDarkMode()</code></td><td>boolean</td><td>Check if dark mode is active</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </wb-demo>
+    
+    <!-- Theme Manager -->
+    <wb-theme-manager id="theme-manager"></wb-theme-manager>
+    
+    <!-- Shadow Diagnostics -->
+    <wb-shadow-diagnostics></wb-shadow-diagnostics>
+
+    <script>
+        function setTheme(theme) {
+            const themeManager = document.getElementById('theme-manager');
+            if (themeManager && themeManager.setTheme) {
+                themeManager.setTheme(theme);
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.setAttribute('data-mode', theme);
+                document.body.setAttribute('data-theme', theme);
+                document.body.setAttribute('data-mode', theme);
+            }
+            updateThemeDisplay(theme);
+        }
+        
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        }
+        
+        function updateThemeDisplay(theme) {
+            const display = document.getElementById('current-theme-display');
+            if (display) display.textContent = theme;
+        }
+        
+        // Listen for theme changes
+        document.addEventListener('wb:theme-changed', (e) => {
+            const log = document.getElementById('event-log');
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML = `${time}: Theme changed to "${e.detail.theme}" (isDark: ${e.detail.isDark})\n` + log.innerHTML;
+            updateThemeDisplay(e.detail.theme);
+        });
+        
+        // Initial display
+        document.addEventListener('DOMContentLoaded', () => {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            updateThemeDisplay(current);
+        });
+    </script>
+    
+    <style>
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: var(--text-primary, #f8fafc); border: 1px solid rgba(255,255,255,0.2); }
+        .btn:hover { transform: translateY(-1px); }
+        
+        .theme-demo-card {
+            background: var(--bg-secondary, #1e293b);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color, #334155);
+        }
+        
+        .theme-demo-colors {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .current-theme {
+            padding: 0.75rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .var-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .var-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            background: var(--bg-tertiary, #334155);
+            border-radius: 6px;
+        }
+        
+        .var-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .spacing-demo {
+            display: flex;
+            align-items: flex-end;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .space-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .space-box {
+            background: var(--primary, #6366f1);
+            border-radius: 2px;
+        }
+        
+        .event-log {
+            background: var(--bg-tertiary, #0f172a);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-line;
+        }
+        
+        .demo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .demo-table th, .demo-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .demo-table th { background: rgba(99, 102, 241, 0.1); font-weight: 600; }
+        .demo-table code {
+            background: rgba(0,0,0,0.3);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        
+        kbd {
+            background: var(--bg-tertiary, #334155);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+    </style>
+</body>
+</html>

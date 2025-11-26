@@ -1,27 +1,266 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>wb-semanticElements Demo</title>
-  <script type="module" src="../wb-css-loader/wb-css-loader.js"></script>
-    <script type="module" src="wb-semantic-elements.js"></script>
+  <title>WB Semantic Elements</title>
+  <script type="module" src="../../build/main.js"></script>
+  <script type="module" src="../wb-demo/wb-demo.js"></script>
+  <script type="module" src="wb-semanticElements.js"></script>
   <link rel="stylesheet" href="../../index.css">
   <link rel="stylesheet" href="./wb-semantic-elements.css">
- 
 </head>
-<body>
-  <div class="demo-container">
-    <h1>wb-semanticElements Demo</h1>
-    
-    <wb-demo markdown="./wb-semantic-elements.md">
-      <div slot="examples">
-          <wb-semantic-elements></wb-semantic-elements>
-      </div>
-    </wb-demo>
-  </div>
+
+<body style="margin: 1rem;">
+  <wb-demo title="📝 WB Semantic Elements" markdown="./wb-semantic-elements.md">
+    <div slot="examples">
+            <section style="padding-left: 1rem;">
+                      <h2>Theme Selector</h2>
+                      <div style="margin-bottom: 1.5rem;">
+                        <label for="theme-select">Choose Theme:</label>
+                        <select id="theme-dropdown" style="margin-left:0.5rem;">
+                          <option value="default">Default</option>
+                          <option value="indigo">Indigo</option>
+                          <option value="cyberpunk">Cyberpunk</option>
+                          <option value="neon-city">Neon City</option>
+                          <option value="ocean">Ocean</option>
+                          <option value="forest">Forest</option>
+                          <option value="sunset">Sunset</option>
+                          <option value="aurora">Aurora</option>
+                          <option value="purple">Purple</option>
+                          <option value="emerald">Emerald</option>
+                          <option value="ruby">Ruby</option>
+                          <option value="sapphire">Sapphire</option>
+                          <option value="amber">Amber</option>
+                          <option value="mint">Mint</option>
+                          <option value="coral">Coral</option>
+                        </select>
+                      </div>
+              <h2>Color Control Panel</h2>
+              <div id="color-control-panel" style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="min-width: 200px;">
+                  <label for="theme-dropdown-panel">Theme</label>
+                  <select id="theme-dropdown-panel" style="margin-left:0.5rem;">
+                    <option value="default">Default</option>
+                    <option value="indigo">Indigo</option>
+                    <option value="cyberpunk">Cyberpunk</option>
+                    <option value="neon-city">Neon City</option>
+                    <option value="ocean">Ocean</option>
+                    <option value="forest">Forest</option>
+                    <option value="sunset">Sunset</option>
+                    <option value="aurora">Aurora</option>
+                    <option value="purple">Purple</option>
+                    <option value="emerald">Emerald</option>
+                    <option value="ruby">Ruby</option>
+                    <option value="sapphire">Sapphire</option>
+                    <option value="amber">Amber</option>
+                    <option value="mint">Mint</option>
+                    <option value="coral">Coral</option>
+                  </select>
+                </div>
+                <div><label for="primary-color">Primary</label><input type="color" id="primary-color" value="#6366f1" style="margin-left:0.5rem;"></div>
+                <div><label for="success-color">Success</label><input type="color" id="success-color" value="#22c55e" style="margin-left:0.5rem;"></div>
+                <div><label for="warning-color">Warning</label><input type="color" id="warning-color" value="#f59e0b" style="margin-left:0.5rem;"></div>
+                <div><label for="error-color">Error</label><input type="color" id="error-color" value="#ef4444" style="margin-left:0.5rem;"></div>
+                <div><label for="accent-color">Accent</label><input type="color" id="accent-color" value="#818cf8" style="margin-left:0.5rem;"></div>
+                <div><label for="info-color">Info</label><input type="color" id="info-color" value="#0ea5e9" style="margin-left:0.5rem;"></div>
+                <div><label for="secondary-color">Secondary</label><input type="color" id="secondary-color" value="#334155" style="margin-left:0.5rem;"></div>
+                <div><label for="bg-primary">Background</label><input type="color" id="bg-primary" value="#0f172a" style="margin-left:0.5rem;"></div>
+              </div>
+            </section>
+      <section style="padding-left: 1rem;">
+        <h2>Gradient Samples</h2>
+        <div style="height: 48px; width: 100%; border-radius: 8px; margin-bottom: 1rem; background: linear-gradient(90deg, #6366f1 0%, #22c55e 100%);"></div>
+        <div style="height: 48px; width: 100%; border-radius: 8px; margin-bottom: 1rem; background: linear-gradient(90deg, #ef4444 0%, #f59e0b 100%);"></div>
+        <div style="height: 48px; width: 100%; border-radius: 8px; margin-bottom: 1rem; background: linear-gradient(90deg, #818cf8 0%, #0ea5e9 100%);"></div>
+        <div style="height: 48px; width: 100%; border-radius: 8px; margin-bottom: 1rem; background: linear-gradient(135deg, #6366f1 0%, #ef4444 50%, #22c55e 100%);"></div>
+        <h1>Heading Level 1 (h1)</h1>
+        <button type="button" class="primary">Primary Button</button>
+        <button type="button" class="secondary">Secondary Button</button>
+        <button type="button" class="accent">Accent Button</button>
+        <button type="button" class="success">Success</button>
+        <button type="button" class="warning">Warning</button>
+        <button type="button" class="error">Error</button>
+        <button type="button" class="info">Info</button>
+        <h2>Heading Level 2 (h2)</h2>
+        <input type="text" placeholder="Text input" style="margin-right: 0.5rem;">
+        <input type="password" placeholder="Password input" style="margin-right: 0.5rem;">
+        <input type="email" placeholder="Email input" style="margin-right: 0.5rem;">
+        <input type="number" placeholder="Number input" style="margin-right: 0.5rem;">
+        <input type="date" style="margin-right: 0.5rem;">
+        <input type="color" style="margin-right: 0.5rem;">
+        <input type="range" min="0" max="100" style="margin-right: 0.5rem;">
+        <input type="checkbox" id="check1"><label for="check1" style="margin-right: 1rem;">Checkbox</label>
+        <input type="radio" id="radio1" name="group1"><label for="radio1" style="margin-right: 1rem;">Radio</label>
+        <select style="margin-right: 0.5rem;"><option>Option 1</option><option>Option 2</option></select>
+        <textarea placeholder="Textarea input" style="margin-right: 0.5rem;"></textarea>
+        <h3>Heading Level 3 (h3)</h3>
+        <p>This is a paragraph inside a section. Semantic elements help structure your content for accessibility and clarity.</p>
+      </section>
+      <section style="padding-left: 1rem;">
+        <h1>Section Heading Variant (h1)</h1>
+        <h2>Section Heading Variant (h2)</h2>
+        <h3>Section Heading Variant (h3)</h3>
+        <button type="button" class="primary">Default</button>
+        <button type="button" class="info">Info</button>
+        <button type="button" class="accent">Accent</button>
+        <button type="button" class="success">Success</button>
+        <button type="button" class="warning">Warning</button>
+        <button type="button" class="error">Error</button>
+      </section>
+      <article style="padding-left: 1rem;">
+        <h2>Article Title</h2>
+        <p>This is an article element, used for self-contained content.</p>
+        <button type="button" class="accent">Read More</button>
+      </article>
+      <aside style="padding-left: 1rem;">
+        <h2>Aside</h2>
+        <p>Aside content is tangentially related to the main content.</p>
+        <button type="button" class="info">More Info</button>
+      </aside>
+      <nav style="padding-left: 1rem;">
+        <h2>Navigation</h2>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button type="button" class="primary">Go</button>
+      </nav>
+      <main style="padding-left: 1rem;">
+        <h2>Main Content</h2>
+        <p>The main element represents the dominant content of the page.</p>
+        <button type="button" class="success">Main Action</button>
+      </main>
+      <footer style="padding-left: 1rem;">
+        <h2>Footer</h2>
+        <p>Footer content goes here.</p>
+        <button type="button" class="error">Contact</button>
+      </footer>
+    </div>
+    <textarea id="markup-viewer" readonly style="width: 100%; min-height: 200px; margin-top: 2rem; font-family: monospace; font-size: 0.95rem; background: var(--background, #222); color: var(--text, #eee); border-radius: 8px; border: 1px solid var(--border, #444); padding: 1rem;"></textarea>
+  </wb-demo>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    // Markup viewer
+    const examples = document.querySelector('wb-demo [slot="examples"]');
+    const textarea = document.getElementById('markup-viewer');
+    if (examples && textarea) {
+      textarea.value = examples.innerHTML.trim();
+    }
+
+    // Color control panel logic
+    const colorVars = [
+      { id: 'primary-color', css: '--primary', default: '#6366f1' },
+      { id: 'success-color', css: '--success', default: '#22c55e' },
+      { id: 'warning-color', css: '--warning', default: '#f59e0b' },
+      { id: 'error-color', css: '--error', default: '#ef4444' },
+      { id: 'accent-color', css: '--accent', default: '#818cf8' },
+      { id: 'info-color', css: '--info-color', default: '#0ea5e9' },
+      { id: 'secondary-color', css: '--surface-700', default: '#334155' },
+      { id: 'bg-primary', css: '--bg-primary', default: '#0f172a' }
+    ];
+    // Set indigo defaults on load only
+    // Theme palettes
+    const palettes = {
+      dark: {
+        '--primary': '#6366f1',
+        '--success': '#22c55e',
+        '--warning': '#f59e0b',
+        '--error': '#ef4444',
+        '--accent': '#818cf8',
+        '--info-color': '#0ea5e9',
+        '--surface-700': '#334155',
+        '--bg-primary': '#0f172a'
+      },
+      light: {
+        '--primary': '#6366f1',
+        '--success': '#22c55e',
+        '--warning': '#f59e0b',
+        '--error': '#ef4444',
+        '--accent': '#818cf8',
+        '--info-color': '#0ea5e9',
+        '--surface-700': '#f1f5f9',
+        '--bg-primary': '#f1f5f9'
+      },
+        default: {
+          '--primary': '#6366f1',
+          '--success': '#22c55e',
+          '--warning': '#f59e0b',
+          '--error': '#ef4444',
+          '--accent': '#818cf8',
+          '--info-color': '#0ea5e9',
+          '--surface-700': '#334155',
+          '--bg-primary': '#0f172a'
+        },
+        indigo: {
+          '--primary': '#6366f1',
+          '--success': '#6366f1',
+          '--warning': '#818cf8',
+          '--error': '#6366f1',
+          '--accent': '#818cf8',
+          '--info-color': '#6366f1',
+          '--surface-700': '#334155',
+          '--bg-primary': '#0f172a'
+        }
+    };
+
+    function setPalette(theme) {
+      const palette = palettes[theme] || palettes.dark;
+      colorVars.forEach(({ id, css }) => {
+        const value = palette[css];
+        document.documentElement.style.setProperty(css, value);
+        const input = document.getElementById(id);
+        if (input) input.value = value;
+      });
+    }
+
+    // Initial palette
+    let currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    setPalette(currentTheme);
+
+    // Theme selector logic
+      const themeDropdown = document.getElementById('theme-dropdown');
+      if (themeDropdown) {
+          themeDropdown.value = currentTheme;
+          themeDropdown.addEventListener('change', e => {
+            currentTheme = themeDropdown.value;
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            setPalette(currentTheme);
+          });
+      }
+
+    // Listen for theme changes (external)
+    const observer = new MutationObserver(() => {
+      const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+      if (theme !== currentTheme) {
+        currentTheme = theme;
+        if (themeSelect) themeSelect.value = theme;
+        setPalette(theme);
+      }
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    // Manual color changes
+    colorVars.forEach(({ id, css }) => {
+      const input = document.getElementById(id);
+      if (input) {
+        input.addEventListener('input', e => {
+          document.documentElement.style.setProperty(css, input.value);
+        });
+      }
+    });
+    colorVars.forEach(({ id, css }) => {
+      const input = document.getElementById(id);
+      if (input) {
+        input.addEventListener('input', e => {
+          document.documentElement.style.setProperty(css, input.value);
+        });
+      }
+    });
+  });
+</script>
 </body>
+
 </html>
-
-
-

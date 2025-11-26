@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Change Text Component Demo</title>
+    
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="./wb-change-text.css">
+    
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+    <script type="module" src="./wb-change-text.js"></script>
+</head>
+<body style="margin: 0; padding: 1rem; background: var(--surface-900);">
+    
+    <wb-demo title="WB Change Text Component" style="width: 95vw; margin: 0 auto;">
+        <div slot="description">
+            <p>The <code>&lt;wb-change-text&gt;</code> component provides inline text editing capabilities. 
+            Click on any text to edit it directly, with automatic save on blur or Enter key.</p>
+        </div>
+        
+        <div slot="examples" style="padding: 1rem;">
+
+            <!-- Basic Usage -->
+            <wb-demo-section>
+                <h2>📝 Basic Usage</h2>
+                <p>Click on the text below to edit it inline.</p>
+                
+                <wb-demo-grid style="gap: 1rem;">
+                    <wb-demo-item>
+                        <h3>Simple Text</h3>
+                        <wb-change-text id="basic-demo">Click to edit this text!</wb-change-text>
+                        <wb-demo-output id="basic-output">Edit the text above</wb-demo-output>
+                    </wb-demo-item>
+                    
+                    <wb-demo-item>
+                        <h3>Heading Text</h3>
+                        <h2><wb-change-text id="heading-demo">Editable Heading</wb-change-text></h2>
+                    </wb-demo-item>
+                    
+                    <wb-demo-item>
+                        <h3>Paragraph Text</h3>
+                        <p>
+                            <wb-change-text id="paragraph-demo">This is an editable paragraph. You can modify any part of this text by clicking on it.</wb-change-text>
+                        </p>
+                    </wb-demo-item>
+                </wb-demo-grid>
+            </wb-demo-section>
+
+            <!-- Interactive Demo -->
+            <wb-demo-section>
+                <h2>🎯 Interactive Demo</h2>
+                <p>Watch the component respond to different interactions.</p>
+                
+                <wb-demo-grid style="gap: 1rem;">
+                    <wb-demo-item>
+                        <h3>Edit with Controls</h3>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <wb-change-text id="controlled-demo" style="flex: 1; padding: 0.5rem; border: 1px dashed var(--border-color); border-radius: 4px;">
+                                Controlled text editing
+                            </wb-change-text>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <wb-button variant="primary" onclick="focusEdit()">Focus Edit</wb-button>
+                                <wb-button variant="secondary" onclick="resetText()">Reset</wb-button>
+                            </div>
+                        </div>
+                        <wb-demo-output id="controlled-output">Use the controls to interact</wb-demo-output>
+                    </wb-demo-item>
+                    
+                    <wb-demo-item>
+                        <h3>Character Counter</h3>
+                        <wb-change-text id="counter-demo" maxlength="50">Type here (max 50 chars)</wb-change-text>
+                        <div id="char-count" style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                            0 / 50 characters
+                        </div>
+                    </wb-demo-item>
+                </wb-demo-grid>
+            </wb-demo-section>
+
+            <!-- Use Cases -->
+            <wb-demo-section>
+                <h2>💼 Use Cases</h2>
+                <p>Common scenarios where inline editing is useful.</p>
+                
+                <wb-demo-grid style="gap: 1rem;">
+                    <wb-demo-item>
+                        <h3>Profile Name</h3>
+                        <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">JD</div>
+                            <div>
+                                <wb-change-text id="profile-name" style="font-weight: bold; font-size: 1.125rem;">John Doe</wb-change-text>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem;">Software Developer</div>
+                            </div>
+                        </div>
+                    </wb-demo-item>
+                    
+                    <wb-demo-item>
+                        <h3>Todo Item</h3>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--surface-700); border-radius: 8px;">
+                            <input type="checkbox" id="todo-check">
+                            <wb-change-text id="todo-text">Buy groceries</wb-change-text>
+                        </div>
+                    </wb-demo-item>
+                    
+                    <wb-demo-item>
+                        <h3>Table Cell</h3>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: var(--surface-700);">
+                                    <th style="padding: 0.5rem; text-align: left;">Product</th>
+                                    <th style="padding: 0.5rem; text-align: left;">Price</th>
+                                    <th style="padding: 0.5rem; text-align: left;">Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.5rem;"><wb-change-text>Widget A</wb-change-text></td>
+                                    <td style="padding: 0.5rem;"><wb-change-text>$19.99</wb-change-text></td>
+                                    <td style="padding: 0.5rem;"><wb-change-text>10</wb-change-text></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </wb-demo-item>
+                </wb-demo-grid>
+            </wb-demo-section>
+
+            <!-- JavaScript API -->
+            <wb-demo-section>
+                <h2>⚡ JavaScript API</h2>
+                <p>Control the component programmatically.</p>
+                
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <wb-button variant="primary" onclick="getText()">Get Text</wb-button>
+                    <wb-button variant="secondary" onclick="setText()">Set Text</wb-button>
+                    <wb-button variant="success" onclick="enableEdit()">Enable Edit</wb-button>
+                    <wb-button variant="danger" onclick="disableEdit()">Disable Edit</wb-button>
+                </div>
+                
+                <wb-change-text id="api-demo" style="padding: 1rem; background: var(--surface-700); border-radius: 8px; display: block;">
+                    Use the buttons above to control this text via JavaScript API
+                </wb-change-text>
+                <wb-demo-output id="api-output">API results will appear here</wb-demo-output>
+            </wb-demo-section>
+
+            <!-- Event Log -->
+            <wb-demo-section>
+                <h2>📋 Event Log</h2>
+                <p>All text changes are logged here.</p>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="30"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    show-source="true"
+                    style="max-height: 300px;">
+                </wb-event-log>
+            </wb-demo-section>
+
+        </div>
+    </wb-demo>
+
+    <script>
+        // Event log reference
+        let eventLog;
+        const originalTexts = {};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            eventLog = document.getElementById('demo-event-log');
+            logEvent('info', '📝 WB Change Text Demo initialized');
+            
+            // Store original texts
+            document.querySelectorAll('wb-change-text').forEach(el => {
+                originalTexts[el.id] = el.textContent;
+            });
+            
+            // Listen for text changes
+            document.addEventListener('wb-change-text:change', (e) => {
+                const target = e.target;
+                const newText = e.detail?.text || target.textContent;
+                logEvent('success', `Text changed: "${newText.substring(0, 30)}${newText.length > 30 ? '...' : ''}"`);
+                
+                // Update outputs
+                if (target.id === 'basic-demo') {
+                    document.getElementById('basic-output').textContent = `Current: ${newText}`;
+                }
+                if (target.id === 'controlled-demo') {
+                    document.getElementById('controlled-output').textContent = `Edited: ${newText}`;
+                }
+            });
+            
+            // Character counter
+            const counterDemo = document.getElementById('counter-demo');
+            if (counterDemo) {
+                const updateCounter = () => {
+                    const count = counterDemo.textContent.length;
+                    document.getElementById('char-count').textContent = `${count} / 50 characters`;
+                };
+                counterDemo.addEventListener('input', updateCounter);
+                counterDemo.addEventListener('blur', updateCounter);
+            }
+        });
+
+        function logEvent(type, message) {
+            if (eventLog && eventLog.addEvent) {
+                eventLog.addEvent({ type, message, source: 'wb-change-text-demo' });
+            }
+            console.log(`[${type}] ${message}`);
+        }
+
+        // Control functions
+        function focusEdit() {
+            const el = document.getElementById('controlled-demo');
+            if (el) {
+                el.focus();
+                el.click();
+                logEvent('info', 'Focused edit mode');
+            }
+        }
+
+        function resetText() {
+            const el = document.getElementById('controlled-demo');
+            if (el && originalTexts['controlled-demo']) {
+                el.textContent = originalTexts['controlled-demo'];
+                document.getElementById('controlled-output').textContent = 'Text reset to original';
+                logEvent('info', 'Text reset');
+            }
+        }
+
+        // API functions
+        function getText() {
+            const el = document.getElementById('api-demo');
+            if (el) {
+                const text = el.textContent;
+                document.getElementById('api-output').textContent = `getText(): "${text}"`;
+                logEvent('info', `Got text: "${text.substring(0, 30)}..."`);
+            }
+        }
+
+        function setText() {
+            const el = document.getElementById('api-demo');
+            if (el) {
+                const newText = `Text updated at ${new Date().toLocaleTimeString()}`;
+                el.textContent = newText;
+                document.getElementById('api-output').textContent = `setText(): "${newText}"`;
+                logEvent('success', 'Text set via API');
+            }
+        }
+
+        function enableEdit() {
+            const el = document.getElementById('api-demo');
+            if (el) {
+                el.removeAttribute('disabled');
+                el.setAttribute('contenteditable', 'true');
+                document.getElementById('api-output').textContent = 'Editing enabled';
+                logEvent('info', 'Editing enabled');
+            }
+        }
+
+        function disableEdit() {
+            const el = document.getElementById('api-demo');
+            if (el) {
+                el.setAttribute('disabled', '');
+                el.removeAttribute('contenteditable');
+                document.getElementById('api-output').textContent = 'Editing disabled';
+                logEvent('warning', 'Editing disabled');
+            }
+        }
+    </script>
+</body>
+</html>

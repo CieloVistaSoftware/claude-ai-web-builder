@@ -1,53 +1,28 @@
-// WB Nav Web Component
-// A fully-featured navigation menu component with responsive layouts
+/**
+ * WB Nav Web Component
+ * 
+ * A fully-featured navigation menu component with responsive layouts.
+ * 
+ * @example
+ * <wb-nav layout="horizontal" brand-text="My App" items='[{"text":"Home","href":"/"}]'></wb-nav>
+ * 
+ * @version 2.0.0
+ */
 
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-if (typeof WBNav === 'undefined') {
-class WBNav extends HTMLElement {
+class WBNav extends WBBaseComponent {
+    static useShadow = false; // Nav typically needs light DOM for styling
+    
     constructor() {
         super();
-        this.config = null;
         this.items = [];
         this.activeItem = null;
         this.isExpanded = false;
         this._initialized = false;
-    }
-
-    async connectedCallback() {
-        if (this._initialized) return;
-        this._initialized = true;
-
-        // Load configuration
-        await this.loadConfig();
         
-        // Load CSS if needed
-        await this.loadCSS();
-        
-        // Initialize navigation
-        this.render();
-        
-        // Set up event listeners
-        this.setupEventListeners();
-        
-        // Dispatch ready event
-        this.dispatchEvent(new CustomEvent('wbNavReady', { 
-            bubbles: true,
-            detail: { component: this, config: this.config }
-        }));
-        
-        // Dispatch wb: event for wb-event-log
-        document.dispatchEvent(new CustomEvent('wb:info', {
-            detail: {
-                message: 'WB Nav: Component initialized and ready',
-                source: 'wb-nav',
-                component: 'navigation'
-            }
-        }));
-    }
-
-    getDefaultConfig() {
-        return {
+        this.config = {
             classes: {
                 base: 'wb-nav',
                 container: 'wb-nav-container',
@@ -57,11 +32,7 @@ class WBNav extends HTMLElement {
                 brand: 'wb-nav-brand',
                 toggle: 'wb-nav-toggle',
                 toggleIcon: 'wb-nav-toggle-icon',
-                states: {
-                    active: 'active',
-                    disabled: 'disabled',
-                    expanded: 'expanded'
-                },
+                states: { active: 'active', disabled: 'disabled', expanded: 'expanded' },
                 layouts: {
                     horizontal: 'wb-nav--horizontal',
                     vertical: 'wb-nav--vertical',
@@ -69,131 +40,126 @@ class WBNav extends HTMLElement {
                     left: 'wb-nav--left',
                     right: 'wb-nav--right'
                 },
-                variants: {
-                    default: 'wb-nav--default',
-                    minimal: 'wb-nav--minimal',
-                    pills: 'wb-nav--pills'
-                }
+                variants: { default: 'wb-nav--default', minimal: 'wb-nav--minimal', pills: 'wb-nav--pills' }
             },
-            responsive: {
-                breakpoint: 768,
-                collapseOnMobile: true
-            },
-            defaults: {
-                layout: 'horizontal',
-                position: 'top',
-                theme: 'default'
-            }
+            defaults: { layout: 'horizontal', position: 'top', theme: 'default' }
         };
     }
 
-    async loadConfig() {
-        try {
-            // Prefer local schema file in same folder
-            let configPath = 'wb-nav.schema.json';
-            if (window.WBComponentUtils && typeof window.WBComponentUtils.getPath === 'function') {
+    static get observedAttributes() {
+        return ['layout', 'variant', 'position', 'items', 'brand-text'];
+    }
+
+    async connectedCallback() {
+        super.connectedCallback();
+        
+        if (this._initialized) return;
+        this._initialized = true;
+        
+        this.logInfo('WBNav connecting', { layout: this.layout });
+        
+        await loadComponentCSS(this, 'wb-nav.css');
+        this.render();
+        this.setupEventListeners();
+        
+        this.fireEvent('wb-nav:ready', { component: 'wb-nav' });
+        this.logInfo('WBNav ready');
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.logDebug('WBNav disconnected');
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        
+        if (!this._initialized || oldValue === newValue) return;
+        
+        switch (name) {
+            case 'items':
                 try {
-                    const basePath = window.WBComponentUtils.getPath('wb-nav.js', '../components/wb-nav/');
-                    configPath = basePath + 'wb-nav.schema.json';
+                    this.items = JSON.parse(newValue);
+                    this.render();
                 } catch (e) {
-                    console.warn('🧭 WB Nav: Could not use WBComponentUtils for schema path, using local path');
+                    this.logError('Invalid items JSON', { error: e.message });
                 }
-            }
-            const response = await fetch(configPath);
-            if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            this.config = await response.json();
-            console.log('🧭 WB Nav: Configuration loaded', this.config);
-        } catch (error) {
-            console.warn('🧭 WB Nav: Could not load wb-nav.schema.json, using defaults:', error.message || error);
-            this.config = this.getDefaultConfig();
+                break;
+            default:
+                this.render();
+                break;
         }
     }
 
-    async loadCSS() {
-        await loadComponentCSS(this, 'wb-nav.css');
+    // Property getters/setters
+    get layout() {
+        return this.getAttr('layout', 'horizontal');
+    }
+    
+    set layout(value) {
+        this.setAttr('layout', value);
+    }
+    
+    get variant() {
+        return this.getAttr('variant', 'default');
+    }
+    
+    set variant(value) {
+        this.setAttr('variant', value);
+    }
+    
+    get position() {
+        return this.getAttr('position', 'top');
+    }
+    
+    set position(value) {
+        this.setAttr('position', value);
     }
 
     render() {
-        // Ensure config is loaded before rendering
-        if (!this.config || !this.config.classes) {
-            console.warn('🧭 WB Nav: Config not loaded yet, using defaults for render');
-            this.config = this.getDefaultConfig();
-        }
-        
-        // Clear existing content
         this.innerHTML = '';
-        
-        // Apply base class (with safety check)
-        const baseClass = this.config?.classes?.base;
-        if (baseClass) {
-            this.classList.add(baseClass);
-        }
+        this.classList.add(this.config.classes.base);
         this.setAttribute('role', 'navigation');
-        this.setAttribute('aria-label', this.getAttribute('aria-label') || 'Main navigation');
         
-        // Apply layout classes
-        const layout = this.getAttribute('layout') || this.config?.defaults?.layout || 'horizontal';
-        if (layout && this.config?.classes?.layouts?.[layout]) {
-            this.classList.add(this.config.classes.layouts[layout]);
+        // Apply layout class
+        if (this.config.classes.layouts[this.layout]) {
+            this.classList.add(this.config.classes.layouts[this.layout]);
         }
         
-        // Apply variant classes
-        const variant = this.getAttribute('variant') || this.config?.defaults?.variant;
-        if (variant && variant !== 'default' && this.config?.classes?.variants?.[variant]) {
-            this.classList.add(this.config.classes.variants[variant]);
-        }
-        
-        // Apply position classes
-        const position = this.getAttribute('position');
-        if (position && this.config?.classes?.layouts?.[position]) {
-            this.classList.add(this.config.classes.layouts[position]);
+        // Apply variant class
+        if (this.variant !== 'default' && this.config.classes.variants[this.variant]) {
+            this.classList.add(this.config.classes.variants[this.variant]);
         }
         
         // Create container
         const container = document.createElement('div');
-        container.className = this.config?.classes?.container || 'wb-nav-container';
+        container.className = this.config.classes.container;
         
         // Create brand if provided
         const brandText = this.getAttribute('brand-text');
         const brandHref = this.getAttribute('brand-href');
         if (brandText) {
             const brand = document.createElement('a');
-            brand.className = this.config?.classes?.brand || 'wb-nav-brand';
+            brand.className = this.config.classes.brand;
             brand.href = brandHref || '#';
             brand.textContent = brandText;
             container.appendChild(brand);
         }
         
-        // Create navigation list
-        const navList = document.createElement('ul');
-        navList.className = this.config?.classes?.list || 'wb-nav-list';
-        
-        // Get items from attribute or use default
+        // Parse items from attribute or children
         const itemsData = this.getAttribute('items');
         if (itemsData) {
             try {
                 this.items = JSON.parse(itemsData);
             } catch (e) {
-                console.error('Invalid items JSON:', e);
-            }
-        }
-
-        // If no items were provided via attribute or programmatically,
-        // attempt to parse light-DOM children. This enables a simpler
-        // authoring pattern such as:
-        // <wb-nav>
-        //   <wb-list-item data-id="home" href="/">Home</wb-list-item>
-        // </wb-nav>
-        // or legacy markup with <ul><li>... inside the wb-nav element.
-        if ((!this.items || this.items.length === 0) && this.children.length > 0) {
-            try {
-                this.parseChildrenItems();
-            } catch (e) {
-                console.warn('WB Nav: Error parsing light DOM children', e);
+                this.logError('Invalid items JSON', { error: e.message });
             }
         }
         
-        // Create navigation items
+        // Create navigation list
+        const navList = document.createElement('ul');
+        navList.className = this.config.classes.list;
+        
         this.items.forEach((item, index) => {
             const navItem = this.createNavItem(item, index);
             navList.appendChild(navItem);
@@ -201,7 +167,7 @@ class WBNav extends HTMLElement {
         
         container.appendChild(navList);
         
-        // Create mobile toggle if responsive
+        // Create mobile toggle
         const responsive = this.getAttribute('responsive') !== 'false';
         if (responsive) {
             const toggle = this.createMobileToggle();
@@ -213,42 +179,27 @@ class WBNav extends HTMLElement {
 
     createNavItem(item, index) {
         const navItem = document.createElement('li');
-        navItem.className = this.config?.classes?.item || 'wb-nav-item';
+        navItem.className = this.config.classes.item;
         navItem.setAttribute('data-nav-index', index);
         
         if (item.id) {
             navItem.setAttribute('data-nav-id', item.id);
         }
         
-        // Set all data attributes from the item object
-        Object.keys(item).forEach(key => {
-            if (key.startsWith('data-')) {
-                navItem.setAttribute(key, item[key]);
-            }
-        });
-        
         const navLink = document.createElement('a');
-        navLink.className = this.config?.classes?.link || 'wb-nav-link';
+        navLink.className = this.config.classes.link;
         navLink.href = item.href || '#';
-        // support both `text` and legacy `label` keys
         navLink.textContent = item.text || item.label || '';
         
-        if (item.title) {
-            navLink.title = item.title;
-        }
+        if (item.title) navLink.title = item.title;
+        if (item.target) navLink.target = item.target;
         
-        if (item.target) {
-            navLink.target = item.target;
-        }
-        
-        // Set active state
         if (item.active) {
             navItem.classList.add(this.config.classes.states.active);
             navLink.setAttribute('aria-current', 'page');
             this.activeItem = navItem;
         }
         
-        // Set disabled state
         if (item.disabled) {
             navItem.classList.add(this.config.classes.states.disabled);
             navLink.setAttribute('aria-disabled', 'true');
@@ -267,11 +218,8 @@ class WBNav extends HTMLElement {
         
         const icon = document.createElement('span');
         icon.className = this.config.classes.toggleIcon;
-        icon.setAttribute('aria-hidden', 'true');
-        
         toggle.appendChild(icon);
         
-        // Toggle click handler
         toggle.addEventListener('click', (e) => {
             e.preventDefault();
             this.toggle();
@@ -281,43 +229,25 @@ class WBNav extends HTMLElement {
     }
 
     setupEventListeners() {
-        // Navigation item clicks
         this.addEventListener('click', (e) => {
             const target = e.target;
-            // runtime guards because EventTarget may be non-DOM in some environments
-            if (target && target instanceof Element && target.matches(`.${this.config.classes.link}`)) {
+            if (target instanceof Element && target.matches(`.${this.config.classes.link}`)) {
                 const navItem = target.closest(`.${this.config.classes.item}`);
-                const isDisabled = navItem && navItem.classList.contains(this.config.classes.states.disabled);
+                const isDisabled = navItem?.classList.contains(this.config.classes.states.disabled);
                 
-                if (!isDisabled) {
+                if (!isDisabled && navItem) {
                     this.setActiveItem(navItem);
                     
-                    // Dispatch item click event
-                    const event = new CustomEvent('wbNavItemClick', {
-                        bubbles: true,
-                        detail: {
-                            item: navItem,
-                            link: target,
-                            index: navItem.getAttribute('data-nav-index'),
-                            id: navItem.getAttribute('data-nav-id'),
-                            nav: this,
-                            event: e
-                        }
+                    this.fireEvent('wb-nav:item-click', {
+                        item: navItem,
+                        link: target,
+                        index: navItem.getAttribute('data-nav-index'),
+                        id: navItem.getAttribute('data-nav-id'),
+                        text: target.textContent
                     });
-                    document.dispatchEvent(event);
                     
-                    // Dispatch wb: event for wb-event-log
-                    document.dispatchEvent(new CustomEvent('wb:info', {
-                        detail: {
-                            message: `Nav clicked: "${target.textContent}" (${(target.href || 'no href')})`,
-                            source: 'wb-nav',
-                            component: 'navigation',
-                            action: 'click',
-                            target: target.textContent
-                        }
-                    }));
+                    this.logDebug('WBNav item clicked', { text: target.textContent });
                     
-                    // Close mobile menu after click
                     if (this.isExpanded) {
                         this.collapse();
                     }
@@ -325,57 +255,13 @@ class WBNav extends HTMLElement {
             }
         });
         
-        // Keyboard navigation
-        this.addEventListener('keydown', (e) => {
-            this.handleKeyboardNavigation(e);
-        });
+        this.addEventListener('keydown', (e) => this.handleKeyboardNavigation(e));
         
-        // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
-            const t = e.target;
-            if (this.isExpanded && t instanceof Node && !this.contains(t)) {
+            if (this.isExpanded && e.target instanceof Node && !this.contains(e.target)) {
                 this.collapse();
             }
         });
-    }
-
-    // Parse light-DOM children into items array. Supports <wb-list-item> custom elements
-    // as well as legacy <ul><li> lists. This function is intentionally forgiving and
-    // only pulls simple attributes/text content into the internal item model.
-    parseChildrenItems() {
-        const parsed = [];
-
-        // First, support custom wb-list-item elements
-        const listItems = Array.from(this.querySelectorAll('wb-list-item'));
-        if (listItems.length > 0) {
-            listItems.forEach((el, idx) => {
-                const id = el.getAttribute('data-id') || el.getAttribute('id') || `item-${idx}`;
-                const href = el.getAttribute('href') || el.getAttribute('data-href') || '#';
-                const active = el.hasAttribute('active');
-                const disabled = el.hasAttribute('disabled');
-                const text = (el.textContent || '').trim();
-                parsed.push({ id, text, href, active, disabled });
-            });
-        } else {
-            // Fallback: look for <ul> / <li> structures inside the wb-nav
-            const legacyLists = Array.from(this.querySelectorAll('ul'));
-            legacyLists.forEach((ul) => {
-                const items = Array.from(ul.querySelectorAll('li'));
-                items.forEach((li, idx) => {
-                    const a = li.querySelector('a');
-                    const text = a ? (a.textContent || '').trim() : (li.textContent || '').trim();
-                    const href = a ? (a.getAttribute('href') || '#') : '#';
-                    const id = li.getAttribute('data-id') || li.getAttribute('id') || `li-${idx}`;
-                    const active = li.classList.contains(this.config.classes.states.active) || a && a.getAttribute('aria-current') === 'page';
-                    const disabled = li.classList.contains(this.config.classes.states.disabled) || (a && a.getAttribute('aria-disabled') === 'true');
-                    parsed.push({ id, text, href, active, disabled });
-                });
-            });
-        }
-
-        if (parsed.length > 0) {
-            this.items = parsed;
-        }
     }
 
     handleKeyboardNavigation(e) {
@@ -386,27 +272,21 @@ class WBNav extends HTMLElement {
             case 'ArrowRight':
             case 'ArrowDown':
                 e.preventDefault();
-                const nextIndex = (currentIndex + 1) % links.length;
-                links[nextIndex].focus();
+                links[(currentIndex + 1) % links.length]?.focus();
                 break;
-                
             case 'ArrowLeft':
             case 'ArrowUp':
                 e.preventDefault();
-                const prevIndex = (currentIndex - 1 + links.length) % links.length;
-                links[prevIndex].focus();
+                links[(currentIndex - 1 + links.length) % links.length]?.focus();
                 break;
-                
             case 'Home':
                 e.preventDefault();
-                links[0].focus();
+                links[0]?.focus();
                 break;
-                
             case 'End':
                 e.preventDefault();
-                links[links.length - 1].focus();
+                links[links.length - 1]?.focus();
                 break;
-                
             case 'Escape':
                 if (this.isExpanded) {
                     e.preventDefault();
@@ -417,22 +297,16 @@ class WBNav extends HTMLElement {
     }
 
     setActiveItem(navItem) {
-        // Remove active state from current item
         if (this.activeItem) {
             this.activeItem.classList.remove(this.config.classes.states.active);
             const currentLink = this.activeItem.querySelector(`.${this.config.classes.link}`);
-            if (currentLink) {
-                currentLink.removeAttribute('aria-current');
-            }
+            currentLink?.removeAttribute('aria-current');
         }
         
-        // Set new active item
         if (navItem) {
             navItem.classList.add(this.config.classes.states.active);
             const newLink = navItem.querySelector(`.${this.config.classes.link}`);
-            if (newLink) {
-                newLink.setAttribute('aria-current', 'page');
-            }
+            newLink?.setAttribute('aria-current', 'page');
             this.activeItem = navItem;
         }
     }
@@ -448,53 +322,24 @@ class WBNav extends HTMLElement {
     expand() {
         this.classList.add(this.config.classes.states.expanded);
         this.isExpanded = true;
-        
         const toggle = this.querySelector(`.${this.config.classes.toggle}`);
-        if (toggle) {
-            toggle.setAttribute('aria-expanded', 'true');
-        }
+        toggle?.setAttribute('aria-expanded', 'true');
+        
+        this.fireEvent('wb-nav:expand', {});
+        this.logDebug('WBNav expanded');
     }
 
     collapse() {
         this.classList.remove(this.config.classes.states.expanded);
         this.isExpanded = false;
-        
         const toggle = this.querySelector(`.${this.config.classes.toggle}`);
-        if (toggle) {
-            toggle.setAttribute('aria-expanded', 'false');
-        }
+        toggle?.setAttribute('aria-expanded', 'false');
+        
+        this.fireEvent('wb-nav:collapse', {});
+        this.logDebug('WBNav collapsed');
     }
 
-    // Public API methods
-    setLayout(layoutName) {
-        if (!this.config) {
-            console.warn('🧭 WB Nav: Config not loaded in setLayout');
-            this.config = this.getDefaultConfig();
-        }
-        
-        const layoutConfig = this.config.classes?.layouts?.[layoutName];
-        if (!layoutConfig) return;
-        
-        // Remove existing layout classes (with safety check)
-        const layoutClasses = this.config?.classes?.layouts;
-        if (layoutClasses) {
-            Object.values(layoutClasses).forEach(className => {
-                this.classList.remove(className);
-            });
-        }
-        
-        // Apply new layout classes
-        if (layoutConfig.layout && this.config?.classes?.layouts?.[layoutConfig.layout]) {
-            this.classList.add(this.config.classes.layouts[layoutConfig.layout]);
-        }
-        
-        if (layoutConfig.position && this.config.classes.layouts[layoutConfig.position]) {
-            this.classList.add(this.config.classes.layouts[layoutConfig.position]);
-        }
-        
-        this.setAttribute('layout', layoutName);
-    }
-
+    // Public API
     setItems(items) {
         this.items = items;
         this.render();
@@ -504,8 +349,7 @@ class WBNav extends HTMLElement {
         this.items.push(item);
         const navList = this.querySelector(`.${this.config.classes.list}`);
         if (navList) {
-            const index = this.items.length - 1;
-            const navItem = this.createNavItem(item, index);
+            const navItem = this.createNavItem(item, this.items.length - 1);
             navList.appendChild(navItem);
         }
     }
@@ -513,68 +357,35 @@ class WBNav extends HTMLElement {
     removeItem(itemId) {
         const navItem = this.querySelector(`[data-nav-id="${itemId}"]`);
         if (navItem) {
-            if (navItem === this.activeItem) {
-                this.activeItem = null;
-            }
+            if (navItem === this.activeItem) this.activeItem = null;
             navItem.remove();
             this.items = this.items.filter(item => item.id !== itemId);
         }
     }
-
-    // Observed attributes
-    static get observedAttributes() {
-        return ['layout', 'variant', 'position', 'items'];
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (!this._initialized || oldValue === newValue) return;
-        
-        switch (name) {
-            case 'layout':
-                this.setLayout(newValue);
-                break;
-            case 'variant':
-            case 'position':
-                this.render();
-                break;
-            case 'items':
-                try {
-                    this.items = JSON.parse(newValue);
-                    this.render();
-                } catch (e) {
-                    console.error('Invalid items JSON:', e);
-                }
-                break;
-        }
-    }
 }
-// Register the custom element
+
 if (!customElements.get('wb-nav')) {
-  customElements.define('wb-nav', WBNav);
+    customElements.define('wb-nav', WBNav);
 }
-// Register with WBComponentRegistry if available
+
 if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
-    window.WBComponentRegistry.register('wb-nav', WBNav, ['wb-event-log'], {
-        version: '1.0.0',
+    window.WBComponentRegistry.register('wb-nav', WBNav, [], {
+        version: '2.0.0',
         type: 'navigation',
         role: 'structural',
-        description: 'Navigation component with support for horizontal, vertical, and dropdown layouts',
+        description: 'Navigation component with horizontal, vertical, and dropdown layouts',
         api: {
-            events: ['nav-item-clicked', 'nav-layout-changed'],
-            attributes: ['items', 'layout', 'style-preset', 'mobile-breakpoint'],
-            methods: ['render', 'setItems', 'setLayout', 'handleItemClick']
+            events: ['wb-nav:ready', 'wb-nav:item-click', 'wb-nav:expand', 'wb-nav:collapse'],
+            attributes: ['layout', 'variant', 'position', 'items', 'brand-text', 'brand-href', 'responsive'],
+            methods: ['setItems', 'addItem', 'removeItem', 'toggle', 'expand', 'collapse', 'render']
         },
-        priority: 3 // Navigation component depends on logging
+        priority: 3
     });
 }
 
-// Compositional Namespace
 if (!window.WB) window.WB = { components: {}, utils: {} };
 window.WB.components.WBNav = WBNav;
-
-// Expose globally (backward compatibility)
 window.WBNav = WBNav;
 
-} // <-- End of typeof WBNav === 'undefined' guard
-
-console.log('✅ wb-nav loaded successfully');
+export { WBNav };
+export default WBNav;

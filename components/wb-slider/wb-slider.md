@@ -78,6 +78,7 @@ document.body.appendChild(slider);
 - **success**: Green for positive values
 - **warning**: Orange for caution states
 - **error**: Red for critical values
+- **hue**: Full color spectrum gradient (for color pickers)
 
 ### Sizes
 
@@ -195,6 +196,12 @@ The component uses CSS custom properties for theming:
 <wb-slider variant="success" label="Success"></wb-slider>
 <wb-slider variant="warning" label="Warning"></wb-slider>
 <wb-slider variant="error" label="Error"></wb-slider>
+```
+
+### Hue Color Picker Slider
+```html
+<!-- Full color spectrum slider for hue selection (0-360°) -->
+<wb-slider variant="hue" label="Hue" min="0" max="360" value="180" show-value="true"></wb-slider>
 ```
 
 ### Programmatic Control
