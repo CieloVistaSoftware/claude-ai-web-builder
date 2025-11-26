@@ -50,6 +50,7 @@
     "test:html-paths": "pwsh tests/run-tests.ps1",
     "test:html-paths:verbose": "pwsh tests/run-tests.ps1 -Verbose",
     "test:pester": "pwsh -Command \"Invoke-Pester -Path tests/fix-all-html-paths.tests.ps1 -Verbose\"",
+    "test:wb-demo-width-centering": "npx playwright test tests/wb-demo-width-centering.test.js",
     "unified:build": "npx tsc unified-claude-websocket-server.ts --esModuleInterop --resolveJsonModule --target ES2020 --module ESNext --moduleResolution Node",
     "unified:server": "npm run kill-port && npm run unified:build && node unified-claude-websocket-server.js",
     "unified:server:mock": "SET USE_MOCK_RESPONSES=true && npm run unified:server",
@@ -83,7 +84,16 @@
     "predev": "npm run build:demos",
     "prestart": "npm run build:demos",
     "build:audit": "node build/scripts/audit-components.js",
-    "test-server": "pwsh -ExecutionPolicy Bypass -File ./scripts/kill-port-8081.ps1 && http-server -p 8081"
+    "test-server": "pwsh -ExecutionPolicy Bypass -File ./scripts/kill-port-8081.ps1 && http-server -p 8081",
+    "agent": "node agents/test-agent.cjs",
+    "agent:test": "node agents/test-agent.cjs run all",
+    "agent:test:component": "node agents/test-agent.cjs run component",
+    "agent:test:category": "node agents/test-agent.cjs run",
+    "agent:component": "node agents/test-agent.cjs component",
+    "agent:diagnose": "node agents/test-agent.cjs diagnose",
+    "agent:categories": "node agents/test-agent.cjs categories",
+    "agent:health": "node agents/test-agent.cjs health",
+    "agent:help": "node agents/test-agent.cjs help"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.10.10",

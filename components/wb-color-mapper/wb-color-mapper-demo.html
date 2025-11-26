@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Color Mapper Component Demo</title>
+    
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+    <script type="module" src="./wb-color-mapper.js"></script>
+</head>
+<body style="margin: 0; padding: 1rem; background: var(--surface-900);">
+    
+    <!-- Color Mapper is a utility - hidden by default -->
+    <wb-color-mapper id="mapper" auto-init="true"></wb-color-mapper>
+    
+    <wb-demo title="WB Color Mapper Component" style="width: 95vw; margin: 0 auto;">
+        <div slot="description">
+            <p>The <code>&lt;wb-color-mapper&gt;</code> component maps existing CSS color variables 
+            to match the WB theme system. It's a utility component that runs invisibly.</p>
+        </div>
+        
+        <div slot="examples" style="padding: 1rem;">
+
+            <!-- What It Does -->
+            <wb-demo-section>
+                <h2>🎨 What It Does</h2>
+                <p>The Color Mapper automatically translates color variables between different naming conventions.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <h4 style="margin-top: 0; color: var(--warning-color);">Before Mapping</h4>
+                        <code style="display: block; font-size: 0.875rem; color: var(--text-secondary);">
+                            --color-primary<br>
+                            --background-color<br>
+                            --text-color<br>
+                            --accent-color
+                        </code>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                        <h4 style="margin-top: 0; color: var(--success-color);">After Mapping</h4>
+                        <code style="display: block; font-size: 0.875rem; color: var(--text-secondary);">
+                            --primary<br>
+                            --surface-900<br>
+                            --text-primary<br>
+                            --primary
+                        </code>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Usage -->
+            <wb-demo-section>
+                <h2>📝 Usage</h2>
+                <p>Simply add the component to your page. It runs automatically.</p>
+                
+                <pre style="background: var(--surface-800); padding: 1rem; border-radius: 8px; overflow-x: auto;"><code>&lt;wb-color-mapper auto-init="true"&gt;&lt;/wb-color-mapper&gt;
+
+&lt;!-- With specific theme --&gt;
+&lt;wb-color-mapper theme="dark"&gt;&lt;/wb-color-mapper&gt;</code></pre>
+            </wb-demo-section>
+
+            <!-- Theme Switching -->
+            <wb-demo-section>
+                <h2>🌓 Theme Switching</h2>
+                <p>The mapper responds to theme changes automatically.</p>
+                
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <wb-button variant="secondary" onclick="setTheme('light')">☀️ Light</wb-button>
+                    <wb-button variant="primary" onclick="setTheme('dark')">🌙 Dark</wb-button>
+                    <wb-button variant="success" onclick="setTheme('system')">💻 System</wb-button>
+                </div>
+                
+                <div id="theme-preview" style="padding: 1.5rem; background: var(--surface-700); border-radius: 8px;">
+                    <p style="margin: 0 0 1rem 0;">Current Theme: <strong id="current-theme">dark</strong></p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <div style="width: 60px; height: 60px; background: var(--primary); border-radius: 8px;" title="Primary"></div>
+                        <div style="width: 60px; height: 60px; background: var(--success-color); border-radius: 8px;" title="Success"></div>
+                        <div style="width: 60px; height: 60px; background: var(--warning-color); border-radius: 8px;" title="Warning"></div>
+                        <div style="width: 60px; height: 60px; background: var(--error-color); border-radius: 8px;" title="Error"></div>
+                        <div style="width: 60px; height: 60px; background: var(--text-primary); border-radius: 8px;" title="Text"></div>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Color Variables -->
+            <wb-demo-section>
+                <h2>🎯 Mapped Variables</h2>
+                <p>These are the main color variables available after mapping.</p>
+                
+                <div style="display: grid; gap: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: var(--surface-700); border-radius: 8px;">
+                        <div style="width: 24px; height: 24px; background: var(--primary); border-radius: 4px;"></div>
+                        <code>--primary</code>
+                        <span style="color: var(--text-secondary); margin-left: auto;">Main brand color</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: var(--surface-700); border-radius: 8px;">
+                        <div style="width: 24px; height: 24px; background: var(--surface-900); border: 1px solid var(--border-color); border-radius: 4px;"></div>
+                        <code>--surface-900</code>
+                        <span style="color: var(--text-secondary); margin-left: auto;">Background</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: var(--surface-700); border-radius: 8px;">
+                        <div style="width: 24px; height: 24px; background: var(--text-primary); border-radius: 4px;"></div>
+                        <code>--text-primary</code>
+                        <span style="color: var(--text-secondary); margin-left: auto;">Main text color</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: var(--surface-700); border-radius: 8px;">
+                        <div style="width: 24px; height: 24px; background: var(--border-color); border-radius: 4px;"></div>
+                        <code>--border-color</code>
+                        <span style="color: var(--text-secondary); margin-left: auto;">Border & dividers</span>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Event Log -->
+            <wb-demo-section>
+                <h2>📋 Event Log</h2>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="20"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    style="max-height: 200px;">
+                </wb-event-log>
+            </wb-demo-section>
+
+        </div>
+    </wb-demo>
+
+    <script type="module">
+        let eventLog;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            eventLog = document.getElementById('demo-event-log');
+            logEvent('info', '🎨 WB Color Mapper Demo initialized');
+            
+            // Listen for mapper ready
+            document.addEventListener('wb-color-mapper-ready', () => {
+                logEvent('success', 'Color Mapper ready');
+            });
+            
+            updateThemeDisplay();
+        });
+        
+        function logEvent(type, message) {
+            if (eventLog && eventLog.addEvent) {
+                eventLog.addEvent({ type, message, source: 'wb-color-mapper-demo' });
+            }
+        }
+        
+        function updateThemeDisplay() {
+            const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+            document.getElementById('current-theme').textContent = theme;
+        }
+        
+        window.setTheme = function(theme) {
+            if (theme === 'system') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                theme = prefersDark ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+            const mapper = document.getElementById('mapper');
+            if (mapper) mapper.setAttribute('theme', theme);
+            updateThemeDisplay();
+            logEvent('info', `Theme changed to: ${theme}`);
+        };
+    </script>
+</body>
+</html>

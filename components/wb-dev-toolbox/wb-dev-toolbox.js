@@ -1,4 +1,5 @@
 import { WBBaseComponent } from '../wb-base/wb-base.js';
+import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 class WBDevToolbox extends WBBaseComponent {
   constructor() {
@@ -49,25 +50,28 @@ class WBDevToolbox extends WBBaseComponent {
   }
   
   _setupShadowDOM() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host { display: block; font-family: monospace; background: #18181b; color: #fbbf24; padding: 0.5em 1em; border-radius: 6px; margin: 1em 0; max-width: 100vw; overflow-x: auto; }
-        .log-entry { margin-bottom: 0.25em; font-size: 0.95em; }
-        .error { color: #ef4444; }
-        .warn { color: #f59e42; }
-        .info { color: #38bdf8; }
-        .toolbar { margin-bottom: 0.5em; }
-        .toolbar label { font-size: 0.9em; margin-right: 1em; }
-      </style>
+    // Load external CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = new URL('./wb-dev-toolbox.css', import.meta.url).href;
+    this.shadowRoot.appendChild(link);
+    
+    // Create structure
+    const container = document.createElement('div');
+    container.innerHTML = `
       <div class="toolbar">
         <label><input type="checkbox" id="showLocalLog" checked> Show errors in Dev Toolbox</label>
       </div>
       <div id="log"></div>
     `;
+    this.shadowRoot.appendChild(container);
     this.logDiv = this.shadowRoot.getElementById('log');
   }
   connectedCallback() {
     super.connectedCallback(); // Inherit dark mode and other base functionality
+    
+    this.logInfo('WBDevToolbox connected');
+    
     // Listen for error events reactively
     window.addEventListener('error', this._onError, true);
     window.addEventListener('unhandledrejection', this._onRejection, true);
@@ -90,13 +94,20 @@ class WBDevToolbox extends WBBaseComponent {
       this._state.showLocalLog = false;
       if (showLocalLogBox) showLocalLogBox.checked = false;
     }
+    
+    this.fireEvent('wb-dev-toolbox:ready', { component: 'wb-dev-toolbox' });
+    this.logInfo('WBDevToolbox ready');
   }
   disconnectedCallback() {
+    super.disconnectedCallback();
+    
     window.removeEventListener('error', this._onError, true);
     window.removeEventListener('unhandledrejection', this._onRejection, true);
     document.removeEventListener('wb:error', this._onWbError);
     document.removeEventListener('wb:warning', this._onWbError);
     document.removeEventListener('wb:info', this._onWbError);
+    
+    this.logDebug('WBDevToolbox disconnected');
   }
   _onError = (event) => {
     let msg;

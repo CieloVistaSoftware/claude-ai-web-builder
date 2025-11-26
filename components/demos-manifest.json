@@ -1,8 +1,8 @@
 {
-  "generated": "2025-11-23T22:19:10.440Z",
+  "generated": "2025-11-25T04:17:51.251Z",
   "version": "1.0.0",
   "baseUrl": "http://localhost:8080",
-  "totalDemos": 62,
+  "totalDemos": 65,
   "demos": [
     {
       "name": "change-text-simple-demo.html",
@@ -27,24 +27,6 @@
       "path": "/components/claude-logger/claude-logger-demo.html",
       "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\claude-logger\\claude-logger-demo.html",
       "url": "http://localhost:8080/components/claude-logger/claude-logger-demo.html"
-    },
-    {
-      "name": "claude-logger-demo.html",
-      "path": "/components/claude-logger-demo.html",
-      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\claude-logger-demo.html",
-      "url": "http://localhost:8080/components/claude-logger-demo.html"
-    },
-    {
-      "name": "demo-viewer.html",
-      "path": "/components/demo-viewer.html",
-      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\demo-viewer.html",
-      "url": "http://localhost:8080/components/demo-viewer.html"
-    },
-    {
-      "name": "event-log-features-demo.html",
-      "path": "/components/event-log-features-demo.html",
-      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\event-log-features-demo.html",
-      "url": "http://localhost:8080/components/event-log-features-demo.html"
     },
     {
       "name": "data-driven-demo.html",
@@ -89,10 +71,28 @@
       "url": "http://localhost:8080/components/wb-card/wb-card-demo.html"
     },
     {
+      "name": "wb-change-text-demo.html",
+      "path": "/components/wb-change-text/wb-change-text-demo.html",
+      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-change-text\\wb-change-text-demo.html",
+      "url": "http://localhost:8080/components/wb-change-text/wb-change-text-demo.html"
+    },
+    {
+      "name": "wb-chatbot-demo.html",
+      "path": "/components/wb-chatbot/wb-chatbot-demo.html",
+      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-chatbot\\wb-chatbot-demo.html",
+      "url": "http://localhost:8080/components/wb-chatbot/wb-chatbot-demo.html"
+    },
+    {
       "name": "wb-claude-logger-demo.html",
       "path": "/components/wb-claude-logger/wb-claude-logger/wb-claude-logger-demo.html",
       "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-claude-logger\\wb-claude-logger\\wb-claude-logger-demo.html",
       "url": "http://localhost:8080/components/wb-claude-logger/wb-claude-logger/wb-claude-logger-demo.html"
+    },
+    {
+      "name": "wb-claude-logger-demo.html",
+      "path": "/components/wb-claude-logger/wb-claude-logger-demo.html",
+      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-claude-logger\\wb-claude-logger-demo.html",
+      "url": "http://localhost:8080/components/wb-claude-logger/wb-claude-logger-demo.html"
     },
     {
       "name": "wb-color-bar-demo.html",
@@ -119,6 +119,12 @@
       "url": "http://localhost:8080/components/wb-color-harmony/wb-color-harmony-demo.html"
     },
     {
+      "name": "wb-color-mapper-demo.html",
+      "path": "/components/wb-color-mapper/wb-color-mapper-demo.html",
+      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-color-mapper\\wb-color-mapper-demo.html",
+      "url": "http://localhost:8080/components/wb-color-mapper/wb-color-mapper-demo.html"
+    },
+    {
       "name": "demo-cracked-ice.html",
       "path": "/components/wb-color-organ/demo-cracked-ice.html",
       "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-color-organ\\demo-cracked-ice.html",
@@ -135,6 +141,12 @@
       "path": "/components/wb-color-organ/demo.html",
       "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-color-organ\\demo.html",
       "url": "http://localhost:8080/components/wb-color-organ/demo.html"
+    },
+    {
+      "name": "wb-color-organ-demo.html",
+      "path": "/components/wb-color-organ/wb-color-organ-demo.html",
+      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-color-organ\\wb-color-organ-demo.html",
+      "url": "http://localhost:8080/components/wb-color-organ/wb-color-organ-demo.html"
     },
     {
       "name": "wb-color-picker-demo.html",
@@ -173,6 +185,12 @@
       "url": "http://localhost:8080/components/wb-control-panel/wb-control-panel-demo.html"
     },
     {
+      "name": "wb-css-loader-demo.html",
+      "path": "/components/wb-css-loader/wb-css-loader-demo.html",
+      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-css-loader\\wb-css-loader-demo.html",
+      "url": "http://localhost:8080/components/wb-css-loader/wb-css-loader-demo.html"
+    },
+    {
       "name": "wb-demo-demo.html",
       "path": "/components/wb-demo/wb-demo-demo.html",
       "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-demo\\wb-demo-demo.html",
@@ -203,6 +221,12 @@
       "url": "http://localhost:8080/components/wb-footer/wb-footer-demo.html"
     },
     {
+      "name": "wb-header-demo.html",
+      "path": "/components/wb-header/wb-header-demo.html",
+      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-header\\wb-header-demo.html",
+      "url": "http://localhost:8080/components/wb-header/wb-header-demo.html"
+    },
+    {
       "name": "wb-inject-test-demo.html",
       "path": "/components/wb-inject-test/wb-inject-test-demo.html",
       "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-inject-test\\wb-inject-test-demo.html",
@@ -219,12 +243,6 @@
       "path": "/components/wb-keyboard-manager/wb-keyboard-manager-demo.html",
       "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-keyboard-manager\\wb-keyboard-manager-demo.html",
       "url": "http://localhost:8080/components/wb-keyboard-manager/wb-keyboard-manager-demo.html"
-    },
-    {
-      "name": "wb-layout-demo-FIXED.html",
-      "path": "/components/wb-layout/wb-layout-demo-FIXED.html",
-      "fullPath": "C:\\Users\\jwpmi\\Downloads\\AI\\wb\\components\\wb-layout\\wb-layout-demo-FIXED.html",
-      "url": "http://localhost:8080/components/wb-layout/wb-layout-demo-FIXED.html"
     },
     {
       "name": "wb-layout-demo.html",

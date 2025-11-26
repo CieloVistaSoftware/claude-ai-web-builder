@@ -51,7 +51,8 @@
       "Bash(start debug-dropdown-issue.html)",
       "Bash(start:*)",
       "Bash(where chrome)",
-      "Bash(where:*)"
+      "Bash(where:*)",
+      "mcp__wb-command-runner__run_agent"
     ],
     "deny": []
   }

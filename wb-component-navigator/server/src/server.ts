@@ -63,7 +63,9 @@ connection.onInitialize((params: InitializeParams) => {
   );
 
   if (params.workspaceFolders && params.workspaceFolders.length > 0) {
-    workspaceRoot = params.workspaceFolders[0].uri.replace('file://', '');
+    // Properly decode the URI to handle Windows paths
+    const uri = params.workspaceFolders[0].uri;
+    workspaceRoot = decodeURIComponent(uri.replace('file:///', ''));
   }
 
   const result: InitializeResult = {

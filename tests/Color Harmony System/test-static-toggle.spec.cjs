@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('Static Colors Toggle', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('file:///C:/Users/jwpmi/Downloads/AI/wb/html/Color%20Harmony%20System/article/Professional-Developer-HCS-System.html');
+    await page.goto('http://localhost:8080/html/Color%20Harmony%20System/article/Professional-Developer-HCS-System.html');
     await page.waitForLoadState('networkidle');
   });
 

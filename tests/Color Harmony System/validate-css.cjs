@@ -1,7 +1,8 @@
 // Manual CSS validation script
 const fs = require('fs');
+const path = require('path');
 
-const cssFile = 'C:\\Users\\jwpmi\\Downloads\\AI\\wb\\html\\Color Harmony System\\article\\Professional-Developer-HCS-System.css';
+const cssFile = path.join(__dirname, '..', '..', 'html', 'Color Harmony System', 'article', 'Professional-Developer-HCS-System.css');
 
 console.log('🔍 Validating CSS file for button consistency...\n');
 

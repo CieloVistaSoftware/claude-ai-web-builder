@@ -104,6 +104,61 @@
     border-color: var(--primary, #6366f1) !important;
 }
 
+/* Danger Button (Red) */
+.wb-btn--danger {
+    background: var(--error-color, #ef4444) !important;
+    color: var(--text-primary-inverse, #ffffff) !important;
+    border-color: var(--error-color, #ef4444) !important;
+}
+
+.wb-btn--danger:hover {
+    background: var(--error-dark, #dc2626) !important;
+    border-color: var(--error-dark, #dc2626) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(239, 68, 68, 0.4);
+}
+
+/* Warning Button (Yellow/Orange) */
+.wb-btn--warning {
+    background: var(--warning-color, #f59e0b) !important;
+    color: var(--neutral-900, #0f172a) !important;
+    border-color: var(--warning-color, #f59e0b) !important;
+}
+
+.wb-btn--warning:hover {
+    background: var(--warning-dark, #d97706) !important;
+    border-color: var(--warning-dark, #d97706) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4);
+}
+
+/* Info Button (Blue/Cyan) */
+.wb-btn--info {
+    background: var(--info-color, #0ea5e9) !important;
+    color: var(--text-primary-inverse, #ffffff) !important;
+    border-color: var(--info-color, #0ea5e9) !important;
+}
+
+.wb-btn--info:hover {
+    background: var(--info-color-dark, #0284c7) !important;
+    border-color: var(--info-color-dark, #0284c7) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(14, 165, 233, 0.4);
+}
+
+/* Minimal/Ghost Button */
+.wb-btn--minimal {
+    background: transparent !important;
+    color: var(--text-primary, #ffffff) !important;
+    border-color: transparent !important;
+}
+
+.wb-btn--minimal:hover {
+    background: var(--bg-tertiary, #1e1e1e) !important;
+    border-color: var(--border-color, #404040) !important;
+    transform: translateY(-1px);
+}
+
 /* Toggle Button */
 .wb-btn--toggle {
     background: var(--bg-tertiary, #1e1e1e) !important;
@@ -353,6 +408,7 @@
 .wb-btn:disabled {
     opacity: 0.5 !important;
     cursor: not-allowed !important;
+    pointer-events: none !important;
     transform: none !important;
     box-shadow: none !important;
     background: var(--neutral-600, #4a5568) !important;
@@ -364,6 +420,12 @@
 .wb-btn:disabled:hover {
     transform: none !important;
     box-shadow: none !important;
+}
+
+/* Disabled web component wrapper */
+wb-button[disabled] {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
 }
 
 /* Active State */

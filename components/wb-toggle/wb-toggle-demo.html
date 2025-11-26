@@ -1,544 +1,373 @@
 <!DOCTYPE html>
+<html lang="en" data-theme="dark" data-mode="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Toggle Component Demo</title>
     
-    <!-- Central Styles Import -->
-    <!-- Website Builder Main Styles (Variables, Base, Utilities) -->
+    <!-- Styles -->
     <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="wb-toggle.css">
     
-    <!-- Load wb-component-utils dependency -->
-    <script type="module" src="..../../lib/wb-component-utils.js"></script>
-    
-    <!-- Load wb-toggle component -->
+    <!-- Components -->
+    <script type="module" src="../wb-base/wb-base.js"></script>
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-shadow-diagnostics/wb-shadow-diagnostics.js"></script>
     <script type="module" src="wb-toggle.js"></script>
+</head>
+<body>
     
-    <!-- Demo Styles -->
+    <wb-demo title="🔘 WB Toggle Component" markdown="./wb-toggle.md">
+        <div slot="examples">
+            
+            <!-- OVERVIEW -->
+            <section class="demo-section">
+                <h2>📋 Overview</h2>
+                <p>A toggle switch component for boolean state management with multiple sizes and variants.</p>
+                
+                <div class="demo-render">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <wb-toggle id="overview-toggle"></wb-toggle>
+                        <span id="overview-status">OFF</span>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;wb-toggle id="my-toggle"&gt;&lt;/wb-toggle&gt;</pre>
+                </div>
+            </section>
+
+            <!-- SIZES -->
+            <section class="demo-section">
+                <h2>📏 Sizes</h2>
+                <p>Available in small, medium (default), and large sizes.</p>
+                
+                <div class="demo-render">
+                    <div class="toggle-row">
+                        <div class="toggle-item">
+                            <label>Small</label>
+                            <wb-toggle size="small"></wb-toggle>
+                        </div>
+                        <div class="toggle-item">
+                            <label>Medium (default)</label>
+                            <wb-toggle size="medium"></wb-toggle>
+                        </div>
+                        <div class="toggle-item">
+                            <label>Large</label>
+                            <wb-toggle size="large"></wb-toggle>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;wb-toggle size="small"&gt;&lt;/wb-toggle&gt;
+&lt;wb-toggle size="medium"&gt;&lt;/wb-toggle&gt;
+&lt;wb-toggle size="large"&gt;&lt;/wb-toggle&gt;</pre>
+                </div>
+            </section>
+
+            <!-- STATES -->
+            <section class="demo-section">
+                <h2>✅ States</h2>
+                <p>Initial state and disabled states.</p>
+                
+                <div class="demo-render">
+                    <div class="toggle-row">
+                        <div class="toggle-item">
+                            <label>Default (off)</label>
+                            <wb-toggle></wb-toggle>
+                        </div>
+                        <div class="toggle-item">
+                            <label>Initially on</label>
+                            <wb-toggle checked></wb-toggle>
+                        </div>
+                        <div class="toggle-item">
+                            <label>Disabled (off)</label>
+                            <wb-toggle disabled></wb-toggle>
+                        </div>
+                        <div class="toggle-item">
+                            <label>Disabled (on)</label>
+                            <wb-toggle checked disabled></wb-toggle>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;wb-toggle&gt;&lt;/wb-toggle&gt;
+&lt;wb-toggle checked&gt;&lt;/wb-toggle&gt;
+&lt;wb-toggle disabled&gt;&lt;/wb-toggle&gt;
+&lt;wb-toggle checked disabled&gt;&lt;/wb-toggle&gt;</pre>
+                </div>
+            </section>
+
+            <!-- WITH LABELS -->
+            <section class="demo-section">
+                <h2>🏷️ With Labels</h2>
+                <p>Toggle with built-in on/off labels.</p>
+                
+                <div class="demo-render">
+                    <div class="toggle-row">
+                        <div class="toggle-item">
+                            <label>Show labels</label>
+                            <wb-toggle label-on="ON" label-off="OFF"></wb-toggle>
+                        </div>
+                        <div class="toggle-item">
+                            <label>Yes/No labels</label>
+                            <wb-toggle label-on="Yes" label-off="No"></wb-toggle>
+                        </div>
+                        <div class="toggle-item">
+                            <label>Icon labels</label>
+                            <wb-toggle label-on="✓" label-off="✗"></wb-toggle>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;wb-toggle label-on="ON" label-off="OFF"&gt;&lt;/wb-toggle&gt;
+&lt;wb-toggle label-on="Yes" label-off="No"&gt;&lt;/wb-toggle&gt;
+&lt;wb-toggle label-on="✓" label-off="✗"&gt;&lt;/wb-toggle&gt;</pre>
+                </div>
+            </section>
+
+            <!-- PROGRAMMATIC CONTROL -->
+            <section class="demo-section">
+                <h2>⚡ Programmatic Control</h2>
+                <p>Control the toggle with JavaScript.</p>
+                
+                <div class="demo-render">
+                    <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="setToggleOn()">Turn On</button>
+                        <button class="btn btn-secondary" onclick="setToggleOff()">Turn Off</button>
+                        <button class="btn btn-secondary" onclick="toggleIt()">Toggle</button>
+                        <button class="btn btn-secondary" onclick="getState()">Get State</button>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <wb-toggle id="controlled-toggle"></wb-toggle>
+                        <span id="controlled-status">OFF</span>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">JavaScript</div>
+                    <pre>const toggle = document.getElementById('my-toggle');
+
+// Turn on
+toggle.checked = true;
+
+// Turn off
+toggle.checked = false;
+
+// Toggle
+toggle.toggle();
+
+// Get state
+const isOn = toggle.checked;
+
+// Listen for changes
+toggle.addEventListener('change', (e) => {
+    console.log('Toggle is now:', e.detail.checked);
+});</pre>
+                </div>
+            </section>
+
+            <!-- FORM INTEGRATION -->
+            <section class="demo-section">
+                <h2>📝 Form Integration</h2>
+                <p>Use toggles in forms with name and value attributes.</p>
+                
+                <div class="demo-render">
+                    <form id="settings-form" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label>Notifications</label>
+                            <wb-toggle name="notifications" value="enabled"></wb-toggle>
+                        </div>
+                        <div class="form-group">
+                            <label>Dark Mode</label>
+                            <wb-toggle name="darkMode" value="true" checked></wb-toggle>
+                        </div>
+                        <div class="form-group">
+                            <label>Auto-save</label>
+                            <wb-toggle name="autoSave" value="on"></wb-toggle>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Form</button>
+                    </form>
+                    <div id="form-output" class="form-output"></div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;form&gt;
+    &lt;wb-toggle name="notifications" value="enabled"&gt;&lt;/wb-toggle&gt;
+    &lt;wb-toggle name="darkMode" value="true" checked&gt;&lt;/wb-toggle&gt;
+    &lt;wb-toggle name="autoSave" value="on"&gt;&lt;/wb-toggle&gt;
+&lt;/form&gt;</pre>
+                </div>
+            </section>
+
+            <!-- ATTRIBUTES -->
+            <section class="demo-section">
+                <h2>⚙️ Attributes</h2>
+                <table class="demo-table">
+                    <thead>
+                        <tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>checked</code></td><td>boolean</td><td>false</td><td>Toggle state</td></tr>
+                        <tr><td><code>disabled</code></td><td>boolean</td><td>false</td><td>Disable the toggle</td></tr>
+                        <tr><td><code>size</code></td><td>small, medium, large</td><td>medium</td><td>Toggle size</td></tr>
+                        <tr><td><code>name</code></td><td>string</td><td>-</td><td>Form field name</td></tr>
+                        <tr><td><code>value</code></td><td>string</td><td>on</td><td>Value when checked</td></tr>
+                        <tr><td><code>label-on</code></td><td>string</td><td>-</td><td>Label when on</td></tr>
+                        <tr><td><code>label-off</code></td><td>string</td><td>-</td><td>Label when off</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- EVENTS -->
+            <section class="demo-section">
+                <h2>📡 Events</h2>
+                <table class="demo-table">
+                    <thead>
+                        <tr><th>Event</th><th>Detail</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>change</code></td><td>{ checked: boolean, value: string }</td><td>Fired when toggle state changes</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </wb-demo>
+    
+    <!-- Shadow Diagnostics -->
+    <wb-shadow-diagnostics></wb-shadow-diagnostics>
+
+    <script>
+        // Overview toggle
+        const overviewToggle = document.getElementById('overview-toggle');
+        if (overviewToggle) {
+            overviewToggle.addEventListener('change', (e) => {
+                document.getElementById('overview-status').textContent = e.detail.checked ? 'ON' : 'OFF';
+            });
+        }
+        
+        // Controlled toggle
+        const controlledToggle = document.getElementById('controlled-toggle');
+        if (controlledToggle) {
+            controlledToggle.addEventListener('change', (e) => {
+                document.getElementById('controlled-status').textContent = e.detail.checked ? 'ON' : 'OFF';
+            });
+        }
+        
+        function setToggleOn() {
+            if (controlledToggle) controlledToggle.checked = true;
+            document.getElementById('controlled-status').textContent = 'ON';
+        }
+        
+        function setToggleOff() {
+            if (controlledToggle) controlledToggle.checked = false;
+            document.getElementById('controlled-status').textContent = 'OFF';
+        }
+        
+        function toggleIt() {
+            if (controlledToggle && controlledToggle.toggle) {
+                controlledToggle.toggle();
+            } else if (controlledToggle) {
+                controlledToggle.checked = !controlledToggle.checked;
+            }
+            document.getElementById('controlled-status').textContent = controlledToggle?.checked ? 'ON' : 'OFF';
+        }
+        
+        function getState() {
+            alert(`Toggle is ${controlledToggle?.checked ? 'ON' : 'OFF'}`);
+        }
+        
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {};
+            form.querySelectorAll('wb-toggle').forEach(toggle => {
+                const name = toggle.getAttribute('name');
+                if (name) {
+                    data[name] = toggle.checked ? toggle.getAttribute('value') || 'on' : null;
+                }
+            });
+            document.getElementById('form-output').innerHTML = `<strong>Form Data:</strong><pre>${JSON.stringify(data, null, 2)}</pre>`;
+        }
+    </script>
+    
     <style>
-        body {
-            margin: 0;
-            padding: var(--space-xl);
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
         }
-        
-        h1 {
-            color: var(--primary);
-            margin-bottom: var(--space-sm);
-        }
-        
-        .demo-section {
-            background: var(--bg-secondary);
-            padding: var(--space-lg);
-            margin: var(--space-md) 0;
-            border-radius: var(--radius-lg);
-            border-left: 4px solid var(--primary);
-            border: 1px solid var(--border-color);
-        }
-        
-        .demo-section h2 {
-            margin-top: 0;
-            color: var(--primary);
-        }
-        
-        .demo-section h3 {
-            color: var(--accent);
-        }
-        
-        .demo-grid {
-            display: grid;
-            gap: var(--space-md);
-            margin: var(--space-md) 0;
-        }
-        
-        .demo-grid-2 {
-            grid-template-columns: 1fr 1fr;
-        }
-        
-        .demo-grid-3 {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-        
-        .demo-buttons {
-<!DOCTYPE html>
-            display: flex;
-            gap: var(--space-md);
-            flex-wrap: wrap;
-            margin: var(--space-md) 0;
-        }
-        
-        .status-box {
-            background: rgba(var(--success-color-rgb), 0.1);
-            border: 1px solid rgba(var(--success-color-rgb), 0.3);
-            padding: var(--space-md);
-            border-radius: var(--radius-base);
-            margin: var(--space-md) 0;
-            color: var(--text-primary);
-        }
-        
-        code {
-            background: var(--bg-tertiary);
-            padding: var(--space-xs) var(--space-sm);
-            border-radius: var(--radius-sm);
-            font-family: var(--font-mono);
-            font-size: var(--text-sm);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-        
-        .feature-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .feature-list li {
-            padding: var(--space-sm) 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .toggle-demo {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-md);
-            margin: var(--space-md) 0;
-        }
+        .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: var(--text-primary, #f8fafc); border: 1px solid rgba(255,255,255,0.2); }
+        .btn:hover { transform: translateY(-1px); }
         
         .toggle-row {
             display: flex;
-            align-items: center;
-            gap: var(--space-xl);
+            gap: 2rem;
             flex-wrap: wrap;
+            align-items: center;
         }
         
-        .btn {
-            background: var(--btn-primary-bg);
-            color: var(--btn-primary-text);
-            border: none;
-            padding: var(--space-sm) var(--space-md);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            font-size: var(--text-sm);
-            transition: var(--transition-colors);
+        .toggle-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
         }
         
-        .btn:hover {
-            background: var(--btn-primary-hover);
+        .toggle-item label {
+            font-size: 0.875rem;
+            color: var(--text-secondary, #94a3b8);
         }
         
-        .btn-secondary {
-            background: var(--btn-secondary-bg);
-            color: var(--btn-secondary-text);
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .btn-secondary:hover {
-            background: var(--btn-secondary-hover);
+        .form-group label {
+            font-weight: 500;
+        }
+        
+        .form-output {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .form-output pre {
+            margin: 0.5rem 0 0 0;
+            color: var(--primary, #6366f1);
+        }
+        
+        .demo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .demo-table th, .demo-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .demo-table th { background: rgba(99, 102, 241, 0.1); font-weight: 600; }
+        .demo-table code {
+            background: rgba(0,0,0,0.3);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
         }
     </style>
-</head>
-<body data-theme="dark">
-    <h1>WB Toggle Component Demo</h1>
-    <p>Interactive toggle switch component with accessibility and theming support.</p>
-    
-    <div class="demo-section">
-        <h2>🎮 Basic Toggle Switches</h2>
-        <div class="toggle-demo">
-            <div class="toggle-row">
-                <div id="basic-toggle-1"></div>
-                <div id="basic-toggle-2"></div>
-                <div id="basic-toggle-3"></div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="demo-section">
-        <h2>📏 Sizes</h2>
-        <div class="toggle-demo">
-            <div class="toggle-row">
-                <div id="small-toggle"></div>
-                <div id="standard-toggle"></div>
-                <div id="large-toggle"></div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="demo-section">
-        <h2>🎨 Variants</h2>
-        <div class="toggle-demo">
-            <div class="toggle-row">
-                <div id="primary-toggle"></div>
-                <div id="success-toggle"></div>
-                <div id="warning-toggle"></div>
-                <div id="error-toggle"></div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="demo-section">
-        <h2>📍 Label Positions</h2>
-        <div class="toggle-demo">
-            <div class="toggle-row">
-                <div id="label-left-toggle"></div>
-                <div id="label-right-toggle"></div>
-            </div>
-            <div class="toggle-row">
-                <div id="label-top-toggle"></div>
-                <div id="label-bottom-toggle"></div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="demo-section">
-        <h2>🔧 States</h2>
-        <div class="toggle-demo">
-            <div class="toggle-row">
-                <div id="disabled-toggle"></div>
-                <div id="checked-disabled-toggle"></div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="demo-section">
-        <h2>⚡ API Demonstration</h2>
-        <div class="toggle-demo">
-            <div class="toggle-row">
-                <div id="api-test-toggle"></div>
-            </div>
-            <div class="demo-buttons">
-                <button class="btn" onclick="testSetChecked(true)">Set Checked</button>
-                <button class="btn" onclick="testSetChecked(false)">Set Unchecked</button>
-                <button class="btn" onclick="testSetDisabled(true)">Disable</button>
-                <button class="btn" onclick="testSetDisabled(false)">Enable</button>
-                <button class="btn" onclick="testSetLabel()">Change Label</button>
-                <button class="btn btn-secondary" onclick="testGetState()">Get State</button>
-                <button class="btn btn-secondary" onclick="debugAPI()">🔍 Debug API</button>
-            </div>
-            <div id="api-output" class="status-box">
-                <p>Use the buttons above to test the toggle API</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="demo-section">
-        <h2>📊 Event Logging</h2>
-        <div class="toggle-demo">
-            <div class="toggle-row">
-                <div id="event-toggle-1"></div>
-                <div id="event-toggle-2"></div>
-                <div id="event-toggle-3"></div>
-            </div>
-            <div id="event-log" class="status-box">
-                <p>Toggle switches above to see events...</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="demo-section">
-        <h2>💻 Code Examples</h2>
-        <h3>Basic Usage</h3>
-        <pre><code>// Create a simple toggle
-const toggle = WBToggle.create({
-    label: 'Dark Mode',
-    checked: false,
-    onchange: (checked) => {
-        console.log('Dark mode:', checked);
-    }
-});
-document.body.appendChild(toggle);</code></pre>
-        
-        <h3>Advanced Options</h3>
-        <pre><code>// Create toggle with all options
-const advancedToggle = WBToggle.create({
-    id: 'notifications-toggle',
-    label: 'Push Notifications',
-    checked: true,
-    disabled: false,
-    size: 'large',
-    labelPosition: 'left',
-    variant: 'success',
-    onchange: (checked, element) => {
-        console.log('Notifications:', checked);
-    },
-    onfocus: (event, element) => {
-        console.log('Toggle focused');
-    }
-});</code></pre>
-        
-        <h3>API Methods</h3>
-        <pre><code>// Get/Set state
-WBToggle.setChecked(toggle, true);
-const isChecked = WBToggle.getChecked(toggle);
-
-// Enable/Disable
-WBToggle.setDisabled(toggle, false);
-
-// Change label
-WBToggle.setLabel(toggle, 'New Label');</code></pre>
-    </div>
-    
-    <div class="demo-section">
-        <h2>✨ Features</h2>
-        <ul class="feature-list">
-            <li>✅ Full keyboard accessibility (Space/Enter to toggle)</li>
-            <li>✅ Screen reader support with ARIA attributes</li>
-            <li>✅ Multiple sizes: small, standard, large</li>
-            <li>✅ Color variants: primary, success, warning, error</li>
-            <li>✅ Flexible label positioning</li>
-            <li>✅ Smooth animations and transitions</li>
-            <li>✅ Control panel color integration</li>
-            <li>✅ Disabled and loading states</li>
-            <li>✅ Event system for integration</li>
-            <li>✅ Programmatic API</li>
-        </ul>
-    </div>
-    
-    <script>
-        // Demo initialization
-        document.addEventListener('wbToggleReady', () => {
-            console.log('WB Toggle component is ready!');
-            console.log('WBToggle API available:', !!window.WBToggle);
-            if (window.WBToggle) {
-                console.log('WBToggle API methods:', Object.keys(window.WBToggle));
-            }
-            createDemoToggles();
-            setupEventLogging();
-        });
-        
-        // Fallback initialization if ready event doesn't fire
-        setTimeout(() => {
-            if (!window.apiTestToggle) {
-                console.log('Fallback initialization...');
-                if (window.WBToggle) {
-                    createDemoToggles();
-                    setupEventLogging();
-                } else {
-                    console.error('WBToggle API still not available after timeout');
-                }
-            }
-        }, 2000);
-        
-        function createDemoToggles() {
-            // Basic toggles
-            document.getElementById('basic-toggle-1').appendChild(
-                WBToggle.create({ label: 'Enable Feature' })
-            );
-            
-            document.getElementById('basic-toggle-2').appendChild(
-                WBToggle.create({ label: 'Auto Save', checked: true })
-            );
-            
-            document.getElementById('basic-toggle-3').appendChild(
-                WBToggle.create({ label: 'Show Notifications' })
-            );
-            
-            // Size variations
-            document.getElementById('small-toggle').appendChild(
-                WBToggle.create({ label: 'Small Toggle', size: 'small' })
-            );
-            
-            document.getElementById('standard-toggle').appendChild(
-                WBToggle.create({ label: 'Standard Toggle', size: 'standard' })
-            );
-            
-            document.getElementById('large-toggle').appendChild(
-                WBToggle.create({ label: 'Large Toggle', size: 'large' })
-            );
-            
-            // Variants
-            document.getElementById('primary-toggle').appendChild(
-                WBToggle.create({ label: 'Primary', variant: 'primary', checked: true })
-            );
-            
-            document.getElementById('success-toggle').appendChild(
-                WBToggle.create({ label: 'Success', variant: 'success', checked: true })
-            );
-            
-            document.getElementById('warning-toggle').appendChild(
-                WBToggle.create({ label: 'Warning', variant: 'warning', checked: true })
-            );
-            
-            document.getElementById('error-toggle').appendChild(
-                WBToggle.create({ label: 'Error', variant: 'error', checked: true })
-            );
-            
-            // Label positions
-            document.getElementById('label-left-toggle').appendChild(
-                WBToggle.create({ label: 'Label Left', labelPosition: 'left' })
-            );
-            
-            document.getElementById('label-right-toggle').appendChild(
-                WBToggle.create({ label: 'Label Right', labelPosition: 'right' })
-            );
-            
-            document.getElementById('label-top-toggle').appendChild(
-                WBToggle.create({ label: 'Label Top', labelPosition: 'top' })
-            );
-            
-            document.getElementById('label-bottom-toggle').appendChild(
-                WBToggle.create({ label: 'Label Bottom', labelPosition: 'bottom' })
-            );
-            
-            // States
-            document.getElementById('disabled-toggle').appendChild(
-                WBToggle.create({ label: 'Disabled', disabled: true })
-            );
-            
-            document.getElementById('checked-disabled-toggle').appendChild(
-                WBToggle.create({ label: 'Checked & Disabled', checked: true, disabled: true })
-            );
-            
-            // API test toggle
-            window.apiTestToggle = WBToggle.create({ 
-                label: 'API Test Toggle',
-                onchange: (checked) => {
-                    updateApiOutput(`Toggle changed to: ${checked ? 'ON' : 'OFF'}`);
-                }
-            });
-            document.getElementById('api-test-toggle').appendChild(window.apiTestToggle);
-            
-            // Event logging toggles
-            document.getElementById('event-toggle-1').appendChild(
-                WBToggle.create({ label: 'Events A', id: 'event-a' })
-            );
-            
-            document.getElementById('event-toggle-2').appendChild(
-                WBToggle.create({ label: 'Events B', id: 'event-b' })
-            );
-            
-            document.getElementById('event-toggle-3').appendChild(
-                WBToggle.create({ label: 'Events C', id: 'event-c' })
-            );
-        }
-        
-        function setupEventLogging() {
-            document.addEventListener('wbToggleChange', (event) => {
-                const { id, checked } = event.detail;
-                const timestamp = new Date().toLocaleTimeString();
-                logEvent(`[${timestamp}] Toggle "${id}": ${checked ? 'ON' : 'OFF'}`);
-            });
-        }
-        
-        function logEvent(message) {
-            const log = document.getElementById('event-log');
-            log.innerHTML = `<p><strong>Latest Event:</strong> ${message}</p>`;
-        }
-        
-        // API test functions
-        function testSetChecked(checked) {
-            try {
-                if (!window.WBToggle) {
-                    updateApiOutput('❌ Error: WBToggle API not available');
-                    return;
-                }
-                if (!window.apiTestToggle) {
-                    updateApiOutput('❌ Error: API test toggle not found');
-                    return;
-                }
-                WBToggle.setChecked(window.apiTestToggle, checked);
-                updateApiOutput(`✅ Set checked to: ${checked}`);
-            } catch (error) {
-                updateApiOutput(`❌ Error: ${error.message}`);
-                console.error('testSetChecked error:', error);
-            }
-        }
-        
-        function testSetDisabled(disabled) {
-            try {
-                if (!window.WBToggle) {
-                    updateApiOutput('❌ Error: WBToggle API not available');
-                    return;
-                }
-                if (!window.apiTestToggle) {
-                    updateApiOutput('❌ Error: API test toggle not found');
-                    return;
-                }
-                WBToggle.setDisabled(window.apiTestToggle, disabled);
-                updateApiOutput(`✅ Set disabled to: ${disabled}`);
-            } catch (error) {
-                updateApiOutput(`❌ Error: ${error.message}`);
-                console.error('testSetDisabled error:', error);
-            }
-        }
-        
-        function testSetLabel() {
-            try {
-                if (!window.WBToggle) {
-                    updateApiOutput('❌ Error: WBToggle API not available');
-                    return;
-                }
-                if (!window.apiTestToggle) {
-                    updateApiOutput('❌ Error: API test toggle not found');
-                    return;
-                }
-                
-                const labels = ['API Test Toggle', 'Modified Label', 'Another Label', 'Dynamic Label'];
-                const labelElement = window.apiTestToggle.querySelector('.wb-toggle-label');
-                if (!labelElement) {
-                    updateApiOutput('❌ Error: Label element not found');
-                    return;
-                }
-                
-                const currentLabel = labelElement.textContent;
-                const currentIndex = labels.indexOf(currentLabel);
-                const newLabel = labels[(currentIndex + 1) % labels.length];
-                
-                WBToggle.setLabel(window.apiTestToggle, newLabel);
-                updateApiOutput(`✅ Label changed to: "${newLabel}"`);
-            } catch (error) {
-                updateApiOutput(`❌ Error: ${error.message}`);
-                console.error('testSetLabel error:', error);
-            }
-        }
-        
-        function testGetState() {
-            try {
-                if (!window.WBToggle) {
-                    updateApiOutput('❌ Error: WBToggle API not available');
-                    return;
-                }
-                if (!window.apiTestToggle) {
-                    updateApiOutput('❌ Error: API test toggle not found');
-                    return;
-                }
-                
-                const checked = WBToggle.getChecked(window.apiTestToggle);
-                updateApiOutput(`✅ Current state: ${checked ? 'CHECKED' : 'UNCHECKED'}`);
-            } catch (error) {
-                updateApiOutput(`❌ Error: ${error.message}`);
-                console.error('testGetState error:', error);
-            }
-        }
-        
-        function debugAPI() {
-            const debug = {
-                wbToggleAvailable: !!window.WBToggle,
-                apiTestToggleExists: !!window.apiTestToggle,
-                apiTestToggleElement: !!document.querySelector('#api-test-toggle'),
-                wbToggleMethods: window.WBToggle ? Object.keys(window.WBToggle) : 'N/A'
-            };
-            
-            let debugMsg = `🔍 Debug Info:<br>`;
-            debugMsg += `• WBToggle API: ${debug.wbToggleAvailable ? '✅ Available' : '❌ Missing'}<br>`;
-            debugMsg += `• API Test Toggle: ${debug.apiTestToggleExists ? '✅ Created' : '❌ Missing'}<br>`;
-            debugMsg += `• Toggle Container: ${debug.apiTestToggleElement ? '✅ Found' : '❌ Missing'}<br>`;
-            if (debug.wbToggleAvailable) {
-                debugMsg += `• API Methods: ${debug.wbToggleMethods.join(', ')}<br>`;
-            }
-            
-            updateApiOutput(debugMsg);
-            console.log('Debug info:', debug);
-        }
-        
-        function updateApiOutput(message) {
-            const output = document.getElementById('api-output');
-            const timestamp = new Date().toLocaleTimeString();
-            output.innerHTML = `<p><strong>[${timestamp}]</strong> ${message}</p>`;
-        }
-    </script>
 </body>
 </html>
-
-
-

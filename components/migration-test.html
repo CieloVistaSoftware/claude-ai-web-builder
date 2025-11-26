@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Components Migration Test</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --primary: #4a9eff;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --border-color: #333;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        h1 { color: var(--primary); margin-bottom: 10px; }
+        h2 { color: var(--text-secondary); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 30px; }
+        h3 { color: var(--primary); margin: 20px 0 10px; }
+        
+        .test-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .test-result {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        
+        .pass { background: rgba(16, 185, 129, 0.2); border-left: 4px solid var(--success); }
+        .fail { background: rgba(239, 68, 68, 0.2); border-left: 4px solid var(--error); }
+        .info { background: rgba(74, 158, 255, 0.2); border-left: 4px solid var(--primary); }
+        
+        .component-demo {
+            background: #111;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        #results {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        #results h3 { margin-top: 0; }
+        
+        .summary { font-size: 1.2em; font-weight: bold; margin: 10px 0; }
+        .summary.pass { color: var(--success); }
+        .summary.fail { color: var(--error); }
+        
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <h1>🧪 WB Components Migration Test</h1>
+    <p>Testing all components migrated to WBBaseComponent</p>
+    
+    <button onclick="runAllTests()">▶️ Run All Tests</button>
+    <button onclick="clearResults()">🗑️ Clear Results</button>
+    
+    <div id="results">
+        <h3>Test Results</h3>
+        <div id="result-list">Click "Run All Tests" to start</div>
+    </div>
+
+    <!-- Test Components -->
+    
+    <h2>1. Form Components</h2>
+    
+    <div class="test-section">
+        <h3>wb-button</h3>
+        <div class="component-demo">
+            <wb-button variant="primary">Primary</wb-button>
+            <wb-button variant="success">Success</wb-button>
+            <wb-button variant="danger">Danger</wb-button>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>wb-input</h3>
+        <div class="component-demo">
+            <wb-input label="Name" placeholder="Enter your name"></wb-input>
+            <wb-input label="Email" type="email" placeholder="email@example.com"></wb-input>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>wb-toggle</h3>
+        <div class="component-demo">
+            <wb-toggle label="Enable notifications"></wb-toggle>
+            <wb-toggle label="Dark mode" checked></wb-toggle>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>wb-select</h3>
+        <div class="component-demo">
+            <wb-select placeholder="Choose an option">
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </wb-select>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>wb-slider</h3>
+        <div class="component-demo">
+            <wb-slider min="0" max="100" value="50" label="Volume" unit="%"></wb-slider>
+            <wb-slider min="0" max="360" value="180" label="Hue" unit="°"></wb-slider>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>wb-search</h3>
+        <div class="component-demo">
+            <wb-search placeholder="Search components..."></wb-search>
+        </div>
+    </div>
+
+    <h2>2. Layout Components</h2>
+    
+    <div class="test-section">
+        <h3>wb-card</h3>
+        <div class="component-demo">
+            <wb-card title="Card Title">
+                <p>This is card content.</p>
+            </wb-card>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>wb-grid</h3>
+        <div class="component-demo">
+            <wb-grid columns="3" gap="10px">
+                <div style="background:#333;padding:20px;">Item 1</div>
+                <div style="background:#333;padding:20px;">Item 2</div>
+                <div style="background:#333;padding:20px;">Item 3</div>
+            </wb-grid>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>wb-modal</h3>
+        <div class="component-demo">
+            <wb-button onclick="document.querySelector('wb-modal').open()">Open Modal</wb-button>
+            <wb-modal title="Test Modal">
+                <p>This is modal content.</p>
+            </wb-modal>
+        </div>
+    </div>
+
+    <h2>3. Navigation Components</h2>
+    
+    <div class="test-section">
+        <h3>wb-tab</h3>
+        <div class="component-demo">
+            <wb-tab active-tab="0">
+                <wb-tab-item tab-id="tab1">Tab 1</wb-tab-item>
+                <wb-tab-item tab-id="tab2">Tab 2</wb-tab-item>
+                <wb-tab-panel tab-for="tab1"><p>Content for Tab 1</p></wb-tab-panel>
+                <wb-tab-panel tab-for="tab2"><p>Content for Tab 2</p></wb-tab-panel>
+            </wb-tab>
+        </div>
+    </div>
+
+    <h2>4. Data Components</h2>
+    
+    <div class="test-section">
+        <h3>wb-table</h3>
+        <div class="component-demo">
+            <wb-table id="test-table"></wb-table>
+        </div>
+    </div>
+
+    <h2>5. Display Components</h2>
+    
+    <div class="test-section">
+        <h3>wb-status</h3>
+        <div class="component-demo">
+            <wb-status position="relative" height="40px"></wb-status>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>wb-log-viewer</h3>
+        <div class="component-demo" style="height: 200px;">
+            <wb-log-viewer max-entries="50"></wb-log-viewer>
+        </div>
+    </div>
+
+    <!-- Import all components -->
+    <script type="module">
+        // Import base first
+        import { WBBaseComponent } from './wb-base/wb-base.js';
+        window.WBBaseComponent = WBBaseComponent;
+        
+        // Import all migrated components
+        const components = [
+            './wb-button/wb-button.js',
+            './wb-input/wb-input.js',
+            './wb-toggle/wb-toggle.js',
+            './wb-select/wb-select.js',
+            './wb-slider/wb-slider.js',
+            './wb-search/wb-search.js',
+            './wb-card/wb-card.js',
+            './wb-grid/wb-grid.js',
+            './wb-modal/wb-modal.js',
+            './wb-tab/wb-tab.js',
+            './wb-table/wb-table.js',
+            './wb-status/wb-status.js',
+            './wb-log-viewer/wb-log-viewer.js',
+            './wb-nav/wb-nav.js',
+            './wb-footer/wb-footer.js',
+            './wb-layout/wb-layout.js',
+            './wb-log-error/wb-log-error.js',
+            './wb-dev-toolbox/wb-dev-toolbox.js'
+        ];
+        
+        let loadedCount = 0;
+        let failedComponents = [];
+        
+        for (const path of components) {
+            try {
+                await import(path);
+                loadedCount++;
+                console.log(`✅ Loaded: ${path}`);
+            } catch (error) {
+                failedComponents.push({ path, error: error.message });
+                console.error(`❌ Failed: ${path}`, error);
+            }
+        }
+        
+        console.log(`\n📊 Loaded ${loadedCount}/${components.length} components`);
+        if (failedComponents.length > 0) {
+            console.log('Failed components:', failedComponents);
+        }
+        
+        // Make test function available globally
+        window.runAllTests = runAllTests;
+        window.clearResults = clearResults;
+        
+        // Set up table data
+        setTimeout(() => {
+            const table = document.getElementById('test-table');
+            if (table && table.setData) {
+                table.setData([
+                    { name: 'John', age: 30, city: 'NYC' },
+                    { name: 'Jane', age: 25, city: 'LA' }
+                ]);
+            }
+        }, 1000);
+        
+        function runAllTests() {
+            const results = [];
+            const resultList = document.getElementById('result-list');
+            resultList.innerHTML = '<div class="info">Running tests...</div>';
+            
+            // Test each component
+            const tests = [
+                { name: 'wb-button', selector: 'wb-button', checkShadow: true },
+                { name: 'wb-input', selector: 'wb-input', checkShadow: true },
+                { name: 'wb-toggle', selector: 'wb-toggle', checkShadow: true },
+                { name: 'wb-select', selector: 'wb-select', checkShadow: true },
+                { name: 'wb-slider', selector: 'wb-slider', checkShadow: true },
+                { name: 'wb-search', selector: 'wb-search', checkShadow: false },
+                { name: 'wb-card', selector: 'wb-card', checkShadow: true },
+                { name: 'wb-grid', selector: 'wb-grid', checkShadow: true },
+                { name: 'wb-modal', selector: 'wb-modal', checkShadow: true },
+                { name: 'wb-tab', selector: 'wb-tab', checkShadow: true },
+                { name: 'wb-table', selector: 'wb-table', checkShadow: true },
+                { name: 'wb-status', selector: 'wb-status', checkShadow: false },
+                { name: 'wb-log-viewer', selector: 'wb-log-viewer', checkShadow: true }
+            ];
+            
+            let passed = 0;
+            let failed = 0;
+            
+            tests.forEach(test => {
+                const element = document.querySelector(test.selector);
+                const result = {
+                    name: test.name,
+                    exists: !!element,
+                    registered: !!customElements.get(test.name),
+                    hasShadow: element?.shadowRoot !== null,
+                    hasLogInfo: element?.logInfo && typeof element.logInfo === 'function',
+                    hasFireEvent: element?.fireEvent && typeof element.fireEvent === 'function',
+                    extendsBase: element instanceof WBBaseComponent
+                };
+                
+                // Determine pass/fail
+                const isPass = result.exists && result.registered && result.hasLogInfo && result.hasFireEvent && result.extendsBase;
+                if (test.checkShadow) {
+                    result.pass = isPass && result.hasShadow;
+                } else {
+                    result.pass = isPass;
+                }
+                
+                if (result.pass) passed++; else failed++;
+                results.push(result);
+            });
+            
+            // Display results
+            let html = '';
+            
+            html += `<div class="summary ${failed === 0 ? 'pass' : 'fail'}">`;
+            html += `${passed}/${tests.length} Passed`;
+            html += '</div>';
+            
+            results.forEach(r => {
+                const status = r.pass ? '✅' : '❌';
+                html += `<div class="test-result ${r.pass ? 'pass' : 'fail'}">`;
+                html += `${status} <strong>${r.name}</strong><br>`;
+                html += `<small>`;
+                html += `Registered: ${r.registered ? '✓' : '✗'} | `;
+                html += `Shadow: ${r.hasShadow ? '✓' : '✗'} | `;
+                html += `Base: ${r.extendsBase ? '✓' : '✗'}`;
+                html += `</small>`;
+                html += '</div>';
+            });
+            
+            resultList.innerHTML = html;
+            
+            console.log('\n📋 TEST RESULTS:');
+            console.table(results.map(r => ({
+                Component: r.name,
+                Registered: r.registered,
+                Shadow: r.hasShadow,
+                ExtendsBase: r.extendsBase,
+                LogInfo: r.hasLogInfo,
+                FireEvent: r.hasFireEvent,
+                PASS: r.pass
+            })));
+        }
+        
+        function clearResults() {
+            document.getElementById('result-list').innerHTML = 'Click "Run All Tests" to start';
+        }
+    </script>
+</body>
+</html>

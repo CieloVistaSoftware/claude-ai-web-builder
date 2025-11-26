@@ -1,3 +1,4 @@
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 /**
@@ -11,7 +12,9 @@ import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
  * - ad-layout: Advertisement optimized with enhanced navigation
  */
 
-class WBLayout extends HTMLElement {
+class WBLayout extends WBBaseComponent {
+        static useShadow = false;
+        
         constructor() {
             super();
             // Cache DOM elements during initialization
@@ -67,6 +70,10 @@ class WBLayout extends HTMLElement {
         }
 
         async connectedCallback() {
+            super.connectedCallback();
+            
+            this.logInfo('WBLayout connecting');
+            
             await loadComponentCSS(this, 'wb-layout.css');
             this._initializeComponent();
         }
@@ -76,7 +83,9 @@ class WBLayout extends HTMLElement {
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
-            if (!this._state) return; // Not initialized yet
+            super.attributeChangedCallback(name, oldValue, newValue);
+            
+            if (!this._state) return;
             
             switch (name) {
                 case 'layout':
@@ -159,15 +168,8 @@ class WBLayout extends HTMLElement {
             // Detect responsive mode
             this._detectResponsiveMode();
 
-            // Log initialization (with fallback if WBEventLog not loaded yet)
-            if (typeof WBEventLog !== 'undefined' && WBEventLog.logSuccess) {
-                WBEventLog.logSuccess('WB Layout component initialized with reactive architecture', { component: 'wb-layout', method: '_initializeComponent', line: 175 });
-            } else {
-                console.log('✅ WB Layout component initialized with reactive architecture');
-            }
-            this.dispatchEvent(new CustomEvent('wb-layout-ready', {
-                detail: { component: this, layout: this._state.currentLayout }
-            }));
+            this.logInfo('WBLayout initialized');
+            this.fireEvent('wb-layout:ready', { layout: this._state.currentLayout });
         }
 
         _cacheElements() {
@@ -212,17 +214,7 @@ class WBLayout extends HTMLElement {
             // Listen for reactive wb:layout-changed events from control panel
             document.addEventListener('wb:layout-changed', (e) => {
                 const { layout, source } = e.detail;
-                if (typeof WBEventLog !== 'undefined' && WBEventLog.logInfo) {
-                    WBEventLog.logInfo(`Received layout change request: ${layout}`, {
-                        component: 'wb-layout',
-                        method: '_setupInternalEventHandlers',
-                        source: source,
-                        layout: layout,
-                        line: 220
-                    });
-                } else {
-                    console.log(`📐 Received layout change request: ${layout}`);
-                }
+                this.logInfo('WBLayout received layout change', { layout, source });
                 
                 if (layout && layout !== this._state.currentLayout) {
                     this._state.currentLayout = layout; // Triggers reactive update
@@ -492,7 +484,7 @@ class WBLayout extends HTMLElement {
             if (this._layoutConfigs[layoutType]) {
                 this._state.currentLayout = layoutType; // Triggers automatic updates
             } else {
-                console.warn(`🎨 WB Layout: Unknown layout type '${layoutType}'`);
+                this.logDebug('WBLayout unknown layout type', { layoutType });
             }
         }
 
@@ -536,16 +528,6 @@ class WBLayout extends HTMLElement {
     // Define the custom element
     if (!customElements.get('wb-layout')) {
         customElements.define('wb-layout', WBLayout);
-        
-        // REPORT WHERE THIS FILE IS BEING LOADED FROM
-        const scriptElements = document.querySelectorAll('script[src*="wb-layout"]');
-        if (scriptElements.length > 0) {
-            console.log('🎨 WB Layout component registered with reactive architecture');
-            console.log('📍 LOADED FROM:', scriptElements[0].src);
-        } else {
-            console.log('🎨 WB Layout component registered with reactive architecture');
-            console.log('📍 LOADED FROM: inline or module import');
-        }
     }
     
     // Register with WBComponentRegistry if available

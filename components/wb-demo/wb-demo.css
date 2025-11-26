@@ -1,188 +1,49 @@
-/* Robust reset for all wb-demo subcomponents and their children */
+/* ═══════════════════════════════════════════════════════════════════════════════
+   WB DEMO COMPONENT - STYLESHEET
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Subcomponent resets */
 wb-example, wb-demo-section, wb-demo-grid, wb-demo-item, wb-demo-output {
     display: block;
     font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-wb-demo-section h1, wb-demo-section h2, wb-demo-section h3, wb-demo-section h4, wb-demo-section h5, wb-demo-section h6,
-wb-demo-item h1, wb-demo-item h2, wb-demo-item h3, wb-demo-item h4, wb-demo-item h5, wb-demo-item h6 {
-    display: block;
-    font-family: inherit;
-    font-weight: 700;
-    margin: 1rem 0 0.5rem 0;
-    color: var(--primary-color);
-    line-height: 1.15;
-    font-size: 1.2rem;
-}
-wb-demo-section h2, wb-demo-item h2 {
-    font-size: 1.3rem;
-    border-bottom: 1px solid var(--primary-color);
-    padding-bottom: 0.25rem;
-}
-wb-demo-section h3, wb-demo-item h3 {
-    font-size: 1.05rem;
-}
-wb-demo-section p, wb-demo-item p {
-    display: block;
-    font-family: inherit;
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin: 0 0 0.5rem 0;
-}
-wb-demo-section pre, wb-demo-item pre, wb-demo-section code, wb-demo-item code {
-    display: block;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-family: var(--font-mono, 'Courier New', monospace);
-    font-size: 0.95rem;
-    margin: 0.5rem 0;
-    border: 1px solid var(--border-color);
-    overflow-x: auto;
-}
-wb-demo-grid {
-    display: grid;
-    gap: 1rem;
-    margin: 1rem 0;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-wb-demo-item {
-    background: var(--bg-primary);
-    border-radius: 6px;
-    box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.07));
-    border: 1px solid var(--border-color);
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-wb-demo-output {
-    margin-top: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background: var(--bg-tertiary);
-    border-radius: 4px;
-    font-family: var(--font-mono, 'Courier New', monospace);
-    font-size: 0.95rem;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    text-align: right;
-}
-/* Ensure all wb-demo subcomponents are block and inherit font */
-wb-example,
-wb-demo-section,
-wb-demo-grid,
-wb-demo-item,
-wb-demo-output {
-    display: block;
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
     box-sizing: border-box;
 }
 
-wb-demo-section {
-    margin: 1.2rem 0;
-    padding: 1.2rem;
-    background: var(--bg-secondary);
-    border-radius: 7px;
-    border: 1px solid var(--border-color);
-}
-wb-demo-section > h2, wb-demo-section > h3 {
-    margin-top: 0;
+wb-demo-section h2, wb-demo-item h3 {
     color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 0.5rem;
-    font-size: 2rem;
-    font-weight: 700;
+    margin-top: 0;
 }
+
 wb-demo-grid {
     display: grid;
-    gap: 2rem;
-    margin: 1.5rem 0;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
+
 wb-demo-item {
     background: var(--bg-primary);
     border-radius: 8px;
-    box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05));
     border: 1px solid var(--border-color);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    padding: 1.25rem;
 }
-wb-demo-item > h3 {
-    margin-top: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
+
 wb-demo-output {
-    margin-top: 1rem;
-    padding: 1rem;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
     background: var(--bg-tertiary);
-    border-radius: 6px;
-    font-family: var(--font-mono, 'Courier New', monospace);
-    font-size: 1rem;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    text-align: right;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.875rem;
 }
-/* WB Demo Subcomponent Styles */
-wb-example {
-    display: block;
-    margin: 0;
-    padding: 0;
-}
-wb-demo-section {
-    display: block;
-    margin: 2rem 0;
-    padding: 2rem;
-    background: var(--bg-secondary);
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-}
-wb-demo-section > h2, wb-demo-section > h3 {
-    margin-top: 0;
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 0.5rem;
-}
-wb-demo-grid {
-    display: grid;
-    gap: 2rem;
-    margin: 1.5rem 0;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-wb-demo-item {
-    display: block;
-    background: var(--bg-primary);
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05));
-    border: 1px solid var(--border-color);
-    padding: 1.5rem;
-}
-wb-demo-item > h3 {
-    margin-top: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
-wb-demo-output {
-    display: block;
-    margin-top: 1rem;
-    padding: 1rem;
-    background: var(--bg-tertiary);
-    border-radius: 6px;
-    font-family: var(--font-mono, 'Courier New', monospace);
-    font-size: 0.95rem;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-/* WB Demo Component Styles */
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   HOST STYLES - 95% WIDTH DEFAULT
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
 :host {
     display: block;
+    width: 95%;
+    margin: 0 auto;
     --primary-color: #6366f1;
     --bg-primary: #0f172a;
     --bg-secondary: #1e293b;
@@ -195,24 +56,68 @@ wb-demo-output {
     --error-color: #ef4444;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════════
+   DEMO CONTAINER
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
 .demo-container {
-    max-width: 900px;
-    margin: 0 auto;
+    width: 100%;
     background: var(--bg-secondary);
-    padding: 1.2rem;
+    padding: 1.25rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.08);
     font-family: system-ui, sans-serif;
     color: var(--text-primary);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.demo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
 .demo-title {
     color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
+    margin: 0;
+    font-size: 1.75rem;
     font-weight: 700;
 }
+
+.demo-title:empty {
+    display: none;
+}
+
+.debug-toggle-btn {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.debug-toggle-btn:hover {
+    background: var(--bg-primary);
+    border-color: var(--warning-color);
+    color: var(--warning-color);
+}
+
+.debug-toggle-btn.active {
+    background: var(--warning-color);
+    border-color: var(--warning-color);
+    color: #000;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TABS
+   ═══════════════════════════════════════════════════════════════════════════════ */
 
 .tab-container {
     background: var(--bg-tertiary);
@@ -228,14 +133,14 @@ wb-demo-output {
 
 .tab-button {
     flex: 1;
-    padding: 1rem 2rem;
+    padding: 1rem;
     background: transparent;
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.2s ease;
     font-size: 1rem;
     font-weight: 500;
+    transition: all 0.2s;
 }
 
 .tab-button:hover {
@@ -249,8 +154,9 @@ wb-demo-output {
 }
 
 .tab-content {
-    padding: 2rem;
-    min-height: 400px;
+    padding: 1.5rem;
+    padding-left: 1rem;
+    min-height: 300px;
 }
 
 .tab-panel {
@@ -261,115 +167,207 @@ wb-demo-output {
     display: block;
 }
 
-.event-log {
+/* ═══════════════════════════════════════════════════════════════════════════════
+   FLOATING DEBUG PANEL - DRAGGABLE & COLLAPSIBLE
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.debug-floater {
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    width: 380px;
+    max-width: calc(100vw - 40px);
     background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 1rem;
-    margin: 1rem 0;
-    font-family: 'Courier New', monospace;
-    font-size: 0.875rem;
-    max-height: 200px;
-    overflow-y: auto;
-    color: var(--text-secondary);
+    border: 2px solid var(--warning-color);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    display: none;
+    font-size: 0.8125rem;
 }
 
-.controls {
+.debug-floater.visible {
+    display: block;
+}
+
+.debug-floater.dragging {
+    opacity: 0.9;
+    cursor: grabbing;
+}
+
+.debug-floater-header {
     display: flex;
-    gap: 0.5rem;
-    margin: 1rem 0;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--warning-color);
+    color: #000;
+    font-weight: 600;
+    cursor: grab;
+    border-radius: 6px 6px 0 0;
+    user-select: none;
 }
 
-.control-button {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--primary-color);
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+.debug-floater-title {
+    font-size: 0.8125rem;
+}
+
+.debug-floater-controls {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.debug-collapse-btn,
+.debug-close-btn {
+    width: 24px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
     border-radius: 4px;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
-.control-button:hover {
-    background: var(--primary-color);
+.debug-collapse-btn:hover,
+.debug-close-btn:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.debug-floater-body {
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.debug-floater-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.debug-clear-btn {
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 0.6875rem;
+    cursor: pointer;
+}
+
+.debug-clear-btn:hover {
+    background: var(--error-color);
     color: white;
 }
 
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin: 1.5rem 0;
-}
-
-.feature-card {
-    background: var(--bg-primary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-.feature-card h3 {
-    color: var(--primary-color);
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-
-pre {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 1rem;
-    overflow-x: auto;
-    font-size: 0.875rem;
+.debug-event-count {
     color: var(--text-secondary);
+    font-size: 0.6875rem;
 }
 
-.demo-example {
-    background: var(--bg-primary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin: 1rem 0;
-    border: 1px solid var(--border-color);
+.debug-event-log {
+    flex: 1;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    line-height: 1.4;
 }
 
-.demo-example h3 {
+.debug-empty {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Single-line event entry */
+.debug-event-entry {
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 0.125rem;
+    background: var(--bg-secondary);
+    border-radius: 3px;
+    border-left: 3px solid var(--primary-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.debug-event-entry:hover {
+    background: var(--bg-tertiary);
+    white-space: normal;
+}
+
+.debug-time {
+    color: var(--text-secondary);
+    margin-right: 0.5rem;
+}
+
+.debug-type {
+    color: var(--success-color);
+    font-weight: 700;
+    margin-right: 0.375rem;
+}
+
+.debug-target {
     color: var(--primary-color);
-    margin-top: 0;
+    margin-right: 0.375rem;
 }
+
+.debug-value {
+    color: var(--text-secondary);
+    font-size: 0.625rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SLOTTED CONTENT
+   ═══════════════════════════════════════════════════════════════════════════════ */
 
 ::slotted(*) {
     color: var(--text-primary);
 }
 
-/* Allow slotted web components to display properly */
 ::slotted(wb-button) {
     display: inline-block !important;
     margin: 0.5rem !important;
 }
 
-::slotted(.demo-section) {
-    display: block !important;
-    margin: 2rem 0 !important;
-    padding: 2rem !important;
-}
+/* ═══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════════════ */
 
-::slotted(.demo-row) {
-    display: flex !important;
-    gap: 1rem !important;
-    flex-wrap: wrap !important;
-    margin: 1rem 0 !important;
-}
-
-::slotted(.wb-btn-grid--three) {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 1rem !important;
-}
-
-::slotted(.wb-btn-group) {
-    display: flex !important;
-    gap: 0 !important;
+@media (max-width: 640px) {
+    :host {
+        width: 100%;
+    }
+    
+    .demo-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .demo-title {
+        font-size: 1.25rem;
+    }
+    
+    .tab-content {
+        padding: 1rem;
+    }
+    
+    .debug-floater {
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+    }
 }

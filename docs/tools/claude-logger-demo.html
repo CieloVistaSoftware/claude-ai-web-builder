@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Logger Demo</title>
+    <link rel="stylesheet" href="">
+    <style>
+        body {
+            padding: 2rem;
+            padding-bottom: 300px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #0f1419;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        h1 {
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 {
+            color: #8b92ff;
+        }
+        
+        h3 {
+            color: #a5abff;
+        }
+        
+        p, li {
+            color: #d0d0d0;
+            line-height: 1.6;
+        }
+        
+        .demo-section {
+            background: #1e1e1e;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid #6366f1;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .demo-button {
+            padding: 1rem;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-button:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        
+        .output {
+            background: #0a0e14;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .log-entry {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-left: 3px solid #6366f1;
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+        
+        .instructions {
+            background: #2a2a2a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .instructions code {
+            background: #0a0e14;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+        }
+        
+        code {
+            background: #2a2a2a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>📝 Claude Logger Demo</h1>
+    <p>Test the Claude logging system that writes to <code>claude.md</code> files</p>
+
+    <div class="instructions">
+        <h2>🎯 How It Works</h2>
+        <ul>
+            <li>Logs are written to <code>components/{component-name}/claude.md</code></li>
+            <li>If the file doesn't exist, it will be created automatically</li>
+            <li>Each log includes timestamp, type, and full context</li>
+            <li>When server is unavailable, logs are stored in localStorage</li>
+        </ul>
+        
+        <div id="serverWarning" style="display: none;">
+            <h3>🚀 Server Required</h3>
+            <p style="background: #2a2a2a; padding: 1rem; border-radius: 6px; border-left: 3px solid #ff9800;">
+                <strong>⚠️ Server not running! To save logs to claude.md files, start the server:</strong><br>
+                <code style="display: block; margin: 0.5rem 0;">node src/server/claude-events-api.js</code>
+                <br>
+                <small style="color: #888;">Logs are currently saving to localStorage. Use "Export Session Logs" to download.</small>
+            </p>
+        </div>
+        
+        <div id="serverConnected" style="display: none;">
+            <p style="background: #2a2a2a; padding: 1rem; border-radius: 6px; border-left: 3px solid #4CAF50;">
+                <strong>✅ Server Connected</strong><br>
+                <small style="color: #888;">Logs will be saved to claude.md files automatically</small>
+            </p>
+        </div>
+        
+    </div>
+
+    <div class="demo-section">
+        <h2>📝 Logging Functions</h2>
+        <div class="button-grid">
+            <button class="demo-button" onclick="showIssueForm()">
+                🔴 Log Issue
+            </button>
+            <button class="demo-button" onclick="showFixForm()">
+                ✅ Log Fix
+            </button>
+            <button class="demo-button" onclick="showTestForm()">
+                🧪 Log Test Result
+            </button>
+            <button class="demo-button" onclick="showNoteForm()">
+                📝 Log Note
+            </button>
+            <button class="demo-button" onclick="testLogError()">
+                ❌ Log Error
+            </button>
+            <button class="demo-button" onclick="testLogInteraction()">
+                👆 Log User Interaction
+            </button>
+        </div>
+    </div>
+
+    <!-- Issue Form Modal -->
+    <div id="issueFormModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: #1e1e1e; padding: 2rem; border-radius: 8px; max-width: 600px; width: 90%; border: 2px solid #6366f1;">
+            <h2 style="margin-top: 0; color: #8b92ff;">🔴 Log an Issue</h2>
+            
+            <div style="display: grid; gap: 1rem; margin: 1rem 0;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Issue Description:</label>
+                    <input type="text" id="issueDesc" placeholder="e.g., Button not responding in dark mode" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Expected Behavior:</label>
+                    <input type="text" id="issueExpected" placeholder="e.g., Button should show hover effect and trigger click event" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Actual Behavior:</label>
+                    <input type="text" id="issueActual" placeholder="e.g., No response when clicked, no visual feedback" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem;">
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="demo-button" onclick="submitIssue()" style="flex: 1;">
+                        📝 Submit Issue
+                    </button>
+                    <button class="demo-button" onclick="closeIssueForm()" style="flex: 1; background: #6b7280;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix Form Modal -->
+    <div id="fixFormModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: #1e1e1e; padding: 2rem; border-radius: 8px; max-width: 600px; width: 90%; border: 2px solid #4CAF50;">
+            <h2 style="margin-top: 0; color: #4CAF50;">✅ Log a Fix</h2>
+            
+            <div style="display: grid; gap: 1rem; margin: 1rem 0;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Issue Fixed:</label>
+                    <input type="text" id="fixIssue" placeholder="e.g., Button click handler not working" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Solution Applied:</label>
+                    <textarea id="fixSolution" placeholder="e.g., Added event listener in connectedCallback method" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem; min-height: 100px; font-family: inherit;"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="demo-button" onclick="submitFix()" style="flex: 1; background: #4CAF50;">
+                        ✅ Submit Fix
+                    </button>
+                    <button class="demo-button" onclick="closeFixForm()" style="flex: 1; background: #6b7280;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Form Modal -->
+    <div id="testFormModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: #1e1e1e; padding: 2rem; border-radius: 8px; max-width: 600px; width: 90%; border: 2px solid #2196F3;">
+            <h2 style="margin-top: 0; color: #2196F3;">🧪 Log Test Result</h2>
+            
+            <div style="display: grid; gap: 1rem; margin: 1rem 0;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Test Name:</label>
+                    <input type="text" id="testName" placeholder="e.g., Button click interaction test" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Result:</label>
+                    <select id="testResult" style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem;">
+                        <option value="passed">✅ Passed</option>
+                        <option value="failed">❌ Failed</option>
+                        <option value="skipped">⚠️ Skipped</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Details:</label>
+                    <textarea id="testDetails" placeholder="e.g., All buttons respond correctly to clicks and show proper hover states" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem; min-height: 100px; font-family: inherit;"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="demo-button" onclick="submitTest()" style="flex: 1; background: #2196F3;">
+                        🧪 Submit Test
+                    </button>
+                    <button class="demo-button" onclick="closeTestForm()" style="flex: 1; background: #6b7280;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Form Modal -->
+    <div id="noteFormModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: #1e1e1e; padding: 2rem; border-radius: 8px; max-width: 600px; width: 90%; border: 2px solid #10b981;">
+            <h2 style="margin-top: 0; color: #10b981;">📝 Log a Note</h2>
+            
+            <div style="display: grid; gap: 1rem; margin: 1rem 0;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Title:</label>
+                    <input type="text" id="noteTitle" placeholder="e.g., Performance Observation" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #a5abff; font-weight: 500;">Message:</label>
+                    <textarea id="noteMessage" placeholder="e.g., Component renders smoothly at 60fps with no jank" 
+                           style="width: 100%; padding: 0.75rem; background: #0a0e14; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 1rem; min-height: 100px; font-family: inherit;"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="demo-button" onclick="submitNote()" style="flex: 1; background: #10b981;">
+                        📝 Submit Note
+                    </button>
+                    <button class="demo-button" onclick="closeNoteForm()" style="flex: 1; background: #6b7280;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>📊 Activity Log</h2>
+        <p>Real-time feedback from logging actions:</p>
+        <div id="output" class="output"></div>
+    </div>
+
+    <script type="module">
+        import ClaudeLogger from '../utils/claude-logger.js';
+        
+        // Wait for logger to initialize
+        await ClaudeLogger.init();
+        
+        // Set component context for this demo
+        ClaudeLogger.currentComponent = 'claude-logger-demo';
+        
+        // Expose ClaudeLogger globally
+        window.ClaudeLogger = ClaudeLogger;
+        
+        // Make quick logging functions globally available
+        window.logIssue = (desc, expected, actual) => ClaudeLogger.logIssue(desc, expected, actual);
+        window.logFix = (issue, solution) => ClaudeLogger.logFix(issue, solution);
+        window.logTest = (name, result, details) => ClaudeLogger.logTest(name, result, details);
+        window.logNote = (title, message) => ClaudeLogger.log(title, message, 'note');
+        
+        // Show/hide issue form
+        window.showIssueForm = () => {
+            document.getElementById('issueFormModal').style.display = 'flex';
+            document.getElementById('issueDesc').focus();
+        };
+        
+        window.closeIssueForm = () => {
+            document.getElementById('issueFormModal').style.display = 'none';
+            // Clear the form
+            document.getElementById('issueDesc').value = '';
+            document.getElementById('issueExpected').value = '';
+            document.getElementById('issueActual').value = '';
+        };
+        
+        window.submitIssue = async () => {
+            const desc = document.getElementById('issueDesc').value.trim();
+            const expected = document.getElementById('issueExpected').value.trim();
+            const actual = document.getElementById('issueActual').value.trim();
+            
+            if (!desc || !expected || !actual) {
+                addToOutput('⚠️ Please fill in all three fields');
+                return;
+            }
+            
+            try {
+                await ClaudeLogger.logIssue(desc, expected, actual);
+                addToOutput(`🔴 Issue logged: "${desc}"`);
+                closeIssueForm();
+            } catch (error) {
+                addToOutput('❌ Failed to log issue: ' + error.message);
+                console.error('Log issue failed:', error);
+            }
+        };
+        
+        // Show/hide fix form
+        window.showFixForm = () => {
+            document.getElementById('fixFormModal').style.display = 'flex';
+            document.getElementById('fixIssue').focus();
+        };
+        
+        window.closeFixForm = () => {
+            document.getElementById('fixFormModal').style.display = 'none';
+            document.getElementById('fixIssue').value = '';
+            document.getElementById('fixSolution').value = '';
+        };
+        
+        window.submitFix = async () => {
+            const issue = document.getElementById('fixIssue').value.trim();
+            const solution = document.getElementById('fixSolution').value.trim();
+            
+            if (!issue || !solution) {
+                addToOutput('⚠️ Please fill in both fields');
+                return;
+            }
+            
+            try {
+                await ClaudeLogger.logFix(issue, solution);
+                addToOutput(`✅ Fix logged: "${issue}"`);
+                closeFixForm();
+            } catch (error) {
+                addToOutput('❌ Failed to log fix: ' + error.message);
+                console.error('Log fix failed:', error);
+            }
+        };
+        
+        // Show/hide test form
+        window.showTestForm = () => {
+            document.getElementById('testFormModal').style.display = 'flex';
+            document.getElementById('testName').focus();
+        };
+        
+        window.closeTestForm = () => {
+            document.getElementById('testFormModal').style.display = 'none';
+            document.getElementById('testName').value = '';
+            document.getElementById('testResult').value = 'passed';
+            document.getElementById('testDetails').value = '';
+        };
+        
+        window.submitTest = async () => {
+            const name = document.getElementById('testName').value.trim();
+            const result = document.getElementById('testResult').value;
+            const details = document.getElementById('testDetails').value.trim();
+            
+            if (!name || !details) {
+                addToOutput('⚠️ Please fill in test name and details');
+                return;
+            }
+            
+            try {
+                await ClaudeLogger.logTest(name, result, details);
+                addToOutput(`🧪 Test logged: "${name}" - ${result}`);
+                closeTestForm();
+            } catch (error) {
+                addToOutput('❌ Failed to log test: ' + error.message);
+                console.error('Log test failed:', error);
+            }
+        };
+        
+        // Show/hide note form
+        window.showNoteForm = () => {
+            document.getElementById('noteFormModal').style.display = 'flex';
+            document.getElementById('noteTitle').focus();
+        };
+        
+        window.closeNoteForm = () => {
+            document.getElementById('noteFormModal').style.display = 'none';
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteMessage').value = '';
+        };
+        
+        window.submitNote = async () => {
+            const title = document.getElementById('noteTitle').value.trim();
+            const message = document.getElementById('noteMessage').value.trim();
+            
+            if (!title || !message) {
+                addToOutput('⚠️ Please fill in both fields');
+                return;
+            }
+            
+            try {
+                await ClaudeLogger.log(title, message, 'note');
+                addToOutput(`📝 Note logged: "${title}"`);
+                closeNoteForm();
+            } catch (error) {
+                addToOutput('❌ Failed to log note: ' + error.message);
+                console.error('Log note failed:', error);
+            }
+        };
+        
+        window.testLogError = async () => {
+            try {
+                throw new Error('Simulated error for testing');
+            } catch (error) {
+                try {
+                    await ClaudeLogger.logError(error, {
+                        component: 'demo',
+                        action: 'testError',
+                        userAgent: navigator.userAgent
+                    });
+                    addToOutput('❌ Error logged to claude.md');
+                } catch (logError) {
+                    addToOutput('❌ Failed to log error: ' + logError.message);
+                    console.error('Log error failed:', logError);
+                }
+            }
+        };
+        
+        window.testLogInteraction = async () => {
+            try {
+                await ClaudeLogger.logInteraction('Button clicked', {
+                    buttonId: 'demo-button',
+                    timestamp: Date.now(),
+                    mousePosition: { x: 100, y: 200 }
+                });
+                addToOutput('👆 Interaction logged to claude.md');
+            } catch (error) {
+                addToOutput('❌ Failed to log interaction: ' + error.message);
+                console.error('Log interaction failed:', error);
+            }
+        };
+        
+        // Allow Enter key to submit in all modals
+        ['issueDesc', 'issueExpected', 'issueActual'].forEach(id => {
+            document.getElementById(id)?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitIssue();
+            });
+        });
+        
+        ['fixIssue'].forEach(id => {
+            document.getElementById(id)?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitFix();
+            });
+        });
+        
+        ['testName'].forEach(id => {
+            document.getElementById(id)?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitTest();
+            });
+        });
+        
+        ['noteTitle'].forEach(id => {
+            document.getElementById(id)?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitNote();
+            });
+        });
+        
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (document.getElementById('issueFormModal').style.display === 'flex') closeIssueForm();
+                if (document.getElementById('fixFormModal').style.display === 'flex') closeFixForm();
+                if (document.getElementById('testFormModal').style.display === 'flex') closeTestForm();
+                if (document.getElementById('noteFormModal').style.display === 'flex') closeNoteForm();
+            }
+        });
+        
+        function addToOutput(message) {
+            const output = document.getElementById('output');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `${new Date().toLocaleTimeString()} - ${message}`;
+            output.insertBefore(entry, output.firstChild);
+        }
+        
+        // Initial message
+        addToOutput('📝 Claude Logger ready. Click buttons to test logging.');
+        
+        // Check server connection
+        async function checkServerConnection() {
+            try {
+                const response = await fetch('/api/health', { method: 'GET' });
+                if (response.ok) {
+                    document.getElementById('serverConnected').style.display = 'block';
+                    document.getElementById('serverWarning').style.display = 'none';
+                    console.log('✅ Server connected');
+                } else {
+                    throw new Error('Server not responding');
+                }
+            } catch (error) {
+                document.getElementById('serverConnected').style.display = 'none';
+                document.getElementById('serverWarning').style.display = 'block';
+                console.log('⚠️ Server not running - logs will be saved to localStorage');
+            }
+        }
+        
+        // Check server on load
+        checkServerConnection();
+        
+        // Recheck every 10 seconds
+        setInterval(checkServerConnection, 10000);
+        
+        console.log('✅ Claude Logger Demo initialized - buttons are ready!');
+    </script>
+</body>
+</html>
+
+
+
+
+
+

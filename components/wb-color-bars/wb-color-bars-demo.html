@@ -5,372 +5,230 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WB Color Bars Component Demo</title>
     
-    <!-- LayoutSystem CSS Imports -->
     <link rel="stylesheet" href="../../styles/main.css">
-    <link rel="stylesheet" href="wb-color-bars-demo.css">
+    <link rel="stylesheet" href="./wb-color-bars.css">
+    
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+    <script type="module" src="./wb-color-bars.js"></script>
 </head>
-<body>
-    <button class="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
+<body style="margin: 0; padding: 1rem; background: var(--surface-900);">
     
-    <div class="container">
-        <h1>🎨 WB Color Bars Component Demo</h1>
-        
-        <div class="demo-grid">
-            <!-- Main Color Picker Demo -->
-            <div class="demo-card full-width">
-                <h3>Interactive HSL Color Picker</h3>
-                <p>This wb-color-bars component contains three individual color bars for hue, saturation, and lightness control:</p>
-                <wb-color-bars id="main-color" label="Color Picker" hue="240" saturation="70" lightness="50" theme="dark"></wb-color-bars>
-                <div class="color-output">
-                    <h4>Selected Color:</h4>
-                    <div class="color-preview-box" id="main-preview"></div>
-                    <div class="color-values" id="main-values">
-                        HSL: hsl(240, 70%, 50%)<br>
-                        HEX: #6366f1<br>
-                        RGB: rgb(99, 102, 241)
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Theme Selector Demo -->
-            <div class="demo-card">
-                <h3>Theme Preset Colors</h3>
-                <p>Select from predefined color themes:</p>
-                <select id="theme-selector" class="theme-select">
-                    <option value="custom" selected>Custom Theme</option>
-                    <option value="material">Material Design</option>
-                    <option value="ocean">Ocean Blue</option>
-                    <option value="forest">Forest Green</option>
-                    <option value="sunset">Sunset Orange</option>
-                    <option value="purple">Purple Theme</option>
-                </select>
-                <wb-color-bars id="theme-color" label="Theme Color" hue="240" saturation="70" lightness="50" theme="dark"></wb-color-bars>
-                <div class="color-output">
-                    <h4>Theme Preview:</h4>
-                    <div class="color-preview-box" id="theme-preview"></div>
-                    <div class="color-values" id="theme-values">
-                        HSL: hsl(240, 70%, 50%)<br>
-                        HEX: #6366f1<br>
-                        RGB: rgb(99, 102, 241)
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Complementary Color Demo -->
-            <div class="demo-card">
-                <h3>Complementary Accent Color</h3>
-                <p>Automatically calculated complementary color:</p>
-                <div class="color-output">
-                    <h4>Accent Color:</h4>
-                    <div class="color-preview-box" id="accent-preview"></div>
-                    <div class="color-values" id="accent-values">
-                        HSL: hsl(60, 70%, 50%)<br>
-                        HEX: #e6e633<br>
-                        RGB: rgb(230, 230, 51)
-                    </div>
-                </div>
-            </div>
+    <wb-demo title="WB Color Bars Component" style="width: 95vw; margin: 0 auto;">
+        <div slot="description">
+            <p>The <code>&lt;wb-color-bars&gt;</code> component provides a complete HSL color picker 
+            with separate controls for text color and background color.</p>
         </div>
         
-        <!-- API Documentation -->
-        <div class="api-section">
-            <h2>🔧 API Reference</h2>
-            
-            <h3>Attributes</h3>
-            <ul class="feature-list">
-                <li><strong>hue</strong>: Initial hue value (0-360 degrees)</li>
-                <li><strong>saturation</strong>: Initial saturation percentage (0-100%)</li>
-                <li><strong>lightness</strong>: Initial lightness percentage (0-100%)</li>
-                <li><strong>label</strong>: Label text for the color picker</li>
-                <li><strong>theme</strong>: Theme variant ('light' or 'dark')</li>
-                <li><strong>disabled</strong>: Disables the color picker</li>
-            </ul>
-            
-            <h3>Events</h3>
-            <ul class="feature-list">
-                <li><strong>colorchange</strong>: Fired when color changes (real-time)</li>
-                <li><strong>colorselect</strong>: Fired when user finishes selecting</li>
-                <li><strong>colorcopied</strong>: Fired when hex value is copied</li>
-            </ul>
-            
-            <h3>Usage Example</h3>
-            <pre><code>&lt;wb-color-bars id="my-color" hue="240" saturation="70" lightness="50"&gt;&lt;/wb-color-bars&gt;
+        <div slot="examples" style="padding: 1rem;">
 
-&lt;script&gt;
-const colorPicker = document.getElementById('my-color');
+            <!-- Basic Usage -->
+            <wb-demo-section>
+                <h2>🎨 Complete Color Picker</h2>
+                <p>Switch between text and background color modes to pick colors.</p>
+                <div style="max-width: 500px;">
+                    <wb-color-bars 
+                        id="main-picker"
+                        text-hue="200" 
+                        text-saturation="80" 
+                        text-lightness="85"
+                        bg-hue="220" 
+                        bg-saturation="30" 
+                        bg-lightness="15">
+                    </wb-color-bars>
+                </div>
+                <wb-demo-output id="picker-output">Select colors using the sliders</wb-demo-output>
+            </wb-demo-section>
 
-colorPicker.addEventListener('colorchange', (e) => {
-    WBEventLog.logInfo('Color changed', { component: 'wb-color-bars-demo', event: 'colorchange', detail: e.detail, line: 103 });
-    // e.detail contains: { hue, saturation, lightness, hsl, hex, rgb }
-});
+            <!-- Semantic Elements Live Color Demo -->
+            <wb-demo-section>
+                <h2>🔤 Semantic Elements Live Color Demo</h2>
+                <p>The semantic elements below update their text and background color in real time as you move the sliders above.</p>
+                <div style="max-width: 700px; margin-bottom: 1rem;">
+                    <wb-semantic-elements id="semantic-demo"></wb-semantic-elements>
+                </div>
+            </wb-demo-section>
 
-colorPicker.addEventListener('colorselect', (e) => {
-    WBEventLog.logInfo('Color selected: ' + e.detail.hex, { component: 'wb-color-bars-demo', event: 'colorselect', hex: e.detail.hex, line: 108 });
-});
+            <!-- Preset Colors -->
+            <wb-demo-section>
+                <h2>🖌️ Preset Color Schemes</h2>
+                <p>Click a preset to apply it instantly.</p>
+                
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <wb-button variant="primary" onclick="applyPreset('ocean')">🌊 Ocean</wb-button>
+                    <wb-button variant="success" onclick="applyPreset('forest')">🌲 Forest</wb-button>
+                    <wb-button variant="warning" onclick="applyPreset('sunset')">🌅 Sunset</wb-button>
+                    <wb-button variant="danger" onclick="applyPreset('berry')">🍇 Berry</wb-button>
+                    <wb-button variant="secondary" onclick="applyPreset('mono')">⚫ Mono</wb-button>
+                </div>
+                
+                <div style="max-width: 500px;">
+                    <wb-color-bars id="preset-picker"></wb-color-bars>
+                </div>
+            </wb-demo-section>
 
-// Programmatic control
-colorPicker.setColor(180, 60, 40);
-WBEventLog.logInfo('Current color', { component: 'wb-color-bars-demo', color: colorPicker.color, line: 113 });
-&lt;/script&gt;</code></pre>
-            
-            <h3>Features</h3>
-            <ul class="feature-list">
-                <li>Interactive HSL color selection with three bars</li>
-                <li>Real-time color preview and value display</li>
-                <li>Mouse, touch, and keyboard support</li>
-                <li>Copy to clipboard functionality</li>
-                <li>Accessibility features and ARIA support</li>
-                <li>Theme support (light/dark modes)</li>
-                <li>Material Design inspired interface</li>
-                <li>Responsive design for all screen sizes</li>
-            </ul>
+            <!-- Live Preview -->
+            <wb-demo-section>
+                <h2>👁️ Live Preview</h2>
+                <p>See your colors in action with this live preview panel.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="max-width: 400px;">
+                        <wb-color-bars id="preview-picker"></wb-color-bars>
+                    </div>
+                    <div id="live-preview" style="padding: 1.5rem; border-radius: 8px; background: #1a1a2e; color: #eaf6ff;">
+                        <h3 style="margin-top: 0;">Preview Panel</h3>
+                        <p>This text updates in real-time as you adjust the colors. Try changing the text color and background to see the effect.</p>
+                        <p><strong>Features:</strong></p>
+                        <ul>
+                            <li>Real-time color updates</li>
+                            <li>Copy colors to clipboard</li>
+                            <li>Swap text and background</li>
+                        </ul>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- JavaScript API -->
+            <wb-demo-section>
+                <h2>⚡ JavaScript API</h2>
+                <p>Control the color picker programmatically.</p>
+                
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <wb-button variant="primary" onclick="getColors()">Get Colors</wb-button>
+                    <wb-button variant="secondary" onclick="setRandomColors()">Random Colors</wb-button>
+                    <wb-button variant="success" onclick="setTextColor()">Set Text Blue</wb-button>
+                    <wb-button variant="warning" onclick="setBgColor()">Set BG Orange</wb-button>
+                </div>
+                
+                <div style="max-width: 500px;">
+                    <wb-color-bars id="api-picker"></wb-color-bars>
+                </div>
+                <wb-demo-output id="api-output">Use buttons above to test the API</wb-demo-output>
+            </wb-demo-section>
+
+            <!-- Event Log -->
+            <wb-demo-section>
+                <h2>📋 Event Log</h2>
+                <p>Color change events are logged here.</p>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="20"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    style="max-height: 250px;">
+                </wb-event-log>
+            </wb-demo-section>
+
         </div>
-    </div>
-    
-    <!-- Components loaded via bundle -->
-    <script src="wb-color-bars-bundle.js"></script>
-    <script>
-        // Function to calculate complementary accent color
-        function calculateAccentColor(primaryHue, primarySaturation, primaryLightness) {
-            // Calculate complementary hue (opposite on color wheel)
-            const accentHue = (primaryHue + 180) % 360;
-            // Keep similar saturation and lightness for harmony
-            const accentSaturation = Math.max(60, primarySaturation - 10);
-            const accentLightness = primaryLightness > 50 ? primaryLightness - 15 : primaryLightness + 15;
-            
-            return { hue: accentHue, saturation: accentSaturation, lightness: accentLightness };
-        }
-        
+    </wb-demo>
 
-        // Function to update accent color display and apply to page elements
-        function updateAccentDisplay(accent) {
-            // Convert accent HSL to hex using component's logic
-            const h = accent.hue / 360;
-            const s = accent.saturation / 100;
-            const l = accent.lightness / 100;
-            const a = s * Math.min(l, 1 - l);
-            const f = n => {
-                const k = (n + h / (1/12)) % 12;
-                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-                return Math.round(255 * color);
-            };
-            const accentHex = `#${[f(0), f(8), f(4)].map(x => x.toString(16).padStart(2, '0')).join('')}`;
-            const accentHsl = \`hsl(\${accent.hue}, \${accent.saturation}%, \${accent.lightness}%)\`;
-            
-            // Apply accent color to borders and highlights
-            document.documentElement.style.setProperty('--accent-color', accentHsl);
-            document.querySelectorAll('.demo-card').forEach(el => {
-                el.style.borderColor = accentHex;
-            });
-            document.querySelectorAll('code, pre').forEach(el => {
-                el.style.borderLeft = \`4px solid \${accentHex}\`;
-            });
-            
-            const accentPreview = document.getElementById('accent-preview');
-            const accentValues = document.getElementById('accent-values');
-            
-            if (accentPreview) {
-                accentPreview.style.backgroundColor = accentHex;
-            }
-            
-            if (accentValues) {
-                accentValues.innerHTML = \`
-                    HSL: \${accentHsl}<br>
-                    HEX: \${accentHex}
-                \`;
-            }
-            
-            WBEventLog.logInfo('Accent color applied to page elements', { 
-                component: 'wb-color-bars-demo', 
-                accent: accentHex, 
-                line: 175 
-            });
-        }
+    <script type="module">
+        let eventLog;
         
-        // Main color picker - applies to page theme
-        const mainColorPicker = document.getElementById('main-color');
-        if (mainColorPicker) {
-            mainColorPicker.addEventListener('colorchange', (e) => {
-                const { text, background } = e.detail;
-                
-                // Apply text color to headings and body text
-                document.documentElement.style.setProperty('--primary-text', text.hsl);
-                document.querySelectorAll('h1, h2, h3, h4').forEach(el => {
-                    el.style.color = text.hsl;
-                });
-                
-                // Apply background color to body and cards
-                document.documentElement.style.setProperty('--primary-bg', background.hsl);
-                document.body.style.backgroundColor = background.hsl;
-                document.querySelectorAll('.demo-card').forEach(el => {
-                    el.style.backgroundColor = background.hsl;
-                });
-                
-                // Update preview
-                const preview = document.getElementById('main-preview');
-                const values = document.getElementById('main-values');
-                if (preview) {
-                    preview.style.backgroundColor = text.hex;
-                    preview.style.border = `2px solid ${background.hex}`;
-                }
-                if (values) {
-                    values.innerHTML = `
-                        Text HSL: ${text.hsl}<br>
-                        Text HEX: ${text.hex}<br>
-                        BG HSL: ${background.hsl}<br>
-                        BG HEX: ${background.hex}
-                    `;
-                }
-                
-                // Calculate and apply accent color
-                const accent = calculateAccentColor(text.hue, text.saturation, text.lightness);
-                updateAccentDisplay(accent);
-                
-                // Dispatch global color change event
-                document.dispatchEvent(new CustomEvent('wb:color-changed', {
-                    detail: { text, background, accent }
-                }));
-                
-                WBEventLog.logInfo('Page colors applied', { 
-                    component: 'wb-color-bars-demo', 
-                    text: text.hex, 
-                    background: background.hex,
-                    line: 145 
-                });
-            });
-        }
-                
-        // Theme color picker - applies to theme elements
-        const themeColorPicker = document.getElementById('theme-color');
-        if (themeColorPicker) {
-            themeColorPicker.addEventListener('colorchange', (e) => {
-                const { text, background } = e.detail;
-                
-                // Apply theme colors to buttons and interactive elements
-                document.documentElement.style.setProperty('--theme-primary', text.hsl);
-                document.documentElement.style.setProperty('--theme-secondary', background.hsl);
-                
-                document.querySelectorAll('button, .theme-toggle').forEach(el => {
-                    el.style.backgroundColor = text.hsl;
-                    el.style.color = background.hsl;
-                });
-                
-                // Update preview
-                const preview = document.getElementById('theme-preview');
-                const values = document.getElementById('theme-values');
-                if (preview) {
-                    preview.style.backgroundColor = text.hex;
-                }
-                if (values) {
-                    values.innerHTML = `
-                        HSL: ${text.hsl}<br>
-                        HEX: ${text.hex}<br>
-                        RGB: rgb(${text.rgb.r}, ${text.rgb.g}, ${text.rgb.b})
-                    `;
-                }
-                
-                WBEventLog.logInfo('Theme colors applied', { 
-                    component: 'wb-color-bars-demo', 
-                    primary: text.hex, 
-                    line: 200 
-                });
-            });
-        }
+        // Color presets
+        const presets = {
+            ocean: { text: [200, 90, 85], bg: [210, 60, 12] },
+            forest: { text: [90, 70, 85], bg: [140, 40, 15] },
+            sunset: { text: [40, 100, 90], bg: [20, 80, 20] },
+            berry: { text: [320, 80, 85], bg: [280, 50, 15] },
+            mono: { text: [0, 0, 90], bg: [0, 0, 10] }
+        };
         
-        // Theme toggle functionality
-        function toggleTheme() {
-            const body = document.body;
-            const isDark = body.classList.contains('dark');
-            
-            if (isDark) {
-                body.classList.remove('dark');
-                // Update all wb-color-bars to light theme
-                document.querySelectorAll('wb-color-bars').forEach(picker => {
-                    picker.setAttribute('theme', 'light');
-                });
-            } else {
-                body.classList.add('dark');
-                // Update all wb-color-bars to dark theme
-                document.querySelectorAll('wb-color-bars').forEach(picker => {
-                    picker.setAttribute('theme', 'dark');
-                });
+        document.addEventListener('DOMContentLoaded', () => {
+            eventLog = document.getElementById('demo-event-log');
+            logEvent('info', '🎨 WB Color Bars Demo initialized');
+
+            // Setup main picker events
+            const mainPicker = document.getElementById('main-picker');
+            mainPicker?.addEventListener('colorchange', (e) => {
+                const data = e.detail;
+                document.getElementById('picker-output').textContent = 
+                    `Text: ${data.text.hex} | Background: ${data.background.hex}`;
+                logEvent('success', `Colors: ${data.text.hex} / ${data.background.hex}`);
+
+                // Update semantic elements colors
+                const semanticDemo = document.getElementById('semantic-demo');
+                if (semanticDemo && semanticDemo.shadowRoot) {
+                    semanticDemo.shadowRoot.querySelectorAll('.wb-semantic-container, [data-wb-semantic]').forEach(el => {
+                        el.style.color = data.text.hex;
+                        el.style.background = data.background.hex;
+                    });
+                }
+            });
+
+            // Setup preview picker
+            const previewPicker = document.getElementById('preview-picker');
+            previewPicker?.addEventListener('colorchange', (e) => {
+                const data = e.detail;
+                const preview = document.getElementById('live-preview');
+                preview.style.color = data.text.hex;
+                preview.style.background = data.background.hex;
+            });
+        });
+        
+        function logEvent(type, message) {
+            if (eventLog && eventLog.addEvent) {
+                eventLog.addEvent({ type, message, source: 'wb-color-bars-demo' });
             }
         }
         
-        // Demo console logging
-        WBEventLog.logSuccess('Color Bars Demo loaded', { component: 'wb-color-bars-demo', line: 290 });
-        WBEventLog.logInfo('Try changing colors and check the event log!', { component: 'wb-color-bars-demo', line: 291 });
-        
-        // Debug: Check if wb-color-bars components are properly defined
-        setTimeout(() => {
-            const colorBarsElements = document.querySelectorAll('wb-color-bars');
-            WBEventLog.logInfo(`Found ${colorBarsElements.length} wb-color-bars elements`, { component: 'wb-color-bars-demo', count: colorBarsElements.length, line: 296 });
+        // Preset functions
+        window.applyPreset = function(name) {
+            const preset = presets[name];
+            if (!preset) return;
             
-            colorBarsElements.forEach((element, index) => {
-                WBEventLog.logDebug(`wb-color-bars ${index + 1}`, { 
-                    component: 'wb-color-bars-demo',
-                    index: index + 1,
-                    line: 299,
-                    tagName: element.tagName,
-                    attributes: Array.from(element.attributes).map(attr => `${attr.name}="${attr.value}"`),
-                    hasColorProperty: 'color' in element,
-                    hasSetColorMethod: 'setColor' in element,
-                    shadowRoot: element.shadowRoot ? 'exists' : 'missing'
-                });
-            });
-            
-            // Check if the individual wb-color-bar components are defined
-            WBEventLog.logInfo('Web component definitions', { 
-                component: 'wb-color-bars-demo',
-                line: 309,
-                'wb-color-bars': customElements.get('wb-color-bars') ? 'YES' : 'NO',
-                'wb-color-bar': customElements.get('wb-color-bar') ? 'YES' : 'NO'
-            });
-        }, 2000);
-        
-        // Initialize theme and components after everything loads
-        function initializeDemo() {
-            WBEventLog.logInfo('Initializing demo...', { component: 'wb-color-bars-demo', line: 316 });
-            
-            // Set dark theme
-            document.body.classList.add('dark');
-            document.documentElement.setAttribute('data-theme', 'dark');
-            
-            // Update theme toggle button
-            const themeButton = document.querySelector('.theme-toggle');
-            if (themeButton) {
-                themeButton.textContent = '☀️ Light Mode';
+            const picker = document.getElementById('preset-picker');
+            if (picker) {
+                picker.setTextColor(...preset.text);
+                picker.setBackgroundColor(...preset.bg);
+                logEvent('info', `Applied preset: ${name}`);
             }
-            
-            // Initialize all wb-color-bars components
-            const colorBars = document.querySelectorAll('wb-color-bars');
-            WBEventLog.logInfo(`Found ${colorBars.length} wb-color-bars components`, { component: 'wb-color-bars-demo', count: colorBars.length, line: 330 });
-            
-            colorBars.forEach((picker, index) => {
-                WBEventLog.logInfo(`Initializing wb-color-bars ${index + 1}...`, { component: 'wb-color-bars-demo', index: index + 1, line: 333 });
-                picker.setAttribute('theme', 'dark');
+        };
+        
+        // API functions
+        window.getColors = function() {
+            const picker = document.getElementById('api-picker');
+            if (picker) {
+                const data = picker.getColorData ? picker.getColorData() : { text: picker.textColor, background: picker.backgroundColor };
+                document.getElementById('api-output').textContent = 
+                    `Text: ${data.text.hex} | BG: ${data.background.hex}`;
+                logEvent('info', `Got colors: ${data.text.hex} / ${data.background.hex}`);
+            }
+        };
+        
+        window.setRandomColors = function() {
+            const picker = document.getElementById('api-picker');
+            if (picker) {
+                const randomHue = () => Math.random() * 360;
+                const randomSat = () => 40 + Math.random() * 60;
                 
-                // Force re-render if component has this method
-                if (typeof picker.render === 'function') {
-                    picker.render();
-                }
-            });
-            
-            WBEventLog.logSuccess('Demo initialization complete', { component: 'wb-color-bars-demo', line: 342 });
-        }
+                picker.setTextColor(randomHue(), randomSat(), 80);
+                picker.setBackgroundColor(randomHue(), randomSat(), 20);
+                
+                document.getElementById('api-output').textContent = 'Random colors applied!';
+                logEvent('success', 'Random colors applied');
+            }
+        };
         
-        // Initialize when DOM and components are ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(initializeDemo, 1000);
-            });
-        } else {
-            setTimeout(initializeDemo, 1000);
-        }
+        window.setTextColor = function() {
+            const picker = document.getElementById('api-picker');
+            if (picker) {
+                picker.setTextColor(220, 80, 70);
+                document.getElementById('api-output').textContent = 'Text color set to blue';
+                logEvent('info', 'Text set to blue');
+            }
+        };
         
+        window.setBgColor = function() {
+            const picker = document.getElementById('api-picker');
+            if (picker) {
+                picker.setBackgroundColor(30, 80, 25);
+                document.getElementById('api-output').textContent = 'Background set to orange';
+                logEvent('info', 'Background set to orange');
+            }
+        };
     </script>
 </body>
 </html>
-
-
-

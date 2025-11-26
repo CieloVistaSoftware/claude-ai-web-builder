@@ -220,3 +220,44 @@ npx playwright test -g "pattern"  # Run specific tests
 npm run kill-port          # Free up ports
 npx playwright show-report # View results
 ```
+
+---
+
+## Test Agent (NEW)
+
+The project now includes a **Test Agent** that provides a programmatic interface for running tests. This is especially useful for Claude AI integration and automation.
+
+### Quick Usage
+
+```bash
+# Run all tests via agent
+npm run agent:test
+
+# Run by category
+node agents/test-agent.cjs run control-panel
+
+# Run component tests
+node agents/test-agent.cjs component button
+
+# Shadow DOM diagnostics
+node agents/test-agent.cjs diagnose wb-modal
+
+# List categories
+node agents/test-agent.cjs categories
+
+# Health check
+node agents/test-agent.cjs health
+```
+
+### Programmatic Usage
+
+```javascript
+const TestAgent = require('./agents/test-agent.cjs');
+
+// Run tests
+const result = await TestAgent.run({ category: 'control-panel' });
+console.log(result.success ? '✅ Passed' : '❌ Failed');
+console.log(result.summary);
+```
+
+See [agents/AGENT.md](../agents/AGENT.md) for full documentation.

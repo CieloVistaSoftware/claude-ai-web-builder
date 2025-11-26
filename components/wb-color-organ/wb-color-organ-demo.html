@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Color Organ Component Demo</title>
+    
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+    <script type="module" src="./wb-color-organ.js"></script>
+</head>
+<body style="margin: 0; padding: 1rem; background: var(--surface-900);">
+    
+    <wb-demo title="WB Color Organ Component" style="width: 95vw; margin: 0 auto;">
+        <div slot="description">
+            <p>The <code>&lt;wb-color-organ&gt;</code> component creates audio-reactive full-screen 
+            color visualizations that respond to music in real-time.</p>
+        </div>
+        
+        <div slot="examples" style="padding: 1rem;">
+
+            <!-- How It Works -->
+            <wb-demo-section>
+                <h2>🎵 How It Works</h2>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 1rem;">
+                        <span style="font-size: 2rem;">🔊</span>
+                        <div>
+                            <strong>Bass (Low Frequencies)</strong>
+                            <p style="margin: 0; color: var(--text-secondary);">Drives hue shifts - makes colors rotate</p>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 1rem;">
+                        <span style="font-size: 2rem;">🎤</span>
+                        <div>
+                            <strong>Mids (Vocals/Instruments)</strong>
+                            <p style="margin: 0; color: var(--text-secondary);">Controls saturation - makes colors more intense</p>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 1rem;">
+                        <span style="font-size: 2rem;">🎼</span>
+                        <div>
+                            <strong>Treble (High Frequencies)</strong>
+                            <p style="margin: 0; color: var(--text-secondary);">Adjusts lightness - makes colors brighter/darker</p>
+                        </div>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Activation -->
+            <wb-demo-section>
+                <h2>🎨 Live Demo Preview of <span id="current-mode">Color Organ</span></h2>
+                <p>Click to activate the color organ visualization.</p>
+                
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <wb-button variant="primary" onclick="activateOrgan()">🎵 Activate Color Organ</wb-button>
+                    <wb-button variant="secondary" onclick="deactivateOrgan()">⏹️ Deactivate</wb-button>
+                </div>
+                
+                <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                    <h4 style="margin-top: 0;">📺 To capture audio:</h4>
+                    <ol style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Click "Activate Color Organ"</li>
+                        <li>Select the tab with your music (Spotify, YouTube, etc.)</li>
+                        <li>CHECK "Share audio" checkbox</li>
+                        <li>Click Share and enjoy!</li>
+                    </ol>
+                </div>
+            </wb-demo-section>
+
+            <!-- Visual Modes -->
+            <wb-demo-section>
+                <h2>🎭 Visual Modes</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center; cursor: pointer;" onclick="setMode('blocks')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧱</div>
+                        <strong>Color Blocks</strong>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center; cursor: pointer;" onclick="setMode('cracked-ice')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">❄️</div>
+                        <strong>Cracked Ice</strong>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center; cursor: pointer;" onclick="setMode('laser')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌀</div>
+                        <strong>Spiraling Circles</strong>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center; cursor: pointer;" onclick="setMode('gradient')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌊</div>
+                        <strong>Gradient Flow</strong>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center; cursor: pointer;" onclick="setMode('pulse')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💓</div>
+                        <strong>Pulse Effect</strong>
+                    </div>
+                    <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center; cursor: pointer;" onclick="setMode('wave')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">〰️</div>
+                        <strong>Wave Motion</strong>
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Keyboard Shortcuts -->
+            <wb-demo-section>
+                <h2>⌨️ Keyboard Shortcuts</h2>
+                <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.75rem 2rem; padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                    <code style="padding: 0.25rem 0.5rem; background: var(--surface-800); border-radius: 4px;">ESC</code>
+                    <span>Close Color Organ</span>
+                    <code style="padding: 0.25rem 0.5rem; background: var(--surface-800); border-radius: 4px;">Ctrl + O</code>
+                    <span>Toggle Color Organ</span>
+                </div>
+            </wb-demo-section>
+
+            <!-- Event Log -->
+            <wb-demo-section>
+                <h2>📋 Event Log</h2>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="20"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    style="max-height: 200px;">
+                </wb-event-log>
+            </wb-demo-section>
+
+        </div>
+    </wb-demo>
+    
+    <!-- Color Organ Component (hidden by default) -->
+    <wb-color-organ id="color-organ"></wb-color-organ>
+
+    <script type="module">
+        let eventLog;
+        const colorOrgan = document.getElementById('color-organ');
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            eventLog = document.getElementById('demo-event-log');
+            logEvent('info', '🎵 WB Color Organ Demo initialized');
+        });
+        
+        function logEvent(type, message) {
+            if (eventLog && eventLog.addEvent) {
+                eventLog.addEvent({ type, message, source: 'wb-color-organ-demo' });
+            }
+        }
+        
+        window.activateOrgan = function() {
+            document.dispatchEvent(new CustomEvent('wb:color-organ-toggle', {
+                detail: { enabled: true, source: 'demo' },
+                bubbles: true
+            }));
+            logEvent('success', 'Color Organ activated');
+        };
+        
+        window.deactivateOrgan = function() {
+            if (colorOrgan && colorOrgan.hide) {
+                colorOrgan.hide();
+            }
+            logEvent('info', 'Color Organ deactivated');
+        };
+        
+        window.setMode = function(mode) {
+            if (colorOrgan && colorOrgan.setMode) {
+                colorOrgan.setMode(mode);
+            }
+            document.getElementById('current-mode').textContent = mode;
+            logEvent('info', `Mode set to: ${mode}`);
+        };
+        
+        // Listen for organ events
+        document.addEventListener('wb:color-organ-shown', () => {
+            logEvent('success', 'Color Organ shown');
+        });
+        
+        document.addEventListener('wb:color-organ-hidden', () => {
+            logEvent('info', 'Color Organ hidden');
+        });
+    </script>
+</body>
+</html>

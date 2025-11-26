@@ -1,788 +1,616 @@
 /**
- * WB Color Bars - Self-Contained Component
- * A comprehensive HSL color picker with text and background color controls
+ * WB Color Bars - Complete HSL Color Picker
+ * A comprehensive color picker with text and background color controls
  * 
- * This file is SELF-CONTAINED and includes wb-color-bar functionality inline
- * to follow the containment principle - no external dependencies required.
- * 
- * EMBEDDED DEPENDENCY: wb-color-bar component code is included below
+ * @version 2.0.0 - Shadow DOM compliant, extends WBBaseComponent
  */
 
-// =============================================================================
-// EMBEDDED DEPENDENCY: WB Color Bar Component (for containment)
-// =============================================================================
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 
-// ColorBar class will be embedded here when needed - for now wb-color-bars works standalone
-
-/**
- * Color Bars Web Component - MAIN COMPONENT
- * A comprehensive HSL color picker with text and background color controls
- * Now SELF-CONTAINED with embedded wb-color-bar dependency
- * 
- * Events:
- * - colorchange: Fired when color changes (real-time)
- * - colorselect: Fired when user finishes selecting a color
- */
-
-import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
-
-class ColorBars extends HTMLElement {
-  constructor() {
-    super();
-  }
-
-  async connectedCallback() {
-    await loadComponentCSS(this, 'wb-color-bars.css');
-    this.init();
-  }
-
-  init() {
-    this.attachShadow({ mode: 'open' });
+class WBColorBars extends WBBaseComponent {
+    static useShadow = true;
     
-    // Initialize text color HSL values
-    this._textHue = 240;
-    this._textSaturation = 70;
-    this._textLightness = 90;
-    
-    // Initialize background color HSL values
-    this._bgHue = 240;
-    this._bgSaturation = 40;
-    this._bgLightness = 20;
-    
-    this.render();
-  }
-  
-  static get observedAttributes() {
-    return ['text-hue', 'text-saturation', 'text-lightness', 'bg-hue', 'bg-saturation', 'bg-lightness', 'disabled', 'theme'];
-  }
-  
-  connectedCallback() {
-    // Load wb-color-bar dependency first
-    this.loadDependencies().then(() => {
-      // Initialize from attributes first
-      this.initializeFromAttributes();
-      
-      this.render();
-      this.setupEventListeners();
-      
-      // Make the host element focusable
-      this.tabIndex = 0;
-    });
-  }
-  
-  async loadDependencies() {
-    // Ensure WBComponentUtils is loaded first
-    if (!window.WBComponentUtils) {
-      await this.loadWBComponentUtils();
-    }
-    
-    // Use WBComponentRegistry if available for better dependency management
-    if (window.WBComponentRegistry) {
-      try {
-        await window.WBComponentRegistry.waitForComponent('wb-color-bar', 2000);
-        if (window.WBEventLog) {
-          WBEventLog.logInfo('wb-color-bar dependency resolved via registry', { component: 'wb-color-bars', method: 'loadDependencies', line: 74 });
-        }
-        return;
-      } catch (error) {
-        if (window.WBEventLog) {
-          WBEventLog.logWarning('Registry wait failed, falling back to manual loading', { component: 'wb-color-bars', method: 'loadDependencies', line: 77 });
-        }
-      }
-    }
-    
-    // Check if wb-color-bar is already loaded
-    if (customElements.get('wb-color-bar')) {
-      if (window.WBEventLog) {
-        WBEventLog.logInfo('wb-color-bar already loaded', { component: 'wb-color-bars', method: 'loadDependencies', line: 83 });
-      }
-      return;
-    }
-    
-    // Load wb-color-bar component with robust path resolution
-    try {
-      const script = document.createElement('script');
-      
-      // Try multiple path resolution strategies
-      let scriptPath;
-      if (window.WBComponentUtils?.resolve) {
-        scriptPath = window.WBComponentUtils.resolve('wb-color-bar.js');
-      } else {
-        // Fallback path resolution - try relative paths first
-        const possiblePaths = [
-          '../wb-color-bar/wb-color-bar.js',  // From wb-color-bars to wb-color-bar
-          './wb-color-bar/wb-color-bar.js',   // From parent directory
-          '/components/wb-color-bar/wb-color-bar.js'  // Absolute fallback
-        ];
-        scriptPath = possiblePaths[0]; // Start with relative path
-      }
-      
-      script.src = scriptPath;
-      if (window.WBEventLog) {
-        WBEventLog.logInfo('Loading wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 106 });
-      }
-      document.head.appendChild(script);
-      
-      return new Promise((resolve, reject) => {
-        script.onload = () => {
-          if (window.WBEventLog) {
-            WBEventLog.logSuccess('wb-color-bar dependency loaded successfully', { component: 'wb-color-bars', method: 'loadDependencies', line: 111 });
-          }
-          resolve();
-        };
-        script.onerror = () => {
-          if (window.WBEventLog) {
-            WBEventLog.logWarning('Failed to load wb-color-bar from: ' + scriptPath, { component: 'wb-color-bars', method: 'loadDependencies', line: 115 });
-            // Don't reject - wb-color-bars can work without wb-color-bar dependency
-            // by using embedded fallback sliders
-            WBEventLog.logInfo('wb-color-bars will use embedded slider fallback', { component: 'wb-color-bars', method: 'loadDependencies', line: 118 });
-          }
-          resolve();
-        };
-      });
-    } catch (error) {
-      if (window.WBEventLog) {
-        WBEventLog.logWarning('Error loading wb-color-bar dependency: ' + error.message, { component: 'wb-color-bars', method: 'loadDependencies', line: 123, error });
-        WBEventLog.logInfo('wb-color-bars will continue without dependency', { component: 'wb-color-bars', method: 'loadDependencies', line: 124 });
-      }
-      // Don't throw - let the component work with fallback
-    }
-  }
-  
-  async loadWBComponentUtils() {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = window.WBComponentUtils?.resolve('wb.utils') || '/utils/wb/wb-component-utils.js';
-      script.onload = () => {
-        if (window.WBEventLog) {
-          WBEventLog.logSuccess('WBComponentUtils loaded', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 134 });
-        }
-        resolve();
-      };
-      script.onerror = () => {
-        if (window.WBEventLog) {
-          WBEventLog.logError('Failed to load WBComponentUtils', { component: 'wb-color-bars', method: 'loadWBComponentUtils', line: 138 });
-        }
-        reject();
-      };
-      document.head.appendChild(script);
-    });
-  }
-  
-  initializeFromAttributes() {
-    // Initialize text color attributes
-    if (this.hasAttribute('text-hue')) {
-      this._textHue = Math.max(0, Math.min(360, parseInt(this.getAttribute('text-hue')) || 240));
-    }
-    if (this.hasAttribute('text-saturation')) {
-      this._textSaturation = Math.max(0, Math.min(100, parseInt(this.getAttribute('text-saturation')) || 70));
-    }
-    if (this.hasAttribute('text-lightness')) {
-      this._textLightness = Math.max(0, Math.min(100, parseInt(this.getAttribute('text-lightness')) || 90));
-    }
-    
-    // Initialize background color attributes
-    if (this.hasAttribute('bg-hue')) {
-      this._bgHue = Math.max(0, Math.min(360, parseInt(this.getAttribute('bg-hue')) || 240));
-    }
-    if (this.hasAttribute('bg-saturation')) {
-      this._bgSaturation = Math.max(0, Math.min(100, parseInt(this.getAttribute('bg-saturation')) || 40));
-    }
-    if (this.hasAttribute('bg-lightness')) {
-      this._bgLightness = Math.max(0, Math.min(100, parseInt(this.getAttribute('bg-lightness')) || 20));
-    }
-  }
-  
-  disconnectedCallback() {
-    this.removeEventListeners();
-  }
-  
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue === newValue) return;
-    
-    switch (name) {
-      case 'text-hue':
-        if (newValue !== null) {
-          this._textHue = Math.max(0, Math.min(360, parseInt(newValue) || 240));
-        }
-        break;
-      case 'text-saturation':
-        if (newValue !== null) {
-          this._textSaturation = Math.max(0, Math.min(100, parseInt(newValue) || 70));
-        }
-        break;
-      case 'text-lightness':
-        if (newValue !== null) {
-          this._textLightness = Math.max(0, Math.min(100, parseInt(newValue) || 90));
-        }
-        break;
-      case 'bg-hue':
-        if (newValue !== null) {
-          this._bgHue = Math.max(0, Math.min(360, parseInt(newValue) || 240));
-        }
-        break;
-      case 'bg-saturation':
-        if (newValue !== null) {
-          this._bgSaturation = Math.max(0, Math.min(100, parseInt(newValue) || 40));
-        }
-        break;
-      case 'bg-lightness':
-        if (newValue !== null) {
-          this._bgLightness = Math.max(0, Math.min(100, parseInt(newValue) || 20));
-        }
-        break;
-      case 'disabled':
-        this.updateDisabledState();
-        break;
-      case 'theme':
-        this.updateTheme();
-        break;
-    }
-    
-    if (this.shadowRoot) {
-      this.updateDisplay();
-    }
-  }
-  
-  render() {
-    // CSS-first approach - external stylesheet with dynamic path resolution
-    let cssPath = '/components/wb-color-bars/wb-color-bars.css';
-    
-    // Try to use WBComponentUtils if available
-    if (window.WBComponentUtils && typeof window.WBComponentUtils.resolve === 'function') {
-      try {
-        cssPath = '/components/wb-color-bars/wb-color-bars.css';
-      } catch (e) {
-        if (window.WBEventLog) {
-          WBEventLog.logWarning('Could not resolve CSS path, using fallback', { component: 'wb-color-bars', method: 'render', line: 243, error: e });
-        }
-      }
-    }
-    
-    this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="${cssPath}">
-      
-      <div class="color-bars-container">
-        <div class="color-bars-header">
-          <span class="color-bars-label">Color Controls</span>
-          <div class="color-previews">
-            <div class="text-preview" title="Text Color Preview"></div>
-            <div class="bg-preview" title="Background Color Preview"></div>
-          </div>
-        </div>
+    constructor() {
+        super();
+        // Text color HSL values
+        this._textHue = 240;
+        this._textSaturation = 70;
+        this._textLightness = 90;
         
-        <div class="color-bars-section">
-          <!-- Text Color Controls -->
-          <div class="color-group">
-            <h3 class="group-title">Text Color</h3>
-            <wb-color-bar id="text-hue-bar" type="hue" hue="${this._textHue}" saturation="${this._textSaturation}" lightness="${this._textLightness}" theme="${this.getAttribute('theme') || 'light'}">
-              <span slot="label">Text Hue</span>
-            </wb-color-bar>
-            
-            <wb-color-bar id="text-saturation-bar" type="saturation" hue="${this._textHue}" saturation="${this._textSaturation}" lightness="${this._textLightness}" value="${this._textSaturation}" theme="${this.getAttribute('theme') || 'light'}">
-              <span slot="label">Text Saturation</span>
-            </wb-color-bar>
-            
-            <wb-color-bar id="text-lightness-bar" type="lightness" hue="${this._textHue}" saturation="${this._textSaturation}" lightness="${this._textLightness}" value="${this._textLightness}" theme="${this.getAttribute('theme') || 'light'}">
-              <span slot="label">Text Lightness</span>
-            </wb-color-bar>
-          </div>
-          
-          <!-- Background Color Controls -->
-          <div class="color-group">
-            <h3 class="group-title">Background Color</h3>
-            <wb-color-bar id="bg-hue-bar" type="hue" hue="${this._bgHue}" saturation="${this._bgSaturation}" lightness="${this._bgLightness}" theme="${this.getAttribute('theme') || 'light'}">
-              <span slot="label">Background Hue</span>
-            </wb-color-bar>
-            
-            <wb-color-bar id="bg-saturation-bar" type="saturation" hue="${this._bgHue}" saturation="${this._bgSaturation}" lightness="${this._bgLightness}" value="${this._bgSaturation}" theme="${this.getAttribute('theme') || 'light'}">
-              <span slot="label">Background Saturation</span>
-            </wb-color-bar>
-            
-            <wb-color-bar id="bg-lightness-bar" type="lightness" hue="${this._bgHue}" saturation="${this._bgSaturation}" lightness="${this._bgLightness}" value="${this._bgLightness}" theme="${this.getAttribute('theme') || 'light'}">
-              <span slot="label">Background Lightness</span>
-            </wb-color-bar>
-          </div>
-        </div>
+        // Background color HSL values
+        this._bgHue = 240;
+        this._bgSaturation = 40;
+        this._bgLightness = 20;
         
-        <!-- Color Info -->
-        <div class="color-info">
-          <div class="color-values">
-            <span class="color-value hsl-display">HSL(240, 70%, 50%)</span>
-            <span class="color-value rgb-display">RGB(99, 102, 241)</span>
-          </div>
-          <span class="hex-value" title="Click to copy">#6366f1</span>
-        </div>
-      </div>
-    `;
-    
-    // Update the color bars after render
-    setTimeout(() => this.updateColorBars(), 200);
-  }
-  
-  setupEventListeners() {
-    // Wait for color-bar components to be rendered
-    setTimeout(() => {
-      // Text color bars
-      const textHueBar = this.shadowRoot.querySelector('#text-hue-bar');
-      const textSaturationBar = this.shadowRoot.querySelector('#text-saturation-bar');
-      const textLightnessBar = this.shadowRoot.querySelector('#text-lightness-bar');
-      
-      // Background color bars
-      const bgHueBar = this.shadowRoot.querySelector('#bg-hue-bar');
-      const bgSaturationBar = this.shadowRoot.querySelector('#bg-saturation-bar');
-      const bgLightnessBar = this.shadowRoot.querySelector('#bg-lightness-bar');
-      
-      // Set up event listeners for text color bars
-      if (textHueBar) {
-        textHueBar.addEventListener('colorchange', (e) => this.handleTextHueChange(e));
-        textHueBar.addEventListener('colorselect', (e) => this.handleTextHueChange(e));
-        textHueBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'text'));
-      }
-      if (textSaturationBar) {
-        textSaturationBar.addEventListener('colorchange', (e) => this.handleTextSaturationChange(e));
-        textSaturationBar.addEventListener('colorselect', (e) => this.handleTextSaturationChange(e));
-        textSaturationBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'text'));
-      }
-      if (textLightnessBar) {
-        textLightnessBar.addEventListener('colorchange', (e) => this.handleTextLightnessChange(e));
-        textLightnessBar.addEventListener('colorselect', (e) => this.handleTextLightnessChange(e));
-        textLightnessBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'text'));
-      }
-      // Set up event listeners for background color bars
-      if (bgHueBar) {
-        bgHueBar.addEventListener('colorchange', (e) => this.handleBgHueChange(e));
-        bgHueBar.addEventListener('colorselect', (e) => this.handleBgHueChange(e));
-        bgHueBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'background'));
-      }
-      if (bgSaturationBar) {
-        bgSaturationBar.addEventListener('colorchange', (e) => this.handleBgSaturationChange(e));
-        bgSaturationBar.addEventListener('colorselect', (e) => this.handleBgSaturationChange(e));
-        bgSaturationBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'background'));
-      }
-      if (bgLightnessBar) {
-        bgLightnessBar.addEventListener('colorchange', (e) => this.handleBgLightnessChange(e));
-        bgLightnessBar.addEventListener('colorselect', (e) => this.handleBgLightnessChange(e));
-        bgLightnessBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'background'));
-      }
-      // Copy to clipboard functionality
-      const textPreview = this.shadowRoot.querySelector('.text-preview');
-      const bgPreview = this.shadowRoot.querySelector('.bg-preview');
-
-      if (textPreview) {
-        textPreview.addEventListener('click', () => this.copyTextColorToClipboard());
-      }
-      if (bgPreview) {
-        bgPreview.addEventListener('click', () => this.copyBgColorToClipboard());
-      }
-    }, 300);
-  }
-  
-  removeEventListeners() {
-    // No global event listeners to remove
-  }
-  
-  // Text color event handlers
-  handleTextHueChange(event) {
-    this._textHue = event.detail.hue !== undefined ? event.detail.hue : event.detail.value;
-    this.updateTextColorBars();
-    this.updateDisplay();
-    this.dispatchColorChange();
-  }
-  
-  handleTextSaturationChange(event) {
-    this._textSaturation = event.detail.value !== undefined ? event.detail.value : event.detail.saturation;
-    this.updateTextColorBars();
-    this.updateDisplay();
-    this.dispatchColorChange();
-  }
-  
-  handleTextLightnessChange(event) {
-    this._textLightness = event.detail.value !== undefined ? event.detail.value : event.detail.lightness;
-    this.updateTextColorBars();
-    this.updateDisplay();
-    this.dispatchColorChange();
-  }
-  
-  // Background color event handlers
-  handleBgHueChange(event) {
-    this._bgHue = event.detail.hue !== undefined ? event.detail.hue : event.detail.value;
-    this.updateBgColorBars();
-    this.updateDisplay();
-    this.dispatchColorChange();
-  }
-  
-  handleBgSaturationChange(event) {
-    this._bgSaturation = event.detail.value !== undefined ? event.detail.value : event.detail.saturation;
-    this.updateBgColorBars();
-    this.updateDisplay();
-    this.dispatchColorChange();
-  }
-  
-  handleBgLightnessChange(event) {
-    this._bgLightness = event.detail.value !== undefined ? event.detail.value : event.detail.lightness;
-    this.updateBgColorBars();
-    this.updateDisplay();
-    this.dispatchColorChange();
-  }
-  
-  // Listen for harmony events from child bars, aggregate, and propagate
-  handleHarmonyChange(event, source) {
-    event.stopPropagation();
-    // Aggregate current HSL for both text and background
-    const text = {
-      hue: this._textHue,
-      saturation: this._textSaturation,
-      lightness: this._textLightness
-    };
-    const background = {
-      hue: this._bgHue,
-      saturation: this._bgSaturation,
-      lightness: this._bgLightness
-    };
-    // Compute harmony palette for both text and background
-    const textPalette = this.computeHarmonyPalette(text.hue, text.saturation, text.lightness);
-    const bgPalette = this.computeHarmonyPalette(background.hue, background.saturation, background.lightness);
-    // Fire a single event with both palettes
-    this.dispatchEvent(new CustomEvent('wb:color-harmony-change', {
-      detail: {
-        source,
-        text,
-        background,
-        textPalette,
-        bgPalette
-      },
-      bubbles: true
-    }));
-  }
-
-  // Harmony palette logic (from harmonic-color-mixer)
-  computeHarmonyPalette(h, s, l) {
-    // Returns an array of palette colors (complementary, triadic, etc.)
-    const palette = [];
-    palette.push({ name: 'Primary', hue: h, saturation: s, lightness: l });
-    palette.push({ name: 'Complement', hue: (h + 180) % 360, saturation: s, lightness: l });
-    palette.push({ name: 'Triadic 1', hue: (h + 120) % 360, saturation: s, lightness: l });
-    palette.push({ name: 'Triadic 2', hue: (h + 240) % 360, saturation: s, lightness: l });
-    palette.push({ name: 'Analogous -30', hue: (h - 30 + 360) % 360, saturation: s, lightness: l });
-    palette.push({ name: 'Analogous +30', hue: (h + 30) % 360, saturation: s, lightness: l });
-    // Heterodyne/advanced logic could be added here if needed
-    return palette;
-  }
-  
-  updateTextColorBars() {
-    const textHueBar = this.shadowRoot.querySelector('#text-hue-bar');
-    const textSaturationBar = this.shadowRoot.querySelector('#text-saturation-bar');
-    const textLightnessBar = this.shadowRoot.querySelector('#text-lightness-bar');
-    
-    // Update context for text color bars so gradients reflect current color
-    if (textHueBar && textHueBar.updateContext) {
-      textHueBar.updateContext(this._textHue, this._textSaturation, this._textLightness);
+        // Track which mode we're in
+        this._mode = 'text'; // 'text' or 'background'
     }
-    if (textSaturationBar && textSaturationBar.updateContext) {
-      textSaturationBar.updateContext(this._textHue, this._textSaturation, this._textLightness);
-      // CRITICAL FIX: Use silent update to prevent infinite loop
-      if (textSaturationBar.updateValueSilently) {
-        textSaturationBar.updateValueSilently(this._textSaturation);
-      } else if (textSaturationBar._value !== this._textSaturation) {
-        textSaturationBar._value = this._textSaturation;
-        textSaturationBar.updateDisplay && textSaturationBar.updateDisplay();
-      }
+    
+    static get observedAttributes() {
+        return ['text-hue', 'text-saturation', 'text-lightness', 'bg-hue', 'bg-saturation', 'bg-lightness', 'disabled', 'theme', 'mode'];
     }
-    if (textLightnessBar && textLightnessBar.updateContext) {
-      textLightnessBar.updateContext(this._textHue, this._textSaturation, this._textLightness);
-      // CRITICAL FIX: Use silent update to prevent infinite loop
-      if (textLightnessBar.updateValueSilently) {
-        textLightnessBar.updateValueSilently(this._textLightness);
-      } else if (textLightnessBar._value !== this._textLightness) {
-        textLightnessBar._value = this._textLightness;
-        textLightnessBar.updateDisplay && textLightnessBar.updateDisplay();
-      }
+    
+    async connectedCallback() {
+        super.connectedCallback();
+        
+        // Initialize from attributes
+        this._textHue = parseInt(this.getAttribute('text-hue')) || 240;
+        this._textSaturation = parseInt(this.getAttribute('text-saturation')) || 70;
+        this._textLightness = parseInt(this.getAttribute('text-lightness')) || 90;
+        this._bgHue = parseInt(this.getAttribute('bg-hue')) || 240;
+        this._bgSaturation = parseInt(this.getAttribute('bg-saturation')) || 40;
+        this._bgLightness = parseInt(this.getAttribute('bg-lightness')) || 20;
+        this._mode = this.getAttribute('mode') || 'text';
+        
+        this.render();
+        this.setupEventListeners();
+        this.updatePreview();
     }
-  }
-  
-  updateBgColorBars() {
-    const bgHueBar = this.shadowRoot.querySelector('#bg-hue-bar');
-    const bgSaturationBar = this.shadowRoot.querySelector('#bg-saturation-bar');
-    const bgLightnessBar = this.shadowRoot.querySelector('#bg-lightness-bar');
     
-    // Update context for background color bars so gradients reflect current color
-    if (bgHueBar && bgHueBar.updateContext) {
-      bgHueBar.updateContext(this._bgHue, this._bgSaturation, this._bgLightness);
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        switch (name) {
+            case 'text-hue':
+                this._textHue = parseInt(newValue) || 240;
+                break;
+            case 'text-saturation':
+                this._textSaturation = parseInt(newValue) || 70;
+                break;
+            case 'text-lightness':
+                this._textLightness = parseInt(newValue) || 90;
+                break;
+            case 'bg-hue':
+                this._bgHue = parseInt(newValue) || 240;
+                break;
+            case 'bg-saturation':
+                this._bgSaturation = parseInt(newValue) || 40;
+                break;
+            case 'bg-lightness':
+                this._bgLightness = parseInt(newValue) || 20;
+                break;
+            case 'mode':
+                this._mode = newValue || 'text';
+                break;
+        }
+        
+        if (this.shadowRoot) {
+            this.updatePreview();
+        }
     }
-    if (bgSaturationBar && bgSaturationBar.updateContext) {
-      bgSaturationBar.updateContext(this._bgHue, this._bgSaturation, this._bgLightness);
-      // CRITICAL FIX: Use silent update to prevent infinite loop
-      if (bgSaturationBar.updateValueSilently) {
-        bgSaturationBar.updateValueSilently(this._bgSaturation);
-      } else if (bgSaturationBar._value !== this._bgSaturation) {
-        bgSaturationBar._value = this._bgSaturation;
-        bgSaturationBar.updateDisplay && bgSaturationBar.updateDisplay();
-      }
+    
+    render() {
+        // Inject CSS directly into Shadow DOM
+        this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="/components/wb-color-bars/wb-color-bars.css">
+            <style>
+                /* Inline critical styles for immediate rendering */
+                :host {
+                    display: block;
+                    width: 100%;
+                    font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+                }
+                .color-bars-container {
+                    padding: 1rem;
+                    background: var(--surface-700, #334155);
+                    border-radius: 8px;
+                }
+                .mode-tabs {
+                    display: flex;
+                    gap: 0.5rem;
+                    margin-bottom: 1.5rem;
+                }
+                .mode-tab {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1rem;
+                    border: 1px solid var(--border-color, #4b5563);
+                    border-radius: 6px;
+                    background: var(--surface-800, #1e293b);
+                    color: var(--text-secondary, #94a3b8);
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+                .mode-tab:hover {
+                    background: var(--surface-600, #475569);
+                    color: var(--text-primary, #f1f5f9);
+                }
+                .mode-tab.active {
+                    background: var(--primary, #6366f1);
+                    border-color: var(--primary, #6366f1);
+                    color: white;
+                }
+                .bars-section {
+                    display: grid;
+                    gap: 1.25rem;
+                    margin-bottom: 1.5rem;
+                }
+                .bar-group {
+                    display: grid;
+                    grid-template-columns: 80px 1fr 50px;
+                    align-items: center;
+                    gap: 1rem;
+                }
+                .bar-label {
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    color: var(--text-secondary, #94a3b8);
+                }
+                .value-display {
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: var(--text-primary, #f1f5f9);
+                    text-align: right;
+                    font-family: monospace;
+                }
+                .color-slider {
+                    position: relative;
+                    height: 1.5rem;
+                    border-radius: 0.75rem;
+                    cursor: pointer;
+                    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+                }
+                .slider-pointer {
+                    position: absolute;
+                    top: 50%;
+                    width: 1.25rem;
+                    height: 1.25rem;
+                    background: white;
+                    border: 3px solid var(--pointer-color, #6366f1);
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                    cursor: grab;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                    z-index: 10;
+                }
+                .slider-pointer:hover {
+                    transform: translate(-50%, -50%) scale(1.15);
+                }
+                .slider-pointer:active {
+                    cursor: grabbing;
+                }
+                .preview-section {
+                    background: var(--surface-800, #1e293b);
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                }
+                .preview-box {
+                    height: 80px;
+                    border-radius: 6px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 1rem;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                }
+                .color-values {
+                    display: flex;
+                    justify-content: space-around;
+                }
+                .color-value {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 0.875rem;
+                }
+                .color-value .label {
+                    color: var(--text-secondary, #94a3b8);
+                }
+                .color-value .hex {
+                    font-family: monospace;
+                    font-weight: 600;
+                    color: var(--text-primary, #f1f5f9);
+                    padding: 0.25rem 0.5rem;
+                    background: var(--surface-700, #334155);
+                    border-radius: 4px;
+                }
+                .quick-actions {
+                    display: flex;
+                    gap: 0.5rem;
+                }
+                .action-btn {
+                    flex: 1;
+                    padding: 0.5rem 0.75rem;
+                    border: 1px solid var(--border-color, #4b5563);
+                    border-radius: 6px;
+                    background: var(--surface-800, #1e293b);
+                    color: var(--text-secondary, #94a3b8);
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+                .action-btn:hover {
+                    background: var(--surface-600, #475569);
+                    color: var(--text-primary, #f1f5f9);
+                }
+            </style>
+            
+            <div class="color-bars-container">
+                <!-- Mode Tabs -->
+                <div class="mode-tabs">
+                    <button class="mode-tab ${this._mode === 'text' ? 'active' : ''}" data-mode="text">
+                        <span class="tab-icon">T</span>
+                        <span>Text Color</span>
+                    </button>
+                    <button class="mode-tab ${this._mode === 'background' ? 'active' : ''}" data-mode="background">
+                        <span class="tab-icon">🎨</span>
+                        <span>Background</span>
+                    </button>
+                </div>
+                
+                <!-- Color Bars -->
+                <div class="bars-section">
+                    <div class="bar-group">
+                        <label class="bar-label">Hue</label>
+                        <div class="hue-bar color-slider" data-type="hue"></div>
+                        <span class="value-display" id="hue-value">${this._mode === 'text' ? Math.round(this._textHue) : Math.round(this._bgHue)}°</span>
+                    </div>
+                    
+                    <div class="bar-group">
+                        <label class="bar-label">Saturation</label>
+                        <div class="saturation-bar color-slider" data-type="saturation"></div>
+                        <span class="value-display" id="sat-value">${this._mode === 'text' ? Math.round(this._textSaturation) : Math.round(this._bgSaturation)}%</span>
+                    </div>
+                    
+                    <div class="bar-group">
+                        <label class="bar-label">Lightness</label>
+                        <div class="lightness-bar color-slider" data-type="lightness"></div>
+                        <span class="value-display" id="light-value">${this._mode === 'text' ? Math.round(this._textLightness) : Math.round(this._bgLightness)}%</span>
+                    </div>
+                </div>
+                
+                <!-- Preview -->
+                <div class="preview-section">
+                    <div class="preview-box" id="preview">
+                        <span class="preview-text">Sample Text</span>
+                    </div>
+                    <div class="color-values">
+                        <div class="color-value">
+                            <span class="label">Text:</span>
+                            <span class="hex" id="text-hex">#FFFFFF</span>
+                        </div>
+                        <div class="color-value">
+                            <span class="label">Background:</span>
+                            <span class="hex" id="bg-hex">#1E1E1E</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <button class="action-btn" data-action="copy-text" title="Copy text color">📋 Text</button>
+                    <button class="action-btn" data-action="copy-bg" title="Copy background color">📋 BG</button>
+                    <button class="action-btn" data-action="swap" title="Swap colors">🔄 Swap</button>
+                    <button class="action-btn" data-action="reset" title="Reset colors">↺ Reset</button>
+                </div>
+            </div>
+        `;
+        
+        // Setup sliders
+        this.initSliders();
     }
-    if (bgLightnessBar && bgLightnessBar.updateContext) {
-      bgLightnessBar.updateContext(this._bgHue, this._bgSaturation, this._bgLightness);
-      // CRITICAL FIX: Use silent update to prevent infinite loop
-      if (bgLightnessBar.updateValueSilently) {
-        bgLightnessBar.updateValueSilently(this._bgLightness);
-      } else if (bgLightnessBar._value !== this._bgLightness) {
-        bgLightnessBar._value = this._bgLightness;
-        bgLightnessBar.updateDisplay && bgLightnessBar.updateDisplay();
-      }
+    
+    initSliders() {
+        const sliders = this.shadowRoot.querySelectorAll('.color-slider');
+        sliders.forEach(slider => {
+            this.createSliderBar(slider);
+        });
     }
-  }
-  
-  updateColorBars() {
-    this.updateTextColorBars();
-    this.updateBgColorBars();
-    this.updateDisplay();
-  }
-  
-  updateDisplay() {
-    this.updatePreviews();
-    this.updateValues();
-  }
-  
-  updatePreviews() {
-    const textColor = `hsl(${this._textHue}, ${this._textSaturation}%, ${this._textLightness}%)`;
-    const bgColor = `hsl(${this._bgHue}, ${this._bgSaturation}%, ${this._bgLightness}%)`;
     
-    // Update CSS custom properties instead of inline styles
-    this.style.setProperty('--text-color-preview', textColor);
-    this.style.setProperty('--bg-color-preview', bgColor);
-  }
-  
-  updateValues() {
-    const hslDisplay = this.shadowRoot.querySelector('.hsl-display');
-    const rgbDisplay = this.shadowRoot.querySelector('.rgb-display');
-    const hexValue = this.shadowRoot.querySelector('.hex-value');
+    createSliderBar(container) {
+        const type = container.dataset.type;
+        const pointer = document.createElement('div');
+        pointer.className = 'slider-pointer';
+        container.appendChild(pointer);
+        
+        // Update gradient
+        this.updateSliderGradient(container, type);
+        
+        // Position pointer
+        this.updatePointerPosition(container, type);
+        
+        // Add drag functionality
+        let isDragging = false;
+        
+        const startDrag = (e) => {
+            isDragging = true;
+            updateValue(e);
+        };
+        
+        const updateValue = (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            const rect = container.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const x = clientX - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            
+            this.setValueFromPercentage(type, percentage);
+            this.updateSliderGradient(container, type);
+            this.updatePointerPosition(container, type);
+            this.updatePreview();
+            this.fireChangeEvent();
+        };
+        
+        const stopDrag = () => {
+            if (isDragging) {
+                isDragging = false;
+                this.fireSelectEvent();
+            }
+        };
+        
+        container.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', updateValue);
+        document.addEventListener('mouseup', stopDrag);
+        
+        container.addEventListener('touchstart', startDrag, { passive: false });
+        document.addEventListener('touchmove', updateValue, { passive: false });
+        document.addEventListener('touchend', stopDrag);
+    }
     
-    // Use text color for display values
-    const rgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
-    const hex = this.rgbToHex(rgb.r, rgb.g, rgb.b);
+    updateSliderGradient(container, type) {
+        const isText = this._mode === 'text';
+        const h = isText ? this._textHue : this._bgHue;
+        const s = isText ? this._textSaturation : this._bgSaturation;
+        const l = isText ? this._textLightness : this._bgLightness;
+        
+        let gradient;
+        switch (type) {
+            case 'hue':
+                gradient = `linear-gradient(to right,
+                    hsl(0, ${s}%, ${l}%),
+                    hsl(60, ${s}%, ${l}%),
+                    hsl(120, ${s}%, ${l}%),
+                    hsl(180, ${s}%, ${l}%),
+                    hsl(240, ${s}%, ${l}%),
+                    hsl(300, ${s}%, ${l}%),
+                    hsl(360, ${s}%, ${l}%))`;
+                break;
+            case 'saturation':
+                gradient = `linear-gradient(to right, hsl(${h}, 0%, ${l}%), hsl(${h}, 100%, ${l}%))`;
+                break;
+            case 'lightness':
+                gradient = `linear-gradient(to right, hsl(${h}, ${s}%, 0%), hsl(${h}, ${s}%, 50%), hsl(${h}, ${s}%, 100%))`;
+                break;
+        }
+        container.style.background = gradient;
+    }
     
-    if (hslDisplay) hslDisplay.textContent = `HSL(${this._textHue}, ${this._textSaturation}%, ${this._textLightness}%)`;
-    if (rgbDisplay) rgbDisplay.textContent = `RGB(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-    if (hexValue) hexValue.textContent = hex;
-  }
-  
-  copyTextColorToClipboard() {
-    const textRgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
-    const hex = this.rgbToHex(textRgb.r, textRgb.g, textRgb.b);
-    navigator.clipboard.writeText(hex).then(() => {
-      this.dispatchEvent(new CustomEvent('colorcopied', {
-        detail: { type: 'text', hex }
-      }));
-    }).catch(err => {
-      if (window.WBEventLog) {
-        WBEventLog.logWarning('Failed to copy text color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyTextColorToClipboard', line: 518, error: err });
-      }
-    });
-  }
-  
-  copyBgColorToClipboard() {
-    const bgRgb = this.hslToRgb(this._bgHue, this._bgSaturation, this._bgLightness);
-    const hex = this.rgbToHex(bgRgb.r, bgRgb.g, bgRgb.b);
-    navigator.clipboard.writeText(hex).then(() => {
-      this.dispatchEvent(new CustomEvent('colorcopied', {
-        detail: { type: 'background', hex }
-      }));
-    }).catch(err => {
-      if (window.WBEventLog) {
-        WBEventLog.logWarning('Failed to copy background color to clipboard: ' + err.message, { component: 'wb-color-bars', method: 'copyBgColorToClipboard', line: 530, error: err });
-      }
-    });
-  }
-  
-  hslToRgb(h, s, l) {
-    h /= 360;
-    s /= 100;
-    l /= 100;
+    updatePointerPosition(container, type) {
+        const pointer = container.querySelector('.slider-pointer');
+        if (!pointer) return;
+        
+        const isText = this._mode === 'text';
+        let percentage;
+        
+        switch (type) {
+            case 'hue':
+                percentage = ((isText ? this._textHue : this._bgHue) / 360) * 100;
+                break;
+            case 'saturation':
+                percentage = isText ? this._textSaturation : this._bgSaturation;
+                break;
+            case 'lightness':
+                percentage = isText ? this._textLightness : this._bgLightness;
+                break;
+        }
+        
+        pointer.style.left = `${percentage}%`;
+        
+        // Update color indicator
+        const h = isText ? this._textHue : this._bgHue;
+        const s = isText ? this._textSaturation : this._bgSaturation;
+        const l = isText ? this._textLightness : this._bgLightness;
+        pointer.style.borderColor = `hsl(${h}, ${s}%, ${l}%)`;
+    }
     
-    const a = s * Math.min(l, 1 - l);
-    const f = n => {
-      const k = (n + h / (1/12)) % 12;
-      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-      return Math.round(255 * color);
-    };
+    setValueFromPercentage(type, percentage) {
+        const isText = this._mode === 'text';
+        
+        switch (type) {
+            case 'hue':
+                const hue = (percentage / 100) * 360;
+                if (isText) this._textHue = hue;
+                else this._bgHue = hue;
+                break;
+            case 'saturation':
+                if (isText) this._textSaturation = percentage;
+                else this._bgSaturation = percentage;
+                break;
+            case 'lightness':
+                if (isText) this._textLightness = percentage;
+                else this._bgLightness = percentage;
+                break;
+        }
+        
+        // Update value displays
+        this.updateValueDisplays();
+    }
     
-    return {
-      r: f(0),
-      g: f(8),
-      b: f(4)
-    };
-  }
-  
-  rgbToHex(r, g, b) {
-    return `#${[r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')}`;
-  }
-  
-  dispatchColorChange() {
-    const textRgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
-    const bgRgb = this.hslToRgb(this._bgHue, this._bgSaturation, this._bgLightness);
+    updateValueDisplays() {
+        const isText = this._mode === 'text';
+        const hueDisplay = this.shadowRoot.getElementById('hue-value');
+        const satDisplay = this.shadowRoot.getElementById('sat-value');
+        const lightDisplay = this.shadowRoot.getElementById('light-value');
+        
+        if (hueDisplay) hueDisplay.textContent = `${Math.round(isText ? this._textHue : this._bgHue)}°`;
+        if (satDisplay) satDisplay.textContent = `${Math.round(isText ? this._textSaturation : this._bgSaturation)}%`;
+        if (lightDisplay) lightDisplay.textContent = `${Math.round(isText ? this._textLightness : this._bgLightness)}%`;
+    }
     
-    const colorData = {
-      text: {
-        hue: this._textHue,
-        saturation: this._textSaturation,
-        lightness: this._textLightness,
-        hsl: `hsl(${this._textHue}, ${this._textSaturation}%, ${this._textLightness}%)`,
-        hex: this.rgbToHex(textRgb.r, textRgb.g, textRgb.b),
-        rgb: textRgb
-      },
-      background: {
-        hue: this._bgHue,
-        saturation: this._bgSaturation,
-        lightness: this._bgLightness,
-        hsl: `hsl(${this._bgHue}, ${this._bgSaturation}%, ${this._bgLightness}%)`,
-        hex: this.rgbToHex(bgRgb.r, bgRgb.g, bgRgb.b),
-        rgb: bgRgb
-      }
-    };
+    updatePreview() {
+        const preview = this.shadowRoot.getElementById('preview');
+        const textHex = this.shadowRoot.getElementById('text-hex');
+        const bgHex = this.shadowRoot.getElementById('bg-hex');
+        
+        if (!preview) return;
+        
+        const textColor = this.hslToHex(this._textHue, this._textSaturation, this._textLightness);
+        const bgColor = this.hslToHex(this._bgHue, this._bgSaturation, this._bgLightness);
+        
+        preview.style.background = bgColor;
+        preview.style.color = textColor;
+        
+        if (textHex) textHex.textContent = textColor.toUpperCase();
+        if (bgHex) bgHex.textContent = bgColor.toUpperCase();
+        
+        // Update all slider gradients
+        this.shadowRoot.querySelectorAll('.color-slider').forEach(slider => {
+            this.updateSliderGradient(slider, slider.dataset.type);
+            this.updatePointerPosition(slider, slider.dataset.type);
+        });
+        
+        this.updateValueDisplays();
+    }
     
-    this.dispatchEvent(new CustomEvent('colorchange', {
-      detail: colorData,
-      bubbles: true
-    }));
-  }
-  
-  dispatchColorSelect() {
-    const colorData = this.color;
-    this.dispatchEvent(new CustomEvent('colorselect', {
-      detail: colorData,
-      bubbles: true
-    }));
-  }
-  
-  updateDisabledState() {
-    // Implementation for disabled state
-  }
-  
-  updateTheme() {
-    // Theme is handled via CSS custom properties
-  }
-  
-  // Getters and setters for text color
-  get textHue() { return this._textHue; }
-  set textHue(value) {
-    this._textHue = Math.max(0, Math.min(360, parseInt(value) || 0));
-    this.updateDisplay();
-  }
-  
-  get textSaturation() { return this._textSaturation; }
-  set textSaturation(value) {
-    this._textSaturation = Math.max(0, Math.min(100, parseInt(value) || 0));
-    this.updateDisplay();
-  }
-  
-  get textLightness() { return this._textLightness; }
-  set textLightness(value) {
-    this._textLightness = Math.max(0, Math.min(100, parseInt(value) || 0));
-    this.updateDisplay();
-  }
-  
-  // Getters and setters for background color
-  get bgHue() { return this._bgHue; }
-  set bgHue(value) {
-    this._bgHue = Math.max(0, Math.min(360, parseInt(value) || 0));
-    this.updateDisplay();
-  }
-  
-  get bgSaturation() { return this._bgSaturation; }
-  set bgSaturation(value) {
-    this._bgSaturation = Math.max(0, Math.min(100, parseInt(value) || 0));
-    this.updateDisplay();
-  }
-  
-  get bgLightness() { return this._bgLightness; }
-  set bgLightness(value) {
-    this._bgLightness = Math.max(0, Math.min(100, parseInt(value) || 0));
-    this.updateDisplay();
-  }
-  
-  get textColor() {
-    const rgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
-    return {
-      hue: this._textHue,
-      saturation: this._textSaturation,
-      lightness: this._textLightness,
-      hsl: `hsl(${this._textHue}, ${this._textSaturation}%, ${this._textLightness}%)`,
-      hex: this.rgbToHex(rgb.r, rgb.g, rgb.b),
-      rgb: rgb
-    };
-  }
-  
-  get bgColor() {
-    const rgb = this.hslToRgb(this._bgHue, this._bgSaturation, this._bgLightness);
-    return {
-      hue: this._bgHue,
-      saturation: this._bgSaturation,
-      lightness: this._bgLightness,
-      hsl: `hsl(${this._bgHue}, ${this._bgSaturation}%, ${this._bgLightness}%)`,
-      hex: this.rgbToHex(rgb.r, rgb.g, rgb.b),
-      rgb: rgb
-    };
-  }
-  
-  setTextColor(hue, saturation, lightness) {
-    if (hue !== undefined) this._textHue = Math.max(0, Math.min(360, parseInt(hue) || 0));
-    if (saturation !== undefined) this._textSaturation = Math.max(0, Math.min(100, parseInt(saturation) || 0));
-    if (lightness !== undefined) this._textLightness = Math.max(0, Math.min(100, parseInt(lightness) || 0));
-    this.updateColorBars();
-    this.updateDisplay();
-  }
-  
-  setBgColor(hue, saturation, lightness) {
-    if (hue !== undefined) this._bgHue = Math.max(0, Math.min(360, parseInt(hue) || 0));
-    if (saturation !== undefined) this._bgSaturation = Math.max(0, Math.min(100, parseInt(saturation) || 0));
-    if (lightness !== undefined) this._bgLightness = Math.max(0, Math.min(100, parseInt(lightness) || 0));
-    this.updateColorBars();
-    this.updateDisplay();
-  }
+    setupEventListeners() {
+        // Mode tabs
+        this.shadowRoot.querySelectorAll('.mode-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                const mode = e.currentTarget.dataset.mode;
+                this._mode = mode;
+                
+                // Update tab styles
+                this.shadowRoot.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                
+                // Update sliders for new mode
+                this.updatePreview();
+            });
+        });
+        
+        // Quick actions
+        this.shadowRoot.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = e.currentTarget.dataset.action;
+                this.handleAction(action);
+            });
+        });
+    }
+    
+    handleAction(action) {
+        switch (action) {
+            case 'copy-text':
+                const textHex = this.hslToHex(this._textHue, this._textSaturation, this._textLightness);
+                navigator.clipboard.writeText(textHex);
+                break;
+            case 'copy-bg':
+                const bgHex = this.hslToHex(this._bgHue, this._bgSaturation, this._bgLightness);
+                navigator.clipboard.writeText(bgHex);
+                break;
+            case 'swap':
+                [this._textHue, this._bgHue] = [this._bgHue, this._textHue];
+                [this._textSaturation, this._bgSaturation] = [this._bgSaturation, this._textSaturation];
+                [this._textLightness, this._bgLightness] = [this._bgLightness, this._textLightness];
+                this.updatePreview();
+                this.fireChangeEvent();
+                break;
+            case 'reset':
+                this._textHue = 240;
+                this._textSaturation = 70;
+                this._textLightness = 90;
+                this._bgHue = 240;
+                this._bgSaturation = 40;
+                this._bgLightness = 20;
+                this.updatePreview();
+                this.fireChangeEvent();
+                break;
+        }
+    }
+    
+    fireChangeEvent() {
+        this.dispatchEvent(new CustomEvent('colorchange', {
+            detail: this.getColorData(),
+            bubbles: true
+        }));
+    }
+    
+    fireSelectEvent() {
+        this.dispatchEvent(new CustomEvent('colorselect', {
+            detail: this.getColorData(),
+            bubbles: true
+        }));
+    }
+    
+    getColorData() {
+        return {
+            text: {
+                hue: this._textHue,
+                saturation: this._textSaturation,
+                lightness: this._textLightness,
+                hex: this.hslToHex(this._textHue, this._textSaturation, this._textLightness),
+                hsl: `hsl(${Math.round(this._textHue)}, ${Math.round(this._textSaturation)}%, ${Math.round(this._textLightness)}%)`
+            },
+            background: {
+                hue: this._bgHue,
+                saturation: this._bgSaturation,
+                lightness: this._bgLightness,
+                hex: this.hslToHex(this._bgHue, this._bgSaturation, this._bgLightness),
+                hsl: `hsl(${Math.round(this._bgHue)}, ${Math.round(this._bgSaturation)}%, ${Math.round(this._bgLightness)}%)`
+            },
+            mode: this._mode
+        };
+    }
+    
+    // Color conversion
+    hslToHex(h, s, l) {
+        s /= 100;
+        l /= 100;
+        const a = s * Math.min(l, 1 - l);
+        const f = n => {
+            const k = (n + h / 30) % 12;
+            const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+            return Math.round(255 * color).toString(16).padStart(2, '0');
+        };
+        return `#${f(0)}${f(8)}${f(4)}`;
+    }
+    
+    // Public API
+    get textColor() {
+        return {
+            hue: this._textHue,
+            saturation: this._textSaturation,
+            lightness: this._textLightness,
+            hex: this.hslToHex(this._textHue, this._textSaturation, this._textLightness)
+        };
+    }
+    
+    get backgroundColor() {
+        return {
+            hue: this._bgHue,
+            saturation: this._bgSaturation,
+            lightness: this._bgLightness,
+            hex: this.hslToHex(this._bgHue, this._bgSaturation, this._bgLightness)
+        };
+    }
+    
+    setTextColor(h, s, l) {
+        this._textHue = h;
+        this._textSaturation = s;
+        this._textLightness = l;
+        this.updatePreview();
+        this.fireChangeEvent();
+    }
+    
+    setBackgroundColor(h, s, l) {
+        this._bgHue = h;
+        this._bgSaturation = s;
+        this._bgLightness = l;
+        this.updatePreview();
+        this.fireChangeEvent();
+    }
 }
 
-// Register the custom element
-if (!customElements.get('wb-color-bars')) {
-  customElements.define('wb-color-bars', ColorBars);
-  if (window.WBEventLog) {
-    WBEventLog.logSuccess('wb-color-bars: Registered successfully', { component: 'wb-color-bars', line: 684 });
-  } else {
-    document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'wb-color-bars: Registered successfully', component: 'wb-color-bars', line: 684 } }));
-  }
-  // Register with WBComponentRegistry if available
-  if (window.WBComponentRegistry) {
-    window.WBComponentRegistry.register('wb-color-bars', ColorBars, ['wb-color-bar'], {
-      type: 'color-picker',
-      description: 'Multi-slider HSL color picker component',
-      api: ['colorchange', 'colorselect'],
-      attributes: ['text-hue', 'text-saturation', 'text-lightness', 'bg-hue', 'bg-saturation', 'bg-lightness']
-    });
-  }
-} else {
-  if (window.WBEventLog) {
-    WBEventLog.logInfo('wb-color-bars: Already registered, skipping', { component: 'wb-color-bars', line: 698 });
-  } else {
-    document.dispatchEvent(new CustomEvent('wb:info', { detail: { message: 'wb-color-bars: Already registered, skipping', component: 'wb-color-bars', line: 698 } }));
-  }
-}
+customElements.define('wb-color-bars', WBColorBars);
 
-// Expose for external access
-window.ColorBars = ColorBars;
-
-if (window.WBEventLog) {
-  WBEventLog.logSuccess('Color Bars component loaded successfully', { component: 'wb-color-bars', line: 702 });
-} else {
-  document.dispatchEvent(new CustomEvent('wb:success', { detail: { message: 'Color Bars component loaded successfully', component: 'wb-color-bars', line: 702 } }));
-}
-
-// Compositional Namespace
-if (!window.WB) window.WB = { components: {}, utils: {} };
-window.WB.components.ColorBars = ColorBars;
-
-// Expose globally (backward compatibility)
-window.ColorBars = ColorBars;
-window.WBColorBars = ColorBars; // Alias for consistency
-
-// ES6 Module Exports
-export { ColorBars, ColorBars as WBColorBars };
-export default ColorBars;
+export { WBColorBars };
+export default WBColorBars;

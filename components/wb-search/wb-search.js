@@ -1,127 +1,132 @@
+/**
+ * WB Search Web Component
+ * A reusable search component with modal and button variants
+ * 
+ * @example
+ * <wb-search variant="button" placeholder="Search..."></wb-search>
+ * 
+ * @version 2.0.0
+ */
+
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-/**
- * WB Search Component
- * A reusable search component with modal and button variants
- */
-class WBSearch extends HTMLElement {
+class WBSearch extends WBBaseComponent {
+    static useShadow = false;
+    
     constructor() {
         super();
         this.isInitialized = false;
         this.searchData = [];
     }
 
-    
     static get observedAttributes() {
         return ['variant', 'button-text', 'button-icon', 'placeholder', 'data-search-data'];
     }
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (oldValue === newValue) return;
-        
-        switch(name) {
-            case 'variant':
-                this.variant = newValue;
-                break;
-            case 'button-text':
-                this.buttonText = newValue;
-                break;
-            case 'button-icon':
-                this.buttonIcon = newValue;
-                break;
-            case 'placeholder':
-                this.placeholder = newValue;
-                break;
-            case 'data-search-data':
-                this.dataSearchData = newValue;
-                break;
-        }
-        
-        if (this.shadowRoot) {
-            this.render();
-        }
-    }
-
 
     async connectedCallback() {
-        if (!this.isInitialized) {
-            await loadComponentCSS(this, 'wb-search.css');
-            this.init();
-        }
+        super.connectedCallback();
+        
+        if (this.isInitialized) return;
+        
+        this.logInfo('WBSearch connecting');
+        
+        await loadComponentCSS(this, 'wb-search.css');
+        this.render();
+        this.setupEventListeners();
+        this.isInitialized = true;
+        
+        this.fireEvent('wb-search:ready', { component: 'wb-search' });
+        this.logInfo('WBSearch ready');
     }
 
-    async init() {
-        try {
-            // CSS already loaded in connectedCallback
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.logDebug('WBSearch disconnected');
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        
+        if (oldValue === newValue) return;
+        
+        if (this.isInitialized) {
             this.render();
             this.setupEventListeners();
-            this.isInitialized = true;
-            
-            this.dispatchEvent(new CustomEvent('wb-search-ready'));
-            console.log('✅ WB Search component initialized');
-        } catch (error) {
-            console.error('❌ Failed to initialize WB Search:', error);
         }
     }
 
-    async loadCSS() {
-        if (window.WBComponentUtils) {
-            const cssPath = window.WBComponentUtils.getPath('wb-search.js', '../components/wb-search/') + 'wb-search.css';
-            window.WBComponentUtils.loadCSS('wb-search', cssPath);
-        } else {
-            // Fallback for when WBComponentUtils is not available
-            const cssPath = 'components/wb-search/wb-search.css';
-            if (!document.querySelector(`link[href="${cssPath}"]`)) {
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = cssPath;
-                document.head.appendChild(link);
-            }
-        }
+    // Property getters/setters
+    get variant() {
+        return this.getAttr('variant', 'button');
+    }
+    
+    set variant(value) {
+        this.setAttr('variant', value);
+    }
+    
+    get buttonText() {
+        return this.getAttr('button-text', 'Search');
+    }
+    
+    set buttonText(value) {
+        this.setAttr('button-text', value);
+    }
+    
+    get buttonIcon() {
+        return this.getAttr('button-icon', '🔍');
+    }
+    
+    set buttonIcon(value) {
+        this.setAttr('button-icon', value);
+    }
+    
+    get placeholder() {
+        return this.getAttr('placeholder', 'Search website...');
+    }
+    
+    set placeholder(value) {
+        this.setAttr('placeholder', value);
     }
 
     render() {
-        const variant = this.getAttribute('variant') || 'button';
-        const buttonText = this.getAttribute('button-text') || 'Search';
-        const buttonIcon = this.getAttribute('button-icon') || '🔍';
-        const placeholder = this.getAttribute('placeholder') || 'Search website...';
-
         this.innerHTML = `
-            ${this.getButtonHTML(variant, buttonText, buttonIcon)}
-            ${this.getModalHTML(placeholder)}
+            ${this.getButtonHTML()}
+            ${this.getModalHTML()}
         `;
     }
 
-    getButtonHTML(variant, buttonText, buttonIcon) {
-        if (variant === 'floating') {
+    getButtonHTML() {
+        if (this.variant === 'floating') {
             return `
                 <button class="wb-search-floating" data-action="open-search">
-                    <span class="wb-search-icon">${buttonIcon}</span>
+                    <span class="wb-search-icon">${this.buttonIcon}</span>
                 </button>
             `;
         }
         
-        if (variant === 'icon-only') {
+        if (this.variant === 'icon-only') {
             return `
                 <button class="wb-search-button wb-search-icon-only" data-action="open-search">
-                    <span class="wb-search-icon">${buttonIcon}</span>
+                    <span class="wb-search-icon">${this.buttonIcon}</span>
                 </button>
             `;
         }
 
         return `
             <button class="wb-search-button" data-action="open-search">
-                <span class="wb-search-icon">${buttonIcon}</span>
-                <span class="wb-search-text">${buttonText}</span>
+                <span class="wb-search-icon">${this.buttonIcon}</span>
+                <span class="wb-search-text">${this.buttonText}</span>
             </button>
         `;
     }
 
-    getModalHTML(placeholder) {
+    getModalHTML() {
         return `
             <div class="wb-search-modal" data-modal="search">
                 <div class="wb-search-container">
                     <button class="wb-search-close" data-action="close-search">✕</button>
-                    <input type="text" class="wb-search-input" placeholder="${placeholder}" data-search-input>
+                    <input type="text" class="wb-search-input" placeholder="${this.placeholder}" data-search-input>
                     <div class="wb-search-results" data-search-results>
                         <div class="wb-search-no-results">Start typing to search...</div>
                     </div>
@@ -131,23 +136,19 @@ class WBSearch extends HTMLElement {
     }
 
     setupEventListeners() {
-        // Open search modal
         this.querySelectorAll('[data-action="open-search"]').forEach(button => {
             button.addEventListener('click', () => this.openSearch());
         });
 
-        // Close search modal
         this.querySelectorAll('[data-action="close-search"]').forEach(button => {
             button.addEventListener('click', () => this.closeSearch());
         });
 
-        // Search input
         const searchInput = this.querySelector('[data-search-input]');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => this.performSearch(e.target.value));
         }
 
-        // Modal backdrop click
         const modal = this.querySelector('[data-modal="search"]');
         if (modal) {
             modal.addEventListener('click', (e) => {
@@ -157,7 +158,6 @@ class WBSearch extends HTMLElement {
             });
         }
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isModalOpen()) {
                 this.closeSearch();
@@ -178,7 +178,8 @@ class WBSearch extends HTMLElement {
             input.focus();
             document.body.style.overflow = 'hidden';
             
-            this.dispatchEvent(new CustomEvent('wb-search-opened'));
+            this.fireEvent('wb-search:opened', {});
+            this.logDebug('WBSearch opened');
         }
     }
 
@@ -194,7 +195,8 @@ class WBSearch extends HTMLElement {
             if (input) input.value = '';
             if (results) results.innerHTML = '<div class="wb-search-no-results">Start typing to search...</div>';
             
-            this.dispatchEvent(new CustomEvent('wb-search-closed'));
+            this.fireEvent('wb-search:closed', {});
+            this.logDebug('WBSearch closed');
         }
     }
 
@@ -207,7 +209,6 @@ class WBSearch extends HTMLElement {
             return;
         }
 
-        // Get search data from attribute or use default
         const searchData = this.getSearchData();
         const results = this.filterResults(searchData, query);
 
@@ -226,23 +227,20 @@ class WBSearch extends HTMLElement {
             </div>
         `).join('');
 
-        this.dispatchEvent(new CustomEvent('wb-search-results', {
-            detail: { query, results }
-        }));
+        this.fireEvent('wb-search:results', { query, results });
+        this.logDebug('WBSearch results', { query, count: results.length });
     }
 
     getSearchData() {
-        // Try to get data from data-search-data attribute
         const dataAttr = this.getAttribute('data-search-data');
         if (dataAttr) {
             try {
                 return JSON.parse(dataAttr);
             } catch (e) {
-                console.warn('Invalid search data JSON:', e);
+                this.logError('Invalid search data JSON', { error: e.message });
             }
         }
 
-        // Default search data
         return [
             { id: 'components', title: 'Components', type: 'Section', content: 'Web components for building interfaces' },
             { id: 'wb-button', title: 'WB Button', type: 'Component', content: 'Customizable button component with variants' },
@@ -263,7 +261,6 @@ class WBSearch extends HTMLElement {
 
     highlightQuery(text, query) {
         if (!query.trim()) return text;
-        
         const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
         return text.replace(regex, '<mark class="wb-search-highlight">$1</mark>');
     }
@@ -273,11 +270,8 @@ class WBSearch extends HTMLElement {
         const result = searchData.find(item => item.id === resultId);
         
         if (result) {
-            this.dispatchEvent(new CustomEvent('wb-search-select', {
-                detail: { result }
-            }));
-            
-            // Default behavior - close search
+            this.fireEvent('wb-search:select', { result });
+            this.logDebug('WBSearch result selected', { resultId });
             this.closeSearch();
         }
     }
@@ -303,22 +297,28 @@ class WBSearch extends HTMLElement {
     }
 }
 
-// Register the component
-customElements.define('wb-search', WBSearch);
+if (!customElements.get('wb-search')) {
+    customElements.define('wb-search', WBSearch);
+}
 
-// Register with WBComponentRegistry if available
 if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
-    window.WBComponentRegistry.register('wb-search', WBSearch, ['wb-event-log'], {
-        version: '1.0.0',
+    window.WBComponentRegistry.register('wb-search', WBSearch, [], {
+        version: '2.0.0',
         type: 'form',
         role: 'ui-element',
-        description: 'Search input component with autocomplete, suggestions, and filtering capabilities',
+        description: 'Search component with modal and button variants',
         api: {
-            static: [],
-            events: ['search', 'search-submit', 'search-clear', 'suggestion-selected'],
-            attributes: ['placeholder', 'suggestions', 'min-chars', 'auto-complete'],
-            methods: ['render', 'search', 'clearSearch', 'setSuggestions']
+            events: ['wb-search:ready', 'wb-search:opened', 'wb-search:closed', 'wb-search:results', 'wb-search:select'],
+            attributes: ['variant', 'button-text', 'button-icon', 'placeholder', 'data-search-data'],
+            methods: ['openSearch', 'closeSearch', 'setSearchData', 'getSearchQuery', 'focusSearch', 'render']
         },
-        priority: 4 // UI component depends on infrastructure
+        priority: 4
     });
 }
+
+if (!window.WB) window.WB = { components: {}, utils: {} };
+window.WB.components.WBSearch = WBSearch;
+window.WBSearch = WBSearch;
+
+export { WBSearch };
+export default WBSearch;

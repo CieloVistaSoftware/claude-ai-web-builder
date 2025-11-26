@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Claude Logger Component Demo</title>
+    
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+    <script type="module" src="./wb-claude-logger/wb-claude-logger.js"></script>
+</head>
+<body style="margin: 0; padding: 1rem; background: var(--surface-900);">
+    
+    <wb-demo title="WB Claude Logger Component" style="width: 95vw; margin: 0 auto;">
+        <div slot="description">
+            <p>The <code>&lt;wb-claude-logger&gt;</code> component provides a floating issue logging interface 
+            for capturing bugs, feedback, and issues during development and testing.</p>
+        </div>
+        
+        <div slot="examples" style="padding: 1rem;">
+
+            <!-- Basic Usage -->
+            <wb-demo-section>
+                <h2>📝 Basic Usage</h2>
+                <p>The logger appears as a floating button in the corner of the screen. Click it to log issues.</p>
+                
+                <wb-demo-grid style="gap: 1rem;">
+                    <wb-demo-item>
+                        <h3>Position Options</h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                            <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center;">
+                                <code>bottom-right</code>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.5rem 0 0 0;">Default position</p>
+                            </div>
+                            <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center;">
+                                <code>bottom-left</code>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.5rem 0 0 0;">Left side placement</p>
+                            </div>
+                            <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center;">
+                                <code>top-right</code>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.5rem 0 0 0;">Top corner</p>
+                            </div>
+                            <div style="padding: 1rem; background: var(--surface-700); border-radius: 8px; text-align: center;">
+                                <code>top-left</code>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.5rem 0 0 0;">Top left corner</p>
+                            </div>
+                        </div>
+                    </wb-demo-item>
+                </wb-demo-grid>
+            </wb-demo-section>
+
+            <!-- How to Use -->
+            <wb-demo-section>
+                <h2>🔧 How to Add to Your Demo</h2>
+                <p>Copy these two lines to any demo file to enable issue logging:</p>
+                
+                <pre style="background: var(--surface-800); padding: 1rem; border-radius: 8px; overflow-x: auto;"><code>&lt;script type="module" src="../wb-claude-logger/wb-claude-logger/wb-claude-logger.js"&gt;&lt;/script&gt;
+&lt;wb-claude-logger position="bottom-right"&gt;&lt;/wb-claude-logger&gt;</code></pre>
+            </wb-demo-section>
+
+            <!-- Features -->
+            <wb-demo-section>
+                <h2>✨ Features</h2>
+                <ul style="list-style: none; padding: 0; display: grid; gap: 0.5rem;">
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📝</span> Quick issue description
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🏷️</span> Auto-detected component name
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⏰</span> Automatic timestamps
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📁</span> Optional file path tracking
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🔄</span> Expected vs Actual fields
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>💾</span> Optional backend integration
+                    </li>
+                </ul>
+            </wb-demo-section>
+
+            <!-- Backend Integration -->
+            <wb-demo-section>
+                <h2>🌐 Backend Integration</h2>
+                <p>Enable backend saving for persistent issue storage:</p>
+                
+                <pre style="background: var(--surface-800); padding: 1rem; border-radius: 8px; overflow-x: auto;"><code>&lt;wb-claude-logger 
+    position="bottom-right" 
+    backend-url="http://localhost:3000/api/log"
+    use-backend="true"&gt;
+&lt;/wb-claude-logger&gt;</code></pre>
+                
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--surface-700); border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: var(--warning-color);">⚠️ Note</h4>
+                    <p style="margin: 0; color: var(--text-secondary);">
+                        Backend saving requires the server.js file to be running. 
+                        Check the <code>wb-claude-logger/wb-claude-logger/</code> folder for setup instructions.
+                    </p>
+                </div>
+            </wb-demo-section>
+
+            <!-- Event Handling -->
+            <wb-demo-section>
+                <h2>📡 Event Handling</h2>
+                <p>Listen for logged issues in your application:</p>
+                
+                <pre style="background: var(--surface-800); padding: 1rem; border-radius: 8px; overflow-x: auto;"><code>document.querySelector('wb-claude-logger')
+    .addEventListener('issue-logged', (e) => {
+        console.log('Issue logged:', e.detail);
+        // Process the logged issue
+    });</code></pre>
+            </wb-demo-section>
+
+            <!-- Live Demo -->
+            <wb-demo-section>
+                <h2>🎯 Live Demo</h2>
+                <p>Look for the floating 📝 button in the corner of your screen. That's the Claude Logger!</p>
+                
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <wb-button variant="primary" onclick="simulateIssue()">Log Test Issue</wb-button>
+                    <wb-button variant="secondary" onclick="toggleLogger()">Toggle Logger</wb-button>
+                </div>
+                <wb-demo-output id="demo-output">Click buttons to interact with the logger</wb-demo-output>
+            </wb-demo-section>
+
+            <!-- Event Log -->
+            <wb-demo-section>
+                <h2>📋 Event Log</h2>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="20"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    style="max-height: 200px;">
+                </wb-event-log>
+            </wb-demo-section>
+
+        </div>
+    </wb-demo>
+
+    <!-- The actual logger component -->
+    <wb-claude-logger position="bottom-right"></wb-claude-logger>
+
+    <script>
+        let eventLog;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            eventLog = document.getElementById('demo-event-log');
+            logEvent('info', '📝 WB Claude Logger Demo initialized');
+            
+            // Listen for logged issues
+            const logger = document.querySelector('wb-claude-logger');
+            if (logger) {
+                logger.addEventListener('issue-logged', (e) => {
+                    logEvent('success', `Issue logged: ${e.detail?.description || 'No description'}`);
+                    document.getElementById('demo-output').textContent = `Last issue: ${e.detail?.description || 'Unknown'}`;
+                });
+            }
+        });
+
+        function logEvent(type, message) {
+            if (eventLog && eventLog.addEvent) {
+                eventLog.addEvent({ type, message, source: 'wb-claude-logger-demo' });
+            }
+        }
+
+        function simulateIssue() {
+            const logger = document.querySelector('wb-claude-logger');
+            if (logger && logger.click) {
+                logger.click();
+                logEvent('info', 'Logger opened for issue entry');
+                document.getElementById('demo-output').textContent = 'Logger opened - enter your issue!';
+            }
+        }
+
+        function toggleLogger() {
+            const logger = document.querySelector('wb-claude-logger');
+            if (logger) {
+                const isHidden = logger.style.display === 'none';
+                logger.style.display = isHidden ? '' : 'none';
+                logEvent('info', `Logger ${isHidden ? 'shown' : 'hidden'}`);
+                document.getElementById('demo-output').textContent = `Logger ${isHidden ? 'shown' : 'hidden'}`;
+            }
+        }
+    </script>
+</body>
+</html>

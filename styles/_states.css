@@ -1,0 +1,301 @@
+/**
+ * WB Component States - Unified State System
+ * 
+ * All WB components should support these semantic states.
+ * Import this file in any component that needs state styling.
+ * 
+ * VARIANTS (color-based):
+ *   primary, secondary, success, warning, danger/error, info, muted
+ * 
+ * STATES (interactive):
+ *   active, disabled, loading, focused, hover
+ * 
+ * SIZES:
+ *   small, medium (default), large
+ * 
+ * @version 1.0.0
+ */
+
+/* =======================================================
+   VARIANT CLASSES - Apply semantic colors
+   ======================================================= */
+
+/* Primary (Indigo) */
+.wb-primary,
+[variant="primary"] {
+    --wb-variant-color: var(--primary-color, #6366f1);
+    --wb-variant-color-light: var(--primary-light, #818cf8);
+    --wb-variant-color-dark: var(--primary-dark, #4f46e5);
+    --wb-variant-bg: rgba(99, 102, 241, 0.1);
+    --wb-variant-border: rgba(99, 102, 241, 0.3);
+    --wb-variant-text: #ffffff;
+}
+
+/* Secondary (Gray) */
+.wb-secondary,
+[variant="secondary"] {
+    --wb-variant-color: var(--secondary-color, #64748b);
+    --wb-variant-color-light: var(--secondary-color-light, #94a3b8);
+    --wb-variant-color-dark: var(--secondary-color-dark, #475569);
+    --wb-variant-bg: var(--secondary-bg);
+    --wb-variant-border: var(--secondary-border);
+    --wb-variant-text: #ffffff;
+}
+
+/* Success (Green) */
+.wb-success,
+[variant="success"] {
+    --wb-variant-color: var(--success-color, #22c55e);
+    --wb-variant-color-light: var(--success-color-light, #4ade80);
+    --wb-variant-color-dark: var(--success-color-dark, #16a34a);
+    --wb-variant-bg: var(--success-bg);
+    --wb-variant-border: var(--success-border);
+    --wb-variant-text: #ffffff;
+}
+
+/* Warning (Yellow/Amber) */
+.wb-warning,
+[variant="warning"] {
+    --wb-variant-color: var(--warning-color, #f59e0b);
+    --wb-variant-color-light: var(--warning-color-light, #fbbf24);
+    --wb-variant-color-dark: var(--warning-color-dark, #d97706);
+    --wb-variant-bg: var(--warning-bg);
+    --wb-variant-border: var(--warning-border);
+    --wb-variant-text: #000000; /* Dark text for yellow */
+}
+
+/* Danger / Error (Red) */
+.wb-danger,
+.wb-error,
+[variant="danger"],
+[variant="error"] {
+    --wb-variant-color: var(--danger-color, #ef4444);
+    --wb-variant-color-light: var(--danger-color-light, #f87171);
+    --wb-variant-color-dark: var(--danger-color-dark, #dc2626);
+    --wb-variant-bg: var(--danger-bg);
+    --wb-variant-border: var(--danger-border);
+    --wb-variant-text: #ffffff;
+}
+
+/* Info (Blue/Cyan) */
+.wb-info,
+[variant="info"] {
+    --wb-variant-color: var(--info-color, #0ea5e9);
+    --wb-variant-color-light: var(--info-color-light, #38bdf8);
+    --wb-variant-color-dark: var(--info-color-dark, #0284c7);
+    --wb-variant-bg: var(--info-bg);
+    --wb-variant-border: var(--info-border);
+    --wb-variant-text: #ffffff;
+}
+
+/* Muted (Subtle) */
+.wb-muted,
+[variant="muted"] {
+    --wb-variant-color: var(--muted-color, #94a3b8);
+    --wb-variant-color-light: var(--muted-color-light, #cbd5e1);
+    --wb-variant-color-dark: var(--muted-color-dark, #64748b);
+    --wb-variant-bg: var(--muted-bg);
+    --wb-variant-border: var(--muted-border);
+    --wb-variant-text: #ffffff;
+}
+
+/* =======================================================
+   INTERACTIVE STATE CLASSES
+   ======================================================= */
+
+/* Disabled State */
+.wb-disabled,
+[disabled],
+:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+/* Active State */
+.wb-active,
+[active],
+.active {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading State */
+.wb-loading,
+[loading] {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.wb-loading::after,
+[loading]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1em;
+    height: 1em;
+    margin: -0.5em 0 0 -0.5em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: wb-spin 0.75s linear infinite;
+}
+
+@keyframes wb-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Focus State */
+.wb-focused,
+:focus-visible {
+    outline: 2px solid var(--primary-color, #6366f1);
+    outline-offset: 2px;
+}
+
+/* =======================================================
+   SIZE CLASSES
+   ======================================================= */
+
+.wb-small,
+[size="small"] {
+    --wb-size-scale: 0.75;
+    font-size: calc(var(--text-sm) * var(--wb-size-scale, 1));
+    padding: var(--space-xs) var(--space-sm);
+}
+
+.wb-medium,
+[size="medium"] {
+    --wb-size-scale: 1;
+    font-size: var(--text-base);
+    padding: var(--space-sm) var(--space-md);
+}
+
+.wb-large,
+[size="large"] {
+    --wb-size-scale: 1.25;
+    font-size: calc(var(--text-lg) * var(--wb-size-scale, 1));
+    padding: var(--space-md) var(--space-lg);
+}
+
+/* =======================================================
+   FILLED VARIANT STYLES (solid background)
+   ======================================================= */
+
+.wb-filled {
+    background-color: var(--wb-variant-color) !important;
+    color: var(--wb-variant-text) !important;
+    border-color: var(--wb-variant-color) !important;
+}
+
+.wb-filled:hover {
+    background-color: var(--wb-variant-color-dark) !important;
+    border-color: var(--wb-variant-color-dark) !important;
+}
+
+/* =======================================================
+   OUTLINED VARIANT STYLES (border only)
+   ======================================================= */
+
+.wb-outlined {
+    background-color: transparent !important;
+    color: var(--wb-variant-color) !important;
+    border: 2px solid var(--wb-variant-color) !important;
+}
+
+.wb-outlined:hover {
+    background-color: var(--wb-variant-bg) !important;
+}
+
+/* =======================================================
+   GHOST VARIANT STYLES (subtle background)
+   ======================================================= */
+
+.wb-ghost {
+    background-color: var(--wb-variant-bg) !important;
+    color: var(--wb-variant-color) !important;
+    border-color: transparent !important;
+}
+
+.wb-ghost:hover {
+    background-color: var(--wb-variant-border) !important;
+}
+
+/* =======================================================
+   STATUS INDICATOR DOT
+   ======================================================= */
+
+.wb-status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--wb-variant-color, var(--muted-color));
+}
+
+.wb-status-dot.wb-success { background-color: var(--success-color); }
+.wb-status-dot.wb-warning { background-color: var(--warning-color); }
+.wb-status-dot.wb-danger,
+.wb-status-dot.wb-error { background-color: var(--danger-color); }
+.wb-status-dot.wb-info { background-color: var(--info-color); }
+.wb-status-dot.wb-primary { background-color: var(--primary-color); }
+
+/* Animated pulse for status dots */
+.wb-status-dot.wb-pulse {
+    animation: wb-pulse 2s ease-in-out infinite;
+}
+
+@keyframes wb-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* =======================================================
+   BADGE / TAG STYLES
+   ======================================================= */
+
+.wb-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    border-radius: var(--radius-full);
+    background-color: var(--wb-variant-color, var(--muted-color));
+    color: var(--wb-variant-text, #ffffff);
+}
+
+/* =======================================================
+   ALERT / NOTIFICATION BOX STYLES  
+   ======================================================= */
+
+.wb-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    background-color: var(--wb-variant-bg, var(--muted-bg));
+    border: 1px solid var(--wb-variant-border, var(--muted-border));
+    color: var(--wb-variant-color, var(--text-primary));
+}
+
+.wb-alert-icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.wb-alert-content {
+    flex: 1;
+}
+
+.wb-alert-title {
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-xs);
+}
+
+.wb-alert-message {
+    font-size: var(--text-sm);
+    opacity: 0.9;
+}

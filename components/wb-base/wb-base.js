@@ -269,7 +269,7 @@ class WBBaseComponent extends HTMLElement {
 // Export moved to end of file after WBDemoBase definition
 
 // --- DEMO LOGIC FOR wb-base-demo.html ---
-// Defines <wb-demo-base> and attaches demo event/hover logic
+// Defines wb-demo-base and attaches demo event/hover logic
 class WBDemoBase extends WBBaseComponent {
     constructor() {
         super();

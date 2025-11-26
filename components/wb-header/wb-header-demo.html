@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Header Component Demo</title>
+    
+    <link rel="stylesheet" href="../../styles/main.css">
+    
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="../wb-button/wb-button.js"></script>
+    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
+</head>
+<body style="margin: 0; padding: 1rem; background: var(--surface-900);">
+    
+    <wb-demo title="WB Header Component" style="width: 95vw; margin: 0 auto;">
+        <div slot="description">
+            <p>The <code>&lt;wb-header&gt;</code> component provides a flexible, responsive header/navbar 
+            for web applications.</p>
+        </div>
+        
+        <div slot="examples" style="padding: 1rem;">
+
+            <!-- Component Status -->
+            <wb-demo-section>
+                <h2>🚧 Component Status</h2>
+                <div style="padding: 2rem; background: var(--surface-700); border-radius: 8px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏗️</div>
+                    <h3 style="color: var(--warning-color); margin-bottom: 1rem;">Under Development</h3>
+                    <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
+                        The wb-header component is currently being designed. 
+                        Check <code>wb-header-design.md</code> for the design specification.
+                    </p>
+                </div>
+            </wb-demo-section>
+
+            <!-- Planned Features -->
+            <wb-demo-section>
+                <h2>✨ Planned Features</h2>
+                <ul style="list-style: none; padding: 0; display: grid; gap: 0.5rem;">
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📱</span> Responsive mobile menu
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🎨</span> Theme-aware styling
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🔗</span> Navigation links with active states
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📌</span> Sticky/fixed positioning options
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🖼️</span> Logo/branding slot
+                    </li>
+                    <li style="padding: 0.75rem; background: var(--surface-700); border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🔍</span> Search integration
+                    </li>
+                </ul>
+            </wb-demo-section>
+
+            <!-- Live Demo Preview -->
+            <wb-demo-section>
+                <h2>🎯 Live Demo Preview of Header</h2>
+                <p>Mock preview of what the header component will look like:</p>
+                
+                <div style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;">
+                    <!-- Mock Header -->
+                    <header style="background: var(--surface-800); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="font-size: 1.5rem; font-weight: bold; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">WB</div>
+                            <nav style="display: flex; gap: 1.5rem;">
+                                <a href="#" style="color: var(--text-primary); text-decoration: none; font-weight: 500;">Home</a>
+                                <a href="#" style="color: var(--text-secondary); text-decoration: none;">Components</a>
+                                <a href="#" style="color: var(--text-secondary); text-decoration: none;">Docs</a>
+                                <a href="#" style="color: var(--text-secondary); text-decoration: none;">About</a>
+                            </nav>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <wb-button variant="secondary" size="small">Login</wb-button>
+                            <wb-button variant="primary" size="small">Sign Up</wb-button>
+                        </div>
+                    </header>
+                    
+                    <!-- Mock Content -->
+                    <div style="padding: 2rem; background: var(--surface-700); min-height: 150px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">
+                        Page content goes here
+                    </div>
+                </div>
+            </wb-demo-section>
+
+            <!-- Event Log -->
+            <wb-demo-section>
+                <h2>📋 Event Log</h2>
+                <wb-event-log 
+                    id="demo-event-log"
+                    max-events="10"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    style="max-height: 150px;">
+                </wb-event-log>
+            </wb-demo-section>
+
+        </div>
+    </wb-demo>
+
+    <script type="module">
+        let eventLog;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            eventLog = document.getElementById('demo-event-log');
+            if (eventLog && eventLog.addEvent) {
+                eventLog.addEvent({ type: 'info', message: '🏗️ WB Header Demo initialized (component in development)', source: 'wb-header-demo' });
+            }
+        });
+    </script>
+</body>
+</html>

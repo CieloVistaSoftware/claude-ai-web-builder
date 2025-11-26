@@ -1,337 +1,297 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-layout="top-nav">
-
+<html lang="en" data-theme="dark" data-mode="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Control Panel - Complete Demo</title>
-
-    <!-- ✅ Load Foundation CSS -->
-    <link rel="stylesheet" href="../../src/styles/main.css">
+    <title>WB Control Panel Demo</title>
     
-    <!-- ✅ Load WB Layout CSS -->
- 
+    <!-- Load styles -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="./wb-control-panel.css">
+    <link rel="stylesheet" href="./wb-control-panel-demo.css">
     
-    <!-- ✅ Load Demo-Specific CSS -->
-    <link rel="stylesheet" href="wb-control-panel-demo.css">
-
-    <!-- ✅ Single centralized loader - loads ALL components -->
-    <script type="module" src="../../index.js"></script>
-    
-    <!-- ✅ Load Demo-Specific JavaScript -->
-    <script type="module" src="wb-control-panel-demo.js" defer></script>
+    <!-- Load components as modules -->
+    <script type="module" src="../wb-demo/wb-demo.js"></script>
+    <script type="module" src="./wb-control-panel.js"></script>
 </head>
-
 <body>
-    <!-- ✅ WB Layout Component - Wraps EVERYTHING -->
-    <wb-layout layout="top-nav" auto-apply="true">
-        <!-- ✅ WB Header Component -->
-        <wb-header brand-text="WB Control Panel" theme="dark"></wb-header>
+    
+    <wb-demo title="🎨 WB Control Panel" markdown="./wb-control-panel.md">
+        <div slot="examples">
+            
+            <!-- OVERVIEW -->
+            <section class="demo-section">
+                <h2>📋 Overview</h2>
+                <p>The control panel is a <strong>floating element</strong> (position: fixed) that appears on the right side of the viewport. 
+                   It applies color changes to ALL elements in the document body via CSS custom properties.</p>
+                
+                <div class="demo-render">
+                    <div class="demo-info-box">
+                        <p>
+                            👉 The control panel is visible on the <strong class="text-primary">right side of this page</strong>. 
+                            Try adjusting the sliders and watch all elements change!
+                        </p>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">HTML</div>
+                    <pre>&lt;!-- Control panel floats automatically - just add to page --&gt;
+&lt;wb-control-panel&gt;&lt;/wb-control-panel&gt;</pre>
+                </div>
+            </section>
+
+            <!-- CSS VARIABLE INHERITANCE -->
+            <section class="demo-section">
+                <h2>🔄 CSS Variable Inheritance Demo</h2>
+                <p>These elements use CSS variables that automatically update when you change control panel settings.</p>
+                
+                <div class="demo-render demo-render--column">
+                    <div class="demo-card">
+                        <h4>Sample Card Component</h4>
+                        <p>This card uses --bg-secondary, --border-color, --primary, and --text-secondary variables.</p>
+                    </div>
+                    <input type="text" class="demo-input" placeholder="Type here... (uses CSS variables)">
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">CSS Variables Used</div>
+                    <pre>background: var(--bg-secondary);
+border: 1px solid var(--border-color);
+color: var(--text-secondary);
+/* Focus state */
+border-color: var(--primary);
+box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);</pre>
+                </div>
+            </section>
+
+            <!-- CORE COLORS -->
+            <section class="demo-section">
+                <h2>🌈 Core Colors</h2>
+                <p>Primary, secondary, and accent colors automatically calculated from the base hue.</p>
+                
+                <div class="demo-render">
+                    <div class="color-grid">
+                        <div class="color-swatch color-primary">
+                            <strong>Primary</strong>
+                            <small>Main brand color</small>
+                        </div>
+                        <div class="color-swatch color-secondary">
+                            <strong>Secondary</strong>
+                            <small>Complementary (180°)</small>
+                        </div>
+                        <div class="color-swatch color-accent">
+                            <strong>Accent</strong>
+                            <small>Analogous (-30°)</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">CSS Variables</div>
+                    <pre>--primary: hsl(240, 70%, 50%);       /* Base hue */
+--secondary: hsl(60, 60%, 50%);      /* +180° complementary */
+--accent: hsl(210, 60%, 50%);        /* -30° analogous */</pre>
+                </div>
+            </section>
+
+            <!-- SEMANTIC MESSAGES -->
+            <section class="demo-section">
+                <h2>💬 Semantic Messages</h2>
+                <p>State colors based on color psychology for intuitive communication.</p>
+                
+                <div class="demo-render demo-render--column">
+                    <div class="message-stack">
+                        <div class="message message-success">
+                            <strong>✅ Success</strong>
+                            Your changes have been saved successfully!
+                        </div>
+                        <div class="message message-info">
+                            <strong>ℹ️ Info</strong>
+                            Control panel changes apply to ALL body elements.
+                        </div>
+                        <div class="message message-warning">
+                            <strong>⚠️ Warning</strong>
+                            Some settings are saved to localStorage.
+                        </div>
+                        <div class="message message-error">
+                            <strong>❌ Error</strong>
+                            Unable to connect. Please check your network.
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">CSS Variables</div>
+                    <pre>--success-color: #22c55e;  /* Green - positive */
+--info-color: #0ea5e9;     /* Blue - informational */
+--warning-color: #f59e0b;  /* Amber - caution */
+--error-color: #ef4444;    /* Red - danger */</pre>
+                </div>
+            </section>
+
+            <!-- INTERACTIVE BUTTONS -->
+            <section class="demo-section">
+                <h2>🔘 Interactive Buttons</h2>
+                <p>Buttons styled with the color system. Hover to see effects.</p>
+                
+                <div class="demo-render">
+                    <button class="demo-button demo-button--primary">Primary</button>
+                    <button class="demo-button demo-button--secondary">Secondary</button>
+                    <button class="demo-button demo-button--accent">Accent</button>
+                    <button class="demo-button demo-button--success">Success</button>
+                    <button class="demo-button demo-button--warning">Warning</button>
+                    <button class="demo-button demo-button--error">Danger</button>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">CSS</div>
+                    <pre>.demo-button--primary { background: var(--primary); }
+.demo-button--secondary { background: var(--secondary-color); }
+.demo-button--accent { background: var(--accent); }
+.demo-button--success { background: var(--success-color); }
+.demo-button--warning { background: var(--warning-color); }
+.demo-button--error { background: var(--error-color); }</pre>
+                </div>
+            </section>
+
+            <!-- MODE TOGGLE -->
+            <section class="demo-section">
+                <h2>🌗 Dark/Light Mode Toggle</h2>
+                <p>The mode toggle button uses SVG icons (no text). Moon for dark mode, sun for light mode.</p>
+                
+                <div class="demo-render">
+                    <div class="demo-info-box">
+                        <p>Click the circular button in the control panel header:</p>
+                        <ul class="demo-list">
+                            <li>🌙 Moon icon = Dark mode</li>
+                            <li>☀️ Sun icon = Light mode</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">Behavior</div>
+                    <pre>// Mode toggle applies to entire document
+document.documentElement.setAttribute('data-mode', mode);
+document.body.setAttribute('data-mode', mode);
+
+// Text colors adjust automatically
+--text-primary: dark ? #f8fafc : #1e293b;
+--text-secondary: dark ? #94a3b8 : #64748b;</pre>
+                </div>
+            </section>
+
+            <!-- EVENTS -->
+            <section class="demo-section">
+                <h2>📢 Events Dispatched</h2>
+                <p>The control panel fires custom events that other components can listen to.</p>
+                
+                <div class="demo-render demo-render--column">
+                    <div id="event-log" class="event-log">
+                        <em>Event log will appear here when you interact with the control panel...</em>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">JavaScript</div>
+                    <pre>// Listen for mode changes
+document.addEventListener('wb:mode-changed', (e) => {
+    console.log('Mode:', e.detail.mode); // 'dark' or 'light'
+});
+
+// Listen for color changes
+document.addEventListener('wb:color-changed', (e) => {
+    console.log('Hue:', e.detail.hue);
+    console.log('Saturation:', e.detail.saturation);
+    console.log('Lightness:', e.detail.lightness);
+});
+
+// Listen for theme applied (all colors updated)
+document.addEventListener('wb:theme-applied', (e) => {
+    console.log('Theme applied:', e.detail);
+});</pre>
+                </div>
+            </section>
+
+            <!-- HOW IT WORKS -->
+            <section class="demo-section">
+                <h2>⚙️ How Document-Wide Theming Works</h2>
+                <p>The control panel sets CSS variables on <code class="inline-code">document.documentElement</code> so all elements inherit them.</p>
+                
+                <div class="demo-render demo-render--column">
+                    <div class="code-block">
+                        <pre>/* Applied to :root by control panel */
+
+/* Primary Colors */
+--primary: hsl(240, 70%, 50%);
+--primary-dark: hsl(240, 70%, 35%);
+--primary-light: hsl(240, 50%, 75%);
+--primary-rgb: 99, 102, 241;
+
+/* Background */
+--bg-color: hsl(220, 20%, 15%);
+--bg-primary: hsl(220, 18%, 22%);
+--bg-secondary: hsl(220, 16%, 30%);
+
+/* Text (Mode-aware) */
+--text-primary: hsl(240, 5%, 98%);
+--text-secondary: hsl(240, 15%, 85%);
+--text-muted: hsl(240, 25%, 65%);
+
+/* Borders */
+--border-color: hsl(240, 6%, 35%);</pre>
+                    </div>
+                </div>
+                <div class="demo-code">
+                    <div class="demo-code-label">Key Method</div>
+                    <pre>applyColorsToDocument() {
+    const root = document.documentElement;
+    
+    // Set CSS variables on :root
+    root.style.setProperty('--primary', `hsl(...)`);
+    root.style.setProperty('--bg-color', `hsl(...)`);
+    
+    // Dispatch event for other components
+    document.dispatchEvent(new CustomEvent('wb:theme-applied', {...}));
+}</pre>
+                </div>
+            </section>
+
+        </div>
+    </wb-demo>
+    
+    <!-- Floating Control Panel - placed outside wb-demo -->
+    <wb-control-panel></wb-control-panel>
+    
+    <script>
+        // Log events from control panel
+        const eventLog = document.getElementById('event-log');
+        let eventCount = 0;
+        const maxEvents = 15;
         
-        <!-- Navigation (automatically positioned by layout) -->
-        <wb-nav id="site-nav" items='[
-            {"id":"home","text":"Home","href":"#","active":true},
-            {"id":"about","text":"About","href":"#about"},
-            {"id":"services","text":"Services","href":"#services"},
-            {"id":"contact","text":"Contact","href":"#contact"}
-        ]'>
-        </wb-nav>
-
-    <!-- Main content -->
-    <main>
-              <h1>WB Control Panel - HCS Theme Showcase</h1>
-        <p class="lead">Experience the power of Harmonic Color System with wave-theory based palettes. Switch between themes to see colors harmonize across all elements.</p>
-        <!-- Color Showcase Section -->
-        <section style="margin: 2rem 0;">
-            <h2>🎨 Color System Preview</h2>
-            <p>All colors automatically harmonize based on wave theory and color psychology.</p>
+        function logEvent(name, detail) {
+            eventCount++;
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'event-entry';
+            entry.innerHTML = `<span class="event-time">[${time}]</span> <span class="event-name">${name}</span>`;
             
-            <div class="color-showcase" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
-                <div style="padding: 1.5rem; background: var(--primary); color: white; border-radius: 8px; text-align: center;">
-                    <strong>Primary</strong>
-                    <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">Main brand color</p>
-                </div>
-                <div style="padding: 1.5rem; background: var(--secondary); color: white; border-radius: 8px; text-align: center;">
-                    <strong>Secondary</strong>
-                    <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">Supporting color</p>
-                </div>
-                <div style="padding: 1.5rem; background: var(--accent); color: white; border-radius: 8px; text-align: center;">
-                    <strong>Accent</strong>
-                    <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">Emphasis & highlights</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Semantic State Colors -->
-        <section style="margin: 2rem 0;">
-            <h2>💬 Semantic Messages</h2>
-            <p>State colors based on color psychology for intuitive user communication.</p>
+            if (detail) {
+                const detailStr = JSON.stringify(detail, null, 0).substring(0, 80);
+                entry.innerHTML += `<br><span class="event-detail">${detailStr}...</span>`;
+            }
             
-            <div style="display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0;">
-                <div style="padding: 1rem; background: var(--success-color); color: white; border-radius: 6px; border-left: 4px solid var(--success-color-dark);">
-                    <strong>✅ Success:</strong> Your changes have been saved successfully!
-                </div>
-                <div style="padding: 1rem; background: var(--info-color); color: white; border-radius: 6px; border-left: 4px solid var(--info-color-dark);">
-                    <strong>ℹ️ Info:</strong> HCS themes use wave theory for perfect color harmony.
-                </div>
-                <div style="padding: 1rem; background: var(--warning-color); color: white; border-radius: 6px; border-left: 4px solid var(--warning-color-dark);">
-                    <strong>⚠️ Warning:</strong> Some settings may require a page refresh.
-                </div>
-                <div style="padding: 1rem; background: var(--error-color); color: white; border-radius: 6px; border-left: 4px solid var(--error-color-dark);">
-                    <strong>❌ Error:</strong> Unable to save. Please check your connection.
-                </div>
-            </div>
-        </section>
-
-        <!-- Interactive Elements -->
-        <section style="margin: 2rem 0;">
-            <h2>🔘 Interactive Components</h2>
-            <p>Buttons and links styled with HCS color system.</p>
-
-            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0;">
-                <button style="padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">
-                    Primary Button
-                </button>
-                <button style="padding: 0.75rem 1.5rem; background: var(--secondary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--secondary-dark)'" onmouseout="this.style.background='var(--secondary)'">
-                    Secondary Button
-                </button>
-                <button style="padding: 0.75rem 1.5rem; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--accent-dark)'" onmouseout="this.style.background='var(--accent)'">
-                    Accent Button
-                </button>
-                <button style="padding: 0.75rem 1.5rem; background: var(--success-color); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--success-color-dark)'" onmouseout="this.style.background='var(--success-color)'">
-                    Success Action
-                </button>
-            </div>
+            if (eventCount === 1) {
+                eventLog.innerHTML = '';
+            }
             
-            <div style="margin: 1rem 0;">
-                <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600; margin-right: 1rem;">Primary Link</a>
-                <a href="#" style="color: var(--secondary); text-decoration: none; font-weight: 600; margin-right: 1rem;">Secondary Link</a>
-                <a href="#" style="color: var(--accent); text-decoration: none; font-weight: 600;">Accent Link</a>
-            </div>
-        </section>
-
-        <!-- Cards with Different Styles -->
-        <section style="margin: 2rem 0;">
-            <h2>📦 HCS Harmony Modes</h2>
-            <p>Explore different wave-theory based color harmony systems in action.</p>
-
-            <div class="demo-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
-                <div style="padding: 1.5rem; background: var(--bg-primary); border: 2px solid var(--primary); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
-                    <h3 style="color: var(--primary); margin: 0 0 0.5rem 0;">🌊 Wave Theory</h3>
-                    <p style="color: var(--text-secondary); margin: 0 0 1rem 0;">Harmonies based on radio wave principles: Beat Pattern, Doppler Shift, Standing Waves.</p>
-                    <button id="explore-wave-btn" style="padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Explore Wave Theory</button>
-                </div>
-
-                <div style="padding: 1.5rem; background: var(--bg-primary); border: 2px solid var(--secondary); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
-                    <h3 style="color: var(--secondary); margin: 0 0 0.5rem 0;">🎵 Harmonic Series</h3>
-                    <p style="color: var(--text-secondary); margin: 0 0 1rem 0;">Musical harmonic ratios applied to hue for mathematically perfect color relationships.</p>
-                    <button id="explore-harmonic-btn" style="padding: 0.5rem 1rem; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Explore Harmonics</button>
-                </div>
-
-                <div style="padding: 1.5rem; background: var(--bg-primary); border: 2px solid var(--accent); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
-                    <h3 style="color: var(--accent); margin: 0 0 0.5rem 0;">📡 Phase Modulation</h3>
-                    <p style="color: var(--text-secondary); margin: 0 0 1rem 0;">Dynamic phase shifts creating interference patterns in color space.</p>
-                    <button id="explore-phase-btn" style="padding: 0.5rem 1rem; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Explore Phase Mod</button>
-                </div>
-            </div>
+            eventLog.insertBefore(entry, eventLog.firstChild);
             
-            <!-- Exploration Panels (hidden by default) -->
-            <div id="wave-panel" style="display: none; margin-top: 2rem; padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--primary);">
-                <h3 style="color: var(--primary);">🌊 Wave Theory Harmonies</h3>
-                <p>Wave theory harmonies use radio wave principles to create unique color relationships:</p>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
-                    <div style="padding: 1rem; background: hsl(240, 75%, 50%); color: white; border-radius: 8px;">
-                        <strong>Beat Pattern</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">240° + 8° interference</p>
-                    </div>
-                    <div style="padding: 1rem; background: hsl(248, 72%, 52%); color: white; border-radius: 8px;">
-                        <strong>Primary Beat</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">248° constructive</p>
-                    </div>
-                    <div style="padding: 1rem; background: hsl(232, 73%, 48%); color: white; border-radius: 8px;">
-                        <strong>Counter Beat</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">232° destructive</p>
-                    </div>
-                    <div style="padding: 1rem; background: hsl(256, 70%, 54%); color: white; border-radius: 8px;">
-                        <strong>Harmonic</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">256° 2nd harmonic</p>
-                    </div>
-                </div>
-                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
-                    <h4>Doppler Shift Example</h4>
-                    <div style="display: flex; gap: 1rem; margin: 1rem 0;">
-                        <div style="flex: 1; padding: 1rem; background: hsl(260, 75%, 55%); color: white; border-radius: 8px;">
-                            <strong>Blueshift +20°</strong>
-                            <p style="font-size: 0.875rem;">Moving toward observer</p>
-                        </div>
-                        <div style="flex: 1; padding: 1rem; background: hsl(240, 70%, 50%); color: white; border-radius: 8px;">
-                            <strong>Source 240°</strong>
-                            <p style="font-size: 0.875rem;">Original frequency</p>
-                        </div>
-                        <div style="flex: 1; padding: 1rem; background: hsl(220, 65%, 45%); color: white; border-radius: 8px;">
-                            <strong>Redshift -20°</strong>
-                            <p style="font-size: 0.875rem;">Moving away</p>
-                        </div>
-                    </div>
-                </div>
-                <button onclick="document.getElementById('wave-panel').style.display='none'" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
-            </div>
-            
-            <div id="harmonic-panel" style="display: none; margin-top: 2rem; padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--secondary);">
-                <h3 style="color: var(--secondary);">🎵 Harmonic Series</h3>
-                <p>Musical harmonic ratios create mathematically perfect color relationships based on frequency division:</p>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1rem 0;">
-                    <div style="padding: 1.5rem; background: hsl(240, 70%, 50%); color: white; border-radius: 8px;">
-                        <div style="font-size: 2rem; font-weight: 700;">1st</div>
-                        <strong>Fundamental</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">240° base frequency</p>
-                    </div>
-                    <div style="padding: 1.5rem; background: hsl(120, 70%, 50%); color: white; border-radius: 8px;">
-                        <div style="font-size: 2rem; font-weight: 700;">2nd</div>
-                        <strong>Octave ÷2</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">120° = 240÷2</p>
-                    </div>
-                    <div style="padding: 1.5rem; background: hsl(80, 70%, 50%); color: white; border-radius: 8px;">
-                        <div style="font-size: 2rem; font-weight: 700;">3rd</div>
-                        <strong>Perfect 5th ÷3</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">80° = 240÷3</p>
-                    </div>
-                    <div style="padding: 1.5rem; background: hsl(60, 85%, 55%); color: white; border-radius: 8px;">
-                        <div style="font-size: 2rem; font-weight: 700;">4th</div>
-                        <strong>2 Octaves ÷4</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">60° = 240÷4</p>
-                    </div>
-                    <div style="padding: 1.5rem; background: hsl(48, 75%, 50%); color: white; border-radius: 8px;">
-                        <div style="font-size: 2rem; font-weight: 700;">5th</div>
-                        <strong>Major 3rd ÷5</strong>
-                        <p style="font-size: 0.875rem; margin: 0.5rem 0 0 0;">48° = 240÷5</p>
-                    </div>
-                </div>
-                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
-                    <h4>Why Harmonics Work</h4>
-                    <p>Just like musical notes that are mathematically related sound pleasant together, colors with harmonic frequency relationships create visual harmony. The ratios 1:2, 1:3, 1:4, 1:5 are the same ratios found in musical intervals!</p>
-                </div>
-                <button onclick="document.getElementById('harmonic-panel').style.display='none'" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
-            </div>
-            
-            <div id="phase-panel" style="display: none; margin-top: 2rem; padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--accent);">
-                <h3 style="color: var(--accent);">📡 Phase Modulation</h3>
-                <p>Phase modulation creates dynamic color shifts and interference patterns:</p>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0;">
-                    <div>
-                        <h4 style="color: var(--accent);">PM - Phase Mod</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <div style="padding: 1rem; background: hsl(240, 70%, 50%); color: white; border-radius: 6px;">Carrier 240°</div>
-                            <div style="padding: 1rem; background: hsl(250, 70%, 50%); color: white; border-radius: 6px;">+10° shift</div>
-                            <div style="padding: 1rem; background: hsl(230, 70%, 50%); color: white; border-radius: 6px;">-10° shift</div>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 style="color: var(--accent);">FM - Frequency Mod</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <div style="padding: 1rem; background: hsl(240, 70%, 50%); color: white; border-radius: 6px;">Carrier 240°</div>
-                            <div style="padding: 1rem; background: hsl(260, 70%, 50%); color: white; border-radius: 6px;">Upper sideband</div>
-                            <div style="padding: 1rem; background: hsl(220, 70%, 50%); color: white; border-radius: 6px;">Lower sideband</div>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 style="color: var(--accent);">AM - Amplitude Mod</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <div style="padding: 1rem; background: hsl(240, 85%, 50%); color: white; border-radius: 6px;">Peak 85%</div>
-                            <div style="padding: 1rem; background: hsl(240, 70%, 50%); color: white; border-radius: 6px;">Carrier 70%</div>
-                            <div style="padding: 1rem; background: hsl(240, 55%, 50%); color: white; border-radius: 6px;">Trough 55%</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
-                    <h4>Wave Interference</h4>
-                    <p>When multiple waves interact, they create interference patterns. Phase modulation shifts the wave's phase, frequency modulation creates sidebands, and amplitude modulation varies intensity - all creating unique color harmonies!</p>
-                </div>
-                <button onclick="document.getElementById('phase-panel').style.display='none'" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
-            </div>
-        </section>
-
-        <!-- Typography Showcase -->
-        <section style="margin: 2rem 0;">
-            <h2>✍️ Typography Hierarchy</h2>
-            <h1 style="color: var(--primary);">Heading 1 - Primary Color</h1>
-            <h2 style="color: var(--secondary);">Heading 2 - Secondary Color</h2>
-            <h3 style="color: var(--accent);">Heading 3 - Accent Color</h3>
-            <p style="color: var(--text-primary);">Primary text uses the main text color for maximum readability.</p>
-            <p style="color: var(--text-secondary);">Secondary text provides a subtle hierarchy in body content.</p>
-            <p style="color: var(--text-muted); font-size: 0.875rem;">Muted text for less important information like captions and footnotes.</p>
-        </section>
-
-        <!-- Data Display -->
-        <section style="margin: 2rem 0;">
-            <h2>📊 Data Visualization Elements</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
-                <div style="padding: 1rem; background: var(--bg-secondary); border-left: 4px solid var(--primary); border-radius: 4px;">
-                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">1.2K</div>
-                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Active Users</div>
-                </div>
-                <div style="padding: 1rem; background: var(--bg-secondary); border-left: 4px solid var(--secondary); border-radius: 4px;">
-                    <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">89%</div>
-                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Satisfaction</div>
-                </div>
-                <div style="padding: 1rem; background: var(--bg-secondary); border-left: 4px solid var(--accent); border-radius: 4px;">
-                    <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">42</div>
-                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Projects</div>
-                </div>
-                <div style="padding: 1rem; background: var(--bg-secondary); border-left: 4px solid var(--success-color); border-radius: 4px;">
-                    <div style="font-size: 2rem; font-weight: 700; color: var(--success-color);">+24%</div>
-                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Growth</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Instructions -->
-        <section style="margin: 2rem 0; padding: 1.5rem; background: var(--bg-secondary); border-radius: 8px; border: 2px solid var(--border-color);">
-            <h2 style="margin-top: 0;">🎮 How to Use</h2>
-            <ol style="line-height: 1.8;">
-                <li><strong>Open Control Panel</strong> - Find the floating control panel on the right side</li>
-                <li><strong>Switch to HCS Category</strong> - Select "🌊 HCS (Harmonic Color System)" from Theme Category dropdown</li>
-                <li><strong>Try Different Themes</strong> - Choose from 15 wave-theory based palettes:
-                    <ul style="margin: 0.5rem 0;">
-                        <li>Traditional: Complementary, Triadic, Tetradic, Analogous, Split Complementary</li>
-                        <li>Wave Theory: Beat Pattern, Harmonic Series, Doppler Shift, Standing Wave</li>
-                        <li>Radio: Phase 30°, Phase 45°, PM, FM, AM, Wave Superposition</li>
-                    </ul>
-                </li>
-                <li><strong>Watch Colors Harmonize</strong> - See how all 8 colors (primary, secondary, accent, success, warning, danger, info, neutral) work together</li>
-            </ol>
-        </section>
-    </main>
-
-    <!-- ✅ WB Footer Component (inside wb-layout) -->
-    <wb-footer 
-        layout="simple" 
-        positioning="same-page"
-        company-name="WB Control Panel Demo"
-        copyright="© 2025 Website Builder. All rights reserved."
-        theme="dark">
-    </wb-footer>
-    
-    </wb-layout>
-    <!-- End of wb-layout -->
-    
-    <wb-log-error></wb-log-error>
-
-    <!-- Event Log Panel with Resize Handle - Always after footer at bottom of page -->
- 
-    </div>
-    <h2>Event Log</h2>
-     <wb-event-log 
-        id="event-log" 
-        max-entries="100" 
-        auto-open="true" 
-        auto-log-errors="true" 
-        storage-key="wb-event-log-visibility">
-    <!-- Control Panel floating (always visible, resizable) -->
-    <wb-control-panel id="control-panel"></wb-control-panel>
+            while (eventLog.children.length > maxEvents) {
+                eventLog.removeChild(eventLog.lastChild);
+            }
+        }
+        
+        document.addEventListener('wb:mode-changed', (e) => logEvent('wb:mode-changed', e.detail));
+        document.addEventListener('wb:color-changed', (e) => logEvent('wb:color-changed', e.detail));
+        document.addEventListener('wb:background-color-changed', (e) => logEvent('wb:background-color-changed', e.detail));
+        document.addEventListener('wb:theme-changed', (e) => logEvent('wb:theme-changed', e.detail));
+        document.addEventListener('wb:theme-applied', (e) => logEvent('wb:theme-applied', e.detail));
+        document.addEventListener('wb:layout-changed', (e) => logEvent('wb:layout-changed', e.detail));
+    </script>
 </body>
-
 </html>
-
-
-

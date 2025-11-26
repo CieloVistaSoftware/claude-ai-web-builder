@@ -1,205 +1,231 @@
-# Control Panel Web Component
+# WB Control Panel Web Component
 
-A self-contained web component that provides comprehensive control panel functionality for the Website Builder application.
+A self-contained web component that provides comprehensive control panel functionality with **document-wide color application**.
+
+## Version 2.1 Features
+
+### ✨ New in v2.1
+- **Document-Wide Color Application**: Control panel changes affect ALL elements in the body, not just the panel itself
+- **SVG Mode Toggle**: Dark/light mode button uses SVG icons only (no text) - moon 🌙 for dark, sun ☀️ for light
+- **Backend Health Check**: Log notifications only appear if backend server is confirmed running
+- **Enhanced CSS Variables**: More comprehensive set of CSS variables applied to `document.documentElement`
 
 ## Overview
 
 The Control Panel component manages all user interface controls for customizing websites including:
 - Edit mode toggling
+- Dark/Light mode switching (SVG icon button)
 - Theme and layout selection
-- Color system controls
-- File operations
+- Color system controls (HSL sliders)
 - Layout configurations
-- Template cloning system
 
-## Features
+## Architecture
 
-### Core Functionality
-- **Edit Mode Toggle**: Enable/disable content editing
-- **Theme Selection**: Dark, light, auto, and custom themes
-- **Layout Control**: Multiple navigation layouts (top, left, right, ad)
-- **HSL Color System**: Two complete sets of HSL sliders for primary and background colors
-  - Primary Color: Hue (0-360°), Saturation (0-100%), Lightness (0-100%)
-  - Background Color: Hue (0-360°), Saturation (0-100%), Lightness (0-100%)
-  - Real-time color updates with CSS custom property changes
-- **File Operations**: Save, import, export, and reset functionality
-- **Template Cloning**: Create new website projects from current template
+### Document-Wide Theming
 
-### Component Architecture
-- **Fully Self-contained**: HTML template embedded in JavaScript, CSS auto-loaded
-- **Zero Configuration**: Works immediately with just a script tag
-- **Event-driven**: Communicates through DOM events only
-- **Modular**: Can be used independently or integrated with existing systems
-- **Auto-initialization**: Starts working as soon as the script loads
-- **Path-aware**: Automatically detects its location and loads dependencies
-- **Responsive**: Works on desktop and mobile devices
+The control panel applies CSS variables directly to `document.documentElement` (`:root`), meaning **all elements that use CSS variables will automatically update** without needing JavaScript event listeners.
 
-### Recent Fixes
-- **✅ Arrow Key Support**: Color sliders now support left/right arrow keys for fine-tuning
-- **✅ Focus Indicators**: Enhanced slider thumbs with proper styling
-- **✅ Color Bar Navigation**: Keyboard navigation with Home/End support
-- **⚠️ Event Log Integration**: wb-eventlog not receiving events from color palette presets (known issue)
+```css
+/* These variables are set by the control panel */
+:root {
+    --primary: hsl(240, 70%, 50%);
+    --primary-dark: hsl(240, 70%, 35%);
+    --primary-light: hsl(240, 50%, 75%);
+    --secondary: hsl(60, 60%, 50%);
+    --accent: hsl(210, 60%, 50%);
+    --bg-color: hsl(220, 20%, 15%);
+    --text-primary: hsl(240, 5%, 98%);
+    /* ...and many more */
+}
+```
+
+Any element using `var(--primary)`, `var(--bg-color)`, etc. will automatically update when control panel settings change.
+
+### Mode Toggle (SVG Icons)
+
+The dark/light mode toggle button displays:
+- **Moon SVG** 🌙 when in dark mode (click to switch to light)
+- **Sun SVG** ☀️ when in light mode (click to switch to dark)
+
+No text labels - purely icon-based for a cleaner UI.
+
+### Backend Health Check
+
+Before showing any backend-related notifications or attempting to log to the server:
+1. Control panel checks `/api/health` endpoint
+2. If backend is unavailable, falls back to console logging silently
+3. No error popups or notifications if backend is not running
 
 ## Installation
 
-### Basic Usage (Recommended)
-
-Simply include the JavaScript file in your HTML - that's it! The component is completely self-contained:
+### Basic Usage
 
 ```html
-<!-- Just include the JavaScript - CSS and HTML are loaded automatically -->
-<script src="../components/control-panel/control-panel.js"></script>
+<!-- Load component loader -->
+<script type="module" src="/build/component-loader.js"></script>
+
+<!-- Import control panel -->
+<script type="module">
+    import '/components/wb-control-panel/wb-control-panel.js';
+</script>
+
+<!-- Use the component -->
+<wb-control-panel></wb-control-panel>
 ```
 
-The component will automatically:
-1. Load its own CSS file
-2. Create its HTML structure
-3. Initialize all functionality
-4. Attach event listeners
+### For Full Document Theming
 
-### Alternative: Manual CSS Loading
-
-If you prefer to load CSS manually for performance reasons:
-```html
-<!-- Optional: Pre-load CSS -->
-<link rel="stylesheet" href="../components/control-panel/control-panel.css" />
-
-<!-- JavaScript component -->
-<script src="../components/control-panel/control-panel.js"></script>
-```
-
-**Note**: The external `control-panel.html` file is no longer needed as the template is embedded in the JavaScript component.
-
-## Configuration
-
-### Built-in Color Palettes
-
-The component includes several built-in color palettes:
-- Material Design 3
-- Material Design Dark
-- Tailwind Blue
-- Dracula Theme
-- GitHub Dark
-- Nord Theme
-- One Dark
-- Solarized Dark
-- Tech Brands
-
-### Layout Options
-
-- **Top Navigation**: Standard horizontal navigation
-- **Left Navigation**: Sidebar navigation
-- **Right Navigation**: Right-side navigation
-- **Ad Layout**: Advertisement-optimized layout
-
-## API
-
-### Events Dispatched
-
-The component dispatches these events:
-
-#### Edit Mode Events
-```javascript
-// When edit mode is enabled
-document.addEventListener('editModeEnabled', (e) => {
-    console.log('Edit mode enabled');
-});
-
-// When edit mode is disabled
-document.addEventListener('editModeDisabled', (e) => {
-    console.log('Edit mode disabled');
-});
-
-// Generic edit mode change event
-document.addEventListener('editModeChanged', (e) => {
-    console.log('Edit mode:', e.detail.enabled);
-    console.log('Source:', e.detail.source); // 'controlPanel'
-});
-```
-
-#### Component Ready Event
-```javascript
-document.addEventListener('controlPanelReady', (e) => {
-    console.log('Control panel component is ready');
-});
-```
-
-### Global API
-
-The component exposes a global `ControlPanel` instance:
-
-```javascript
-// Access the component instance
-const panel = window.ControlPanel;
-
-// Check if component is initialized
-if (panel.initialized) {
-    console.log('Control panel is ready');
-}
-
-// Access current color settings
-console.log(panel.currentColors);
-```
-
-## Integration with Website Builder
-
-The control panel integrates seamlessly with the Website Builder system:
-
-1. **Color System**: Updates CSS custom properties for live preview
-2. **Edit Mode**: Toggles contentEditable on elements with `.editable` class
-3. **Theme System**: Updates `data-theme` attribute on body
-4. **Layout System**: Updates `data-layout` attribute on body
-5. **Local Storage**: Saves user preferences
-
-## Customization
-
-### CSS Variables
-
-The component uses CSS custom properties that can be overridden:
+Your page should use CSS variables from the control panel:
 
 ```css
-:root {
-    --primary: #6366f1;
-    --secondary: #64748b;
-    --accent: #10b981;
-    /* ... and many more */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+.my-button {
+    background: var(--primary);
+    color: white;
+}
+
+.my-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
 }
 ```
 
-### Adding Custom Palettes
+## CSS Variables Applied
 
-To add custom color palettes, extend the global WB object:
+### Primary Colors
+```css
+--hue-primary: 240;
+--saturation-primary: 70;
+--lightness-primary: 50;
+--primary: hsl(240, 70%, 50%);
+--primary-dark: hsl(240, 70%, 35%);
+--primary-light: hsl(240, 50%, 75%);
+--primary-rgb: 99, 102, 241;
+```
+
+### Secondary & Accent
+```css
+--secondary: hsl(60, 60%, 50%);           /* Complementary (180°) */
+--secondary-color-light: hsl(60, 45%, 65%);
+--secondary-color-dark: hsl(60, 70%, 40%);
+--accent: hsl(210, 60%, 50%);             /* Analogous (-30°) */
+--accent-dark: hsl(210, 70%, 35%);
+--accent-light: hsl(210, 45%, 70%);
+```
+
+### Background Colors
+```css
+--bg-color: hsl(220, 20%, 15%);
+--bg-primary: hsl(220, 18%, 22%);
+--bg-secondary: hsl(220, 16%, 30%);
+--bg-tertiary: hsl(220, 14%, 37%);
+--surface-raised: hsl(220, 17%, 25%);
+--surface-overlay: hsl(220, 15%, 33%);
+```
+
+### Text Colors (Mode-Aware)
+```css
+/* Dark Mode */
+--text-primary: hsl(240, 5%, 98%);
+--text-secondary: hsl(240, 15%, 85%);
+--text-tertiary: hsl(240, 20%, 75%);
+--text-muted: hsl(240, 25%, 65%);
+
+/* Light Mode */
+--text-primary: hsl(240, 10%, 15%);
+--text-secondary: hsl(240, 8%, 35%);
+--text-tertiary: hsl(240, 6%, 45%);
+--text-muted: hsl(240, 6%, 50%);
+```
+
+### Borders
+```css
+--border-color: hsl(240, 6%, 35%);
+--border-subtle: hsl(240, 4%, 25%);
+```
+
+## Events
+
+### Dispatched Events
 
 ```javascript
-window.WB = window.WB || {};
-window.WB.colorPalettes = window.WB.colorPalettes || {};
+// Theme applied to entire document
+document.addEventListener('wb:theme-applied', (e) => {
+    console.log('Theme applied:', e.detail);
+    // { mode, primaryHue, primarySat, primaryLight, ... }
+});
 
-window.WB.colorPalettes['my-custom-palette'] = {
-    name: 'My Custom Palette',
-    colors: {
-        primary: '#ff6b6b',
-        secondary: '#4ecdc4',
-        tertiary: '#45b7d1',
-        surface: '#ffffff',
-        background: '#f8f9fa',
-        error: '#e74c3c'
-    }
-};
+// Mode changed (dark/light)
+document.addEventListener('wb:mode-changed', (e) => {
+    console.log('Mode:', e.detail.mode); // 'dark' or 'light'
+});
+
+// Primary color changed
+document.addEventListener('wb:color-changed', (e) => {
+    console.log('Color:', e.detail);
+    // { hue, saturation, lightness, harmonyMode }
+});
+
+// Background color changed
+document.addEventListener('wb:background-color-changed', (e) => {
+    console.log('Background:', e.detail);
+    // { hue, saturation, lightness }
+});
+
+// Layout changed
+document.addEventListener('wb:layout-changed', (e) => {
+    console.log('Layout:', e.detail.layout);
+});
+
+// Footer position changed
+document.addEventListener('wb:footer-position-changed', (e) => {
+    console.log('Footer:', e.detail.position);
+});
 ```
+
+## Theme Categories
+
+### Named Themes
+Pre-configured color themes with auto-calculated harmonies:
+- Default (Indigo)
+- Cyberpunk
+- Neon City
+- Ocean
+- Forest
+- Sunset
+- Aurora
+- Purple
+- Emerald
+- Ruby
+- Sapphire
+- Amber
+- Mint
+- Coral
+
+### HCS (Harmonic Color System)
+Wave-theory based color palettes:
+- Complementary (180°)
+- Triadic (120°)
+- Analogous (±30°)
+- Beat Pattern
+- Harmonic Series
+- Doppler Shift
 
 ## File Structure
 
 ```
-components/control-panel/
-├── control-panel.css          # Component styles (auto-loaded)
-├── control-panel.js           # Component logic (contains embedded HTML template)
-├── control-panel.json         # Component configuration
-├── control-panel.md           # Documentation (this file)
-├── control-panel-demo.html    # Demo page
-└── claude.md                  # Development notes and known issues
+components/wb-control-panel/
+├── wb-control-panel.js          # Main component (v2.1)
+├── wb-control-panel-shadow.css  # Shadow DOM styles
+├── wb-control-panel.css         # Optional external styles
+├── wb-control-panel-demo.html   # Demo page
+├── wb-control-panel.md          # This documentation
+└── wb-control-panel.schema.json # Component schema
 ```
-
-**Note**: Only the `.js` and `.css` files are required for the component to function. The HTML template is embedded within the JavaScript file.
 
 ## Browser Support
 
@@ -208,155 +234,24 @@ components/control-panel/
 - Safari (latest 2 versions)
 - Mobile browsers (iOS Safari, Chrome Android)
 
-### Required Features
-- ES6 Classes
-- CSS Custom Properties
-- DOM Events
-- Local Storage
-- ES6 Modules (for component auto-loading)
-- Path detection APIs
-
-## Template Clone Feature
-
-The control panel includes a powerful template cloning system that allows users to create new website projects from the current template.
-
-### How Clone Works
-
-1. **Click "📋 Clone Template"**: Button above Edit Mode in control panel
-2. **Enter Project Name**: User provides a name for the new website folder
-3. **Select Destination**: Modern browsers show folder picker to choose destination
-4. **Automatic Collection**: System fetches all wb.** files from the current project
-5. **Direct File Creation**: Files are created directly in the selected folder (or ZIP for older browsers)
-6. **Guided Setup**: Provides clear instructions to open the new project
-
-### Files Included in Clone
-
-The clone operation includes all essential files:
-- **wb-core/**: All core website builder files (wb.html, wb.css, wb.js, wb.ts, wb.json, etc.)
-- **components/**: All component files (control-panel, image-insert, etc.)
-- **README.md**: Auto-generated project documentation
-
-### Clone Benefits
-
-- **Template Preservation**: Original template remains unchanged
-- **Direct Folder Creation**: Files created directly where you want them (modern browsers)
-- **Complete Projects**: Each clone is a fully functional website
-- **Project Organization**: Proper folder structure maintained
-- **Documentation**: Each clone includes setup instructions
-- **Version Control Ready**: Clean project structure for git repositories
-- **Cross-Browser Support**: Falls back to ZIP download for older browsers
-- **Clear Guidance**: Step-by-step instructions to access new project
-
-### Example Clone Process
-
-```javascript
-// Click clone button triggers:
-const cloneBtn = document.getElementById('clone-btn');
-cloneBtn.addEventListener('click', async () => {
-    const projectName = prompt('Enter project name:', 'my-website');
-    // System creates: my-website.zip with complete project
-});
-```
-
-## Dependencies
-
-The component has minimal dependencies:
-- Modern browser with ES6 support
-- CSS Grid and Flexbox support
-- JSZip library (for template cloning functionality)
-- No other external libraries required
-
-## Integration Example
-
-### Simple Integration (Recommended)
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Website</title>
-    <!-- No CSS needed - automatically loaded by component -->
-</head>
-<body>
-    <!-- Your website content -->
-    
-    <!-- Just include the component script - everything else is automatic -->
-    <script src="components/control-panel/control-panel.js"></script>
-    
-    <script>
-        // Optional: Listen for component ready
-        document.addEventListener('controlPanelReady', () => {
-            console.log('Control panel loaded and ready!');
-        });
-        
-        // Optional: Listen for edit mode changes
-        document.addEventListener('editModeChanged', (e) => {
-            if (e.detail.enabled) {
-                console.log('Edit mode enabled');
-                // Enable editing features
-            } else {
-                console.log('Edit mode disabled');
-                // Disable editing features
-            }
-        });
-    </script>
-</body>
-</html>
-```
-
-### Performance-Optimized Integration
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Website</title>
-    <!-- Pre-load CSS for better performance -->
-    <link rel="stylesheet" href="components/control-panel/control-panel.css">
-</head>
-<body>
-    <!-- Your website content -->
-    
-    <!-- Component will detect CSS is already loaded and skip auto-loading -->
-    <script src="components/control-panel/control-panel.js"></script>
-</body>
-</html>
-```
-
 ## Troubleshooting
 
-### Common Issues
+### Colors Not Applying to Page Elements
+1. Ensure your CSS uses `var(--primary)`, `var(--bg-color)`, etc.
+2. Don't override with hardcoded values
+3. Check that the control panel component is loaded
 
-1. **Component not loading**: 
-   - Check the JavaScript file path in your script tag
-   - Ensure the component's CSS file exists in the same directory
-   - Check browser console for any 404 errors
+### Mode Toggle Not Showing Icon
+1. Check browser console for errors
+2. Verify the component's Shadow DOM CSS is loading
+3. Ensure `/components/wb-control-panel/wb-control-panel-shadow.css` exists
 
-2. **Styles not applying**: 
-   - The component automatically loads its CSS file
-   - If CSS isn't loading, check the console for path resolution errors
-   - Verify both `.js` and `.css` files are in the same directory
-
-3. **Events not firing**: 
-   - Component events fire after auto-initialization
-   - Listen for `controlPanelReady` event to know when component is ready
-   - Ensure you're listening for events after the script tag
-
-4. **Path resolution issues**:
-   - Component auto-detects its path from the script src
-   - Ensure the script src path is correct relative to your HTML file
-   - CSS file must be in the same directory as the JavaScript file
-
-### Debug Mode
-
-The component includes comprehensive console logging with emoji indicators:
-- 🎛️ Control Panel messages
-- ✅ Success operations  
-- ❌ Error conditions
-- ⚠️ Warnings
-
-All debug information is automatically logged to the browser console. Check the console if you're experiencing issues.
+### Backend Logging Not Working
+This is expected if the backend server is not running. The control panel:
+1. Checks `/api/health` on startup
+2. Falls back to console.log if backend unavailable
+3. Never shows error popups for missing backend
 
 ## License
 
-This component is part of the Website Builder project. Please refer to the main project license for usage terms.
+Part of the WB (Website Builder) project.

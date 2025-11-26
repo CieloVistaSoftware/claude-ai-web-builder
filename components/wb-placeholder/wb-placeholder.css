@@ -1,0 +1,72 @@
+/**
+ * WB Placeholder Component - Stylesheet
+ * @version 1.0.0
+ */
+
+:host {
+    display: inline-block;
+}
+
+.placeholder-figure {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.placeholder-figure svg {
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.placeholder-figure:hover svg {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.placeholder-caption {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary, #94a3b8);
+    font-style: italic;
+    text-align: center;
+}
+
+.placeholder-caption:empty {
+    display: none;
+}
+
+/* Size presets via attribute selectors in light DOM */
+:host([size="small"]) svg {
+    max-width: 150px;
+    max-height: 100px;
+}
+
+:host([size="medium"]) svg {
+    max-width: 400px;
+    max-height: 200px;
+}
+
+:host([size="large"]) svg {
+    max-width: 800px;
+    max-height: 400px;
+}
+
+:host([size="avatar"]) svg {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 50% !important;
+}
+
+:host([size="avatar"]) .placeholder-figure svg {
+    border-radius: 50%;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .placeholder-figure svg {
+        max-width: 100%;
+        height: auto;
+    }
+}

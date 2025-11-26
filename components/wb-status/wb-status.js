@@ -1,10 +1,9 @@
+import { WBBaseComponent } from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-// WB Status Component - Pure Web Component
-// Website Builder status bar component for displaying events and settings
-// Note: Converted from ES6 import to regular syntax to avoid module loading issues
-
-class WBStatus extends HTMLElement {
+class WBStatus extends WBBaseComponent {
+    static useShadow = false;
+    
     constructor() {
         super();
         this.config = null;
@@ -18,8 +17,6 @@ class WBStatus extends HTMLElement {
         this._eventsContainer = null;
         this._settingsContainer = null;
         this._cleanupInterval = null;
-        
-        console.log('📊 WB Status: Web Component constructed');
     }
     
     static get observedAttributes() {
@@ -27,42 +24,43 @@ class WBStatus extends HTMLElement {
     }
     
     async connectedCallback() {
+        super.connectedCallback();
+        
         if (this._initialized) return;
         this._initialized = true;
         
-        console.log('📊 WB Status: Connected to DOM');
+        this.logInfo('WBStatus connecting');
         
         try {
-            // Load CSS first
             await loadComponentCSS(this, 'wb-status.css');
-            // Load config second, then everything else
             await this.loadConfig();
             this.render();
             this.setupGlobalAPI();
             this.init();
             
-            this.dispatchEvent(new CustomEvent('wbStatusReady', {
-                bubbles: true,
-                detail: { component: this, config: this.config }
-            }));
-            
-            console.log('📊 WB Status: Web Component initialized successfully');
+            this.fireEvent('wb-status:ready', { component: 'wb-status' });
+            this.logInfo('WBStatus ready');
         } catch (error) {
-            console.error('📊 WB Status: Initialization failed', error);
+            this.logError('WBStatus initialization failed', { error: error.message });
         }
     }
     
     disconnectedCallback() {
-        console.log('📊 WB Status: Disconnected from DOM');
+        super.disconnectedCallback();
+        
         if (this._cleanupInterval) {
             clearInterval(this._cleanupInterval);
         }
         if (this.colorEventTimeout) {
             clearTimeout(this.colorEventTimeout);
         }
+        
+        this.logDebug('WBStatus disconnected');
     }
     
     attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        
         if (!this._initialized || oldValue === newValue) return;
         
         switch (name) {
@@ -129,7 +127,7 @@ class WBStatus extends HTMLElement {
     }
     
     render() {
-        console.log('📊 WB Status: Rendering status bar');
+        this.logDebug('WBStatus rendering');
         
         // Safety check for config
         if (!this.config || !this.config.classes || !this.config.events) {
@@ -240,16 +238,13 @@ class WBStatus extends HTMLElement {
         // Create unique key for this event
         const eventKey = `${message}:${type}`;
         
-        // Check if we've already shown this exact event
-        if (this.shownEvents.has(eventKey) && !opts.showDuplicates) {
-            console.log(`Duplicate event ignored: ${message}`);
+        if (!opts.showDuplicates && this.shownEvents.has(eventKey)) {
             return;
         }
         
         // Check if this event is already in the queue
         const alreadyQueued = this.eventQueue.some(event => event.eventKey === eventKey);
         if (alreadyQueued) {
-            console.log(`Event already queued, ignoring: ${message}`);
             return;
         }
         
@@ -262,14 +257,9 @@ class WBStatus extends HTMLElement {
             priority: options.priority || 0
         });
         
-        console.log(`Event queued: ${message} (Queue length: ${this.eventQueue.length})`);
+        this.logDebug('WBStatus event queued', { message, queueLength: this.eventQueue.length });
         
-        // Dispatch event added event
-        const event = new CustomEvent(this.config.events.eventAdded, {
-            detail: { message, type, statusBar: this },
-            bubbles: true
-        });
-        this.dispatchEvent(event);
+        this.fireEvent('wb-status:event-added', { message, type });
         
         // Start processing queue if not already running
         if (!this.isProcessingQueue) {
@@ -331,14 +321,9 @@ class WBStatus extends HTMLElement {
         
         // Add new event immediately (no delay)
         this._eventsContainer.appendChild(eventElement);
-        console.log(`Event displayed: ${message}`);
+        this.logDebug('WBStatus event displayed', { message });
         
-        // Dispatch event shown event
-        const event = new CustomEvent('wbStatusEventShown', {
-            detail: { message, type, element: eventElement },
-            bubbles: true
-        });
-        this.dispatchEvent(event);
+        this.fireEvent('wb-status:event-shown', { message, type });
         
         // Auto-remove after duration + fade delay
         setTimeout(() => {
@@ -348,12 +333,7 @@ class WBStatus extends HTMLElement {
                     if (eventElement.parentNode) {
                         eventElement.remove();
                         
-                        // Dispatch event hidden event
-                        const hiddenEvent = new CustomEvent('wbStatusEventHidden', {
-                            detail: { message, type },
-                            bubbles: true
-                        });
-                        this.dispatchEvent(hiddenEvent);
+                        this.fireEvent('wb-status:event-hidden', { message, type });
                     }
                 }, 500); // CSS fadeout animation duration
             }
@@ -396,17 +376,12 @@ class WBStatus extends HTMLElement {
             }
         }
         
-        // Dispatch setting updated event
-        const event = new CustomEvent('wbStatusSettingUpdated', {
-            detail: { key, value, isError, statusBar: this },
-            bubbles: true
-        });
-        this.dispatchEvent(event);
+        this.fireEvent('wb-status:setting-updated', { key, value, isError });
     }
     
     // Handle color events with smart debouncing
     handleColorEvent(message, type) {
-        console.log(`Color event received: ${message}`);
+        this.logDebug('WBStatus color event received', { message });
         
         // Determine event priority (hue changes are primary)
         const isHueEvent = message.toLowerCase().includes('hue');
@@ -433,7 +408,7 @@ class WBStatus extends HTMLElement {
         } else if (isSecondaryEvent) {
             // If we just had a primary color event, ignore secondary events
             if (this.lastColorEvent && (Date.now() - this.lastColorEvent.timestamp < 500)) {
-                console.log(`Secondary color event ignored (grouped with: ${this.lastColorEvent.message})`);
+                this.logDebug('WBStatus secondary color event grouped');
                 return;
             }
             
@@ -452,7 +427,7 @@ class WBStatus extends HTMLElement {
             this.shownEvents.clear();
             // Keep only the last 5 events
             eventsArray.slice(-5).forEach(event => this.shownEvents.add(event));
-            console.log('Cleared old shown events, kept last 5');
+            this.logDebug('WBStatus cleared old events');
         }
     }
     
@@ -493,7 +468,7 @@ class WBStatus extends HTMLElement {
         // Set up the _wbStatusManager property for compatibility
         this._wbStatusManager = this;
         
-        console.log('📊 WB Status: Global API and manager property set up for', this.id || 'unnamed status bar');
+        this.logDebug('WBStatus global API set up');
     }
 }
 
@@ -527,5 +502,3 @@ window.WBStatus = WBStatus;
 // ES6 Module Exports
 export { WBStatus };
 export default WBStatus;
-
-console.log('📊 WB Status: Pure Web Component registered');

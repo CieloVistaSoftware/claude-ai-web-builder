@@ -1,9 +1,9 @@
 (async () => {
   const { chromium } = require('playwright');
-  const path = 'file:///C:/Users/jwpmi/Downloads/AI/wb/html/Color%20Harmony%20System/article/Professional-Developer-HCS-System.html';
+  const url = 'http://localhost:8080/html/Color%20Harmony%20System/article/Professional-Developer-HCS-System.html';
   const browser = await chromium.launch();
   const page = await browser.newPage();
-  await page.goto(path, { waitUntil: 'networkidle' });
+  await page.goto(url, { waitUntil: 'networkidle' });
 
   console.log('Page loaded, checking nav buttons...');
   const buttons = await page.$$('.sidebar button.nav-btn');

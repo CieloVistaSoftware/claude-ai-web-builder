@@ -91,6 +91,7 @@
                 "options": [
                   {"value": "dark", "label": "Dark"},
                   {"value": "light", "label": "Light"},
+                  {"value": "indigo", "label": "Indigo"},
                   {"value": "auto", "label": "Auto"},
                   {"value": "cyberpunk", "label": "Cyberpunk"},
                   {"value": "ocean", "label": "Ocean"},
