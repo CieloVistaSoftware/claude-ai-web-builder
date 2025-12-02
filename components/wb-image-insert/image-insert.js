@@ -27,7 +27,7 @@
             const link = document.createElement('link');
             link.id = 'image-insert-styles';
             link.rel = 'stylesheet';
-            link.href = '../components/wb-image-insert/image-insert.css';
+            link.href = '/components/wb-image-insert/image-insert.css';
             document.head.appendChild(link);
         }
     }

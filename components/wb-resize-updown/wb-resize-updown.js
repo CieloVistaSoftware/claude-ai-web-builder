@@ -1,20 +1,22 @@
+import WBBaseComponent from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 // wb-resize-updown.js
 // Vertical resize handle component for resizing parent containers up/down
 
-class WBResizeUpDown extends HTMLElement {
+class WBResizeUpDown extends WBBaseComponent {
     constructor() {
         super();
     }
 
     async connectedCallback() {
+    super.connectedCallback();
         await loadComponentCSS(this, 'wb-resize-updown.css');
         this.init();
     }
 
     init() {
-        this.attachShadow({ mode: 'open' });
+        ;
         
         // State
         this.isResizing = false;
@@ -29,6 +31,7 @@ class WBResizeUpDown extends HTMLElement {
     }
 
     connectedCallback() {
+    super.connectedCallback();
         // Find target BEFORE rendering to prevent scroll issues
         this.findTargetElement();
         
@@ -46,6 +49,7 @@ class WBResizeUpDown extends HTMLElement {
     }
 
     disconnectedCallback() {
+    super.connectedCallback();
         this.cleanup();
     }
 
@@ -79,7 +83,7 @@ class WBResizeUpDown extends HTMLElement {
     render() {
         const handleHeight = this.getAttribute('handle-height') || '40px';
         
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
             <style>
                 :host {
                     display: block;
@@ -113,7 +117,7 @@ class WBResizeUpDown extends HTMLElement {
     }
 
     updateHandleHeight(height) {
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         if (handle) {
             this.style.height = height;
         }
@@ -141,7 +145,7 @@ class WBResizeUpDown extends HTMLElement {
     }
 
     setupEventListeners() {
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         
         if (!handle) {
             console.error('❌ wb-resize-updown: Handle not found');
@@ -175,7 +179,7 @@ class WBResizeUpDown extends HTMLElement {
         document.body.style.cursor = 'ns-resize';
         document.body.style.userSelect = 'none';
         
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         handle.classList.add('resizing');
         
         e.preventDefault();
@@ -231,7 +235,7 @@ class WBResizeUpDown extends HTMLElement {
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
         
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         handle.classList.remove('resizing');
 
         // Save height if storage key provided
@@ -312,3 +316,4 @@ customElements.define('wb-resize-updown', WBResizeUpDown);
 console.log('✅ wb-resize-updown component registered');
 
 export default WBResizeUpDown;
+

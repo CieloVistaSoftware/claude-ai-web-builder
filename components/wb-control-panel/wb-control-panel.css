@@ -21,19 +21,19 @@ wb-control-panel {
     display: flex !important;
     flex-direction: column;
     position: fixed;
-    top: var(--space-md, 1rem);
-    right: 1rem;
-    left: 1rem;
+    top: var(--space-md, var(--spacing-md));
+    right: var(--spacing-md);
+    left: var(--spacing-md);
     z-index: 10000;
     width: auto;
-    max-width: calc(100vw - 2rem);
+    max-width: calc(100vw - var(--spacing-xl));
     min-width: 280px;
     max-height: 85vh; /* More compact height */
     background: var(--glass-bg, rgba(17, 24, 39, 0.95));
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--spacing-sm));
     border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
     font-size: 13px; /* Smaller font for compact layout */
-    border-radius: var(--radius-lg, 12px);
+    border-radius: var(--radius-lg, var(--font-size-sm));
     box-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.5));
     overflow: visible; /* Changed from hidden to allow dropdowns to expand outside */
     transition: var(--transition-medium, all 0.3s ease);
@@ -64,7 +64,7 @@ wb-control-panel {
     margin: 0;
     color: var(--text-primary);
     font-size: var(--text-lg);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
 }
 
 .control-panel-actions {
@@ -79,7 +79,7 @@ wb-control-panel {
 
 /* Control Sections - Compact Layout */
 .control-section {
-    margin-bottom: 12px; /* Reduced from var(--space-lg) */
+    margin-bottom: var(--font-size-sm); /* Reduced from var(--space-lg) */
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
@@ -88,12 +88,12 @@ wb-control-panel {
 
 .section-title {
     margin: 0;
-    padding: 8px 12px; /* Reduced padding */
+    padding: var(--spacing-sm) var(--font-size-sm); /* Reduced padding */
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border-color);
     color: var(--text-primary);
     font-size: 11px; /* Smaller font */
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -104,7 +104,7 @@ wb-control-panel {
 
 /* Control Items - Compact Layout */
 .control-item {
-    margin-bottom: 8px; /* Reduced from var(--space-md) */
+    margin-bottom: var(--spacing-sm); /* Reduced from var(--space-md) */
 }
 
 .control-item:last-child {
@@ -132,7 +132,7 @@ wb-control-panel {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     background-position: right var(--space-sm) center;
     background-repeat: no-repeat;
-    background-size: 16px;
+    background-size: var(--spacing-md);
     padding-right: 32px;
 }
 
@@ -170,7 +170,7 @@ wb-control-panel {
 }
 
 .toggle-indicator {
-    font-size: 12px;
+    font-size: var(--font-size-sm);
     opacity: 0;
     transition: opacity var(--transition-fast);
 }
@@ -192,7 +192,7 @@ color-bars {
     flex: 1;
     overflow-y: auto;
     overflow-x: visible; /* Changed to visible to allow dropdowns to overflow horizontally */
-    padding: 12px; /* Reduced from var(--space-md) */
+    padding: var(--font-size-sm); /* Reduced from var(--space-md) */
     max-height: calc(85vh - 60px); /* Compact height accounting for header */
     scrollbar-width: thin;
     scrollbar-color: var(--border-color) transparent;
@@ -232,8 +232,8 @@ color-bars {
 }
 
 .checkbox-wrapper input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: var(--spacing-md);
+    height: var(--spacing-md);
     accent-color: var(--primary);
     cursor: pointer;
 }
@@ -287,11 +287,11 @@ control-panel.minimized #minimize-btn {
     color: var(--text-primary);
     cursor: pointer;
     padding: var(--space-xs);
-    border-radius: 4px;
+    border-radius: var(--spacing-xs);
     transition: all var(--transition-fast);
     font-size: var(--text-medium);
-    width: 24px;
-    height: 24px;
+    width: 2var(--spacing-xs);
+    height: 2var(--spacing-xs);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -307,7 +307,7 @@ control-panel.minimized #minimize-btn {
 .control-group label {
     display: block;
     margin-bottom: var(--space-xs);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     color: var(--text-secondary);
     font-size: 0.7rem;
     text-transform: uppercase;
@@ -319,7 +319,7 @@ control-panel.minimized #minimize-btn {
     width: 100%;
     padding: var(--space-sm);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: var(--spacing-sm);
     background: var(--bg-secondary);
     color: var(--text-primary);
     font-size: var(--text-small);
@@ -378,7 +378,7 @@ control-panel.minimized #minimize-btn {
     border-radius: 6px;
     cursor: pointer;
     font-size: var(--text-tiny);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     transition: all var(--transition-fast);
 }
 
@@ -498,13 +498,13 @@ control-panel.minimized #minimize-btn {
     height: 0.9rem !important;
     min-height: 0.9rem !important;
     max-height: 0.9rem !important;
-    padding: 0 0.25rem !important;
+    padding: 0 var(--spacing-xs) !important;
     margin: 0 !important;
-    font-size: clamp(0.5rem, 2.5vw, 0.7rem) !important;
-    border-radius: 4px !important;
+    font-size: clamp(var(--spacing-sm), 2.5vw, 0.7rem) !important;
+    border-radius: var(--spacing-xs) !important;
     border: none !important;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     transition: all var(--transition-fast);
     text-align: center !important;
     line-height: 1 !important;
@@ -542,13 +542,13 @@ control-panel.minimized #minimize-btn {
 control-panel wb-color-bars {
     transform: scale(0.9);
     transform-origin: top left;
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
     display: block;
 }
 
 control-panel wb-color-bar {
-    margin-bottom: 4px !important;
-    font-size: 12px;
+    margin-bottom: var(--spacing-xs) !important;
+    font-size: var(--font-size-sm);
 }
 
 /* Make debug text smaller and less prominent */
@@ -561,43 +561,43 @@ control-panel .control-item > div[style*="color: yellow"] {
 /* Compact button styles within control panel */
 control-panel .wb-button,
 control-panel button {
-    font-size: 12px;
-    padding: 6px 12px;
-    min-height: 28px;
+    font-size: var(--font-size-sm);
+    padding: 6px var(--font-size-sm);
+    min-height: 2var(--spacing-sm);
 }
 
 /* Compact select and input styles */
 control-panel .control-select,
 control-panel select {
-    font-size: 12px;
-    padding: 4px 8px;
-    min-height: 28px;
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    min-height: 2var(--spacing-sm);
 }
 
 /* Compact label styles */
 control-panel .control-label {
-    font-size: 12px;
-    margin-bottom: 4px;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
     display: block;
     font-weight: 500;
 }
 
 /* Color Controls */
 .color-controls {
-    margin-top: 8px;
+    margin-top: var(--spacing-sm);
 }
 
 .color-preview {
     width: 100%;
     height: 30px;
-    border-radius: 4px;
+    border-radius: var(--spacing-xs);
     border: 1px solid var(--border-color, #334155);
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
     transition: background-color 0.2s ease;
 }
 
 .hsl-sliders {
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
 }
 
 .slider-group {
@@ -612,14 +612,14 @@ control-panel .control-label {
 }
 
 .slider-value {
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     color: var(--text-primary, #f1f5f9);
 }
 
 .color-slider {
     width: 100%;
-    height: 16px;
-    border-radius: 8px;
+    height: var(--spacing-md);
+    border-radius: var(--spacing-sm);
     outline: none;
     opacity: 0.8;
     transition: opacity 0.2s ease;
@@ -635,20 +635,20 @@ control-panel .control-label {
 .color-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: var(--spacing-md);
+    height: var(--spacing-md);
     border-radius: 50%;
     background: var(--text-primary, #f1f5f9);
-    border: 2px solid var(--primary, #6366f1);
+    border: 2px solid var(--primary, var(--color-primary));
     cursor: pointer;
 }
 
 .color-slider::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
+    width: var(--spacing-md);
+    height: var(--spacing-md);
     border-radius: 50%;
     background: var(--text-primary, #f1f5f9);
-    border: 2px solid var(--primary, #6366f1);
+    border: 2px solid var(--primary, var(--color-primary));
     cursor: pointer;
     border: none;
 }
@@ -657,12 +657,12 @@ control-panel .control-label {
     width: 100%;
     height: 30px;
     border: 1px solid var(--border-color, #334155);
-    border-radius: 4px;
+    border-radius: var(--spacing-xs);
     cursor: pointer;
 }
 
 /* Control panel specific responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 76var(--spacing-sm)) {
     control-panel {
         width: 90%;
         max-width: none;

@@ -35,7 +35,7 @@ class WBSlider {
   }
 
   async loadCSS() {
-    await loadComponentCSS(this, 'wb-slider.css');
+    await loadComponentCSS('wb-slider', 'wb-slider.css');
   }
 
   initializeExistingSliders() {

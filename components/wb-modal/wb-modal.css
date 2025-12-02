@@ -6,14 +6,14 @@
 :root {
     --bg-color: #0f172a;
     --text-primary: #f1f5f9;
-    --neutral-600: #475569;
-    --neutral-700: #334155;
+    --neutral-var(--font-weight-semibold): #475569;
+    --neutral-var(--font-weight-bold): #334155;
     --neutral-800: #1e293b;
     --neutral-900: #0f172a;
-    --primary: #6366f1;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
-    --error-color: #ef4444;
+    --primary: var(--color-primary);
+    --success-color: var(--color-success);
+    --warning-color: var(--color-warning);
+    --error-color: var(--color-danger);
 }
 
 /* Modal Backdrop */
@@ -39,11 +39,11 @@
 /* Modal Container */
 .wb-modal {
     position: fixed !important;
-    right: 1rem !important;
+    right: var(--spacing-md) !important;
     top: var(--wb-modal-start-top, 0px) !important;
     width: 400px !important;
     max-width: 50vw !important;
-    max-height: calc(100vh - 2rem) !important;
+    max-height: calc(100vh - var(--spacing-xl)) !important;
     overflow: hidden;
     z-index: 1051;
     opacity: 1;
@@ -53,7 +53,7 @@
 }
 
 .wb-modal.wb-modal--open {
-    top: calc(100vh - 1rem - var(--wb-modal-height, 400px)) !important;
+    top: calc(100vh - var(--spacing-md) - var(--wb-modal-height, 400px)) !important;
     visibility: visible;
     pointer-events: auto;
 }
@@ -62,15 +62,15 @@
 .wb-modal-dialog {
     background: var(--bg-color);
     color: var(--text-primary);
-    border-radius: 8px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border-radius: var(--spacing-sm);
+    box-shadow: 0 25px 50px -var(--font-size-sm) rgba(0, 0, 0, 0.5);
     width: 100%;
     min-width: 300px;
     max-height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--neutral-600);
+    border: 1px solid var(--neutral-var(--font-weight-semibold));
 }
 
 /* Modal Header */
@@ -78,13 +78,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5rem 1.5rem 1rem;
-    border-bottom: 1px solid var(--neutral-600);
+    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+    border-bottom: 1px solid var(--neutral-var(--font-weight-semibold));
 }
 
 .wb-modal-title {
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
     margin: 0;
 }
@@ -94,11 +94,11 @@
     border: none;
     color: #94a3b8;
     cursor: pointer;
-    font-size: 1.5rem;
-    padding: 0.25rem;
-    border-radius: 0.25rem;
-    width: 2rem;
-    height: 2rem;
+    font-size: var(--spacing-lg);
+    padding: var(--spacing-xs);
+    border-radius: var(--spacing-xs);
+    width: var(--spacing-xl);
+    height: var(--spacing-xl);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,7 +106,7 @@
 }
 
 .wb-modal-close:hover {
-    background: var(--neutral-700);
+    background: var(--neutral-var(--font-weight-bold));
     color: var(--text-primary);
 }
 
@@ -117,7 +117,7 @@
 
 /* Modal Body */
 .wb-modal-body {
-    padding: 1.5rem;
+    padding: var(--spacing-lg);
     flex: 1;
     overflow: hidden;
     line-height: 1.6;
@@ -136,9 +136,9 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 0.5rem;
-    padding: 1rem 1.5rem 1.5rem;
-    border-top: 1px solid var(--neutral-600);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+    border-top: 1px solid var(--neutral-var(--font-weight-semibold));
 }
 
 .wb-modal-footer .wb-btn {
@@ -195,29 +195,29 @@
 /* Responsive Design */
 @media (max-width: 640px) {
     .wb-modal {
-        right: 0.5rem !important;
-        width: calc(100vw - 1rem) !important;
-        max-width: calc(100vw - 1rem) !important;
+        right: var(--spacing-sm) !important;
+        width: calc(100vw - var(--spacing-md)) !important;
+        max-width: calc(100vw - var(--spacing-md)) !important;
     }
     
     .wb-modal.wb-modal--open {
-        top: calc(100vh - 0.5rem - var(--wb-modal-height, 400px)) !important;
+        top: calc(100vh - var(--spacing-sm) - var(--wb-modal-height, 400px)) !important;
     }
     
     .wb-modal-dialog {
-        max-height: calc(100vh - 1rem);
+        max-height: calc(100vh - var(--spacing-md));
     }
     
     .wb-modal-header,
     .wb-modal-body,
     .wb-modal-footer {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-left: var(--spacing-md);
+        padding-right: var(--spacing-md);
     }
     
     .wb-modal-footer {
         flex-direction: column;
-        gap: 0.25rem;
+        gap: var(--spacing-xs);
     }
     
     .wb-modal-footer .wb-btn {

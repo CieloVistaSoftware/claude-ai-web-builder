@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Input Test Demo</title>
+  <link rel="stylesheet" href="./wb-input.css">
+  <style>
+    :root {
+      --wb-color-primary: #007bff;
+      --wb-color-error: #dc3545;
+      --wb-color-success: #28a745;
+    }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  
+  <script type="module">
+    // Load component
+    import './wb-input.js';
+    
+    window.renderTest = (markup) => {
+      document.getElementById('app').innerHTML = markup;
+    };
+    
+    // Check for ready
+    const checkReady = () => {
+      if (customElements.get('wb-input')) {
+        window.componentReady = true;
+      } else {
+        setTimeout(checkReady, 50);
+      }
+    };
+    checkReady();
+  </script>
+</body>
+</html>

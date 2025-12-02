@@ -1,375 +1,87 @@
-/* Robust reset for all wb-demo subcomponents and their children */
-wb-example, wb-demo-section, wb-demo-grid, wb-demo-item, wb-demo-output {
-    display: block;
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-wb-demo-section h1, wb-demo-section h2, wb-demo-section h3, wb-demo-section h4, wb-demo-section h5, wb-demo-section h6,
-wb-demo-item h1, wb-demo-item h2, wb-demo-item h3, wb-demo-item h4, wb-demo-item h5, wb-demo-item h6 {
-    display: block;
-    font-family: inherit;
-    font-weight: 700;
-    margin: 1rem 0 0.5rem 0;
-    color: var(--primary-color);
-    line-height: 1.15;
-    font-size: 1.2rem;
-}
-wb-demo-section h2, wb-demo-item h2 {
-    font-size: 1.3rem;
-    border-bottom: 1px solid var(--primary-color);
-    padding-bottom: 0.25rem;
-}
-wb-demo-section h3, wb-demo-item h3 {
-    font-size: 1.05rem;
-}
-wb-demo-section p, wb-demo-item p {
-    display: block;
-    font-family: inherit;
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin: 0 0 0.5rem 0;
-}
-wb-demo-section pre, wb-demo-item pre, wb-demo-section code, wb-demo-item code {
-    display: block;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-family: var(--font-mono, 'Courier New', monospace);
-    font-size: 0.95rem;
-    margin: 0.5rem 0;
-    border: 1px solid var(--border-color);
-    overflow-x: auto;
-}
-wb-demo-grid {
-    display: grid;
-    gap: 1rem;
-    margin: 1rem 0;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-wb-demo-item {
-    background: var(--bg-primary);
-    border-radius: 6px;
-    box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.07));
-    border: 1px solid var(--border-color);
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-wb-demo-output {
-    margin-top: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background: var(--bg-tertiary);
-    border-radius: 4px;
-    font-family: var(--font-mono, 'Courier New', monospace);
-    font-size: 0.95rem;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    text-align: right;
-}
-/* Ensure all wb-demo subcomponents are block and inherit font */
-wb-example,
-wb-demo-section,
-wb-demo-grid,
-wb-demo-item,
-wb-demo-output {
-    display: block;
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    box-sizing: border-box;
-}
-
-wb-demo-section {
-    margin: 1.2rem 0;
-    padding: 1.2rem;
-    background: var(--bg-secondary);
-    border-radius: 7px;
-    border: 1px solid var(--border-color);
-}
-wb-demo-section > h2, wb-demo-section > h3 {
-    margin-top: 0;
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 0.5rem;
-    font-size: 2rem;
-    font-weight: 700;
-}
-wb-demo-grid {
-    display: grid;
-    gap: 2rem;
-    margin: 1.5rem 0;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-wb-demo-item {
-    background: var(--bg-primary);
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05));
-    border: 1px solid var(--border-color);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-wb-demo-item > h3 {
-    margin-top: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
-wb-demo-output {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: var(--bg-tertiary);
-    border-radius: 6px;
-    font-family: var(--font-mono, 'Courier New', monospace);
-    font-size: 1rem;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    text-align: right;
-}
-/* WB Demo Subcomponent Styles */
-wb-example {
-    display: block;
-    margin: 0;
-    padding: 0;
-}
-wb-demo-section {
-    display: block;
-    margin: 2rem 0;
-    padding: 2rem;
-    background: var(--bg-secondary);
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-}
-wb-demo-section > h2, wb-demo-section > h3 {
-    margin-top: 0;
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 0.5rem;
-}
-wb-demo-grid {
-    display: grid;
-    gap: 2rem;
-    margin: 1.5rem 0;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-wb-demo-item {
-    display: block;
-    background: var(--bg-primary);
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05));
-    border: 1px solid var(--border-color);
-    padding: 1.5rem;
-}
-wb-demo-item > h3 {
-    margin-top: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
-wb-demo-output {
-    display: block;
-    margin-top: 1rem;
-    padding: 1rem;
-    background: var(--bg-tertiary);
-    border-radius: 6px;
-    font-family: var(--font-mono, 'Courier New', monospace);
-    font-size: 0.95rem;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-/* WB Demo Component Styles */
-:host {
-    display: block;
-    --primary-color: #6366f1;
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --text-primary: #f1f5f9;
-    --text-secondary: #e2e8f0;
-    --border-color: #475569;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
-    --error-color: #ef4444;
-}
+/* WB DEMO - Demo page styling */
 
 .demo-container {
-    max-width: 900px;
-    margin: 0 auto;
-    background: var(--bg-secondary);
-    padding: 1.2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.08);
-    font-family: system-ui, sans-serif;
-    color: var(--text-primary);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .demo-title {
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    font-weight: 700;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
 }
 
-.tab-container {
-    background: var(--bg-tertiary);
-    border-radius: 8px;
-    overflow: hidden;
+.demo-section {
+  margin-bottom: 2rem;
 }
 
-.tab-buttons {
-    display: flex;
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border-color);
+.demo-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
 }
 
-.tab-button {
-    flex: 1;
-    padding: 1rem 2rem;
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 1rem;
-    font-weight: 500;
+.demo-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
-.tab-button:hover {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+/* Code Examples inside cards */
+.wb-code-example {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  overflow-x: auto;
+  line-height: 1.5;
+  margin: 0;
 }
 
-.tab-button.active {
-    background: var(--primary-color);
-    color: white;
+.wb-card-separator {
+  border: none;
+  border-top: 1px solid var(--border-secondary);
+  margin: 1rem 0;
 }
 
-.tab-content {
-    padding: 2rem;
-    min-height: 400px;
+/* Button layouts inside cards */
+.wb-btn-grid--three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
-.tab-panel {
-    display: none;
+.wb-btn-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
-.tab-panel.active {
-    display: block;
-}
-
-.event-log {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
+@media (max-width: 640px) {
+  .demo-container {
     padding: 1rem;
-    margin: 1rem 0;
-    font-family: 'Courier New', monospace;
-    font-size: 0.875rem;
-    max-height: 200px;
-    overflow-y: auto;
-    color: var(--text-secondary);
-}
+  }
 
-.controls {
-    display: flex;
-    gap: 0.5rem;
-    margin: 1rem 0;
-    flex-wrap: wrap;
-}
-
-.control-button {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--primary-color);
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
-}
-
-.control-button:hover {
-    background: var(--primary-color);
-    color: white;
-}
-
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin: 1.5rem 0;
-}
-
-.feature-card {
-    background: var(--bg-primary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-.feature-card h3 {
-    color: var(--primary-color);
-    margin-top: 0;
+  .demo-title {
+    font-size: 1.5rem;
     margin-bottom: 1rem;
-}
+  }
 
-pre {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 1rem;
-    overflow-x: auto;
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-}
+  .demo-group {
+    flex-direction: column;
+  }
 
-.demo-example {
-    background: var(--bg-primary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin: 1rem 0;
-    border: 1px solid var(--border-color);
-}
-
-.demo-example h3 {
-    color: var(--primary-color);
-    margin-top: 0;
-}
-
-::slotted(*) {
-    color: var(--text-primary);
-}
-
-/* Allow slotted web components to display properly */
-::slotted(wb-button) {
-    display: inline-block !important;
-    margin: 0.5rem !important;
-}
-
-::slotted(.demo-section) {
-    display: block !important;
-    margin: 2rem 0 !important;
-    padding: 2rem !important;
-}
-
-::slotted(.demo-row) {
-    display: flex !important;
-    gap: 1rem !important;
-    flex-wrap: wrap !important;
-    margin: 1rem 0 !important;
-}
-
-::slotted(.wb-btn-grid--three) {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 1rem !important;
-}
-
-::slotted(.wb-btn-group) {
-    display: flex !important;
-    gap: 0 !important;
+  .wb-btn-grid--three {
+    grid-template-columns: 1fr;
+  }
 }

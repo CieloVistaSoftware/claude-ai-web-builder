@@ -188,7 +188,7 @@ header {
   background: var(--header-bg, var(--bg-primary));
   color: var(--header-color, var(--text-primary));
   border-bottom: 1px solid var(--border-color);
-  padding: 1rem 2rem;
+  padding: var(--spacing-md) var(--spacing-xl);
   box-sizing: border-box;
 }
 
@@ -204,7 +204,7 @@ wb-nav {
 /* Main content */
 main {
   width: 100%;
-  padding: 2rem;
+  padding: var(--spacing-xl);
   background: var(--main-bg, var(--bg-color));
   color: var(--main-color, var(--text-primary));
   box-sizing: border-box;
@@ -213,7 +213,7 @@ main {
 /* Footer - ALWAYS 100% WIDTH via Grid */
 footer {
   width: 100%;
-  padding: 1rem 2rem;
+  padding: var(--spacing-md) var(--spacing-xl);
   background: var(--footer-bg, var(--bg-secondary));
   color: var(--footer-color, var(--text-secondary));
   border-top: 1px solid var(--border-color);
@@ -222,7 +222,7 @@ footer {
 }
 
 /* ===== RESPONSIVE - MOBILE ===== */
-@media (max-width: 768px) {
+@media (max-width: 76var(--spacing-sm)) {
     /* Convert all layouts to single column on mobile */
     .layout-left-nav,
     .layout-right-nav,
@@ -250,11 +250,11 @@ footer {
 .wb-layout-control {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  background: var(--surface, #2a2a2a);
-  border-radius: 4px;
-  border: 1px solid var(--border, #404040);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--surface, var(--bg-secondary));
+  border-radius: var(--spacing-xs);
+  border: 1px solid var(--border, var(--border-primary));
 }
 
 .wb-layout-control label {
@@ -266,9 +266,9 @@ footer {
 
 .wb-layout-control select {
   background: var(--surface-elevated, #363636);
-  border: 1px solid var(--border, #404040);
-  border-radius: 4px;
-  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border, var(--border-primary));
+  border-radius: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
   color: var(--text-primary, #f1f5f9);
   font-size: 0.875rem;
   min-width: 120px;
@@ -276,7 +276,7 @@ footer {
 
 .wb-layout-control select:focus {
   outline: none;
-  border-color: var(--primary, #6366f1);
+  border-color: var(--primary, var(--color-primary));
   box-shadow: 0 0 0 2px var(--primary-alpha, rgba(99, 102, 241, 0.2));
 }
 

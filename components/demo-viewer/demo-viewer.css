@@ -1,0 +1,10 @@
+/* Styles for Demo Viewer */
+body {
+    background: #181818;
+    color: #fff;
+    font-family: 'Consolas', 'Monaco', monospace;
+    margin: 0;
+    padding: 0;
+}
+
+/* ...add more styles as needed for demo viewer UI... */

@@ -1,0 +1,10 @@
+/* wb-grid.css */
+.wb-grid {
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 800px) {
+  .wb-grid[responsive] {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -1,0 +1,241 @@
+body {
+    padding: 40px;
+    background: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+h1 {
+    color: #6366f1;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #10b981;
+    font-size: 16px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #2a2a2a;
+    padding-bottom: 5px;
+}
+
+.section {
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #6366f1;
+}
+
+.success {
+    color: #10b981;
+}
+
+.error {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.warning {
+    color: #f59e0b;
+}
+
+.info {
+    color: #3b82f6;
+}
+
+.test-area {
+    min-height: 100px;
+    padding: 20px;
+    background: #1a1a1a;
+    border-radius: 6px;
+    border: 2px dashed #404040;
+    margin: 15px 0;
+}
+
+pre {
+    background: #000;
+    color: #0f0;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 12px;
+    border: 1px solid #333;
+}
+
+.metric {
+    display: inline-block;
+    margin: 5px 10px 5px 0;
+    padding: 5px 10px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    border: 1px solid #404040;
+}
+
+.color-swatch {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fff;
+    vertical-align: middle;
+    margin-left: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.indent {
+    margin-left: 20px;
+}
+
+.issue-list {
+    background: #2a1a1a;
+    padding: 15px;
+    border-radius: 4px;
+    border-left: 4px solid #ef4444;
+    margin: 10px 0;
+}
+
+.pass-list {
+    background: #1a2a1a;
+    padding: 15px;
+    border-radius: 4px;
+    border-left: 4px solid #10b981;
+    margin: 10px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background: #1a1a1a;
+}
+
+th,
+    td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #404040;
+}
+
+th {
+    background: #333;
+    color: #6366f1;
+    font-weight: bold;
+}
+
+.summary-box {
+    font-size: 24px;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+    margin: 30px 0;
+    font-weight: bold;
+}
+
+.summary-pass {
+    background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%);
+    border: 3px solid #10b981;
+    color: #10b981;
+}
+
+.summary-fail {
+    background: linear-gradient(135deg, #2a1a1a 0%, #3a2a2a 100%);
+    border: 3px solid #ef4444;
+    color: #ef4444;
+}
+
+.config-panel {
+    background: #333;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 2px solid #6366f1;
+}
+
+input,
+button {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 4px;
+    border: 1px solid #404040;
+    background: #1a1a1a;
+    color: #fff;
+    font-family: monospace;
+}
+
+/* Override for compact inputs */
+#component-js {
+    width: 200px !important;
+    font-size: 11px !important;
+    padding: 5px !important;
+    min-width: 0 !important;
+    max-width: 200px !important;
+}
+
+#css-file {
+    width: 130px !important;
+    font-size: 11px !important;
+    padding: 5px !important;
+    min-width: 0 !important;
+    max-width: 130px !important;
+}
+
+#component-tag {
+    width: 180px !important;
+    padding: 5px !important;
+    font-size: 12px !important;
+    min-width: 0 !important;
+    max-width: 180px !important;
+}
+
+select#component-tag {
+    width: 180px !important;
+    padding: 5px !important;
+    font-size: 12px !important;
+    min-width: 0 !important;
+    max-width: 180px !important;
+}
+
+button {
+    background: #6366f1;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #4f46e5;
+}
+
+/* Live Preview Box */
+.live-preview {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    background: #2a2a2a;
+    border: 2px solid #6366f1;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.live-preview h3 {
+    margin: 0 0 10px 0;
+    color: #6366f1;
+    font-size: 14px;
+}
+
+.live-preview-content {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 4px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}

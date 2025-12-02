@@ -1,122 +1,746 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Button Demo</title>
-    
-    <!-- Load styles -->
-    <link rel="stylesheet" href="../../styles/main.css">
+    <title>WB Button - 40+ Creative Examples</title>
+    <link rel="stylesheet" href="../css-tokens.css">
     <link rel="stylesheet" href="./wb-button.css">
+    <link rel="stylesheet" href="./wb-button-advanced.css">
+    <link rel="stylesheet" href="../wb-card/wb-card.css">
+    <link rel="stylesheet" href="../wb-demo/wb-demo.css">
     <style>
-        /* CRITICAL: Style demo containers in Light DOM */
+        :root {
+            color-scheme: dark;
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --border-primary: #404040;
+            --border-secondary: #303030;
+        }
+
+        body {
+            background: #0f0f0f;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #ffffff;
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
         .demo-section {
-            display: block !important;
-            margin: 2rem 0 !important;
-            padding: 0 !important;
+            margin-bottom: 3rem;
         }
-        .demo-section h2 {
-            color: #6366f1 !important;
-            margin-bottom: 1rem !important;
+
+        .demo-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        .demo-row {
-            display: flex !important;
-            gap: 1rem !important;
-            flex-wrap: wrap !important;
-            margin: 1rem 0 !important;
+
+        .button-container {
+            padding: 1rem;
+            background: transparent;
+            border-radius: 0.5rem;
+            border: 1px solid #404040;
         }
-        .wb-btn-grid--three {
-            display: grid !important;
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 1rem !important;
-        }
+
         .wb-btn-group {
-            display: flex !important;
-            gap: 0 !important;
+            display: flex;
+            gap: 0;
+        }
+
+        .wb-btn-group button {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .card-light-bg {
+            background: #2a2a2a !important;
+            color: #ffffff !important;
+        }
+
+        .card-dark-bg {
+            background: #1a1a1a !important;
+            color: #ffffff !important;
+        }
+
+        .wb-card-separator {
+            margin: 1rem 0;
+            border: none;
+            border-top: 1px solid #404040;
+        }
+
+        .code-container {
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .wb-code-example {
+            background: #0a0a0a;
+            color: #88ff00;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 0 0 1rem 0;
+            border: 1px solid #404040;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            width: 100%;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+            background: #3730a3;
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        .status-light-inline {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-light 2s ease-in-out infinite;
+        }
+
+        .status-light-inline.active {
+            background: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+        }
+
+        .status-light-inline.inactive {
+            background: #6b7280;
+            box-shadow: 0 0 8px rgba(107, 114, 128, 0.5);
+        }
+
+        .status-light-inline.neutral {
+            background: #f59e0b;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.8);
+        }
+
+        @keyframes pulse-light {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        wb-card {
+            background: #1a1a1a !important;
+            border-color: #404040 !important;
+        }
+
+        .shadow-demo-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .glass-slider-row {
+            position: relative;
+            width: 100%;
+        }
+
+        .glass-slider {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 48px;
+            width: 120px;
+            z-index: 0;
+            background: linear-gradient(90deg, transparent 0%, #fbbf24 20%, #fcd34d 50%, #fbbf24 80%, transparent 100%);
+            border-radius: 0.5rem;
+            animation: glass-slide-across 8s ease-in-out infinite;
+        }
+
+        @keyframes glass-slide-across {
+            0% {
+                left: 0;
+                background: linear-gradient(90deg, transparent 0%, #fbbf24 20%, #fcd34d 50%, #fbbf24 80%, transparent 100%);
+                /* yellow */
+            }
+
+            /* Plain button styles for demo comparison */
+            .btn-plain-blue {
+                background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%);
+                color: #fff;
+                border: 1px solid #1e40af;
+                border-radius: 0.375rem;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+                padding: 0.75rem 1.5rem;
+                transition: background 0.2s;
+            }
+
+            .btn-plain-blue:hover {
+                background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+            }
+
+            .btn-plain-green {
+                background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+                color: #fff;
+                border: 1px solid #16a34a;
+                border-radius: 0.375rem;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
+                padding: 0.75rem 1.5rem;
+                transition: background 0.2s;
+            }
+
+            .btn-plain-green:hover {
+                background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+            }
+
+            .btn-plain-red {
+                background: linear-gradient(90deg, #ef4444 0%, #b91c1c 100%);
+                color: #fff;
+                border: 1px solid #b91c1c;
+                border-radius: 0.375rem;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
+                padding: 0.75rem 1.5rem;
+                transition: background 0.2s;
+            }
+
+            .btn-plain-red:hover {
+                background: linear-gradient(90deg, #b91c1c 0%, #ef4444 100%);
+            }
+
+            25% {
+                left: calc(100% / 3 * 1);
+                background: linear-gradient(90deg, transparent 0%, #38bdf8 20%, #60a5fa 50%, #38bdf8 80%, transparent 100%);
+                /* blue */
+            }
+
+            50% {
+                left: calc(100% / 3 * 2);
+                background: linear-gradient(90deg, transparent 0%, #f472b6 20%, #ec4899 50%, #f472b6 80%, transparent 100%);
+                /* pink */
+            }
+
+            75% {
+                left: calc(100% / 3 * 1);
+                background: linear-gradient(90deg, transparent 0%, #34d399 20%, #10b981 50%, #34d399 80%, transparent 100%);
+                /* green */
+            }
+
+            100% {
+                left: 0;
+                background: linear-gradient(90deg, transparent 0%, #fbbf24 20%, #fcd34d 50%, #fbbf24 80%, transparent 100%);
+                /* yellow */
+            }
         }
     </style>
-    
-    <!-- Load components as modules -->
-    <script type="module" src="../wb-event-log/wb-event-log.js"></script>
-    <script type="module" src="../wb-demo/wb-demo.js"></script>
-    <script type="module" src="./wb-button.js"></script>
 </head>
-<body data-theme="dark">
-    <wb-demo title="wb-button Demo" markdown="./wb-button.md">
-        <div slot="examples">
-            <!-- Basic Variants -->
-            <div class="demo-section">
-                <h2>🎨 Basic Variants</h2>
-                <div class="demo-row">
-                    <wb-button variant="primary">Primary Button</wb-button>
-                    <wb-button variant="secondary">Secondary Button</wb-button>
-                    <wb-button variant="success">Success Button</wb-button>
-                </div>
-            </div>
 
-            <!-- Sizes -->
-            <div class="demo-section">
-                <h2>📏 Sizes</h2>
-                <div class="demo-row">
-                    <wb-button variant="primary" size="small">Small</wb-button>
-                    <wb-button variant="primary" size="medium">Medium</wb-button>
-                    <wb-button variant="primary" size="large">Large</wb-button>
-                </div>
-            </div>
+<body>
+    <h1>WB Button - 40+ Creative Examples</h1>
 
-            <!-- States -->
-            <div class="demo-section">
-                <h2>🔘 States</h2>
-                <div class="demo-row">
-                    <wb-button variant="primary">Normal</wb-button>
-                    <wb-button variant="primary" disabled>Disabled</wb-button>
-                    <wb-button variant="primary" active>Active</wb-button>
-                </div>
+    <!-- Gradient Buttons -->
+    <section class="demo-section">
+        <h2>🌅 Gradient Buttons: Plain vs WB Button</h2>
+        <wb-card>
+            <div class="demo-group">
+                <!-- Plain HTML buttons -->
+                <wb-button class="btn-plain-blue" container copy>Plain Blue</wb-button>
+                <wb-button class="btn-plain-green" container copy>Plain Green</wb-button>
+                <wb-button class="btn-plain-red" container copy>Plain Red</wb-button>
+                <!-- WB Button styled buttons -->
+                <wb-button class="btn-gradient-orange" container copy>WB Orange</wb-button>
+                <wb-button class="btn-gradient-purple" container copy>WB Purple</wb-button>
             </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-plain-blue" copy&gt;Plain Blue&lt;/wb-button&gt;
+&lt;wb-button class="btn-plain-green" copy&gt;Plain Green&lt;/wb-button&gt;
+&lt;wb-button class="btn-plain-red" copy&gt;Plain Red&lt;/wb-button&gt;
+&lt;wb-button class="btn-gradient-orange" copy&gt;WB Orange&lt;/wb-button&gt;
+&lt;wb-button class="btn-gradient-purple" copy&gt;WB Purple&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
 
-            <!-- Toggle Buttons -->
-            <div class="demo-section">
-                <h2>🔄 Toggle Buttons</h2>
-                <div class="demo-row">
-                    <wb-button variant="toggle">Toggle Me</wb-button>
-                    <wb-button variant="toggle" active>Pre-activated</wb-button>
-                    <wb-button variant="toggle" disabled>Disabled Toggle</wb-button>
-                </div>
+    <!-- Shadow Depths -->
+    <section class="demo-section">
+        <h2>🌑 Shadow Depths</h2>
+        <wb-card class="card-light-bg">
+            <div class="shadow-demo-container">
+                <wb-button class="btn-shadow-sm" container>Subtle Shadow</wb-button>
+                <wb-button class="btn-shadow-md" container>Medium Shadow</wb-button>
+                <wb-button class="btn-shadow-lg" container>Large Shadow</wb-button>
+                <wb-button class="btn-shadow-xl" container>Extra Large Shadow</wb-button>
             </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-shadow-sm"&gt;Subtle Shadow&lt;/wb-button&gt;
+&lt;wb-button class="btn-shadow-md"&gt;Medium Shadow&lt;/wb-button&gt;
+&lt;wb-button class="btn-shadow-lg"&gt;Large Shadow&lt;/wb-button&gt;
+&lt;wb-button class="btn-shadow-xl"&gt;Extra Large Shadow&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
 
-            <!-- Status Indicators -->
-            <div class="demo-section">
-                <h2>🚦 Status Indicators</h2>
-                <div class="demo-row">
-                    <wb-button variant="primary" status="active">Active Status</wb-button>
-                    <wb-button variant="secondary" status="inactive">Inactive Status</wb-button>
-                    <wb-button variant="success" status="neutral">Neutral Status</wb-button>
-                </div>
+    <!-- Slanted/Skewed Buttons -->
+    <section class="demo-section">
+        <h2>⚡ Slanted/Skewed Buttons</h2>
+        <wb-card>
+            <div class="demo-group">
+                <wb-button group="skew-demo" examples clipboard>
+                    <!-- Single button clipboard demo -->
+                    <wb-button class="btn-clipboard-demo" clipboard>Copy Me (Single Button)</wb-button>
+                    <wb-button class="btn-skew-left" container>Skew Left</wb-button>
+                    <wb-button class="btn-skew-right" container>Skew Right</wb-button>
+                    <wb-button class="btn-skew-both" container>Skew Both</wb-button>
+                </wb-button>
+    
+       
             </div>
+            <!-- Example code block removed: now handled by <wb-button group="skew-demo" examples> markup -->
+        </wb-card>
+    </section>
 
-            <!-- Grid Demo -->
-            <div class="demo-section">
-                <h2>📋 Button Grid</h2>
-                <div class="wb-btn-grid--three">
-                    <wb-button variant="primary">Button 1</wb-button>
-                    <wb-button variant="secondary">Button 2</wb-button>
-                    <wb-button variant="success">Button 3</wb-button>
-                    <wb-button variant="primary">Button 4</wb-button>
-                    <wb-button variant="secondary">Button 5</wb-button>
-                    <wb-button variant="success">Button 6</wb-button>
-                </div>
+    <!-- Glowing Buttons -->
+    <section class="demo-section">
+        <h2>✨ Glowing Buttons</h2>
+        <wb-card class="card-dark-bg">
+            <div class="demo-group">
+                <wb-button group="glow-demo">
+                    <wb-button class="btn-glow-blue" container>Glow Blue</wb-button>
+                    <wb-button class="btn-glow-green" container>Glow Green</wb-button>
+                    <wb-button class="btn-glow-red" container>Glow Red</wb-button>
+                </wb-button>
             </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-glow-blue"&gt;Glow Blue&lt;/wb-button&gt;
+&lt;wb-button class="btn-glow-green"&gt;Glow Green&lt;/wb-button&gt;
+&lt;wb-button class="btn-glow-red"&gt;Glow Red&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
 
-            <!-- Button Group -->
-            <div class="demo-section">
-                <h2>👥 Button Group</h2>
-                <div class="wb-btn-group">
-                    <wb-button variant="success">Save</wb-button>
-                    <wb-button variant="primary">Edit</wb-button>
-                    <wb-button variant="secondary">Delete</wb-button>
+    <!-- Glass Buttons -->
+    <section class="demo-section">
+        <h2>🔮 Glass/Transparent Buttons</h2>
+        <wb-card class="card-light-bg">
+            <div class="glass-slider-row" style="position: relative; width: 100%;">
+                <div class="glass-slider"></div>
+                <div class="demo-group">
+                    <div class="button-container">
+                        <wb-button class="btn-glass">Glass Primary</wb-button>
+                    </div>
+                    <div class="button-container">
+                        <wb-button class="btn-glass btn-glass-success">Glass
+                            Success</wb-button>
+                    </div>
+                    <div class="button-container">
+                        <wb-button class="btn-glass btn-glass-danger">Glass Danger</wb-button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </wb-demo>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-glass"&gt;Glass Primary&lt;/wb-button&gt;
+&lt;wb-button class="btn-glass btn-glass-success"&gt;Glass Success&lt;/wb-button&gt;
+&lt;wb-button class="btn-glass btn-glass-danger"&gt;Glass Danger&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Outline Buttons -->
+    <section class="demo-section">
+        <h2>📌 Outline Buttons</h2>
+        <wb-card class="card-light-bg">
+            <div class="demo-group">
+                <div class="button-container">
+                    <wb-button class="btn-outline btn-outline-primary" container>Outline
+                        Primary</wb-button>
+                </div>
+                <div class="button-container">
+                    <wb-button class="btn-outline btn-outline-success" container>Outline
+                        Success</wb-button>
+                </div>
+                <div class="button-container">
+                    <wb-button class="btn-outline btn-outline-danger" container>Outline
+                        Danger</wb-button>
+                </div>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-outline btn-outline-primary"&gt;Outline Primary&lt;/wb-button&gt;
+&lt;wb-button class="btn-outline btn-outline-success"&gt;Outline Success&lt;/wb-button&gt;
+&lt;wb-button class="btn-outline btn-outline-danger"&gt;Outline Danger&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Light Background Buttons -->
+    <section class="demo-section">
+        <h2>💡 Light Background Buttons</h2>
+        <wb-card class="card-dark-bg">
+            <div class="demo-group">
+                <div class="button-container">
+                    <wb-button class="btn-light-bg btn-light-blue" container>Light Blue</wb-button>
+                </div>
+                <div class="button-container">
+                    <wb-button class="btn-light-bg btn-light-green" container>Light Green</wb-button>
+                </div>
+                <div class="button-container">
+                    <wb-button class="btn-light-bg btn-light-red" container>Light Red</wb-button>
+                </div>
+                <div class="button-container">
+                    <wb-button class="btn-light-bg btn-light-yellow" container>Light Yellow</wb-button>
+                </div>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-light-bg btn-light-blue"&gt;Light Blue&lt;/wb-button&gt;
+&lt;wb-button class="btn-light-bg btn-light-green"&gt;Light Green&lt;/wb-button&gt;
+&lt;wb-button class="btn-light-bg btn-light-red"&gt;Light Red&lt;/wb-button&gt;
+&lt;wb-button class="btn-light-bg btn-light-yellow"&gt;Light Yellow&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Animated Buttons -->
+    <section class="demo-section">
+        <h2>🎬 Animated Buttons</h2>
+        <wb-card>
+            <div class="demo-group">
+                <div class="button-container">
+                    <wb-button class="btn-pulse" container>Pulse Animation</wb-button>
+                </div>
+                <div class="button-container">
+                    <wb-button class="btn-bounce" container>Bounce Animation</wb-button>
+                </div>
+                <div class="button-container">
+                    <wb-button class="btn-shimmer" container>Shimmer Animation</wb-button>
+                </div>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-pulse"&gt;Pulse Animation&lt;/wb-button&gt;
+&lt;wb-button class="btn-bounce"&gt;Bounce Animation&lt;/wb-button&gt;
+&lt;wb-button class="btn-shimmer"&gt;Shimmer Animation&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Pattern Buttons -->
+    <section class="demo-section">
+        <h2>🎨 Pattern Buttons</h2>
+        <wb-card class="card-light-bg">
+            <div class="demo-group">
+                <wb-button group="pattern-demo">
+                    <wb-button class="btn-pattern-dots" container>Dots Pattern</wb-button>
+                    <wb-button class="btn-pattern-stripes" container>Stripes Pattern</wb-button>
+                    <wb-button class="btn-pattern-grid" container>Grid Pattern</wb-button>
+                </wb-button>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-pattern-dots"&gt;Dots Pattern&lt;/wb-button&gt;
+&lt;wb-button class="btn-pattern-stripes"&gt;Stripes Pattern&lt;/wb-button&gt;
+&lt;wb-button class="btn-pattern-grid"&gt;Grid Pattern&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Neon Buttons -->
+    <section class="demo-section">
+        <h2>💥 Neon Buttons</h2>
+        <wb-card class="card-dark-bg">
+            <div class="demo-group">
+                <wb-button group="neon-demo">
+                    <wb-button class="btn-neon" container>Neon Blue</wb-button>
+                    <wb-button class="btn-neon-green" container>Neon Green</wb-button>
+                    <wb-button class="btn-neon-red" container>Neon Red</wb-button>
+                </wb-button>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-neon"&gt;Neon Blue&lt;/wb-button&gt;
+&lt;wb-button class="btn-neon-green"&gt;Neon Green&lt;/wb-button&gt;
+&lt;wb-button class="btn-neon-red"&gt;Neon Red&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- 3D Buttons -->
+    <section class="demo-section">
+        <h2>🎲 3D Effect Buttons</h2>
+        <wb-card class="card-light-bg">
+            <div class="demo-group">
+                <wb-button group="3d-demo">
+                    <wb-button class="btn-3d btn-3d-primary" container>3D Primary</wb-button>
+                    <wb-button class="btn-3d btn-3d-success" container>3D Success</wb-button>
+                    <wb-button class="btn-3d btn-3d-danger" container>3D Danger</wb-button>
+                </wb-button>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-3d btn-3d-primary"&gt;3D Primary&lt;/wb-button&gt;
+&lt;wb-button class="btn-3d btn-3d-success"&gt;3D Success&lt;/wb-button&gt;
+&lt;wb-button class="btn-3d btn-3d-danger"&gt;3D Danger&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Thick Border Buttons -->
+    <section class="demo-section">
+        <h2>🎬 Thick Border Buttons</h2>
+        <wb-card class="card-light-bg">
+            <div class="demo-group">
+                <wb-button group="thick-border-demo">
+                    <wb-button class="btn-thick-border btn-thick-primary" container>Thick Border</wb-button>
+                    <wb-button class="btn-thick-border btn-thick-success" container>Bold Border</wb-button>
+                    <wb-button class="btn-thick-border btn-thick-danger" container>Strong Border</wb-button>
+                </wb-button>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-thick-border btn-thick-primary"&gt;Thick Border&lt;/wb-button&gt;
+&lt;wb-button class="btn-thick-border btn-thick-success"&gt;Bold Border&lt;/wb-button&gt;
+&lt;wb-button class="btn-thick-border btn-thick-danger"&gt;Strong Border&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Rounded Pill Buttons -->
+    <section class="demo-section">
+        <h2>💊 Rounded Pill Buttons</h2>
+        <wb-card>
+            <div class="demo-group">
+                <wb-button group="pill-demo">
+                    <wb-button class="btn-pill btn-pill-primary" container>Pill Primary</wb-button>
+                    <wb-button class="btn-pill btn-pill-success" container>Pill Success</wb-button>
+                    <wb-button class="btn-pill btn-pill-danger" container>Pill Danger</wb-button>
+                </wb-button>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-pill btn-pill-primary"&gt;Pill Primary&lt;/wb-button&gt;
+&lt;wb-button class="btn-pill btn-pill-success"&gt;Pill Success&lt;/wb-button&gt;
+&lt;wb-button class="btn-pill btn-pill-danger"&gt;Pill Danger&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Button Group -->
+    <section class="demo-section">
+        <h2>👥 Button Group</h2>
+        <wb-card>
+            <div class="wb-btn-group">
+                <wb-button class="btn-pill-success">Save</wb-button>
+                <wb-button class="btn-pill-primary">Edit</wb-button>
+                <wb-button class="btn-pill-danger">Delete</wb-button>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;div class="wb-btn-group"&gt;
+  &lt;wb-button class="btn-pill-success"&gt;Save&lt;/wb-button&gt;
+  &lt;wb-button class="btn-pill-primary"&gt;Edit&lt;/wb-button&gt;
+  &lt;wb-button class="btn-pill-danger"&gt;Delete&lt;/wb-button&gt;
+&lt;/div&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Button Grid -->
+    <section class="demo-section">
+        <h2>📋 Button Grid (changeable gap)</h2>
+        <wb-card>
+            <div class="wb-btn-grid--three" style="gap: 1rem;">
+                <wb-button class="btn-pill-primary">Button 1</wb-button>
+                <wb-button class="btn-pill-secondary">Button 2</wb-button>
+                <wb-button class="btn-pill-success">Button 3</wb-button>
+                <wb-button class="btn-pill-primary">Button 4</wb-button>
+                <wb-button class="btn-pill-secondary">Button 5</wb-button>
+                <wb-button class="btn-pill-success">Button 6</wb-button>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;div class="wb-btn-grid--three" style="gap: 1rem;"&gt;
+  &lt;wb-button class="btn-pill-primary"&gt;Button 1&lt;/wb-button&gt;
+  &lt;wb-button class="btn-pill-secondary"&gt;Button 2&lt;/wb-button&gt;
+  &lt;wb-button class="btn-pill-success"&gt;Button 3&lt;/wb-button&gt;
+  &lt;wb-button class="btn-pill-primary"&gt;Button 4&lt;/wb-button&gt;
+  &lt;wb-button class="btn-pill-secondary"&gt;Button 5&lt;/wb-button&gt;
+  &lt;wb-button class="btn-pill-success"&gt;Button 6&lt;/wb-button&gt;
+&lt;/div&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <!-- Status Indicators -->
+    <section class="demo-section">
+        <h2>🚦 Status Indicators (with lights)</h2>
+        <wb-card class="card-light-bg">
+            <div class="demo-group">
+                <div class="button-container">
+                    <button is="wb-button" class="btn-status btn-status-active">
+                        <span class="status-light-inline active"></span>
+                        Active
+                    </button>
+                </div>
+                <div class="button-container">
+                    <button is="wb-button" class="btn-status btn-status-inactive">
+                        <span class="status-light-inline inactive"></span>
+                        Inactive
+                    </button>
+                </div>
+                <div class="button-container">
+                    <button is="wb-button" class="btn-status btn-status-neutral">
+                        <span class="status-light-inline neutral"></span>
+                        Neutral
+                    </button>
+                </div>
+            </div>
+            <hr class="wb-card-separator">
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                <textarea class="wb-code-example" readonly>
+&lt;wb-button class="btn-status btn-status-active"&gt;
+  &lt;span class="status-light-inline active"&gt;&lt;/span&gt;
+  Active
+&lt;/wb-button&gt;
+
+&lt;wb-button class="btn-status btn-status-inactive"&gt;
+  &lt;span class="status-light-inline inactive"&gt;&lt;/span&gt;
+  Inactive
+&lt;/wb-button&gt;
+
+&lt;wb-button class="btn-status btn-status-neutral"&gt;
+  &lt;span class="status-light-inline neutral"&gt;&lt;/span&gt;
+  Neutral
+&lt;/wb-button&gt;
+                </textarea>
+            </div>
+        </wb-card>
+    </section>
+
+    <script src="../../../main.js"></script>
+    <script>
+        function copyToClipboard(btn) {
+            const textarea = btn.nextElementSibling;
+            textarea.select();
+            document.execCommand('copy');
+
+            btn.classList.add('copied');
+            btn.textContent = 'Copied!';
+
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                btn.textContent = 'Copy';
+            }, 2000);
+        }
+        function copySkewDemoMarkup(btn) {
+            const textarea = document.getElementById('skew-demo-markup');
+            textarea.select();
+            document.execCommand('copy');
+            btn.classList.add('copied');
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                btn.textContent = 'Copy';
+            }, 2000);
+        }
+    </script>
 </body>
+
 </html>

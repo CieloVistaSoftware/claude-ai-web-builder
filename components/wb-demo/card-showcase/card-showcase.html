@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🃏 WB Card Component - 55 Professional Card Examples with Actions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e2e8f0;
+            
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-tertiary: #94a3b8;
+            
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Header with Navigation */
+        .app-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb button {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .breadcrumb button:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .breadcrumb span {
+            color: var(--text-tertiary);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-tertiary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border-color);
+        }
+
+        .back-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .back-btn:disabled {
+            background: var(--text-tertiary);
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 2rem;
+        }
+
+        /* Grid Layouts */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-grid.dense {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .card-grid.wide {
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        }
+
+        /* Detail View */
+        .detail-view {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+
+        .detail-view h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .detail-view p {
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .detail-view code {
+            background: var(--bg-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: var(--danger);
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 2rem 0 1.5rem 0;
+            color: var(--text-primary);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin: -1rem 0 1.5rem 0;
+            font-weight: 400;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1rem;
+            }
+
+            .app-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .app-content {
+                padding: 1rem;
+            }
+
+            .detail-view {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-grid > * {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Scrollbar styling */
+        .app-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .app-content::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .app-content::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .app-content::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+
+        /* Stats grid for detail views */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-box {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header with Navigation -->
+        <div class="app-header">
+            <div class="header-left">
+                <div class="app-title">🃏 Card Showcase</div>
+                <div class="breadcrumb" id="breadcrumb">
+                    <button class="nav-crumb" data-view="gallery">Gallery</button>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
+                <button class="back-btn" id="backBtn" disabled>← Back</button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="app-content" id="appContent">
+            <!-- Gallery view will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        import { WBCard } from '../../wb-card/wb-card.js';
+
+        // Navigation Stack System
+        class NavStack {
+            constructor() {
+                this.stack = [{ view: 'gallery', data: {} }];
+                this.currentIndex = 0;
+            }
+
+            push(view, data = {}) {
+                this.stack = this.stack.slice(0, this.currentIndex + 1);
+                this.stack.push({ view, data });
+                this.currentIndex++;
+                return this.current();
+            }
+
+            pop() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    return this.current();
+                }
+                return null;
+            }
+
+            current() {
+                return this.stack[this.currentIndex];
+            }
+
+            canGoBack() {
+                return this.currentIndex > 0;
+            }
+        }
+
+        const navStack = new NavStack();
+
+        // Card Data - 55 Examples with Action Buttons
+        const cardData = [
+            // Original 48 cards...
+            {
+                id: 1,
+                category: 'Gradient Cards',
+                title: 'Ocean Gradient',
+                subtitle: 'Deep Blue Vibes',
+                body: 'Beautiful ocean-inspired gradient with calming blue tones.',
+                variant: 'elevated',
+                size: 'standard',
+                layout: 'vertical',
+                style: 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                textColor: 'white',
+                clickable: true
+            },
+            {
+                id: 2,
+                category: 'Gradient Cards',
+                title: 'Sunset Vibes',
+                subtitle: 'Warm & Energetic',
+                body: 'Warm gradient inspired by beautiful sunsets.',
+                variant: 'elevated',
+                style: 'background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                textColor: 'white',
+                clickable: true
+            },
+            {
+                id: 3,
+                category: 'Gradient Cards',
+                title: 'Forest Green',
+                subtitle: 'Natural Serenity',
+                body: 'Lush green gradient for nature-inspired designs.',
+                variant: 'elevated',
+                style: 'background: linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
+                textColor: 'white',
+                clickable: true
+            },
+            {
+                id: 4,
+                category: 'Gradient Cards',
+                title: 'Purple Dreams',
+                subtitle: 'Mystical & Modern',
+                body: 'Modern purple gradient with depth and elegance.',
+                variant: 'elevated',
+                style: 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                textColor: 'white',
+                clickable: true
+            },
+            {
+                id: 5,
+                category: 'Gradient Cards',
+                title: 'Aurora Borealis',
+                subtitle: 'Northern Lights',
+                body: 'Dynamic gradient inspired by the northern lights.',
+                variant: 'elevated',
+                style: 'background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+                textColor: 'white',
+                clickable: true
+            },
+            {
+                id: 6,
+                category: 'Image Cards',
+                title: 'Mountain Peak',
+                subtitle: 'Adventure Awaits',
+                body: 'Stunning mountain landscape for your inspiration.',
+                variant: 'elevated',
+                layout: 'media-top',
+                mediaSrc: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
+                clickable: true
+            },
+            {
+                id: 7,
+                category: 'Image Cards',
+                title: 'City Lights',
+                subtitle: 'Urban Beauty',
+                body: 'Vibrant cityscape showing modern urban life.',
+                variant: 'elevated',
+                layout: 'media-top',
+                mediaSrc: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop',
+                clickable: true
+            },
+            {
+                id: 8,
+                category: 'Image Cards',
+                title: 'Ocean Waves',
+                subtitle: 'Coastal Serenity',
+                body: 'Peaceful ocean waves for relaxation and calm.',
+                variant: 'elevated',
+                layout: 'media-top',
+                mediaSrc: 'https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=400&h=300&fit=crop',
+                clickable: true
+            },
+            {
+                id: 9,
+                category: 'Image Cards',
+                title: 'Forest Path',
+                subtitle: 'Nature Trail',
+                body: 'Lush forest path for peaceful contemplation.',
+                variant: 'elevated',
+                layout: 'media-top',
+                mediaSrc: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop',
+                clickable: true
+            },
+            {
+                id: 10,
+                category: 'Image Left Cards',
+                title: 'Coffee & Code',
+                subtitle: 'Developer Life',
+                body: 'Perfect for tech-focused content.',
+                variant: 'outlined',
+                layout: 'media-left',
+                mediaSrc: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=180&h=150&fit=crop',
+                clickable: true
+            },
+            {
+                id: 11,
+                category: 'Image Left Cards',
+                title: 'Design Studio',
+                subtitle: 'Creative Space',
+                body: 'Inspiring workspace for designers.',
+                variant: 'outlined',
+                layout: 'media-left',
+                mediaSrc: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=180&h=150&fit=crop',
+                clickable: true
+            },
+            {
+                id: 12,
+                category: 'Image Left Cards',
+                title: 'Team Meeting',
+                subtitle: 'Collaboration',
+                body: 'Productive team collaboration session.',
+                variant: 'outlined',
+                layout: 'media-left',
+                mediaSrc: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=180&h=150&fit=crop',
+                clickable: true
+            },
+            {
+                id: 13,
+                category: 'Image Right Cards',
+                title: 'Startup Culture',
+                subtitle: 'Innovation Hub',
+                body: 'Modern startup work environment.',
+                variant: 'filled',
+                layout: 'media-right',
+                mediaSrc: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=180&h=150&fit=crop',
+                clickable: true
+            },
+            {
+                id: 14,
+                category: 'Image Right Cards',
+                title: 'Creative Minds',
+                subtitle: 'Think Different',
+                body: 'Where great ideas come to life.',
+                variant: 'filled',
+                layout: 'media-right',
+                mediaSrc: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=180&h=150&fit=crop',
+                clickable: true
+            },
+            {
+                id: 15,
+                category: 'Card Variants',
+                title: 'Elevated Style',
+                subtitle: 'Premium Shadow',
+                body: 'Clean elevated card with prominent shadow.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 16,
+                category: 'Card Variants',
+                title: 'Outlined Style',
+                subtitle: 'Border Only',
+                body: 'Minimalist outlined card design.',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 17,
+                category: 'Card Variants',
+                title: 'Filled Style',
+                subtitle: 'Solid Color',
+                body: 'Solid filled card with primary color.',
+                variant: 'filled',
+                clickable: true
+            },
+            {
+                id: 18,
+                category: 'Card Variants',
+                title: 'Glass Effect',
+                subtitle: 'Frosted Look',
+                body: 'Modern glassmorphism design style.',
+                variant: 'glass',
+                clickable: true
+            },
+            {
+                id: 19,
+                category: 'Card Sizes',
+                title: 'Compact Card',
+                subtitle: 'Small Size',
+                body: 'Space-efficient compact card.',
+                size: 'compact',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 20,
+                category: 'Card Sizes',
+                title: 'Standard Card',
+                subtitle: 'Normal Size',
+                body: 'Standard medium-sized card.',
+                size: 'standard',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 21,
+                category: 'Card Sizes',
+                title: 'Large Card',
+                subtitle: 'Big Size',
+                body: 'Spacious large card for prominent content.',
+                size: 'large',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 22,
+                category: 'Feature Cards',
+                title: '⚡ Lightning Fast',
+                subtitle: 'Performance Optimized',
+                body: 'Experience blazing-fast loading times.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 23,
+                category: 'Feature Cards',
+                title: '🔒 Secure',
+                subtitle: 'Enterprise Grade',
+                body: 'Military-grade security for your data.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 24,
+                category: 'Feature Cards',
+                title: '🎯 Precise',
+                subtitle: 'Pixel Perfect',
+                body: 'Attention to detail in every design.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 25,
+                category: 'Feature Cards',
+                title: '🚀 Scalable',
+                subtitle: 'Future Proof',
+                body: 'Grows with your business needs.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 26,
+                category: 'Testimonial Cards',
+                title: 'Sarah Johnson',
+                subtitle: '⭐⭐⭐⭐⭐ Excellent!',
+                body: '"This component library is absolutely game-changing! Made my development 10x faster."',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 27,
+                category: 'Testimonial Cards',
+                title: 'Mike Chen',
+                subtitle: '⭐⭐⭐⭐⭐ Amazing!',
+                body: '"Best design system I\'ve worked with. The documentation is stellar."',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 28,
+                category: 'Testimonial Cards',
+                title: 'Elena Rodriguez',
+                subtitle: '⭐⭐⭐⭐⭐ Perfect!',
+                body: '"Every team should be using this. Productivity skyrocketed."',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 29,
+                category: 'Product Cards',
+                title: 'Starter Plan',
+                subtitle: '$29/month',
+                body: 'Perfect for getting started. Includes essential features.',
+                variant: 'elevated',
+                size: 'standard',
+                clickable: true
+            },
+            {
+                id: 30,
+                category: 'Product Cards',
+                title: 'Professional Plan',
+                subtitle: '$79/month',
+                body: 'Most popular. All features included.',
+                variant: 'filled',
+                size: 'standard',
+                clickable: true
+            },
+            {
+                id: 31,
+                category: 'Product Cards',
+                title: 'Enterprise Plan',
+                subtitle: 'Custom Pricing',
+                body: 'Everything plus dedicated support.',
+                variant: 'outlined',
+                size: 'standard',
+                clickable: true
+            },
+            {
+                id: 32,
+                category: 'Team Member Cards',
+                title: 'Alex Morrison',
+                subtitle: 'Lead Developer',
+                body: 'Full-stack expert with 10+ years experience.',
+                mediaSrc: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
+                layout: 'media-top',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 33,
+                category: 'Team Member Cards',
+                title: 'Jordan Lee',
+                subtitle: 'Design Lead',
+                body: 'Creative designer passionate about UX.',
+                mediaSrc: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop',
+                layout: 'media-top',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 34,
+                category: 'Team Member Cards',
+                title: 'Casey Parker',
+                subtitle: 'Product Manager',
+                body: 'Strategic thinker focused on user value.',
+                mediaSrc: 'https://images.unsplash.com/photo-1517849845537-1d51a20414de?w=200&h=200&fit=crop',
+                layout: 'media-top',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 35,
+                category: 'Blog Post Cards',
+                title: 'Getting Started with Web Components',
+                subtitle: 'March 15, 2024 • 5 min read',
+                body: 'Learn the basics of creating reusable web components for modern applications.',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 36,
+                category: 'Blog Post Cards',
+                title: 'Advanced CSS Layouts',
+                subtitle: 'March 12, 2024 • 8 min read',
+                body: 'Master CSS Grid, Flexbox, and modern layout techniques.',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 37,
+                category: 'Blog Post Cards',
+                title: 'React Performance Tips',
+                subtitle: 'March 10, 2024 • 6 min read',
+                body: 'Optimize your React applications for maximum performance.',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 38,
+                category: 'Blog Post Cards',
+                title: 'TypeScript Best Practices',
+                subtitle: 'March 8, 2024 • 7 min read',
+                body: 'Write safer, more maintainable TypeScript code.',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 39,
+                category: 'Service Cards',
+                title: '🎨 UI Design',
+                subtitle: 'Beautiful Interfaces',
+                body: 'Custom UI design tailored to your brand.',
+                variant: 'filled',
+                clickable: true
+            },
+            {
+                id: 40,
+                category: 'Service Cards',
+                title: '⚙️ Development',
+                subtitle: 'Full Stack Solutions',
+                body: 'Complete development from concept to deployment.',
+                variant: 'filled',
+                clickable: true
+            },
+            {
+                id: 41,
+                category: 'Service Cards',
+                title: '📊 Analytics',
+                subtitle: 'Data Insights',
+                body: 'Advanced analytics to drive your business decisions.',
+                variant: 'filled',
+                clickable: true
+            },
+            {
+                id: 42,
+                category: 'Service Cards',
+                title: '🔧 Consulting',
+                subtitle: 'Expert Guidance',
+                body: 'Strategic consulting for technology initiatives.',
+                variant: 'filled',
+                clickable: true
+            },
+            {
+                id: 43,
+                category: 'Dark Theme Cards',
+                title: 'Night Mode Ready',
+                subtitle: 'Dark Theme Support',
+                body: 'Fully optimized for dark theme environments.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 44,
+                category: 'Dark Theme Cards',
+                title: 'Eye Comfort',
+                subtitle: 'Reduced Blue Light',
+                body: 'Easy on the eyes with carefully chosen colors.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 45,
+                category: 'Interactive Cards',
+                title: 'Hover Effects',
+                subtitle: 'Smooth Animations',
+                body: 'Experience smooth hover and click animations.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 46,
+                category: 'Interactive Cards',
+                title: 'Responsive Design',
+                subtitle: 'Mobile First',
+                body: 'Perfect on desktop, tablet, and mobile.',
+                variant: 'elevated',
+                clickable: true
+            },
+            {
+                id: 47,
+                category: 'Advanced Layouts',
+                title: 'Media Left Layout',
+                subtitle: 'Image on Left',
+                body: 'Flexible layout with media on the left side.',
+                layout: 'media-left',
+                mediaSrc: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=180&h=150&fit=crop',
+                variant: 'outlined',
+                clickable: true
+            },
+            {
+                id: 48,
+                category: 'Advanced Layouts',
+                title: 'Horizontal Layout',
+                subtitle: 'Side by Side',
+                body: 'Content flows horizontally for compact display.',
+                layout: 'horizontal',
+                mediaSrc: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=180&h=150&fit=crop',
+                variant: 'elevated',
+                clickable: true
+            },
+
+            // NEW: Cards with Action Buttons & HR Divider
+            {
+                id: 49,
+                category: 'Cards with Actions',
+                title: 'Subscribe Now',
+                subtitle: 'Join Our Community',
+                body: 'Get exclusive access to premium content and updates.',
+                variant: 'elevated',
+                hasActions: true,
+                actions: [
+                    { text: 'Subscribe', variant: 'primary' },
+                    { text: 'Learn More' }
+                ],
+                clickable: true
+            },
+            {
+                id: 50,
+                category: 'Cards with Actions',
+                title: 'Download Guide',
+                subtitle: 'Free Resource',
+                body: 'Get our comprehensive guide to web components.',
+                variant: 'outlined',
+                hasActions: true,
+                actions: [
+                    { text: 'Download PDF', variant: 'primary' },
+                    { text: 'Email Link' },
+                    { text: 'Share' }
+                ],
+                clickable: true
+            },
+            {
+                id: 51,
+                category: 'Cards with Actions',
+                title: 'Book a Demo',
+                subtitle: 'See It in Action',
+                body: 'Schedule a personalized walkthrough with our team.',
+                variant: 'filled',
+                hasActions: true,
+                actions: [
+                    { text: 'Schedule', variant: 'primary' },
+                    { text: 'Contact Support' }
+                ],
+                clickable: true
+            },
+            {
+                id: 52,
+                category: 'Cards with Actions',
+                title: 'API Documentation',
+                subtitle: 'Developer Resources',
+                body: 'Complete API reference and integration examples.',
+                variant: 'glass',
+                hasActions: true,
+                actions: [
+                    { text: 'View Docs', variant: 'primary' },
+                    { text: 'Examples' },
+                    { text: 'Support' }
+                ],
+                clickable: true
+            },
+            {
+                id: 53,
+                category: 'Cards with Actions',
+                title: 'Upgrade Plan',
+                subtitle: 'Unlock All Features',
+                body: 'Get unlimited access to all premium features.',
+                variant: 'elevated',
+                hasActions: true,
+                actions: [
+                    { text: 'Upgrade Now', variant: 'primary' },
+                    { text: 'View Plans' }
+                ],
+                clickable: true
+            },
+            {
+                id: 54,
+                category: 'Cards with Actions',
+                title: 'VIP Access',
+                subtitle: 'Exclusive Features',
+                body: 'Premium features and priority support included.',
+                variant: 'filled',
+                hasActions: true,
+                actions: [
+                    { text: 'Get VIP', variant: 'primary' },
+                    { text: 'Learn More' }
+                ],
+                clickable: true
+            },
+            {
+                id: 55,
+                category: 'Cards with Actions',
+                title: 'Lifetime Value',
+                subtitle: 'One-Time Payment',
+                body: 'Invest once, enjoy forever with lifetime updates.',
+                variant: 'elevated',
+                hasActions: true,
+                actions: [
+                    { text: 'Purchase', variant: 'primary' },
+                    { text: 'Details' }
+                ],
+                clickable: true
+            }
+        ];
+
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton();
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+            renderView();
+        }
+
+        function updateThemeButton() {
+            const theme = document.documentElement.getAttribute('data-theme') || 'light';
+            const btn = document.getElementById('themeToggle');
+            btn.textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
+        }
+
+        // Navigation
+        function navigate(view, data = {}) {
+            const state = navStack.push(view, data);
+            updateBreadcrumb();
+            updateBackButton();
+            renderView();
+            document.getElementById('appContent').scrollTop = 0;
+        }
+
+        function goBack() {
+            const state = navStack.pop();
+            if (state) {
+                updateBreadcrumb();
+                updateBackButton();
+                renderView();
+                document.getElementById('appContent').scrollTop = 0;
+            }
+        }
+
+        function updateBackButton() {
+            const backBtn = document.getElementById('backBtn');
+            backBtn.disabled = !navStack.canGoBack();
+        }
+
+        function updateBreadcrumb() {
+            const crumb = document.getElementById('breadcrumb');
+            crumb.innerHTML = '<button class="nav-crumb" data-view="gallery">Gallery</button>';
+            
+            const current = navStack.current();
+            if (current.view !== 'gallery') {
+                crumb.innerHTML += '<span class="breadcrumb-separator">/</span>';
+                if (current.view === 'category') {
+                    crumb.innerHTML += `<span>${current.data.category}</span>`;
+                } else if (current.view === 'detail') {
+                    crumb.innerHTML += `<span>${current.data.title}</span>`;
+                }
+            }
+
+            crumb.querySelector('.nav-crumb').addEventListener('click', () => navigate('gallery'));
+        }
+
+        // Render Functions
+        function renderView() {
+            const current = navStack.current();
+            const content = document.getElementById('appContent');
+
+            if (current.view === 'gallery') {
+                renderGallery();
+            } else if (current.view === 'category') {
+                renderCategory(current.data.category);
+            } else if (current.view === 'detail') {
+                renderDetail(current.data);
+            }
+        }
+
+        function renderGallery() {
+            const content = document.getElementById('appContent');
+            
+            const categories = {};
+            cardData.forEach(card => {
+                if (!categories[card.category]) {
+                    categories[card.category] = [];
+                }
+                categories[card.category].push(card);
+            });
+
+            let html = '';
+            for (const [category, cards] of Object.entries(categories)) {
+                html += `
+                    <div class="section-title">${category}</div>
+                    <p class="section-subtitle">${cards.length} cards in this category</p>
+                    <div class="card-grid">
+                `;
+
+                cards.forEach(card => {
+                    html += `<div id="card-${card.id}" style="cursor: pointer;"></div>`;
+                });
+
+                html += `</div>`;
+            }
+
+            content.innerHTML = html;
+
+            cardData.forEach(card => {
+                const container = document.getElementById(`card-${card.id}`);
+                const cardEl = WBCard.create(
+                    {
+                        title: card.title,
+                        subtitle: card.subtitle,
+                        body: card.body,
+                        mediaSrc: card.mediaSrc,
+                        actions: card.actions || []
+                    },
+                    {
+                        variant: card.variant || 'elevated',
+                        size: card.size || 'standard',
+                        layout: card.layout || 'vertical',
+                        clickable: true,
+                        showActions: card.hasActions || false
+                    }
+                );
+
+                if (card.style) {
+                    cardEl.style.cssText = card.style;
+                    if (card.textColor) {
+                        cardEl.style.color = card.textColor;
+                    }
+                }
+
+                cardEl.addEventListener('wbCardClick', () => {
+                    navigate('detail', card);
+                });
+
+                container.appendChild(cardEl);
+            });
+        }
+
+        function renderCategory(category) {
+            const categoryCards = cardData.filter(c => c.category === category);
+            const content = document.getElementById('appContent');
+
+            let html = `<div class="section-title">${category}</div>`;
+            html += `<div class="card-grid">`;
+
+            categoryCards.forEach(card => {
+                html += `<div id="card-${card.id}"></div>`;
+            });
+
+            html += `</div>`;
+            content.innerHTML = html;
+
+            categoryCards.forEach(card => {
+                const container = document.getElementById(`card-${card.id}`);
+                const cardEl = WBCard.create(
+                    {
+                        title: card.title,
+                        subtitle: card.subtitle,
+                        body: card.body,
+                        mediaSrc: card.mediaSrc,
+                        actions: card.actions || []
+                    },
+                    {
+                        variant: card.variant || 'elevated',
+                        size: card.size || 'standard',
+                        layout: card.layout || 'vertical',
+                        clickable: true,
+                        showActions: card.hasActions || false
+                    }
+                );
+
+                if (card.style) {
+                    cardEl.style.cssText = card.style;
+                }
+
+                cardEl.addEventListener('wbCardClick', () => {
+                    navigate('detail', card);
+                });
+
+                container.appendChild(cardEl);
+            });
+        }
+
+        function renderDetail(card) {
+            const content = document.getElementById('appContent');
+            
+            let html = `
+                <div class="detail-view">
+                    <h2>${card.title}</h2>
+                    <p><strong>Category:</strong> ${card.category}</p>
+                    <p><strong>Subtitle:</strong> ${card.subtitle}</p>
+                    <p><strong>Description:</strong> ${card.body}</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-value">${card.id}</div>
+                            <div class="stat-label">Card ID</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">${card.variant || 'elevated'}</div>
+                            <div class="stat-label">Variant</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">${card.size || 'standard'}</div>
+                            <div class="stat-label">Size</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">${card.layout || 'vertical'}</div>
+                            <div class="stat-label">Layout</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Preview</h3>
+                    <div id="detail-card-preview"></div>
+
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Technical Details</h3>
+                    <p><strong>Component:</strong> <code>&lt;wb-card&gt;</code></p>
+                    <p><strong>Variant:</strong> <code>${card.variant || 'elevated'}</code></p>
+                    <p><strong>Size:</strong> <code>${card.size || 'standard'}</code></p>
+                    <p><strong>Layout:</strong> <code>${card.layout || 'vertical'}</code></p>
+                    ${card.mediaSrc ? `<p><strong>Media:</strong> <code>${card.mediaSrc.substring(0, 50)}...</code></p>` : ''}
+                    ${card.hasActions ? `<p><strong>Actions:</strong> <code>${card.actions.length} button(s) with HR divider</code></p>` : ''}
+                </div>
+            `;
+
+            content.innerHTML = html;
+
+            const preview = document.getElementById('detail-card-preview');
+            const cardEl = WBCard.create(
+                {
+                    title: card.title,
+                    subtitle: card.subtitle,
+                    body: card.body,
+                    mediaSrc: card.mediaSrc,
+                    actions: card.actions || []
+                },
+                {
+                    variant: card.variant || 'elevated',
+                    size: card.size || 'standard',
+                    layout: card.layout || 'vertical',
+                    showActions: card.hasActions || false
+                }
+            );
+
+            if (card.style) {
+                cardEl.style.cssText = card.style;
+            }
+
+            preview.appendChild(cardEl);
+        }
+
+        // Event Listeners
+        document.getElementById('backBtn').addEventListener('click', goBack);
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+        // Initialize
+        initTheme();
+        updateBackButton();
+        renderGallery();
+
+        console.log('✨ Card Showcase Initialized - 55 Card Examples Ready! (7 with Action Buttons & HR)');
+    </script>
+</body>
+</html>

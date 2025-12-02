@@ -2,12 +2,12 @@
 /* Toggle switch component with accessibility and theming */
 
 :root {
-    --wb-toggle-width: 3rem;
-    --wb-toggle-height: 1.5rem;
+    --wb-toggle-width: var(--spacing-2xl);
+    --wb-toggle-height: var(--spacing-lg);
     --wb-toggle-thumb-size: 1.25rem;
-    --wb-toggle-border-radius: 1rem;
+    --wb-toggle-border-radius: var(--spacing-md);
     --wb-toggle-transition: all 0.2s ease;
-    --wb-toggle-gap: 0.5rem;
+    --wb-toggle-gap: var(--spacing-sm);
 }
 
 /* Toggle Wrapper */
@@ -17,11 +17,11 @@
     gap: var(--wb-toggle-gap);
     cursor: pointer;
     user-select: none;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, var(--font-family-base);
 }
 
 .wb-toggle-wrapper:hover .wb-toggle-slider {
-    background-color: var(--neutral-600, #475569);
+    background-color: var(--neutral-var(--font-weight-semibold), #475569);
 }
 
 .wb-toggle-wrapper:hover .wb-toggle--checked .wb-toggle-slider {
@@ -43,8 +43,8 @@
     position: relative;
     width: var(--wb-toggle-width);
     height: var(--wb-toggle-height);
-    background-color: var(--neutral-700, #334155);
-    border: 2px solid var(--neutral-600, #475569);
+    background-color: var(--neutral-var(--font-weight-bold), #334155);
+    border: 2px solid var(--neutral-var(--font-weight-semibold), #475569);
     border-radius: var(--wb-toggle-border-radius);
     transition: var(--wb-toggle-transition);
     flex-shrink: 0;
@@ -62,13 +62,13 @@
     border-radius: 50%;
     transform: translateY(-50%);
     transition: var(--wb-toggle-transition);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px var(--spacing-xs) rgba(0, 0, 0, 0.2);
 }
 
 /* Checked State */
 .wb-toggle--checked .wb-toggle-slider {
-    background-color: var(--primary, #6366f1);
-    border-color: var(--primary, #6366f1);
+    background-color: var(--primary, var(--color-primary));
+    border-color: var(--primary, var(--color-primary));
 }
 
 .wb-toggle--checked .wb-toggle-thumb {
@@ -77,12 +77,12 @@
 
 /* Focus State */
 .wb-toggle-input:focus + .wb-toggle-slider {
-    outline: 2px solid var(--primary, #6366f1);
+    outline: 2px solid var(--primary, var(--color-primary));
     outline-offset: 2px;
 }
 
 .wb-toggle-input:focus-visible + .wb-toggle-slider {
-    outline: 2px solid var(--primary, #6366f1);
+    outline: 2px solid var(--primary, var(--color-primary));
     outline-offset: 2px;
 }
 
@@ -94,7 +94,7 @@
 
 .wb-toggle--disabled .wb-toggle-slider {
     cursor: not-allowed;
-    background-color: var(--neutral-600, #475569);
+    background-color: var(--neutral-var(--font-weight-semibold), #475569);
 }
 
 .wb-toggle--disabled .wb-toggle-thumb {
@@ -148,7 +148,7 @@
 .wb-toggle--small {
     --wb-toggle-width: 2.5rem;
     --wb-toggle-height: 1.25rem;
-    --wb-toggle-thumb-size: 1rem;
+    --wb-toggle-thumb-size: var(--spacing-md);
     --wb-toggle-gap: 0.375rem;
 }
 
@@ -159,40 +159,40 @@
 .wb-toggle--large {
     --wb-toggle-width: 3.5rem;
     --wb-toggle-height: 1.75rem;
-    --wb-toggle-thumb-size: 1.5rem;
+    --wb-toggle-thumb-size: var(--spacing-lg);
     --wb-toggle-gap: 0.625rem;
 }
 
 .wb-toggle--large .wb-toggle-label {
-    font-size: 1rem;
+    font-size: var(--spacing-md);
 }
 
 /* Variants */
 .wb-toggle--success.wb-toggle--checked .wb-toggle-slider {
-    background-color: var(--accent, #10b981);
-    border-color: var(--accent, #10b981);
+    background-color: var(--accent, var(--color-success));
+    border-color: var(--accent, var(--color-success));
 }
 
 .wb-toggle--success:hover .wb-toggle--checked .wb-toggle-slider {
-    background-color: #059669;
+    background-color: var(--color-success-bold);
 }
 
 .wb-toggle--warning.wb-toggle--checked .wb-toggle-slider {
-    background-color: #f59e0b;
-    border-color: #f59e0b;
+    background-color: var(--color-warning);
+    border-color: var(--color-warning);
 }
 
 .wb-toggle--warning:hover .wb-toggle--checked .wb-toggle-slider {
-    background-color: #d97706;
+    background-color: var(--color-warning-bold);
 }
 
 .wb-toggle--error.wb-toggle--checked .wb-toggle-slider {
-    background-color: #ef4444;
-    border-color: #ef4444;
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
 }
 
 .wb-toggle--error:hover .wb-toggle--checked .wb-toggle-slider {
-    background-color: #dc2626;
+    background-color: var(--color-danger-bold);
 }
 
 /* Dark Theme Support */
@@ -205,12 +205,12 @@
 }
 
 [data-theme="dark"] .wb-toggle-slider {
-    background-color: var(--neutral-600, #475569);
+    background-color: var(--neutral-var(--font-weight-semibold), #475569);
     border-color: var(--neutral-500, #64748b);
 }
 
 [data-theme="dark"] .wb-toggle--disabled .wb-toggle-slider {
-    background-color: var(--neutral-700, #334155);
+    background-color: var(--neutral-var(--font-weight-bold), #334155);
 }
 
 /* High Contrast Mode */

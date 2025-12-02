@@ -15,15 +15,15 @@
 .wb-footer-container {
   max-width: var(--max-width, 1200px);
   margin: 0 auto;
-  padding: var(--wb-footer-padding, var(--space-lg, 2rem));
+  padding: var(--wb-footer-padding, var(--space-lg, var(--spacing-xl)));
 }
 
 /* Footer sections */
 .wb-footer-top {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--wb-footer-gap, var(--space-lg, 2rem));
-  margin-bottom: var(--space-lg, 2rem);
+  gap: var(--wb-footer-gap, var(--space-lg, var(--spacing-xl)));
+  margin-bottom: var(--space-lg, var(--spacing-xl));
 }
 
 .wb-footer-bottom {
@@ -31,8 +31,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-md, 1rem);
-  padding-top: var(--space-md, 1rem);
+  gap: var(--space-md, var(--spacing-md));
+  padding-top: var(--space-md, var(--spacing-md));
   border-top: 1px solid var(--wb-footer-border, var(--border-color));
 }
 
@@ -42,14 +42,14 @@
 
 /* Navigation styles */
 .wb-footer-nav-group {
-  margin-bottom: var(--space-lg, 2rem);
+  margin-bottom: var(--space-lg, var(--spacing-xl));
 }
 
 .wb-footer-nav-title {
-  font-size: var(--text-lg, 1.125rem);
-  font-weight: 600;
+  font-size: var(--text-lg, 1.var(--spacing-lg));
+  font-weight: var(--font-weight-semibold);
   color: var(--wb-footer-text, var(--text-primary));
-  margin-bottom: var(--space-md, 1rem);
+  margin-bottom: var(--space-md, var(--spacing-md));
 }
 
 .wb-footer-nav-list {
@@ -59,7 +59,7 @@
 }
 
 .wb-footer-nav-item {
-  margin-bottom: var(--space-xs, 0.5rem);
+  margin-bottom: var(--space-xs, var(--spacing-sm));
 }
 
 .wb-footer-nav-link {
@@ -99,15 +99,15 @@
 .wb-footer-logo {
   max-width: 120px;
   height: auto;
-  margin-bottom: var(--space-md, 1rem);
+  margin-bottom: var(--space-md, var(--spacing-md));
 }
 
 /* Social media styles */
 .wb-footer-social-section h4 {
-  font-size: var(--text-md, 1rem);
-  font-weight: 600;
+  font-size: var(--text-md, var(--spacing-md));
+  font-weight: var(--font-weight-semibold);
   color: var(--wb-footer-text, var(--text-primary));
-  margin-bottom: var(--space-md, 1rem);
+  margin-bottom: var(--space-md, var(--spacing-md));
 }
 
 .wb-footer-social-list {
@@ -123,24 +123,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-xs, 0.5rem) var(--space-sm, 0.75rem);
+  padding: var(--space-xs, var(--spacing-sm)) var(--space-sm, 0.75rem);
   background: var(--wb-footer-accent, var(--accent));
   color: white;
   text-decoration: none;
-  border-radius: var(--border-radius, 4px);
+  border-radius: var(--border-radius, var(--spacing-xs));
   font-size: var(--text-sm, 0.875rem);
   transition: all 0.2s ease;
 }
 
 .wb-footer-social-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 var(--spacing-xs) var(--spacing-sm) rgba(0, 0, 0, 0.2);
 }
 
 /* Newsletter section */
 .wb-footer-newsletter h4 {
-  font-size: var(--text-md, 1rem);
-  font-weight: 600;
+  font-size: var(--text-md, var(--spacing-md));
+  font-weight: var(--font-weight-semibold);
   color: var(--wb-footer-text, var(--text-primary));
   margin-bottom: var(--space-sm, 0.75rem);
 }
@@ -148,12 +148,12 @@
 .wb-footer-newsletter p {
   color: var(--wb-footer-text-secondary, var(--text-secondary));
   font-size: var(--text-sm, 0.875rem);
-  margin-bottom: var(--space-md, 1rem);
+  margin-bottom: var(--space-md, var(--spacing-md));
 }
 
 .wb-footer-newsletter-form {
   display: flex;
-  gap: var(--space-xs, 0.5rem);
+  gap: var(--space-xs, var(--spacing-sm));
   margin-bottom: var(--space-sm, 0.75rem);
 }
 
@@ -161,18 +161,18 @@
   flex: 1;
   padding: var(--space-sm, 0.75rem);
   border: 1px solid var(--wb-footer-border, var(--border-color));
-  border-radius: var(--border-radius, 4px);
+  border-radius: var(--border-radius, var(--spacing-xs));
   background: var(--bg-primary);
   color: var(--text-primary);
   font-size: var(--text-sm, 0.875rem);
 }
 
 .wb-footer-newsletter-form button {
-  padding: var(--space-sm, 0.75rem) var(--space-md, 1rem);
+  padding: var(--space-sm, 0.75rem) var(--space-md, var(--spacing-md));
   background: var(--wb-footer-accent, var(--primary));
   color: white;
   border: none;
-  border-radius: var(--border-radius, 4px);
+  border-radius: var(--border-radius, var(--spacing-xs));
   font-size: var(--text-sm, 0.875rem);
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -196,7 +196,7 @@
 .wb-footer-legal ul {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-md, 1rem);
+  gap: var(--space-md, var(--spacing-md));
   list-style: none;
   padding: 0;
   margin: 0;
@@ -218,7 +218,7 @@
 .wb-footer-essential .wb-footer-nav-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-md, 1rem);
+  gap: var(--space-md, var(--spacing-md));
   justify-content: center;
 }
 
@@ -227,7 +227,7 @@
 /* Simple Layout */
 .wb-footer--simple .wb-footer-container {
   text-align: center;
-  padding: var(--space-md, 1rem);
+  padding: var(--space-md, var(--spacing-md));
 }
 
 .wb-footer--simple .wb-footer-top {
@@ -244,14 +244,14 @@
 .wb-footer--standard .wb-footer-top {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--wb-footer-gap, var(--space-lg, 2rem));
+  gap: var(--wb-footer-gap, var(--space-lg, var(--spacing-xl)));
 }
 
 /* Complex Layout */
 .wb-footer--complex .wb-footer-top {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--wb-footer-gap, var(--space-lg, 2rem));
+  gap: var(--wb-footer-gap, var(--space-lg, var(--spacing-xl)));
 }
 
 /* Sticky Layout */
@@ -261,11 +261,11 @@
   left: 0;
   right: 0;
   z-index: var(--z-sticky, 1000);
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px var(--spacing-sm) rgba(0, 0, 0, 0.1);
 }
 
 .wb-footer--sticky .wb-footer-container {
-  padding: var(--space-sm, 0.75rem) var(--space-lg, 2rem);
+  padding: var(--space-sm, 0.75rem) var(--space-lg, var(--spacing-xl));
 }
 
 .wb-footer--sticky .wb-footer-top {
@@ -293,11 +293,11 @@
   z-index: var(--z-footer-fixed, 1000);
   max-height: 40vh;
   overflow-y: auto;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px var(--spacing-sm) rgba(0, 0, 0, 0.1);
 }
 
 .wb-footer--bottom .wb-footer-container {
-  padding: var(--space-md, 1rem) var(--space-lg, 2rem);
+  padding: var(--space-md, var(--spacing-md)) var(--space-lg, var(--spacing-xl));
 }
 
 /* Expanded Positioning */
@@ -310,7 +310,7 @@
 
 /* Light Theme */
 .wb-footer--light {
-  --wb-footer-bg: var(--bg-light, #ffffff);
+  --wb-footer-bg: var(--bg-light, var(--text-primary));
   --wb-footer-text: var(--text-light, #333333);
   --wb-footer-text-secondary: var(--text-secondary-light, #666666);
   --wb-footer-border: var(--border-light, #e5e5e5);
@@ -320,8 +320,8 @@
 
 /* Dark Theme */
 .wb-footer--dark {
-  --wb-footer-bg: var(--bg-dark, #1a1a1a);
-  --wb-footer-text: var(--text-dark, #ffffff);
+  --wb-footer-bg: var(--bg-dark, var(--bg-primary));
+  --wb-footer-text: var(--text-dark, var(--text-primary));
   --wb-footer-text-secondary: var(--text-secondary-dark, #cccccc);
   --wb-footer-border: var(--border-dark, #333333);
   --wb-footer-link-color: var(--link-dark, #66b3ff);
@@ -331,7 +331,7 @@
 /* Auto Theme - follows system preference */
 .wb-footer--auto {
   /* Default to light theme */
-  --wb-footer-bg: var(--bg-light, #ffffff);
+  --wb-footer-bg: var(--bg-light, var(--text-primary));
   --wb-footer-text: var(--text-light, #333333);
   --wb-footer-text-secondary: var(--text-secondary-light, #666666);
   --wb-footer-border: var(--border-light, #e5e5e5);
@@ -341,8 +341,8 @@
 
 @media (prefers-color-scheme: dark) {
   .wb-footer--auto {
-    --wb-footer-bg: var(--bg-dark, #1a1a1a);
-    --wb-footer-text: var(--text-dark, #ffffff);
+    --wb-footer-bg: var(--bg-dark, var(--bg-primary));
+    --wb-footer-text: var(--text-dark, var(--text-primary));
     --wb-footer-text-secondary: var(--text-secondary-dark, #cccccc);
     --wb-footer-border: var(--border-dark, #333333);
     --wb-footer-link-color: var(--link-dark, #66b3ff);
@@ -441,19 +441,19 @@
   }
   
   .wb-footer-newsletter-form input {
-    margin-bottom: var(--space-xs, 0.5rem);
+    margin-bottom: var(--space-xs, var(--spacing-sm));
   }
 }
 
 /* Mobile styles */
 @media (max-width: 767px) {
   .wb-footer-container {
-    padding: var(--space-md, 1rem);
+    padding: var(--space-md, var(--spacing-md));
   }
   
   .wb-footer-top {
     flex-direction: column;
-    gap: var(--space-md, 1rem);
+    gap: var(--space-md, var(--spacing-md));
   }
   
   .wb-footer--complex .wb-footer-top,

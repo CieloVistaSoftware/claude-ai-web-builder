@@ -31,8 +31,7 @@ class ColorBar extends HTMLElement {
   }
 
   init() {
-    this.attachShadow({ mode: 'open' });
-    
+    // Shadow DOM removed - Light DOM architecture
     // Default values
     this._hue = 240;
     this._saturation = 70;
@@ -148,7 +147,7 @@ class ColorBar extends HTMLElement {
     // CSS-first approach - external stylesheet with dynamic path resolution
     const cssPath = '/components/wb-color-bar/wb-color-bar.css';
     
-    this.shadowRoot.innerHTML = `
+    this.innerHTML = `
       <link rel="stylesheet" href="${cssPath}">
       
       <style>

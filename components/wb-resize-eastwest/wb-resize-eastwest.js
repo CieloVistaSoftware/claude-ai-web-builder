@@ -1,9 +1,10 @@
+import WBBaseComponent from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 // wb-resize-eastwest.js
 // Horizontal resize handle component for resizing parent containers left/right
 
-class WBResizeEastWest extends HTMLElement {
+class WBResizeEastWest extends WBBaseComponent {
     constructor() {
         super();
         this.init();
@@ -23,8 +24,9 @@ class WBResizeEastWest extends HTMLElement {
     }
 
     async connectedCallback() {
+    super.connectedCallback();
         await loadComponentCSS(this, 'wb-resize-eastwest.css');
-        this.attachShadow({ mode: 'open' });
+        ;
         this.render();
         this.setupEventListeners();
         this.findTargetElement();
@@ -34,6 +36,7 @@ class WBResizeEastWest extends HTMLElement {
     }
 
     disconnectedCallback() {
+    super.connectedCallback();
         this.cleanup();
     }
 
@@ -73,7 +76,7 @@ class WBResizeEastWest extends HTMLElement {
         
         const positionStyle = side === 'left' ? 'left: 0;' : 'right: 0;';
         
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
             <style>
                 :host {
                     display: block;
@@ -141,7 +144,7 @@ class WBResizeEastWest extends HTMLElement {
     }
 
     setupEventListeners() {
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         
         if (!handle) {
             console.error('❌ wb-resize-eastwest: Handle not found');
@@ -154,7 +157,7 @@ class WBResizeEastWest extends HTMLElement {
     }
 
     cleanup() {
-        const handle = this.shadowRoot?.querySelector('.resize-handle');
+        const handle = this?.querySelector('.resize-handle');
         if (handle) {
             handle.removeEventListener('mousedown', this.handleMouseDown);
         }
@@ -179,7 +182,7 @@ class WBResizeEastWest extends HTMLElement {
         document.body.style.cursor = 'ew-resize';
         document.body.style.userSelect = 'none';
         
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         handle.classList.add('resizing');
         
         e.preventDefault();
@@ -232,7 +235,7 @@ class WBResizeEastWest extends HTMLElement {
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
         
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         handle.classList.remove('resizing');
 
         // Save width if storage key provided
@@ -291,3 +294,4 @@ customElements.define('wb-resize-eastwest', WBResizeEastWest);
 console.log('✅ wb-resize-eastwest component registered');
 
 export default WBResizeEastWest;
+

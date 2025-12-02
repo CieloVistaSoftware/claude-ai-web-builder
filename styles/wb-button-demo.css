@@ -1,0 +1,62 @@
+.glass-slider-row {
+  position: relative;
+}
+
+.glass-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 120px;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #fbbf24, #fcd34d, #fbbf24, transparent);
+  border-radius: 0.5rem;
+  animation: glass-slide-across 3s ease-in-out infinite;
+}
+
+@keyframes glass-slide-across {
+  0% { left: 0; }
+  50% { left: calc(100% - 120px); }
+  100% { left: 0; }
+}
+.wb-card wb-button {
+  width: 100%;
+  box-sizing: border-box;
+}
+ .wb-code-example {
+  background: #263d4d;
+  color: #90caf9;
+  font-size: 0.95rem;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  border-radius: 0.3rem;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem 1rem;
+  white-space: pre-wrap;
+  overflow: visible;
+  box-shadow: none;
+  height: auto;
+  min-height: 1.5rem;
+  max-height: none;
+}
+ .wb-card {
+  height: auto;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background: var(--wb-card-bg, #232b3a);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  margin-bottom: 0.5rem;
+  padding: 0 1.5rem;
+}
+
+.wb-card-separator {
+  width: 100%;
+  margin-top: 1rem;
+  border: none;
+  border-bottom: 1px solid #e3e3e3;
+}

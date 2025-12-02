@@ -30,24 +30,38 @@
  */
 export async function loadComponentCSS(component, filename) {
   try {
-    // Get the component's folder path from import.meta.url if available
-    // Otherwise, construct it from the component element's tagName
-    const componentPath = getComponentPath(component);
+    // Handle both string component names and HTMLElement instances
+    let tagName;
+    if (typeof component === 'string') {
+      tagName = component.toLowerCase();
+    } else if (component && component.tagName) {
+      tagName = component.tagName.toLowerCase();
+    } else {
+      throw new Error('Invalid component: must be a string or HTMLElement with tagName');
+    }
+    
+    // Get the component's folder path
+    const componentPath = `/components/${tagName}`;
     
     // Construct the full CSS file path
     const cssPath = `${componentPath}/${filename}`;
+    
+    // Check if already loaded
+    if (isCSSLoaded(tagName, filename)) {
+      return; // Already loaded, skip
+    }
     
     // Create and inject a <link> tag into the document head
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = cssPath;
-    link.dataset.component = component.tagName.toLowerCase();
+    link.dataset.component = tagName;
     link.dataset.cssFile = filename;
     
     // Wait for the link to load
     return new Promise((resolve, reject) => {
       link.onload = () => {
-        console.log(`✅ CSS loaded: ${filename} (${component.tagName.toLowerCase()})`);
+        console.log(`✅ CSS loaded: ${filename} (${tagName})`);
         resolve();
       };
       
@@ -60,7 +74,8 @@ export async function loadComponentCSS(component, filename) {
       document.head.appendChild(link);
     });
   } catch (error) {
-    console.error(`❌ CSS Loader Error for ${component.tagName}: ${error.message}`);
+    const tagName = typeof component === 'string' ? component : (component?.tagName || 'undefined');
+    console.error(`❌ CSS Loader Error for ${tagName}: ${error.message}`);
     throw error;
   }
 }

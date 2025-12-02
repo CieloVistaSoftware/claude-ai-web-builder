@@ -1,4 +1,45 @@
 # WB Button Component
+## New Features (2025-12-01)
+
+- **clipboard attribute**: Add `clipboard` to any `<wb-button>` (single or group) to copy the original markup to clipboard when clicked.
+- **examples attribute**: Add `examples` to a group `<wb-button>` to automatically generate a code example block below the button group, showing the original markup for copy-paste.
+- **Automatic Example Block**: No manual code block needed; the component renders a textarea and copy button when `examples` is present.
+- **Playwright/component tests**: Automated tests verify that the examples block is rendered and the copy button works as expected.
+
+### Usage
+
+#### Clipboard (Single Button)
+```html
+<wb-button clipboard>Copy Me</wb-button>
+```
+
+#### Clipboard (Group)
+```html
+<wb-button group="demo" clipboard>
+  <wb-button class="btn-a">A</wb-button>
+  <wb-button class="btn-b">B</wb-button>
+</wb-button>
+```
+
+#### Examples (Auto Code Block)
+```html
+<wb-button group="demo" examples>
+  <wb-button class="btn-a">A</wb-button>
+  <wb-button class="btn-b">B</wb-button>
+</wb-button>
+<!-- The code block is generated automatically below -->
+```
+
+#### Combined
+```html
+<wb-button group="demo" clipboard examples>
+  <wb-button class="btn-a">A</wb-button>
+  <wb-button class="btn-b">B</wb-button>
+</wb-button>
+```
+
+#### Test Coverage
+- Playwright and Jest tests ensure the examples block is rendered and the copy button works for both single and group buttons.
 
 A versatile, reactive button component built with Web Components (Custom Elements v1), featuring signal-based state management, Shadow DOM architecture, and multiple variants, sizes, and states.
 

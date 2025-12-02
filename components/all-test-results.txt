@@ -1,0 +1,27 @@
+ReferenceError: HTMLElement is not defined
+
+   at wb-button\wb-button.js:7
+
+   5 |  */
+   6 |
+>  7 | class WBButton extends HTMLElement {
+     |                        ^
+   8 |   // Shadow DOM is not used; only Light DOM
+   9 |
+  10 |   connectedCallback() {
+    at C:\Users\jwpmi\Downloads\AI\wb\components\wb-button\wb-button.js:7:24
+
+ReferenceError: require is not defined in ES module scope, you can use import instead
+This file is being treated as an ES module because it has a '.js' file extension and 'C:\Users\jwpmi\Downloads\AI\wb\package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+
+   at wb-linkedinAd\wb-linkedinAd.spec.js:2
+
+  1 | // wb-linkedinAd-playwright.spec.js
+> 2 | const { test, expect } = require('@playwright/test');
+    |                          ^
+  3 |
+  4 | test.describe('wb-linkedinAd', () => {
+  5 |   test('should render with correct headline and CTA', async ({ page }) => {
+    at C:\Users\jwpmi\Downloads\AI\wb\components\wb-linkedinAd\wb-linkedinAd.spec.js:2:26
+
+[1A[2K

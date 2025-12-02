@@ -1,17 +1,18 @@
+import WBBaseComponent from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-class WB1Rem extends HTMLElement {
+class WB1Rem extends WBBaseComponent {
   constructor() {
     super();
   }
 
   async connectedCallback() {
+    super.connectedCallback();
     await loadComponentCSS(this, 'wb-1rem.css');
     this.render();
   }
 
   render() {
-    const shadow = this.attachShadow({ mode: 'open' });
     const container = document.createElement('div');
     container.className = 'wb-1rem-container';
     const slot = document.createElement('slot');
@@ -29,9 +30,10 @@ class WB1Rem extends HTMLElement {
         height: 100%;
       }
     `;
-    shadow.appendChild(style);
-    shadow.appendChild(container);
+    this.appendChild(style);
+    this.appendChild(container);
   }
 }
 
 customElements.define('wb-1rem', WB1Rem);
+

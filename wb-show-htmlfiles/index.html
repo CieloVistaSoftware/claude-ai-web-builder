@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Show HTML Files Navigator</title>
+  <script type="module" src="./wb-show-htmlfiles.js"></script>
+  <style>
+    body { display: flex; height: 100vh; margin: 0; }
+    #nav { width: 320px; border-right: 1px solid #ccc; background: #f9f9f9; overflow-y: auto; }
+    #main { flex: 1; padding: 0; height: 100vh; }
+    iframe { width: 100%; height: 100%; border: none; }
+  </style>
+</head>
+<body>
+  <aside id="nav">
+    <wb-show-htmlfiles></wb-show-htmlfiles>
+  </aside>
+  <main id="main">
+    <iframe id="preview" src="" title="HTML Preview"></iframe>
+  </main>
+  <script>
+    // Wait for wb-show-htmlfiles to be defined and in DOM
+    window.addEventListener('DOMContentLoaded', () => {
+      const comp = document.querySelector('wb-show-htmlfiles');
+      if (comp) {
+        comp.addEventListener('file-selected', e => {
+          document.getElementById('preview').src = e.detail.url;
+        });
+      }
+    });
+  </script>
+</body>
+</html>

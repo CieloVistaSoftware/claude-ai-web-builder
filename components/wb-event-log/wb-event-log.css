@@ -4,14 +4,14 @@
  */
 
 :root {
-    --wb-event-log-bg: var(--background-color, #ffffff);
+    --wb-event-log-bg: var(--background-color, var(--text-primary));
     --wb-event-log-border: var(--border-color, #dee2e6);
     --wb-event-log-text: var(--text-color, #212529);
     --wb-event-log-muted: var(--text-muted, #6c757d);
-    --wb-event-log-font-size: 14px;
+    --wb-event-log-font-size: 1var(--spacing-xs);
     --wb-event-log-line-height: 1.4em;
     --wb-event-log-border-radius: 6px;
-    --wb-event-log-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --wb-event-log-shadow: 0 2px var(--spacing-xs) rgba(0, 0, 0, 0.1);
     
     /* Event type colors */
     --wb-event-info: #007BFF;
@@ -22,9 +22,9 @@
     --wb-event-user: #6F42C1;
     
     /* Dark mode colors */
-    --wb-event-log-bg-dark: var(--background-color-dark, #1a1a1a);
-    --wb-event-log-border-dark: var(--border-color-dark, #404040);
-    --wb-event-log-text-dark: var(--text-color-dark, #ffffff);
+    --wb-event-log-bg-dark: var(--background-color-dark, var(--bg-primary));
+    --wb-event-log-border-dark: var(--border-color-dark, var(--border-primary));
+    --wb-event-log-text-dark: var(--text-color-dark, var(--text-primary));
     --wb-event-log-muted-dark: var(--text-muted-dark, #b0b0b0);
 }
 
@@ -55,7 +55,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
+    padding: var(--spacing-sm) var(--font-size-sm);
     background: var(--wb-event-log-bg);
     border-bottom: 1px solid var(--wb-event-log-border);
     flex-shrink: 0;
@@ -63,9 +63,9 @@
 
 .wb-event-log-drag-handle {
     cursor: move;
-    font-size: 16px;
+    font-size: var(--spacing-md);
     color: var(--wb-event-log-muted);
-    padding: 0 8px;
+    padding: 0 var(--spacing-sm);
     user-select: none;
     transition: color 0.2s ease;
     line-height: 1;
@@ -78,10 +78,10 @@
 
 /* Error Indicator */
 .wb-event-log-error-indicator {
-    width: 12px;
-    height: 12px;
+    width: var(--font-size-sm);
+    height: var(--font-size-sm);
     border-radius: 50%;
-    margin: 0 8px;
+    margin: 0 var(--spacing-sm);
     transition: background-color 0.3s ease;
     flex-shrink: 0;
 }
@@ -130,24 +130,24 @@
 }
 
 .wb-event-log-title {
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     color: var(--wb-event-log-text);
-    font-size: 16px;
+    font-size: var(--spacing-md);
 }
 
 .wb-event-log-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
 }
 
 .wb-event-log-search {
-    padding: 4px 8px;
+    padding: var(--spacing-xs) var(--spacing-sm);
     border: 1px solid var(--wb-event-log-border);
-    border-radius: 4px;
+    border-radius: var(--spacing-xs);
     background: var(--wb-event-log-bg);
     color: var(--wb-event-log-text);
-    font-size: 12px;
+    font-size: var(--font-size-sm);
     width: 150px;
 }
 
@@ -157,13 +157,13 @@
 }
 
 .wb-event-log-btn {
-    padding: 4px 8px;
+    padding: var(--spacing-xs) var(--spacing-sm);
     border: 1px solid var(--wb-event-log-border);
-    border-radius: 4px;
+    border-radius: var(--spacing-xs);
     background: var(--wb-event-log-bg);
     color: var(--wb-event-log-text);
     cursor: pointer;
-    font-size: 12px;
+    font-size: var(--font-size-sm);
     transition: all 0.2s ease;
 }
 
@@ -193,16 +193,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    padding: 8px 12px;
+    padding: var(--spacing-sm) var(--font-size-sm);
     background: var(--wb-event-log-bg);
     border-bottom: 1px solid var(--wb-event-log-border);
     flex-shrink: 0;
 }
 
 .wb-event-log-filter {
-    padding: 4px 8px;
+    padding: var(--spacing-xs) var(--spacing-sm);
     border: 1px solid var(--wb-event-log-border);
-    border-radius: 16px;
+    border-radius: var(--spacing-md);
     background: var(--wb-event-log-bg);
     color: var(--wb-event-log-text);
     cursor: pointer;
@@ -213,7 +213,7 @@
 
 .wb-event-log-filter:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px var(--spacing-xs) rgba(0, 0, 0, 0.1);
 }
 
 .wb-event-log-filter.active {
@@ -242,12 +242,12 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 4px 12px;
+    padding: var(--spacing-xs) var(--font-size-sm);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     cursor: pointer;
     transition: all 0.15s ease;
     line-height: var(--wb-event-log-line-height);
-    min-height: calc(var(--wb-event-log-line-height) + 8px);
+    min-height: calc(var(--wb-event-log-line-height) + var(--spacing-sm));
     user-select: none;
     position: relative;
     margin: 0 0 2px 0;
@@ -258,7 +258,7 @@
 
 /* Event content container */
 .wb-event-log-event > *:not(.wb-event-log-copy-single) {
-    margin-right: 8px;
+    margin-right: var(--spacing-sm);
 }
 
 .wb-event-log-event:hover {
@@ -290,8 +290,8 @@
     flex-shrink: 0;
     width: 20px;
     text-align: center;
-    margin-right: 8px;
-    font-size: 14px;
+    margin-right: var(--spacing-sm);
+    font-size: 1var(--spacing-xs);
 }
 
 .wb-event-log-timestamp {
@@ -299,7 +299,7 @@
     width: 80px;
     color: var(--wb-event-log-muted);
     font-size: 11px;
-    margin-right: 8px;
+    margin-right: var(--spacing-sm);
     font-family: monospace;
 }
 
@@ -308,8 +308,8 @@
     width: 70px;
     color: var(--wb-event-log-muted);
     font-size: 11px;
-    font-weight: 600;
-    margin-right: 8px;
+    font-weight: var(--font-weight-semibold);
+    margin-right: var(--spacing-sm);
     text-transform: uppercase;
 }
 
@@ -318,7 +318,7 @@
     width: 240px;
     color: var(--wb-event-log-muted);
     font-size: 11px;
-    margin-right: 12px;
+    margin-right: var(--font-size-sm);
     font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -326,7 +326,7 @@
     opacity: 0.85;
     transition: all 0.2s ease;
     position: relative;
-    padding: 2px 4px;
+    padding: 2px var(--spacing-xs);
     background: rgba(0, 123, 255, 0.05);
     border-radius: 3px;
     border: 1px solid transparent;
@@ -347,12 +347,12 @@
     left: 0;
     background: var(--wb-event-log-bg);
     border: 1px solid var(--wb-event-log-border);
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--spacing-xs);
     white-space: nowrap;
     z-index: 10;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-size: 12px;
+    box-shadow: 0 2px var(--spacing-sm) rgba(0,0,0,0.1);
+    font-size: var(--font-size-sm);
     color: var(--wb-event-log-text);
 }
 
@@ -360,13 +360,13 @@
     flex: 1;
     color: var(--wb-event-log-text);
     word-break: break-word;
-    margin-right: 8px;
+    margin-right: var(--spacing-sm);
 }
 
 /* Individual event copy button */
 .wb-event-log-copy-single {
     flex-shrink: 0;
-    width: 24px;
+    width: 2var(--spacing-xs);
     height: 20px;
     padding: 2px;
     border: 1px solid transparent;
@@ -374,7 +374,7 @@
     background: transparent;
     color: var(--wb-event-log-muted);
     cursor: pointer;
-    font-size: 12px;
+    font-size: var(--font-size-sm);
     transition: all 0.2s ease;
     opacity: 0;
     margin-left: auto;
@@ -461,11 +461,11 @@
 
 /* Event details (expanded view) */
 .wb-event-log-details {
-    margin-top: 8px;
-    padding: 8px;
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm);
     background: rgba(0, 0, 0, 0.02);
-    border-radius: 4px;
-    font-size: 12px;
+    border-radius: var(--spacing-xs);
+    font-size: var(--font-size-sm);
     color: var(--wb-event-log-muted);
     grid-column: 1 / -1;
 }
@@ -475,8 +475,8 @@
 }
 
 .wb-event-log-details pre {
-    margin: 4px 0 0 0;
-    padding: 4px;
+    margin: var(--spacing-xs) 0 0 0;
+    padding: var(--spacing-xs);
     background: rgba(0, 0, 0, 0.05);
     border-radius: 2px;
     font-size: 11px;
@@ -488,10 +488,10 @@
     background: rgba(0, 123, 255, 0.05) !important;
     border: 1px solid rgba(0, 123, 255, 0.2);
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
-    font-size: 12px !important;
-    padding: 8px !important;
-    margin: 4px 0 8px 0 !important;
-    border-radius: 4px;
+    font-size: var(--font-size-sm) !important;
+    padding: var(--spacing-sm) !important;
+    margin: var(--spacing-xs) 0 var(--spacing-sm) 0 !important;
+    border-radius: var(--spacing-xs);
     overflow-x: auto;
     white-space: pre-wrap;
     word-break: break-all;
@@ -502,9 +502,9 @@
     border: 1px solid rgba(220, 53, 69, 0.2);
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
     font-size: 11px !important;
-    padding: 8px !important;
-    margin: 4px 0 8px 0 !important;
-    border-radius: 4px;
+    padding: var(--spacing-sm) !important;
+    margin: var(--spacing-xs) 0 var(--spacing-sm) 0 !important;
+    border-radius: var(--spacing-xs);
     overflow-x: auto;
     white-space: pre-wrap;
     line-height: 1.3;
@@ -513,7 +513,7 @@
 /* Stack trace syntax highlighting */
 .wb-stack-file {
     color: var(--wb-event-info, #007BFF);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
 }
 
 .wb-stack-line {
@@ -556,12 +556,12 @@
     color: var(--wb-event-log-text);
     display: inline-block;
     min-width: 120px;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
 }
 
 .wb-event-log-details code {
     background: rgba(0, 123, 255, 0.1);
-    padding: 2px 4px;
+    padding: 2px var(--spacing-xs);
     border-radius: 2px;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 11px;
@@ -573,7 +573,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 12px;
+    padding: 6px var(--font-size-sm);
     background: var(--wb-event-log-bg);
     border-top: 1px solid var(--wb-event-log-border);
     color: var(--wb-event-log-muted);
@@ -587,7 +587,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 8px;
+    height: var(--spacing-sm);
     cursor: ns-resize;
     background: transparent;
     z-index: 10;
@@ -615,7 +615,7 @@
     top: 0;
     bottom: 0;
     right: 0;
-    width: 8px;
+    width: var(--spacing-sm);
     cursor: ew-resize;
     background: transparent;
     z-index: 10;
@@ -643,7 +643,7 @@
 
 /* Scrollbar styling */
 .wb-event-log-content::-webkit-scrollbar {
-    width: 8px;
+    width: var(--spacing-sm);
 }
 
 .wb-event-log-content::-webkit-scrollbar-track {
@@ -652,7 +652,7 @@
 
 .wb-event-log-content::-webkit-scrollbar-thumb {
     background: var(--wb-event-log-border);
-    border-radius: 4px;
+    border-radius: var(--spacing-xs);
 }
 
 .wb-event-log-content::-webkit-scrollbar-thumb:hover {
@@ -674,14 +674,14 @@
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 76var(--spacing-sm)) {
     .wb-event-log {
-        font-size: 12px;
+        font-size: var(--font-size-sm);
     }
     
     .wb-event-log-toolbar {
         flex-direction: column;
-        gap: 8px;
+        gap: var(--spacing-sm);
         align-items: stretch;
     }
     
@@ -714,7 +714,7 @@
     
     .wb-event-log-footer {
         flex-direction: column;
-        gap: 4px;
+        gap: var(--spacing-xs);
         text-align: center;
     }
 }
@@ -732,7 +732,7 @@
     .wb-event-log-event .wb-event-log-from-to {
         display: inline;
         width: auto;
-        margin-right: 4px;
+        margin-right: var(--spacing-xs);
     }
     
     .wb-event-log-message {
@@ -777,7 +777,7 @@
     .wb-event-log-from-to:hover {
         background: rgba(0, 123, 255, 0.15);
         border-color: rgba(0, 123, 255, 0.3);
-        color: #3b82f6;
+        color: var(--color-info);
     }
 }
 
@@ -833,9 +833,9 @@
     max-height: 400px;
     z-index: 99998;
     background: var(--bg-secondary, #2d2d2d);
-    border: 2px solid var(--primary, #6366f1);
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--primary, var(--color-primary));
+    border-radius: var(--spacing-sm);
+    box-shadow: 0 var(--spacing-sm) 32px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
     overflow: hidden;
     resize: both;
@@ -845,9 +845,9 @@
 }
 
 .floating-event-log-header {
-    background: var(--bg-primary, #1a1a1a);
+    background: var(--bg-primary, var(--bg-primary));
     padding: 10px 15px;
-    border-bottom: 1px solid var(--border-color, #404040);
+    border-bottom: 1px solid var(--border-color, var(--border-primary));
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -855,9 +855,9 @@
 }
 
 .floating-event-log-title {
-    color: var(--text-primary, #ffffff);
-    font-size: 14px;
-    font-weight: 600;
+    color: var(--text-primary, var(--text-primary));
+    font-size: 1var(--spacing-xs);
+    font-weight: var(--font-weight-semibold);
     margin: 0;
 }
 

@@ -41,8 +41,8 @@ if (typeof window.reflectPropAttr === 'function') {
 class WBToggle extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.config = null;
+        // Shadow DOM removed - Light DOM architecture
+    this.config = null;
         this._initialized = false;
         this._input = null;
         this._slider = null;

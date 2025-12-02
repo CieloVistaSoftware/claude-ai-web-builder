@@ -1,0 +1,272 @@
+/* ═══════════════════════════════════════════════════════════════════
+   CSS TOKENS SYSTEM - ABSTRACT SEMANTIC LAYER
+   
+   This file defines the abstract semantic color and typography tokens
+   that all components depend on. Concrete values are injected via
+   the Harmonic Color System based on a single primary color input.
+   
+   PRINCIPLE: Components use semantic names (--color-primary)
+              NOT hardcoded colors (#6366f1)
+   
+   Wave-based generation ensures mathematical harmony across palettes.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ─────────────────────────────────────────────────────────────
+     PRIMARY COLOR ROLE - Main actions, focus, emphasis
+     ─────────────────────────────────────────────────────────────
+     Variations: subtle (light), soft (muted), bold (dark), vivid (pure)
+  */
+  --color-primary: hsl(226, 100%, 55%);           /* Base primary blue */
+  --color-primary-subtle: hsl(226, 100%, 88%);    /* Very light - backgrounds */
+  --color-primary-soft: hsl(226, 100%, 72%);      /* Light - hover states */
+  --color-primary-bold: hsl(226, 100%, 35%);      /* Dark - active states */
+  --color-primary-vivid: hsl(226, 100%, 18%);     /* Darkest - borders */
+
+  /* ─────────────────────────────────────────────────────────────
+     SECONDARY COLOR ROLE - Neutral, default, secondary actions
+     ─────────────────────────────────────────────────────────────
+  */
+  --color-secondary: hsl(0, 0%, 50%);             /* Base neutral gray */
+  --color-secondary-subtle: hsl(0, 0%, 88%);      /* Light gray background */
+  --color-secondary-soft: hsl(0, 0%, 70%);        /* Medium gray */
+  --color-secondary-bold: hsl(0, 0%, 30%);        /* Dark gray */
+  --color-secondary-vivid: hsl(0, 0%, 15%);       /* Very dark gray */
+
+  /* ─────────────────────────────────────────────────────────────
+     SUCCESS COLOR ROLE - Positive, completion, confirmation
+     ─────────────────────────────────────────────────────────────
+  */
+  --color-success: hsl(142, 76%, 36%);            /* Base green */
+  --color-success-subtle: hsl(142, 76%, 86%);     /* Light green background */
+  --color-success-soft: hsl(142, 76%, 60%);       /* Medium green */
+  --color-success-bold: hsl(142, 76%, 20%);       /* Dark green */
+  --color-success-vivid: hsl(142, 76%, 10%);      /* Very dark green */
+
+  /* ─────────────────────────────────────────────────────────────
+     DANGER COLOR ROLE - Destructive, error, warning
+     ─────────────────────────────────────────────────────────────
+  */
+  --color-danger: hsl(0, 100%, 45%);              /* Base red */
+  --color-danger-subtle: hsl(0, 100%, 88%);       /* Light red background */
+  --color-danger-soft: hsl(0, 100%, 65%);         /* Medium red */
+  --color-danger-bold: hsl(0, 100%, 25%);         /* Dark red */
+  --color-danger-vivid: hsl(0, 100%, 12%);        /* Very dark red */
+
+  /* ─────────────────────────────────────────────────────────────
+     WARNING COLOR ROLE - Attention, caution
+     ─────────────────────────────────────────────────────────────
+  */
+  --color-warning: hsl(45, 100%, 50%);            /* Base yellow */
+  --color-warning-subtle: hsl(45, 100%, 88%);     /* Light yellow background */
+  --color-warning-soft: hsl(45, 100%, 70%);       /* Medium yellow */
+  --color-warning-bold: hsl(45, 100%, 30%);       /* Dark yellow */
+  --color-warning-vivid: hsl(45, 100%, 15%);      /* Very dark yellow */
+
+  /* ─────────────────────────────────────────────────────────────
+     INFO COLOR ROLE - Informational, helpful
+     ─────────────────────────────────────────────────────────────
+  */
+  --color-info: hsl(200, 100%, 45%);              /* Base cyan */
+  --color-info-subtle: hsl(200, 100%, 88%);       /* Light cyan background */
+  --color-info-soft: hsl(200, 100%, 65%);         /* Medium cyan */
+  --color-info-bold: hsl(200, 100%, 25%);         /* Dark cyan */
+  --color-info-vivid: hsl(200, 100%, 12%);        /* Very dark cyan */
+
+  /* ═══════════════════════════════════════════════════════════════
+     TEXT COLORS - Typography hierarchy
+     ═══════════════════════════════════════════════════════════════
+  */
+  --text-primary: hsl(0, 0%, 100%);               /* Main text - white on dark */
+  --text-secondary: hsl(0, 0%, 80%);              /* Secondary text - slightly dimmed */
+  --text-tertiary: hsl(0, 0%, 60%);               /* Tertiary text - helper text, labels */
+  --text-disabled: hsl(0, 0%, 40%);               /* Disabled text - very dim */
+
+  /* Inverse text for use on colored backgrounds */
+  --text-primary-inverse: hsl(0, 0%, 0%);         /* Black text on light backgrounds */
+  --text-secondary-inverse: hsl(0, 0%, 20%);      /* Dark gray text on light backgrounds */
+
+  /* ═══════════════════════════════════════════════════════════════
+     BACKGROUND COLORS - Surface layers
+     ═══════════════════════════════════════════════════════════════
+  */
+  --bg-primary: hsl(0, 0%, 10%);                  /* Main background - darkest */
+  --bg-secondary: hsl(0, 0%, 15%);                /* Secondary background - cards, panels */
+  --bg-tertiary: hsl(0, 0%, 22%);                 /* Tertiary background - hover states */
+  --bg-active: hsl(0, 0%, 30%);                   /* Active state background */
+
+  /* ═══════════════════════════════════════════════════════════════
+     BORDER COLORS - Dividers, outlines
+     ═══════════════════════════════════════════════════════════════
+  */
+  --border-primary: hsl(0, 0%, 30%);              /* Main borders */
+  --border-secondary: hsl(0, 0%, 22%);            /* Subtle borders */
+  --border-tertiary: hsl(0, 0%, 40%);             /* Light borders */
+
+  /* ═══════════════════════════════════════════════════════════════
+     SHADOW COLORS - Depth
+     ═══════════════════════════════════════════════════════════════
+  */
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 2px var(--shadow-color);
+  --shadow-md: 0 4px 6px var(--shadow-color);
+  --shadow-lg: 0 10px 15px var(--shadow-color);
+
+  /* ═══════════════════════════════════════════════════════════════
+     SPACING - Consistent rhythm
+     ═══════════════════════════════════════════════════════════════
+  */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* ═══════════════════════════════════════════════════════════════
+     TYPOGRAPHY - Font sizes and weights
+     ═══════════════════════════════════════════════════════════════
+  */
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --font-family-mono: 'Courier New', 'Monaco', monospace;
+
+  --font-size-xs: 0.625rem;      /* 10px */
+  --font-size-sm: 0.75rem;       /* 12px */
+  --font-size-base: 0.875rem;    /* 14px */
+  --font-size-lg: 1rem;          /* 16px */
+  --font-size-xl: 1.25rem;       /* 20px */
+  --font-size-2xl: 1.5rem;       /* 24px */
+  --font-size-3xl: 2rem;         /* 32px */
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ═══════════════════════════════════════════════════════════════
+     TRANSITIONS - Animation timing
+     ═══════════════════════════════════════════════════════════════
+  */
+  --transition-fast: all 0.15s ease;
+  --transition-normal: all 0.3s ease;
+  --transition-slow: all 0.5s ease;
+
+  /* ═══════════════════════════════════════════════════════════════
+     BORDER RADIUS - Consistency
+     ═══════════════════════════════════════════════════════════════
+  */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* ═══════════════════════════════════════════════════════════════
+     Z-INDEX SCALE - Layering hierarchy
+     ═══════════════════════════════════════════════════════════════
+  */
+  --z-dropdown: 100;
+  --z-modal: 200;
+  --z-toast: 300;
+  --z-tooltip: 400;
+
+  /* ═══════════════════════════════════════════════════════════════
+     OPACITY LEVELS - Transparency scale
+     ═══════════════════════════════════════════════════════════════
+  */
+  --opacity-disabled: 0.5;
+  --opacity-hover: 0.8;
+  --opacity-focus: 0.9;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DARK MODE (DEFAULT in WB Framework)
+   
+   Note: All WB components run in dark mode. These are the defaults.
+   Light mode would override these values in a separate media query
+   or theme class.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: light) {
+  /* Light mode overrides would go here */
+  :root {
+    --bg-primary: hsl(0, 0%, 98%);
+    --bg-secondary: hsl(0, 0%, 95%);
+    --bg-tertiary: hsl(0, 0%, 90%);
+    
+    --text-primary: hsl(0, 0%, 20%);
+    --text-secondary: hsl(0, 0%, 40%);
+    --text-tertiary: hsl(0, 0%, 60%);
+    
+    --border-primary: hsl(0, 0%, 80%);
+    --border-secondary: hsl(0, 0%, 85%);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GLOBAL COMPONENT STYLES
+   ═══════════════════════════════════════════════════════════════════ */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   COMPONENT BASE CLASS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.wb-component {
+  /* All WB components inherit these styles */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  
+  /* Enable CSS containment for performance */
+  contain: content;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   UTILITY CLASSES (Optional - for quick styling)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-tertiary { background-color: var(--bg-tertiary); }
+
+.border { border: 1px solid var(--border-primary); }
+.border-primary { border-color: var(--border-primary); }
+.border-secondary { border-color: var(--border-secondary); }
+
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   GENERATED BY: Harmonic Color System Wave Math
+   LAST UPDATED: December 1, 2025
+   MAINTAINED BY: Token Injector (auto-generated on theme change)
+   ═══════════════════════════════════════════════════════════════════ */

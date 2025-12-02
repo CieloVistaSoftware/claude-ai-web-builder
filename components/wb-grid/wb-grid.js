@@ -10,8 +10,8 @@ class WBGrid extends HTMLElement {
 
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
-  }
+    // Shadow DOM removed - Light DOM architecture
+    }
 
   async connectedCallback() {
     await loadComponentCSS(this, 'wb-grid.css');
@@ -26,7 +26,7 @@ class WBGrid extends HTMLElement {
     const columns = this.getAttribute('columns') || 'auto-fit';
     const min = this.getAttribute('min') || '200px';
     const gap = this.getAttribute('gap') || '1rem';
-    this.shadowRoot.innerHTML = `
+    this.innerHTML = `
       <style>
         :host {
           display: block;

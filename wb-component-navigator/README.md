@@ -1,277 +1,71 @@
-# WB Component Navigator
+# WB Component Navigator - Documentation
 
-A VS Code extension that provides C#-style language intelligence for Web Components. Get **Go to Definition**, **Find All References**, **Hover Info**, and intelligent **Auto-Complete** for your WB Framework components.
+**Purpose:**
+The WB Component Navigator extension brings advanced IDE features to VS Code for web components. It enables:
+- Go to Definition for custom elements (e.g., `<wb-button>`)
+- Find All References to components across your project
+- Hover Info and Auto-Complete for web components
+- Indexing and navigation of all WB components in your workspace
 
-## The Problem It Solves
+Its goal is to make working with custom web components in VS Code as productive and intelligent as working with native code, improving navigation, understanding, and development speed.
 
-Modern web development with components creates **file explosion**:
-- 41+ components = 160+ files minimum
-- Hard to track what's already built
-- Difficult to find the right file to edit
-- No easy way to see component relationships
-- Missing cross-references like C# provides
+This README consolidates all key information and guidance from the original documentation files for the WB Component Navigator extension.
 
-## Features
+## When and How to Use This Folder
 
-### 🎯 Go to Definition
-Click on any `<wb-button>` usage in HTML and jump directly to `wb-button.js` definition.
+The `wb-component-navigator` folder is for developing, building, installing, and troubleshooting the WB Component Navigator VS Code extension.
 
-### 🔍 Find All References
-Right-click a component and see everywhere it's used across your entire project.
+**Use this folder when:**
+- You want to develop or modify the extension’s source code.
+- You need to build or compile the extension (`npm install`, `npm run build`, or use the provided batch scripts).
+- You want to install the extension into VS Code (`INSTALL-EXTENSION.bat` or manual install scripts).
+- You need to run diagnostics, check status, or troubleshoot issues (`CHECK-STATUS.bat` and other scripts).
+- You need documentation or setup instructions (see the `docs` subfolder).
 
-### 📋 Hover Information
-Hover over a component to see:
-- Component name and class
-- Related files (JS, CSS, demo, docs)
-- File paths
+**How to use it:**
+1. Open the folder in VS Code for extension development.
+2. Run setup scripts or npm commands to install dependencies and build.
+3. Use install scripts to add the extension to your VS Code environment.
+4. Reference the documentation in `docs/` for guidance and troubleshooting.
 
-### ✨ Auto-Complete
-Type `<` in HTML and get intelligent suggestions for all your WB components.
+**Summary:**
+Use `wb-component-navigator` whenever you need to work on, install, or maintain the WB Component Navigator extension.
 
-### 🌳 Component Tree View
-Visual hierarchical view of all components and their related files:
-```
-📦 wb-button
-  ├─ wb-button.js
-  ├─ wb-button.css
-  ├─ wb-button.md
-  └─ wb-button-demo.html
-```
+## Overview
+WB Component Navigator is a VS Code extension that provides IDE-like intelligence for web components. It enables features such as Go to Definition, Find All References, Hover Info, and Auto-Complete for custom elements in your workspace.
 
-## Installation
+## Architecture & System Flow
+- See `ARCHITECTURE.md` for a full system diagram and data flow.
+- The extension connects the VS Code UI, a Node.js language server, and your workspace files using the Language Server Protocol (LSP).
+- Components are indexed from the `components/` directory, with metadata extracted from their JS, CSS, and demo files.
 
-### 1. Install Dependencies
-
-```bash
-cd wb-component-navigator
-npm install
-cd client && npm install && cd ..
-cd server && npm install && cd ..
-```
-
-### 2. Compile TypeScript
-
-```bash
-npm run compile
-```
-
-### 3. Run in VS Code
-
-1. Open the `wb-component-navigator` folder in VS Code
-2. Press `F5` to launch Extension Development Host
-3. Open your WB Framework workspace in the new window
-
-## Usage
-
-### Setting Up
-
-1. Open your WB Framework project in VS Code
-2. The extension automatically activates for HTML/JS/TS files
-3. Component index builds automatically on startup
-
-### Configuration
-
-Configure the components directory path in VS Code settings:
-
-```json
-{
-  "wbComponentNavigator.componentsPath": "components"
-}
-```
-
-### Commands
-
-- **Refresh Component Index**: `Ctrl+Shift+P` → "Refresh Component Index"
-
-### Keyboard Shortcuts
-
-- **Go to Definition**: `F12` or `Ctrl+Click` on component name
-- **Find References**: `Shift+F12` on component name
-- **Show Hover**: Hover mouse over component
-
-## How It Works
-
-### Component Detection
-
-The Language Server scans your `components/` directory and indexes:
-
-1. **Component Registration**:
-   ```javascript
-   customElements.define('wb-button', WBButton);
-   ```
-
-2. **Related Files**:
-   - `wb-button.js` - Component logic
-   - `wb-button.css` - Styles
-   - `wb-button.md` - Documentation
-   - `wb-button-demo.html` - Demo
-   - `wb-button.schema.json` - Schema
-
-3. **Component Usages**:
-   - Scans all HTML files for `<wb-component>` tags
-   - Tracks import relationships
-
-### Symbol Index
-
-Builds an in-memory graph:
-```
-wb-button → {
-  name: "wb-button",
-  className: "WBButton",
-  definitionFile: "/components/wb-button/wb-button.js",
-  definitionLine: 245,
-  cssFile: "/components/wb-button/wb-button.css",
-  usages: [...]
-}
-```
-
-## Architecture
-
-```
-┌─────────────────────────────────────┐
-│   VS Code Extension (Client)        │
-│   - Tree View Provider               │
-│   - Command Handlers                 │
-│   - UI Integration                   │
-└──────────────┬──────────────────────┘
-               │ LSP Protocol
-┌──────────────▼──────────────────────┐
-│   Language Server                    │
-│   - Component Parser                 │
-│   - Symbol Index Builder             │
-│   - Definition Provider              │
-│   - References Provider              │
-│   - Hover Provider                   │
-│   - Completion Provider              │
-└─────────────────────────────────────┘
-```
-
-## Development
-
-### Project Structure
-
-```
-wb-component-navigator/
-├── client/               # VS Code extension
-│   ├── src/
-│   │   └── extension.ts
-│   └── package.json
-├── server/               # Language Server
-│   ├── src/
-│   │   └── server.ts
-│   └── package.json
-└── package.json          # Root package
-```
-
-### Building
-
-```bash
-# Compile everything
-npm run compile
-
-# Watch mode (auto-compile on changes)
-npm run watch
-```
-
-### Debugging
-
-1. Open `wb-component-navigator` in VS Code
-2. Set breakpoints in `client/src/extension.ts` or `server/src/server.ts`
-3. Press `F5` to launch debugger
-4. Extension Development Host opens with debugging attached
-
-### Testing
-
-1. Open Extension Development Host (`F5`)
-2. Open your WB Framework workspace
-3. Test features:
-   - Open an HTML file with `<wb-button>`
-   - `Ctrl+Click` to test Go to Definition
-   - Right-click → "Find All References"
-   - Hover over component name
-   - Type `<` and check auto-complete
-
-## Extending the Extension
-
-### Adding New Features
-
-1. **Custom Commands**: Add to `client/src/extension.ts`
-2. **LSP Handlers**: Add to `server/src/server.ts`
-3. **UI Views**: Register in `package.json` under `contributes.views`
-
-### Supporting Other Component Libraries
-
-The parser can be extended to support other Web Component patterns:
-
-```typescript
-// In server.ts, modify scanComponent()
-const patterns = [
-  /customElements\.define\s*\(\s*['"]([^'"]+)['"]\s*,\s*(\w+)\s*\)/,
-  /define\(['"]([^'"]+)['"]\s*,\s*(\w+)\)/,  // Add more patterns
-];
-```
-
-## Roadmap
-
-### Phase 1 (Current)
-- ✅ Go to Definition
-- ✅ Find All References
-- ✅ Hover Information
-- ✅ Component Tree View
-- ✅ Auto-Complete
-
-### Phase 2 (Planned)
-- 🔲 Rename Symbol (updates everywhere)
-- 🔲 Component dependency graph visualization
-- 🔲 CSS duplication detection
-- 🔲 Unused component detection
-- 🔲 Component usage statistics
-
-### Phase 3 (Future)
-- 🔲 Live preview integration
-- 🔲 Component generator templates
-- 🔲 Test coverage indicators
-- 🔲 Documentation generator
-- 🔲 Snippet library
+## Quickstart
+1. Install dependencies and compile the extension using `SETUP.bat`.
+2. Install the extension in VS Code using `INSTALL-EXTENSION.bat` or manual install scripts.
+3. Launch VS Code with the extension loaded using `LAUNCH-WB.bat` or `LAUNCH-WB-INSIDERS.bat`.
+4. Open your project folder and look for the "WB COMPONENTS" sidebar.
 
 ## Troubleshooting
+- If the sidebar does not show, see `SIDEBAR-NOT-SHOWING.md`.
+- For F5/debugging issues, see `F5-TROUBLESHOOTING.md`.
+- Use `CHECK-STATUS.bat` to diagnose installation and build problems.
 
-### Extension Not Activating
+## File Inventory & Commands
+- All key files and their purposes are listed in `FILE-INVENTORY.md`.
+- For code fixes and automation, see `FIX-CODE-COMMAND.md`.
+- For the simplest install and usage, see `EASIEST-WAY.md` and `SUPER-SIMPLE-INSTALL.md`.
 
-- Check VS Code output panel: "WB Component Navigator"
-- Verify workspace has `components/` directory
-- Try "Refresh Component Index" command
+## Manual & Automated Install
+- Use `MANUAL-INSTALL.bat` or `MANUAL-INSTALL-INSIDERS.bat` to copy the extension to your VS Code extensions folder.
+- Use `INSTALL-EXTENSION.bat` for automated packaging and installation.
 
-### Go to Definition Not Working
+## Additional Help
+- For basic usage, see `SIMPLE-INSTRUCTIONS.md`.
+- For project details, see `PROJECT-OVERVIEW.md` and `DELIVERY-SUMMARY.md`.
+- For sidebar location and tips, see `WHERE-IS-SIDEBAR.md`.
 
-- Ensure component follows naming convention: `wb-component-name`
-- Verify `customElements.define()` exists in JS file
-- Check file paths in hover tooltip
+## Note
+If any documentation is missing, refer to the architecture file and project source code for guidance. All scripts for setup, install, and diagnostics are in the `scripts/` folder.
 
-### Components Not Appearing in Tree
-
-- Verify components directory path in settings
-- Component folders must start with `wb-`
-- Run "Refresh Component Index" command
-
-## Contributing
-
-This is a proof-of-concept demonstrating Language Server Protocol for Web Components. Contributions welcome!
-
-### Ideas for Contributors
-
-1. Support for other component libraries (Lit, Stencil)
-2. CSS analysis and duplication detection
-3. Component usage analytics
-4. Visual dependency graphs
-5. Integration with testing frameworks
-
-## License
-
-MIT
-
-## Author
-
-John - CieloVistaSoftware
-
-Built to solve the "too many files" problem in component-based web development.
+---
+This README replaces all individual markdown docs for easier reference and maintenance.

@@ -46,6 +46,7 @@ class WBColorHarmony extends WBBaseComponent {
   
   async connectedCallback() {
     super.connectedCallback();
+    this.classList.add('wb-component', 'wb-color-harmony');
     await loadComponentCSS(this, 'wb-color-harmony.css');
     this.updatePalette();
     this.render();
@@ -84,7 +85,7 @@ class WBColorHarmony extends WBBaseComponent {
   render() {
     if (!this.shadowRoot) return;
     
-    this.shadowRoot.innerHTML = `
+    this.innerHTML = `
       <link rel="stylesheet" href="wb-color-harmony.css">
       <div class="harmony-wrapper">
         <div class="controls">

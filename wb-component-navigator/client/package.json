@@ -13,5 +13,18 @@
     "@types/node": "^18.0.0",
     "@types/vscode": "^1.75.0",
     "typescript": "^5.0.0"
-  }
+  },
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "wbComponentTree",
+          "name": "WB Components"
+        }
+      ]
+    }
+  },
+  "activationEvents": [
+    "*"
+  ]
 }

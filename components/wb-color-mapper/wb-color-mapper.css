@@ -13,9 +13,9 @@ wb-color-mapper[debug="true"] {
     right: 10px;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: var(--spacing-xs);
     padding: 10px;
-    font-size: 12px;
+    font-size: var(--font-size-sm);
     z-index: 99999;
     max-width: 200px;
 }

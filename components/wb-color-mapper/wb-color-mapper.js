@@ -17,7 +17,8 @@ class WBColorMapper extends WBBaseComponent {
     }
     
     connectedCallback() {
-        super.connectedCallback(); // Inherit dark mode and other base functionality
+        super.connectedCallback();
+    this.classList.add('wb-component', 'wb-color-mapper'); // Inherit dark mode and other base functionality
         if (!this.initialized) {
             this.init();
         }

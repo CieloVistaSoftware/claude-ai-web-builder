@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Card Example</title>
+    <link rel="stylesheet" href="../../styles/main.css?v=2">
+    <link rel="stylesheet" href="../../styles/demo.css?v=1">
+    <link rel="stylesheet" href="wb-card.css?v=3">
+    <script src="../../src/js/main.js" type="module" defer></script>
+    <script src="wb-card.js" defer></script>
+</head>
+<body data-theme="dark">
+    <header class="demo-header">
+        <h1>WB Card Component</h1>
+    </header>
+    <div class="demo-container">
+        <!-- SECTION 1: Basic Variants -->
+        <section class="demo-section">
+            <h2>Basic Variants</h2>
+            <!-- ROW 1: Default -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="default" title="Default Card"
+                        subtitle="Basic Style" body="Standard card with default styling."
+                        media-src="https://picsum.photos/400/200?random=1" alt="Default Card Example"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="default" title="Default Card" subtitle="Basic Style" body="Standard card..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="default" title="Default Card"
+                        subtitle="Basic Style" body="Standard card..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 2: Elevated -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="elevated" title="Elevated Card"
+                        subtitle="With Shadow" body="Elevated cards have deeper shadows."
+                        media-src="https://picsum.photos/400/200?random=2" alt="Elevated Card Example"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="elevated" title="Elevated Card" subtitle="With Shadow" body="Elevated cards..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="elevated" title="Elevated Card"
+                        subtitle="With Shadow" body="Elevated cards..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 3: Outlined -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="outlined" title="Outlined Card"
+                        subtitle="Border Only" body="Outlined cards feature clean borders."
+                        media-src="https://picsum.photos/400/200?random=3" alt="Outlined Card Example"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="outlined" title="Outlined Card" subtitle="Border Only" body="Outlined cards..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="outlined" title="Outlined Card"
+                        subtitle="Border Only" body="Outlined cards..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 4: Filled -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="filled" title="Filled Card"
+                        subtitle="Colored Background" body="Filled cards have vibrant backgrounds."
+                        media-src="https://picsum.photos/400/200?random=4" alt="Filled Card Example"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="filled" title="Filled Card" subtitle="Colored Background" body="Filled cards..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="filled" title="Filled Card"
+                        subtitle="Colored Background" body="Filled cards..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 5: Glass -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="glass" title="Glass Card" subtitle="Frosted Effect"
+                        body="Glass cards feature frosted effect."
+                        media-src="https://picsum.photos/400/200?random=5" alt="Glass Card Example"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="glass" title="Glass Card" subtitle="Frosted Effect" body="Glass cards..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="glass" title="Glass Card" subtitle="Frosted Effect" body="Glass cards..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 6: Compact -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="default" size="compact" title="Compact Card"
+                        subtitle="Small Size" body="Compact cards for dashboards."
+                        media-src="https://picsum.photos/400/200?random=6" alt="Compact Card Example"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="default" size="compact" title="Compact Card" subtitle="Small Size" body="Compact cards..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="default" size="compact" title="Compact Card"
+                        subtitle="Small Size" body="Compact cards..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+        </section>
+        <!-- SECTION 2: Color Themes -->
+        <section class="demo-section">
+            <h2>Filled Cards - Color Themes</h2>
+            <!-- ROW 7: Primary -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="filled" theme="primary" title="Primary Theme"
+                        subtitle="Blue accent" body="Professional blue theme."
+                        media-src="https://picsum.photos/400/200?random=7" alt="Primary Theme Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="filled" theme="primary" title="Primary Theme" subtitle="Blue accent" body="Professional blue..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="filled" theme="primary" title="Primary Theme"
+                        subtitle="Blue accent" body="Professional blue..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 8: Secondary -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="filled" theme="secondary" title="Secondary Theme"
+                        subtitle="Purple accent" body="Alternative purple theme."
+                        media-src="https://picsum.photos/400/200?random=8" alt="Secondary Theme Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="filled" theme="secondary" title="Secondary Theme" subtitle="Purple accent" body="Alternative purple..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="filled" theme="secondary" title="Secondary Theme"
+                        subtitle="Purple accent" body="Alternative purple..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 9: Success -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="filled" theme="success" title="Success Theme"
+                        subtitle="Green accent" body="Green theme for positives."
+                        media-src="https://picsum.photos/400/200?random=9" alt="Success Theme Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="filled" theme="success" title="Success Theme" subtitle="Green accent" body="Green theme..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="filled" theme="success" title="Success Theme"
+                        subtitle="Green accent" body="Green theme..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 10: Warning -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="filled" theme="warning" title="Warning Theme"
+                        subtitle="Orange accent" body="Orange theme for warnings."
+                        media-src="https://picsum.photos/400/200?random=10" alt="Warning Theme Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="filled" theme="warning" title="Warning Theme" subtitle="Orange accent" body="Orange theme..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="filled" theme="warning" title="Warning Theme"
+                        subtitle="Orange accent" body="Orange theme..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 11: Danger -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="filled" theme="danger" title="Danger Theme"
+                        subtitle="Red accent" body="Red theme for errors."
+                        media-src="https://picsum.photos/400/200?random=11" alt="Danger Theme Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="filled" theme="danger" title="Danger Theme" subtitle="Red accent" body="Red theme..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="filled" theme="danger" title="Danger Theme"
+                        subtitle="Red accent" body="Red theme..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 12: Info -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="filled" theme="info" title="Info Theme"
+                        subtitle="Light blue accent" body="Light blue for info."
+                        media-src="https://picsum.photos/400/200?random=12" alt="Info Theme Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="filled" theme="info" title="Info Theme" subtitle="Light blue accent" body="Light blue..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="filled" theme="info" title="Info Theme"
+                        subtitle="Light blue accent" body="Light blue..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+        </section>
+        <!-- SECTION 3: Interactive & Special -->
+        <section class="demo-section">
+            <h2>Interactive &amp; Special Cards</h2>
+            <!-- ROW 13: Clickable -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="elevated" title="Clickable Card"
+                        subtitle="Interactive" body="This card responds to clicks." clickable
+                        media-src="https://picsum.photos/400/200?random=13" alt="Clickable Card Example"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="elevated" title="Clickable Card" subtitle="Interactive" body="Card responds..." clickable media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="elevated" title="Clickable Card"
+                        subtitle="Interactive" body="Card responds..." clickable
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 14: With Footer -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="default" title="Card with Footer"
+                        subtitle="Extra info" body="This card has a footer." footer="Footer text →"
+                        media-src="https://picsum.photos/400/200?random=14" alt="Card with Footer Example"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="default" title="Card with Footer" subtitle="Extra info" body="Card has footer..." footer="Footer →" media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="default" title="Card with Footer"
+                        subtitle="Extra info" body="Card has..." footer="Footer →"
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 15: Loading State -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="elevated" title="Loading State"
+                        subtitle="Processing" body="Cards can display loading." loading
+                        media-src="https://picsum.photos/400/200?random=15" alt="Loading State Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="elevated" title="Loading State" subtitle="Processing" body="Loading..." loading media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="elevated" title="Loading State"
+                        subtitle="Processing" body="Loading..." loading
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 16: Text Only -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="outlined" title="Text Only Card"
+                        subtitle="No Image" body="Cards work without images."></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="outlined" title="Text Only Card" subtitle="No Image" body="Cards work without images."></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="outlined" title="Text Only Card"
+                        subtitle="No Image" body="Cards work without images."&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 17: Image Left -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="elevated" layout="horizontal" title="Image Left"
+                        subtitle="Side by side" body="Image on the left, content on right."
+                        media-src="https://picsum.photos/400/200?random=17" alt="Image Left Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="elevated" layout="horizontal" title="Image Left" subtitle="Side by side" body="Image on left..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="elevated" layout="horizontal" title="Image Left"
+                        subtitle="Side by side" body="Image on left..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 18: Image Right -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="outlined" layout="image-right" title="Image Right"
+                        subtitle="Reversed layout" body="Image on the right, content on left."
+                        media-src="https://picsum.photos/400/200?random=18" alt="Image Right Card"></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="outlined" layout="image-right" title="Image Right" subtitle="Reversed layout" body="Image on right..." media-src="https://picsum.photos/400/200"></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="outlined" layout="image-right" title="Image Right"
+                        subtitle="Reversed layout" body="Image on right..."
+                        media-src="https://picsum.photos/400/200"&gt;&lt;/wb-card&gt;</div>
+                </div>
+            </div>
+            <!-- ROW 19: Video Card - Elevated -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="elevated" title="Video Card"
+                        subtitle="With Controls" body="Big Buck Bunny test video."
+                        media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v" alt="Video Card Example"></wb-card>
+                </div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="elevated" title="Video Card" subtitle="With Controls" body="Test video..." media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v">'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="elevated" title="Video Card" subtitle="With Controls" body="Test video..."
+                        media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v"&gt;&lt;/wb-card&gt;
+                    </div>
+                </div>
+            </div>
+            <!-- ROW 20: Video Glass -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="glass" title="Glass Video"
+                        subtitle="Frosted effect" body="Video in glass card."
+                        media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v" alt="Glass Video Card"></wb-card>
+                </div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="glass" title="Glass Video" subtitle="Frosted effect" body="Video..." media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v">'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="glass" title="Glass Video" subtitle="Frosted effect" body="Video..."
+                        media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v"&gt;&lt;/wb-card&gt;
+                    </div>
+                </div>
+            </div>
+            <!-- ROW 21: Video Outlined -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="outlined" title="Outlined Video"
+                        subtitle="With Border" body="Video in outlined card."
+                        media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v" alt="Outlined Video Card"></wb-card>
+                </div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="outlined" title="Outlined Video" subtitle="With Border" body="Video..." media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v">'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="outlined" title="Outlined Video" subtitle="With Border" body="Video..."
+                        media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v"&gt;&lt;/wb-card&gt;
+                    </div>
+                </div>
+            </div>
+            <!-- ROW 22: Video Filled -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="filled" theme="primary" title="Filled Video"
+                        subtitle="Blue Theme" body="Video in filled card."
+                        media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v" alt="Filled Video Card"></wb-card>
+                </div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="filled" theme="primary" title="Filled Video" subtitle="Blue Theme" body="Video..." media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v">'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="filled" theme="primary" title="Filled Video" subtitle="Blue Theme" body="Video..."
+                        media-src="https://jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v"&gt;&lt;/wb-card&gt;
+                    </div>
+                </div>
+            </div>
+            <!-- ROW 23: Control Panel Card -->
+            <div class="card-row">
+                <div class="demo-card"><wb-card variant="elevated" title="Control Panel"
+                        subtitle="Interactive Controls"><wb-controlpanel></wb-controlpanel></wb-card></div>
+                <div class="code-card">
+                    <div class="code-header"><span>HTML Code</span><button class="copy-btn"
+                            data-code='<wb-card variant="elevated" title="Control Panel" subtitle="Interactive Controls"><wb-controlpanel></wb-controlpanel></wb-card>'>📋
+                            Copy</button></div>
+                    <div class="code-html">&lt;wb-card variant="elevated" title="Control Panel" subtitle="Interactive Controls"&gt;<br>&nbsp;&nbsp;&lt;wb-controlpanel&gt;&lt;/wb-controlpanel&gt;<br>&lt;/wb-card&gt;
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="demo-footer">
+        <p>WB Card Component Demo - 2 Cards Per Row: Demo + Code</p>
+        <p><a href="../CLAUDE-MD-TEMPLATE.md" target="_blank" rel="noopener">Full Documentation</a></p>
+    </footer>
+</body>
+
+<script>
+// Accessibility: Add aria-label to copy buttons
+document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.setAttribute('aria-label', 'Copy code to clipboard');
+    btn.addEventListener('click', function() {
+        navigator.clipboard.writeText(btn.getAttribute('data-code'));
+        // Usability: Show visual feedback
+        btn.textContent = '✔ Copied!';
+        setTimeout(() => btn.textContent = '📋 Copy', 1200);
+    });
+});
+</script>
+</html>

@@ -1,0 +1,16 @@
+
+Running 12 tests using 4 workers
+
+[1A[2K[1/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:157:3 ΓÇ║ WB Color Utils ΓÇ║ WaveModulation.combined() returns all three modulations
+[1A[2K[2/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:59:3 ΓÇ║ WB Color Utils ΓÇ║ WaveModulation.am() modulates saturation correctly
+[1A[2K[3/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:12:3 ΓÇ║ WB Color Utils ΓÇ║ WaveModulation.pm() modulates hue correctly
+[1A[2K[4/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:110:3 ΓÇ║ WB Color Utils ΓÇ║ WaveModulation.getWaveValue() returns correct shapes
+[1A[2K[5/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:198:3 ΓÇ║ WB Color Utils ΓÇ║ AudioAnalyzer.analyzeFrequencies() analyzes audio data
+[1A[2K[6/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:245:3 ΓÇ║ WB Color Utils ΓÇ║ AudioAnalyzer.getEnergy() calculates energy
+[1A[2K[7/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:282:3 ΓÇ║ WB Color Utils ΓÇ║ AudioAnalyzer.hasAudio() detects audio presence
+[1A[2K[8/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:321:3 ΓÇ║ WB Color Utils ΓÇ║ Heterodyne.mix() generates heterodyne products
+[1A[2K[9/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:364:3 ΓÇ║ WB Color Utils ΓÇ║ Heterodyne.generatePalette() creates color palette
+[1A[2K[10/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:402:3 ΓÇ║ WB Color Utils ΓÇ║ ColorConversion.hslToHex() converts colors correctly
+[1A[2K[11/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:443:3 ΓÇ║ WB Color Utils ΓÇ║ ColorConversion.hslToRgb() converts to RGB object
+[1A[2K[12/12] [chromium] ΓÇ║ wb-color-utils\wb-color-utils.playwright.spec.js:488:3 ΓÇ║ WB Color Utils ΓÇ║ ColorConversion.toHslString() formats HSL strings
+[1A[2K  12 passed (12.7s)

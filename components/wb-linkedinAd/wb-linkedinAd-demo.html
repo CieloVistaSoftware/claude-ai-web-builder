@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB LinkedIn Ad Demo</title>
+  <link rel="stylesheet" href="../../src/styles/main.css">
+  <script type="module" src="../../src/js/main.js"></script>
+  <style>
+    body { margin: 0; padding: 0; min-height: 100vh; }
+    .demo-section { padding: 2rem; border-radius: 16px; margin: 1.5rem 0; }
+    .gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .gradient-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .gradient-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .gradient-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    .gradient-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    .gradient-edit { background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); }
+    .section-title { color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-bottom: 1.5rem; font-size: 1.75rem; }
+    .ad-with-code { display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+    .code-block {
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: #d4d4d4;
+      overflow-x: auto;
+      max-width: 380px;
+      width: 100%;
+      box-sizing: border-box;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .code-block .tag { color: #569cd6; }
+    .code-block .attr { color: #9cdcfe; }
+    .code-block .value { color: #ce9178; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; justify-items: center; }
+    .edit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; justify-items: center; }
+    .glass-box { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; color: white; border: 1px solid rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+  
+  <wb-demo title="🚀 WB LinkedIn Ad Component Showcase">
+    
+    <div slot="documentation"></div>
+    
+    <div slot="examples">
+      
+      <!-- Hero -->
+      <wb-card variant="elevated" style="margin-bottom: 2rem; overflow: hidden;">
+        <wb-color-bars height="16" animate></wb-color-bars>
+        <div style="padding: 2rem; text-align: center;">
+          <h1 style="margin: 0; font-size: 2.5rem; background: linear-gradient(90deg, #0077b5, #00a0dc, #f5af19); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            📢 LinkedIn Ad Components
+          </h1>
+          <p style="color: var(--text-secondary); font-size: 1.1rem; margin: 1rem 0 0 0;">
+            Rich ads with images, themed buttons, edit mode & live code generation
+          </p>
+        </div>
+      </wb-card>
+
+      <!-- EDIT MODE SECTION -->
+      <div class="demo-section gradient-edit">
+        <h2 class="section-title">✏️ Edit Mode - Interactive Ad Builder</h2>
+        <div class="glass-box">
+          Add <code style="background: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 4px;">edit</code> attribute to enable the built-in editor. Change values and click <strong>Copy Code</strong> to get your customized ad!
+        </div>
+        <div class="edit-grid">
+          <wb-linkedin-ad 
+            ad-id="edit-001" 
+            company="Your Brand" 
+            headline="Edit me! Change the headline, colors, and more"
+            subtitle="Try the controls below to customize this ad"
+            cta="🎨 Customize Me"
+            cta-color="#667eea"
+            image="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=300&fit=crop"
+            edit>
+          </wb-linkedin-ad>
+          
+          <wb-linkedin-ad 
+            ad-id="edit-002" 
+            company="Dark Mode Co" 
+            headline="Try dark mode! Toggle the theme button below"
+            subtitle="Perfect for dark-themed websites"
+            cta="🌙 Dark Theme"
+            cta-color="#8b5cf6"
+            image="https://images.unsplash.com/photo-1535303311164-664fc9ec6532?w=600&h=300&fit=crop"
+            dark
+            edit>
+          </wb-linkedin-ad>
+        </div>
+      </div>
+
+      <!-- TECH SECTION WITH CODE -->
+      <div class="demo-section gradient-1">
+        <h2 class="section-title">💻 Tech & AI Companies</h2>
+        <div class="glass-box">Each ad includes the code that created it - copy and customize!</div>
+        <div class="card-grid">
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="tech-001" 
+              company="OpenAI" 
+              headline="GPT-5 is here. Build the impossible."
+              subtitle="Join 100M+ developers using our API"
+              cta="🚀 Start Building"
+              cta-color="#10a37f"
+              image="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=300&fit=crop"
+              dark>
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"tech-001"</span>
+  <span class="attr">company</span>=<span class="value">"OpenAI"</span>
+  <span class="attr">headline</span>=<span class="value">"GPT-5 is here. Build the impossible."</span>
+  <span class="attr">subtitle</span>=<span class="value">"Join 100M+ developers using our API"</span>
+  <span class="attr">cta</span>=<span class="value">"🚀 Start Building"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#10a37f"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=300&fit=crop"</span>
+  <span class="attr">dark</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="tech-002" 
+              company="Anthropic" 
+              headline="Claude 4 - Your AI teammate that gets it"
+              subtitle="Thoughtful AI for enterprise teams"
+              cta="✨ Try Claude Free"
+              cta-color="#d97706"
+              image="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=300&fit=crop"
+              dark>
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"tech-002"</span>
+  <span class="attr">company</span>=<span class="value">"Anthropic"</span>
+  <span class="attr">headline</span>=<span class="value">"Claude 4 - Your AI teammate that gets it"</span>
+  <span class="attr">subtitle</span>=<span class="value">"Thoughtful AI for enterprise teams"</span>
+  <span class="attr">cta</span>=<span class="value">"✨ Try Claude Free"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#d97706"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=300&fit=crop"</span>
+  <span class="attr">dark</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CREATIVE SECTION WITH CODE -->
+      <div class="demo-section gradient-2">
+        <h2 class="section-title">🎨 Creative & Design</h2>
+        <div class="card-grid">
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="creative-001" 
+              company="Adobe" 
+              headline="Creative Cloud - 60% Off This Week!"
+              subtitle="Photoshop, Illustrator, Premiere & more"
+              cta="🎨 Get the Deal"
+              cta-color="#ff0000"
+              image="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=300&fit=crop">
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"creative-001"</span>
+  <span class="attr">company</span>=<span class="value">"Adobe"</span>
+  <span class="attr">headline</span>=<span class="value">"Creative Cloud - 60% Off This Week!"</span>
+  <span class="attr">subtitle</span>=<span class="value">"Photoshop, Illustrator, Premiere &amp; more"</span>
+  <span class="attr">cta</span>=<span class="value">"🎨 Get the Deal"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#ff0000"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=300&fit=crop"</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="creative-002" 
+              company="Figma" 
+              headline="Design together. Ship faster."
+              subtitle="Free for students & educators"
+              cta="💜 Start Designing"
+              cta-color="#a259ff"
+              image="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=300&fit=crop">
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"creative-002"</span>
+  <span class="attr">company</span>=<span class="value">"Figma"</span>
+  <span class="attr">headline</span>=<span class="value">"Design together. Ship faster."</span>
+  <span class="attr">subtitle</span>=<span class="value">"Free for students &amp; educators"</span>
+  <span class="attr">cta</span>=<span class="value">"💜 Start Designing"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#a259ff"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=300&fit=crop"</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CLOUD SECTION WITH CODE -->
+      <div class="demo-section gradient-3">
+        <h2 class="section-title">☁️ Cloud & DevOps</h2>
+        <div class="card-grid">
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="cloud-001" 
+              company="AWS" 
+              headline="Build without limits on AWS"
+              subtitle="$300 free credits for new users"
+              cta="☁️ Start Free"
+              cta-color="#ff9900"
+              image="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=300&fit=crop"
+              dark>
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"cloud-001"</span>
+  <span class="attr">company</span>=<span class="value">"AWS"</span>
+  <span class="attr">headline</span>=<span class="value">"Build without limits on AWS"</span>
+  <span class="attr">subtitle</span>=<span class="value">"$300 free credits for new users"</span>
+  <span class="attr">cta</span>=<span class="value">"☁️ Start Free"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#ff9900"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=300&fit=crop"</span>
+  <span class="attr">dark</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="cloud-002" 
+              company="Vercel" 
+              headline="Ship web apps at the speed of light"
+              subtitle="Next.js hosting made simple"
+              cta="⚡ Deploy Now"
+              cta-color="#000000"
+              image="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=300&fit=crop"
+              dark>
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"cloud-002"</span>
+  <span class="attr">company</span>=<span class="value">"Vercel"</span>
+  <span class="attr">headline</span>=<span class="value">"Ship web apps at the speed of light"</span>
+  <span class="attr">subtitle</span>=<span class="value">"Next.js hosting made simple"</span>
+  <span class="attr">cta</span>=<span class="value">"⚡ Deploy Now"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#000000"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=300&fit=crop"</span>
+  <span class="attr">dark</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FINTECH SECTION -->
+      <div class="demo-section gradient-4">
+        <h2 class="section-title">💰 Finance & Fintech</h2>
+        <div class="card-grid">
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="fin-001" 
+              company="Stripe" 
+              headline="Payments for the internet economy"
+              subtitle="Trusted by millions of businesses"
+              cta="💳 Get Started"
+              cta-color="#635bff"
+              image="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=300&fit=crop">
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"fin-001"</span>
+  <span class="attr">company</span>=<span class="value">"Stripe"</span>
+  <span class="attr">headline</span>=<span class="value">"Payments for the internet economy"</span>
+  <span class="attr">subtitle</span>=<span class="value">"Trusted by millions of businesses"</span>
+  <span class="attr">cta</span>=<span class="value">"💳 Get Started"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#635bff"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=300&fit=crop"</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="fin-002" 
+              company="Coinbase" 
+              headline="The most trusted crypto exchange"
+              subtitle="$10 in BTC when you sign up"
+              cta="₿ Get $10 Free"
+              cta-color="#0052ff"
+              image="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=600&h=300&fit=crop">
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"fin-002"</span>
+  <span class="attr">company</span>=<span class="value">"Coinbase"</span>
+  <span class="attr">headline</span>=<span class="value">"The most trusted crypto exchange"</span>
+  <span class="attr">subtitle</span>=<span class="value">"$10 in BTC when you sign up"</span>
+  <span class="attr">cta</span>=<span class="value">"₿ Get $10 Free"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#0052ff"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=600&h=300&fit=crop"</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LIFESTYLE SECTION -->
+      <div class="demo-section gradient-5">
+        <h2 class="section-title">🌸 Lifestyle & Travel</h2>
+        <div class="card-grid">
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="life-001" 
+              company="Airbnb" 
+              headline="Belong anywhere in the world"
+              subtitle="Unique stays & experiences await"
+              cta="🏡 Explore"
+              cta-color="#ff5a5f"
+              image="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=300&fit=crop">
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"life-001"</span>
+  <span class="attr">company</span>=<span class="value">"Airbnb"</span>
+  <span class="attr">headline</span>=<span class="value">"Belong anywhere in the world"</span>
+  <span class="attr">subtitle</span>=<span class="value">"Unique stays &amp; experiences await"</span>
+  <span class="attr">cta</span>=<span class="value">"🏡 Explore"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#ff5a5f"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=300&fit=crop"</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+          
+          <div class="ad-with-code">
+            <wb-linkedin-ad 
+              ad-id="life-002" 
+              company="Spotify" 
+              headline="Music for every moment"
+              subtitle="3 months Premium for $0.99"
+              cta="🎵 Get Premium"
+              cta-color="#1db954"
+              image="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=600&h=300&fit=crop">
+            </wb-linkedin-ad>
+            <div class="code-block"><span class="tag">&lt;wb-linkedin-ad</span>
+  <span class="attr">ad-id</span>=<span class="value">"life-002"</span>
+  <span class="attr">company</span>=<span class="value">"Spotify"</span>
+  <span class="attr">headline</span>=<span class="value">"Music for every moment"</span>
+  <span class="attr">subtitle</span>=<span class="value">"3 months Premium for $0.99"</span>
+  <span class="attr">cta</span>=<span class="value">"🎵 Get Premium"</span>
+  <span class="attr">cta-color</span>=<span class="value">"#1db954"</span>
+  <span class="attr">image</span>=<span class="value">"https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=600&h=300&fit=crop"</span><span class="tag">&gt;&lt;/wb-linkedin-ad&gt;</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ATTRIBUTES TABLE -->
+      <wb-card variant="outlined" style="margin: 2rem 0;">
+        <h3 style="margin-top: 0;">📋 All Attributes</h3>
+        <wb-table>
+          <table>
+            <thead><tr><th>Attribute</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>ad-id</code></td><td><code>"my-ad-001"</code></td><td>Unique tracking identifier</td></tr>
+              <tr><td><code>company</code></td><td><code>"Acme Corp"</code></td><td>Company name in header</td></tr>
+              <tr><td><code>headline</code></td><td><code>"Your message"</code></td><td>Main ad copy</td></tr>
+              <tr><td><code>subtitle</code></td><td><code>"More details"</code></td><td>Secondary text</td></tr>
+              <tr><td><code>cta</code></td><td><code>"🚀 Click Me"</code></td><td>Button text (supports emoji!)</td></tr>
+              <tr><td><code>cta-color</code></td><td><code>"#ff5a5f"</code></td><td>Button color (auto-contrast text)</td></tr>
+              <tr><td><code>image</code></td><td><code>"https://..."</code></td><td>Hero image URL</td></tr>
+              <tr><td><code>logo</code></td><td><code>"https://..."</code></td><td>Company logo URL</td></tr>
+              <tr><td><code>dark</code></td><td>boolean</td><td>Dark theme mode</td></tr>
+              <tr><td><code>edit</code></td><td>boolean</td><td>Show inline editor controls</td></tr>
+            </tbody>
+          </table>
+        </wb-table>
+      </wb-card>
+
+      <wb-color-bars height="24" animate></wb-color-bars>
+    </div>
+  </wb-demo>
+</body>
+</html>

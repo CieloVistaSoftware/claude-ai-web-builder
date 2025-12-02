@@ -1,0 +1,733 @@
+/* WB BUTTON ADVANCED STYLES - WORKING EXAMPLES */
+
+/* ═══════════════════════════════════════════════════════════════════
+   CARD BACKGROUNDS FOR DIFFERENT EXAMPLES
+   ═══════════════════════════════════════════════════════════════════ */
+
+.card-light-bg {
+  background: #f5f5f5 !important;
+  color: #1e1e1e !important;
+}
+
+.card-dark-bg {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   STATUS LIGHTS AND PILLS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse-light 2s ease-in-out infinite;
+}
+
+.status-light.active {
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+}
+
+.status-light.inactive {
+  background: #6b7280;
+  box-shadow: 0 0 10px rgba(107, 114, 128, 0.5);
+}
+
+.status-light.neutral {
+  background: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
+}
+
+@keyframes pulse-light {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BUTTON GRID WITH CUSTOMIZABLE GAP
+   ═══════════════════════════════════════════════════════════════════ */
+
+.wb-btn-grid--three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PILL BUTTONS (PURE BUTTON STYLE)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-pill {
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-pill-primary {
+  background: #4f46e5;
+  color: white;
+}
+
+.btn-pill-primary:hover {
+  background: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+.btn-pill-success {
+  background: #10b981;
+  color: white;
+}
+
+.btn-pill-success:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-pill-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-pill-danger:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GRADIENT BUTTONS (VISIBLE GRADIENTS)
+   ═══════════════════════════════════════════════════════════════════ */
+
+button.btn-gradient-blue,
+button.btn-gradient-green,
+button.btn-gradient-red,
+button.btn-gradient-orange,
+button.btn-gradient-purple {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.btn-gradient-blue {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.btn-gradient-blue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+}
+
+.btn-gradient-green {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.btn-gradient-green:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(17, 153, 142, 0.4);
+}
+
+.btn-gradient-red {
+  background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+}
+
+.btn-gradient-red:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(238, 9, 121, 0.4);
+}
+
+.btn-gradient-orange {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.btn-gradient-orange:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(240, 147, 251, 0.4);
+}
+
+.btn-gradient-purple {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: #333;
+}
+
+.btn-gradient-purple:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(168, 237, 234, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SHADOW DEPTHS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-shadow-sm,
+.btn-shadow-md,
+.btn-shadow-lg,
+.btn-shadow-xl {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.btn-shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-shadow-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-shadow-xl {
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SKEWED/SLANTED BUTTONS (OBVIOUSLY SLANTED)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-skew-left,
+.btn-skew-right,
+.btn-skew-both {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.btn-skew-left {
+  background: #4f46e5;
+  transform: skewX(-20deg);
+}
+
+.btn-skew-left:hover {
+  transform: skewX(-20deg) translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+.btn-skew-right {
+  background: #10b981;
+  transform: skewX(20deg);
+}
+
+.btn-skew-right:hover {
+  transform: skewX(20deg) translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-skew-both {
+  background: #ef4444;
+  transform: skew(15deg, 10deg);
+}
+
+.btn-skew-both:hover {
+  transform: skew(15deg, 10deg) translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GLOWING BUTTONS (WITH VISIBLE GLOW)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-glow-blue,
+.btn-glow-green,
+.btn-glow-red {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.btn-glow-blue {
+  background: #4f46e5;
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.7), 0 0 40px rgba(79, 70, 229, 0.4);
+}
+
+.btn-glow-blue:hover {
+  box-shadow: 0 0 30px rgba(79, 70, 229, 0.9), 0 0 60px rgba(79, 70, 229, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-glow-green {
+  background: #10b981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.7), 0 0 40px rgba(16, 185, 129, 0.4);
+}
+
+.btn-glow-green:hover {
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.9), 0 0 60px rgba(16, 185, 129, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-glow-red {
+  background: #ef4444;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.7), 0 0 40px rgba(239, 68, 68, 0.4);
+}
+
+.btn-glow-red:hover {
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.9), 0 0 60px rgba(239, 68, 68, 0.6);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GLASS BUTTONS (VISIBLE GLASS EFFECT)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-glass {
+  padding: 0.75rem 1.5rem;
+  background: rgba(79, 70, 229, 0.15);
+  border: 2px solid rgba(79, 70, 229, 0.3);
+  color: #1e1e1e;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.btn-glass:hover {
+  background: rgba(79, 70, 229, 0.25);
+  border-color: rgba(79, 70, 229, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-glass-success {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.btn-glass-success:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.btn-glass-danger {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.btn-glass-danger:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   OUTLINE BUTTONS (ON LIGHT BACKGROUND)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-outline {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 2px solid;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.btn-outline-primary {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.btn-outline-primary:hover {
+  background: #4f46e5;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-outline-success {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.btn-outline-success:hover {
+  background: #10b981;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-outline-danger {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.btn-outline-danger:hover {
+  background: #ef4444;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LIGHT BACKGROUND BUTTONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-light-bg {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+  color: white;
+}
+
+.btn-light-blue {
+  background: #93c5fd;
+}
+
+.btn-light-blue:hover {
+  background: #60a5fa;
+  transform: translateY(-2px);
+}
+
+.btn-light-green {
+  background: #86efac;
+  color: #1e1e1e;
+}
+
+.btn-light-green:hover {
+  background: #4ade80;
+  transform: translateY(-2px);
+}
+
+.btn-light-red {
+  background: #fca5a5;
+  color: #1e1e1e;
+}
+
+.btn-light-red:hover {
+  background: #f87171;
+  transform: translateY(-2px);
+}
+
+.btn-light-yellow {
+  background: #fde047;
+  color: #1e1e1e;
+}
+
+.btn-light-yellow:hover {
+  background: #facc15;
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ANIMATED BUTTONS (WORKING ANIMATIONS)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.btn-pulse {
+  padding: 0.75rem 1.5rem;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.btn-bounce {
+  padding: 0.75rem 1.5rem;
+  background: #10b981;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.btn-shimmer {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, #ef4444 0%, rgba(255, 255, 255, 0.3) 50%, #ef4444 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PATTERN BUTTONS (WITH VISIBLE PATTERNS)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-pattern-dots,
+.btn-pattern-stripes,
+.btn-pattern-grid {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-pattern-dots {
+  background: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+    #4f46e5;
+  background-size: 10px 10px, 100% 100%;
+}
+
+.btn-pattern-dots:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+.btn-pattern-stripes {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #10b981,
+      #10b981 10px,
+      rgba(255, 255, 255, 0.2) 10px,
+      rgba(255, 255, 255, 0.2) 20px
+    );
+}
+
+.btn-pattern-stripes:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-pattern-grid {
+  background:
+    linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0.2) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0.2) 76%, transparent 77%, transparent),
+    #ef4444;
+  background-size: 20px 20px, 20px 20px, 100% 100%;
+}
+
+.btn-pattern-grid:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NEON BUTTONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-neon,
+.btn-neon-green,
+.btn-neon-red {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid;
+  background: transparent;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px;
+}
+
+.btn-neon {
+  border-color: #667eea;
+  color: #667eea;
+  text-shadow: 0 0 10px #667eea;
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5), inset 0 0 10px rgba(102, 126, 234, 0.1);
+}
+
+.btn-neon:hover {
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.8), inset 0 0 20px rgba(102, 126, 234, 0.2);
+  text-shadow: 0 0 20px #667eea;
+}
+
+.btn-neon-green {
+  border-color: #38ef7d;
+  color: #38ef7d;
+  text-shadow: 0 0 10px #38ef7d;
+  box-shadow: 0 0 10px rgba(56, 239, 125, 0.5), inset 0 0 10px rgba(56, 239, 125, 0.1);
+}
+
+.btn-neon-green:hover {
+  box-shadow: 0 0 20px rgba(56, 239, 125, 0.8), inset 0 0 20px rgba(56, 239, 125, 0.2);
+  text-shadow: 0 0 20px #38ef7d;
+}
+
+.btn-neon-red {
+  border-color: #ff6a00;
+  color: #ff6a00;
+  text-shadow: 0 0 10px #ff6a00;
+  box-shadow: 0 0 10px rgba(255, 106, 0, 0.5), inset 0 0 10px rgba(255, 106, 0, 0.1);
+}
+
+.btn-neon-red:hover {
+  box-shadow: 0 0 20px rgba(255, 106, 0, 0.8), inset 0 0 20px rgba(255, 106, 0, 0.2);
+  text-shadow: 0 0 20px #ff6a00;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   3D BUTTONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-3d {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.btn-3d-primary {
+  background: #4f46e5;
+  box-shadow: 
+    0 6px 0 -2px #3730a3,
+    0 12px 0 -4px #2d20b0,
+    0 12px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-6px);
+}
+
+.btn-3d-primary:hover {
+  box-shadow: 
+    0 8px 0 -2px #3730a3,
+    0 16px 0 -4px #2d20b0,
+    0 16px 30px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px);
+}
+
+.btn-3d-primary:active {
+  box-shadow: 0 2px 0 -2px #3730a3;
+  transform: translateY(-2px);
+}
+
+.btn-3d-success {
+  background: #10b981;
+  box-shadow: 
+    0 6px 0 -2px #047857,
+    0 12px 0 -4px #065f46,
+    0 12px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-6px);
+}
+
+.btn-3d-success:hover {
+  box-shadow: 
+    0 8px 0 -2px #047857,
+    0 16px 0 -4px #065f46,
+    0 16px 30px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px);
+}
+
+.btn-3d-danger {
+  background: #ef4444;
+  box-shadow: 
+    0 6px 0 -2px #b91c1c,
+    0 12px 0 -4px #7f1d1d,
+    0 12px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-6px);
+}
+
+.btn-3d-danger:hover {
+  box-shadow: 
+    0 8px 0 -2px #b91c1c,
+    0 16px 0 -4px #7f1d1d,
+    0 16px 30px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THICK BORDER BUTTONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.btn-thick-border {
+  padding: 0.75rem 1.5rem;
+  border: 4px solid;
+  background: transparent;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-thick-primary {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.btn-thick-primary:hover {
+  background: #4f46e5;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-thick-success {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.btn-thick-success:hover {
+  background: #10b981;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-thick-danger {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.btn-thick-danger:hover {
+  background: #ef4444;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .wb-btn-grid--three {
+    grid-template-columns: 1fr;
+  }
+}

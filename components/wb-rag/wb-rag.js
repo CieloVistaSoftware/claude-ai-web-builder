@@ -1,5 +1,5 @@
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
-import { WBBaseComponent } from '../wb-base/wb-base.js';
+import WBBaseComponent from '../wb-base/wb-base.js';
 
 /**
  * WB RAG Component
@@ -22,11 +22,7 @@ import { WBBaseComponent } from '../wb-base/wb-base.js';
 class WBRag extends WBBaseComponent {
     constructor() {
         super();
-        // Only attach shadow root if not already present
-        const ctor = /** @type {typeof WBRag} */ (this.constructor);
-        if (ctor.useShadow && !this.shadowRoot) {
-            this.attachShadow({ mode: 'open' });
-        }
+        // Light DOM only - no Shadow DOM
         this.knowledgeBase = null;
         this.searchEngine = null;
         this.messages = [];
@@ -39,6 +35,7 @@ class WBRag extends WBBaseComponent {
     }
 
     async connectedCallback() {
+    super.connectedCallback();
         await loadComponentCSS(this, 'wb-rag.css');
         // Load marked library first, then render
         await this.loadMarked();
@@ -254,7 +251,7 @@ This will index all your documentation and components.`
     }
 
     render() {
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
             <style>
                 :host {
                     display: block;
@@ -581,19 +578,23 @@ This will index all your documentation and components.`
                 </div>
 
                 <div class="messages">
-                    ${this.messages.map(msg => `
+                    ${this.messages.map(msg => {
+                        // Ensure sources is always an array
+                        const sources = Array.isArray(msg.sources) ? msg.sources : [];
+                        return `
                         <div class="message ${msg.role}">
                             <div class="message-bubble">
                                 <div class="message-content">${this.markdownToHtml(msg.content)}</div>
-                                ${msg.sources && msg.sources.length > 0 ? `
+                                ${sources.length > 0 ? `
                                     <div class="message-sources">
                                         <strong style="color:#a78bfa">📚 Sources:</strong> 
-                                        ${msg.sources.map(s => s.name).join(', ')}
+                                        ${sources.map(s => s.name).join(', ')}
                                     </div>
                                 ` : ''}
                             </div>
                         </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                     
                     ${this.loading ? `
                         <div class="loading-message">
@@ -631,8 +632,8 @@ This will index all your documentation and components.`
         `;
 
         // Add event listeners
-        const input = this.shadowRoot.querySelector('.input');
-        const button = this.shadowRoot.querySelector('.send-button');
+        const input = this.querySelector('.input');
+        const button = this.querySelector('.send-button');
 
         const handleSend = () => {
             const value = input.value.trim();
@@ -650,7 +651,7 @@ This will index all your documentation and components.`
         });
 
         // Auto-scroll to bottom
-        const messagesContainer = this.shadowRoot.querySelector('.messages');
+        const messagesContainer = this.querySelector('.messages');
         if (messagesContainer) {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
@@ -740,3 +741,4 @@ class RAGSearchEngine {
 }
 
 customElements.define('wb-rag', WBRag);
+

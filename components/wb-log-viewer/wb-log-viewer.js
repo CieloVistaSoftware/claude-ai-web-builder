@@ -7,8 +7,7 @@ class WBLogViewer extends HTMLElement {
 
   async connectedCallback() {
     await loadComponentCSS(this, 'wb-log-viewer.css');
-    this.attachShadow({ mode: 'open' });
-    
+    // Shadow DOM removed - Light DOM architecture
     // Create reactive state using Proxy
     this._state = new Proxy({
       log: [],

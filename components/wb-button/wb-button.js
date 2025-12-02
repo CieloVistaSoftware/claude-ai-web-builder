@@ -1,357 +1,219 @@
-// @ts-nocheck
 /**
- * WB Button Web Component
+ * WB BUTTON - LIGHT DOM VERSION
  * 
- * A standardized button component with dynamic configuration, variants, and theming support.
- * Supports toggle functionality, status indicators, icons, and images.
- * 
- * @example
- * <wb-button variant="primary" size="medium">Click Me</wb-button>
- * <wb-button variant="toggle" active="true">Toggle Button</wb-button>
- * 
- * @events
- * - wb-button:click - Fired when button is clicked
- * - wb-button:toggle - Fired when toggle button state changes
- * - wb-button:ready - Fired when component is fully initialized
- * 
- * @version 2.0.1-shadow-dom
- * @author Website Builder Team
+ * Handles: variants, sizes, disabled, active state, status, toggle behavior
  */
 
-// WBBaseComponent import for standardized inheritance
-import { WBBaseComponent } from '../wb-base/wb-base.js';
-import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
+class WBButton extends HTMLElement {
+  // Shadow DOM is not used; only Light DOM
 
-console.log('🔘 WB Button Web Component: Starting initialization...');
+  connectedCallback() {
+    const variant = this.getAttribute('variant') || 'primary';
+    const size = this.getAttribute('size') || 'medium';
+    const disabled = this.hasAttribute('disabled');
+    const active = this.hasAttribute('active');
+    const status = this.getAttribute('status');
+    const text = this.textContent.trim() || 'Button';
+      const group = this.hasAttribute('group');
 
-// Configuration fallback - used if JSON loading fails
-const fallbackConfig = {
-        component: {
-            name: 'wb-button',
-            version: '2.0.0',
-            description: 'Website Builder standardized button component'
-        },
-        classes: {
-            base: 'wb-btn',
-            variants: {
-                primary: 'wb-btn--primary',
-                secondary: 'wb-btn--secondary',
-                success: 'wb-btn--success',
-                toggle: 'wb-btn--toggle',
-                iconOnly: 'wb-btn--icon-only',
-                imageOnly: 'wb-btn--image-only'
-            },
-            sizes: {
-                small: 'wb-btn--small',
-                medium: '',
-                large: 'wb-btn--large'
-            },
-            states: {
-                active: 'active',
-                disabled: 'disabled',
-                loading: 'wb-btn--loading'
-            },
-            elements: {
-                icon: 'wb-btn__icon',
-                image: 'wb-btn__image',
-                status: 'wb-btn__status',
-                checkmark: 'wb-btn__checkmark'
-            },
-            layouts: {
-                grid: 'wb-btn-grid',
-                gridSingle: 'wb-btn-grid--single',
-                gridThree: 'wb-btn-grid--three',
-                gridFour: 'wb-btn-grid--four',
-                group: 'wb-btn-group'
-            }
-        },
-        defaults: {
-            variant: 'primary',
-            size: 'medium',
-            disabled: false,
-            active: false
-        },
-        attributes: {
-            variant: 'variant',
-            size: 'size',
-            disabled: 'disabled',
-            active: 'active',
-            image: 'image',
-            imagePosition: 'image-position',
-            imageAlt: 'image-alt',
-            status: 'status',
-            backgroundImage: 'background-image'
-        },
-        events: {
-            ready: 'wb-button:ready',
-            click: 'wb-button:click',
-            toggle: 'wb-button:toggle'
+    // Save original markup for clipboard/examples BEFORE clearing innerHTML
+    let originalMarkup = '';
+    if (this.hasAttribute('examples') || this.hasAttribute('clipboard')) {
+      // Only capture markup of child wb-buttons (not the rendered button)
+      originalMarkup = Array.from(this.childNodes)
+        .filter(node => node.nodeType === Node.ELEMENT_NODE && node.tagName === 'WB-BUTTON')
+        .map(node => node.outerHTML.trim())
+        .join('\n');
+      if (!originalMarkup) {
+        // fallback to all children
+        originalMarkup = this.innerHTML.trim();
+      }
+      this.setAttribute('clipboard-original', originalMarkup);
+    }
+
+    // Build button element (Light DOM only)
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'wb-btn';
+    button.classList.add(`wb-btn--${variant}`);
+    button.classList.add(`wb-btn--${size}`);
+    if (group) {
+      button.classList.add('wb-btn--group');
+    }
+    if (disabled) {
+      button.disabled = true;
+      button.classList.add('wb-btn--disabled');
+    }
+    if (active) {
+      button.classList.add('wb-btn--active');
+    }
+    if (status) {
+      button.setAttribute('data-status', status);
+    }
+    // Add text
+    const textSpan = document.createElement('span');
+    textSpan.className = 'wb-btn__text';
+    textSpan.textContent = text;
+    button.appendChild(textSpan);
+
+    // Add copy-to-clipboard support if 'copy' or 'clipboard' attribute is present
+    if (this.hasAttribute('copy') || this.hasAttribute('clipboard')) {
+      button.style.cursor = 'pointer';
+      button.addEventListener('click', () => {
+        let copyText;
+        if (this.hasAttribute('clipboard')) {
+          copyText = this.getAttribute('clipboard-original') || originalMarkup;
+        } else {
+          copyText = textSpan.textContent;
         }
-    };
-
-
-// Minimal reactive store for state
-/**
- * Minimal reactive store for state with correct TypeScript types
- */
-function createSignal(initial) {
-  let value = initial;
-  const listeners = [];
-  function get() { return value; }
-  function set(v) { value = v; listeners.forEach(fn => fn(value)); }
-  function subscribe(fn) { listeners.push(fn); }
-  return [get, set, subscribe];
-}
-
-class WBButton extends WBBaseComponent {
-  
-  // Signal fields (no type annotations)
-  getActive;
-  setActive;
-  onActive;
-  getDisabled;
-  setDisabled;
-  onDisabled;
-  getVariant;
-  setVariant;
-  onVariant;
-  getSize;
-  setSize;
-  onSize;
-  getStatus;
-  setStatus;
-  onStatus;
-  getImage;
-  setImage;
-  onImage;
-  getBgImage;
-  setBgImage;
-  onBgImage;
-
-  constructor() {
-    super();
-    this.config = fallbackConfig;
-    this.utils = null;
-    this._value = null;
-    // Reactive signals
-    [this.getActive, this.setActive, this.onActive] = createSignal(false);
-    [this.getDisabled, this.setDisabled, this.onDisabled] = createSignal(false);
-    [this.getVariant, this.setVariant, this.onVariant] = createSignal(this.config.defaults.variant);
-    [this.getSize, this.setSize, this.onSize] = createSignal(this.config.defaults.size);
-    [this.getStatus, this.setStatus, this.onStatus] = createSignal(null);
-    [this.getImage, this.setImage, this.onImage] = createSignal(null);
-    [this.getBgImage, this.setBgImage, this.onBgImage] = createSignal(null);
-    // Subscribe to state changes and re-render
-    this.onActive(() => this.render());
-    this.onDisabled(() => this.render());
-    this.onVariant(() => this.render());
-    this.onSize(() => this.render());
-    this.onStatus(() => this.render());
-    this.onImage(() => this.render());
-    this.onBgImage(() => this.render());
-  }
-
-  async connectedCallback() {
-    super.connectedCallback(); // Inherit dark mode and other base functionality
-    
-    // Save the original text content BEFORE we render
-    this._buttonText = this.textContent.trim();
-    
-    // Load CSS - different approach for Shadow DOM vs Light DOM
-    if (this.shadowRoot) {
-      // Shadow DOM: Add CSS link directly to shadowRoot
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = new URL('./wb-button.css', import.meta.url).href;
-      this.shadowRoot.appendChild(link);
-      
-      // Wait for CSS to load
-      await new Promise(resolve => {
-        link.onload = resolve;
-        link.onerror = resolve; // Continue even if CSS fails
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(copyText);
+        } else {
+          const textarea = document.createElement('textarea');
+          textarea.value = copyText;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+        }
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.classList.remove('copied');
+        }, 1500);
       });
-    } else {
-      // Light DOM: Use standard CSS loader
-      await loadComponentCSS(this, 'wb-button.css');
     }
-    
-    this.render();
-    
-    // Add click event listener
-    const target = this.shadowRoot || this;
-    const button = target.querySelector('button');
-    if (button) {
-      button.addEventListener('click', (e) => this.handleClick(e));
-    }
-  }
 
-  render() {
-    // Render the button declaratively based on state
-    const variant = this.getVariant();
-    const size = this.getSize();
-    const active = this.getActive();
-    const disabled = this.getDisabled();
-    const image = this.getImage();
-    const status = this.getStatus();
-    const bgImage = this.getBgImage();
-    
-    // Use saved text content or current textContent
-    const buttonText = this._buttonText || this.textContent.trim();
-    
-    const html = `
-      <button
-        class="${this.config.classes.base} ${this.config.classes.variants[variant]} ${this.config.classes.sizes[size]} ${active ? this.config.classes.states.active : ''} ${disabled ? this.config.classes.states.disabled : ''}"
-        ${disabled ? 'disabled' : ''}
-        type="button"
-        style="display: flex !important; align-items: center !important; justify-content: center !important; min-height: 24px !important; padding: 0 8px !important;"
-      >
-        ${image ? `<img class='${this.config.classes.elements.image}' src='${image}' alt='' />` : ''}
-        ${buttonText}
-        ${status ? `<span class='${this.config.classes.elements.status} ${this.config.classes.elements.status}--${status}'></span>` : ''}
-      </button>
-    `;
-    
-    // WBBase creates shadowRoot automatically if useShadow = true
-    const target = this.shadowRoot || this;
-    
-    // IMPORTANT: Preserve existing link/style elements when re-rendering
-    if (this.shadowRoot) {
-      // Save CSS links before clearing
-      const existingLinks = Array.from(this.shadowRoot.querySelectorAll('link[rel="stylesheet"]'));
-      const existingStyles = Array.from(this.shadowRoot.querySelectorAll('style'));
-      
-      // Clear and set new HTML
-      target.innerHTML = html;
-      
-      // Re-append CSS links and styles
-      existingLinks.forEach(link => this.shadowRoot.appendChild(link));
-      existingStyles.forEach(style => this.shadowRoot.appendChild(style));
-    } else {
-      target.innerHTML = html;
-    }
-    
-    if (bgImage) {
-      this.style.setProperty('--wb-btn-bg-image', `url(${bgImage})`);
-    } else {
-      this.style.removeProperty('--wb-btn-bg-image');
-    }
-  }
+    // Clear and append
+    this.innerHTML = '';
+    this.appendChild(button);
 
-  handleClick(event) {
-    if (this.getDisabled()) {
-      event.preventDefault();
-      return;
+    // If 'examples' attribute is present, render code example block
+    if (this.hasAttribute('examples')) {
+      const codeContainer = document.createElement('div');
+      codeContainer.className = 'code-container';
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'copy-btn';
+      copyBtn.textContent = 'Copy';
+      const textarea = document.createElement('textarea');
+      textarea.className = 'wb-code-example';
+      textarea.readOnly = true;
+      textarea.value = originalMarkup.trim();
+      copyBtn.onclick = function() {
+        textarea.select();
+        document.execCommand('copy');
+        copyBtn.classList.add('copied');
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.textContent = 'Copy';
+        }, 2000);
+      };
+      codeContainer.appendChild(copyBtn);
+      codeContainer.appendChild(textarea);
+      this.appendChild(codeContainer);
     }
-    if (this.getVariant() === 'toggle') {
-      this.setActive(!this.getActive());
-      this.dispatchEvent(new CustomEvent(this.config.events.toggle, {
-        detail: { button: this, active: this.getActive(), value: this._value },
-        bubbles: true
-      }));
+
+    // Store reference for toggle
+    this.button = button;
+
+    // Handle toggle variant
+    if (variant === 'toggle') {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggle();
+      });
     }
-    this.dispatchEvent(new CustomEvent(this.config.events.click, {
-      detail: { button: this, variant: this.getVariant(), value: this._value },
-      bubbles: true
+
+    // Dispatch ready event
+    this.dispatchEvent(new CustomEvent('wbButtonReady', {
+      bubbles: true,
+      detail: { variant, size, disabled, active }
     }));
   }
 
-  // Attribute reflection for reactivity
-  static get observedAttributes() {
-    return ['variant', 'size', 'disabled', 'active', 'image', 'status', 'background-image'];
-  }
-  attributeChangedCallback(name, oldValue, newValue) {
-    switch (name) {
-      case 'variant':
-        this.setVariant(newValue || this.config.defaults.variant);
-        break;
-      case 'size':
-        this.setSize(newValue || this.config.defaults.size);
-        break;
-      case 'disabled':
-        this.setDisabled(newValue !== null);
-        break;
-      case 'active':
-        this.setActive(newValue !== null);
-        break;
-      case 'image':
-        this.setImage(newValue);
-        break;
-      case 'status':
-        this.setStatus(newValue);
-        break;
-      case 'background-image':
-        this.setBgImage(newValue);
-        break;
+  toggle() {
+    if (this.button.classList.contains('wb-btn--active')) {
+      this.button.classList.remove('wb-btn--active');
+      this.removeAttribute('active');
+    } else {
+      this.button.classList.add('wb-btn--active');
+      this.setAttribute('active', '');
     }
+
+    this.dispatchEvent(new CustomEvent('wb-button:toggle', {
+      bubbles: true,
+      detail: { active: this.button.classList.contains('wb-btn--active') }
+    }));
+  }
+
+  static get observedAttributes() {
+    return ['variant', 'size', 'disabled', 'active', 'status', 'group', 'clipboard'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!this.button) return;
+
+    if (name === 'variant') {
+      // Remove old variant
+      this.button.classList.forEach(cls => {
+        if (cls.startsWith('wb-btn--') && !['wb-btn--active', 'wb-btn--disabled'].includes(cls)) {
+          this.button.classList.remove(cls);
+        }
+      });
+      if (newValue) {
+        this.button.classList.add(`wb-btn--${newValue}`);
+      }
+    }
+
+    if (name === 'size' && newValue) {
+      // Remove old size
+      this.button.classList.forEach(cls => {
+        if (cls.match(/wb-btn--(small|medium|large)/)) {
+          this.button.classList.remove(cls);
+        }
+      });
+      this.button.classList.add(`wb-btn--${newValue}`);
+    }
+
+    if (name === 'disabled') {
+      this.button.disabled = newValue !== null;
+      if (newValue !== null) {
+        this.button.classList.add('wb-btn--disabled');
+      } else {
+        this.button.classList.remove('wb-btn--disabled');
+      }
+    }
+
+    if (name === 'active') {
+      if (newValue !== null) {
+        this.button.classList.add('wb-btn--active');
+      } else {
+        this.button.classList.remove('wb-btn--active');
+      }
+    }
+
+    if (name === 'status') {
+      if (newValue) {
+        this.button.setAttribute('data-status', newValue);
+      } else {
+        this.button.removeAttribute('data-status');
+      }
+    }
+
+      if (name === 'group') {
+        if (newValue !== null) {
+          this.button.classList.add('wb-btn--group');
+        } else {
+          this.button.classList.remove('wb-btn--group');
+        }
+      }
   }
 }
 
-if (customElements && !customElements.get('wb-button')) {
+if (!customElements.get('wb-button')) {
   customElements.define('wb-button', WBButton);
-  console.log('🔘 WB Button Web Component: Custom element registered');
-} else if (customElements.get('wb-button')) {
-  console.log('🔘 WB Button Web Component: Already registered');
-} else {
-  console.error('🔘 WB Button Web Component: Custom Elements not supported');
+  console.log('✅ wb-button registered');
 }
 
-    // Static utility methods for creating button grids and groups
-    WBButton.createGrid = function(columns = 2) {
-        const grid = document.createElement('div');
-        const config = fallbackConfig;
-        
-        if (columns === 1) {
-            grid.className = config.classes.layouts.gridSingle;
-        } else if (columns === 3) {
-            grid.className = config.classes.layouts.gridThree;
-        } else if (columns === 4) {
-            grid.className = config.classes.layouts.gridFour;
-        } else {
-            grid.className = config.classes.layouts.grid;
-        }
-        return grid;
-    };
-
-    WBButton.createGroup = function() {
-        const group = document.createElement('div');
-        group.className = fallbackConfig.classes.layouts.group;
-        return group;
-    };
-
-// Register the custom element
-if (customElements && !customElements.get('wb-button')) {
-    customElements.define('wb-button', WBButton);
-    console.log('🔘 WB Button Web Component: Custom element registered');
-} else if (customElements.get('wb-button')) {
-    console.log('🔘 WB Button Web Component: Already registered');
-} else {
-    console.error('🔘 WB Button Web Component: Custom Elements not supported');
-}
-
-// Register with WBComponentRegistry if available
-if (window.WBComponentRegistry && typeof window.WBComponentRegistry.register === 'function') {
-    window.WBComponentRegistry.register('wb-button', WBButton, ['wb-event-log'], {
-        version: '1.0.0',
-        type: 'form',
-        role: 'ui-element',
-        description: 'Versatile button component with multiple styles, sizes, and interaction states',
-        api: {
-            static: ['createGroup'],
-            events: ['click', 'focus', 'blur', 'hover'],
-            attributes: ['label', 'variant', 'size', 'disabled', 'loading', 'icon', 'icon-position'],
-            methods: ['render', 'setLabel', 'setVariant', 'setSize', 'disable', 'enable']
-        },
-        priority: 4 // UI component depends on infrastructure
-    });
-}
-
-// Compositional Namespace
-if (!window.WB) window.WB = { components: {}, utils: {} };
-window.WB.components.WBButton = WBButton;
-
-// Expose globally (backward compatibility)
-window.WBButton = WBButton;
-
-// ES6 Module Exports
 export { WBButton };
 export default WBButton;

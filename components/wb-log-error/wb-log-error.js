@@ -1,3 +1,4 @@
+import WBBaseComponent from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 /**
@@ -8,14 +9,14 @@ import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
  * @version 3.0.0
  */
 
-class WBLogError extends HTMLElement {
+class WBLogError extends WBBaseComponent {
     constructor() {
         super();
     }
 
     async connectedCallback() {
+    super.connectedCallback();
         await loadComponentCSS(this, 'wb-log-error.css');
-        this.attachShadow({ mode: 'open' });
         
         // Create reactive state
         this._state = new Proxy({
@@ -64,7 +65,7 @@ class WBLogError extends HTMLElement {
         this._originalConsoleError = console.error;
         this._originalConsoleWarn = console.warn;
         
-        this._setupShadowDOM();
+        this._setupDOM();
     }
     
     static get observedAttributes() {
@@ -72,6 +73,7 @@ class WBLogError extends HTMLElement {
     }
     
     connectedCallback() {
+    super.connectedCallback();
         // Set initial attributes
         const position = this.getAttribute('position') || 'bottom-right';
         const visible = this.getAttribute('visible') === 'true';
@@ -98,6 +100,7 @@ class WBLogError extends HTMLElement {
     }
     
     disconnectedCallback() {
+    super.connectedCallback();
         // Clean up event listeners
         window.removeEventListener('error', this._handleError, true);
         window.removeEventListener('unhandledrejection', this._handleUnhandledRejection, true);
@@ -364,8 +367,8 @@ class WBLogError extends HTMLElement {
         container.className = 'container';
         container.id = 'container';
         
-        this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(container);
+        this.appendChild(style);
+        this.appendChild(container);
         
         // Update container reference
         this._container = container;
@@ -830,7 +833,7 @@ class WBLogError extends HTMLElement {
         
         navigator.clipboard.writeText(text).then(() => {
             // Visual feedback
-            const copyBtn = this.shadowRoot.querySelector('[data-action="copy"]');
+            const copyBtn = this.querySelector('[data-action="copy"]');
             if (copyBtn) {
                 const originalText = copyBtn.textContent;
                 copyBtn.textContent = '✓';

@@ -32,7 +32,8 @@ class WBControlPanel extends WBBaseComponent {
     }
     async connectedCallback() {
         console.log('[TRACE] WBControlPanel.connectedCallback');
-        super.connectedCallback(); // Inherit dark mode and other base functionality
+        super.connectedCallback();
+    this.classList.add('wb-component', 'wb-control-panel'); // Inherit dark mode and other base functionality
         await loadComponentCSS(this, 'wb-control-panel.css');
         this.loadState();
         this.render();

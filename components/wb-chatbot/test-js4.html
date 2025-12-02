@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shadow DOM Test</title>
+</head>
+<body>
+    <h1>Shadow DOM Test</h1>
+    <p>Testing if Shadow DOM causes refresh...</p>
+    
+    <script>
+        class ShadowTest extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+            }
+            connectedCallback() {
+                this.shadowRoot.innerHTML = '<p>Shadow DOM works!</p>';
+            }
+        }
+        customElements.define('shadow-test', ShadowTest);
+    </script>
+    
+    <shadow-test></shadow-test>
+</body>
+</html>

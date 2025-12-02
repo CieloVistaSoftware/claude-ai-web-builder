@@ -6,9 +6,9 @@
 :host {
   display: block;
   width: 100%;
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', var(--font-family-base);
   --color-bar-height: 1.4rem;
-  --pointer-size: 1.3rem;
+  --pointer-size: 1.var(--spacing-2xl);
   --border-radius: 0.7rem;
   --transition-speed: 0.2s;
 }
@@ -20,13 +20,13 @@
 
 .color-bar-container {
   position: relative;
-  margin: 16px 0;
+  margin: var(--spacing-md) 0;
 }
 
 .color-bar-label {
-  font-size: 14px;
+  font-size: 1var(--spacing-xs);
   font-weight: 500;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
   color: var(--text-primary, #333);
 }
 
@@ -36,13 +36,13 @@
   border-radius: calc(var(--color-bar-height) / 2);
   cursor: pointer;
   overflow: hidden;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 2px var(--spacing-sm) rgba(0, 0, 0, 0.1);
   outline: none;
   transition: box-shadow var(--transition-speed) ease;
 }
 
 .color-bar:focus {
-  box-shadow: inset 0 2px 8px rgba(var(--neutral-900-rgb, 0, 0, 0), 0.1), 0 0 0 2px var(--focus-color, var(--primary, #007bff));
+  box-shadow: inset 0 2px var(--spacing-sm) rgba(var(--neutral-900-rgb, 0, 0, 0), 0.1), 0 0 0 2px var(--focus-color, var(--primary, #007bff));
 }
 
 .color-pointer {
@@ -56,14 +56,14 @@
   border-radius: 50%;
   transform: translate(-50%, -50%);
   cursor: grab;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px var(--spacing-sm) rgba(0, 0, 0, 0.3);
   transition: all var(--transition-speed) ease;
   z-index: 2;
 }
 
 .color-pointer:hover {
   transform: translate(-50%, -50%) scale(1.2);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 var(--spacing-xs) var(--font-size-sm) rgba(0, 0, 0, 0.4);
 }
 
 .color-pointer:active,
@@ -78,8 +78,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
+  width: var(--font-size-sm);
+  height: var(--font-size-sm);
   border-radius: 50%;
   background: var(--current-color, #6750a4);
   border: 1px solid rgba(var(--neutral-900-rgb, 0, 0, 0), 0.2);
@@ -89,8 +89,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 8px;
-  font-size: 12px;
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-sm);
 }
 
 .hue-value {
@@ -99,8 +99,8 @@
 }
 
 .color-preview {
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--spacing-xs);
   font-family: monospace;
   font-size: 11px;
   font-weight: bold;

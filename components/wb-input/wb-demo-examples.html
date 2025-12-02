@@ -1,0 +1,60 @@
+<!-- WB Input Examples - Loaded separately in Light DOM -->
+
+<!-- Basic Input -->
+<section class="demo-section">
+    <h2>📝 Basic Input</h2>
+    <div class="demo-group">
+        <wb-input label="Full Name" placeholder="Enter your full name" type="text"></wb-input>
+    </div>
+</section>
+
+<!-- Input Types -->
+<section class="demo-section">
+    <h2>📧 Input Types</h2>
+    <div class="demo-group">
+        <wb-input label="Email" type="email" placeholder="your@email.com"></wb-input>
+        <wb-input label="Password" type="password" placeholder="••••••••"></wb-input>
+        <wb-input label="URL" type="url" placeholder="https://example.com"></wb-input>
+        <wb-input label="Phone" type="tel" placeholder="+1 (555) 123-4567"></wb-input>
+    </div>
+</section>
+
+<!-- With Help Text -->
+<section class="demo-section">
+    <h2>💬 With Help Text</h2>
+    <div class="demo-group">
+        <wb-input 
+            label="Password" 
+            type="password" 
+            placeholder="Enter your password"
+            help="Password must be at least 8 characters">
+        </wb-input>
+    </div>
+</section>
+
+<!-- Required Fields -->
+<section class="demo-section">
+    <h2>✓ Required Fields</h2>
+    <div class="demo-group">
+        <wb-input label="Username" type="text" required placeholder="Enter username"></wb-input>
+        <wb-input label="Email" type="email" required placeholder="Enter email"></wb-input>
+    </div>
+</section>
+
+<!-- Disabled State -->
+<section class="demo-section">
+    <h2>🔒 Disabled State</h2>
+    <div class="demo-group">
+        <wb-input label="Disabled Input" type="text" disabled placeholder="Disabled" value="Cannot edit"></wb-input>
+    </div>
+</section>
+
+<!-- Form Example -->
+<section class="demo-section">
+    <h2>📋 Login Form</h2>
+    <div class="demo-group" style="max-width: 400px;">
+        <wb-input label="Email" type="email" placeholder="Enter your email" required></wb-input>
+        <wb-input label="Password" type="password" placeholder="Enter password" required></wb-input>
+        <wb-button variant="primary" style="width: 100%; margin-top: 1rem;">Sign In</wb-button>
+    </div>
+</section>

@@ -46,35 +46,27 @@ import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 let config = {};
 (async () => {
     try {
-        // Use component utils to get correct path
-        let configPath = './wb-tab.schema.json';
-        if (window.WBComponentUtils && typeof window.WBComponentUtils.getPath === 'function') {
-            try {
-                const basePath = window.WBComponentUtils.getPath('wb-tab.js', '../components/wb-tab/');
-                configPath = basePath + 'wb-tab.schema.json';
-            } catch (e) {
-                console.warn('🏷️ WB Tab: Could not use WBComponentUtils for schema path, using relative path');
-            }
-        }
+        // Use absolute path from root - schema is always in the component folder
+        const configPath = '/components/wb-tab/wb-tab.schema.json';
         
         const response = await fetch(configPath);
         if (response.ok) {
             config = await response.json();
             console.log('🏷️ WB Tab: Schema loaded successfully', config);
         } else {
-            console.warn('🏷️ WB Tab: Schema fetch failed with status', response.status);
+            // Schema is optional - component works without it
+            console.log('🏷️ WB Tab: Schema not found (optional), using defaults');
         }
     } catch (error) {
-        console.warn('🏷️ WB Tab: Could not load wb-tab.schema.json, using defaults', error);
+        console.log('🏷️ WB Tab: Could not load schema (optional), using defaults');
     }
 })();
 
 class WBTab extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        
-        // State management
+        // Shadow DOM removed - Light DOM architecture
+    // State management
         this.state = {
             activeTab: null,
             tabs: new Map(),
@@ -173,7 +165,7 @@ class WBTab extends HTMLElement {
     
     render() {
         // CSS-first approach - inline styles in Shadow DOM
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
             <style>
                 :host {
                     /* CSS Variables for theming */
@@ -840,7 +832,7 @@ console.log('🏷️ WB Tab: wb-tab custom element registered successfully');
 class WBTabItem extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        // Shadow DOM removed - Light DOM architecture
     }
     
     connectedCallback() {
@@ -852,7 +844,7 @@ class WBTabItem extends HTMLElement {
         const disabled = this.hasAttribute('disabled');
         const closable = this.hasAttribute('closable');
         
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
             <style>
                 :host {
                     display: contents;
@@ -896,7 +888,7 @@ console.log('🏷️ WB Tab: wb-tab-item custom element registered successfully'
 class WBTabPanel extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        // Shadow DOM removed - Light DOM architecture
     }
     
     connectedCallback() {
@@ -904,7 +896,7 @@ class WBTabPanel extends HTMLElement {
     }
     
     render() {
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
             <style>
                 :host {
                     display: block;

@@ -8,8 +8,7 @@ import { WBBaseComponent } from '../wb-base/wb-base.js';
 class WBColorPicker extends WBBaseComponent {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
-    
+    // Shadow DOM removed - Light DOM architecture
     // Component state
     this._value = '#6366f1';
     this._format = 'hex';
@@ -30,7 +29,8 @@ class WBColorPicker extends WBBaseComponent {
   }
 
   connectedCallback() {
-    super.connectedCallback(); // Inherit dark mode and other base functionality
+    super.connectedCallback();
+    this.classList.add('wb-component', 'wb-color-picker'); // Inherit dark mode and other base functionality
     this.loadCSS();
     this.render();
     this.setupEventListeners();
@@ -163,7 +163,7 @@ class WBColorPicker extends WBBaseComponent {
     const displayValue = this.formatColor(colorValue, this._format);
 
     // CSS-first approach - external stylesheet
-    this.shadowRoot.innerHTML = `
+    this.innerHTML = `
       <link rel="stylesheet" href="./wb-color-picker.css">
         
         .wb-color-picker {

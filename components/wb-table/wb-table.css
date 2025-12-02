@@ -1,13 +1,13 @@
 /* DEBUG: Force table and cell visibility */
 .wb-table {
-    border: 4px solid red !important;
+    border: var(--spacing-xs) solid red !important;
     background: white !important;
 }
 .wb-table td, .wb-table th {
     border: 2px solid blue !important;
     color: black !important;
     background: yellow !important;
-    font-size: 18px !important;
+    font-size: 1var(--spacing-sm) !important;
 }
 /* ===== WB TABLE COMPONENT ===== */
 /* Simple, reusable table component for Website Builder */
@@ -46,11 +46,11 @@
 }
 
 .wb-table-header th {
-    padding: 8px 6px;
+    padding: var(--spacing-sm) 6px;
     border-bottom: 2px solid var(--wb-table-border-color);
     border-right: 1px solid var(--wb-table-border-color);
     text-align: left;
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     color: var(--wb-table-header-text);
     white-space: nowrap;
     font-size: 11px;
@@ -79,7 +79,7 @@
 }
 
 .wb-table-body td {
-    padding: 6px 8px;
+    padding: 6px var(--spacing-sm);
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     vertical-align: top;
     line-height: 1.3;
@@ -110,28 +110,28 @@
     padding: 2px 6px;
     border-radius: 3px;
     font-size: 9px;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
 }
 
 .wb-table-cell-badge.error {
     background: rgba(239, 68, 68, 0.2);
-    color: #ef4444;
+    color: var(--color-danger);
 }
 
 .wb-table-cell-badge.warn {
     background: rgba(245, 158, 11, 0.2);
-    color: #f59e0b;
+    color: var(--color-warning);
 }
 
 .wb-table-cell-badge.info {
     background: rgba(59, 130, 246, 0.2);
-    color: #3b82f6;
+    color: var(--color-info);
 }
 
 .wb-table-cell-badge.debug {
     background: rgba(107, 114, 128, 0.2);
-    color: #6b7280;
+    color: var(--color-secondary);
 }
 
 /* Responsive */
@@ -142,7 +142,7 @@
     
     .wb-table-header th,
     .wb-table-body td {
-        padding: 4px;
+        padding: var(--spacing-xs);
     }
 }
 

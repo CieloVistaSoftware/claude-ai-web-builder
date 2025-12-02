@@ -2,7 +2,7 @@
 /* Fallback for old browsers */
 .slider-block input[type="range"].color-range {
   background: #fff;
-  border-radius: 4px;
+  border-radius: var(--spacing-xs);
 }
 /* Chrome, Safari, Edge */
 .slider-block input[type="range"].color-range::-webkit-slider-runnable-track {
@@ -15,7 +15,7 @@
     hsl(300, 100%, 50%) 83%,
     hsl(360, 100%, 50%) 100%
   );
-  border-radius: 4px;
+  border-radius: var(--spacing-xs);
   height: 0.7em;
 }
 /* Firefox */
@@ -29,7 +29,7 @@
     hsl(300, 100%, 50%) 83%,
     hsl(360, 100%, 50%) 100%
   );
-  border-radius: 4px;
+  border-radius: var(--spacing-xs);
   height: 0.7em;
 }
 /* IE/Edge Legacy */
@@ -44,7 +44,7 @@
     hsl(300, 100%, 50%) 83%,
     hsl(360, 100%, 50%) 100%
   );
-  border-radius: 4px;
+  border-radius: var(--spacing-xs);
 }
 .controls input[type="range"] {
   max-width: 10rem;
@@ -74,13 +74,13 @@
 }
 .harmony-container {
   display: flex;
-  gap: 1rem;
-  margin: 1rem 0;
+  gap: var(--spacing-md);
+  margin: var(--spacing-md) 0;
 }
 .color-swatch {
   width: 120px;
-  height: 64px;
-  border-radius: 12px;
+  height: 6var(--spacing-xs);
+  border-radius: var(--font-size-sm);
   border: 2px solid #222;
   display: flex;
   flex-direction: column;
@@ -93,7 +93,7 @@
 .color-label {
   margin-top: 0.3em;
   font-size: 0.95em;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   text-align: center;
   letter-spacing: 0.3px;
   box-sizing: border-box;

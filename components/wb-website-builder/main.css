@@ -1,0 +1,12 @@
+/* WB Website Builder main styles */
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--bg-color, #222);
+  color: var(--text-primary, #eee);
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  margin: 2rem 0 1rem 0;
+  text-align: center;
+}

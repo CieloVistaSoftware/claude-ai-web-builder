@@ -5,11 +5,14 @@
   "main": "index.html",
   "type": "module",
   "scripts": {
+    "start:mcp-root": "npx -y @modelcontextprotocol/server-filesystem C:/Users/jwpmi/Downloads/AI/wb",
+    "start:mcp-docs": "npx -y @modelcontextprotocol/server-filesystem C:/Users/jwpmi/Downloads/AI/wb/docs",
+    "start:mcp-components": "npx -y @modelcontextprotocol/server-filesystem C:/Users/jwpmi/Downloads/AI/wb/components",
     "new": "node build/scripts/create-component.js",
     "component:new": "node build/scripts/create-component.js",
     "create": "node build/scripts/create-component.js",
     "vite": "vite --config build/vite.config.js",
-    "demo": "node scripts/utils/start-demo.js",
+    "demo": "node ./scripts/start-demo-server.cjs",
     "demo:here": "node scripts/utils/start-demo.js",
     "demo:debug": "node scripts/utils/debug-env.js",
     "api": "node claude-events-api.js",
@@ -47,6 +50,8 @@
     "test:debug": "npm run kill-port && playwright test --debug",
     "test:headed": "npm run kill-port && playwright test --headed",
     "test:report": "playwright show-report",
+    "test:coverage": "node tests/check-test-coverage.js",
+    "test:create": "node tests/create-component-test.js",
     "test:html-paths": "pwsh tests/run-tests.ps1",
     "test:html-paths:verbose": "pwsh tests/run-tests.ps1 -Verbose",
     "test:pester": "pwsh -Command \"Invoke-Pester -Path tests/fix-all-html-paths.tests.ps1 -Verbose\"",
@@ -54,14 +59,14 @@
     "unified:server": "npm run kill-port && npm run unified:build && node unified-claude-websocket-server.js",
     "unified:server:mock": "SET USE_MOCK_RESPONSES=true && npm run unified:server",
     "watch": "node build/scripts/file-watcher.js",
-    "wb:build": "cd components/wb-website-builder && npm run build",
-    "wb:build:watch": "cd components/wb-website-builder && npm run build:watch",
-    "wb:dev": "npm run kill-port && npm run wb:build && concurrently \"npm run wb:build:watch\" \"npm run wb:serve\"",
-    "wb:install": "cd components/wb-website-builder && npm install",
-    "wb:serve": "http-server -p 8080 -o /components/wb-website-builder/dist/complete-demo.html",
-    "wb:serve:demo": "http-server -p 8080 -o /components/wb-website-builder/dist/wb-website-builder-demo.html",
+    "wb:build": "echo 'wb-website-builder build is deprecated.'",
+    "wb:build:watch": "echo 'wb-website-builder build:watch is deprecated.'",
+    "wb:dev": "npm run kill-port && concurrently \"npm run dev:safe\" \"npm run dev:watch\"",
+    "wb:install": "echo 'wb-website-builder install is deprecated.'",
+    "wb:serve": "http-server -p 8080 -o /index.html",
+    "wb:serve:demo": "http-server -p 8080 -o /index.html",
     "wb:serve:root": "http-server -p 8080 -o /index.html",
-    "wb:setup": "npm run wb:install && npm run wb:build",
+    "wb:setup": "echo 'wb-website-builder setup is deprecated.'",
     "build:html-data": "node build/scripts/build-components-json.js",
     "build:imports": "node build/scripts/gen-main-imports.js",
     "analyze:cem": "cem analyze",
@@ -78,7 +83,7 @@
     "rag:server": "node components/wb-rag/rag-server.js",
     "rag:demo": "npm run rag:server",
     "build:demos": "node build/scripts/generate-demos-manifest.js",
-    "build": "npm run build:demos && start index.html",
+    "build": "npm run build:demos && node build/scripts/build-knowledge-base.js && start index.html",
     "prebuild": "npm run build:demos",
     "predev": "npm run build:demos",
     "prestart": "npm run build:demos",
@@ -90,7 +95,7 @@
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.0.15",
     "@types/socket.io": "^3.0.1",
-    "ajv-cli": "^0.6.0",
+    "ajv-cli": "^5.0.0",
     "chokidar": "^3.5.3",
     "concurrently": "^8.2.2",
     "express": "^5.1.0",
@@ -101,7 +106,7 @@
     "start-server-and-test": "^2.0.2",
     "ts-loader": "^9.5.4",
     "typescript": "^5.8.3",
-    "vite": "^7.0.5"
+    "vite": "^7.2.4"
   },
   "dependencies": {
     "lucide-react": "^0.542.0",
@@ -109,5 +114,9 @@
     "socket.io-client": "^4.8.1",
     "vscode-html-languageservice": "^5.5.2"
   },
-  "customElements": "data/custom-elements.json"
+  "customElements": "data/custom-elements.json",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CieloVistaSoftware/claude-ai-web-builder.git"
+  }
 }

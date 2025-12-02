@@ -1,9 +1,8 @@
-import { WBBaseComponent } from '../wb-base/wb-base.js';
+import WBBaseComponent from '../wb-base/wb-base.js';
 
 class WBDevToolbox extends WBBaseComponent {
   constructor() {
     super();
-    this.attachShadow({mode: 'open'});
     
     // Create reactive state
     this._state = new Proxy({
@@ -25,7 +24,7 @@ class WBDevToolbox extends WBBaseComponent {
     this._onRejection = this._onRejection.bind(this);
     this._onWbError = this._onWbError.bind(this);
     
-    this._setupShadowDOM();
+    this._setupDOM();
   }
   
   static get observedAttributes() {
@@ -36,7 +35,7 @@ class WBDevToolbox extends WBBaseComponent {
     switch (name) {
       case 'show-local-log':
         this._state.showLocalLog = newValue !== 'false';
-        const checkbox = this.shadowRoot.getElementById('showLocalLog');
+        const checkbox = this.getElementById('showLocalLog');
         if (checkbox) checkbox.checked = this._state.showLocalLog;
         break;
       case 'max-entries':
@@ -48,8 +47,8 @@ class WBDevToolbox extends WBBaseComponent {
     }
   }
   
-  _setupShadowDOM() {
-    this.shadowRoot.innerHTML = `
+  _setupDOM() {
+    this.innerHTML = `
       <style>
         :host { display: block; font-family: monospace; background: #18181b; color: #fbbf24; padding: 0.5em 1em; border-radius: 6px; margin: 1em 0; max-width: 100vw; overflow-x: auto; }
         .log-entry { margin-bottom: 0.25em; font-size: 0.95em; }
@@ -64,7 +63,7 @@ class WBDevToolbox extends WBBaseComponent {
       </div>
       <div id="log"></div>
     `;
-    this.logDiv = this.shadowRoot.getElementById('log');
+    this.logDiv = this.getElementById('log');
   }
   connectedCallback() {
     super.connectedCallback(); // Inherit dark mode and other base functionality
@@ -78,7 +77,7 @@ class WBDevToolbox extends WBBaseComponent {
     document.addEventListener('wb:info', this._onWbError);
     
     // Setup reactive toggle handling
-    const showLocalLogBox = this.shadowRoot.getElementById('showLocalLog');
+    const showLocalLogBox = this.getElementById('showLocalLog');
     if (showLocalLogBox) {
       showLocalLogBox.addEventListener('change', (e) => {
         this._state.showLocalLog = e.target.checked;

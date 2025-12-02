@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="wb-control-panel-demo.css">
 
     <!-- ✅ Single centralized loader - loads ALL components -->
-    <script type="module" src="../../index.js"></script>
+    <script type="module" src="../../src/js/main.js"></script>
     
     <!-- ✅ Load Demo-Specific JavaScript -->
     <script type="module" src="wb-control-panel-demo.js" defer></script>
@@ -39,7 +39,10 @@
 
     <!-- Main content -->
     <main>
-              <h1>WB Control Panel - HCS Theme Showcase</h1>
+                <div style="position: absolute; top: 2rem; right: 2rem; z-index: 1000;">
+                        <wb-control-panel id="control-panel"></wb-control-panel>
+                </div>
+                <h1>WB Control Panel - HCS Theme Showcase</h1>
         <p class="lead">Experience the power of Harmonic Color System with wave-theory based palettes. Switch between themes to see colors harmonize across all elements.</p>
         <!-- Color Showcase Section -->
         <section style="margin: 2rem 0;">
@@ -321,14 +324,7 @@
  
     </div>
     <h2>Event Log</h2>
-     <wb-event-log 
-        id="event-log" 
-        max-entries="100" 
-        auto-open="true" 
-        auto-log-errors="true" 
-        storage-key="wb-event-log-visibility">
-    <!-- Control Panel floating (always visible, resizable) -->
-    <wb-control-panel id="control-panel"></wb-control-panel>
+</wb-event-log>
 </body>
 
 </html>

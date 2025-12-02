@@ -1,20 +1,22 @@
+import WBBaseComponent from '../wb-base/wb-base.js';
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
 // wb-resize-both.js
 // Corner resize handle component for resizing parent containers in both directions
 
-class WBResizeBoth extends HTMLElement {
+class WBResizeBoth extends WBBaseComponent {
     constructor() {
         super();
     }
 
     async connectedCallback() {
+    super.connectedCallback();
         await loadComponentCSS(this, 'wb-resize-both.css');
         this.init();
     }
 
     init() {
-        this.attachShadow({ mode: 'open' });
+        ;
         
         // State
         this.isResizing = false;
@@ -33,6 +35,7 @@ class WBResizeBoth extends HTMLElement {
     }
 
     connectedCallback() {
+    super.connectedCallback();
         this.render();
         this.setupEventListeners();
         this.loadSavedSize();
@@ -41,6 +44,7 @@ class WBResizeBoth extends HTMLElement {
     }
 
     disconnectedCallback() {
+    super.connectedCallback();
         this.cleanup();
     }
 
@@ -87,7 +91,7 @@ class WBResizeBoth extends HTMLElement {
         const positionStyle = this.getCornerPosition(corner);
         const cursorStyle = this.getCorsorForCorner(corner);
         
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
             <style>
                 :host {
                     display: block;
@@ -178,7 +182,7 @@ class WBResizeBoth extends HTMLElement {
     }
 
     setupEventListeners() {
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         
         if (!handle) {
             console.error('❌ wb-resize-both: Handle not found');
@@ -215,7 +219,7 @@ class WBResizeBoth extends HTMLElement {
         document.body.style.cursor = this.getCorsorForCorner(corner);
         document.body.style.userSelect = 'none';
         
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         handle.classList.add('resizing');
         
         e.preventDefault();
@@ -292,7 +296,7 @@ class WBResizeBoth extends HTMLElement {
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
         
-        const handle = this.shadowRoot.querySelector('.resize-handle');
+        const handle = this.querySelector('.resize-handle');
         handle.classList.remove('resizing');
 
         // Save size if storage key provided
@@ -370,3 +374,4 @@ customElements.define('wb-resize-both', WBResizeBoth);
 console.log('✅ wb-resize-both component registered');
 
 export default WBResizeBoth;
+

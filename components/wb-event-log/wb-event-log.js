@@ -15,8 +15,8 @@ class WBEventLog extends WBBaseComponent {
     static useShadow = false;
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        // Initialize properties
+        // Shadow DOM removed - Light DOM architecture
+    // Initialize properties
         this.events = [];
         this.maxEvents = 1000;
         this.autoScroll = true;
@@ -35,7 +35,8 @@ class WBEventLog extends WBBaseComponent {
     }
     
     connectedCallback() {
-        super.connectedCallback(); // Inherit dark mode and other base functionality
+        super.connectedCallback();
+    this.classList.add('wb-component', 'wb-event-log'); // Inherit dark mode and other base functionality
         // Initialize when element is added to DOM
         console.log('✅ WB Event Log: Component connected');
         this.init();
@@ -507,6 +508,53 @@ class WBEventLog extends WBBaseComponent {
         this.isPaused = paused;
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STATIC HELPER METHODS - Allow logging without requiring an instance
+// Usage: WBEventLog.logSuccess('message', { details })
+// ═══════════════════════════════════════════════════════════════════════════════
+
+WBEventLog.logInfo = function(message, details = {}) {
+    document.dispatchEvent(new CustomEvent('wb:info', {
+        detail: { message, ...details },
+        bubbles: true
+    }));
+};
+
+WBEventLog.logWarning = function(message, details = {}) {
+    document.dispatchEvent(new CustomEvent('wb:warning', {
+        detail: { message, ...details },
+        bubbles: true
+    }));
+};
+
+WBEventLog.logError = function(message, details = {}) {
+    document.dispatchEvent(new CustomEvent('wb:error', {
+        detail: { message, ...details },
+        bubbles: true
+    }));
+};
+
+WBEventLog.logSuccess = function(message, details = {}) {
+    document.dispatchEvent(new CustomEvent('wb:success', {
+        detail: { message, ...details },
+        bubbles: true
+    }));
+};
+
+WBEventLog.logDebug = function(message, details = {}) {
+    document.dispatchEvent(new CustomEvent('wb:debug', {
+        detail: { message, ...details },
+        bubbles: true
+    }));
+};
+
+WBEventLog.logUser = function(message, details = {}) {
+    document.dispatchEvent(new CustomEvent('wb:user', {
+        detail: { message, ...details },
+        bubbles: true
+    }));
+};
 
 // Register the custom element
 if (!customElements.get('wb-event-log')) {

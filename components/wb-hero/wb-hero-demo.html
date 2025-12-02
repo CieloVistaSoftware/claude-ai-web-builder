@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Hero Demo</title>
+  <link rel="stylesheet" href="wb-hero.css">
+  <script type="module" src="wb-hero.js"></script>
+  <script type="module" src="../wb-card/wb-card.js"></script>
+  <script type="module" src="../wb-button/wb-button.js"></script>
+</head>
+<body>
+  <wb-demo markdown="./wb-hero.md" title="WB Hero Component Demo">
+    <div slot="examples" class="hero-demo-examples">
+        <h2>Hero with Gradient Background</h2>
+        <wb-hero headline="Gradient Hero" subtitle="Linear gradient background." cta="Gradient" color="gradient"></wb-hero>
+        <hr>
+            <h2>Gradient Hero Inside Card</h2>
+            <wb-card>
+              <wb-hero headline="Card Gradient" subtitle="Gradient color in card." cta="Card" color="gradient"></wb-hero>
+            </wb-card>
+      <h2>Basic Hero Example</h2>
+      <wb-hero headline="Welcome to WB!" subtitle="Build beautiful web apps faster." cta="Get Started"></wb-hero>
+      <hr>
+      <h2>Hero with Background Image</h2>
+      <wb-hero headline="Stunning Visuals" subtitle="Add a background image for extra impact." cta="Learn More" bg="https://placehold.co/1200x400"></wb-hero>
+      <hr>
+      <h2>Hero Without CTA</h2>
+      <wb-hero headline="Minimal Hero" subtitle="No call-to-action button."></wb-hero>
+      <hr>
+      <h2>Hero with Custom Colors</h2>
+      <wb-hero headline="Colorful Hero" subtitle="Primary color scheme." cta="Primary" color="primary"></wb-hero>
+      <wb-hero headline="Accent Hero" subtitle="Accent color scheme." cta="Accent" color="accent"></wb-hero>
+      <wb-hero headline="Success Hero" subtitle="Success color scheme." cta="Success" color="success"></wb-hero>
+      <wb-hero headline="Danger Hero" subtitle="Danger color scheme." cta="Danger" color="danger"></wb-hero>
+      <hr>
+      <h2>Hero with Different Sizes</h2>
+      <wb-hero headline="Small Hero" subtitle="Small size." cta="Small" size="small"></wb-hero>
+      <wb-hero headline="Medium Hero" subtitle="Medium size." cta="Medium" size="medium"></wb-hero>
+      <wb-hero headline="Large Hero" subtitle="Large size." cta="Large" size="large"></wb-hero>
+      <hr>
+      <h2>Hero with Color and Size</h2>
+      <wb-hero headline="Primary Small" subtitle="Primary color, small size." cta="Go" color="primary" size="small"></wb-hero>
+      <wb-hero headline="Accent Medium" subtitle="Accent color, medium size." cta="Try" color="accent" size="medium"></wb-hero>
+      <wb-hero headline="Success Large" subtitle="Success color, large size." cta="Win" color="success" size="large"></wb-hero>
+      <wb-hero headline="Danger Small" subtitle="Danger color, small size." cta="Alert" color="danger" size="small"></wb-hero>
+      <hr>
+      <h2>Hero Inside Card with Color</h2>
+      <wb-card>
+        <wb-hero headline="Card Primary" subtitle="Primary color in card." cta="Card" color="primary"></wb-hero>
+      </wb-card>
+      <wb-card>
+        <wb-hero headline="Card Accent" subtitle="Accent color in card." cta="Card" color="accent"></wb-hero>
+      </wb-card>
+      <wb-card>
+        <wb-hero headline="Card Success" subtitle="Success color in card." cta="Card" color="success"></wb-hero>
+      </wb-card>
+      <wb-card>
+        <wb-hero headline="Card Danger" subtitle="Danger color in card." cta="Card" color="danger"></wb-hero>
+      </wb-card>
+      <hr>
+      <h2>Hero Inside Card</h2>
+      <wb-card>
+        <wb-hero headline="Hero in Card" subtitle="Wrapped in wb-card." cta="Card Action"></wb-hero>
+      </wb-card>
+      <hr>
+      <h2>Hero with Custom Button</h2>
+      <wb-hero headline="Custom Button" subtitle="Using wb-button as CTA.">
+        <wb-button slot="cta" color="accent" size="large">Custom CTA</wb-button>
+      </wb-hero>
+    </div>
+  </wb-demo>
+</body>
+</html>

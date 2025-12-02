@@ -190,7 +190,7 @@ table.setData([
 table.addRow({
     level: 'info', 
     time: '10:32:00', 
-    source: 'main.js', 
+    source: '../../src/js/main.js', 
     message: 'Info message'
 });</code></pre>
 
@@ -222,7 +222,7 @@ window.myData = [
             table.setData([
                 {level: 'error', timestamp: '10:30:45', source: 'app.js', message: 'Failed to connect to database'},
                 {level: 'warn', timestamp: '10:31:12', source: 'utils.js', message: 'Deprecated function used'},
-                {level: 'info', timestamp: '10:32:00', source: 'main.js', message: 'Application started successfully'},
+                {level: 'info', timestamp: '10:32:00', source: '../../src/js/main.js', message: 'Application started successfully'},
                 {level: 'error', timestamp: '10:33:15', source: 'auth.js', message: 'Invalid login credentials'}
             ]);
             updateStats();

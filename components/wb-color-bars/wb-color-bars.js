@@ -1,3 +1,4 @@
+import WBBaseComponent from '../wb-base/wb-base.js';
 /**
  * WB Color Bars - Self-Contained Component
  * A comprehensive HSL color picker with text and background color controls
@@ -26,19 +27,18 @@
 
 import { loadComponentCSS } from '../wb-css-loader/wb-css-loader.js';
 
-class ColorBars extends HTMLElement {
+class ColorBars extends WBBaseComponent {
   constructor() {
     super();
   }
 
   async connectedCallback() {
+    super.connectedCallback();
     await loadComponentCSS(this, 'wb-color-bars.css');
     this.init();
   }
 
   init() {
-    this.attachShadow({ mode: 'open' });
-    
     // Initialize text color HSL values
     this._textHue = 240;
     this._textSaturation = 70;
@@ -57,6 +57,7 @@ class ColorBars extends HTMLElement {
   }
   
   connectedCallback() {
+    super.connectedCallback();
     // Load wb-color-bar dependency first
     this.loadDependencies().then(() => {
       // Initialize from attributes first
@@ -194,6 +195,7 @@ class ColorBars extends HTMLElement {
   }
   
   disconnectedCallback() {
+    super.connectedCallback();
     this.removeEventListeners();
   }
   
@@ -239,7 +241,7 @@ class ColorBars extends HTMLElement {
         break;
     }
     
-    if (this.shadowRoot) {
+    if (this) {
       this.updateDisplay();
     }
   }
@@ -259,7 +261,7 @@ class ColorBars extends HTMLElement {
       }
     }
     
-    this.shadowRoot.innerHTML = `
+    this.innerHTML = `
       <link rel="stylesheet" href="${cssPath}">
       
       <div class="color-bars-container">
@@ -324,14 +326,14 @@ class ColorBars extends HTMLElement {
     // Wait for color-bar components to be rendered
     setTimeout(() => {
       // Text color bars
-      const textHueBar = this.shadowRoot.querySelector('#text-hue-bar');
-      const textSaturationBar = this.shadowRoot.querySelector('#text-saturation-bar');
-      const textLightnessBar = this.shadowRoot.querySelector('#text-lightness-bar');
+      const textHueBar = this.querySelector('#text-hue-bar');
+      const textSaturationBar = this.querySelector('#text-saturation-bar');
+      const textLightnessBar = this.querySelector('#text-lightness-bar');
       
       // Background color bars
-      const bgHueBar = this.shadowRoot.querySelector('#bg-hue-bar');
-      const bgSaturationBar = this.shadowRoot.querySelector('#bg-saturation-bar');
-      const bgLightnessBar = this.shadowRoot.querySelector('#bg-lightness-bar');
+      const bgHueBar = this.querySelector('#bg-hue-bar');
+      const bgSaturationBar = this.querySelector('#bg-saturation-bar');
+      const bgLightnessBar = this.querySelector('#bg-lightness-bar');
       
       // Set up event listeners for text color bars
       if (textHueBar) {
@@ -366,8 +368,8 @@ class ColorBars extends HTMLElement {
         bgLightnessBar.addEventListener('wb:color-harmony-change', (e) => this.handleHarmonyChange(e, 'background'));
       }
       // Copy to clipboard functionality
-      const textPreview = this.shadowRoot.querySelector('.text-preview');
-      const bgPreview = this.shadowRoot.querySelector('.bg-preview');
+      const textPreview = this.querySelector('.text-preview');
+      const bgPreview = this.querySelector('.bg-preview');
 
       if (textPreview) {
         textPreview.addEventListener('click', () => this.copyTextColorToClipboard());
@@ -471,9 +473,9 @@ class ColorBars extends HTMLElement {
   }
   
   updateTextColorBars() {
-    const textHueBar = this.shadowRoot.querySelector('#text-hue-bar');
-    const textSaturationBar = this.shadowRoot.querySelector('#text-saturation-bar');
-    const textLightnessBar = this.shadowRoot.querySelector('#text-lightness-bar');
+    const textHueBar = this.querySelector('#text-hue-bar');
+    const textSaturationBar = this.querySelector('#text-saturation-bar');
+    const textLightnessBar = this.querySelector('#text-lightness-bar');
     
     // Update context for text color bars so gradients reflect current color
     if (textHueBar && textHueBar.updateContext) {
@@ -502,9 +504,9 @@ class ColorBars extends HTMLElement {
   }
   
   updateBgColorBars() {
-    const bgHueBar = this.shadowRoot.querySelector('#bg-hue-bar');
-    const bgSaturationBar = this.shadowRoot.querySelector('#bg-saturation-bar');
-    const bgLightnessBar = this.shadowRoot.querySelector('#bg-lightness-bar');
+    const bgHueBar = this.querySelector('#bg-hue-bar');
+    const bgSaturationBar = this.querySelector('#bg-saturation-bar');
+    const bgLightnessBar = this.querySelector('#bg-lightness-bar');
     
     // Update context for background color bars so gradients reflect current color
     if (bgHueBar && bgHueBar.updateContext) {
@@ -553,9 +555,9 @@ class ColorBars extends HTMLElement {
   }
   
   updateValues() {
-    const hslDisplay = this.shadowRoot.querySelector('.hsl-display');
-    const rgbDisplay = this.shadowRoot.querySelector('.rgb-display');
-    const hexValue = this.shadowRoot.querySelector('.hex-value');
+    const hslDisplay = this.querySelector('.hsl-display');
+    const rgbDisplay = this.querySelector('.rgb-display');
+    const hexValue = this.querySelector('.hex-value');
     
     // Use text color for display values
     const rgb = this.hslToRgb(this._textHue, this._textSaturation, this._textLightness);
@@ -786,3 +788,4 @@ window.WBColorBars = ColorBars; // Alias for consistency
 // ES6 Module Exports
 export { ColorBars, ColorBars as WBColorBars };
 export default ColorBars;
+

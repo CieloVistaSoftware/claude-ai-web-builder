@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB Header Demo</title>
+  <link rel="stylesheet" href="../../src/styles/main.css">
+  <link rel="stylesheet" href="wb-header.css">
+  <script type="module" src="../../src/js/main.js"></script>
+</head>
+<body>
+  <h1>WB Header Component Demo</h1>
+  <wb-header brand-text="Demo Site" layout="default" sticky></wb-header>
+  <wb-header brand-text="Centered" layout="centered"></wb-header>
+  <wb-header brand-text="Minimal" layout="minimal"></wb-header>
+  <wb-header brand-text="Split" layout="split"></wb-header>
+  <hr>
+  <wb-header brand-text="With Navigation" show-nav="true">
+    <nav slot="navigation">
+      <a href="#">Home</a> |
+      <a href="#">About</a> |
+      <a href="#">Contact</a>
+    </nav>
+    <div slot="actions">
+      <button>Login</button>
+      <button>Sign Up</button>
+    </div>
+  </wb-header>
+</body>
+</html>

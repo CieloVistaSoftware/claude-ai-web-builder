@@ -127,8 +127,8 @@ WBEventLog.logInfo('Current color', { component: 'wb-color-bars-demo', color: co
         </div>
     </div>
     
-    <!-- Components loaded via bundle -->
-    <script src="wb-color-bars-bundle.js"></script>
+    <!-- ONE import for ALL WB components -->
+    <script type="module" src="../../src/js/main.js"></script>
     <script>
         // Function to calculate complementary accent color
         function calculateAccentColor(primaryHue, primarySaturation, primaryLightness) {

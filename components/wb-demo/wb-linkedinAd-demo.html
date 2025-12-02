@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB LinkedIn Ad Demo</title>
+  <!-- Foundation CSS (if needed) -->
+  <link rel="stylesheet" href="../../src/styles/main.css">
+  <!-- Component CSS -->
+  <link rel="stylesheet" href="../wb-linkedinAd/wb-linkedinAd.css">
+  <!-- Universal loader for all components -->
+  <script type="module" src="../../src/js/main.js"></script>
+</head>
+<body style="background: #f3f3f3; font-family: sans-serif;">
+  <div style="background: #181a1b; color: #e0e0e0; min-height: 100vh; font-family: 'Segoe UI', Arial, sans-serif;">
+    <wb-demo markdown="../wb-linkedinAd/wb-linkedinAd.md" title="WB LinkedIn Ad Demo">
+      <div slot="examples" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-bottom: 2rem;">
+        <wb-linkedinAd 
+          ad-id="12345" 
+          company="OpenAI" 
+          headline="Try the new AI-powered LinkedIn Ads!" 
+          cta="Get Started" 
+          dark
+          style="max-width:350px;min-width:280px;box-shadow:0 4px 24px rgba(0,0,0,0.25);margin:0 auto;border-radius:12px;overflow:hidden;">
+        </wb-linkedinAd>
+        <wb-linkedinAd 
+          ad-id="67890" 
+          company="Microsoft" 
+          headline="Boost your reach with LinkedIn" 
+          cta="Learn More"
+          dark
+          style="max-width:350px;min-width:280px;box-shadow:0 4px 24px rgba(0,0,0,0.25);margin:0 auto;border-radius:12px;overflow:hidden;">
+        </wb-linkedinAd>
+      </div>
+    </wb-demo>
+  </div>
+</body>
+</html>

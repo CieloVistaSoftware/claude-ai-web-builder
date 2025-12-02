@@ -1,306 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB Event Log Component Demo</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
-    
-    <!-- Component Files -->
-    <link rel="stylesheet" href="wb-event-log.css">   
-    <script type="module" src="wb-event-log.js"></script>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root[data-theme="dark"] {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --border-primary: #444;
-            --info: #2196F3;
-            --warning: #ff9800;
-            --error: #f44336;
-            --success: #4CAF50;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--border-primary);
-            padding-bottom: 20px;
-        }
-
-        h1 {
-            color: var(--info);
-            margin-bottom: 10px;
-            font-size: 32px;
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 16px;
-        }
-
-        .demo-section {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 8px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .section-title {
-            color: var(--text-primary);
-            font-size: 24px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--info);
-            padding-bottom: 10px;
-        }
-
-        .event-log-wrapper {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-primary);
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            min-height: 400px;
-        }
-
-        wb-event-log {
-            width: 100%;
-            height: 100%;
-            min-height: 400px;
-        }
-
-        .controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: white;
-        }
-
-        .btn-info {
-            background: var(--info);
-        }
-
-        .btn-info:hover {
-            background: #1976D2;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
-        }
-
-        .btn-warning {
-            background: var(--warning);
-        }
-
-        .btn-warning:hover {
-            background: #f57c00;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
-        }
-
-        .btn-error {
-            background: var(--error);
-        }
-
-        .btn-error:hover {
-            background: #d32f2f;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
-        }
-
-        .btn-success {
-            background: var(--success);
-        }
-
-        .btn-success:hover {
-            background: #388E3C;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
-        }
-
-        .btn-debug {
-            background: #6C757D;
-        }
-
-        .btn-debug:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
-        }
-
-        .btn-clear {
-            background: #555;
-            grid-column: 1 / -1;
-        }
-
-        .btn-clear:hover {
-            background: #666;
-            transform: translateY(-2px);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .stat-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-primary);
-            border-radius: 6px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--info);
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .documentation {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 2px solid var(--border-primary);
-        }
-
-        .doc-section h3 {
-            color: var(--info);
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        code {
-            background: var(--bg-primary);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-            color: #FFD54F;
-        }
-
-        pre {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-primary);
-            border-radius: 6px;
-            padding: 15px;
-            overflow-x: auto;
-            margin: 10px 0;
-            color: #FFD54F;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>📊 WB Event Log Component</h1>
-            <p class="subtitle">Real-time event capture and display with zero configuration</p>
-        </header>
-
-        <section class="demo-section">
-            <h2 class="section-title">Live Event Log</h2>
-            
-            <div class="controls">
-                <button class="btn-info" onclick="generateInfoEvent()">📝 Info Event</button>
-                <button class="btn-warning" onclick="generateWarningEvent()">⚠️ Warning Event</button>
-                <button class="btn-error" onclick="generateErrorEvent()">❌ Error Event</button>
-                <button class="btn-success" onclick="generateSuccessEvent()">✅ Success Event</button>
-                <button class="btn-debug" onclick="generateDebugEvent()">🐛 Debug Event</button>
-                <button class="btn-clear" onclick="clearAllEvents()">🗑️ Clear Events</button>
-            </div>
-
-            <div class="event-log-wrapper">
-                <wb-event-log id="demoEventLog" 
-                    max-events="1000" 
-                    auto-scroll="true" 
-                    show-timestamps="true" 
-                    wrap-mode="truncate" 
-                    dark-mode="auto" 
-                    compact="false" 
-                    toolbar="true" 
-                    search="true" 
-                    filters="true" 
-                    export="true" 
-                    intercept-console="true" 
-                    capture-errors="true">
-                </wb-event-log>
-            </div>
-
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalEvents">0</div>
-                    <div class="stat-label">Total Events</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="visibleEvents">0</div>
-                    <div class="stat-label">Visible Events</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="errorCount">0</div>
-                    <div class="stat-label">Error Count</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="eventRate">0</div>
-                    <div class="stat-label">Events/sec</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="demo-section documentation">
-            <h2 class="section-title">📖 Usage</h2>
-            
-            <div class="doc-section">
-                <h3>Basic Setup</h3>
-                <pre>&lt;wb-event-log id="myLog"&gt;&lt;/wb-event-log&gt;
-
-&lt;script src="wb-event-log.js"&gt;&lt;/script&gt;</pre>
-            </div>
-
-            <div class="doc-section">
-                <h3>Dispatch Events</h3>
-                <pre>// Info event
 document.dispatchEvent(new CustomEvent('wb:info', {
   detail: { message: 'Hello World' }
 }));
@@ -319,144 +16,68 @@ document.dispatchEvent(new CustomEvent('wb:error', {
 document.dispatchEvent(new CustomEvent('wb:success', {
   detail: { message: 'Operation completed' }
 }));</pre>
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Event Log Demo</title>
+    <link rel="stylesheet" href="wb-event-log.css">
+    <script type="module" src="../../src/js/main.js"></script>
+</head>
+
+<body>
+    <wb-demo markdown="./wb-event-log.md" title="WB Event Log Demo">
+        <div slot="examples" class="event-log-demo">
+            <div class="event-log-header">
+                <h2>Live Event Log</h2>
+                <p>Real-time event capture and display with zero configuration</p>
             </div>
-
-            <div class="doc-section">
-                <h3>Available Events</h3>
-                <ul style="margin-left: 20px; color: var(--text-secondary);">
-                    <li><code>wb:info</code> - Information messages (blue)</li>
-                    <li><code>wb:warning</code> - Warning messages (orange)</li>
-                    <li><code>wb:error</code> - Error messages (red)</li>
-                    <li><code>wb:success</code> - Success messages (green)</li>
-                    <li><code>wb:debug</code> - Debug messages (gray)</li>
-                    <li><code>wb:user</code> - User action messages (purple)</li>
-                </ul>
+            <div class="controls">
+                <button class="btn-info" id="infoBtn">📝 Info Event</button>
+                <button class="btn-warning" id="warningBtn">⚠️ Warning Event</button>
+                <button class="btn-error" id="errorBtn">❌ Error Event</button>
+                <button class="btn-success" id="successBtn">✅ Success Event</button>
+                <button class="btn-debug" id="debugBtn">🐛 Debug Event</button>
+                <button class="btn-clear" id="clearBtn">🗑️ Clear Events</button>
             </div>
-
-            <div class="doc-section">
-                <h3>Features</h3>
-                <ul style="margin-left: 20px; color: var(--text-secondary);">
-                    <li>✅ Real-time event capture</li>
-                    <li>✅ Console log interception</li>
-                    <li>✅ Color-coded by event type</li>
-                    <li>✅ Accurate timestamps</li>
-                    <li>✅ Auto-scroll to newest events</li>
-                    <li>✅ Search and filtering</li>
-                    <li>✅ Export to JSON/CSV/TXT</li>
-                    <li>✅ Dark mode support</li>
-                    <li>✅ No dependencies</li>
-                </ul>
+            <div class="event-log-wrapper">
+                <wb-event-log id="demoEventLog"
+                    max-events="1000"
+                    auto-scroll="true"
+                    show-timestamps="true"
+                    wrap-mode="truncate"
+                    dark-mode="force"
+                    compact="false"
+                    toolbar="true"
+                    search="true"
+                    filters="true"
+                    export="true"
+                    intercept-console="true"
+                    capture-errors="true">
+                </wb-event-log>
             </div>
-        </section>
-    </div>
-
-    <script type="module">
-        let eventCount = 0;
-        let errorCount = 0;
-        let eventTimes = [];
-
-        const eventLog = document.getElementById('demoEventLog');
-
-        // Event generation functions
-        window.generateInfoEvent = function() {
-            document.dispatchEvent(new CustomEvent('wb:info', {
-                detail: { 
-                    message: `Info message #${++eventCount}`,
-                    source: 'demo'
-                }
-            }));
-            updateStats();
-        };
-
-        window.generateWarningEvent = function() {
-            const warnings = [
-                'API response time exceeded threshold',
-                'Memory usage approaching limit',
-                'Cache miss rate high',
-                'Network latency increased'
-            ];
-            document.dispatchEvent(new CustomEvent('wb:warning', {
-                detail: { 
-                    message: warnings[Math.floor(Math.random() * warnings.length)],
-                    source: 'demo'
-                }
-            }));
-            updateStats();
-        };
-
-        window.generateErrorEvent = function() {
-            const errors = [
-                'Failed to connect to database',
-                'Authentication token expired',
-                'File not found: config.json',
-                'Network request timeout'
-            ];
-            document.dispatchEvent(new CustomEvent('wb:error', {
-                detail: { 
-                    message: errors[Math.floor(Math.random() * errors.length)],
-                    source: 'demo'
-                }
-            }));
-            errorCount++;
-            updateStats();
-        };
-
-        window.generateSuccessEvent = function() {
-            const successes = [
-                'User authentication successful',
-                'Data saved successfully',
-                'Connection established',
-                'Operation completed successfully'
-            ];
-            document.dispatchEvent(new CustomEvent('wb:success', {
-                detail: { 
-                    message: successes[Math.floor(Math.random() * successes.length)],
-                    source: 'demo'
-                }
-            }));
-            updateStats();
-        };
-
-        window.generateDebugEvent = function() {
-            const debugs = [
-                'Component initialized',
-                'Event listener attached',
-                'Rendering complete',
-                'State updated'
-            ];
-            document.dispatchEvent(new CustomEvent('wb:debug', {
-                detail: { 
-                    message: debugs[Math.floor(Math.random() * debugs.length)],
-                    source: 'demo'
-                }
-            }));
-            updateStats();
-        };
-
-        window.clearAllEvents = function() {
-            if (eventLog && eventLog.clearEvents) {
-                eventLog.clearEvents();
-                eventCount = 0;
-                errorCount = 0;
-                eventTimes = [];
-                updateStats();
-            }
-        };
-
-        function updateStats() {
-            const now = Date.now();
-            eventTimes.push(now);
-            eventTimes = eventTimes.filter(time => now - time < 10000);
-
-            document.getElementById('totalEvents').textContent = eventCount;
-            document.getElementById('visibleEvents').textContent = eventLog?.events?.length || 0;
-            document.getElementById('errorCount').textContent = errorCount;
-            document.getElementById('eventRate').textContent = (eventTimes.length / 10).toFixed(1);
-        }
-
-        // Initialize stats
-        setInterval(updateStats, 1000);
-        updateStats();
-    </script>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalEvents">0</div>
+                    <div class="stat-label">Total Events</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="visibleEvents">0</div>
+                    <div class="stat-label">Visible Events</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="errorCount">0</div>
+                    <div class="stat-label">Error Count</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="eventRate">0</div>
+                    <div class="stat-label">Events/sec</div>
+                </div>
+            </div>
+        </div>
+    </wb-demo>
+    <script type="module" src="wb-event-log.js"></script>
 </body>
 </html>

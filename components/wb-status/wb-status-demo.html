@@ -524,8 +524,8 @@
     
 </body>
 <!-- Move all <script> tags here, after the closing </body> tag, to ensure DOM is ready -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script type="module" src="wb-status.js"></script>
+    <!-- ONE import for ALL WB components -->
+    <script type="module" src="../../src/js/main.js"></script>
 <script>
         // Load and render markdown documentation
         async function loadStatusDocs() {

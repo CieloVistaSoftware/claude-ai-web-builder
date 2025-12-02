@@ -1,0 +1,32 @@
+<div class="wb-card {{classes}}">
+  {{#mediaSrc}}
+  <div class="wb-card__media">
+    {{#isVideo}}<video class="wb-card__video" src="{{mediaSrc}}" controls muted loop preload="metadata" style="width: 100%; height: auto; min-height: 250px; display: block; background: #000;"></video>{{/isVideo}}
+    {{#isImage}}<img class="wb-card__image" src="{{mediaSrc}}" alt="{{mediaAlt}}">{{/isImage}}
+  </div>
+  {{/mediaSrc}}
+  
+  <div class="wb-card__header">
+    {{#title}}<h3 class="wb-card__title">{{title}}</h3>{{/title}}
+    {{#subtitle}}<p class="wb-card__subtitle">{{subtitle}}</p>{{/subtitle}}
+  </div>
+  
+  <div class="wb-card__body">
+    <div class="wb-card__content">{{body}}</div>
+  </div>
+  
+  <!-- Slot for slotted content (preserves child elements) -->
+  <div class="wb-card__slot"></div>
+  
+  {{#footer}}
+  <div class="wb-card__footer">{{footer}}</div>
+  {{/footer}}
+  
+  {{#hasActions}}
+  <div class="wb-card__actions">
+    {{#actions}}
+    <button class="wb-card__action-btn wb-btn {{variant}}" data-action-index="{{index}}">{{text}}</button>
+    {{/actions}}
+  </div>
+  {{/hasActions}}
+</div>

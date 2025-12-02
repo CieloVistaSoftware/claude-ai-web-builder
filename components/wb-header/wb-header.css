@@ -1,0 +1,41 @@
+/* wb-header.css */
+.wb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--wb-header-bg, var(--surface-color));
+  border-bottom: 1px solid var(--wb-header-border, var(--border-color));
+  box-shadow: var(--wb-header-shadow, var(--shadow-sm));
+  padding: var(--wb-header-padding, 0 var(--spacing-xl));
+  height: var(--wb-header-height, 4rem);
+  z-index: var(--wb-header-z-index, 100);
+}
+.wb-header__brand {
+  font-size: var(--wb-header-brand-size, var(--spacing-lg));
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+}
+.wb-header__nav {
+  flex: 1;
+  text-align: center;
+}
+.wb-header__actions {
+  display: flex;
+  gap: var(--wb-header-gap, var(--spacing-xl));
+}
+.wb-header--sticky {
+  position: sticky;
+  top: 0;
+}
+.wb-header--centered {
+  justify-content: center;
+}
+.wb-header--split {
+  justify-content: space-between;
+}
+.wb-header--minimal {
+  background: none;
+  border: none;
+  box-shadow: none;
+}

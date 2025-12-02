@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB Chatbot Demo</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <style>
+        .chatbot-layout {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .theme-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #0a0a0f;
+            border-radius: 8px;
+            border: 1px solid #1a1a2e;
+            min-width: 140px;
+        }
+        
+        .theme-panel h4 {
+            margin: 0 0 0.5rem 0;
+            color: #888;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .theme-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #1a1a2e;
+            border-radius: 6px;
+            background: #0d0d14;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+        
+        .theme-btn:hover {
+            background: #1a1a2e;
+            color: #fff;
+            border-color: #333;
+        }
+        
+        .theme-btn.active {
+            background: var(--primary, #667eea);
+            color: white;
+            border-color: var(--primary, #667eea);
+        }
+        
+        #chatbot-container {
+            flex: 1;
+            max-width: 650px;
+        }
+        
+        /* Theme: Cyberpunk */
+        .theme-cyberpunk {
+            --bg-primary: #0d0221;
+            --bg-secondary: #1a0533;
+            --primary: #ff00ff;
+            --text-primary: #00ffff;
+            --text-muted: #8888aa;
+            --border-color: #ff00ff44;
+        }
+        
+        /* Theme: Ocean */
+        .theme-ocean {
+            --bg-primary: #0a1628;
+            --bg-secondary: #0d2137;
+            --primary: #00b4d8;
+            --text-primary: #caf0f8;
+            --text-muted: #90e0ef;
+            --border-color: #0077b655;
+        }
+        
+        /* Theme: Forest */
+        .theme-forest {
+            --bg-primary: #1a2f1a;
+            --bg-secondary: #243524;
+            --primary: #4ade80;
+            --text-primary: #dcfce7;
+            --text-muted: #86efac;
+            --border-color: #22c55e44;
+        }
+        
+        /* Theme: Sunset */
+        .theme-sunset {
+            --bg-primary: #1f1315;
+            --bg-secondary: #2d1b1e;
+            --primary: #f97316;
+            --text-primary: #fed7aa;
+            --text-muted: #fdba74;
+            --border-color: #ea580c44;
+        }
+        
+        /* Theme: Midnight */
+        .theme-midnight {
+            --bg-primary: #020617;
+            --bg-secondary: #0f172a;
+            --primary: #818cf8;
+            --text-primary: #e0e7ff;
+            --text-muted: #a5b4fc;
+            --border-color: #6366f155;
+        }
+        
+        #theme-code {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #0a0a0f;
+            border-radius: 8px;
+            border: 1px solid #1a1a2e;
+        }
+        
+        #theme-code h4 {
+            margin: 0 0 0.5rem 0;
+            color: #888;
+            font-size: 0.85rem;
+        }
+        
+        #theme-code pre {
+            margin: 0;
+            font-size: 0.8rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <wb-demo title="💬 WB Chatbot">
+        <div slot="examples">
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                Search for components, explore documentation, or ask questions. Try: "button", "color", "slider"
+            </p>
+            
+            <div class="chatbot-layout">
+                <div class="theme-panel">
+                    <h4>🎨 Themes</h4>
+                    <button class="theme-btn active" data-theme="default">Default</button>
+                    <button class="theme-btn" data-theme="cyberpunk">Cyberpunk</button>
+                    <button class="theme-btn" data-theme="ocean">Ocean</button>
+                    <button class="theme-btn" data-theme="forest">Forest</button>
+                    <button class="theme-btn" data-theme="sunset">Sunset</button>
+                    <button class="theme-btn" data-theme="midnight">Midnight</button>
+                </div>
+                
+                <div id="chatbot-container">
+                    <wb-chatbot title="WB Assistant"></wb-chatbot>
+                </div>
+            </div>
+            
+            <div id="theme-code">
+                <h4>📋 Current Theme CSS</h4>
+                <pre><code id="theme-css">/* Default theme - uses base CSS variables */</code></pre>
+            </div>
+        </div>
+    </wb-demo>
+    
+    <script type="module" src="/src/js/main.js"></script>
+    <script>
+        const themeCSSCode = {
+            'default': `/* Default theme - uses base CSS variables */`,
+            'cyberpunk': `.theme-cyberpunk {
+    --bg-primary: #0d0221;
+    --bg-secondary: #1a0533;
+    --primary: #ff00ff;
+    --text-primary: #00ffff;
+    --text-muted: #8888aa;
+    --border-color: #ff00ff44;
+}`,
+            'ocean': `.theme-ocean {
+    --bg-primary: #0a1628;
+    --bg-secondary: #0d2137;
+    --primary: #00b4d8;
+    --text-primary: #caf0f8;
+    --text-muted: #90e0ef;
+    --border-color: #0077b655;
+}`,
+            'forest': `.theme-forest {
+    --bg-primary: #1a2f1a;
+    --bg-secondary: #243524;
+    --primary: #4ade80;
+    --text-primary: #dcfce7;
+    --text-muted: #86efac;
+    --border-color: #22c55e44;
+}`,
+            'sunset': `.theme-sunset {
+    --bg-primary: #1f1315;
+    --bg-secondary: #2d1b1e;
+    --primary: #f97316;
+    --text-primary: #fed7aa;
+    --text-muted: #fdba74;
+    --border-color: #ea580c44;
+}`,
+            'midnight': `.theme-midnight {
+    --bg-primary: #020617;
+    --bg-secondary: #0f172a;
+    --primary: #818cf8;
+    --text-primary: #e0e7ff;
+    --text-muted: #a5b4fc;
+    --border-color: #6366f155;
+}`
+        };
+        
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const container = document.getElementById('chatbot-container');
+                container.className = '';
+                
+                const theme = btn.dataset.theme;
+                if (theme !== 'default') {
+                    container.classList.add('theme-' + theme);
+                }
+                
+                document.getElementById('theme-css').textContent = themeCSSCode[theme] || themeCSSCode['default'];
+            });
+        });
+    </script>
+</body>
+</html>
