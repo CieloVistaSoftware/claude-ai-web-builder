@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Claude AI Web Builder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Builder</title>
+    <link rel="stylesheet" href="wb-fixed.css">
+    <style>
+        /* Additional inline styles for immediate fixes */
+        .color-preview {
+            transition: background-color 0.3s ease !important;
+        }
+    </style>
+</head>
 
     <!-- Favicon -->
     <link rel="icon" href="/images/ziasymbol.svg" type="image/svg+xml" />
@@ -21,9 +29,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="wb.css" />
-    <link rel="stylesheet" href="../components/color-control-panel/color-control-panel.css" />
-
-    <!-- Status Bar Styles -->
+    <link rel="stylesheet" href="../components/color-control-panel/color-control-panel.css?v=20250915" />
    
   </head>
   <body data-layout="top-nav" data-theme="dark" data-footer="same-page">
@@ -274,7 +280,10 @@
       </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Load theme event system first -->
+    <script src="theme-events.js"></script>
+
+    <!-- Load core JavaScript -->
     <script src="wb.js"></script>
     <script src="../components/color-control-panel/color-control-panel.js"></script>
 
@@ -298,7 +307,7 @@
 
       // Initialize status bar
       document.addEventListener("DOMContentLoaded", function () {
-        updateStatus("Website Builder loaded - Ready to edit", "success");
+        updateStatus("Website Builder loading...", "info");
         document.getElementById("status-info").textContent = "Edit mode: OFF";
         
         // Load color control panel component
@@ -323,13 +332,14 @@
           const container = document.getElementById('color-control-panel-container');
           container.innerHTML = html;
           
-          // Initialize the component
-          const controlPanel = container.querySelector('.control-panel');
-          if (controlPanel) {
-            controlPanel.id = 'control-panel';
-            window.colorControlPanel = new ColorControlPanel('control-panel');
-            updateStatus('Color Control Panel component loaded successfully', 'success');
-          }
+          // Wait for DOM to update
+          setTimeout(() => {
+            const controlPanel = container.querySelector('.control-panel');
+            if (controlPanel) {
+              controlPanel.id = 'control-panel';
+              updateStatus('Color Control Panel component loaded successfully', 'success');
+            }
+          }, 100);
         } catch (error) {
           console.error('Failed to load color control panel component:', error);
           updateStatus('Failed to load control panel component', 'error');
@@ -448,8 +458,6 @@
         markAsChanged();
       }
 
-
-
       // Media Browser Functionality
       let currentMediaTarget = null;
       let selectedFile = null;
@@ -462,383 +470,4 @@
           files: [
             { name: 'ziasymbol.svg', type: 'image', size: '2.3 KB' },
             { name: 'redsample.png', type: 'image', size: '15.2 KB' },
-            { name: 'bluesample.png', type: 'image', size: '14.8 KB' },
-            { name: 'pinksample.png', type: 'image', size: '16.1 KB' },
-            { name: 'purplesample.png', type: 'image', size: '15.9 KB' },
-            { name: 'greenleftsample.png', type: 'image', size: '18.3 KB' },
-            { name: 'SkyBlueTopSample.png', type: 'image', size: '17.4 KB' },
-            { name: 'YellowLeftSample.png', type: 'image', size: '16.8 KB' },
-            { name: 'YellowTopSample.png', type: 'image', size: '17.2 KB' },
-            { name: 'dynamic-page-navigation-failure.png', type: 'image', size: '45.2 KB' },
-            { name: 'footer-position-change-failure.png', type: 'image', size: '38.7 KB' },
-            { name: 'footer-visibility-toggle-failure.png', type: 'image', size: '42.1 KB' },
-            { name: 'navigation-test-failure.png', type: 'image', size: '41.3 KB' }
-          ]
-        },
-        'css': {
-          folders: ['themes'],
-          files: []
-        },
-        'css/themes': {
-          folders: [],
-          files: [
-            { name: 'dark-theme-bg.jpg', type: 'image', size: '125.4 KB' },
-            { name: 'light-theme-bg.jpg', type: 'image', size: '98.7 KB' },
-            { name: 'ocean-theme-bg.jpg', type: 'image', size: '156.2 KB' },
-            { name: 'sunset-theme-bg.jpg', type: 'image', size: '132.8 KB' }
-          ]
-        },
-        'ads': {
-          folders: [],
-          files: [
-            { name: 'banner-ad.jpg', type: 'image', size: '28.5 KB' },
-            { name: 'sidebar-ad.png', type: 'image', size: '12.3 KB' }
-          ]
-        }
-      };
-      
-      function initializeMediaBrowser() {
-        // Create hidden file input for native file picker with folder access
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = '.png,.jpg,.jpeg,.gif,.svg,.webp,.bmp';
-        fileInput.style.display = 'none';
-        fileInput.id = 'hidden-file-input';
-        fileInput.webkitdirectory = false; // Allow file selection, not directory
-        fileInput.multiple = false; // Single file selection
-        document.body.appendChild(fileInput);
-        
-        // Add click handlers to all elements with data-media-tip in edit mode
-        document.addEventListener('click', function(e) {
-          const target = e.target.closest('[data-media-tip]');
-          if (target && document.body.classList.contains('edit-mode')) {
-            e.preventDefault();
-            e.stopPropagation();
-            openNativeFilePicker(target);
-          }
-        });
-        
-        // Handle file selection
-        fileInput.addEventListener('change', function(e) {
-          if (e.target.files.length > 0) {
-            handleFileSelection(e.target.files[0]);
-          }
-        });
-      }
-      
-      function openNativeFilePicker(target) {
-        currentMediaTarget = target;
-        
-        // Set up file input to prioritize PNG files
-        const fileInput = document.getElementById('hidden-file-input');
-        
-        // Reset any previous value
-        fileInput.value = '';
-        
-        // Trigger the file picker dialog
-        fileInput.click();
-        
-        updateStatus('Browse folders and select a PNG image (or other image types)', 'info');
-      }
-      
-      function handleFileSelection(file) {
-        if (!currentMediaTarget) return;
-        
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-          updateStatus('Please select a valid image file', 'error');
-          return;
-        }
-        
-        // Create object URL for the selected file
-        const imageUrl = URL.createObjectURL(file);
-        const tip = currentMediaTarget.getAttribute('data-media-tip');
-        
-        // Apply the image based on the tip type
-        if (tip.includes('background')) {
-          // Set as background image
-          currentMediaTarget.style.backgroundImage = `url('${imageUrl}')`;
-          currentMediaTarget.style.backgroundSize = 'cover';
-          currentMediaTarget.style.backgroundPosition = 'center';
-          currentMediaTarget.classList.add('has-media-background');
-        } else if (tip.includes('logo') || tip.includes('icon')) {
-          // Replace content with image
-          const img = document.createElement('img');
-          img.src = imageUrl;
-          img.alt = file.name;
-          img.style.maxWidth = '100%';
-          img.style.height = 'auto';
-          currentMediaTarget.innerHTML = '';
-          currentMediaTarget.appendChild(img);
-          currentMediaTarget.classList.add('element-transformed-to-media');
-          
-          // Make the new image scroll-resizable
-          setTimeout(() => makeImageScrollResizable(img), 100);
-        }
-        
-        // Mark as changed
-        markAsChanged();
-        updateStatus(`Image "${file.name}" applied successfully`, 'success');
-        
-        // Reset current target
-        currentMediaTarget = null;
-      }
-      
-      function closeMediaBrowser() {
-        document.getElementById('media-browser-modal').classList.remove('show');
-        currentMediaTarget = null;
-        selectedFile = null;
-        currentPath = '';
-      }
-      
-      function loadDirectory(path) {
-        const browser = document.getElementById('file-browser');
-        browser.innerHTML = '';
-        
-        const directory = fileSystem[path];
-        if (!directory) {
-          browser.innerHTML = '<div class="file-item">Directory not found</div>';
-          return;
-        }
-        
-        // Add parent directory link if not in root
-        if (path !== '') {
-          const parentPath = path.includes('/') ? path.substring(0, path.lastIndexOf('/')) : '';
-          const parentItem = createFileItem('..', 'folder', '', true, parentPath);
-          browser.appendChild(parentItem);
-        }
-        
-        // Add folders
-        directory.folders.forEach(folderName => {
-          const folderPath = path === '' ? folderName : `${path}/${folderName}`;
-          const folderItem = createFileItem(folderName, 'folder', '', false, folderPath);
-          browser.appendChild(folderItem);
-        });
-        
-        // Add files
-        directory.files.forEach(file => {
-          const filePath = path === '' ? file.name : `${path}/${file.name}`;
-          const fileItem = createFileItem(file.name, file.type, file.size, false, filePath);
-          browser.appendChild(fileItem);
-        });
-      }
-      
-      function createFileItem(name, type, size, isParent, fullPath) {
-        const item = document.createElement('div');
-        item.className = 'file-item';
-        
-        const icon = document.createElement('div');
-        icon.className = 'file-icon';
-        
-        if (isParent) {
-          icon.textContent = '↰';
-          item.onclick = () => navigateToFolder(fullPath);
-        } else if (type === 'folder') {
-          icon.textContent = '📁';
-          item.onclick = () => navigateToFolder(fullPath);
-        } else {
-          icon.textContent = '🖼️';
-          item.onclick = () => selectFileItem(item, fullPath);
-        }
-        
-        const info = document.createElement('div');
-        info.className = 'file-info';
-        
-        const fileName = document.createElement('div');
-        fileName.className = 'file-name';
-        fileName.textContent = name;
-        
-        const fileDetails = document.createElement('div');
-        fileDetails.className = 'file-details';
-        
-        if (isParent) {
-          fileDetails.textContent = 'Parent directory';
-        } else if (type === 'folder') {
-          fileDetails.textContent = 'Folder';
-        } else {
-          fileDetails.textContent = `Image • ${size}`;
-        }
-        
-        info.appendChild(fileName);
-        info.appendChild(fileDetails);
-        item.appendChild(icon);
-        item.appendChild(info);
-        
-        // Add preview for image files
-        if (type === 'image') {
-          const preview = document.createElement('img');
-          preview.className = 'file-preview';
-          preview.src = `/images/${fullPath}`;
-          preview.alt = name;
-          preview.onerror = () => {
-            preview.style.display = 'none';
-          };
-          item.appendChild(preview);
-        }
-        
-        return item;
-      }
-      
-      function navigateToFolder(path) {
-        currentPath = path;
-        selectedFile = null;
-        document.getElementById('select-media-btn').disabled = true;
-        loadDirectory(path);
-        updateBreadcrumb(path);
-      }
-      
-      function updateBreadcrumb(path) {
-        const breadcrumb = document.getElementById('nav-breadcrumb');
-        breadcrumb.innerHTML = '';
-        
-        const parts = path === '' ? ['images'] : ['images', ...path.split('/')];
-        
-        parts.forEach((part, index) => {
-          if (index > 0) {
-            const separator = document.createElement('span');
-            separator.className = 'nav-breadcrumb-separator';
-            separator.textContent = ' / ';
-            breadcrumb.appendChild(separator);
-          }
-          
-          const item = document.createElement('span');
-          item.className = 'nav-breadcrumb-item';
-          item.textContent = part;
-          
-          if (index === 0) {
-            item.onclick = () => navigateToFolder('');
-          } else {
-            const clickPath = parts.slice(1, index + 1).join('/');
-            item.onclick = () => navigateToFolder(clickPath);
-          }
-          
-          breadcrumb.appendChild(item);
-        });
-      }
-      
-      function selectFileItem(item, filePath) {
-        // Remove previous selection
-        document.querySelectorAll('.file-item').forEach(i => i.classList.remove('selected'));
-        
-        // Select current item
-        item.classList.add('selected');
-        selectedFile = filePath;
-        
-        // Enable select button
-        document.getElementById('select-media-btn').disabled = false;
-        updateStatus(`Selected: ${filePath}`, 'info');
-      }
-      
-      function selectMedia() {
-        if (!selectedFile || !currentMediaTarget) return;
-        
-        const imagePath = `/images/${selectedFile}`;
-        const tip = currentMediaTarget.getAttribute('data-media-tip');
-        
-        // Apply the image based on the tip type
-        if (tip.includes('background')) {
-          // Set as background image
-          currentMediaTarget.style.backgroundImage = `url('${imagePath}')`;
-          currentMediaTarget.style.backgroundSize = 'cover';
-          currentMediaTarget.style.backgroundPosition = 'center';
-          currentMediaTarget.classList.add('has-media-background');
-        } else if (tip.includes('logo') || tip.includes('icon')) {
-          // Replace content with image
-          const img = document.createElement('img');
-          img.src = imagePath;
-          img.alt = selectedFile;
-          img.style.maxWidth = '100%';
-          img.style.height = 'auto';
-          currentMediaTarget.innerHTML = '';
-          currentMediaTarget.appendChild(img);
-          currentMediaTarget.classList.add('element-transformed-to-media');
-          
-          // Make the new image scroll-resizable
-          setTimeout(() => makeImageScrollResizable(img), 100);
-        }
-        
-        // Mark as changed and close browser
-        markAsChanged();
-        closeMediaBrowser();
-        updateStatus(`Image ${selectedFile} applied successfully`, 'success');
-      }
-
-      // Change tracking functionality
-      let hasUnsavedChanges = false;
-      
-      function initializeChangeTracking() {
-        const saveBtn = document.getElementById('save-btn');
-        
-        // Monitor all editable elements for changes
-        const editableElements = document.querySelectorAll('.editable');
-        editableElements.forEach(element => {
-          element.addEventListener('input', markAsChanged);
-          element.addEventListener('blur', markAsChanged);
-        });
-        
-        // Monitor control panel changes
-        const controls = document.querySelectorAll('select, input[type="color"], input[type="range"], .color-fine-btn');
-        controls.forEach(control => {
-          control.addEventListener('change', markAsChanged);
-          control.addEventListener('input', markAsChanged);
-          if (control.classList.contains('color-fine-btn')) {
-            control.addEventListener('click', markAsChanged);
-          }
-        });
-        
-        // Monitor edit mode toggle
-        const editModeToggle = document.getElementById('edit-mode-toggle');
-        if (editModeToggle) {
-          editModeToggle.addEventListener('click', function() {
-            markAsChanged();
-            // Update status info when edit mode changes
-            setTimeout(() => {
-              const isEditMode = document.body.classList.contains('edit-mode');
-              document.getElementById('status-info').textContent = `Edit mode: ${isEditMode ? 'ON' : 'OFF'}`;
-              if (isEditMode) {
-                updateStatus('Edit mode active - Click on highlighted elements to add images', 'info');
-              } else {
-                updateStatus('Edit mode disabled', 'success');
-              }
-            }, 100);
-          });
-        }
-      }
-      
-      function markAsChanged() {
-        if (!hasUnsavedChanges) {
-          hasUnsavedChanges = true;
-          showSaveButton();
-          updateStatus("Changes detected - Click Save to preserve changes", "warning");
-        }
-      }
-      
-      function markAsSaved() {
-        hasUnsavedChanges = false;
-        hideSaveButton();
-        updateStatus("Changes saved successfully", "success");
-      }
-      
-      function showSaveButton() {
-        const saveBtn = document.getElementById('save-btn');
-        saveBtn.classList.remove('save-btn-hidden');
-        saveBtn.classList.add('save-btn-visible');
-      }
-      
-      function hideSaveButton() {
-        const saveBtn = document.getElementById('save-btn');
-        saveBtn.classList.remove('save-btn-visible');
-        saveBtn.classList.add('save-btn-hidden');
-      }
-
-      // Save button functionality is now handled by wb.js
-      document.getElementById('save-btn').addEventListener('click', function() {
-        // This is just a stub - actual save functionality is in wb.js
-        console.log('Save button clicked - functionality handled by wb.js');
-        
-        // Mark as saved after successful save
-        markAsSaved();
-      });
-    </script>
-  </body>
-</html>
+            { name: 'bl

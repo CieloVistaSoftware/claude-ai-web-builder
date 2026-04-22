@@ -1,6 +1,4 @@
 <!-- Color Control Panel Web Component -->
-<link rel="stylesheet" href="color-control-panel.css">
-<link rel="stylesheet" href="dark-mode-override.css">
 <style>
   * { background: #000000 !important; color: #ffffff !important; }
   body { background: #000000 !important; color: #ffffff !important; margin: 0; padding: 20px; }
@@ -40,21 +38,7 @@
     </div>
 
     <div class="control-group">
-      <label>Color Spectrum Explorer</label>
       <div class="color-spectrum-container">
-        <!-- Color Spectrum Bar with Slider -->
-        <div class="spectrum-slider-container">
-          <div class="color-spectrum-bar"></div>
-          <input
-            type="range"
-            id="spectrum-slider"
-            min="0"
-            max="360"
-            value="0"
-            class="spectrum-slider"
-          />
-        </div>
-        
         <!-- Hue Slider -->
         <div class="color-slider-container">
           <label for="hue-slider">Hue (0-360°)</label>
@@ -65,6 +49,7 @@
             max="360"
             value="0"
             class="hue-slider"
+            oninput="updateColorFromSliders()"
           />
           <span class="hue-value" id="hue-value">0°</span>
         </div>
@@ -79,6 +64,7 @@
             max="100"
             value="100"
             class="saturation-slider"
+            oninput="updateColorFromSliders()"
           />
           <span class="saturation-value" id="saturation-value">100%</span>
         </div>
@@ -91,16 +77,49 @@
             id="lightness-slider"
             min="0"
             max="100"
-            value="50"
+            value="100"
             class="lightness-slider"
+            oninput="updateColorFromSliders()"
           />
-          <span class="lightness-value" id="lightness-value">50%</span>
+          <span class="lightness-value" id="lightness-value">100%</span>
         </div>
         
         <!-- Color Preview -->
         <div id="color-preview" class="color-preview">
           #FF0000
         </div>
+        
+        <script>
+        function updateColorFromSliders() {
+          const hue = document.getElementById('hue-slider').value;
+          const saturation = document.getElementById('saturation-slider').value;
+          const lightness = document.getElementById('lightness-slider').value;
+          
+          const hslColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+          
+          const preview = document.getElementById('color-preview');
+          preview.style.setProperty('--preview-color', hslColor);
+          
+          const hexColor = hslToHex(hue, saturation, lightness);
+          preview.textContent = hexColor;
+          
+          // Update value displays
+          document.getElementById('hue-value').textContent = hue + '°';
+          document.getElementById('saturation-value').textContent = saturation + '%';
+          document.getElementById('lightness-value').textContent = lightness + '%';
+        }
+        
+        function hslToHex(h, s, l) {
+          l /= 100;
+          const a = s * Math.min(l, 1 - l) / 100;
+          const f = n => {
+            const k = (n + h / 30) % 12;
+            const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+            return Math.round(255 * color).toString(16).padStart(2, '0');
+          };
+          return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+        }
+        </script>
       </div>
     </div>
 

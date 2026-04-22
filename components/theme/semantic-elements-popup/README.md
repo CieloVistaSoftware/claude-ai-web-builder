@@ -1,6 +1,11 @@
-# Semantic Elements Popup Component
+```markdown
+# component: Semantic Elements Popup
 
 A comprehensive, reusable semantic HTML5 elements showcase component with dark mode styling and interactive features.
+
+## What It Does
+
+The Semantic Elements Popup component provides a complete showcase of HTML5 semantic elements with a professional dark mode design. It includes dynamic theming, accessibility features, and responsive layouts, making it easy to integrate into any project. The component is modular and supports interactive features such as keyboard navigation and focus management.
 
 ## Features
 
@@ -11,7 +16,9 @@ A comprehensive, reusable semantic HTML5 elements showcase component with dark m
 - 📱 **Responsive**: Mobile-friendly responsive design
 - 🔧 **Modular**: Easy to integrate into any project
 
-## Files Structure
+## Internal Architecture
+
+The component is structured as follows:
 
 ```
 semantic-elements-popup/
@@ -20,6 +27,10 @@ semantic-elements-popup/
 ├── semantic-elements-popup.js      # Interactive functionality and API
 └── README.md                       # This documentation
 ```
+
+- **HTML**: Contains the semantic elements and popup structure.
+- **CSS**: Provides styling, including dark mode and responsive design.
+- **JavaScript**: Handles interactivity, theming, and API functions.
 
 ## Usage
 
@@ -71,89 +82,27 @@ popup.addDynamicContent({
 });
 ```
 
-#### Theme Integration
-```javascript
-// Update theme when color picker changes
-document.getElementById('colorPicker').addEventListener('change', function(e) {
-    updateSemanticTheme(e.target.value);
-});
-```
+## Manual Test
 
-## Semantic Elements Included
+1. **Basic Functionality**:
+   - Open the popup using the trigger button.
+   - Verify that all semantic elements are displayed correctly.
 
-### Document Structure
-- `<header>` - Website header
-- `<nav>` - Navigation menu
-- `<main>` - Main content area
-- `<footer>` - Page footer
+2. **Dark Mode**:
+   - Ensure the dark theme is applied and visually consistent.
 
-### Content Elements
-- `<article>` - Self-contained content
-- `<section>` - Thematic grouping
-- `<aside>` - Sidebar content
+3. **Dynamic Theming**:
+   - Use the JavaScript API to update theme colors and verify changes.
 
-### Media & Interactive
-- `<figure>` & `<figcaption>` - Media with captions
-- `<blockquote>` - Quoted content
-- `<details>` & `<summary>` - Collapsible content
+4. **Accessibility**:
+   - Test keyboard navigation and focus trapping within the popup.
+   - Use a screen reader to confirm proper ARIA labeling.
 
-### Form Elements
-- `<fieldset>` & `<legend>` - Form grouping
-- Various input types with semantic labeling
+5. **Responsive Design**:
+   - Resize the browser window to test layouts on desktop, tablet, and mobile.
 
-### Text Semantics
-- `<strong>` - Important text
-- `<em>` - Emphasized text
-- `<mark>` - Highlighted text
-- `<code>` - Inline code
-- `<kbd>` - Keyboard input
-- `<small>` - Fine print
-
-### List Elements
-- `<ol>` - Ordered lists
-- `<ul>` - Unordered lists
-- `<dl>`, `<dt>`, `<dd>` - Description lists
-
-### HTML5 Semantic Tags
-- `<time>` - Date/time values
-- `<progress>` - Progress indicators
-- `<meter>` - Scalar measurements
-- `<address>` - Contact information
-
-### Data Elements
-- `<data>` - Machine-readable data
-- `<output>` - Calculation results
-- `<var>` - Variables
-- `<samp>` - Sample output
-- `<abbr>` - Abbreviations
-- `<dfn>` - Definitions
-
-### Interactive Elements
-- `<dialog>` - Modal dialogs
-- Advanced `<details>` implementations
-
-## Customization
-
-### CSS Custom Properties
-The component uses CSS custom properties for easy theming:
-
-```css
-:root {
-    --bg-primary: #1a1a2e;
-    --bg-secondary: #16213e;
-    --bg-tertiary: #0f3460;
-    --text-primary: #eee;
-    --text-secondary: #ccc;
-    --theme-primary: #3498db;
-    --theme-accent: #f39c12;
-    /* ... more variables ... */
-}
-```
-
-### Responsive Breakpoints
-- Desktop: > 768px (multi-column grid)
-- Tablet: 768px (single column)
-- Mobile: 480px (stacked layout)
+6. **Browser Compatibility**:
+   - Test the component in Chrome, Firefox, Safari, and Edge.
 
 ## Accessibility Features
 
@@ -163,40 +112,6 @@ The component uses CSS custom properties for easy theming:
 - ✅ **Screen Reader**: Compatible with screen readers
 - ✅ **Color Contrast**: WCAG compliant color ratios
 
-## Browser Support
-
-- ✅ Chrome 60+
-- ✅ Firefox 55+
-- ✅ Safari 12+
-- ✅ Edge 79+
-
-## Integration Examples
-
-### With Theme Generators
-```javascript
-// Integrate with color picker
-function onColorChange(newColor) {
-    updateSemanticTheme(newColor);
-    // Update other theme elements
-}
-```
-
-### With Existing Popups
-```javascript
-// Use the same popup system
-const popup = window.semanticPopup;
-popup.showSemanticPopup();
-```
-
-### Custom Styling
-```css
-/* Override default theme */
-.semantic-popup {
-    --theme-primary: #your-color;
-    --theme-accent: #your-accent;
-}
-```
-
 ## License
 
 This component is part of the Claude AI Web Builder project.
@@ -204,3 +119,4 @@ This component is part of the Claude AI Web Builder project.
 ## Contributing
 
 Feel free to submit issues and enhancement requests!
+```

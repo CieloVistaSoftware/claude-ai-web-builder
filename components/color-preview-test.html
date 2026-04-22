@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Preview Test</title>
+    <style>
+        .color-preview {
+            width: 200px;
+            height: 100px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            position: relative;
+            margin: 20px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .color-preview input {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 30px;
+        }
+        
+        .color-preview-label {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        .test-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Color Preview Force Fix Test</h1>
+    
+    <div class="test-container">
+        <!-- Test 1: Basic color preview -->
+        <div class="color-preview" id="color-preview">
+            <input type="color" value="#ff6b6b" data-preview-target="color-preview">
+            <div class="color-preview-label">#ff6b6b</div>
+        </div>
+        
+        <!-- Test 2: Second color preview -->
+        <div class="color-preview" id="color-preview-2">
+            <input type="color" value="#4ecdc4" data-preview-target="color-preview-2">
+            <div class="color-preview-label">#4ecdc4</div>
+        </div>
+        
+        <!-- Test 3: Third color preview -->
+        <div class="color-preview" id="color-preview-3">
+            <input type="color" value="#45b7d1" data-preview-target="color-preview-3">
+            <div class="color-preview-label">#45b7d1</div>
+        </div>
+    </div>
+    
+    <div style="margin: 20px;">
+        <h3>Manual Test</h3>
+        <button onclick="testManualUpdate()">Test Manual Color Update</button>
+        <button onclick="forceColorPreviewUpdate('#ff0000', 'color-preview')">Force Red</button>
+        <button onclick="forceColorPreviewUpdate('#00ff00', 'color-preview')">Force Green</button>
+        <button onclick="forceColorPreviewUpdate('#0000ff', 'color-preview')">Force Blue</button>
+    </div>
+    
+    <div style="margin: 20px;">
+        <h3>Debug Info</h3>
+        <div id="debug-info"></div>
+    </div>
+    
+    <script src="color-preview-force-fix.js"></script>
+    <script>
+        function testManualUpdate() {
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            console.log('Testing manual update with color:', randomColor);
+            forceColorPreviewUpdate(randomColor, 'color-preview');
+        }
+        
+        function updateDebugInfo() {
+            const debugDiv = document.getElementById('debug-info');
+            const previews = document.querySelectorAll('.color-preview');
+            let info = '<strong>Color Preview States:</strong><br>';
+            
+            previews.forEach((preview, index) => {
+                const input = preview.querySelector('input[type="color"]');
+                const computedStyle = window.getComputedStyle(preview);
+                info += `Preview ${index + 1}: Input=${input?.value || 'N/A'}, Background=${computedStyle.backgroundColor}<br>`;
+            });
+            
+            debugDiv.innerHTML = info;
+        }
+        
+        // Update debug info every second
+        setInterval(updateDebugInfo, 1000);
+        updateDebugInfo();
+    </script>
+</body>
+</html>

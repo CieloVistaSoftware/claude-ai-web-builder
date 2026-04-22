@@ -285,33 +285,55 @@ select option {
 }
 
 .hue-slider, .saturation-slider, .lightness-slider {
-  flex: 1;
-  height: 8px;
-  border-radius: 4px;
+  width: 100%;
+  height: 20px;
   outline: none;
   -webkit-appearance: none;
   cursor: pointer;
-  border: 1px solid #444444;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-size: 100% 100% !important;
+  background-position: 0 0 !important;
+}
+
+.hue-slider::-webkit-slider-track,
+.saturation-slider::-webkit-slider-track,
+.lightness-slider::-webkit-slider-track {
+  height: 8px;
+  border-radius: 4px;
+  background: transparent;
+  width: 100%;
+}
+
+.hue-slider::-moz-range-track,
+.saturation-slider::-moz-range-track,
+.lightness-slider::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+  background: transparent;
+  border: none;
+  width: 100%;
 }
 
 .hue-slider {
   background: linear-gradient(to right, 
-    hsl(0, 100%, 50%),
-    hsl(60, 100%, 50%),
-    hsl(120, 100%, 50%),
-    hsl(180, 100%, 50%),
-    hsl(240, 100%, 50%),
-    hsl(300, 100%, 50%),
-    hsl(360, 100%, 50%)
+    hsl(0, 100%, 50%) 25%,
+    hsl(60, 100%, 50%) 35%,
+    hsl(120, 100%, 50%) 45%,
+    hsl(180, 100%, 50%) 55%,
+    hsl(240, 100%, 50%) 65%,
+    hsl(300, 100%, 50%) 75%,
+    hsl(360, 100%, 50%) 75%
   ) !important;
 }
 
 .saturation-slider {
-  background: linear-gradient(to right, hsl(0, 0%, 50%), hsl(0, 100%, 50%)) !important;
+  background: linear-gradient(to right, hsl(0, 0%, 50%) 25%, hsl(0, 100%, 50%) 75%) !important;
 }
 
 .lightness-slider {
-  background: linear-gradient(to right, hsl(0, 100%, 0%), hsl(0, 100%, 50%), hsl(0, 100%, 100%)) !important;
+  background: linear-gradient(to right, hsl(0, 100%, 0%) 25%, hsl(0, 100%, 50%) 50%, hsl(0, 100%, 100%) 75%) !important;
 }
 
 .hue-slider::-webkit-slider-thumb,
@@ -319,25 +341,25 @@ select option {
 .lightness-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   cursor: pointer;
-  border: 3px solid #000000;
+  border: 2px solid #000000;
 }
 
 .hue-slider::-moz-range-thumb,
 .saturation-slider::-moz-range-thumb,
 .lightness-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   cursor: pointer;
-  border: 3px solid #000000;
+  border: 2px solid #000000;
 }
 
 .hue-value, .saturation-value, .lightness-value {
@@ -355,7 +377,7 @@ select option {
 .color-preview {
   width: 100%;
   height: 45px;
-  background: #ff0000;
+  background: var(--preview-color, #ff0000);
   border-radius: 8px;
   border: 2px solid #333333;
   display: flex;

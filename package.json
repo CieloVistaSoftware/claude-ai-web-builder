@@ -12,7 +12,7 @@
     "url": "https://github.com/CieloVistaSoftware/claude-ai-web-builder/issues"
   },
   "author": "CieloVista Software",
-  "license": "MIT",
+  "license": "PROPRIETARY",
   "keywords": [
     "website-builder",
     "claude-ai",
@@ -26,7 +26,7 @@
     "build-ts": "tsc",
     "server": "ts-node server.ts",
     "server-js": "node server.js",
-        "start": "cd wb && npm start",
+    "start": "cd wb && npm start",
     "wb-setup": "cd wb && npm install",
     "old-server": "npm run kill-port && npm run update-docs-index && npm run server",
     "start-js": "npm run kill-port && npm run update-docs-index && npm run server-js",
@@ -95,5 +95,6 @@
     "vite": "^7.0.5",
     "webpack": "^5.88.0",
     "webpack-cli": "^5.1.0"
-  }
+  },
+  "icon": "icon.png"
 }

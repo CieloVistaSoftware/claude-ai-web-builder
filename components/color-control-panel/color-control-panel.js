@@ -136,9 +136,15 @@ class ColorControlPanel {
     }
     
     // Layout selector
-    const layoutSelector = this.container.querySelector('#layout-selector');
+    const layoutSelector = this.container.querySelector('#layout-select');
     if (layoutSelector) {
       layoutSelector.addEventListener('change', (e) => this.changeLayout(e.target.value));
+    }
+    
+    // Theme selector
+    const themeSelector = this.container.querySelector('#theme-select');
+    if (themeSelector) {
+      themeSelector.addEventListener('change', (e) => this.applyTheme(e.target.value));
     }
     
     // Spectrum Slider (main color spectrum control)
@@ -157,6 +163,7 @@ class ColorControlPanel {
     if (hueSlider) {
       hueSlider.addEventListener('input', (e) => {
         this.setHue(parseInt(e.target.value));
+        this.emitColorChange();
       });
     }
     
@@ -166,6 +173,7 @@ class ColorControlPanel {
         this.updateColorPreview();
         this.updateSliderValues();
         this.updateSliderBackgrounds();
+        this.emitColorChange();
         this.markChanged();
       });
     }
@@ -176,14 +184,9 @@ class ColorControlPanel {
         this.updateColorPreview();
         this.updateSliderValues();
         this.updateSliderBackgrounds();
+        this.emitColorChange();
         this.markChanged();
       });
-    }
-    
-    // Theme selector
-    const themeSelector = this.container.querySelector('#theme-selector');
-    if (themeSelector) {
-      themeSelector.addEventListener('change', (e) => this.applyTheme(e.target.value));
     }
     
     // Color inputs
@@ -193,14 +196,32 @@ class ColorControlPanel {
     
     if (primaryInput) {
       primaryInput.addEventListener('change', (e) => this.updatePrimaryColor(e.target.value));
+      primaryInput.addEventListener('input', (e) => {
+        const display = primaryInput.nextElementSibling;
+        if (display && display.classList.contains('color-value')) {
+          display.textContent = e.target.value.toUpperCase();
+        }
+      });
     }
     
     if (secondaryInput) {
       secondaryInput.addEventListener('change', (e) => this.updateSecondaryColor(e.target.value));
+      secondaryInput.addEventListener('input', (e) => {
+        const display = secondaryInput.nextElementSibling;
+        if (display && display.classList.contains('color-value')) {
+          display.textContent = e.target.value.toUpperCase();
+        }
+      });
     }
     
     if (accentInput) {
       accentInput.addEventListener('change', (e) => this.updateAccentColor(e.target.value));
+      accentInput.addEventListener('input', (e) => {
+        const display = accentInput.nextElementSibling;
+        if (display && display.classList.contains('color-value')) {
+          display.textContent = e.target.value.toUpperCase();
+        }
+      });
     }
     
     // Reset button
@@ -216,27 +237,71 @@ class ColorControlPanel {
     }
   }
   
+  // Event emission methods
+  emitColorChange() {
+    const colors = {
+      primary: this.container.querySelector('#primary-color')?.value || this.hslToHex(this.currentHue, this.currentSaturation, this.currentLightness),
+      secondary: this.container.querySelector('#secondary-color')?.value || '#64748b',
+      accent: this.container.querySelector('#accent-color')?.value || '#10b981'
+    };
+    
+    if (window.ThemeEventBus) {
+      ThemeEventBus.dispatch(ThemeEvents.COLOR_CHANGED, { colors });
+    }
+  }
+
+  emitThemeChange(theme) {
+    if (window.ThemeEventBus) {
+      ThemeEventBus.dispatch(ThemeEvents.THEME_APPLIED, { theme });
+    }
+  }
+
+  emitEditModeChange() {
+    if (window.ThemeEventBus) {
+      ThemeEventBus.dispatch(ThemeEvents.EDIT_MODE_CHANGED, { isEditMode: this.editMode });
+    }
+  }
+
+  emitLayoutChange(layout) {
+    if (window.ThemeEventBus) {
+      ThemeEventBus.dispatch(ThemeEvents.LAYOUT_CHANGED, { layout });
+    }
+  }
+
+  emitSaveRequest() {
+    if (window.ThemeEventBus) {
+      ThemeEventBus.dispatch(ThemeEvents.SAVE_REQUESTED, {});
+    }
+  }
+
+  emitResetRequest() {
+    if (window.ThemeEventBus) {
+      ThemeEventBus.dispatch(ThemeEvents.RESET_REQUESTED, {});
+    }
+  }
+  
   toggleEditMode() {
     this.editMode = !this.editMode;
     const toggle = this.container.querySelector('.edit-mode-toggle');
-    const body = document.body;
     
     if (this.editMode) {
       toggle.textContent = 'Exit Edit Mode';
       toggle.classList.add('active');
-      body.classList.add('edit-mode');
     } else {
-      toggle.textContent = 'Enter Edit Mode';
+      toggle.textContent = 'Edit Mode';
       toggle.classList.remove('active');
-      body.classList.remove('edit-mode');
     }
     
+    this.emitEditModeChange();
     this.markChanged();
   }
   
   saveChanges() {
+    // Emit save request event
+    this.emitSaveRequest();
+    
     if (this.hasChanges) {
-      // Save to localStorage
+      // Save local state
       const state = {
         editMode: this.editMode,
         currentHue: this.currentHue,
@@ -245,7 +310,8 @@ class ColorControlPanel {
         primaryColor: this.container.querySelector('#primary-color')?.value,
         secondaryColor: this.container.querySelector('#secondary-color')?.value,
         accentColor: this.container.querySelector('#accent-color')?.value,
-        layout: this.container.querySelector('#layout-selector')?.value
+        layout: this.container.querySelector('#layout-select')?.value,
+        theme: this.container.querySelector('#theme-select')?.value
       };
       
       localStorage.setItem('colorControlPanelState', JSON.stringify(state));
@@ -272,14 +338,30 @@ class ColorControlPanel {
         const primaryInput = this.container.querySelector('#primary-color');
         const secondaryInput = this.container.querySelector('#secondary-color');
         const accentInput = this.container.querySelector('#accent-color');
-        const layoutSelector = this.container.querySelector('#layout-selector');
+        const layoutSelector = this.container.querySelector('#layout-select');
+        const themeSelector = this.container.querySelector('#theme-select');
         
-        if (primaryInput && state.primaryColor) primaryInput.value = state.primaryColor;
-        if (secondaryInput && state.secondaryColor) secondaryInput.value = state.secondaryColor;
-        if (accentInput && state.accentColor) accentInput.value = state.accentColor;
+        if (primaryInput && state.primaryColor) {
+          primaryInput.value = state.primaryColor;
+          const display = primaryInput.nextElementSibling;
+          if (display) display.textContent = state.primaryColor.toUpperCase();
+        }
+        if (secondaryInput && state.secondaryColor) {
+          secondaryInput.value = state.secondaryColor;
+          const display = secondaryInput.nextElementSibling;
+          if (display) display.textContent = state.secondaryColor.toUpperCase();
+        }
+        if (accentInput && state.accentColor) {
+          accentInput.value = state.accentColor;
+          const display = accentInput.nextElementSibling;
+          if (display) display.textContent = state.accentColor.toUpperCase();
+        }
         if (layoutSelector && state.layout) layoutSelector.value = state.layout;
+        if (themeSelector && state.theme) themeSelector.value = state.theme;
         
-        this.updateColorBar();
+        this.updateColorPreview();
+        this.updateSliderValues();
+        this.updateSliderBackgrounds();
       } catch (error) {
         console.warn('Failed to load saved state:', error);
       }
@@ -287,110 +369,13 @@ class ColorControlPanel {
   }
   
   changeLayout(layout) {
-    const body = document.body;
-    
-    // Remove existing layout classes
-    body.classList.remove('layout-single', 'layout-two-column', 'layout-three-column', 'layout-grid');
-    
-    // Add new layout class
-    if (layout && layout !== 'default') {
-      body.classList.add(`layout-${layout}`);
-    }
-    
+    this.emitLayoutChange(layout);
     this.markChanged();
-  }
-  
-  updateColorFromSlider(value) {
-    this.currentHue = value;
-    this.updateColorBar();
-    this.updateColorFromHSL();
-    this.markChanged();
-  }
-  
-  updateSaturation(value) {
-    this.currentSaturation = value;
-    this.updateColorFromHSL();
-    this.markChanged();
-  }
-  
-  updateLightness(value) {
-    this.currentLightness = value;
-    this.updateColorFromHSL();
-    this.markChanged();
-  }
-  
-  updateColorBar() {
-    const indicator = this.container.querySelector('.color-bar-current-indicator');
-    const preview = this.container.querySelector('.color-bar-preview');
-    const slider = this.container.querySelector('#color-bar-slider');
-    
-    if (indicator && slider) {
-      const percentage = (this.currentHue / 360) * 100;
-      indicator.style.left = `${percentage}%`;
-      slider.value = this.currentHue;
-    }
-    
-    if (preview) {
-      const hslColor = `hsl(${this.currentHue}, ${this.currentSaturation}%, ${this.currentLightness}%)`;
-      preview.style.backgroundColor = hslColor;
-      preview.textContent = `H:${Math.round(this.currentHue)} S:${this.currentSaturation}% L:${this.currentLightness}%`;
-    }
-  }
-  
-  updateColorFromHSL() {
-    const hslColor = `hsl(${this.currentHue}, ${this.currentSaturation}%, ${this.currentLightness}%)`;
-    const hexColor = this.hslToHex(this.currentHue, this.currentSaturation, this.currentLightness);
-    
-    // Update primary color input
-    const primaryInput = this.container.querySelector('#primary-color');
-    if (primaryInput) {
-      primaryInput.value = hexColor;
-    }
-    
-    // Update CSS custom property
-    document.documentElement.style.setProperty('--primary-color', hexColor);
-    
-    this.updateColorBar();
-  }
-  
-  adjustColorFine(action) {
-    const step = 5;
-    
-    switch (action) {
-      case 'hue-left':
-        this.currentHue = Math.max(0, this.currentHue - step);
-        break;
-      case 'hue-right':
-        this.currentHue = Math.min(360, this.currentHue + step);
-        break;
-      case 'sat-down':
-        this.currentSaturation = Math.max(0, this.currentSaturation - step);
-        break;
-      case 'sat-up':
-        this.currentSaturation = Math.min(100, this.currentSaturation + step);
-        break;
-      case 'light-down':
-        this.currentLightness = Math.max(0, this.currentLightness - step);
-        break;
-      case 'light-up':
-        this.currentLightness = Math.min(100, this.currentLightness + step);
-        break;
-    }
-    
-    this.updateColorFromHSL();
-    this.updateSliders();
-    this.markChanged();
-  }
-  
-  updateSliders() {
-    const satSlider = this.container.querySelector('#saturation-slider');
-    const lightSlider = this.container.querySelector('#lightness-slider');
-    
-    if (satSlider) satSlider.value = this.currentSaturation;
-    if (lightSlider) lightSlider.value = this.currentLightness;
   }
   
   applyTheme(themeName) {
+    document.body.setAttribute('data-theme', themeName);
+    
     if (this.themes[themeName]) {
       const theme = this.themes[themeName];
       const primaryInput = this.container.querySelector('#primary-color');
@@ -400,11 +385,14 @@ class ColorControlPanel {
         this.updatePrimaryColor(theme.primary);
       }
     }
+    
+    this.emitThemeChange(themeName);
     this.markChanged();
   }
   
   updatePrimaryColor(color) {
-    document.documentElement.style.setProperty('--primary-color', color);
+    document.documentElement.style.setProperty('--primary', color);
+    document.documentElement.style.setProperty('--color-primary', color);
     
     // Update HSL values from color
     const hsl = this.hexToHsl(color);
@@ -412,53 +400,89 @@ class ColorControlPanel {
       this.currentHue = hsl.h;
       this.currentSaturation = hsl.s;
       this.currentLightness = hsl.l;
-      this.updateColorBar();
-      this.updateSliders();
+      this.updateColorPreview();
+      this.updateSliderValues();
+      this.updateSliderBackgrounds();
     }
     
+    // Update display
+    const primaryInput = this.container.querySelector('#primary-color');
+    if (primaryInput) {
+      const display = primaryInput.nextElementSibling;
+      if (display) display.textContent = color.toUpperCase();
+    }
+    
+    this.emitColorChange();
     this.markChanged();
   }
   
   updateSecondaryColor(color) {
-    document.documentElement.style.setProperty('--secondary-color', color);
+    document.documentElement.style.setProperty('--secondary', color);
+    document.documentElement.style.setProperty('--color-secondary', color);
+    
+    // Update display
+    const secondaryInput = this.container.querySelector('#secondary-color');
+    if (secondaryInput) {
+      const display = secondaryInput.nextElementSibling;
+      if (display) display.textContent = color.toUpperCase();
+    }
+    
+    this.emitColorChange();
     this.markChanged();
   }
   
   updateAccentColor(color) {
-    document.documentElement.style.setProperty('--accent-color', color);
+    document.documentElement.style.setProperty('--accent', color);
+    document.documentElement.style.setProperty('--color-accent', color);
+    
+    // Update display
+    const accentInput = this.container.querySelector('#accent-color');
+    if (accentInput) {
+      const display = accentInput.nextElementSibling;
+      if (display) display.textContent = color.toUpperCase();
+    }
+    
+    this.emitColorChange();
     this.markChanged();
   }
   
   resetContent() {
     if (confirm('Are you sure you want to reset all content? This action cannot be undone.')) {
-      // Reset colors
-      document.documentElement.style.setProperty('--primary-color', '#6366f1');
-      document.documentElement.style.setProperty('--secondary-color', '#8b5cf6');
-      document.documentElement.style.setProperty('--accent-color', '#06b6d4');
+      this.emitResetRequest();
+      
+      // Reset local values
+      this.currentHue = 225;
+      this.currentSaturation = 73;
+      this.currentLightness = 57;
       
       // Reset form values
       const primaryInput = this.container.querySelector('#primary-color');
       const secondaryInput = this.container.querySelector('#secondary-color');
       const accentInput = this.container.querySelector('#accent-color');
-      const layoutSelector = this.container.querySelector('#layout-selector');
-      const themeSelector = this.container.querySelector('#theme-selector');
+      const layoutSelector = this.container.querySelector('#layout-select');
+      const themeSelector = this.container.querySelector('#theme-select');
       
-      if (primaryInput) primaryInput.value = '#6366f1';
-      if (secondaryInput) secondaryInput.value = '#8b5cf6';
-      if (accentInput) accentInput.value = '#06b6d4';
-      if (layoutSelector) layoutSelector.value = 'default';
-      if (themeSelector) themeSelector.value = '';
+      if (primaryInput) {
+        primaryInput.value = '#6366f1';
+        const display = primaryInput.nextElementSibling;
+        if (display) display.textContent = '#6366f1';
+      }
+      if (secondaryInput) {
+        secondaryInput.value = '#64748b';
+        const display = secondaryInput.nextElementSibling;
+        if (display) display.textContent = '#64748b';
+      }
+      if (accentInput) {
+        accentInput.value = '#10b981';
+        const display = accentInput.nextElementSibling;
+        if (display) display.textContent = '#10b981';
+      }
+      if (layoutSelector) layoutSelector.value = 'top-nav';
+      if (themeSelector) themeSelector.value = 'dark';
       
-      // Reset layout
-      document.body.classList.remove('layout-single', 'layout-two-column', 'layout-three-column', 'layout-grid');
-      
-      // Reset HSL values
-      this.currentHue = 225;
-      this.currentSaturation = 73;
-      this.currentLightness = 57;
-      
-      this.updateColorBar();
-      this.updateSliders();
+      this.updateColorPreview();
+      this.updateSliderValues();
+      this.updateSliderBackgrounds();
       
       // Clear localStorage
       localStorage.removeItem('colorControlPanelState');
@@ -474,7 +498,7 @@ class ColorControlPanel {
     
     if (body.style.display === 'none') {
       body.style.display = 'block';
-      minimizeBtn.textContent = '−';
+      minimizeBtn.textContent = '▾';
       panel.style.height = 'auto';
     } else {
       body.style.display = 'none';
@@ -574,15 +598,20 @@ class ColorControlPanel {
   }
 }
 
-// Export for use as module or initialize if used directly
+// Safe auto-initialize if element exists
+document.addEventListener('DOMContentLoaded', () => {
+  // Only initialize if not already initialized and theme events are available
+  if (!window.colorControlPanel && window.ThemeEventBus) {
+    setTimeout(() => {
+      const controlPanel = document.querySelector('.control-panel');
+      if (controlPanel && controlPanel.id) {
+        window.colorControlPanel = new ColorControlPanel(controlPanel.id);
+      }
+    }, 200); // Small delay to ensure all components are ready
+  }
+});
+
+// Export for use as module
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = ColorControlPanel;
-} else {
-  // Auto-initialize if element exists
-  document.addEventListener('DOMContentLoaded', () => {
-    const controlPanel = document.querySelector('.control-panel');
-    if (controlPanel && controlPanel.id) {
-      window.colorControlPanel = new ColorControlPanel(controlPanel.id);
-    }
-  });
 }

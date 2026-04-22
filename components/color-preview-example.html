@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Preview Example</title>
+    <link rel="stylesheet" href="color-preview.css">
+</head>
+<body>
+    <h1>Color Preview Demo</h1>
+    
+    <!-- Method 1: Using the JavaScript function -->
+    <div>
+        <h3>Color Picker with Preview</h3>
+        <div id="color-container-1"></div>
+    </div>
+    
+    <!-- Method 2: Manual HTML structure -->
+    <div>
+        <h3>Manual Color Preview</h3>
+        <div class="color-preview" id="color-preview">
+            <input 
+                type="color" 
+                value="#3498db" 
+                class="color-preview-input"
+                aria-label="Choose color"
+                title="Choose color"
+                data-preview-target="color-preview"
+            />
+            <span class="color-preview-label">#3498db</span>
+        </div>
+    </div>
+    
+    <!-- Method 3: Multiple color previews -->
+    <div>
+        <h3>Multiple Color Previews</h3>
+        <div class="color-preview-container">
+            <div class="color-preview" id="color-preview-1">
+                <input 
+                    type="color" 
+                    value="#e74c3c" 
+                    class="color-preview-input"
+                    aria-label="Primary color"
+                    title="Primary color"
+                    data-preview-target="color-preview-1"
+                />
+                <span class="color-preview-label">#e74c3c</span>
+            </div>
+            
+            <div class="color-preview" id="color-preview-2">
+                <input 
+                    type="color" 
+                    value="#2ecc71" 
+                    class="color-preview-input"
+                    aria-label="Secondary color"
+                    title="Secondary color"
+                    data-preview-target="color-preview-2"
+                />
+                <span class="color-preview-label">#2ecc71</span>
+            </div>
+            
+            <div class="color-preview" id="color-preview-3">
+                <input 
+                    type="color" 
+                    value="#f39c12" 
+                    class="color-preview-input"
+                    aria-label="Accent color"
+                    title="Accent color"
+                    data-preview-target="color-preview-3"
+                />
+                <span class="color-preview-label">#f39c12</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="color-preview-fix.js"></script>
+    <script>
+        // Example of creating a color preview programmatically
+        document.addEventListener('DOMContentLoaded', function() {
+            createColorPreview('color-container-1', '#9b59b6', function(newColor) {
+                console.log('Color changed to:', newColor);
+                // You can add additional logic here
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,10 +1,10 @@
-# HTML Element Editors - Complete Package
+# feature: HTML Element Editors - Complete Package
 
 All editor files are now organized in the `editors/` folder for better structure and maintainability.
 
 ## 📁 **File Structure**
 
-```
+```plaintext
 components/
 ├── editors/
 │   ├── anchor-editor.tsx           # Link/anchor element editor
@@ -25,6 +25,20 @@ components/
 ├── DASHBOARD_README.md             # Comprehensive documentation
 └── QUICK_START.md                  # Quick reference guide
 ```
+
+## 📝 **What It Does**
+
+This feature provides a complete package of HTML element editors, enabling developers to create, edit, and manage various HTML elements such as links, buttons, images, text, forms, tables, and videos. The editors are organized in a structured folder for better maintainability and scalability. It also includes a React-based dashboard and a standalone HTML dashboard for quick access.
+
+## 🛠️ **Internal Architecture**
+
+The internal architecture is designed for modularity and scalability:
+
+- **Folder Structure**: All editor components are located in the `editors/` folder.
+- **React Dashboard**: The `editor-dashboard.tsx` serves as the main entry point for the React-based dashboard.
+- **Standalone Dashboard**: The `dashboard-standalone.html` provides a lightweight, dependency-free option for quick access.
+- **Export Barrel**: The `index.ts` file exports all editor components for easy integration.
+- **Build Tool**: The `vite.config.ts` file configures the Vite build system for fast development and optimized builds.
 
 ## 🚀 **Quick Start Options**
 
@@ -66,5 +80,14 @@ npm run start:video      # Port 3007
 2. **Develop Individual Editors**: Use specific npm scripts
 3. **Test Integration**: Use React dashboard for component testing
 4. **Export Components**: All editors available via `index.ts`
+
+## 🧪 **Manual Test**
+
+To manually test the feature:
+
+1. Open `dashboard-standalone.html` in a browser and verify all editors are accessible.
+2. Run `npm run start:dashboard` and ensure the React dashboard loads at `http://localhost:3000`.
+3. Test individual editors by running their respective npm scripts (e.g., `npm run start:anchor`) and verify functionality at the specified ports.
+4. Check the `index.ts` export barrel to ensure all components are correctly exported.
 
 **All editor files are now properly organized in the `editors/` folder!** 🎯

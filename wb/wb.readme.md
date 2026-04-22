@@ -1,4 +1,4 @@
-# Website Builder (wb.ts)
+# feature: Website Builder (wb.ts)
 
 ## Overview
 
@@ -58,8 +58,7 @@ To compile the TypeScript file to JavaScript, use:
 
 ```bash
 tsc -p tsconfig.wb.json
-```
-
+```text
 This will generate the JavaScript file in the dist/wb directory.
 
 ## Main Functions
@@ -70,3 +69,25 @@ This will generate the JavaScript file in the dist/wb directory.
 - **createDynamicPage()**: Generates new page sections on demand
 - **saveWebsiteFiles()**: Exports the final website as HTML, CSS, and JS files
 - **saveState()** / **loadSavedState()**: Manage persistent application state
+
+---
+
+## What it does
+
+_TODO: one paragraph describing the single responsibility of this file._
+
+---
+
+## Internal architecture
+
+```text
+activate()
+  └── TODO: describe call flow
+```text
+---
+
+## Manual test
+
+1. TODO: step one
+2. TODO: step two
+3. TODO: expected result

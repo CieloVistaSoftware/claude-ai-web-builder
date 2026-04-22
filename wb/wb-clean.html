@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Builder - Fixed</title>
+    <link rel="stylesheet" href="wb-fixed.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Website Builder</h1>
+            <p>Create beautiful websites with our visual editor</p>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <!-- Color Controls Section -->
+            <section class="color-container">
+                <h2>Color Controls</h2>
+                
+                <!-- Color Preview -->
+                <div class="color-preview" id="color-preview" data-color="#ffffff"></div>
+                
+                <!-- Color Input -->
+                <input type="color" id="color-picker" value="#ffffff" title="Choose a color">
+                
+                <!-- Color Bar -->
+                <div class="color-bar" id="color-bar"></div>
+                
+                <!-- RGB Sliders -->
+                <div class="slider-container">
+                    <div class="slider-group">
+                        <label class="slider-label" for="red-slider">Red:</label>
+                        <input type="range" id="red-slider" min="0" max="255" value="255" oninput="updateColorFromSliders()">
+                        <span class="slider-value" id="red-value">255</span>
+                    </div>
+                    
+                    <div class="slider-group">
+                        <label class="slider-label" for="green-slider">Green:</label>
+                        <input type="range" id="green-slider" min="0" max="255" value="255" oninput="updateColorFromSliders()">
+                        <span class="slider-value" id="green-value">255</span>
+                    </div>
+                    
+                    <div class="slider-group">
+                        <label class="slider-label" for="blue-slider">Blue:</label>
+                        <input type="range" id="blue-slider" min="0" max="255" value="255" oninput="updateColorFromSliders()">
+                        <span class="slider-value" id="blue-value">255</span>
+                    </div>
+                </div>
+                
+                <!-- Color Display -->
+                <div class="color-display" id="color-display">#ffffff</div>
+            </section>
+            
+            <!-- Additional Controls -->
+            <section class="mt-20">
+                <h2>Website Tools</h2>
+                <div class="flex gap-10">
+                    <button class="btn btn-primary">Save Changes</button>
+                    <button class="btn btn-secondary">Reset</button>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Scripts -->
+    <script src="wb-fixed.js"></script>
+    <script src="../components/quick-color-fix.js"></script>
+    <script>
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Website Builder starting...');
+            
+            // Initialize the website builder
+            if (window.init) {
+                init();
+            }
+            
+            // Update slider values display
+            function updateSliderValues() {
+                const redSlider = document.getElementById('red-slider');
+                const greenSlider = document.getElementById('green-slider');
+                const blueSlider = document.getElementById('blue-slider');
+                const redValue = document.getElementById('red-value');
+                const greenValue = document.getElementById('green-value');
+                const blueValue = document.getElementById('blue-value');
+                
+                if (redSlider && redValue) {
+                    redSlider.addEventListener('input', () => {
+                        redValue.textContent = redSlider.value;
+                    });
+                }
+                
+                if (greenSlider && greenValue) {
+                    greenSlider.addEventListener('input', () => {
+                        greenValue.textContent = greenSlider.value;
+                    });
+                }
+                
+                if (blueSlider && blueValue) {
+                    blueSlider.addEventListener('input', () => {
+                        blueValue.textContent = blueSlider.value;
+                    });
+                }
+            }
+            
+            updateSliderValues();
+            
+            console.log('✅ Website Builder initialized');
+        });
+    </script>
+</body>
+</html>
