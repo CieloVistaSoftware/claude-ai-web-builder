@@ -1,4 +1,4 @@
-# Table Theme Component
+# feature: Table Theme Component
 
 A reusable, customizable table component with theming capabilities. This component integrates with the project's theming system and provides enhanced functionality like sorting, filtering, and pagination.
 
@@ -44,8 +44,7 @@ To use the basic themed table, simply include the CSS file and apply the `table-
     <!-- More rows... -->
   </tbody>
 </table>
-```
-
+```text
 ### Enhanced Features
 
 To enable advanced features, include the JavaScript file and add data attributes:
@@ -61,8 +60,7 @@ To enable advanced features, include the JavaScript file and add data attributes
        data-page-size="10">
   <!-- Table content -->
 </table>
-```
-
+```text
 ### Data Attributes
 
 - `data-auto-init` - Enable automatic initialization
@@ -81,8 +79,7 @@ const tableTheme = new TableTheme(table, {
   filterable: true,
   pageSize: 10
 });
-```
-
+```text
 ## CSS Variables
 
 The table component uses the following CSS variables for theming:
@@ -111,8 +108,7 @@ You can customize the appearance by overriding the CSS variables:
   --border: #cccccc;
   --hover: #d5d5d5;
 }
-```
-
+```text
 ## Accessibility
 
 The table component follows accessibility best practices:
@@ -127,3 +123,25 @@ The table component works in all modern browsers:
 - Firefox (latest)
 - Safari (latest)
 - Opera (latest)
+
+---
+
+## What it does
+
+_TODO: one paragraph describing the single responsibility of this file._
+
+---
+
+## Internal architecture
+
+```text
+activate()
+  └── TODO: describe call flow
+```text
+---
+
+## Manual test
+
+1. TODO: step one
+2. TODO: step two
+3. TODO: expected result

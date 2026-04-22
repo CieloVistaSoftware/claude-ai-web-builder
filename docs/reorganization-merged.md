@@ -1,7 +1,7 @@
 # Claude AI Website Builder - Project Reorganization Documentation
 
 <div align="center">
-  <img src="/images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="/images/ziasymbol.svg" alt="Blue Star Logo" width="150" height="100">
 </div>
 
 **Document Status**: Merged from reorganization files  

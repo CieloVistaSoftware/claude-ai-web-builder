@@ -1,7 +1,7 @@
 # Next Steps: Complete Website Builder Implementation
 
 <div align="center">
-  <img src="/images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="/images/ziasymbol.svg" alt="Blue Star Logo" width="150" height="100">
 </div>
 
 ## 🎯 Goal: Enable Anyone to Create, Style, and Download a Website

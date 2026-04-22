@@ -1,4 +1,4 @@
-# Playwright Tests for ClaudeAIWebSiteBuilder
+# feature: Playwright Tests for ClaudeAIWebSiteBuilder
 
 ## Overview
 This directory contains Playwright tests that replace the original PowerShell tests. Playwright provides a more robust, cross-browser testing solution with better debugging capabilities.
@@ -114,8 +114,7 @@ npm run test:tabStyling
 npm run test:templateLoader
 npm run test:themeGeneratorSimple
 npm run test:typescriptConfig
-```
-
+```text
 ## Test Structure
 
 Each test suite follows a similar pattern:
@@ -132,3 +131,25 @@ Each test suite follows a similar pattern:
 - Visual debugging
 - Trace recording for failed tests
 - Screenshot capture on failures
+
+---
+
+## What it does
+
+_TODO: one paragraph describing the single responsibility of this file._
+
+---
+
+## Internal architecture
+
+```text
+activate()
+  └── TODO: describe call flow
+```text
+---
+
+## Manual test
+
+1. TODO: step one
+2. TODO: step two
+3. TODO: expected result

@@ -1,7 +1,7 @@
 # Zia Symbol Usage Guidelines
 
 <div align="center">
-  <img src="../images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="../images/ziasymbol.svg" alt="Blue Star Logo" width="150" height="100">
 </div>
 
 ## Overview
@@ -19,7 +19,7 @@ The Zia Symbol is our company trademark and should be used consistently across a
 
 <!-- As content (in <body> section) -->
 <div class="logo-container">
-  <img src="/images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="/images/ziasymbol.svg" alt="Blue Star Logo" width="150" height="100">
 </div>
 ```
 
@@ -27,7 +27,7 @@ The Zia Symbol is our company trademark and should be used consistently across a
 
 ```markdown
 <div align="center">
-  <img src="/images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100">
+  <img src="/images/ziasymbol.svg" alt="Blue Star Logo" width="150" height="100">
 </div>
 ```
 

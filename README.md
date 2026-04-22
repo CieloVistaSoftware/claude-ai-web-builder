@@ -62,7 +62,7 @@ A powerful, interactive website builder with dynamic themes, edit mode, and resp
 
 ## 📁 Project Structure
 
-```
+```text
 claude-ai-web-builder/
 ├── wb/                    # Main website builder application
 │   ├── wb.html           # Website builder interface
@@ -76,8 +76,7 @@ claude-ai-web-builder/
 ├── images/              # Image assets
 ├── css/                 # Global stylesheets
 └── tests/               # Test files
-```
-
+```text
 ## 🎯 Key Components
 
 ### Website Builder (`wb/`)
@@ -123,15 +122,13 @@ claude-ai-web-builder/
 Run the test suite:
 ```bash
 npm test
-```
-
+```text
 Run specific tests:
 ```bash
 npm run test:colorBar      # Color system tests
 npm run test:dynamicPages  # Dynamic page generation tests
 npm run test:themeOrganization  # Theme system tests
-```
-
+```text
 ## 🚀 Deployment
 
 ### GitHub Pages (Recommended)
@@ -162,3 +159,28 @@ Developed by CieloVista Software - Creating innovative web solutions with cuttin
 ---
 
 **Made with ❤️ by the CieloVista Software Team**
+
+---
+
+## What it does
+
+_TODO: 2–5 sentences describing what problem this project solves and who uses it._
+
+---
+
+## Architecture
+
+_TODO: high-level tech stack and key design decisions (max 10 lines)._
+
+---
+
+## Common Commands
+
+```powershell
+# TODO: the 5–10 commands developers run most often
+```text
+---
+
+## Prerequisites
+
+- TODO: list required tools and versions
