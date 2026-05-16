@@ -1,3 +1,18 @@
+---
+docid: 700.5.obfuscation-guide
+id: javascript-code-protection-obfuscation-guide
+title: JavaScript Code Protection & Obfuscation Guide
+project: ClaudeAIWebSiteBuilder
+description: This document outlines methods to protect your JavaScript code from being easily copied or reverse-engineered. While client-side code can never be …
+status: active
+tags: [obfuscation, guide, javascript]
+category: 700.5 — AI Coordination
+created: 2025-08-31
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/obfuscation-guide.md
+---
 # JavaScript Code Protection & Obfuscation Guide
 
 ## 🛡️ Overview

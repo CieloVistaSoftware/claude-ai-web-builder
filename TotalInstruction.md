@@ -1,3 +1,18 @@
+---
+docid: 700.5.totalinstruction
+id: total-instructions-for-cielo-vista-software-way-of
+title: Total Instructions for Cielo Vista Software way of doing things
+project: ClaudeAIWebSiteBuilder
+description: 1. [Trace Element Design Instructions](#trace-element-design-instructions) 2. [General Development Guidelines](#general-development-guidelines) 3. …
+status: active
+tags: [totalinstruction, total, instructions]
+category: 700.5 — AI Coordination
+created: 2025-09-13
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: TotalInstruction.md
+---
 # Total Instructions for Cielo Vista Software way of doing things
 
 ## Table of Contents

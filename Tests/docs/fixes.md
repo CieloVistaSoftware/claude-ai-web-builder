@@ -1,3 +1,18 @@
+---
+docid: 700.3.fixes
+id: fixes-and-updates-log
+title: Fixes and Updates Log
+project: ClaudeAIWebSiteBuilder
+description: Successfully migrated entire test suite from PowerShell (.ps1) to modern Playwright TypeScript tests. This represents a major modernization of the …
+status: active
+tags: [fixes, updates, june]
+category: 700.3 — Testing
+created: 2025-06-15
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: Tests/docs/fixes.md
+---
 # Fixes and Updates Log
 
 ## June 15, 2025 - Complete PowerShell to Playwright Migration

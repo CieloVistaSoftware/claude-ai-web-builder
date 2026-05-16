@@ -1,3 +1,18 @@
+---
+docid: 700.5.powerpoint-video-guide
+id: powerpoint-youtube-training-video-production-guide
+title: PowerPoint YouTube Training Video Production Guide
+project: ClaudeAIWebSiteBuilder
+description: PowerPoint Settings: 1. Design → Slide Size → Widescreen (16:9) 2. File → Options → Advanced → Set image compression to High quality 3. View → Slid…
+status: active
+tags: [powerpoint, video, guide]
+category: 700.5 — AI Coordination
+created: 2025-06-16
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/powerpoint_video_guide.md
+---
 # PowerPoint YouTube Training Video Production Guide
 
 ## 🎯 PowerPoint Setup for Video Production
@@ -22,7 +37,7 @@
 - **Consistent Branding**: Same fonts, colors throughout
 
 **Template Structure:**
-```
+```text
 Slide 1: Title Slide
 - Video title
 - Your name/company
@@ -89,7 +104,7 @@ Final Slide: Call to Action
 ## ⏱️ Timing and Transitions
 
 ### Manual Timing (Recommended for Training):
-```
+```text
 Introduction slide: 5-8 seconds
 Content slides: 10-30 seconds each
 Complex diagrams: 20-45 seconds
@@ -122,7 +137,7 @@ Notice how the process flows from..."
 ## 🎬 Video Production Workflow
 
 ### Option A: Export Slides + Separate Narration
-```
+```json
 1. Export slides as PNG files
 2. Record/generate narration separately  
 3. Import both into video editor
@@ -132,7 +147,7 @@ Notice how the process flows from..."
 **Best for:** Maximum control, professional results
 
 ### Option B: PowerPoint with Timings
-```
+```json
 1. Add audio to each slide in PowerPoint
 2. Set slide timings to match audio
 3. Export as video
@@ -141,7 +156,7 @@ Notice how the process flows from..."
 **Best for:** Quick production, simple content
 
 ### Option C: Live Recording
-```
+```json
 1. Set up screen recording
 2. Start recording
 3. Play narration and advance slides manually

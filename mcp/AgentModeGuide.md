@@ -1,3 +1,18 @@
+---
+docid: 700.5.agentmodeguide
+id: claude-ai-website-builder-agent-mode-guide
+title: Claude AI Website Builder: Agent Mode Guide
+project: ClaudeAIWebSiteBuilder
+description: <div align="center"> <img src="../images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100"> </div>
+status: active
+tags: [agentmodeguide, claude, website]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: mcp/AgentModeGuide.md
+---
 # Claude AI Website Builder: Agent Mode Guide
 
 <div align="center">

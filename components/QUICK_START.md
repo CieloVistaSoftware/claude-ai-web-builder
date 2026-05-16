@@ -1,3 +1,18 @@
+---
+docid: 700.5.quick-start
+id: quick-fix-add-dashboard-script
+title: Quick Fix: Add Dashboard Script
+project: ClaudeAIWebSiteBuilder
+description: Since the start:dashboard script is missing, you can add it manually to your package.json:
+status: active
+tags: [quick, start, dashboard]
+category: 700.5 — AI Coordination
+created: 2025-09-13
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: components/QUICK_START.md
+---
 # Quick Fix: Add Dashboard Script
 
 Since the `start:dashboard` script is missing, you can add it manually to your package.json:

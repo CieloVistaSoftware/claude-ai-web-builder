@@ -1,3 +1,18 @@
+---
+docid: 700.5.build-instructions
+id: build-commands-for-website-builder
+title: Build Commands for Website Builder
+project: ClaudeAIWebSiteBuilder
+description: node scripts/build-dist.js
+status: active
+tags: [build, instructions, commands]
+category: 700.5 — AI Coordination
+created: 2025-09-02
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/BUILD_INSTRUCTIONS.md
+---
 # Build Commands for Website Builder
 
 ## To create a regular dist build:

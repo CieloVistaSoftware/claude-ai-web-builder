@@ -1,3 +1,18 @@
+---
+docid: 700.5.reorganization-merged
+id: claude-ai-website-builder-project-reorganization-d
+title: Claude AI Website Builder - Project Reorganization Documentation
+project: ClaudeAIWebSiteBuilder
+description: <div align="center"> <img src="/images/ziasymbol.svg" alt="Blue Star Logo" width="150" height="100"> </div> Document Status: Merged from reorganiza…
+status: active
+tags: [reorganization, merged, claude]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/reorganization-merged.md
+---
 # Claude AI Website Builder - Project Reorganization Documentation
 
 <div align="center">

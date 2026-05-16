@@ -1,3 +1,18 @@
+---
+docid: 700.5.cwebsitebuilder
+id: introducing-the-claude-ai-website-builder
+title: Introducing the Claude AI Website Builder
+project: ClaudeAIWebSiteBuilder
+description: ![Claude AI website Builder](../images/samples/TopBlueImagesSample.png)
+status: active
+tags: [cwebsitebuilder, introducing, claude]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: ads/CWebsiteBuilder.md
+---
 # Introducing the Claude AI Website Builder
 
 ![Claude AI website Builder](../images/samples/TopBlueImagesSample.png)

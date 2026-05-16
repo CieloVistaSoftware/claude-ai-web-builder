@@ -1,3 +1,18 @@
+---
+docid: 700.5.how-to-start
+id: how-to-start-the-website-import-system
+title: HOW TO START THE WEBSITE IMPORT SYSTEM
+project: ClaudeAIWebSiteBuilder
+description: 1. Navigate to the wb folder 2. Open wb.html in your web browser 3. You should see the website builder interface
+status: active
+tags: [how, start, website]
+category: 700.5 — AI Coordination
+created: 2025-09-12
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/HOW_TO_START.md
+---
 # HOW TO START THE WEBSITE IMPORT SYSTEM
 
 ## 🚀 QUICK START GUIDE

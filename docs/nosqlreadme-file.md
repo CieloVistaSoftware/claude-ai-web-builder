@@ -1,3 +1,18 @@
+---
+docid: 700.5.nosqlreadme-file
+id: claude-website-builder
+title: 🤖 Claude Website Builder
+project: ClaudeAIWebSiteBuilder
+description: AI-Powered No-Code Website Builder with Real-Time Design Assistance Create professional websites using natural language with Claude AI integration.…
+status: active
+tags: [nosqlreadme, file, claude]
+category: 700.5 — AI Coordination
+created: 2025-06-06
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/nosqlreadme-file.md
+---
 # 🤖 Claude Website Builder
 
 **AI-Powered No-Code Website Builder with Real-Time Design Assistance**
@@ -102,7 +117,7 @@ Open [http://localhost:5173](http://localhost:5173) to view the application.
 
 ## 📁 Project Structure
 
-```
+```text
 claude-website-builder/
 ├── src/
 │   ├── components/           # React components
@@ -417,8 +432,8 @@ Use conventional commits:
 
 ## 📚 Documentation
 
-- [Component Library](./docs/components.md)
-- [Theme System](./docs/themes.md)
+- [Component Library](../themes/generator/component/components.md)
+- [Theme System](../../../../../../dev/wb-core/docs/themes.md)
 - [Claude Integration](./docs/claude-api.md)
 - [Database Schema](./docs/database.md)
 - [Deployment Guide](./docs/deployment.md)
@@ -457,7 +472,7 @@ Use conventional commits:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 

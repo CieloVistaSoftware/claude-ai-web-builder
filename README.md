@@ -1,3 +1,18 @@
+---
+docid: 700.5.claudeaiwebsitebuilder-readme
+id: claude-ai-website-builder
+title: Claude AI Website Builder
+project: ClaudeAIWebSiteBuilder
+description: A powerful, interactive website builder with dynamic themes, edit mode, and responsive design capabilities.
+status: active
+tags: [readme, claude, website]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: README.md
+---
 # Claude AI Website Builder
 
 A powerful, interactive website builder with dynamic themes, edit mode, and responsive design capabilities.

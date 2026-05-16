@@ -1,3 +1,18 @@
+---
+docid: 700.5.optimization-guide
+id: landing-page-optimization-guide
+title: Landing Page Optimization Guide
+project: ClaudeAIWebSiteBuilder
+description: This guide outlines the optimization strategy for the Claude AI Website Builder landing page (firstAd.html) to maximize conversions and user engage…
+status: active
+tags: [optimization, guide, landing]
+category: 700.5 — AI Coordination
+created: 2025-09-04
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: ads/OPTIMIZATION_GUIDE.md
+---
 # Landing Page Optimization Guide
 
 ## Overview

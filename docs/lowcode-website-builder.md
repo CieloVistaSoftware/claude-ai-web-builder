@@ -1,3 +1,18 @@
+---
+docid: 700.5.lowcode-website-builder
+id: hybrid-website-builder-component-wbts-implementati
+title: ~~Hybrid Website Builder Component~~ → wb.ts Implementation
+project: ClaudeAIWebSiteBuilder
+description: The React-based HybridWebsiteBuilder component has been REMOVED and replaced with a pure TypeScript implementation in wb/wb.ts.
+status: active
+tags: [lowcode, website, builder]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/lowcode-website-builder.md
+---
 # ~~Hybrid Website Builder Component~~ → wb.ts Implementation
 
 ## ⚠️ ARCHITECTURAL CHANGE

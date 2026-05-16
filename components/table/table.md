@@ -1,3 +1,18 @@
+---
+docid: 700.5.table
+id: table-component
+title: Table Component
+project: ClaudeAIWebSiteBuilder
+description: The Table Component is a reusable web component for the ClaudeAIWebSiteBuilder project that displays tabular data with various features like sortin…
+status: active
+tags: [table, component, overview]
+category: 700.5 — AI Coordination
+created: 2025-06-11
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: components/table/table.md
+---
 # Table Component
 
 ## Overview

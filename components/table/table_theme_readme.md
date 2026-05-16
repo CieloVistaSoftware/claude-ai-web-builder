@@ -1,3 +1,18 @@
+---
+docid: 700.5.table-table-theme-readme
+id: table-theme-component
+title: Table Theme Component
+project: ClaudeAIWebSiteBuilder
+description: A mathematical web component that automatically generates table themes by inheriting from the Claude AI Website Builder's color system. Uses golden…
+status: active
+tags: [table, theme, readme]
+category: 700.5 — AI Coordination
+created: 2025-06-12
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: components/table/table_theme_readme.md
+---
 # Table Theme Component
 
 A mathematical web component that automatically generates table themes by inheriting from the Claude AI Website Builder's color system. Uses golden ratio formulas and color theory to create harmonious table styling without code duplication.
@@ -240,7 +255,7 @@ if (themeComponent) {
 ## Development
 
 ### File Structure
-```
+```text
 table-theme-component.js    # Main component file
 wb.css                     # Base design system (required)
 wb.js                      # Color system (required)

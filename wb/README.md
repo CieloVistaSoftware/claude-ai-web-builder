@@ -1,3 +1,21 @@
+# feature: README
+
+---
+docid: 700.5
+dewey: 700.5
+id: readme
+title: README
+project: ClaudeAIWebSiteBuilder
+description: The Website Builder is a modular tool designed to create and manage web components with a focus on type safety, event-driven architecture, and exte…
+status: active
+tags: [readme, feature, website]
+category: 700.5 — AI Coordination
+created: 2025-09-13
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: wb/README.md
+---
 # README
 
 ```markdown

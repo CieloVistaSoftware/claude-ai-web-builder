@@ -1,8 +1,23 @@
+---
+docid: 700.5.mcpandclaude
+id: website-documentation-structure-setup
+title: Website Documentation Structure & Setup
+project: ClaudeAIWebSiteBuilder
+description: website-docs/ ├── content/ │   ├── homepage-updates.md │   ├── blog-management.md │   └── product-pages.md ├── design/ │   ├── css-modifications.md…
+status: active
+tags: [mcpandclaude, website, documentation]
+category: 700.5 — AI Coordination
+created: 2025-07-13
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: mcp/MCPAndClaude.md
+---
 # Website Documentation Structure & Setup
 
 ## 1. Folder Structure for Your Documentation
 
-```
+```text
 website-docs/
 ├── content/
 │   ├── homepage-updates.md
@@ -33,7 +48,7 @@ Each markdown file should start with frontmatter like this:
 ```markdown
 ---
 title: "Homepage Content Updates"
-category: "content"
+category: 700.5 — AI Coordination
 tags: ["homepage", "hero-section", "content-management"]
 priority: "high"
 last_updated: "2024-07-13"
@@ -151,7 +166,7 @@ Add this to your `claude_desktop_config.json`:
 ```markdown
 ---
 title: "Homepage Hero Section Updates"
-category: "content"
+category: 700.5 — AI Coordination
 tags: ["homepage", "hero", "banner", "main-content"]
 ---
 
@@ -195,7 +210,7 @@ tags: ["homepage", "hero", "banner", "main-content"]
 ```markdown
 ---
 title: "CSS Style Modifications"
-category: "design"
+category: 700.5 — AI Coordination
 tags: ["css", "styling", "theme", "layout"]
 ---
 
@@ -239,7 +254,7 @@ Process for making CSS changes to website styling.
     background-color: #2c3e50; /* Changed from #34495e */
     padding: 80px 0; /* Increased from 60px */
 }
-```
+```text
 ```
 
 ## 5. Usage Examples

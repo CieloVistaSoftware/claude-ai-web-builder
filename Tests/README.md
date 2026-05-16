@@ -1,3 +1,18 @@
+---
+docid: 700.3.tests-readme
+id: feature-playwright-test-suite-for-claude-ai-websit
+title: feature: Playwright Test Suite for Claude AI Website Builder
+project: ClaudeAIWebSiteBuilder
+description: This feature provides a modern Playwright test suite for the Claude AI Website Builder project. It replaces the legacy PowerShell tests with TypeSc…
+status: active
+tags: [readme, feature, playwright]
+category: 700.3 — Testing
+created: 2025-06-15
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: Tests/README.md
+---
 ```markdown
 # feature: Playwright Test Suite for Claude AI Website Builder
 
@@ -131,4 +146,4 @@ To remove old PowerShell tests:
 ```powershell
 .\cleanup-playwright.ps1
 ```
-```
+```text

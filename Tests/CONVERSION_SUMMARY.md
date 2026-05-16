@@ -1,3 +1,18 @@
+---
+docid: 700.3.conversion-summary
+id: powershell-to-typescript-test-conversion-summary
+title: PowerShell to TypeScript Test Conversion Summary
+project: ClaudeAIWebSiteBuilder
+description: Successfully converted 15 major PowerShell test files to modern TypeScript Playwright tests for the ClaudeAIWebSiteBuilder project.
+status: active
+tags: [conversion, summary, powershell]
+category: 700.3 — Testing
+created: 2025-06-14
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: Tests/CONVERSION_SUMMARY.md
+---
 # PowerShell to TypeScript Test Conversion Summary
 
 ## Overview

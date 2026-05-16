@@ -1,3 +1,18 @@
+---
+docid: 700.3.readme-wb-tests
+id: website-builder-main-page-test
+title: Website Builder Main Page Test
+project: ClaudeAIWebSiteBuilder
+description: This test suite comprehensively tests all functions on the main website builder page at http://localhost:8000/.
+status: active
+tags: [readme, tests, website]
+category: 700.3 — Testing
+created: 2025-08-20
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: Tests/README-wb-tests.md
+---
 # Website Builder Main Page Test
 
 This test suite comprehensively tests all functions on the main website builder page at `http://localhost:8000/`.

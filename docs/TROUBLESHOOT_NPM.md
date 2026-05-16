@@ -1,3 +1,18 @@
+---
+docid: 700.5.troubleshoot-npm
+id: npm-start-troubleshooting-guide
+title: NPM Start Troubleshooting Guide
+project: ClaudeAIWebSiteBuilder
+description: 1. package.json not updated - The original package.json still has the old scripts 2. Missing dependencies - http-server not installed 3. Wrong dire…
+status: active
+tags: [troubleshoot, npm, start]
+category: 700.5 — AI Coordination
+created: 2025-09-12
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/TROUBLESHOOT_NPM.md
+---
 # NPM Start Troubleshooting Guide
 
 ## Issue: `npm run start` not working

@@ -1,3 +1,18 @@
+---
+docid: 700.5.wb-readme
+id: feature-website-builder-wbts
+title: feature: Website Builder (wb.ts)
+project: ClaudeAIWebSiteBuilder
+description: The Website Builder (wb.ts) is the core TypeScript file that powers the Claude AI Website Builder application. It provides an intuitive, browser-ba…
+status: active
+tags: [readme, feature, website]
+category: 700.5 — AI Coordination
+created: 2025-09-12
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: wb/wb.readme.md
+---
 # feature: Website Builder (wb.ts)
 
 ## Overview

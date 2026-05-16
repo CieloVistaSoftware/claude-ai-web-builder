@@ -1,3 +1,18 @@
+---
+docid: 700.3.test
+id: test
+title: test
+project: ClaudeAIWebSiteBuilder
+description: Introducing the Claude AI Website Builder Build Professional Websites Without Writing Code The Claude AI Website Builder transforms how websites ar…
+status: active
+tags: [test]
+category: 700.3 — Testing
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: ads/test.md
+---
 Introducing the Claude AI Website Builder
 Build Professional Websites Without Writing Code
 The Claude AI Website Builder transforms how websites are created. This browser-based tool puts professional web design within reach of everyone - no coding experience required.

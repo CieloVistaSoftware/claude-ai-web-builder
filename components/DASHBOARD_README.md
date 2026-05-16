@@ -1,3 +1,18 @@
+---
+docid: 700.5.dashboard-readme
+id: html-element-editors-dashboard
+title: HTML Element Editors Dashboard
+project: ClaudeAIWebSiteBuilder
+description: To bring up all editors in a unified dashboard interface:
+status: active
+tags: [dashboard, readme, html]
+category: 700.5 — AI Coordination
+created: 2025-09-13
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: components/DASHBOARD_README.md
+---
 # HTML Element Editors Dashboard
 
 ## 🎯 **Quick Start - Aggregated Editor View**

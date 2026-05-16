@@ -1,3 +1,18 @@
+---
+docid: 700.5.claude-nocode-builder
+id: claude-powered-no-code-website-builder
+title: Claude-Powered No-Code Website Builder
+project: ClaudeAIWebSiteBuilder
+description: A revolutionary no-code website builder that integrates Claude AI to help users create, customize, and optimize websites through natural language i…
+status: active
+tags: [claude, nocode, builder]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/claude-nocode-builder.md
+---
 # Claude-Powered No-Code Website Builder
 ## Technical Specification & Implementation Guide
 
@@ -16,7 +31,7 @@ A revolutionary no-code website builder that integrates Claude AI to help users 
 
 ### 🏗 Architecture Overview
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    Claude Website Builder                    │
 ├─────────────────────────────────────────────────────────────┤
@@ -62,7 +77,7 @@ A revolutionary no-code website builder that integrates Claude AI to help users 
 
 ### 📁 Project Structure
 
-```
+```text
 claude-website-builder/
 ├── src/
 │   ├── components/

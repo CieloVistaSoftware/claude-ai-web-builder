@@ -1,3 +1,18 @@
+---
+docid: 700.5.config
+id: website-builder-configuration-guide
+title: Website Builder Configuration Guide
+project: ClaudeAIWebSiteBuilder
+description: The Website Builder uses a JSON configuration file (wb-config.json) to control various aspects of the build process, export options, and advanced f…
+status: active
+tags: [config, website, builder]
+category: 700.5 — AI Coordination
+created: 2025-09-02
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/config.md
+---
 # Website Builder Configuration Guide
 
 ## Overview

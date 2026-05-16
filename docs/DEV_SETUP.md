@@ -1,3 +1,18 @@
+---
+docid: 700.5.dev-setup
+id: claude-ai-website-builder-development-setup
+title: Claude AI Website Builder - Development Setup
+project: ClaudeAIWebSiteBuilder
+description: To run the website builder in development mode:
+status: active
+tags: [dev, setup, claude]
+category: 700.5 — AI Coordination
+created: 2025-09-12
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/DEV_SETUP.md
+---
 # Claude AI Website Builder - Development Setup
 
 ## Quick Start

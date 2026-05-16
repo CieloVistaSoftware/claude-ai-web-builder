@@ -1,3 +1,18 @@
+---
+docid: 700.3.playwright-readme
+id: feature-playwright-tests-for-claudeaiwebsitebuilde
+title: feature: Playwright Tests for ClaudeAIWebSiteBuilder
+project: ClaudeAIWebSiteBuilder
+description: This directory contains Playwright tests that replace the original PowerShell tests. Playwright provides a more robust, cross-browser testing solut…
+status: active
+tags: [readme, feature, playwright]
+category: 700.3 — Testing
+created: 2025-06-12
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: Tests/playwright/README.md
+---
 # feature: Playwright Tests for ClaudeAIWebSiteBuilder
 
 ## Overview

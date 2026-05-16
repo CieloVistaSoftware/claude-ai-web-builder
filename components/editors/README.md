@@ -1,3 +1,21 @@
+# README
+
+---
+docid: 700.5
+dewey: 700.5
+id: feature-html-element-editors-complete-package
+title: feature: HTML Element Editors - Complete Package
+project: ClaudeAIWebSiteBuilder
+description: All editor files are now organized in the editors/ folder for better structure and maintainability.
+status: active
+tags: [readme, feature, html]
+category: 700.5 — AI Coordination
+created: 2025-09-13
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: components/editors/README.md
+---
 # feature: HTML Element Editors - Complete Package
 
 All editor files are now organized in the `editors/` folder for better structure and maintainability.
@@ -24,8 +42,7 @@ components/
 ├── package.json                    # Dependencies and npm scripts
 ├── DASHBOARD_README.md             # Comprehensive documentation
 └── QUICK_START.md                  # Quick reference guide
-```
-
+```text
 ## 📝 **What It Does**
 
 This feature provides a complete package of HTML element editors, enabling developers to create, edit, and manage various HTML elements such as links, buttons, images, text, forms, tables, and videos. The editors are organized in a structured folder for better maintainability and scalability. It also includes a React-based dashboard and a standalone HTML dashboard for quick access.
@@ -46,15 +63,13 @@ The internal architecture is designed for modularity and scalability:
 ```bash
 # Simply open in browser
 components/editors/dashboard-standalone.html
-```
-
+```text
 ### **Option 2: React Dashboard with Vite**
 ```bash
 cd components
 npm run start:dashboard
 # Opens at http://localhost:3000
-```
-
+```text
 ### **Option 3: Individual Editors**
 ```bash
 npm run start:anchor     # Port 3001
@@ -64,8 +79,7 @@ npm run start:text       # Port 3004
 npm run start:form       # Port 3005
 npm run start:table      # Port 3006
 npm run start:video      # Port 3007
-```
-
+```text
 ## ✨ **Benefits of New Structure**
 
 - **Organized**: All editor files in one logical folder

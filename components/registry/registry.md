@@ -1,3 +1,18 @@
+---
+docid: 700.5.registry
+id: component-registry-system
+title: Component Registry System
+project: ClaudeAIWebSiteBuilder
+description: The Component Registry is a central system for registering, discovering, and managing web components in the ClaudeAIWebSiteBuilder project. It prov…
+status: active
+tags: [registry, component, system]
+category: 700.5 — AI Coordination
+created: 2025-06-11
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: components/registry/registry.md
+---
 # Component Registry System
 
 ## Overview

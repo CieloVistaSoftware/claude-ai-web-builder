@@ -1,3 +1,18 @@
+---
+docid: 700.5.issues-temp
+id: issues
+title: Issues
+project: ClaudeAIWebSiteBuilder
+description: Priority: High Status: In Progress
+status: active
+tags: [issues, temp, issue]
+category: 700.5 — AI Coordination
+created: 2025-09-11
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/issues_temp.md
+---
 # Issues
 
 ## Issue 1: Add Import Existing Website Functionality

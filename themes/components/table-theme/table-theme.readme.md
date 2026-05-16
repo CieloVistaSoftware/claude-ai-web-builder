@@ -1,3 +1,18 @@
+---
+docid: 700.5.table-theme-table-theme-readme
+id: feature-table-theme-component
+title: feature: Table Theme Component
+project: ClaudeAIWebSiteBuilder
+description: A reusable, customizable table component with theming capabilities. This component integrates with the project's theming system and provides enhanc…
+status: active
+tags: [table, theme, readme]
+category: 700.5 — AI Coordination
+created: 2025-09-04
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: themes/components/table-theme/table-theme.readme.md
+---
 # feature: Table Theme Component
 
 A reusable, customizable table component with theming capabilities. This component integrates with the project's theming system and provides enhanced functionality like sorting, filtering, and pagination.

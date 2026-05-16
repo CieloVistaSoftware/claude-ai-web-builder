@@ -1,10 +1,25 @@
+---
+docid: 700.5.content-injection-guide
+id: blue-theme-content-injection-guide
+title: Blue Theme Content Injection Guide
+project: ClaudeAIWebSiteBuilder
+description: This guide explains how to use the JSON content system to dynamically populate HTML templates, making the blue theme highly reusable and customizable.
+status: active
+tags: [content, injection, guide]
+category: 700.5 — AI Coordination
+created: 2025-09-15
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: components/theme/blue-theme/CONTENT-INJECTION-GUIDE.md
+---
 # Blue Theme Content Injection Guide
 
 ## Overview
 This guide explains how to use the JSON content system to dynamically populate HTML templates, making the blue theme highly reusable and customizable.
 
 ## File Structure
-```
+```text
 blue-theme/
 ├── content-schema.json          # JSON schema definition
 ├── ocean-tech-content.json      # OceanTech website content

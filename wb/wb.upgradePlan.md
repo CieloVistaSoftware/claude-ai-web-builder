@@ -1,3 +1,18 @@
+---
+docid: 700.5.wb-upgradeplan
+id: website-builder-wb-upgrade-plan
+title: Website Builder (WB) - Upgrade Plan
+project: ClaudeAIWebSiteBuilder
+description: Priority: #1 - Core Website Generator Location: /wb folder Date: September 13, 2025 Status: Analysis & Planning Phase
+status: active
+tags: [upgradeplan, website, builder]
+category: 700.5 — AI Coordination
+created: 2025-09-13
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: wb/wb.upgradePlan.md
+---
 # Website Builder (WB) - Upgrade Plan
 
 ## Current State Analysis

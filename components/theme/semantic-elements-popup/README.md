@@ -1,3 +1,18 @@
+---
+docid: 700.5.semantic-elements-popup-readme
+id: component-semantic-elements-popup
+title: component: Semantic Elements Popup
+project: ClaudeAIWebSiteBuilder
+description: A comprehensive, reusable semantic HTML5 elements showcase component with dark mode styling and interactive features.
+status: active
+tags: [readme, component, semantic]
+category: 700.5 — AI Coordination
+created: 2025-09-15
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: components/theme/semantic-elements-popup/README.md
+---
 ```markdown
 # component: Semantic Elements Popup
 
@@ -26,7 +41,7 @@ semantic-elements-popup/
 ├── semantic-elements-popup.css     # Comprehensive styling with dark theme
 ├── semantic-elements-popup.js      # Interactive functionality and API
 └── README.md                       # This documentation
-```
+```yaml
 
 - **HTML**: Contains the semantic elements and popup structure.
 - **CSS**: Provides styling, including dark mode and responsive design.
@@ -40,7 +55,7 @@ semantic-elements-popup/
 ```html
 <link rel="stylesheet" href="path/to/semantic-elements-popup.css">
 <script src="path/to/semantic-elements-popup.js"></script>
-```
+```json
 
 2. **Add the popup HTML to your page:**
 ```html
@@ -53,7 +68,7 @@ semantic-elements-popup/
 <div class="semantic-popup" id="semanticPopup">
     <!-- ... popup content ... -->
 </div>
-```
+```yaml
 
 ### JavaScript API
 
@@ -64,7 +79,7 @@ showSemanticPopup();
 
 // Hide the popup
 hideSemanticPopup();
-```
+```yaml
 
 #### Advanced Usage with Class
 ```javascript
@@ -80,7 +95,7 @@ popup.addDynamicContent({
     accentColor: '#f39c12',
     backgroundColor: '#1a1a2e'
 });
-```
+```yaml
 
 ## Manual Test
 

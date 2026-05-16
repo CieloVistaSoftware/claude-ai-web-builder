@@ -1,3 +1,18 @@
+---
+docid: 700.5.cleanup-tech-debt
+id: tech-debt-cleanup-import-system
+title: Tech Debt Cleanup - Import System
+project: ClaudeAIWebSiteBuilder
+description: These files should be deleted to remove tech debt: - wb-import-fixed.js (old attempt) - wb-import-auto.js (old attempt) - wb-import-final.js (old a…
+status: active
+tags: [cleanup, tech, debt]
+category: 700.5 — AI Coordination
+created: 2025-09-11
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/cleanup-tech-debt.md
+---
 # Tech Debt Cleanup - Import System
 
 ## Files to Delete (Old Import Attempts)

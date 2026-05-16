@@ -1,3 +1,18 @@
+---
+docid: 700.5.proposal
+id: claude-ai-website-builder-comprehensive-proposal
+title: Claude AI Website Builder - Comprehensive Proposal
+project: ClaudeAIWebSiteBuilder
+description: A revolutionary no-code website builder that integrates Claude AI to help users create, customize, and optimize websites through natural language i…
+status: active
+tags: [proposal, claude, website]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/proposal.md
+---
 # Claude AI Website Builder - Comprehensive Proposal
 
 ## 🎯 Product Vision

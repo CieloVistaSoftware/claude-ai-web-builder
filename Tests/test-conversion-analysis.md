@@ -1,3 +1,18 @@
+---
+docid: 700.3.test-conversion-analysis
+id: powershell-to-playwright-test-conversion-analysis
+title: PowerShell to Playwright Test Conversion Analysis
+project: ClaudeAIWebSiteBuilder
+description: - mcpClientDemo.spec.ts - mcpComponentIntegration.spec.ts - mcpGeneration.spec.ts - mcpHealthCapabilities.spec.ts - mcpValidation.spec.ts - obsolet…
+status: active
+tags: [test, conversion, analysis]
+category: 700.3 — Testing
+created: 2025-06-16
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: Tests/test-conversion-analysis.md
+---
 # PowerShell to Playwright Test Conversion Analysis
 
 ## Current Status

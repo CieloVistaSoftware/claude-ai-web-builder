@@ -1,3 +1,18 @@
+---
+docid: 700.5.issues
+id: issues
+title: issues
+project: ClaudeAIWebSiteBuilder
+description: 1. In File scanner ... 1. ✅ COMPLETED - add function to import existing website files made by this tool. It must have .js .css and .html files in t…
+status: active
+tags: [issues]
+category: 700.5 — AI Coordination
+created: 2025-07-14
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/issues.md
+---
 1. In File scanner ...
 1. ✅ COMPLETED - add function to import existing website files made by this tool. It must have .js .css and .html files in the folder. present the folder explorer. When folder is selected bring up the site as is but add the control-panel. This allows the user to change things in their website that was created with this tool.
 

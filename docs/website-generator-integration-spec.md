@@ -1,3 +1,18 @@
+---
+docid: 700.5.website-generator-integration-spec
+id: mcp-website-generator-integration-specification
+title: MCP Website Generator Integration Specification
+project: ClaudeAIWebSiteBuilder
+description: Document Version: 1.1 Date: December 28, 2024 Status: Technical Specification Audience: External Tool Developers
+status: active
+tags: [website, generator, integration]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/website-generator-integration-spec.md
+---
 # MCP Website Generator Integration Specification
 
 **Document Version**: 1.1  

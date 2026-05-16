@@ -1,3 +1,18 @@
+---
+docid: 700.5.project-structure
+id: claude-ai-website-builder-project-structure
+title: Claude AI Website Builder Project Structure
+project: ClaudeAIWebSiteBuilder
+description: This document outlines the architecture and folder structure of the Claude AI Website Builder project. The project uses multiple architectural appr…
+status: active
+tags: [project, structure, claude]
+category: 700.5 — AI Coordination
+created: 2025-06-16
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/PROJECT_STRUCTURE.md
+---
 # Claude AI Website Builder Project Structure
 
 ## Overview

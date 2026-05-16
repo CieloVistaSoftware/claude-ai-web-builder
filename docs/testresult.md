@@ -1,3 +1,18 @@
+---
+docid: 700.3.testresult
+id: testresult
+title: testresult
+project: ClaudeAIWebSiteBuilder
+description: change website to darkmode add a left nav layout - with a color theme picker a color bar that changes the theme of the template shown in main - Add…
+status: active
+tags: [testresult]
+category: 700.3 — Testing
+created: 2025-06-06
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/testresult.md
+---
 change website to darkmode
 add a left nav layout
  - with a color theme picker a color bar that changes the theme of the template shown in main

@@ -1,3 +1,18 @@
+---
+docid: 700.5.main
+id: maintsx-wbts-documentation
+title: ~~main.tsx~~ → wb.ts Documentation
+project: ClaudeAIWebSiteBuilder
+description: The main.tsx file has been REMOVED as part of a major architectural shift from React to pure TypeScript.
+status: active
+tags: [main, maintsx, wbts]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/main.md
+---
 # ~~main.tsx~~ → wb.ts Documentation
 
 ## ⚠️ ARCHITECTURAL CHANGE

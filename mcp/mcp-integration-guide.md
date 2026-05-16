@@ -1,3 +1,18 @@
+---
+docid: 700.5.mcp-integration-guide
+id: connecting-claude-ai-website-builder-to-mcp-server
+title: Connecting Claude AI Website Builder to MCP Server
+project: ClaudeAIWebSiteBuilder
+description: <div align="center"> <img src="../images/ziasymbol.svg" alt="Zia Symbol Logo" width="150" height="100"> </div>
+status: active
+tags: [mcp, integration, guide]
+category: 700.5 — AI Coordination
+created: 2025-08-28
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: mcp/mcp-integration-guide.md
+---
 # Connecting Claude AI Website Builder to MCP Server
 
 <div align="center">

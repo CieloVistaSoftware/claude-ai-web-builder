@@ -1,3 +1,18 @@
+---
+docid: 700.2.architecture-organization
+id: architecture-organization-guide
+title: Architecture Organization Guide
+project: ClaudeAIWebSiteBuilder
+description: This document explains the organization approach for the Claude AI Website Builder project, which contains a mix of different architectural pattern…
+status: active
+tags: [architecture, organization, guide]
+category: 700.2 — Architecture
+created: 2025-06-16
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/Architecture-organization.md
+---
 # Architecture Organization Guide
 
 ## Overview

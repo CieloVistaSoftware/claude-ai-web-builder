@@ -1,3 +1,18 @@
+---
+docid: 700.5.buildsteps
+id: build-steps-for-website-builder
+title: Build Steps for Website Builder
+project: ClaudeAIWebSiteBuilder
+description: This document outlines the build process for creating distribution versions of the Website Builder application with optional code obfuscation.
+status: active
+tags: [buildsteps, build, steps]
+category: 700.5 — AI Coordination
+created: 2025-09-02
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/buildsteps.md
+---
 # Build Steps for Website Builder
 
 ## Overview

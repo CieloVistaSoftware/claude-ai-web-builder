@@ -1,3 +1,18 @@
+---
+docid: 700.5.enhanced-demo-with-pages
+id: enhanced-demo-with-pages
+title: Enhanced Demo with Pages
+project: ClaudeAIWebSiteBuilder
+description: The Enhanced Demo with Pages component is an expanded version of the theme demo that incorporates multi-page functionality, more advanced layout op…
+status: active
+tags: [enhanced, demo, with]
+category: 700.5 — AI Coordination
+created: 2025-06-09
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/enhanced-demo-with-pages.md
+---
 # Enhanced Demo with Pages
 
 ## Overview

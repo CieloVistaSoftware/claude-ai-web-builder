@@ -1,3 +1,18 @@
+---
+docid: 700.5.theme-demo-component
+id: theme-demo-component
+title: Theme Demo Component
+project: ClaudeAIWebSiteBuilder
+description: The Theme Demo Component is a React component that showcases different visual themes for the Claude AI Web Site Builder application. It provides an…
+status: active
+tags: [theme, demo, component]
+category: 700.5 — AI Coordination
+created: 2025-06-09
+updated: 2026-04-27
+version: 1.0.0
+author: CieloVista Software
+relativepath: docs/theme-demo-component.md
+---
 # Theme Demo Component
 
 ## Overview
